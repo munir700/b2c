@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:background="@color/colorWhite"
+            android:background="?attr/colorBackgroundPrimarySoftAttr"
             android:orientation="vertical">
 
             <TextView
@@ -222,7 +222,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:background="@drawable/card_border_selector"
+                android:background="@drawable/card_border_selector_success"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
                 app:layout_constraintBottom_toTopOf="@+id/confirmButton"
@@ -267,6 +267,8 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
                 style="@style/FragmentsBtnStyle"
+                android:textColor="?attr/colorButtonTextAttr"
+                app:colorButtonNormal="?attr/colorButtonBgPrimaryAttr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"

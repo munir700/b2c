@@ -178,7 +178,7 @@ class InternationalFundsTransferFragment :
         val des = Translator.getString(
             requireContext(),
             Strings.sm_common_display_text_available_balance_error
-        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.etOutputAmount?.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 

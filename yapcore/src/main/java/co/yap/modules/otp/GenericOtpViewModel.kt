@@ -12,14 +12,13 @@ import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
@@ -291,7 +290,7 @@ class GenericOtpViewModel(application: Application) :
             "1095" -> {
                 state.validResend = false
 //                state.valid = false // to disable confirm button
-                state.color = context.getColors(R.color.disabled)
+                state.color = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
                 state.isOtpBlocked.set(false)
                 MyUserManager.getAccountInfo()
             }
@@ -303,9 +302,9 @@ class GenericOtpViewModel(application: Application) :
             mobileNumber.startsWith("00") ->
                 Utils.getFormattedPhone(
                     mobileNumber.replaceRange(
-                    0,
-                    2,
-                    "+"
+                        0,
+                        2,
+                        "+"
                     )
                 )
             mobileNumber.startsWith("+") -> Utils.getFormattedPhone(mobileNumber)

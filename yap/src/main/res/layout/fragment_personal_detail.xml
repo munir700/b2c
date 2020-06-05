@@ -189,10 +189,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
-                        android:layout_weight=".7"
-                        android:paddingRight="@dimen/margin_extra_small"
+                        android:layout_weight="0.7"
+                        android:paddingBottom="@dimen/small"
+                        android:ellipsize="end"
                         android:maxLines="3"
-                        android:text="@={viewModel.state.address}" />
+                        android:text="@={viewModel.state.address}"
+                        tools:text="dasd dasdjkasdha kjhasdhh asd jlkasd kljad as, Ajman  " />
 
                     <TextView
                         android:id="@+id/tvEditAddress"

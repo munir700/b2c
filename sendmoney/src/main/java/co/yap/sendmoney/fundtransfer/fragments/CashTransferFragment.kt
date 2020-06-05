@@ -186,7 +186,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val des = Translator.getString(
             requireContext(),
             Strings.sm_common_display_text_available_balance_error
-        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 

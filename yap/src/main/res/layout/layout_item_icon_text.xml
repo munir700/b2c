@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -24,11 +25,11 @@
         android:paddingBottom="@dimen/margin_extra_small">
 
         <ImageView
-            android:tint="@color/greyDark"
             tools:src="@drawable/ic_support"
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"
-            android:src="@{icon}" />
+            android:src="@{icon}"
+            app:tint="@color/greyDark" />
 
         <TextView
             style="@style/ASmall"

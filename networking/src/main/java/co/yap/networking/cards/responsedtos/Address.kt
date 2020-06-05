@@ -44,4 +44,14 @@ data class Address(
     var nearestLandMark: String? = null,
     @SerializedName("designCode")
     var designCode: String? = null
-) : Parcelable
+) : Parcelable{
+    fun getCompleteAddress():String{
+        return when {
+            address1 == address2 -> "$address1, $city"
+            address2.isNullOrBlank() && address1.isNullOrBlank() -> ""
+            address1.isNullOrBlank() -> "$address2, $city"
+            address2.isNullOrBlank() -> "$address1, $city"
+            else -> "$address1, $address2, $city"
+        }
+    }
+}
