@@ -28,8 +28,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/white"
+            android:background="?attr/colorSendMoneyToolBarAttr"
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp">
 
@@ -46,7 +45,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_arrow_left"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                app:tint="?attr/colorIconsTintAttr"/>
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -59,6 +59,7 @@
                 android:layout_marginEnd="@dimen/_14sdp"
                 android:layout_toEndOf="@id/tbBtnBack"
                 android:gravity="center"
+                android:textColor="?attr/colorTextAttr"
                 android:text="@{editBeneficiaryViewModel.state.needOverView ? @string/screen_add_beneficiary_display_text_title:@string/screen_edit_beneficiary_display_text_title}"
                 app:text="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title:Strings.screen_edit_beneficiary_display_text_title}"
                 tools:text="@string/screen_edit_beneficiary_display_text_title" />

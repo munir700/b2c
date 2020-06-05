@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
-        android:background="@color/white"
+        android:background="?attr/colorSendMoneyToolBarAttr"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
         android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}">
@@ -35,7 +35,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_arrow_left" />
+            app:srcCompat="@drawable/ic_back_arrow_left"
+            android:tint="?attr/colorIconsTintAttr"/>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{viewModel.state.toolBarTitle}"
+            android:textColor="?attr/colorToolbarTextAttr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvRightToolbar"
             app:layout_constraintStart_toEndOf="@+id/tbIvClose"
@@ -58,7 +60,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             tools:text="Cancel"
             android:text="@{viewModel.state.rightButtonText}"
-            android:textColor="?attr/colorPrimaryAttr"
+            android:textColor="?attr/colorToolbarTextAttr"
             android:visibility="@{viewModel.state.rightIcon? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -67,6 +67,7 @@ object Utils {
             )
         }
     }
+
     fun createProgressDialog(context: Context): Dialog {
         val dialog = Dialog(context, android.R.style.Theme_Light)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -840,25 +841,51 @@ object Utils {
         return newVersion.toInt() > existingVersion.toInt()
     }
 
-    fun validateAggressively(context: Context, pinCode:String): String {
+    fun setStatusBarColor(activity: Activity) {
+        val sharedPreferenceManager = SharedPreferenceManager(activity)
+        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            val window: Window = activity.getWindow()
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = ThemeColorUtils.colorPrimaryDefaultAttribute(activity)
+
+        }
+    }
+
+    fun setStatusBarColor(activity: Activity, color: Int) {
+        val sharedPreferenceManager = SharedPreferenceManager(activity)
+        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            val window: Window = activity.getWindow()
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = color
+
+        }
+    }
+
+    fun validateAggressively(context: Context, pinCode: String): String {
         val isSame = StringUtils.hasAllSameChars(pinCode)
         val isSequenced = StringUtils.isSequenced(pinCode)
         if (isSequenced)
-            return Translator.getString(context, Strings.screen_confirm_card_pin_display_text_error_sequence)
+            return Translator.getString(
+                context,
+                Strings.screen_confirm_card_pin_display_text_error_sequence
+            )
         if (isSame)
-            return Translator.getString(context, Strings.screen_confirm_card_pin_display_text_error_same_digits)
+            return Translator.getString(
+                context,
+                Strings.screen_confirm_card_pin_display_text_error_same_digits
+            )
 
         return ""
     }
 
     /**
-    * this function can load a json from a local file in assests
-    *
-    * @param context   this is used to fetch the file from assests folder
-    * @param fileName  name of the file to be loaded
-    * @return   will return the response from json in string
-    *
-    */
+     * this function can load a json from a local file in assests
+     *
+     * @param context   this is used to fetch the file from assests folder
+     * @param fileName  name of the file to be loaded
+     * @return   will return the response from json in string
+     *
+     */
 
     fun loadJsonFromAssets(context: Context, fileName: String): String? {
         val json: String?
@@ -876,3 +903,4 @@ object Utils {
         return json
     }
 }
+
