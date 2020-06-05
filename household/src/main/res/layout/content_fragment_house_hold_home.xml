@@ -169,7 +169,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:setPagination="@{viewModel.getPaginationListener()}"
+                    app:setPagination="@{viewModel.paginationListener}"
                     tools:listitem="@layout/item_home_transaction_child" />
             </co.yap.widgets.MultiStateView>
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -29,14 +29,14 @@ class PaginatedAdapter(val originalAdapter: RecyclerView.Adapter<RecyclerView.Vi
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_PLACEHOLDER -> placeholderAdapter!!.onCreateViewHolder(
+            TYPE_PLACEHOLDER -> placeholderAdapter?.onCreateViewHolder(
                 parent,
                 viewType
-            )
-            TYPE_ERROR -> errorAdapter!!.onCreateViewHolder(
+            )!!
+            TYPE_ERROR -> errorAdapter?.onCreateViewHolder(
                 parent,
                 viewType
-            )
+            )!!
             else -> originalAdapter.onCreateViewHolder(parent, viewType)
         }
     }
