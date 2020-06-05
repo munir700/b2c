@@ -52,6 +52,7 @@ class AAPApplication : HouseHoldApplication(
         super.onCreate()
         sAppComponent = AppInjector.init(this)
         initNetworkLayer()
+//        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
         SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
         initFireBase()
         inItLeanPlum()

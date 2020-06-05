@@ -1136,5 +1136,8 @@
     <string name="screen_home_renewed_id_title">Renewed ID</string>
     <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
 
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_no_household">No, send it later</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_yes_household">Yes, send it now</string>
+
 </resources>
 

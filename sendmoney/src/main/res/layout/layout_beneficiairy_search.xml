@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -16,55 +17,67 @@
         android:id="@+id/clSearchBeneficiary"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_26sdp"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/_26sdp"
-        android:background="@drawable/bg_search_widget"
-        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
+        android:paddingEnd="@dimen/_14sdp"
+        android:paddingStart="@dimen/_14sdp"
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+        android:layout_marginBottom="@dimen/small">
 
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/svBeneficiary"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/bg_search_widget"
-            android:theme="@style/AppSearchView"
-            android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:queryBackground="@color/transparent"
-            app:queryHint="Search"
-            app:searchIcon="@drawable/ic_search_grey" />
+            android:layout_marginTop="@dimen/margin_medium"
+            tools:ignore="MissingConstraints"
+            setShapeColor="@{viewModel.state.isSearching()}"
 
-        <ImageView
-            android:id="@+id/ivSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tvSearch"
-            android:layout_alignBottom="@+id/tvSearch"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="4dp"
-            android:layout_toStartOf="@id/tvSearch"
-            android:paddingTop="@dimen/_2sdp"
-            android:src="@drawable/ic_search_grey"
-            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tvSearch"
-            app:layout_constraintTop_toTopOf="parent" />
+            >
 
-        <TextView
-            android:id="@+id/tvSearch"
-            style="@style/SmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
-            app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivSearch" />
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/svBeneficiary"
+                searchViewBG="@{true}"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/bg_search_widget"
+                android:theme="@style/AppSearchView"
+                android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:queryBackground="@color/transparent"
+                app:queryHint="Search"
+                app:searchIcon="@drawable/ic_search_grey"
+                />
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tvSearch"
+                android:layout_alignBottom="@+id/tvSearch"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@id/tvSearch"
+                android:paddingTop="@dimen/_2sdp"
+                android:src="@drawable/ic_search_grey"
+                android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tvSearch"
+                app:layout_constraintTop_toTopOf="parent"
+                setSVIconTint="@{viewModel.state.isSearching()" />
+
+            <TextView
+                android:id="@+id/tvSearch"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                 setSVTextColor="@{viewModel.state.isSearching()}"
+                android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
+                app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivSearch" />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

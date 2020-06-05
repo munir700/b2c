@@ -1689,7 +1689,11 @@ object Strings {
     const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
 
-    //    House hold payment confirmation screen
+     const val screen_add_beneficiary_detail_display_button_block_alert_yes_household: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_yes_household"
+    const val screen_add_beneficiary_detail_display_button_block_alert_no_household: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_no_household"
+     //    House hold payment confirmation screen
     const val screen_household_payment_confirmation_tool_bar_text: String =
         "screen_household_payment_confirmation_tool_bar_text"
     const val screen_household_normal_payment_success_text: String =
@@ -1797,4 +1801,4 @@ const val screen_household_pay_salary_screen_display_text_title: String =
     const val screen_home_renewed_id_desc: String =
         "screen_home_renewed_id_desc"
 
-}
+ }

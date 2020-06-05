@@ -1,6 +1,7 @@
 package co.yap.modules.frame
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
@@ -13,6 +14,8 @@ import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.databinding.ActivityFrameBinding
+import co.yap.yapcore.helpers.ThemeColorUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.createFragmentInstance
 import co.yap.yapcore.helpers.extentions.instantiateFragment
 import kotlinx.android.synthetic.main.activity_frame.*
@@ -74,22 +77,22 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
         fragment.onBackPressed()
     }
 
-    fun setupToolbar(visibility: Boolean) {
-
+    private fun setupToolbar(visibility: Boolean) {
         getBinding().toolbar?.let {
             toolbar?.title = ""
             toolbar?.visibility = (if (visibility) View.VISIBLE else View.GONE)
+
             setSupportActionBar(toolbar)
             supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 setHomeButtonEnabled(true)
                 setDisplayShowCustomEnabled(true)
                 setHomeAsUpIndicator(R.drawable.ic_back_arrow_left)
+                toolbar?.navigationIcon?.setColorFilter(ThemeColorUtils.colorIconsTintAttrAttribute(context), PorterDuff.Mode.SRC_ATOP)
                 if (visibility) show() else hide()
 
             }
         }
-
     }
 
     fun getBinding() = viewDataBinding as ActivityFrameBinding
@@ -103,4 +106,9 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun onStart() {
+        super.onStart()
+        Utils.setStatusBarColor(this)
+    }
 }

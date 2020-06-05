@@ -37,7 +37,10 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -867,17 +870,6 @@ object UIBinder {
     }
 
 
-    @BindingAdapter("setBeneficiaryImageSrc")
-    @JvmStatic
-    fun setImageSrc(imageView: ImageView, transferType: String) {
-
-        if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-            imageView.setImageResource(R.drawable.ic_cash)
-        } else {
-            imageView.setImageResource(R.drawable.ic_bank)
-        }
-    }
-
     @JvmStatic
     @BindingAdapter("cardNickname")
     fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
@@ -974,34 +966,35 @@ object UIBinder {
 
     @BindingAdapter("slideOnFling")
     @JvmStatic
-    fun setSlideOnFling(view: DiscreteScrollView, slide: Boolean){
+    fun setSlideOnFling(view: DiscreteScrollView, slide: Boolean) {
         view.setSlideOnFling(slide)
     }
 
     @BindingAdapter("scrollEnable")
     @JvmStatic
-    fun setOverScrollEnabled(view: DiscreteScrollView, overScroll: Boolean){
+    fun setOverScrollEnabled(view: DiscreteScrollView, overScroll: Boolean) {
         view.setOverScrollEnabled(overScroll)
     }
 
     @BindingAdapter("scrollTo")
     @JvmStatic
-    fun smoothScrollToPosition(view: DiscreteScrollView, smoothScroll: Int){
+    fun smoothScrollToPosition(view: DiscreteScrollView, smoothScroll: Int) {
         view.smoothScrollToPosition(smoothScroll)
     }
 
     @BindingAdapter("transitionTime")
     @JvmStatic
-    fun setItemTransitionTimeMillis(view: DiscreteScrollView, transitionTime: Int){
+    fun setItemTransitionTimeMillis(view: DiscreteScrollView, transitionTime: Int) {
         view.setItemTransitionTimeMillis(transitionTime)
     }
 
     @BindingAdapter("itemTransformer")
     @JvmStatic
-    fun setItemTransformer(view: DiscreteScrollView, minScale: Float){
+    fun setItemTransformer(view: DiscreteScrollView, minScale: Float) {
         view.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMinScale(minScale)
-                .build())
+                .build()
+        )
     }
 }

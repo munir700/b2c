@@ -273,7 +273,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         viewModel.state.errorDescription = Translator.getString(
             context,
             Strings.sm_common_display_text_available_balance_error,
-            viewModel.state.amount?:""
+            viewModel.state.amount.toFormattedAmountWithCurrency()
         )
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
     }
