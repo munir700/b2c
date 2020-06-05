@@ -214,8 +214,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         return viewDataBinding as ActivityEditBeneficiaryBinding
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         Utils.setStatusBarColor(this)
     }
 }
