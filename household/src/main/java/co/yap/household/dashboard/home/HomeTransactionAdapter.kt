@@ -26,6 +26,12 @@ class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Tra
         } ?: emptyMap<String?, List<Transaction>>()
         notifyDataSetChanged()
     }
+//    fun addTransactionData(transactionData: Map<String?, List<Transaction>>?){
+//        transactionData?.let {
+//            this.transactionData.
+//        }
+//        this
+//    }
 
     override fun getChildViewHolder(
         view: View,

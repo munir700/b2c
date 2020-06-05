@@ -88,7 +88,7 @@ public class PaginatedRecyclerView extends RecyclerView {
 
     private PlaceholderAdapter placeholderAdapter;
     private ErrorAdapter errorAdapter;
-    private int threshold = 3;
+    private int threshold = 5;
 
     public PaginatedRecyclerView(@NonNull Context context) {
         this(context, null);
@@ -312,7 +312,7 @@ public class PaginatedRecyclerView extends RecyclerView {
          * Returns the initial page of which pagination should start to.
          */
         public int getPageStart() {
-            return 1;
+            return 0;
         }
 
         /**
@@ -338,7 +338,7 @@ public class PaginatedRecyclerView extends RecyclerView {
          * Returns the current state of this pagination.
          */
         @NonNull
-        public final PaginationState getState() {
+        public final PaginationState getPaginationState() {
             return state;
         }
 
@@ -421,7 +421,7 @@ public class PaginatedRecyclerView extends RecyclerView {
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new ViewHolder(LayoutInflater
                         .from(parent.getContext())
-                        .inflate(R.layout.layout_loading_view, parent, false)) {
+                        .inflate(R.layout.layout_load_more_loading, parent, false)) {
                 };
             }
         };
@@ -438,7 +438,7 @@ public class PaginatedRecyclerView extends RecyclerView {
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new ViewHolder(LayoutInflater
                         .from(parent.getContext())
-                        .inflate(R.layout.layout_loading_view_top, parent, false)) {
+                        .inflate(R.layout.layout_load_no_more_transaction, parent, false)) {
                 };
             }
         };
