@@ -2,24 +2,23 @@ package co.yap.modules.location.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.location.POBCountry
+import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.states.POBSelectionState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 
 class POBSelectionViewModel(application: Application) :
     BaseViewModel<IPOBSelection.State>(application),
     IPOBSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State = POBSelectionState()
-    override var populateSpinnerData: MutableLiveData<List<POBCountry>> = MutableLiveData()
-    override var countries: ArrayList<POBCountry> = ArrayList()
-    override var selectedCountry: POBCountry? = null
+    override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
+    override var countries: ArrayList<Country> = ArrayList()
 
     override fun handleOnPressView(id: Int) {
         clickEvent.setValue(id)
@@ -40,22 +39,7 @@ class POBSelectionViewModel(application: Application) :
                 state.loading = true
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        val sortedList = response.data.data?.sortedWith(compareBy { it.name })
-                        sortedList?.let { it ->
-                            countries.clear()
-                            countries.add(
-                                0,
-                                POBCountry(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
-                            )
-                            populateSpinnerData.value = countries
-                            countries.addAll(it.map {
-                                POBCountry(
-                                    name = it.name,
-                                    isoCountryCode2Digit = it.isoCountryCode2Digit,
-                                    isoCountryCode3Digit = it.isoCountryCode3Digit
-                                )
-                            })
-                        }
+                        populateSpinnerData.value = Utils.parseCountryList(response.data.data)
                         state.loading = false
                     }
 

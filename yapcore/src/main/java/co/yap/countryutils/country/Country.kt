@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import co.yap.countryutils.country.utils.Currency
 import co.yap.countryutils.country.utils.CurrencyUtils
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -21,7 +22,6 @@ class Country(
     private var currency: Currency? = null,
     var ibanMandatory: Boolean? = false
 ) : Parcelable {
-
     var isCashPickUpAllowed: Boolean?
         get() {
             val size = supportedCurrencies!!.size

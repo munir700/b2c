@@ -12,135 +12,156 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:fillViewport="true">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvHeadingTitle"
-            style="@style/ALarge"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:gravity="center"
-            android:text="@string/screen_place_of_birth_display_text_heading"
-            android:textSize="@dimen/_18sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:text="@{Strings.screen_place_of_birth_display_text_heading}"
-            tools:text="@string/screen_place_of_birth_display_text_heading" />
+            android:background="@color/white">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDescription"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small"
-            android:gravity="center"
-            android:text="@string/screen_place_of_birth_display_text_description"
-            app:layout_constraintEnd_toEndOf="@id/tvHeadingTitle"
-            app:layout_constraintStart_toStartOf="@+id/tvHeadingTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvHeadingTitle"
-            app:text="@{Strings.screen_place_of_birth_display_text_description}"
-            tools:text="@string/screen_place_of_birth_display_text_description" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingTitle"
+                style="@style/ALarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:gravity="center"
+                android:text="@string/screen_place_of_birth_display_text_heading"
+                android:textSize="@dimen/_18sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:text="@{Strings.screen_place_of_birth_display_text_heading}"
+                tools:text="@string/screen_place_of_birth_display_text_heading" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSelectCountry"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
-            android:gravity="center"
-            android:text="@string/screen_place_of_birth_display_text_select_country"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-            app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
-            tools:text="@string/screen_place_of_birth_display_text_select_country" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescription"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:gravity="center"
+                android:text="@string/screen_place_of_birth_display_text_description"
+                app:layout_constraintEnd_toEndOf="@id/tvHeadingTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvHeadingTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvHeadingTitle"
+                app:text="@{Strings.screen_place_of_birth_display_text_description}"
+                tools:text="@string/screen_place_of_birth_display_text_description" />
 
-        <RelativeLayout
-            android:id="@+id/spinner_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSelectCountry"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="center"
+                android:text="@string/screen_place_of_birth_display_text_select_country"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+                app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
+                tools:text="@string/screen_place_of_birth_display_text_select_country" />
 
-            <Spinner
-                android:id="@+id/countriesSpinner"
+            <co.yap.widgets.country_spinner.CountrySpinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry" />
+
+            <!--        <RelativeLayout-->
+            <!--            android:id="@+id/spinner_conktainer"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_gravity="center_vertical"-->
+            <!--            android:layout_marginStart="@dimen/margin_medium"-->
+            <!--            android:layout_marginEnd="@dimen/margin_medium"-->
+            <!--            android:gravity="center_vertical"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">-->
+
+            <!--            <Spinner-->
+            <!--                android:id="@+id/countriesSpinner"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="bottom"-->
+            <!--                android:background="@drawable/bg_spinner"-->
+            <!--                android:drawSelectorOnTop="false"-->
+            <!--                android:dropDownHeight="@dimen/_50sdp"-->
+            <!--                android:gravity="bottom"-->
+            <!--                android:overScrollMode="never"-->
+            <!--                android:overlapAnchor="false"-->
+            <!--                android:spinnerMode="dropdown" />-->
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="1dp"-->
+            <!--                android:layout_below="@+id/countriesSpinner"-->
+            <!--                android:layout_alignParentTop="true"-->
+            <!--                android:layout_marginTop="@dimen/_30sdp"-->
+            <!--                android:background="@color/greyLight"-->
+            <!--                android:minHeight="@dimen/_15sdp" />-->
+            <!--        </RelativeLayout>-->
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:text="@string/screen_place_of_birth_display_text_city_of_birth"
+                app:layout_constraintStart_toStartOf="@+id/tvSelectCountry"
+                app:layout_constraintTop_toBottomOf="@+id/spinner"
+                app:text="@{Strings.screen_place_of_birth_display_text_city_of_birth}"
+                app:textColor="@{viewModel.state.cityOfBirth.empty ? true : false}"
+                tools:text="@string/screen_place_of_birth_display_text_city_of_birth" />
+
+            <EditText
+                android:id="@+id/etCityOfBirth"
+                style="@style/Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:backgroundTint="@color/greyLight"
+                android:imeOptions="actionNext"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@={viewModel.state.cityOfBirth}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/nextButton"
+                style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@drawable/bg_spinner"
-                android:drawSelectorOnTop="false"
-                android:dropDownHeight="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:background="@color/white"
                 android:gravity="bottom"
-                android:overScrollMode="never"
-                android:overlapAnchor="false"
-                android:spinnerMode="dropdown" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/countriesSpinner"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@color/greyLight"
-                android:minHeight="@dimen/_15sdp" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/textView"
-            style="@style/Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:text="@string/screen_place_of_birth_display_text_city_of_birth"
-            app:layout_constraintStart_toStartOf="@+id/tvSelectCountry"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_container"
-            app:text="@{Strings.screen_place_of_birth_display_text_city_of_birth}"
-            app:textColor="@{viewModel.state.cityOfBirth.empty ? true : false}"
-            tools:text="@string/screen_place_of_birth_display_text_city_of_birth" />
-
-        <EditText
-            android:id="@+id/etCityOfBirth"
-            style="@style/Regular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/greyLight"
-            android:imeOptions="actionNext"
-            android:maxLength="50"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_normal"
-            android:text="@={viewModel.state.cityOfBirth}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/nextButton"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            android:background="@color/white"
-            android:gravity="bottom"
-            android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.common_button_next}"
-            tools:text="@string/common_button_next" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                app:enableCoreButton="@{viewModel.state.valid}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCityOfBirth"
+                app:layout_constraintVertical_bias="1.0"
+                app:text="@{Strings.common_button_next}"
+                tools:text="@string/common_button_next" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

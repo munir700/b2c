@@ -1,6 +1,8 @@
 package co.yap.modules.location.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
+import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
@@ -12,13 +14,23 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.cityOfBirth)
+            validate()
         }
 
-    @get:Bindable
-    override var valid: Boolean = false
+    @Bindable
+    override var selectedCountry: Country? = null
         set(value) {
             field = value
-            notifyPropertyChanged(BR.valid)
+            notifyPropertyChanged(BR.selectedCountry)
+            validate()
         }
+
+    override var valid: ObservableField<Boolean> = ObservableField(false)
+
+    fun validate() {
+        valid.set(
+            cityOfBirth.isNotBlank() && !selectedCountry?.getName().equals("Select country")
+        )
+    }
 
 }

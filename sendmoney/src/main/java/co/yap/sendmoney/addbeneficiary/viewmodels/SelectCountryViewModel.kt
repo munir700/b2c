@@ -14,6 +14,7 @@ import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 
 class SelectCountryViewModel(application: Application) :
     SendMoneyBaseViewModel<ISelectCountry.State>(application), ISelectCountry.ViewModel,
@@ -96,7 +97,7 @@ class SelectCountryViewModel(application: Application) :
                                 0,
                                 Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
                             )
-                            populateSpinnerData.value = countries
+                            populateSpinnerData.value =  Utils.parseCountryList(it)
                             countries.addAll(it.map {
                                 Country(
                                     id = it.id,
