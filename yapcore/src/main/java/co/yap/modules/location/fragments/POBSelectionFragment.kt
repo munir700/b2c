@@ -2,15 +2,18 @@ package co.yap.modules.location.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
+import co.yap.modules.location.tax.TaxInfoFragment
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
@@ -29,7 +32,17 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
-    private val clickObserver = Observer<Int> {}
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.nextButton -> {
+                startFragment(
+                    fragmentName = TaxInfoFragment::class.java.name, bundle = bundleOf(
+                        "countries" to viewModel.populateSpinnerData.value
+                    ), showToolBar = false
+                )
+            }
+        }
+    }
 
     private val countriesListObserver = Observer<List<Country>> {
         getBinding().spinner.setItemSelectedListener(selectedItemListener)
@@ -43,6 +56,7 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
             }
         }
     }
+
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.populateSpinnerData.removeObserver(countriesListObserver)
