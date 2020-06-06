@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -14,7 +15,7 @@ import co.yap.yapcore.R;
 import co.yap.yapcore.interfaces.OnItemClickListener;
 
 
-public class CountrySpinner extends RelativeLayout {
+public class CountrySpinner extends LinearLayout {
 
     private Spinner _spinner;
     private CountryListAdapter countryAdapter;

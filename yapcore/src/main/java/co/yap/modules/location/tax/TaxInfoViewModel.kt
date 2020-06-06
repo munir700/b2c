@@ -32,7 +32,6 @@ class TaxInfoViewModel(application: Application) :
     }
 
     private fun setupRecycleView() {
-        taxInfoAdaptor.allowFullItemClickListener = true
         taxInfoAdaptor.setItemListener(listener)
     }
 
@@ -56,10 +55,10 @@ class TaxInfoViewModel(application: Application) :
                 R.id.etTinNumber -> { // on tin number change
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
-                R.id.optionsSpinner -> { // on tin number change
+                R.id.optionsSpinner -> { // on options selected
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
-                R.id.reasonsSpinner -> { // on tin number change
+                R.id.reasonsSpinner -> { // on reason selected
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
             }

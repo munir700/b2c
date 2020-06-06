@@ -13,13 +13,14 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -57,88 +58,100 @@
                 android:id="@+id/recycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_normal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+                app:layout_constraintVertical_bias="0.0"
                 app:recycleViewAdapter="@{viewModel.taxInfoAdaptor}"
-                tools:itemCount="3"
+                tools:itemCount="2"
                 tools:listitem="@layout/item_tax_info" />
 
-            <LinearLayout
-                android:id="@+id/llTermsCondition"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/recycler">
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="1.0">
 
-                <CheckBox
-                    android:id="@+id/cbTermsAndConditions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintVertical_bias="0.892" />
-
-                <TextView
-                    android:id="@+id/tvTermsAndConditions"
-                    style="@style/AMicroGrey"
+                <LinearLayout
+                    android:id="@+id/llTermsCondition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_extra_small"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-                    android:textColor="@color/colorPrimary"
-                    app:text="@{Strings.screen_tax_info_display_text_not_us_national}"
-                    tools:text="@string/screen_tax_info_display_text_not_us_national" />
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTermsConditions"
+                    app:layout_constraintVertical_bias="1.0">
 
-            </LinearLayout>
+                    <CheckBox
+                        android:id="@+id/cbTermsAndConditions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintVertical_bias="0.892" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTermsConditions"
-                style="@style/ASmallGrey"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_marginTop="@dimen/small"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:gravity="center"
-                android:paddingStart="@dimen/margin_normal"
-                android:paddingEnd="@dimen/margin_normal"
-                android:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTermsCondition"
-                app:text="@{Strings.screen_tax_info_display_text_trs_conditions_disclaimer}"
-                tools:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer" />
+                    <TextView
+                        android:id="@+id/tvTermsAndConditions"
+                        style="@style/AMicroGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_extra_small"
+                        android:layout_marginEnd="@dimen/margin_normal"
+                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_tax_info_display_text_not_us_national}"
+                        tools:text="@string/screen_tax_info_display_text_not_us_national" />
 
-            <co.yap.widgets.CoreButton
-                android:id="@+id/nextButton"
-                style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:background="@color/white"
-                android:gravity="bottom"
-                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
-                app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTermsConditions"
-                app:text="@{Strings.common_button_next}"
-                tools:text="@string/common_button_next" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTermsConditions"
+                    style="@style/ASmallGrey"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/margin_normal"
+                    android:paddingEnd="@dimen/margin_normal"
+                    android:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer"
+                    app:layout_constraintBottom_toTopOf="@+id/nextButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:text="@{Strings.screen_tax_info_display_text_trs_conditions_disclaimer}"
+                    tools:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer" />
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/nextButton"
+                    style="@style/FragmentsBtnStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:background="@color/white"
+                    android:gravity="bottom"
+                    android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:text="@{Strings.common_button_next}"
+                    tools:text="@string/common_button_next" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
 </layout>

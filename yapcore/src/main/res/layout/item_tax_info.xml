@@ -240,7 +240,7 @@
                 android:layout_height="@dimen/_15sdp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:background="@drawable/circle"
+                android:background="@drawable/circle_profile"
                 android:src="@drawable/ic_add_sign" />
 
             <androidx.appcompat.widget.AppCompatTextView
