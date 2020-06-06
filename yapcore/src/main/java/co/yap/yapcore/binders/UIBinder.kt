@@ -22,6 +22,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.cardview.widget.CardView
@@ -41,6 +42,7 @@ import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -50,6 +52,36 @@ import com.daimajia.androidanimations.library.YoYo
 import java.text.SimpleDateFormat
 
 object UIBinder {
+    @BindingAdapter("adaptor", "selectedListener")
+    @JvmStatic
+    fun setSpinnerAdaptor(
+        spinner: Spinner
+        , options: ArrayList<String>, listener: OnItemClickListener
+    ) {
+        val myListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                view?.let { listener.onItemClick(view, options[position], position) }
+            }
+        }
+        spinner.onItemSelectedListener = myListener
+        val dataAdapter = ArrayAdapter<String>(
+            spinner.context,
+            android.R.layout.simple_spinner_item,
+            options
+        )
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = dataAdapter
+    }
+
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
@@ -270,11 +302,10 @@ object UIBinder {
                             linearLayout.visibility = VISIBLE
                         else
                             linearLayout.visibility = GONE
-                    }
-                    else
+                    } else
                         linearLayout.visibility = GONE
                 }
-                CardStatus.BLOCKED,CardStatus.INACTIVE,CardStatus.HOTLISTED -> {
+                CardStatus.BLOCKED, CardStatus.INACTIVE, CardStatus.HOTLISTED -> {
                     linearLayout.visibility = VISIBLE
                 }
             }
@@ -294,8 +325,7 @@ object UIBinder {
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
                             imageView.visibility = GONE
-                    }
-                    else
+                    } else
                         imageView.visibility = GONE
                 }
                 CardStatus.BLOCKED -> {
@@ -928,6 +958,17 @@ object UIBinder {
         if (null == adapter)
             return
         view.adapter = adapter
+    }
+
+    @JvmStatic
+    @BindingAdapter("recycleViewAdapter")
+    fun setRecycleViewAdapter(
+        recyclerView: RecyclerView,
+        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+    ) {
+        if (null == adapter)
+            return
+        recyclerView.adapter = adapter
     }
 
     @JvmStatic

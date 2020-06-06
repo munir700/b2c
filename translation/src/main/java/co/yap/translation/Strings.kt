@@ -1570,4 +1570,26 @@ object Strings {
         "screen_place_of_birth_display_text_select_country"
     const val screen_place_of_birth_display_text_city_of_birth: String =
         "screen_place_of_birth_display_text_city_of_birth"
+
+    // Tax info screen
+    const val screen_tax_info_display_text_heading: String =
+        "screen_tax_info_display_text_heading"
+    const val screen_tax_info_display_text_desc: String =
+        "screen_tax_info_display_text_desc"
+    const val screen_tax_info_display_text_select_country: String =
+        "screen_tax_info_display_text_select_country"
+    const val screen_tax_info_display_text_have_tin_number: String =
+        "screen_tax_info_display_text_have_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number: String =
+        "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_heading_tin_number: String =
+        "screen_tax_info_display_text_heading_tin_number"
+    const val screen_tax_info_display_text_country_no_tin_issue: String =
+        "screen_tax_info_display_text_country_no_tin_issue"
+    const val screen_tax_info_display_text_add_another_country: String =
+        "screen_tax_info_display_text_add_another_country"
+    const val screen_tax_info_display_text_not_us_national: String =
+        "screen_tax_info_display_text_not_us_national"
+    const val screen_tax_info_display_text_trs_conditions_disclaimer: String =
+        "screen_tax_info_display_text_trs_conditions_disclaimer"
 }
