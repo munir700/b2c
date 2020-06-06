@@ -1,4 +1,4 @@
-package co.yap.modules.location
+package co.yap.widgets.country_spinner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import co.yap.countryutils.country.Country
 import co.yap.widgets.CoreCircularImageView
 import co.yap.yapcore.R
 
-class POBCountryAdapter(
-    val context: Context,
-    private val objects: List<POBCountry>
+class CountryListAdapter(
+    private val context: Context,
+    private val objects: List<Country>
 ) : BaseAdapter() {
 
-    override fun getItem(position: Int): POBCountry {
+    override fun getItem(position: Int): Country {
         return objects[position]
     }
 
@@ -33,14 +34,14 @@ class POBCountryAdapter(
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val row = inflater.inflate(R.layout.item_place_of_birth_country, parent, false)
+        val row = inflater.inflate(R.layout.item_spinner_country, parent, false)
         val label = row.findViewById(R.id.textView) as TextView
         val flag = row.findViewById(R.id.flag_img) as CoreCircularImageView
-        label.text = objects[position].name
+        label.text = objects[position].getName()
         flag.setImageResource(objects[position].getFlagDrawableResId(label.context))
 
         if (position == 0) {//Special style for dropdown header
-            label.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
+            label.setTextColor(label.context.resources.getColor(R.color.colorPrimaryDark))
         }
         return row
     }

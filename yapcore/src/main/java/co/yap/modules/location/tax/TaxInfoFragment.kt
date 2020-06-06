@@ -1,7 +1,6 @@
 package co.yap.modules.location.tax
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BR
