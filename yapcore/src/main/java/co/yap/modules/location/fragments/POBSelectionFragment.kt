@@ -2,6 +2,7 @@ package co.yap.modules.location.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -30,21 +31,14 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
-    //    private val clickObserver = Observer<Int> {
-//        when (it) {
-//            R.id.nextButton -> {
-//                startFragment(
-//                    fragmentName = TaxInfoFragment::class.java.name, bundle = bundleOf(
-//                        "countries" to viewModel.populateSpinnerData.value
-//                    ), showToolBar = false
-//                )
-//            }
-//        }
-//    }
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                findNavController().navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+                val bundle = bundleOf("countries" to viewModel.populateSpinnerData.value)
+                findNavController().navigate(
+                    R.id.action_POBSelectionFragment_to_taxInfoFragment,
+                    bundle
+                )
             }
         }
     }
