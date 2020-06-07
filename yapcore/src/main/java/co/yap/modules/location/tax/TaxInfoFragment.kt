@@ -1,12 +1,15 @@
 package co.yap.modules.location.tax
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.countryutils.country.Country
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.extentions.toast
@@ -21,14 +24,15 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
-        viewModel.countries = arguments?.getParcelableArrayList<Country>("countries") as ArrayList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.countries =
+            arguments?.getParcelableArrayList("countries")
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
-                toast("api call>")
+                toast("api call")
             })
         )
     }
@@ -41,7 +45,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         when (it) {
             R.id.nextButton -> {
                 viewModel.saveInfoDetails {
-                    showToast("Data saved -> moved next")
+                    setIntentResult()
                 }
             }
         }
@@ -60,4 +64,10 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         return (viewDataBinding as FragmentTaxInfoBinding)
     }
 
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra(Constants.ADDRESS_SUCCESS, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
+    }
 }

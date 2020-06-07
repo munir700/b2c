@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoViewModel(application: Application) :
@@ -20,7 +21,7 @@ class TaxInfoViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITaxInfo.State = TaxInfoState()
     override var taxInfoList: MutableList<TaxModel> = mutableListOf()
-    override var countries: ArrayList<Country> = ArrayList()
+    override var countries: ArrayList<Country>? = null
     override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(taxInfoList)
     override val repository: CustomersRepository = CustomersRepository
     override var reasonsList: ArrayList<String> = arrayListOf()
@@ -47,9 +48,19 @@ class TaxInfoViewModel(application: Application) :
             when (val response = repository.getTaxReasons()) {
                 is RetroApiResponse.Success -> {
                     reasonsList = response.data.reasons
-                    createModel(reasonsList, options)
-                    state.onSuccess.set(true)
-                    state.loading = false
+                    if (countries != null) {
+                        createModel(reasonsList, options)
+                        state.onSuccess.set(true)
+                        state.loading = false
+
+                    } else
+                        getAllCountries {
+                            countries = it
+                            createModel(reasonsList, options)
+                            state.onSuccess.set(true)
+                            state.loading = false
+                        }
+
                 }
 
                 is RetroApiResponse.Error -> {
@@ -67,7 +78,7 @@ class TaxInfoViewModel(application: Application) :
     ) {
         taxInfoList.add(
             TaxModel(
-                countries = countries,
+                countries = countries?: arrayListOf(),
                 reasons = reasons,
                 options = options,
                 canAddMore = ObservableField(taxInfoList.size in 0..1),
@@ -162,4 +173,22 @@ class TaxInfoViewModel(application: Application) :
         return taxList
     }
 
+    override fun getAllCountries(success: (ArrayList<Country>) -> Unit) {
+        if (!countries.isNullOrEmpty()) {
+            success(countries?: arrayListOf())
+        } else {
+            launch {
+                when (val response = repository.getAllCountries()) {
+                    is RetroApiResponse.Success -> {
+                        success(Utils.parseCountryList(response.data.data) as ArrayList<Country>)
+
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
+    }
 }

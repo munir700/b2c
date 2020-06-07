@@ -54,7 +54,6 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
@@ -539,8 +538,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 data?.let {
                     val result = it.getBooleanExtra(ADDRESS_SUCCESS, false)
                     if (result) {
-                        val address = it.getParcelableExtra<Address>(ADDRESS)
-                        viewModel.requestOrderCard(address)
+                        viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
                     }
                 }
             }

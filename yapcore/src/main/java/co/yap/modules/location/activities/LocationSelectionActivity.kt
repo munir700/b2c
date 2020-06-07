@@ -90,4 +90,6 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
             super.onBackPressed()
         }
     }
+
+
 }

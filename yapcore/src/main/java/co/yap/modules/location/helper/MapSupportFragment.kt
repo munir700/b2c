@@ -79,7 +79,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         placesClient = Places.createClient(requireContext())
         mFusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
-        getCurrentLocation()
+        //getCurrentLocation()
     }
 
     protected fun onMapReady(googleMap: GoogleMap?) {

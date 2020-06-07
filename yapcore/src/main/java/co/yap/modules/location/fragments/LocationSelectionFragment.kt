@@ -9,21 +9,28 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.modules.location.CitiesListBottomSheet
 import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
+import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.ezaka.customer.app.utils.hideKeyboard
@@ -37,7 +44,15 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setObservers()
+        when (MyUserManager.user?.notificationStatuses) {
+            AccountStatus.CAPTURED_ADDRESS.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                skipLocationSelectionFragment()
+            }
+            else -> {
+                setObservers()
+            }
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -134,7 +149,6 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 !viewModel.state.addressTitle.get().isNullOrBlank()
                         && !viewModel.state.addressSubtitle.get().isNullOrBlank()
                         && viewModel.state.city.get() != "Select"
-                        && if (viewModel.state.isOnBoarding.get() == false) true else viewModel.state.isTermsChecked.get() == true
             )
         }
     }
@@ -143,7 +157,9 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         when (it) {
             R.id.nextButton -> {
                 if (viewModel.parentViewModel?.isOnBoarding == true)
-                    findNavController().navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
+                    viewModel.requestOrderCard(viewModel.getUserAddress()) {
+                        findNavController().navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
+                    }
                 else
                     setIntentAction(true)
             }
@@ -165,11 +181,11 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 startAnimateLocationCard()
             }
             R.id.tvTermsAndConditions -> {
-//                startFragment<WebViewFragment>(
-//                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-//                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-//                    ), showToolBar = true
-//                )
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                    ), showToolBar = true
+                )
             }
             R.id.etAddressField -> {
 
@@ -320,17 +336,12 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     private fun setIntentAction(isUpdated: Boolean) {
         val intent = Intent()
-        viewModel.address?.address1 = viewModel.state.addressTitle.get()
-        viewModel.address?.address2 = viewModel.state.addressSubtitle.get()
-        viewModel.address?.city = viewModel.state.city.get()
-        // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
-        viewModel.address?.nearestLandMark = viewModel.state.addressTitle.get()
-        viewModel.address?.country = "United Arab Emirates"
-        intent.putExtra(ADDRESS, viewModel.address)
+        intent.putExtra(ADDRESS, viewModel.getUserAddress())
         intent.putExtra(ADDRESS_SUCCESS, isUpdated)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
+
 
     private fun checkPermission() {
         permissionHelper = PermissionHelper(
@@ -412,6 +423,19 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressSubtitle.removeOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressTitle.removeOnPropertyChangedCallback(stateObserver)
         viewModel.state.city.removeOnPropertyChangedCallback(stateObserver)
+    }
+
+    private fun skipLocationSelectionFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.locationSelectionFragment, true) // starting destination skiped
+            .build()
+
+        findNavController().navigate(
+            R.id.action_locationSelectionFragment_to_POBSelectionFragment,
+            null,
+            navOptions
+        )
+
     }
 
 }

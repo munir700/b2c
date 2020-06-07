@@ -22,8 +22,9 @@ interface ITaxInfo {
             options: ArrayList<String>
         )
         fun saveInfoDetails(success: () -> Unit)
+        fun getAllCountries(success: (ArrayList<Country>) -> Unit)
         var clickEvent: SingleClickEvent
-        var countries: ArrayList<Country>
+        var countries: ArrayList<Country>?
         var taxInfoList: MutableList<TaxModel>
         var reasonsList: ArrayList<String>
         var options: ArrayList<String>

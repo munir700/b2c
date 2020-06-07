@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
@@ -13,7 +14,9 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 
 class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -23,7 +26,14 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addObservers()
+        when (MyUserManager.user?.notificationStatuses) {
+            AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                skipPOBSelectionFragment()
+            }
+            else -> {
+                addObservers()
+            }
+        }
     }
 
     override fun addObservers() {
@@ -72,4 +82,18 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     override fun getBinding(): FragmentPlaceOfBirthSelectionBinding {
         return (viewDataBinding as FragmentPlaceOfBirthSelectionBinding)
     }
+
+    private fun skipPOBSelectionFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.POBSelectionFragment, true) // starting destination skiped
+            .build()
+
+        findNavController().navigate(
+            R.id.action_POBSelectionFragment_to_taxInfoFragment,
+            null,
+            navOptions
+        )
+    }
+
+    override fun onBackPressed(): Boolean = true
 }
