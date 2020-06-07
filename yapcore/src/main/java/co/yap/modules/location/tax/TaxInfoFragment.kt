@@ -2,15 +2,18 @@ package co.yap.modules.location.tax
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.countryutils.country.Country
+import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.startFragment
 
 class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
 
@@ -29,7 +32,13 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         super.onViewCreated(view, savedInstanceState)
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
-                toast("api call>")
+                viewModel.saveInfoDetails { pdf ->
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            Constants.PAGE_URL to pdf
+                        ), showToolBar = true
+                    )
+                }
             })
         )
     }
@@ -41,8 +50,9 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                viewModel.saveInfoDetails {
-                    showToast("Data saved -> moved next")
+                viewModel.saveInfoDetails { pdf ->
+                    showToast(pdf ?: "")
+
                 }
             }
         }

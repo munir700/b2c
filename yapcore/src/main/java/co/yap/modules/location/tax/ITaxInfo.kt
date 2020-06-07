@@ -21,7 +21,8 @@ interface ITaxInfo {
             reasons: ArrayList<String>,
             options: ArrayList<String>
         )
-        fun saveInfoDetails(success: () -> Unit)
+
+        fun saveInfoDetails(success: (pdfUrl: String?) -> Unit)
         var clickEvent: SingleClickEvent
         var countries: ArrayList<Country>
         var taxInfoList: MutableList<TaxModel>
