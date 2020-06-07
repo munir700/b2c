@@ -33,7 +33,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:text="@string/screen_place_of_birth_display_text_select_country"
+            android:text="@{viewModel.taxModel.taxRowTitle}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_tax_info_display_text_select_country}"

@@ -26,6 +26,11 @@ class TaxInfoViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override var reasonsList: ArrayList<String> = arrayListOf()
     override var options = arrayListOf("No", "Yes")
+    private var rowTitles = arrayListOf(
+        "Select country of tax residence",
+        "Select a second country of tax residence",
+        "Select a third country of tax residence"
+    )
 
     override
     fun onCreate() {
@@ -39,7 +44,11 @@ class TaxInfoViewModel(application: Application) :
     }
 
     override fun handleOnPressView(id: Int) {
-        clickEvent.setValue(id)
+        if (id == R.id.cbTermsAndConditions) {
+            state.isAgreed.set(!(state.isAgreed.get() as Boolean))
+            state.valid.set(isTaxInfoValid(taxInfoList) && state.isAgreed.get() == true)
+        } else
+            clickEvent.setValue(id)
     }
 
     override fun getReasonsList() {
@@ -49,14 +58,14 @@ class TaxInfoViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     reasonsList = response.data.reasons
                     if (countries != null) {
-                        createModel(reasonsList, options)
+                        createModel(reasonsList, options,ObservableField(rowTitles[0]))
                         state.onSuccess.set(true)
                         state.loading = false
 
                     } else
                         getAllCountries {
                             countries = it
-                            createModel(reasonsList, options)
+                            createModel(reasonsList, options,ObservableField(rowTitles[0]))
                             state.onSuccess.set(true)
                             state.loading = false
                         }
@@ -72,22 +81,6 @@ class TaxInfoViewModel(application: Application) :
         }
     }
 
-    override fun createModel(
-        reasons: ArrayList<String>,
-        options: ArrayList<String>
-    ) {
-        taxInfoList.add(
-            TaxModel(
-                countries = countries?: arrayListOf(),
-                reasons = reasons,
-                options = options,
-                canAddMore = ObservableField(taxInfoList.size in 0..1),
-                taxRowNumber = ObservableField(taxInfoList.isNotEmpty())
-            )
-        )
-        taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
-    }
-
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
@@ -96,10 +89,15 @@ class TaxInfoViewModel(application: Application) :
                     taxInfoList.removeAt(index)
                     taxInfoAdaptor.notifyItemRemoved(index)
                     taxInfoList.last().canAddMore.set(true)
+                    taxInfoList.last().taxRowTitle.set(rowTitles[taxInfoList.size - 1])
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
                 R.id.lyAddCountry -> {
-                    createModel(reasonsList, options)
+                    createModel(
+                        reasonsList,
+                        options,
+                        ObservableField(rowTitles[taxInfoList.size])
+                    )
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
                 R.id.spinner_container -> { // on country selected login
@@ -116,6 +114,23 @@ class TaxInfoViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun createModel(
+        reasons: ArrayList<String>,
+        options: ArrayList<String>, title: ObservableField<String>
+    ) {
+        taxInfoList.add(
+            TaxModel(
+                countries = countries?: arrayListOf(),
+                reasons = reasons,
+                options = options,
+                canAddMore = ObservableField(taxInfoList.size in 0..1),
+                taxRowNumber = ObservableField(taxInfoList.isNotEmpty()),
+                taxRowTitle = title
+            )
+        )
+        taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
     }
 
     private fun isTaxInfoValid(taxInfoList: MutableList<TaxModel>): Boolean {
@@ -135,18 +150,18 @@ class TaxInfoViewModel(application: Application) :
         return valid
     }
 
-
-    override fun saveInfoDetails(success: () -> Unit) {
+    override fun saveInfoDetails(success: (pdfUrl: String?) -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.saveTaxInfo(
                 TaxInfoRequest(
-                    usNationalForTax = state.isAgreed.get() ?: false,
+                    usNationalForTax = !(state.isAgreed.get() ?: false),
+                    //usNationalForTax = !(state.isAgreed.get() ?: false),
                     taxInfoDetails = getTaxDetails(taxInfoList)
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    success.invoke()
+                    success.invoke(response.data.pdf)
                     state.loading = false
                 }
 
@@ -165,8 +180,9 @@ class TaxInfoViewModel(application: Application) :
                 TaxInfoDetailRequest(
                     country = taxInfo.selectedCountry?.getName() ?: "",
                     tinAvailable = taxInfo.selectedOption.get().equals("Yes"),
-                    reasonInCaseNoTin = taxInfo.selectedReason,
-                    tinNumber = taxInfo.tinNumber.get() ?: ""
+                    reasonInCaseNoTin = if (taxInfo.selectedOption.get().equals("Yes")) "" else taxInfo.selectedReason,
+                    tinNumber = if (taxInfo.selectedOption.get().equals("Yes")) taxInfo.tinNumber.get()
+                        ?: "" else ""
                 )
             )
         }

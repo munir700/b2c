@@ -97,7 +97,8 @@
                         android:layout_height="wrap_content"
                         android:buttonTint="?attr/colorPrimaryAttr"
                         android:checked="@{viewModel.state.isAgreed}"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}" />
 
                     <TextView
                         android:id="@+id/tvTermsAndConditions"

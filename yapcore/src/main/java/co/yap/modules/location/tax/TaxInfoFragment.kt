@@ -4,15 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.extentions.startFragment
 
 class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
 
@@ -32,7 +34,15 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
             arguments?.getParcelableArrayList("countries")
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
-                toast("api call")
+                if (viewModel.state.valid.get() == true) {
+                    viewModel.saveInfoDetails { pdf ->
+                        startFragment(
+                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                                Constants.PAGE_URL to pdf
+                            ), showToolBar = true
+                        )
+                    }
+                }
             })
         )
     }

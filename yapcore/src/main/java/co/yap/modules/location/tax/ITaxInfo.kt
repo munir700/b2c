@@ -19,9 +19,11 @@ interface ITaxInfo {
         fun getReasonsList()
         fun createModel(
             reasons: ArrayList<String>,
-            options: ArrayList<String>
+            options: ArrayList<String>,
+            position: ObservableField<String>
         )
-        fun saveInfoDetails(success: () -> Unit)
+
+        fun saveInfoDetails(success: (pdfUrl: String?) -> Unit)
         fun getAllCountries(success: (ArrayList<Country>) -> Unit)
         var clickEvent: SingleClickEvent
         var countries: ArrayList<Country>?
