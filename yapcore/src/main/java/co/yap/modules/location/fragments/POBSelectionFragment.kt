@@ -35,11 +35,13 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                startFragment(
-                    fragmentName = TaxInfoFragment::class.java.name, bundle = bundleOf(
-                        "countries" to viewModel.populateSpinnerData.value
-                    ), showToolBar = false
-                )
+                viewModel.saveDOBInfo {
+                    startFragment(
+                        fragmentName = TaxInfoFragment::class.java.name, bundle = bundleOf(
+                            "countries" to viewModel.populateSpinnerData.value
+                        )
+                    )
+                }
             }
         }
     }
@@ -70,5 +72,4 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     override fun getBinding(): FragmentPlaceOfBirthSelectionBinding {
         return (viewDataBinding as FragmentPlaceOfBirthSelectionBinding)
     }
-
 }

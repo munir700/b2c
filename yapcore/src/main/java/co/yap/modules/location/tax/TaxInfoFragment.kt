@@ -9,6 +9,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
+import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.helpers.extentions.toast
 
 class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
 
@@ -23,11 +25,27 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         viewModel.countries = arguments?.getParcelableArrayList<Country>("countries") as ArrayList
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getBinding().tvTermsConditions.makeLinks(
+            Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
+                toast("api call>")
+            })
+        )
+    }
+
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
     }
 
     private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.nextButton -> {
+                viewModel.saveInfoDetails {
+                    showToast("Data saved -> moved next")
+                }
+            }
+        }
     }
 
     override fun removeObservers() {
