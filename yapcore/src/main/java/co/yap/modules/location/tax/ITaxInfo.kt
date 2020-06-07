@@ -21,6 +21,7 @@ interface ITaxInfo {
             reasons: ArrayList<String>,
             options: ArrayList<String>
         )
+        fun saveInfoDetails(success: () -> Unit)
         var clickEvent: SingleClickEvent
         var countries: ArrayList<Country>
         var taxInfoList: MutableList<TaxModel>
@@ -32,5 +33,7 @@ interface ITaxInfo {
 
     interface State : IBase.State {
         var valid: ObservableField<Boolean>
+        var onSuccess: ObservableField<Boolean>
+        var isAgreed: ObservableField<Boolean>
     }
 }

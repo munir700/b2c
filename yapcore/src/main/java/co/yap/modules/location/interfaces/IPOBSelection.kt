@@ -18,6 +18,7 @@ interface IPOBSelection {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handleOnPressView(id: Int)
+        fun saveDOBInfo(success: () -> Unit)
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<List<Country>>
         var countries: ArrayList<Country>

@@ -11,6 +11,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -87,9 +88,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
     const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
-
-
-    //.................... End region of old projects apis................................................
+    const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
+    const val URL_TAX_INFO = "customers/api/tax-information"
+    const val URL_CITIES = "customers/api/cities"
+    const val URL_TAX_REASONS = "customers/api/tin-reasons"
 
     /*
    * Url's that comes from admin repo
@@ -99,10 +101,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_VALIDATE_CURRENT_PASSCODE = "/customers/api/user/verify-passcode"
     const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
-    //.................... End region of admin repo urls................................................
 
-    const val URL_CITIES = "customers/api/cities"
-    const val URL_TAX_REASONS = "customers/api/tin-reasons"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -309,4 +308,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse> =
         executeSafely(call = { api.getTaxReasons() })
+
+    override suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.saveBirthInfo(birthInfoRequest) })
+
+    override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
+        executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 }

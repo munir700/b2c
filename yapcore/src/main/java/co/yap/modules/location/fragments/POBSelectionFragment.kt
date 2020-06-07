@@ -72,5 +72,4 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     override fun getBinding(): FragmentPlaceOfBirthSelectionBinding {
         return (viewDataBinding as FragmentPlaceOfBirthSelectionBinding)
     }
-
 }

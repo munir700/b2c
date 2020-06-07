@@ -5,6 +5,8 @@ import android.view.View
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.TaxInfoDetailRequest
+import co.yap.networking.customers.requestdtos.TaxInfoRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -33,6 +35,46 @@ class TaxInfoViewModel(application: Application) :
 
     private fun setupRecycleView() {
         taxInfoAdaptor.setItemListener(listener)
+    }
+
+    override fun handleOnPressView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun getReasonsList() {
+        launch {
+            state.loading = true
+            when (val response = repository.getTaxReasons()) {
+                is RetroApiResponse.Success -> {
+                    reasonsList = response.data.reasons
+                    createModel(reasonsList, options)
+                    state.onSuccess.set(true)
+                    state.loading = false
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.onSuccess.set(false)
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun createModel(
+        reasons: ArrayList<String>,
+        options: ArrayList<String>
+    ) {
+        taxInfoList.add(
+            TaxModel(
+                countries = countries,
+                reasons = reasons,
+                options = options,
+                canAddMore = ObservableField(taxInfoList.size in 0..1),
+                taxRowNumber = ObservableField(taxInfoList.isNotEmpty())
+            )
+        )
+        taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
     }
 
     val listener = object : OnItemClickListener {
@@ -82,17 +124,18 @@ class TaxInfoViewModel(application: Application) :
         return valid
     }
 
-    override fun handleOnPressView(id: Int) {
-        clickEvent.setValue(id)
-    }
 
-    override fun getReasonsList() {
+    override fun saveInfoDetails(success: () -> Unit) {
         launch {
             state.loading = true
-            when (val response = repository.getTaxReasons()) {
+            when (val response = repository.saveTaxInfo(
+                TaxInfoRequest(
+                    usNationalForTax = state.isAgreed.get() ?: false,
+                    taxInfoDetails = getTaxDetails(taxInfoList)
+                )
+            )) {
                 is RetroApiResponse.Success -> {
-                    reasonsList = response.data.reasons
-                    createModel(reasonsList, options)
+                    success.invoke()
                     state.loading = false
                 }
 
@@ -104,19 +147,19 @@ class TaxInfoViewModel(application: Application) :
         }
     }
 
-    override fun createModel(
-        reasons: ArrayList<String>,
-        options: ArrayList<String>
-    ) {
-        taxInfoList.add(
-            TaxModel(
-                countries = countries,
-                reasons = reasons,
-                options = options,
-                canAddMore = ObservableField(taxInfoList.size in 0..1),
-                taxRowNumber = ObservableField(taxInfoList.isNotEmpty())
+    private fun getTaxDetails(taxInfoList: MutableList<TaxModel>): ArrayList<TaxInfoDetailRequest> {
+        val taxList: ArrayList<TaxInfoDetailRequest> = ArrayList()
+        for (taxInfo: TaxModel in taxInfoList) {
+            taxList.add(
+                TaxInfoDetailRequest(
+                    country = taxInfo.selectedCountry?.getName() ?: "",
+                    tinAvailable = taxInfo.selectedOption.get().equals("Yes"),
+                    reasonInCaseNoTin = taxInfo.selectedReason,
+                    tinNumber = taxInfo.tinNumber.get() ?: ""
+                )
             )
-        )
-        taxInfoAdaptor.notifyItemInserted(taxInfoList.size)
+        }
+        return taxList
     }
+
 }
