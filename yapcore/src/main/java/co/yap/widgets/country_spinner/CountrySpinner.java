@@ -40,14 +40,17 @@ public class CountrySpinner extends RelativeLayout {
         this._spinner = findViewById(R.id.countriesSpinner);
     }
 
-
+    public void setSelectedItem(int position) {
+        this._spinner.setSelection(position);
+    }
     public void setAdapter(List<Country> countries) {
         this.countryAdapter = getCountryAdapter(countries);
-        if (itemSelectedListener != null)
             _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                    itemSelectedListener.onItemClick(view, countryAdapter.getItem(position), position);
+                    if (itemSelectedListener != null && view != null) {
+                        itemSelectedListener.onItemClick(view, countryAdapter.getItem(position), position);
+                    }
                 }
 
                 @Override

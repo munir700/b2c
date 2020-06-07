@@ -2,12 +2,12 @@ package co.yap.modules.location.tax
 
 import android.os.Parcelable
 import androidx.databinding.ObservableField
-import co.yap.modules.location.POBCountry
+import co.yap.countryutils.country.Country
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TaxModel(
-    var countries: ArrayList<POBCountry> = arrayListOf(),
+    var countries: ArrayList<Country> = arrayListOf(),
     var reasons: ArrayList<String> = arrayListOf(),
     var selectedReason: ObservableField<String> = ObservableField("Yes"),
     var options: ArrayList<String> = arrayListOf("Yes", "No"),

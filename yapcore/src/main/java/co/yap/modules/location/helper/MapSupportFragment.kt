@@ -8,12 +8,13 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.os.Looper
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.location.fragments.LocationBaseFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import com.google.android.gms.location.*
@@ -29,7 +30,7 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
-open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel>() {
+open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewModel>() {
 
     private var mMap: GoogleMap? = null
     private var defaultZoom = 15
@@ -46,14 +47,14 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
         get() = ViewModelProviders.of(this).get(LocationSelectionViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.activity_address_selection
+    override fun getLayoutId(): Int = R.layout.location_selection_fragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initMap()
-        icon = bitmapDescriptorFromVector(context, R.drawable.ic_location_pin)
+        icon = bitmapDescriptorFromVector(requireContext(), R.drawable.ic_location_pin)
         defaultPlacePhoto = BitmapFactory.decodeResource(
-            context.resources,
+            requireContext().resources,
             R.drawable.location_place_holder
         )
     }
@@ -74,9 +75,10 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
 
     private fun initMap() {
         val apiKey = getString(R.string.google_maps_key)
-        Places.initialize(context, apiKey)
-        placesClient = Places.createClient(context)
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+        Places.initialize(requireContext(), apiKey)
+        placesClient = Places.createClient(requireContext())
+        mFusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
         getCurrentLocation()
     }
 
@@ -118,7 +120,7 @@ open class MapSupportActivity : BaseBindingActivity<ILocationSelection.ViewModel
 
     private fun getSelectedMapLocation(location: LatLng): co.yap.networking.cards.responsedtos.Address? {
         try {
-            val geoCoder = Geocoder(context)
+            val geoCoder = Geocoder(requireContext())
             val list = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
             val selectedAddress: Address = list[0]
             val locality = selectedAddress.locality

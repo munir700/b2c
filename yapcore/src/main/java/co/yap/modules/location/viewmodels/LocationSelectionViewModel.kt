@@ -10,13 +10,12 @@ import co.yap.networking.customers.responsedtos.City
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 
 class LocationSelectionViewModel(application: Application) :
-    BaseViewModel<ILocationSelection.State>(application),
+    LocationSelectionBaseViewModel<ILocationSelection.State>(application),
     ILocationSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var isUnNamedLocation: Boolean = false
     override var hasSeletedLocation: Boolean = false

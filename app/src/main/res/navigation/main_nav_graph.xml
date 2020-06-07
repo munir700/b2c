@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/taxInfoFragment">
-    <fragment
-        android:id="@+id/taxInfoFragment"
-        android:name="co.yap.modules.location.tax.TaxInfoFragment"
-        android:label="TaxInfoFragment"
-        tools:layout="@layout/fragment_tax_info" />
+    app:startDestination="@id/splashFragment">
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"

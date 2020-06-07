@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
@@ -29,11 +30,20 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
-    private val clickObserver = Observer<Int> {}
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.nextButton -> {
+                findNavController().navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+            }
+        }
+    }
 
     private val countriesListObserver = Observer<List<Country>> {
         getBinding().spinner.setItemSelectedListener(selectedItemListener)
         getBinding().spinner.setAdapter(it)
+        if (viewModel.state.selectedCountry != null) {
+            getBinding().spinner.setSelectedItem(viewModel.countries.indexOf(viewModel.state.selectedCountry!!))
+        }
     }
 
     private val selectedItemListener = object : OnItemClickListener {
