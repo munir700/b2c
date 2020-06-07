@@ -52,11 +52,11 @@ import com.daimajia.androidanimations.library.YoYo
 import java.text.SimpleDateFormat
 
 object UIBinder {
-    @BindingAdapter("adaptor", "selectedListener")
+    @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
     @JvmStatic
     fun setSpinnerAdaptor(
-        spinner: Spinner
-        , options: ArrayList<String>, listener: OnItemClickListener
+        spinner: Spinner,
+        options: ArrayList<String>, listener: OnItemClickListener?
     ) {
         val myListener = object : OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -69,7 +69,7 @@ object UIBinder {
                 position: Int,
                 id: Long
             ) {
-                view?.let { listener.onItemClick(view, options[position], position) }
+                view?.let { listener?.onItemClick(view, options[position], position) }
             }
         }
         spinner.onItemSelectedListener = myListener

@@ -1,5 +1,7 @@
 package co.yap.modules.location.tax
 
+import androidx.databinding.ObservableField
+import co.yap.countryutils.country.Country
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
@@ -20,6 +22,7 @@ interface ITaxInfo {
             options: ArrayList<String>
         )
         var clickEvent: SingleClickEvent
+        var countries: ArrayList<Country>
         var taxInfoList: MutableList<TaxModel>
         var reasonsList: ArrayList<String>
         var options: ArrayList<String>
@@ -28,6 +31,6 @@ interface ITaxInfo {
     }
 
     interface State : IBase.State {
-        var valid: Boolean
+        var valid: ObservableField<Boolean>
     }
 }
