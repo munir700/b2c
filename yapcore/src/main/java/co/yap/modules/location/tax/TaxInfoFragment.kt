@@ -38,7 +38,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
                     viewModel.saveInfoDetails { pdf ->
                         startFragment(
                             fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                                Constants.PAGE_URL to pdf
+                                Constants.PAGE_URL to "http://docs.google.com/viewer?embedded=true&url=$pdf"
                             ), showToolBar = true
                         )
                     }

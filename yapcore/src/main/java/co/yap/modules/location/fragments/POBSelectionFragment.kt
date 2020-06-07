@@ -44,11 +44,13 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                val bundle = bundleOf("countries" to viewModel.populateSpinnerData.value)
-                findNavController().navigate(
-                    R.id.action_POBSelectionFragment_to_taxInfoFragment,
-                    bundle
-                )
+                viewModel.saveDOBInfo {
+                    val bundle = bundleOf("countries" to viewModel.populateSpinnerData.value)
+                    findNavController().navigate(
+                        R.id.action_POBSelectionFragment_to_taxInfoFragment,
+                        bundle
+                    )
+                }
             }
         }
     }

@@ -30,6 +30,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -158,6 +159,12 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             R.id.nextButton -> {
                 if (viewModel.parentViewModel?.isOnBoarding == true)
                     viewModel.requestOrderCard(viewModel.getUserAddress()) {
+                        viewModel.address?.city?.let { city ->
+                            trackEventInFragments(
+                                MyUserManager.user,
+                                city = city
+                            )
+                        }
                         findNavController().navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
                     }
                 else
@@ -412,7 +419,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             slideDownCardAnimation()
             true
         } else
-             false
+            false
     }
 
     override fun onDestroy() {

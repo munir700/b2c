@@ -8,6 +8,7 @@ enum class AccountStatus {
     EID_EXPIRED,
     EID_UPDATED,
     EID_RESCAN_REQ,
+    EID_FAILED,
     REJECTED,
     MEETING_FAILED,
     SOFT_KYC_DONE,

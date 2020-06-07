@@ -19,6 +19,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
@@ -205,6 +206,22 @@ class VerifyPasscodeViewModel(application: Application) :
             state.loading = false
         }
     }
+
+     fun logout(success: () -> Unit) {
+        val deviceId: String? =
+            SharedPreferenceManager(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
+        launch {
+            when (val response = repository.logout(deviceId.toString())) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+                is RetroApiResponse.Error -> {
+                    success.invoke()
+                }
+            }
+        }
+    }
+
     override fun handlePressOnPressView(id: Int) {
         onClickEvent.value = id
     }

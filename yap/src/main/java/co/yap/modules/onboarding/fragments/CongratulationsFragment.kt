@@ -82,12 +82,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.orderCardSuccess.observe(this, onCardOrderSuccess)
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
-        viewModel.orderCardSuccess.removeObserver(onCardOrderSuccess)
     }
 
 
@@ -124,21 +122,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     putExtra(Constants.data, false)
                 }
             }
-        }
-    }
-
-    private val onCardOrderSuccess = Observer<Boolean> {
-        if (it) {
-            startActivityForResult(
-                FragmentPresenterActivity.getIntent(
-                    requireContext(),
-                    Constants.MODE_MEETING_CONFORMATION,
-                    null
-                ), RequestCodes.REQUEST_MEETING_CONFIRMED
-            )
-            trackEvent(KYCEvents.KYC_ORDERED.type)
-        } else {
-            goToDashboard()
         }
     }
 
@@ -191,14 +174,14 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         data?.let {
             val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
             if (result) {
-                val address = it.getParcelableExtra<Address>(Constants.ADDRESS)
-                viewModel.requestOrderCard(address)
-                address.city?.let { city ->
-                    trackEventInFragments(
-                        MyUserManager.user,
-                        city = city
-                    )
-                }
+                startActivityForResult(
+                    FragmentPresenterActivity.getIntent(
+                        requireContext(),
+                        Constants.MODE_MEETING_CONFORMATION,
+                        null
+                    ), RequestCodes.REQUEST_MEETING_CONFIRMED
+                )
+                trackEvent(KYCEvents.KYC_ORDERED.type)
             } else {
                 goToDashboard()
             }

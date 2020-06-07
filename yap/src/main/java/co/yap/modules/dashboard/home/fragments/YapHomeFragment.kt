@@ -553,7 +553,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
-//                checkUserStatus()
+                MyUserManager.getAccountInfo()
             }
             RequestCodes.REQUEST_FOR_SET_PIN -> {
                 data?.let {
