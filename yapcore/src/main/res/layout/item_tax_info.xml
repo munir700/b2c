@@ -23,14 +23,14 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingTop="@dimen/margin_normal"
-        android:paddingBottom="@dimen/margin_large">
+        android:paddingBottom="@dimen/margin_normal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectCountry"
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center"
             android:text="@string/screen_place_of_birth_display_text_select_country"
@@ -50,52 +50,28 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvSelectCountry"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/spinner_container"
+        <co.yap.widgets.country_spinner.CountrySpinner
+            android:id="@+id/spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">
-
-            <Spinner
-                android:id="@+id/countriesSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@drawable/bg_spinner"
-                android:drawSelectorOnTop="false"
-                android:dropDownHeight="@dimen/_50sdp"
-                android:gravity="bottom"
-                android:overScrollMode="never"
-                android:overlapAnchor="false"
-                android:spinnerMode="dropdown" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/countriesSpinner"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@color/greyLight"
-                android:minHeight="@dimen/_15sdp" />
-        </RelativeLayout>
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvlabelOptions"
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
             android:text="@string/screen_place_of_birth_display_text_select_country"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_container"
+            app:layout_constraintTop_toBottomOf="@+id/spinner"
             app:text="@{Strings.screen_tax_info_display_text_have_tin_number}"
             tools:text="@string/screen_tax_info_display_text_have_tin_number" />
 
@@ -131,6 +107,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/optionsSpinner"
                 android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/small"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:background="@color/greyLight"
                 android:minHeight="@dimen/_15sdp" />
@@ -146,7 +123,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_vertical"
-            android:visibility="@{viewModel.taxModel.selectedReason.equals(`No`) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.taxModel.selectedOption.equals(`No`) ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_options">
@@ -156,6 +133,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:gravity="center"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
                 app:text="@{Strings.screen_tax_info_display_text_reason_no_tin_number}"
@@ -173,12 +151,14 @@
                 android:gravity="bottom"
                 android:overScrollMode="never"
                 android:overlapAnchor="false"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                app:adaptor="@{viewModel.taxModel.reasons}" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/reasonsSpinner"
+                android:layout_marginStart="@dimen/small"
                 android:background="@color/greyLight" />
         </RelativeLayout>
 
@@ -193,7 +173,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:visibility="@{viewModel.taxModel.selectedReason.equals(`Yes`) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.taxModel.selectedOption.equals(`Yes`) ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_reasons">
@@ -203,6 +183,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:gravity="center"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
                 app:layout_constraintStart_toStartOf="parent"
@@ -221,11 +202,16 @@
                 android:inputType="number"
                 android:lines="1"
                 android:maxLength="20"
-                android:padding="@dimen/margin_extra_small" />
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingTop="@dimen/margin_extra_small"
+                android:paddingEnd="@dimen/margin_extra_small"
+                android:paddingBottom="@dimen/margin_extra_small"
+                android:text="@={viewModel.taxModel.tinNumber}" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginStart="@dimen/small"
                 android:background="@color/greyLight"
                 android:minHeight="@dimen/_15sdp" />
         </LinearLayout>
@@ -254,7 +240,7 @@
                 android:layout_height="@dimen/_15sdp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:background="@drawable/circle"
+                android:background="@drawable/circle_profile"
                 android:src="@drawable/ic_add_sign" />
 
             <androidx.appcompat.widget.AppCompatTextView

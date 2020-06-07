@@ -3,6 +3,7 @@ package co.yap.modules.location.tax
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.countryutils.country.Country
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -18,6 +19,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+        viewModel.countries = arguments?.getParcelableArrayList<Country>("countries") as ArrayList
     }
 
     override fun addObservers() {

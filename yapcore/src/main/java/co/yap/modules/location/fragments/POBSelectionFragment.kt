@@ -30,6 +30,17 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
+    //    private val clickObserver = Observer<Int> {
+//        when (it) {
+//            R.id.nextButton -> {
+//                startFragment(
+//                    fragmentName = TaxInfoFragment::class.java.name, bundle = bundleOf(
+//                        "countries" to viewModel.populateSpinnerData.value
+//                    ), showToolBar = false
+//                )
+//            }
+//        }
+//    }
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
@@ -53,6 +64,7 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
             }
         }
     }
+
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
         viewModel.populateSpinnerData.removeObserver(countriesListObserver)

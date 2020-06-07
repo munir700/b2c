@@ -9,15 +9,18 @@ class TaxInfoItemViewModel(
     val position: Int,
     val onItemClickListener: OnItemClickListener?
 ) {
-
     val spinnerItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is String) {
-                taxModel.selectedReason.set(data)
-                if (data.equals("yes", true)) {
-
+            if (data is String)
+                if (taxModel.options.contains(data)) {
+                    taxModel.selectedOption.set(data)
+                    view.id = R.id.optionsSpinner
+                    onItemClickListener?.onItemClick(view, taxModel, position)
+                } else {
+                    taxModel.selectedReason = data
+                    view.id = R.id.reasonsSpinner
+                    onItemClickListener?.onItemClick(view, taxModel, position)
                 }
-            }
         }
     }
 

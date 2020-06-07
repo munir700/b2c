@@ -9,8 +9,13 @@ import kotlinx.android.parcel.Parcelize
 data class TaxModel(
     var countries: ArrayList<Country> = arrayListOf(),
     var reasons: ArrayList<String> = arrayListOf(),
-    var selectedReason: ObservableField<String> = ObservableField("Yes"),
-    var options: ArrayList<String> = arrayListOf("Yes", "No"),
+    var selectedReason: String = reasons.first(),
+
+    var options: ArrayList<String> = arrayListOf("No", "Yes"),
+    var selectedOption: ObservableField<String> = ObservableField("No"),
+
+    var tinNumber: ObservableField<String> = ObservableField(""),
     var taxRowNumber: ObservableField<Boolean>,
-    var canAddMore: ObservableField<Boolean>
+    var canAddMore: ObservableField<Boolean>,
+    var selectedCountry: Country? = null
 ) : Parcelable
