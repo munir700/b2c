@@ -32,12 +32,14 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         super.onViewCreated(view, savedInstanceState)
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
-                viewModel.saveInfoDetails { pdf ->
-                    startFragment(
-                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            Constants.PAGE_URL to pdf
-                        ), showToolBar = true
-                    )
+                if (viewModel.state.valid.get() == true) {
+                    viewModel.saveInfoDetails { pdf ->
+                        startFragment(
+                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                                Constants.PAGE_URL to pdf
+                            ), showToolBar = true
+                        )
+                    }
                 }
             })
         )
