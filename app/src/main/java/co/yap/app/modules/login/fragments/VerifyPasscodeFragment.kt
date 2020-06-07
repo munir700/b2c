@@ -198,7 +198,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,
                             it
-                    )
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -402,6 +402,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onNumberClicked(number: Int, text: String) {
         viewModel.state.passcode = dialer.getText()
+    }
+
+    override fun onLeftButtonClicked() {
+        super.onLeftButtonClicked()
+        showFingerprintDialog()
     }
 }
 
