@@ -5,6 +5,7 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -86,5 +87,6 @@ interface CustomersApi {
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
     suspend fun getCities(): RetroApiResponse<CitiesModel>
     suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse>
-
+    suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
+    suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
 }

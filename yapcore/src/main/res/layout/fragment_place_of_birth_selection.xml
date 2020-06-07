@@ -20,6 +20,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:background="@color/white">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -56,7 +58,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/margin_large"
                 android:gravity="center"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
@@ -70,46 +72,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry" />
-
-            <!--        <RelativeLayout-->
-            <!--            android:id="@+id/spinner_conktainer"-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_gravity="center_vertical"-->
-            <!--            android:layout_marginStart="@dimen/margin_medium"-->
-            <!--            android:layout_marginEnd="@dimen/margin_medium"-->
-            <!--            android:gravity="center_vertical"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">-->
-
-            <!--            <Spinner-->
-            <!--                android:id="@+id/countriesSpinner"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_gravity="bottom"-->
-            <!--                android:background="@drawable/bg_spinner"-->
-            <!--                android:drawSelectorOnTop="false"-->
-            <!--                android:dropDownHeight="@dimen/_50sdp"-->
-            <!--                android:gravity="bottom"-->
-            <!--                android:overScrollMode="never"-->
-            <!--                android:overlapAnchor="false"-->
-            <!--                android:spinnerMode="dropdown" />-->
-
-            <!--            <View-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="1dp"-->
-            <!--                android:layout_below="@+id/countriesSpinner"-->
-            <!--                android:layout_alignParentTop="true"-->
-            <!--                android:layout_marginTop="@dimen/_30sdp"-->
-            <!--                android:background="@color/greyLight"-->
-            <!--                android:minHeight="@dimen/_15sdp" />-->
-            <!--        </RelativeLayout>-->
 
             <TextView
                 android:id="@+id/textView"
@@ -129,7 +95,6 @@
                 style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:backgroundTint="@color/greyLight"
                 android:imeOptions="actionNext"
@@ -138,7 +103,7 @@
                 android:singleLine="true"
                 android:text="@={viewModel.state.cityOfBirth}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <co.yap.widgets.CoreButton

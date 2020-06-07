@@ -10,6 +10,8 @@
             type="co.yap.modules.location.tax.TaxInfoViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -66,13 +68,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription"
                 app:layout_constraintVertical_bias="0.0"
                 app:recycleViewAdapter="@{viewModel.taxInfoAdaptor}"
-                tools:itemCount="2"
+                tools:itemCount="1"
                 tools:listitem="@layout/item_tax_info" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:visibility="@{viewModel.state.onSuccess ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="1.0">
 
@@ -92,9 +95,9 @@
                         android:id="@+id/cbTermsAndConditions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintVertical_bias="0.892" />
+                        android:buttonTint="?attr/colorPrimaryAttr"
+                        android:checked="@{viewModel.state.isAgreed}"
+                        android:gravity="center" />
 
                     <TextView
                         android:id="@+id/tvTermsAndConditions"
@@ -103,6 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_extra_small"
                         android:layout_marginEnd="@dimen/margin_normal"
+                        android:gravity="center|start"
                         android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                         android:textColor="@color/colorPrimary"
                         app:text="@{Strings.screen_tax_info_display_text_not_us_national}"
@@ -123,6 +127,7 @@
                     android:paddingStart="@dimen/margin_normal"
                     android:paddingEnd="@dimen/margin_normal"
                     android:text="@string/screen_tax_info_display_text_trs_conditions_disclaimer"
+                    android:textColorLink="?attr/colorPrimaryAttr"
                     app:layout_constraintBottom_toTopOf="@+id/nextButton"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

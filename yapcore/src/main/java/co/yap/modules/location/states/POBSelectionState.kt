@@ -6,6 +6,7 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.StringUtils
 
 class POBSelectionState : BaseState(), IPOBSelection.State {
 
@@ -27,9 +28,12 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
 
     override var valid: ObservableField<Boolean> = ObservableField(false)
 
-    fun validate() {
+    private fun validate() {
         valid.set(
-            cityOfBirth.isNotBlank() && !selectedCountry?.getName().equals("Select country")
+            StringUtils.validateRegix(
+                cityOfBirth,
+                "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
+            ) && !selectedCountry?.getName().equals("Select country")
         )
     }
 
