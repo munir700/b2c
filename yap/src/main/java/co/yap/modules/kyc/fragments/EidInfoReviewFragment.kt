@@ -21,6 +21,7 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -102,11 +103,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 viewModel.EVENT_NEXT_WITH_ERROR -> {
-                    val action =
-                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                            viewModel.errorTitle, viewModel.errorBody
-                        )
-                    findNavController().navigate(action)
+                    viewModel.performUploadDocumentsRequest(true) {
+                        if (it.equals("success", true)) {
+                            val action =
+                                EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                                    viewModel.errorTitle, viewModel.errorBody
+                                )
+                            findNavController().navigate(action)
+                        } else {
+                            viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                        }
+                    }
+
                 }
                 viewModel.EVENT_FINISH -> {
                     viewModel.parentViewModel?.finishKyc?.value =
