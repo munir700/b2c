@@ -55,13 +55,6 @@ object TransactionBindingAdapter {
                 PorterDuff.Mode.SRC_ATOP
             )
 
-        } else {
-
-            view.setColorFilter(
-                view.context.getColor(R.color.colorPrimary),
-                PorterDuff.Mode.SRC_ATOP
-            )
-
         }
     }
 }
