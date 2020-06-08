@@ -39,6 +39,7 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.amount = args.amount
         viewModel.state.currencyType = args.currencyType
+        viewModel.state.buttonTitle = (activity as? TopUpCardActivity)?.successButtonLabel ?: ""
         setUpData()
     }
 

@@ -1,9 +1,11 @@
 package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
-import co.yap.BR
+import androidx.databinding.ObservableBoolean
+
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
+import com.digitify.identityscanner.BR
 import java.util.*
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
@@ -28,6 +30,7 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
+            validate()
         }
 
     @get:Bindable
@@ -113,5 +116,12 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
+    override var isShowMiddleName: ObservableBoolean = ObservableBoolean(false)
+    override var isShowLastName: ObservableBoolean = ObservableBoolean(false)
+
+    private fun validate() {
+        valid = firstName.isNotBlank()
+    }
 
 }
