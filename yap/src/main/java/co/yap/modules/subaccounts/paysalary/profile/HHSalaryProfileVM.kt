@@ -37,9 +37,9 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
                 customersHHRepository.getLastNextTransaction(uuid)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        var lastSalaryTransfer = it[0]
-                        var nextSalaryTransfer = it[1]
-                        var expense = it[2]
+                        state.lastSalaryTransfer?.value = it[0]
+                        state.nextSalaryTransfer?.value = it[1]
+                        state.expense?.value = it[2]
                     }
                 }
                 is RetroApiResponse.Error -> {
