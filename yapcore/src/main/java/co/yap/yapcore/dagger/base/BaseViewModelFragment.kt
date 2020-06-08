@@ -2,19 +2,20 @@ package co.yap.yapcore.dagger.base
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.widgets.State
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
-import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
-import co.yap.yapcore.helpers.extentions.bindView
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -107,12 +108,17 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    fun setupToolbar(toolbar: Toolbar? , toolbarMenu:Int?=null) {
+    fun setupToolbar(
+        toolbar: Toolbar?,
+        toolbarMenu: Int? = null,
+        navigationOnClickListener: ((View) -> Unit?)?=null
+    ) {
         toolbar?.apply {
             title = ""
             setHomeAsUpIndicator()?.let { setNavigationIcon(it) }
             getBaseActivity().setSupportActionBar(this)
-//            toolbar.setNavigationOnClickListener { navigateBack() }
+            navigationOnClickListener?.let {l-> this.setNavigationOnClickListener {l.invoke(it)  } }
+//            this.setNavigationOnClickListener {v-> navigationOnClickListener?.invoke(v) }
             getBaseActivity().supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(setDisplayHomeAsUpEnabled() ?: true)
                 setHomeButtonEnabled(setDisplayHomeAsUpEnabled() ?: true)

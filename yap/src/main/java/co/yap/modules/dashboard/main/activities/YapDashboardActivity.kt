@@ -429,9 +429,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
-//        if (bottomNav.selectedItemId == R.id.yapHome) {
-//            MyUserManager.getAccountInfo()
-//        }
+        if (bottomNav.selectedItemId == R.id.yapHome) {
+            MyUserManager.getAccountInfo()
+        }
     }
 
     override fun onRequestPermissionsResult(

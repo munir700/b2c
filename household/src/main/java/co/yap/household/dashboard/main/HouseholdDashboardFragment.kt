@@ -17,6 +17,7 @@ import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.adpters.SectionsPagerAdapter
@@ -131,7 +132,8 @@ class HouseholdDashboardFragment :
 
     override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
         when (subActionButtonId) {
-            1 -> showToast("Account activation pending 1")
+            1 -> launchActivity<SendMoneyLandingActivity>()
+
             2 -> showToast("Account activation pending 2")
         }
     }
