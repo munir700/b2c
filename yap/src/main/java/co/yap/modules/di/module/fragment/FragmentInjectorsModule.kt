@@ -1,5 +1,7 @@
 package co.yap.modules.di.module.fragment
 
+import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingFragment
+import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -75,5 +77,9 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [FuturePaymentModule::class])
     @FragmentScope
     abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment
+
+    @ContributesAndroidInjector(modules = [HouseHoldLandingModule::class])
+    @FragmentScope
+    abstract fun houseHoldLandingFragmentInjector(): HouseHoldLandingFragment
 
 }
