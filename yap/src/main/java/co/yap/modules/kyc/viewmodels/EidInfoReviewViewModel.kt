@@ -108,7 +108,8 @@ class EidInfoReviewViewModel(application: Application) :
                         "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
                 else -> {
-                    performUploadDocumentsRequest()
+                    performUploadDocumentsRequest(false) {
+                    }
                 }
             }
         }
@@ -205,7 +206,10 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun performUploadDocumentsRequest() {
+    fun performUploadDocumentsRequest(
+        fromInformationErrorFragment: Boolean,
+        success: (message: String) -> Unit
+    ) {
         parentViewModel?.identity?.let {
             launch {
                 val request = UploadDocumentsRequest(
@@ -220,7 +224,8 @@ class EidInfoReviewViewModel(application: Application) :
                     nationality = it.isoCountryCode3Digit.toUpperCase(),
                     identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random()
                         .toString() else it.citizenNumber,
-                    filePaths = parentViewModel?.paths ?: arrayListOf()
+                    filePaths = parentViewModel?.paths ?: arrayListOf(),
+                    countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                 )
 
                 state.loading = true
@@ -231,28 +236,44 @@ class EidInfoReviewViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         when (MyUserManager.eidStatus) {
                             EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                MyUserManager.eidStatus = EIDStatus.VALID
-                                clickEvent.setValue(EVENT_EID_UPDATE)
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    MyUserManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EVENT_EID_UPDATE)
+                                }
                             }
                             EIDStatus.NOT_SET -> {
-                                MyUserManager.eidStatus = EIDStatus.VALID
-                                clickEvent.setValue(EVENT_NEXT)
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    MyUserManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EVENT_NEXT)
+                                }
                             }
                             else -> {
-                                MyUserManager.eidStatus = EIDStatus.VALID
-                                clickEvent.setValue(EVENT_NEXT)
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    MyUserManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EVENT_NEXT)
+                                }
                             }
                         }
                     }
                     is RetroApiResponse.Error -> {
-                        if (response.error.actualCode.equals(
-                                EVENT_ALREADY_USED_EID.toString(),
-                                true
-                            )
-                        ) {
-                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                        if (fromInformationErrorFragment) {
+                            success.invoke(response.error.message)
+                        } else {
+                            if (response.error.actualCode.equals(
+                                    EVENT_ALREADY_USED_EID.toString(),
+                                    true
+                                )
+                            ) {
+                                clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                            }
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         }
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }
