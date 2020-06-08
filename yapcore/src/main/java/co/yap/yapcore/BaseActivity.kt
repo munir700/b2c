@@ -20,6 +20,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.makeCall
+import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 
@@ -92,7 +94,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             if (msg.contains("^")) {
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
-                    AlertType.DIALOG.name -> showAlertDialogAndExitApp("", messages.first(), false)
+                    AlertType.DIALOG.name -> {
+                        showAlertDialogAndExitApp("", messages.first(), false)
+                    }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
                         messages.first(),
@@ -103,6 +107,10 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 toast(messages.first())
             }
         }
+    }
+
+    fun showOtpBlockedToast(){
+
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {
