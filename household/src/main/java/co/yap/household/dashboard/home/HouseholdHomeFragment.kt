@@ -63,6 +63,7 @@ class HouseholdHomeFragment :
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
+            pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }

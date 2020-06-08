@@ -1,14 +1,18 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
@@ -28,11 +32,11 @@ class HouseHoldHomeVM @Inject constructor(
 ) : DaggerBaseViewModel<IHouseholdHome.State>(), IHouseholdHome.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
+    override var transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        requestTransactions(state.transactionRequest, false)
+
         getPrimaryCard()
     }
 
@@ -42,16 +46,17 @@ class HouseHoldHomeVM @Inject constructor(
 
     override fun requestTransactions(
         transactionRequest: HomeTransactionsRequest?,
-        isLoadMore: Boolean, apiResponse: ((State) -> Unit?)?
+        isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)?
     ) {
         launch {
-            publishState(State.loading(null))
+            if (!isLoadMore)
+                publishState(State.loading(null))
             when (val response =
                 repository.getAccountTransactions(state.transactionRequest)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
                         publishState(State.success(null))
-                        apiResponse?.invoke(State.success(null))
+
                         state.transactionMap?.value =
                             response.data.data.transaction.distinct().groupBy { t ->
                                 DateUtils.reformatStringDate(
@@ -61,15 +66,19 @@ class HouseHoldHomeVM @Inject constructor(
                                 )
                             }
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
+//                        apiResponse?.invoke(State.success(null),response.data.data)
                     } else {
-                        apiResponse?.invoke(State.empty(null))
-                        publishState(State.empty(null))
+//                        if (!isLoadMore)
+                            publishState(State.empty(null))
+//                        apiResponse?.invoke(State.success(null),response.data.data)
                     }
+                    apiResponse?.invoke(stateLiveData.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    apiResponse?.invoke(State.error(null))
                     publishState(State.error(null))
+                    apiResponse?.invoke(stateLiveData.value, null)
+
                 }
             }
         }
@@ -97,7 +106,7 @@ class HouseHoldHomeVM @Inject constructor(
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.accountActivateLiveData?.value = State.error(null)
+                    state.accountActivateLiveData?.value = State.success(null)
                     state.toast = "${response.error.message}^${AlertType.TOAST.name}"
                 }
             }
@@ -107,9 +116,12 @@ class HouseHoldHomeVM @Inject constructor(
     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
         return object : PaginatedRecyclerView.Pagination() {
             override fun onNextPage(page: Int) {
-                notifyPageLoaded()
-                if (page == 50) {
-                    notifyPaginationCompleted()
+                state.transactionRequest?.number = page
+                requestTransactions(state.transactionRequest, page != 0) { state, date ->
+                    notifyPageLoaded()
+                    if (date?.last == true || state?.status == Status.EMPTY) {
+                        notifyPaginationCompleted()
+                    }
                 }
             }
         }

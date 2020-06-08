@@ -21,7 +21,7 @@ interface IHouseholdHome {
         fun requestTransactions(
             transactionRequest: HomeTransactionsRequest?,
             isLoadMore: Boolean = false,
-            apiResponse: ((co.yap.widgets.State) -> Unit?)? =null
+            apiResponse: ((co.yap.widgets.State?,HomeTransactionListData?) -> Unit?)? =null
         )
 
         val transactionAdapter: ObservableField<HomeTransactionAdapter>?
