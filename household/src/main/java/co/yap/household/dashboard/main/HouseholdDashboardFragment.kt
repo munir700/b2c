@@ -3,7 +3,6 @@ package co.yap.household.dashboard.main
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.lifecycle.Observer
@@ -17,19 +16,19 @@ import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.translation.Strings
 import co.yap.widgets.arcmenu.FloatingActionMenu
-import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
-import co.yap.yapcore.helpers.extentions.bind
-import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
-import kotlinx.android.synthetic.main.activity_household_dashboard.drawerLayout
-import kotlinx.android.synthetic.main.fragment_household_home.*
 import kotlinx.android.synthetic.main.layout_drawer_header.*
 import kotlinx.android.synthetic.main.layout_drawer_header_expandable.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -60,7 +59,33 @@ class HouseholdDashboardFragment :
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
         actionMenu = actionMenuBuilder.attachTo(mViewDataBinding.ivYapIt)
             .setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
-            .setTxtYapIt(mViewDataBinding.txtYapIt).build()
+            .setTxtYapIt(mViewDataBinding.txtYapIt).setStateChangeListener(object :
+                FloatingActionMenu.MenuStateChangeListener {
+                override fun onMenuOpened(menu: FloatingActionMenu) {
+
+                }
+
+                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
+                    when (subActionButtonId) {
+                        1 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                startActivity(SendMoneyLandingActivity.newIntent(activity!!))
+                            } else {
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            }
+                        }
+
+                        2 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                // will perform required action here
+                            } else {
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            }
+                        }
+                    }
+                }
+
+            }).build()
         setupViewPager()
         expandableLayout.setOnExpansionUpdateListener { _, state ->
             when (state) {
