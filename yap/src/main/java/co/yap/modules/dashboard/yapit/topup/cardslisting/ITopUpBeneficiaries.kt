@@ -32,5 +32,7 @@ interface ITopUpBeneficiaries {
         var cardLimits : CardLimits?
     }
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        var successButtonLabel: String
+    }
 }
