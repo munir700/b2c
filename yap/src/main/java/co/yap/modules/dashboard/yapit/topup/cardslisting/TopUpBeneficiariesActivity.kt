@@ -277,7 +277,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
     private fun startTopUpActivity(item: TopUpCard) {
         if (MyUserManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
+            showToast(Utils.getOtpBlockedMessage(this))
         } else {
             startActivityForResult(
                 TopUpCardActivity.newIntent(this, item),

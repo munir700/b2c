@@ -850,8 +850,7 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            Strings.screen_blocked_otp_display_text_message,
-            "56663748348"
+            MyUserManager.helpPhoneNumber
         )}^${AlertType.DIALOG.name}"
     }
 }
