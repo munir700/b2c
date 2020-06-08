@@ -227,7 +227,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         val builder = AlertDialog.Builder(this.requireActivity())
         builder.setMessage(
             Translator.getString(
-                context!!, Strings.screen_add_spare_card_display_text_alert_title
+                requireContext(), Strings.
+                    screen_add_spare_card_display_text_alert_title
             )
         )
         builder.setPositiveButton(
@@ -241,7 +242,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         builder.setNegativeButton(
             Translator.getString(
-                context!!, Strings.screen_add_spare_card_display_button_block_alert_skip
+                requireContext(), Strings.screen_add_spare_card_display_button_block_alert_skip
             )
         ) { dialog, which ->
             //dismiss
