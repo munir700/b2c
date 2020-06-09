@@ -52,6 +52,7 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
@@ -200,7 +201,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.llAddFunds -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
@@ -220,7 +221,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.llRemoveFunds -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     if (viewModel.card.value?.blocked == false) {
                         startActivityForResult(
@@ -406,7 +407,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             Constants.EVENT_CHANGE_PIN -> {
                 if (!viewModel.card.value?.blocked!!) {
                     if (MyUserManager.user?.otpBlocked == true) {
-                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        showToast(Utils.getOtpBlockedMessage(this))
                     } else {
                         startActivity(
                             ChangeCardPinActivity.newIntent(
@@ -422,7 +423,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     viewModel.card.value?.cardSerialNumber?.let {
                         startActivity(
@@ -555,7 +556,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun startReorderCardFlow() {
         if (MyUserManager.user?.otpBlocked == true) {
-            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+            showToast(Utils.getOtpBlockedMessage(this))
         } else {
             viewModel.card.value?.let {
                 startActivityForResult(

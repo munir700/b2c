@@ -34,14 +34,12 @@ import co.yap.translation.Translator
 import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonAnimation
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -850,6 +848,12 @@ object Utils {
             newVersion = versionBuilder.toString()
         }
         return newVersion.toInt() > existingVersion.toInt()
+    }
+
+    fun getOtpBlockedMessage(context: Context): String {
+        return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
+            MyUserManager.helpPhoneNumber
+        )}^${AlertType.DIALOG.name}"
     }
 
     fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {

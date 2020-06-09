@@ -20,7 +20,10 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
+import co.yap.yapcore.helpers.extentions.makeCall
+import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
@@ -92,12 +95,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             if (msg.contains("^")) {
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
-                    AlertType.DIALOG.name -> showAlertDialogAndExitApp("", messages.first(), false)
+                    AlertType.DIALOG.name -> {
+                        showAlertDialogAndExitApp("", messages.first(), false)
+                    }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
                         messages.first(),
                         true
                     )
+                    AlertType.DIALOG_WITH_CLICKABLE.name -> {
+                        showAlertDialogAndExitApp(
+                            title = "",
+                            message = messages.first(),
+                            closeActivity = false,
+                            isOtpBlocked = true
+                        )
+                    }
                 }
             } else {
                 toast(messages.first())
@@ -243,7 +256,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun showAlertDialogAndExitApp(
         title: String? = null,
         message: String?,
-        closeActivity: Boolean = true
+        closeActivity: Boolean = true,
+        isOtpBlocked: Boolean = false
     ) {
         val builder = AlertDialog.Builder(this)
         var alertDialog: AlertDialog? = null
@@ -260,6 +274,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             if (closeActivity)
                 finish()
         }
+       if(isOtpBlocked) {
+           label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
+               makeCall(MyUserManager.helpPhoneNumber)
+           }))
+       }
 
         builder.setView(dialogLayout)
         builder.setCancelable(false)

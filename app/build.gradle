@@ -44,7 +44,7 @@ android {
         }
 
         stg {
-            versionCode 124
+            versionCode 125
             versionName "0.12.4"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")

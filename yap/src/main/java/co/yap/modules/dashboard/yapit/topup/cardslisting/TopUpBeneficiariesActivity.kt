@@ -24,6 +24,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -285,7 +286,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
 
     private fun startTopUpActivity(item: TopUpCard) {
         if (MyUserManager.user?.otpBlocked == true) {
-            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+            showToast(Utils.getOtpBlockedMessage(this))
         } else {
             startActivityForResult(
                 TopUpCardActivity.newIntent(this, item, successButtonLabel),
