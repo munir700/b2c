@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class TaxInfoRequest(
     @SerializedName("usNationalForTax")
     val usNationalForTax: Boolean,
+    @SerializedName("isSubmit")
+    val isSubmit: Boolean,
     @SerializedName("taxInformationDetails")
     val taxInfoDetails: ArrayList<TaxInfoDetailRequest>
 )

@@ -58,14 +58,14 @@ class TaxInfoViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     reasonsList = response.data.reasons
                     if (countries != null) {
-                        createModel(reasonsList, options,ObservableField(rowTitles[0]))
+                        createModel(reasonsList, options, ObservableField(rowTitles[0]))
                         state.onSuccess.set(true)
                         state.loading = false
 
                     } else
                         getAllCountries {
                             countries = it
-                            createModel(reasonsList, options,ObservableField(rowTitles[0]))
+                            createModel(reasonsList, options, ObservableField(rowTitles[0]))
                             state.onSuccess.set(true)
                             state.loading = false
                         }
@@ -122,7 +122,7 @@ class TaxInfoViewModel(application: Application) :
     ) {
         taxInfoList.add(
             TaxModel(
-                countries = countries?: arrayListOf(),
+                countries = countries ?: arrayListOf(),
                 reasons = reasons,
                 options = options,
                 canAddMore = ObservableField(taxInfoList.size in 0..1),
@@ -150,13 +150,13 @@ class TaxInfoViewModel(application: Application) :
         return valid
     }
 
-    override fun saveInfoDetails(success: (pdfUrl: String?) -> Unit) {
+    override fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.saveTaxInfo(
                 TaxInfoRequest(
                     usNationalForTax = !(state.isAgreed.get() ?: false),
-                    //usNationalForTax = !(state.isAgreed.get() ?: false),
+                    isSubmit = isSubmit,
                     taxInfoDetails = getTaxDetails(taxInfoList)
                 )
             )) {
@@ -191,7 +191,7 @@ class TaxInfoViewModel(application: Application) :
 
     override fun getAllCountries(success: (ArrayList<Country>) -> Unit) {
         if (!countries.isNullOrEmpty()) {
-            success(countries?: arrayListOf())
+            success(countries ?: arrayListOf())
         } else {
             launch {
                 when (val response = repository.getAllCountries()) {

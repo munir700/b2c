@@ -35,7 +35,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
-                    viewModel.saveInfoDetails { pdf ->
+                    viewModel.saveInfoDetails(false) { pdf ->
                         startFragment(
                             fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                                 Constants.PAGE_URL to "http://docs.google.com/viewer?embedded=true&url=$pdf"
@@ -54,7 +54,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                viewModel.saveInfoDetails {
+                viewModel.saveInfoDetails(true) {
                     setIntentResult()
                 }
             }

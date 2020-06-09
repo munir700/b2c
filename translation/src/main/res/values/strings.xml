@@ -808,7 +808,7 @@
     <string name="screen_reorder_card_completion_display_text_complete_transaction">Your card has been blocked \n and reordered successfully</string>
     <string name="screen_reorder_card_purchase_display_text_alert_title">Top up now to continue with this purchase.</string>
     <string name="screen_cards_display_text_hotlisted">This card is blocked/stolen</string>
-    <string name="screen_cards_button_reorder_card">Reorder card</string>
+    <string name="screen_cards_button_reorder_card">Reorder Card</string>
 
 
     <!-- HouseHold screen-->
