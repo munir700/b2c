@@ -983,7 +983,7 @@
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
     <string name="screen_otp_blocked_display_text_details">Some app features have been temporarily blocked for your security. This is because you made too many incorrect OTP attempts.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
-    <string name="screen_blocked_otp_display_text_message">This feature has been blocked! Call or chat with us to get access.</string>
+    <string name="screen_blocked_otp_display_text_message">This feature has been blocked due to too many OTP attempts. Use our live chat or call us on %1s to get access.</string>
     <string name="screen_popup_activation_pending_display_text_message">Account activation pending</string>
 
 

@@ -16,6 +16,8 @@
             android:id="@+id/tvTitle"
             style="@style/AMicro"
             android:layout_width="0dp"
+            android:textColorHighlight="@color/transparent"
+            android:textColorLink="@color/colorPrimary"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/_20sdp"

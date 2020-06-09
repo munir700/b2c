@@ -32,6 +32,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
+    var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     fun updateCardBalance() {

@@ -238,7 +238,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     if (!cardSerialNumber.isNullOrBlank()) {
                         getCardFromSerialNumber(serialNumber = cardSerialNumber)?.let {
                             if (MyUserManager.user?.otpBlocked == true) {
-                                showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                                showToast(Utils.getOtpBlockedMessage(requireContext()))
                             } else {
                                 startActivityForResult(
                                     AddRemoveFundsActivity.newIntent(
@@ -322,7 +322,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun startReorderCardFlow(card: Card?) {
         if (MyUserManager.user?.otpBlocked == true) {
-            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+            showToast(Utils.getOtpBlockedMessage(requireContext()))
         } else {
             card?.let {
                 startActivityForResult(
