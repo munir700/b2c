@@ -97,6 +97,7 @@ class PhoneVerificationSignInFragment :
             if (MyUserManager.isOnBoarded()) {
                 gotoYapDashboard()
             } else {
+                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
