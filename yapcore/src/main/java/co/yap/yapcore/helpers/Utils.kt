@@ -69,7 +69,12 @@ object Utils {
     }
 
     fun createProgressDialog(context: Context): Dialog {
-        val dialog = Dialog(context, android.R.style.Theme_Light)
+        var customTheme = android.R.style.Theme_Light
+        if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            customTheme = R.style.CustomLightTheme
+        }
+        val dialog = Dialog(context,customTheme)
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.progress_dialogue_fragment)
