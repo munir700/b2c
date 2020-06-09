@@ -80,9 +80,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-        if (DeviceUtils().isDeviceRooted()) {
-            showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
-        }
+//        if (DeviceUtils().isDeviceRooted()) {
+//            showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
+//        }
     }
 
     fun hideKeyboard() = this.currentFocus?.hideKeyboard()

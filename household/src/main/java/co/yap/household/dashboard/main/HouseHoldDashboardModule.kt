@@ -56,9 +56,10 @@ class HouseHoldDashboardModule : BaseFragmentModule<HouseholdDashboardFragment>(
                 co.yap.R.layout.component_yap_menu_sub_button,
                 fragment.requireActivity(), 1
             )
+
             .addSubActionView(
-                "Request money",
-                co.yap.R.drawable.ic_cash,
+                fragment.requireContext().getString(R.string.request_money),
+           R.drawable.ic_request_money,
                 co.yap.R.layout.component_yap_menu_sub_button,
                 fragment.requireActivity(), 2
             ).setStateChangeListener(fragment)
