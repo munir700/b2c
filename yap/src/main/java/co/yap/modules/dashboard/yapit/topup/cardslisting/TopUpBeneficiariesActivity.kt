@@ -25,6 +25,8 @@ import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -34,13 +36,17 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import timber.log.Timber
 import kotlin.math.abs
 
-class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewModel>() {
+class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewModel>(),
+    ITopUpBeneficiaries.View {
     companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, TopUpBeneficiariesActivity::class.java)
+        fun newIntent(context: Context, successButtonLabel: String): Intent {
+            val intent = Intent(context, TopUpBeneficiariesActivity::class.java)
+            intent.putExtra("successButtonLabel", successButtonLabel)
+            return intent
         }
     }
 
+    override var successButtonLabel: String = ""
     private lateinit var mAdapter: TopUpBeneficiariesAdapter
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_cards
@@ -53,6 +59,9 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
         super.onCreate(savedInstanceState)
         addObservers()
         setupCards()
+        successButtonLabel =
+            (intent?.getValue("successButtonLabel", ExtraType.STRING.name) as? String) ?: ""
+
     }
 
     private fun setupCards() {
@@ -280,7 +289,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             showToast(Utils.getOtpBlockedMessage(this))
         } else {
             startActivityForResult(
-                TopUpCardActivity.newIntent(this, item),
+                TopUpCardActivity.newIntent(this, item, successButtonLabel),
                 RequestCodes.REQUEST_TOP_UP_BENEFICIARY
             )
         }
