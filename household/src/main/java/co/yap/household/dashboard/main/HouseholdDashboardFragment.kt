@@ -59,33 +59,7 @@ class HouseholdDashboardFragment :
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
         actionMenu = actionMenuBuilder.attachTo(mViewDataBinding.ivYapIt)
             .setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
-            .setTxtYapIt(mViewDataBinding.txtYapIt).setStateChangeListener(object :
-                FloatingActionMenu.MenuStateChangeListener {
-                override fun onMenuOpened(menu: FloatingActionMenu) {
-
-                }
-
-                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    when (subActionButtonId) {
-                        1 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                startActivity(SendMoneyLandingActivity.newIntent(activity!!))
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
-                        }
-
-                        2 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                // will perform required action here
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
-                        }
-                    }
-                }
-
-            }).build()
+            .setTxtYapIt(mViewDataBinding.txtYapIt).build()
         setupViewPager()
         expandableLayout.setOnExpansionUpdateListener { _, state ->
             when (state) {
@@ -156,8 +130,21 @@ class HouseholdDashboardFragment :
 
     override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
         when (subActionButtonId) {
-            1 -> showToast("Account activation pending 1")
-            2 -> showToast("Account activation pending 2")
+            1 -> {
+                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    launchActivity<SendMoneyLandingActivity>()
+                } else {
+                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                }
+            }
+
+            2 -> {
+                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    // will perform required action here
+                } else {
+                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                }
+            }
         }
     }
 
