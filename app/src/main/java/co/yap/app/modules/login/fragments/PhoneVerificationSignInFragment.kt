@@ -120,6 +120,7 @@ class PhoneVerificationSignInFragment :
             if (MyUserManager.isExistingUser()) {
                 launchActivity<YapDashboardActivity>(clearPrevious = true)
             } else {
+                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
                 launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
