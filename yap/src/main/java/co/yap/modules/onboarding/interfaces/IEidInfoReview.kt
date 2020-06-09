@@ -66,9 +66,9 @@ interface IEidInfoReview {
         fun handleUserAcceptance(reason: Int)
         fun handlePressOnEdit(id: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
-        var sanctionedCountry:String
-        var sanctionedNationality:String
-        var errorTitle:String
-        var errorBody:String
+        var sanctionedCountry: String
+        var sanctionedNationality: String
+        var errorTitle: String
+        var errorBody: String
     }
 }
