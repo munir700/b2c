@@ -164,7 +164,6 @@
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    //add field in state to change the icon of currency type
 
                     <TextView
                         android:id="@+id/labelCardType"
