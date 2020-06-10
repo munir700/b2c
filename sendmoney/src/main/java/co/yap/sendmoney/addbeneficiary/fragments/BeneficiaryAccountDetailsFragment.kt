@@ -42,9 +42,8 @@ class BeneficiaryAccountDetailsFragment :
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
             bundle.putString(Constants.IS_IBAN_NEEDED, "Yes")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
-            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
-                putExtra(Constants.EXTRA, bundle)
-            }
+            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST , bundle)
+
         }
     }
 
