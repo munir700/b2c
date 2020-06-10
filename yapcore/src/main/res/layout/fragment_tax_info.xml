@@ -25,6 +25,21 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
+            <ImageView
+                android:id="@+id/ivBackBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:clickable="true"
+                android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvHeadingTitle"
                 style="@style/ALarge"
@@ -154,8 +169,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    app:text="@{Strings.common_button_next}"
-                    tools:text="@string/common_button_next" />
+                    app:text="@{Strings.common_button_submit}"
+                    tools:text="@string/common_button_submit" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
