@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+           </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingMobile"
+                style="@style/Yap.App.Widget.TextView.Large"
+                android:gravity="center"
+                android:text="@string/screen_yap_house_hold_user_info_display_text_heading"
+                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_heading}" />
+
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/llData"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:paddingLeft="@dimen/small"-->
+<!--                android:paddingRight="@dimen/small"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile">-->
+
+
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    style="@style/Small"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/margin_xl"-->
+<!--                    android:layout_marginBottom="-4dp"-->
+<!--                    android:text="@string/screen_b2c_eid_info_review_display_text_name_heading"-->
+<!--                    app:text="@{Strings.screen_yap_house_hold_user_info_display_text_first_name}"-->
+<!--                    app:textColor="@{viewModel.state.firstName.empty ? true : false}"-->
+<!--                    tools:text="@string/screen_yap_house_hold_user_info_display_text_first_name" />-->
+
+<!--                <co.yap.widgets.CoreInputField-->
+<!--                    android:id="@+id/etFirstName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:coreInputDrawableRight="@{viewModel.state.drawbleRightFirstName}"-->
+<!--                    app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_input_text_first_name_hint}"-->
+<!--                    app:realValue="@={viewModel.state.firstName}"-->
+<!--                    app:translateHint="@{true}"-->
+<!--                    app:view_focusable="true"-->
+<!--                    app:view_id="333"-->
+<!--                    app:view_input_text_imei_actions="IME_ACTION_NEXT"-->
+<!--                    app:view_max_length="40"-->
+<!--                    app:view_plain_background="true" />-->
+<!--                &lt;!&ndash;            <androidx.appcompat.widget.AppCompatEditText&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:id="@+id/etFirstName"&ndash;&gt;-->
+<!--                &lt;!&ndash;                style="@style/Yap.App.Widget.TextInputEditText"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:imeOptions="actionNext"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:maxLength="50"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:singleLine="true"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:text="@={viewModel.state.firstName}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:hint="@{Strings.screen_yap_house_hold_user_info_input_text_first_name_hint}" />&ndash;&gt;-->
+
+
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    style="@style/Small"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/margin_medium"-->
+<!--                    android:layout_marginBottom="-4dp"-->
+<!--                    android:text="@string/screen_yap_house_hold_user_info_display_text_last_name"-->
+<!--                    app:text="@{Strings.screen_yap_house_hold_user_info_display_text_last_name}"-->
+<!--                    app:textColor="@{viewModel.state.lastName.empty ? true : false}"-->
+<!--                    tools:text="@string/screen_yap_house_hold_user_info_display_text_last_name" />-->
+
+<!--                &lt;!&ndash;            <com.google.android.material.textfield.TextInputEditText&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:id="@+id/etLastName"&ndash;&gt;-->
+<!--                &lt;!&ndash;                style="@style/Yap.App.Widget.TextInputEditText"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:imeOptions="actionNext"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:importantForAutofill="no"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:maxLength="50"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:singleLine="true"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:text="@={viewModel.state.lastName}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:hint="@{Strings.screen_yap_house_hold_user_info_input_text_last_name_hint}" />&ndash;&gt;-->
+<!--                <co.yap.widgets.CoreInputField-->
+<!--                    android:id="@+id/etLastName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:coreInputDrawableRight="@{viewModel.state.drawbleRightLastName}"-->
+<!--                    app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_input_text_last_name_hint}"-->
+<!--                    app:realValue="@={viewModel.state.lastName}"-->
+<!--                    app:translateHint="@{true}"-->
+<!--                    app:view_focusable="true"-->
+<!--                    app:view_id="444"-->
+<!--                    app:view_input_text_imei_actions="IME_ACTION_DONE"-->
+<!--                    app:view_max_length="40"-->
+<!--                    app:view_plain_background="true" />-->
+
+<!--                &lt;!&ndash;            <androidx.appcompat.widget.AppCompatTextView&ndash;&gt;-->
+<!--                &lt;!&ndash;                style="@style/Small"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:layout_marginTop="@dimen/margin_medium"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:layout_marginBottom="-5dp"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:text="@string/screen_yap_house_hold_user_info_display_text_email"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_email}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:textColor="@{viewModel.state.twoWayTextWatcher.empty ? true : false}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                tools:text="@string/screen_yap_house_hold_user_info_display_text_email" />&ndash;&gt;-->
+
+<!--                &lt;!&ndash;            &lt;!&ndash;            <androidx.appcompat.widget.AppCompatEditText&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                android:id="@+id/etnickName"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                style="@style/Yap.App.Widget.TextInputEditText"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                android:imeOptions="actionDone"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                android:importantForAutofill="no"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                android:maxLength="50"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                android:singleLine="true"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                android:text="@={viewModel.state.emailAddress}"&ndash;&gt;&ndash;&gt;-->
+<!--                &lt;!&ndash;            &lt;!&ndash;                app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                &lt;!&ndash;            <co.yap.widgets.CoreInputField&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:id="@+id/etFirstEmail"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--                &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:coreInputError="@{viewModel.state.emailError}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:realValue="@={viewModel.state.twoWayTextWatcher}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:translateHint="@{true}"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:view_focusable="true"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:view_id="555"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:view_input_text_imei_actions="IME_ACTION_DONE"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:view_max_length="40"&ndash;&gt;-->
+<!--                &lt;!&ndash;                app:view_plain_background="true" />&ndash;&gt;-->
+
+<!--            </LinearLayout>-->
+
+<!--            <co.yap.widgets.CoreButton-->
+<!--                android:id="@+id/btnNext"-->
+<!--                style="@style/FragmentsBtnStyle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="@dimen/margin_xxl"-->
+<!--                android:layout_marginTop="@dimen/margin_medium"-->
+<!--                android:layout_marginRight="@dimen/margin_xxl"-->
+<!--                android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"-->
+<!--                android:text="@string/screen_yap_house_hold_user_info_button_next"-->
+<!--                app:enableCoreButton="@{viewModel.state.valid}"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.497"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/llData"-->
+<!--                app:layout_constraintVertical_bias="0.963"-->
+<!--                app:text="@{Strings.screen_yap_house_hold_user_info_button_next}" />-->
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>
