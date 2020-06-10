@@ -272,7 +272,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
     private fun showBalanceNotAvailableError() {
         viewModel.state.errorDescription = Translator.getString(
             context,
-            Strings.sm_common_display_text_available_balance_error,
+            Strings.common_display_text_available_balance_error,
             viewModel.state.amount.toFormattedAmountWithCurrency()
         )
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
@@ -486,11 +486,13 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
-                            Translator.getString(
-                                this,
-                                Strings.common_display_text_daily_limit_error
-                            ).format(remainingDailyLimit.toString().toFormattedAmountWithCurrency())
-
+                            when {
+                                dailyLimit == totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                enteredAmount > dailyLimit && totalConsumedAmount == 0.0 -> {
+                                    getString(Strings.common_display_text_daily_limit_error_single_transaction)
+                                }
+                                else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
+                            }
                         return enteredAmount > remainingDailyLimit
 
                     } ?: return false
