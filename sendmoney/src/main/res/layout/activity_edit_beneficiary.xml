@@ -45,8 +45,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_arrow_left"
-                tools:ignore="ContentDescription"
-                app:tint="?attr/colorIconsTintAttr"/>
+                app:tint="?attr/colorIconsTintAttr"
+                tools:ignore="ContentDescription" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -59,8 +59,8 @@
                 android:layout_marginEnd="@dimen/_14sdp"
                 android:layout_toEndOf="@id/tbBtnBack"
                 android:gravity="center"
-                android:textColor="?attr/colorTextAttr"
                 android:text="@{editBeneficiaryViewModel.state.needOverView ? @string/screen_add_beneficiary_display_text_title:@string/screen_edit_beneficiary_display_text_title}"
+                android:textColor="?attr/colorTextAttr"
                 app:text="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title:Strings.screen_edit_beneficiary_display_text_title}"
                 tools:text="@string/screen_edit_beneficiary_display_text_title" />
 
@@ -257,9 +257,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_light_gery_background"
+                        android:backgroundTint="?attr/colorEditBeneficiaryLabelBgAttr"
+                        android:backgroundTintMode="screen"
                         android:gravity="center"
                         android:text="@{editBeneficiaryViewModel.state.beneficiary.currency}"
-                        android:textColor="?attr/colorPrimaryAttr"
+                        android:textColor="?attr/colorEditBeneficiaryLabelTextAttr"
                         android:textSize="@dimen/_9sdp"
                         tools:text="$ AED" />
 

@@ -134,5 +134,6 @@
     <color name="colorSendMoneyToolBarHouseHold">#fc6253</color>
     <color name="colorSearchViewHouseHold">#fb867a</color>
     <color name="colorSearchViewHintHouseHold">#fcb9b2</color>
+    <color name="disabledLightHouseHold">#ffe9e7</color>
 
  </resources>

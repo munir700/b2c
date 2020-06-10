@@ -38,6 +38,8 @@
     <attr name="colorDarkBankTransferAttr" format="color|reference" />
 
     <attr name="cardSuccessBorderWidth" format="dimension|reference" />
+    <attr name="colorEditBeneficiaryLabelTextAttr" format="color|reference" />
+    <attr name="colorEditBeneficiaryLabelBgAttr" format="color|reference" />
 
 
     <!--components theme-->

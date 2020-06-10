@@ -47,6 +47,9 @@
         <item name="colorLightBankTransferAttr">@color/greySoftSelected</item>
         <item name="colorDarkBankTransferAttr">@color/disabledPurple</item>
 
+        <item name="colorEditBeneficiaryLabelBgAttr">@color/disabledLight</item>
+        <item name="colorEditBeneficiaryLabelTextAttr">@color/colorPrimary</item>
+
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
@@ -93,6 +96,10 @@
         <item name="colorDarkBankTransferAttr">@color/colorDarkPinkBankTransfer</item>
 
         <item name="cardSuccessBorderWidth">0dp</item>
+
+        <item name="colorEditBeneficiaryLabelBgAttr">@color/disabledLightHouseHold</item>
+        <item name="colorEditBeneficiaryLabelTextAttr">@color/colorPrimaryDarkHouseHold</item>
+
 
     </style>
 

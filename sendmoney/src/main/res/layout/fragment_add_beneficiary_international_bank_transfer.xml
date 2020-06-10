@@ -168,9 +168,10 @@
                             android:layout_height="@dimen/_18sdp"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:background="@drawable/round_light_gery_background"
+                            android:backgroundTint="?attr/colorEditBeneficiaryLabelBgAttr"
                             android:gravity="center"
                             android:text="@{viewModel.state.currency}"
-                            android:textColor="?attr/colorPrimaryAttr"
+                            android:textColor="?attr/colorEditBeneficiaryLabelTextAttr"
                             android:textSize="@dimen/_9sdp"
                             app:btn_unpressed_color="@color/disabledLight"
                             tools:text="$ CAD" />
@@ -227,8 +228,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.nickName}"
-                    tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint" />
 
 
                 <TextView
@@ -257,8 +258,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
-                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint" />
 
 
                 <TextView
@@ -287,8 +288,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
-                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint" />
 
                 <TextView
                     style="@style/Small"
@@ -325,7 +326,7 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                   android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_34sdp"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:minWidth="@dimen/_180sdp"
