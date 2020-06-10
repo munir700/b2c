@@ -141,7 +141,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.sm_common_display_text_available_balance_error
+            Strings.common_display_text_available_balance_error
         ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
@@ -232,9 +232,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_multiple_transactions
-                            )
+                            when {
+                                dailyLimit == totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                enteredAmount > dailyLimit && totalConsumedAmount == 0.0 -> {
+                                    getString(Strings.common_display_text_daily_limit_error_single_transaction)
+                                }
+                                else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
+                            }
                         return enteredAmount > remainingDailyLimit
                     }
                 } ?: return false

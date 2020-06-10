@@ -28,8 +28,6 @@ object Strings {
         "common_display_text_daily_limit_error_multiple_transactions"
     const val common_display_text_available_balance_error: String =
         "common_display_text_available_balance_error"
-    const val sm_common_display_text_available_balance_error: String =
-        "sm_common_display_text_available_balance_error"
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
     const val sm_display_text_min_max_limit_error_transaction: String =

@@ -21,12 +21,10 @@
     <string name="common_text_fee">Fee: %1s</string>
     <string name="common_display_text_daily_limit_error_single_transaction">This amount exceeds your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
-    <string name="common_display_text_daily_limit_error_topup_supplementary">That\'s over your daily limit. Please enter an amount lower than AED %1s</string>
-    <string name="common_display_text_available_balance_error">Your entered amount should be less than or equal to your current balance of %1s</string>
-    <string name="sm_common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
+    <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
+    <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Equivalent of amount entered should be between %1s and %2s</string>
-    <string name="common_display_text_daily_limit_error">That\'s over your daily limit. Please enter an amount lower than %1s</string>
 
 
     <!-- Home Screen -->
