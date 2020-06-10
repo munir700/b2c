@@ -17,10 +17,12 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.managers.MyUserManager
@@ -97,6 +99,7 @@ class PhoneVerificationSignInFragment :
             if (MyUserManager.isOnBoarded()) {
                 gotoYapDashboard()
             } else {
+                context.switchTheme(YAPThemes.HOUSEHOLD())
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
@@ -119,6 +122,7 @@ class PhoneVerificationSignInFragment :
             if (MyUserManager.isExistingUser()) {
                 launchActivity<YapDashboardActivity>(clearPrevious = true)
             } else {
+                context.switchTheme(YAPThemes.HOUSEHOLD())
                 launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)

@@ -20,9 +20,11 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -123,6 +125,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
+                    context.switchTheme(YAPThemes.HOUSEHOLD())
                     launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                         putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                         putExtra(
@@ -132,6 +135,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                     }
                 }
             } else {
+                context.switchTheme(YAPThemes.HOUSEHOLD())
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
