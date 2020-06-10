@@ -58,6 +58,9 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
                     setIntentResult()
                 }
             }
+            R.id.ivBackBtn -> {
+                onBackPressed()
+            }
         }
     }
 

@@ -10,6 +10,7 @@
     <string name="common_button_settings">Settings</string>
     <string name="common_button_save">Save</string>
     <string name="common_button_confirm">Confirm</string>
+    <string name="common_button_submit">Submit</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>

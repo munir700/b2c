@@ -156,7 +156,7 @@ class TaxInfoViewModel(application: Application) :
             when (val response = repository.saveTaxInfo(
                 TaxInfoRequest(
                     usNationalForTax = !(state.isAgreed.get() ?: false),
-                    isSubmit = isSubmit,
+                    submit = isSubmit,
                     taxInfoDetails = getTaxDetails(taxInfoList)
                 )
             )) {
