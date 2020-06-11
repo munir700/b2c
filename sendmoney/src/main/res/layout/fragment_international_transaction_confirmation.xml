@@ -133,6 +133,7 @@
             <TextView
                 android:id="@+id/tvReceivingAmount"
                 style="@style/SmallGrey"
+                android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
