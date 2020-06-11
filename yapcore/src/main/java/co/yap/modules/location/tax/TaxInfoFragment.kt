@@ -33,7 +33,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
         viewModel.countries =
             arguments?.getParcelableArrayList("countries")
         getBinding().tvTermsConditions.makeLinks(
-            Pair("Individual Self Certification Form for CRS & FACTA.", View.OnClickListener {
+            Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
                     viewModel.saveInfoDetails(false) { pdf ->
                         startFragment(
@@ -59,10 +59,12 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
                 }
             }
             R.id.ivBackBtn -> {
-                onBackPressed()
+               activity?.onBackPressed()
             }
         }
     }
+
+    override fun onBackPressed(): Boolean = false
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(clickObserver)
