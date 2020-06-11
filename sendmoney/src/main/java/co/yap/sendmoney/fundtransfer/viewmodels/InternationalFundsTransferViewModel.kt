@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
+import java.math.RoundingMode
 import java.util.*
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -196,13 +197,10 @@ class InternationalFundsTransferViewModel(application: Application) :
     fun setDestinationAmount() {
         if (!state.etInputAmount.isNullOrBlank()) {
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
-                ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 1.0)
-
-            state.etOutputAmount = String.format(
-                Locale.getDefault(),
-                "%.02f",
-                totalDestinationAmount
-            )
+                ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
+            totalDestinationAmount?.let {
+                state.etOutputAmount = it.toBigDecimal().setScale(2, RoundingMode.UP).toString()
+            }
         } else {
             state.etOutputAmount = ""
         }
