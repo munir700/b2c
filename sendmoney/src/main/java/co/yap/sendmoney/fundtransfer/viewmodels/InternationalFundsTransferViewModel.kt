@@ -9,9 +9,9 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.sendmoney.R
 import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.FeeType
@@ -80,16 +80,21 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    isAPIFailed.value = true
-                    state.toast = response.error.message
+                    if (parentViewModel?.isSameCurrency == true) {
+                        state.sourceCurrency.set("AED")
+                        state.destinationCurrency.set("AED")
+                    } else {
+                        isAPIFailed.value = true
+                        state.toast = response.error.message
+                    }
                 }
             }
         }
     }
 
     override fun getReasonList(productCode: String) {
-//        state.loading = true
         launch {
+//            state.loading = true
             when (val response =
                 mTransactionsRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
@@ -191,7 +196,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     fun setDestinationAmount() {
         if (!state.etInputAmount.isNullOrBlank()) {
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
-                ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
+                ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 1.0)
 
             state.etOutputAmount = String.format(
                 Locale.getDefault(),

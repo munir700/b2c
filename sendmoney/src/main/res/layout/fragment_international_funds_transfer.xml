@@ -9,6 +9,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.sendmoney.fundtransfer.viewmodels.InternationalFundsTransferViewModel" />
@@ -163,6 +165,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="="
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:textSize="@dimen/_30sdp" />
 
                 <TextView
@@ -170,6 +173,7 @@
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:gravity="center"
                     android:text="@{viewModel.state.sourceCurrency}"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -188,6 +192,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:gravity="center"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:inputType="numberDecimal"
                     android:text="@{viewModel.state.etOutputAmount}"
                     app:currency_symbol="$"
@@ -198,6 +203,7 @@
 
                 <LinearLayout
                     android:id="@+id/ly_YapRate"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
@@ -286,7 +292,6 @@
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     app:layout_constraintTop_toBottomOf="@+id/etNote"

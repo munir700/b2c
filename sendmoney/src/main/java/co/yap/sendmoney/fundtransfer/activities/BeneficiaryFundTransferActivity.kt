@@ -6,11 +6,11 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.sendmoney.fundtransfer.viewmodels.BeneficiaryFundTransferViewModel
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
@@ -93,6 +93,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
                 intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
             viewModel.transferData.value = TransferFundData()
             viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
+            viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == "AED"
         }
     }
 

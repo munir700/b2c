@@ -1221,6 +1221,8 @@ object Strings {
         "screen_funds_toolbar_header"
     const val screen_funds_confirmation_success_description: String =
         "screen_funds_confirmation_success_description"
+    const val screen_funds_confirmation_success_description_same_currency: String =
+        "screen_funds_confirmation_success_description_same_currency"
     const val screen_funds_receive_description: String =
         "screen_funds_receive_description"
     const val screen_funds_transfer_fee_description: String =
