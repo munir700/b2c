@@ -40,6 +40,9 @@
     <attr name="cardSuccessBorderWidth" format="dimension|reference" />
     <attr name="colorEditBeneficiaryLabelTextAttr" format="color|reference" />
     <attr name="colorEditBeneficiaryLabelBgAttr" format="color|reference" />
+    <attr name="colorCircularTextAttr" format="color|reference" />
+    <attr name="colorCircularBgAttr" format="color|reference" />
+    <attr name="colorDefaultTextAttr" format="color|reference" />
 
 
     <!--components theme-->

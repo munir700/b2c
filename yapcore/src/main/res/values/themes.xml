@@ -50,6 +50,9 @@
         <item name="colorEditBeneficiaryLabelBgAttr">@color/disabledLight</item>
         <item name="colorEditBeneficiaryLabelTextAttr">@color/colorPrimary</item>
 
+        <item name="colorCircularTextAttr">@color/purple</item>
+        <item name="colorCircularBgAttr">@color/disabledLight</item>
+
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
@@ -100,6 +103,8 @@
         <item name="colorEditBeneficiaryLabelBgAttr">@color/disabledLightHouseHold</item>
         <item name="colorEditBeneficiaryLabelTextAttr">@color/colorPrimaryDarkHouseHold</item>
 
+        <item name="colorCircularTextAttr">@color/colorSecondaryMagenta</item>
+        <item name="colorCircularBgAttr">@color/bg_round_light_secondary_magenta</item>
 
     </style>
 
@@ -162,6 +167,7 @@
 
     <style name="CustomLightTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:statusBarColor">@color/colorSearchViewHintHouseHold</item>
-    </style>>
+    </style>
+    >
 
- </resources>
+</resources>

@@ -1,6 +1,10 @@
 package co.yap.yapcore.helpers
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
+import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -45,16 +49,20 @@ object ImageBinding {
             .height(imageView.context.dimen(R.dimen._40sdp))
             .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
-            .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
+            .textColor(ThemeColorUtils.colorCircularTextAttribute(imageView.context))
         setCircleCropImage(
             imageView,
             beneficiaryPicture ?: "",
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
-                ContextCompat.getColor(imageView.context, R.color.disabledLight)
+                ThemeColorUtils.colorDisabledLightAttribute(imageView.context)
+
             )
         )
     }
+
+
+
 
     fun loadAvatar(
         imageView: ImageView,
@@ -62,7 +70,7 @@ object ImageBinding {
         fullName: String?,
         @ColorRes color: Int,
         @DimenRes fontSize: Int = R.dimen.text_size_h5,
-        @ColorRes textColor: Int = R.color.colorPrimary
+        @SuppressLint("ResourceType")  textColor: Int =  ThemeColorUtils.colorPrimAttribute(imageView.context)
     ) {
 
         val builder = TextDrawable.builder()
@@ -71,7 +79,7 @@ object ImageBinding {
             .fontSize(imageView.context.dimen(fontSize))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
-            .textColor(ContextCompat.getColor(imageView.context, textColor))
+            .textColor(textColor)
         setCircleCropImage(
             imageView,
             beneficiaryPicture ?: "",
@@ -99,9 +107,10 @@ object ImageBinding {
             imageView,
             imageUrl,
             fullName,
-            R.color.disabledLight,
+            ThemeColorUtils.colorDisabledLightAttribute(imageView.context),
             R.dimen.text_size_h2,
-            R.color.colorPrimary
+            ThemeColorUtils.colorPrimaryAttribute(imageView.context)
+
         )
 
     }

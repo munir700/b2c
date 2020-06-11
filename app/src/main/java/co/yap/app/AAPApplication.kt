@@ -20,12 +20,15 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.THEME_YAP
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -52,9 +55,9 @@ class AAPApplication : HouseHoldApplication(
         super.onCreate()
         sAppComponent = AppInjector.init(this)
         initNetworkLayer()
-//        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
-        initFireBase()
+//        switchTheme(YAPThemes.HOUSEHOLD())
+        switchTheme(YAPThemes.CORE())
+         initFireBase()
         inItLeanPlum()
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
