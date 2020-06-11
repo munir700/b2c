@@ -7,10 +7,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.passcode.IPassCode
@@ -18,7 +16,6 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -47,7 +44,7 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
         setObservers()
-
+        viewModel.state.forgotTextVisibility = false
     }
 
     fun setObservers() {
@@ -58,7 +55,7 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
                     findNavController().navigate(R.id.action_updateNewPasscodeFragment_to_updateConfirmPasscodeFragment)
                 }
                 R.id.tvForgotPasscode -> {
-                    viewModel.createForgotPassCodeOtp {username->
+                    viewModel.createForgotPassCodeOtp { username ->
                         startOtpFragment(username)
                     }
                 }
