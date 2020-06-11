@@ -20,6 +20,7 @@ interface IBeneficiaryFundTransfer {
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var transactionWillHold: Boolean
         var selectedPop: PurposeOfPayment?
+        var isSameCurrency: Boolean
     }
 
     interface State : IBase.State {

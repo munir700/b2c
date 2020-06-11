@@ -22,7 +22,6 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
-import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
@@ -244,13 +243,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-
                     if (MyUserManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
-                    } 
-//                   findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
+                    }
                 }
 
                 R.id.tvTermsAndConditionView -> {
