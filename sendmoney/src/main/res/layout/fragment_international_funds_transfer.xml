@@ -208,12 +208,14 @@
                     app:layout_constraintRight_toRightOf="parent">
 
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
-                        android:src="@drawable/ic_transaction_rate_arrow" />
+                        app:srcCompat="@drawable/ic_transaction_rate_arrow"
+                        android:tint="?attr/colorPrimaryAttr"
+                        />
 
                     <TextView
                         style="@style/MicroGrey"
