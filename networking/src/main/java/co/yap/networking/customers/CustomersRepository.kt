@@ -160,19 +160,36 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     files,
                     RequestBody.create(MediaType.parse("multipart/form-dataList"), documentType),
                     RequestBody.create(MediaType.parse("multipart/form-dataList"), firstName),
-                    RequestBody.create(MediaType.parse("multipart/form-dataList"), lastName),
-                    RequestBody.create(MediaType.parse("multipart/form-dataList"), nationality),
-                    RequestBody.create(
+                    middleName = if (!middleName.isNullOrBlank()) RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        middleName
+                    ) else null,
+                    lastName = if (!lastName.isNullOrBlank()) RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        lastName
+                    ) else null,
+
+                    nationality = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        nationality
+                    ),
+                    dateExpiry = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         dateFormatter.format(dateExpiry)
                     ),
-                    RequestBody.create(
+                    dob = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         dateFormatter.format(dob)
                     ),
-                    RequestBody.create(MediaType.parse("multipart/form-dataList"), fullName),
-                    RequestBody.create(MediaType.parse("multipart/form-dataList"), gender),
-                    RequestBody.create(MediaType.parse("multipart/form-dataList"), identityNo)
+                    fullName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        fullName
+                    ),
+                    gender = RequestBody.create(MediaType.parse("multipart/form-dataList"), gender),
+                    identityNo = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        identityNo
+                    )
                 )
             })
         }

@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -22,6 +21,7 @@ import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -51,7 +51,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.ivEditFirstName -> {
+                R.id.ivEditFirstName, R.id.tvFirstName -> {
                     ivEditFirstName.isEnabled = false
                     ivEditMiddleName.isEnabled = true
                     ivEditLastName.isEnabled = true
@@ -59,7 +59,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     manageFocus(tvFirstName, ivEditFirstName)
                 }
 
-                R.id.ivEditMiddleName -> {
+                R.id.ivEditMiddleName, R.id.tvMiddleName -> {
                     ivEditMiddleName.isEnabled = false
 
                     ivEditFirstName.isEnabled = true
@@ -69,10 +69,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     manageFocus(tvMiddleName, ivEditMiddleName)
                 }
 
-                R.id.ivEditLastName -> {
-                    ivEditLastName.isEnabled = true
-                    ivEditMiddleName.isEnabled = true
+                R.id.ivEditLastName, R.id.tvLastName -> {
+                    ivEditLastName.isEnabled = false
 
+                    ivEditMiddleName.isEnabled = true
                     ivEditFirstName.isEnabled = true
                     manageFocus(tvLastName, ivEditLastName)
                 }
@@ -103,11 +103,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 }
 
                 viewModel.EVENT_NEXT_WITH_ERROR -> {
-                    val action =
-                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
-                            viewModel.errorTitle, viewModel.errorBody
-                        )
-                    findNavController().navigate(action)
+                    viewModel.performUploadDocumentsRequest(true) {
+                        if (it.equals("success", true)) {
+                            val action =
+                                EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                                    viewModel.errorTitle, viewModel.errorBody
+                                )
+                            findNavController().navigate(action)
+                        } else {
+                            viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                        }
+                    }
+
                 }
                 viewModel.EVENT_FINISH -> {
                     viewModel.parentViewModel?.finishKyc?.value =
@@ -148,15 +155,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             )
         }
 
-        editText.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if (!hasFocus) {
-                    ivEditName.isEnabled = true
-                    editText.isFocusable = false
-                    editText.isFocusableInTouchMode = false
-                }
+        editText.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                ivEditName.isEnabled = true
+                editText.isFocusable = false
+                editText.isFocusableInTouchMode = false
             }
-        })
+        }
 
         editText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action === KeyEvent.ACTION_DOWN || keyEvent.action === KeyEvent.KEYCODE_ENTER

@@ -10,6 +10,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseListItemViewModel
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
@@ -34,7 +35,7 @@ class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
         if (MyUserManager.user?.otpBlocked == true) {
             if (view.context is BaseActivity<*>) {
                 val activity = view.context as BaseActivity<*>
-                activity.showToast("${activity.getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                activity.showToast(Utils.getOtpBlockedMessage(activity))
             }
         } else {
             navigation?.navigate(

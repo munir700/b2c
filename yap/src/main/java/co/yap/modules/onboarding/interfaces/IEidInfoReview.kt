@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -23,6 +24,8 @@ interface IEidInfoReview {
         var genderValid: Boolean
         var expiryDateValid: Boolean
         var valid: Boolean
+        var isShowMiddleName: ObservableBoolean
+        var isShowLastName: ObservableBoolean
     }
 
     interface View : IBase.View<ViewModel> {
@@ -63,9 +66,9 @@ interface IEidInfoReview {
         fun handleUserAcceptance(reason: Int)
         fun handlePressOnEdit(id: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
-        var sanctionedCountry:String
-        var sanctionedNationality:String
-        var errorTitle:String
-        var errorBody:String
+        var sanctionedCountry: String
+        var sanctionedNationality: String
+        var errorTitle: String
+        var errorBody: String
     }
 }

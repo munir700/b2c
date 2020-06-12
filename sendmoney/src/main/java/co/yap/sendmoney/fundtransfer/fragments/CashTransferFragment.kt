@@ -19,21 +19,18 @@ import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayme
 import co.yap.sendmoney.PopListBottomSheet
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentCashTransferBinding
-import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.fundtransfer.viewmodels.CashTransferViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -126,12 +123,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (viewModel.isUaeftsBeneficiary()) {
-                    if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
-                        "Select a reason"
-                    )
-                } else
-                    startOtpFragment()
+                if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
+                    showUpperLowerLimitError()
+                } else {
+                    if (viewModel.isUaeftsBeneficiary()) {
+                        if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else  showToast("Select a reason ^${AlertType.DIALOG.name}")
+                    } else
+                        startOtpFragment()
+                }
             }
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
@@ -189,16 +188,20 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.sm_common_display_text_available_balance_error
-        ).format(MyUserManager.cardBalance.value?.availableBalance?.toFormattedAmountWithCurrency())
+            Strings.common_display_text_available_balance_error
+        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
-    private fun showLimitError() {
-        if (activity is BeneficiaryFundTransferActivity) {
-            (activity as BeneficiaryFundTransferActivity).viewModel.errorEvent.value =
-                viewModel.state.errorDescription
-        }
+    private fun showUpperLowerLimitError() {
+        viewModel.state.errorDescription = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_min_max_limit_error_transaction,
+            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+        )
+        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+
     }
 
     private fun isBalanceAvailable(): Boolean {
@@ -226,14 +229,17 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                                 )
                             return (enteredAmount > remainingDailyLimit)
 
-
                         } else {
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                             viewModel.state.errorDescription =
-                                if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                    Strings.common_display_text_daily_limit_error_multiple_transactions
-                                )
+                                when {
+                                    dailyLimit == totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                    enteredAmount > dailyLimit && totalConsumedAmount == 0.0 -> {
+                                        getString(Strings.common_display_text_daily_limit_error_single_transaction)
+                                    }
+                                    else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
+                                }
                             return (enteredAmount > remainingDailyLimit)
                         }
                     } ?: return false
@@ -251,11 +257,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(productCode)
                     viewModel.getTransferFees(
                         productCode,
-                        RemittanceFeeRequest(
-                            viewModel.parentViewModel?.beneficiary?.value?.country,
-                            ""
-                        )
-                    )
+                        RemittanceFeeRequest(country = viewModel.parentViewModel?.beneficiary?.value?.country))
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
                 }
@@ -324,6 +326,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             if (viewModel.state.amount.isNotEmpty()) {
                 checkOnTextChangeValidation()
             } else {
+                viewModel.state.valid = false
                 cancelAllSnackBar()
             }
 
@@ -332,18 +335,26 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun checkOnTextChangeValidation() {
-        //todo: Min and max limit check required
-        if (isBalanceAvailable()) {
-            if (isDailyLimitReached()) {
-                showLimitError()
+        when {
+            !isBalanceAvailable() -> {
                 viewModel.state.valid = false
-            } else {
+                showBalanceNotAvailableError()
+            }
+            isDailyLimitReached() -> {
+                viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+                viewModel.state.valid = false
+            }
+            viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                viewModel.state.valid = true
+            }
+            viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
+                showUpperLowerLimitError()
+                viewModel.state.valid = false
+            }
+            else -> {
                 cancelAllSnackBar()
                 viewModel.state.valid = true
             }
-        } else {
-            viewModel.state.valid = false
-            showBalanceNotAvailableError()
         }
     }
 

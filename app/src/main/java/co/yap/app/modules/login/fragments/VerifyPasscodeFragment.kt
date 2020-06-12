@@ -246,7 +246,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             }
             R.id.tvForgotPassword -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)

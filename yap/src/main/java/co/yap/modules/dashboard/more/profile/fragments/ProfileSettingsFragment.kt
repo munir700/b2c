@@ -243,8 +243,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
-//                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                    } else {
+                        startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
+                    }
                 }
 
                 R.id.tvTermsAndConditionView -> {

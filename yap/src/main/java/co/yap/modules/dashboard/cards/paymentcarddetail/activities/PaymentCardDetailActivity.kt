@@ -52,6 +52,7 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
@@ -108,10 +109,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.card.observe(this, Observer {
-            if (it.availableBalance.parseToDouble() > 0) {
-                llRemoveFunds.isEnabled = true
-                llRemoveFunds.alpha = 1f
-            }
             viewModel.cardTransactionRequest.serialNumber = it.cardSerialNumber
             viewModel.requestAccountTransactions()
         })
@@ -204,7 +201,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.llAddFunds -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
@@ -224,7 +221,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             R.id.llRemoveFunds -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     if (viewModel.card.value?.blocked == false) {
                         startActivityForResult(
@@ -295,9 +292,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupView() {
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
-        llRemoveFunds.isEnabled = false
-        llRemoveFunds.alpha = 0.5f
-
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
         viewModel.card.value?.cardName?.let { cardName ->
@@ -334,7 +328,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             } else {
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
-            viewModel.getCardBalance()
+            viewModel.getCardBalance { balance ->
+                if (balance.parseToDouble() > 0) {
+                    llRemoveFunds.isEnabled = true
+                    llRemoveFunds.alpha = 1f
+                } else {
+                    llRemoveFunds.isEnabled = false
+                    llRemoveFunds.alpha = 0.5f
+                }
+            }
             rlSpareCardActions.visibility = View.VISIBLE
         }
         checkFreezeUnfreezStatus()
@@ -404,12 +406,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             Constants.EVENT_CHANGE_PIN -> {
                 if (!viewModel.card.value?.blocked!!) {
-                    startActivity(
-                        ChangeCardPinActivity.newIntent(
-                            this,
-                            viewModel.card.value?.cardSerialNumber!!
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast(Utils.getOtpBlockedMessage(this))
+                    } else {
+                        startActivity(
+                            ChangeCardPinActivity.newIntent(
+                                this,
+                                viewModel.card.value?.cardSerialNumber!!
+                            )
                         )
-                    )
+                    }
                 } else {
                     showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
                 }
@@ -417,7 +423,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     viewModel.card.value?.cardSerialNumber?.let {
                         startActivity(
@@ -483,6 +489,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         data?.getStringExtra("newBalance").toString()
                     viewModel.state.cardBalance =
                         "AED " + data?.getStringExtra("newBalance").toString().toFormattedCurrency()
+                    if (viewModel.card.value?.availableBalance.parseToDouble() > 0) {
+                        llRemoveFunds.isEnabled = true
+                        llRemoveFunds.alpha = 1f
+                    } else {
+                        llRemoveFunds.isEnabled = false
+                        llRemoveFunds.alpha = 0.5f
+                    }
                 }
             }
 
@@ -543,7 +556,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun startReorderCardFlow() {
         if (MyUserManager.user?.otpBlocked == true) {
-            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+            showToast(Utils.getOtpBlockedMessage(this))
         } else {
             viewModel.card.value?.let {
                 startActivityForResult(

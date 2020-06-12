@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 import android.app.Application
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.extentions.parseToDouble
 
 class AddFundsViewModel(application: Application) : FundActionsViewModel(application) {
 
@@ -22,7 +24,7 @@ class AddFundsViewModel(application: Application) : FundActionsViewModel(applica
                     transactionThreshold.value = response.data.data
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
                 }
             }
         }

@@ -37,6 +37,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
         viewModel.token = parentActivity.passCodeData.token
+        viewModel.state.forgotTextVisibility = false
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
