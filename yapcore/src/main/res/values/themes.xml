@@ -22,7 +22,7 @@
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
         <item name="actionBarSize">@dimen/toolbar_height</item>
-        <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBar</item>
+        <item name="colorSendMoneyToolBarAttr">@color/transparent</item>
         <item name="colorTextAttr">@color/textDarkColor</item>
         <item name="colorIconsTintAttr">@color/colorPrimary</item>
         <item name="colorBackgroundPrimarySoftAttr">@color/white</item>
