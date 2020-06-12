@@ -81,16 +81,22 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    isAPIFailed.value = true
-                    state.toast = response.error.message
+                    if (parentViewModel?.isSameCurrency == true) {
+                        state.sourceCurrency.set("AED")
+                        state.destinationCurrency.set("AED")
+                        parentViewModel?.transferData?.value?.rate = "1.0"
+                    } else {
+                        isAPIFailed.value = true
+                        state.toast = response.error.message
+                    }
                 }
             }
         }
     }
 
     override fun getReasonList(productCode: String) {
-//        state.loading = true
         launch {
+//            state.loading = true
             when (val response =
                 mTransactionsRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {

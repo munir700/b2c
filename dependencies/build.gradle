@@ -143,6 +143,9 @@ project.ext {
             adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
             expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
+            //pdfViewer
+            pdfViewer                : 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
             rootChecker              : 'com.scottyab:rootbeer-lib:0.0.8'
     ]
 
@@ -181,6 +184,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.adjust],
             [configuration: "implementation", dependency: libraries.adjustReferrer],
             [configuration: "implementation", dependency: libraries.expand],
+            [configuration: "implementation", dependency: libraries.pdfViewer],
             [configuration: "implementation", dependency: libraries.rootChecker],
             [configuration: "implementation", dependency: libraries.baloon]
     ]

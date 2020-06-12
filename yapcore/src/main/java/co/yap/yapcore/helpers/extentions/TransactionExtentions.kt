@@ -223,7 +223,9 @@ fun Transaction?.getSpentLabelText(): String {
                                 TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
                                     "Sent"
                                 }
-                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> "Sent in AED"
+                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
+                                    if (transaction.currency == "AED") "Sent" else "Sent in AED"
+                                }
                                 else -> "Spent"
                             }
                         }

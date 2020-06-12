@@ -698,7 +698,7 @@
 
     <string name="screen_international_funds_transfer_display_text_title">Send money to</string>
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
-    <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
+    <string name="screen_international_funds_transfer_display_text_reson">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
     <string name="screen_international_funds_transfer_input_text_note_hint">Type a note here</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
@@ -775,6 +775,7 @@
     <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rate of %4s</string>
+    <string name="screen_funds_confirmation_success_description_same_currency">You are sending %1s %2s</string>
     <string name="screen_funds_receive_description">That\'s %1s from your account</string>
     <string name="scren_send_money_funds_transfer_display_text_amount_error">Your entered amount should be between AED %1s and AED %2s, and your entered amount should be less than or equal to your current balance of AED %3s</string>
     <string name="scren_send_money_funds_transfer_confirmation_display_text_amount_uaefts">%1s will receive %2s</string>

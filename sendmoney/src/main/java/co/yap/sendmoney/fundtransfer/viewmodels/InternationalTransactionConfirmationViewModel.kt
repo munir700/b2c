@@ -77,7 +77,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
                             remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
-                            fxRate = it.rate
+                            fxRate = it.rate ?: "1.0"
                         )
                     )
                     ) {

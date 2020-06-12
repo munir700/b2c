@@ -172,7 +172,7 @@ class InternationalFundsTransferFragment :
 
     private fun showLowerAndUpperLimitError() {
         viewModel.state.errorDescription = getString(
-            Strings.sm_display_text_min_max_limit_error_transaction
+            if (viewModel.parentViewModel?.isSameCurrency == true) Strings.common_display_text_min_max_limit_error_transaction else Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
             viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
             viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
