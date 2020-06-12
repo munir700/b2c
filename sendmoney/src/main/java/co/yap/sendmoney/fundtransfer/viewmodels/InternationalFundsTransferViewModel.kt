@@ -84,6 +84,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     if (parentViewModel?.isSameCurrency == true) {
                         state.sourceCurrency.set("AED")
                         state.destinationCurrency.set("AED")
+                        parentViewModel?.transferData?.value?.rate = "1.0"
                     } else {
                         isAPIFailed.value = true
                         state.toast = response.error.message
