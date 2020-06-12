@@ -214,7 +214,6 @@
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
                         app:srcCompat="@drawable/ic_transaction_rate_arrow"
-                        android:tint="?attr/colorPrimaryAttr"
                         />
 
                     <TextView

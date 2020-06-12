@@ -43,6 +43,10 @@
     <attr name="colorCircularTextAttr" format="color|reference" />
     <attr name="colorCircularBgAttr" format="color|reference" />
     <attr name="colorDefaultTextAttr" format="color|reference" />
+    <attr name="colorYapItBgAttr" format="color|reference" />
+    <attr name="colorButtonPressedAttr" format="color|reference" />
+    <attr name="colorButtonUnPressedAttr" format="color|reference" />
+    <attr name="colorCoreButtonTextAttr" format="color|reference" />
 
 
     <!--components theme-->
