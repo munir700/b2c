@@ -292,7 +292,7 @@ class GenericOtpViewModel(application: Application) :
                 state.validResend = false
 //                state.valid = false // to disable confirm button
                 state.color = context.getColors(R.color.disabled)
-                state.isOtpBlocked.set(false)
+                state.isOtpBlocked.set(true)
                 MyUserManager.getAccountInfo()
             }
         }
@@ -303,9 +303,9 @@ class GenericOtpViewModel(application: Application) :
             mobileNumber.startsWith("00") ->
                 Utils.getFormattedPhone(
                     mobileNumber.replaceRange(
-                    0,
-                    2,
-                    "+"
+                        0,
+                        2,
+                        "+"
                     )
                 )
             mobileNumber.startsWith("+") -> Utils.getFormattedPhone(mobileNumber)
