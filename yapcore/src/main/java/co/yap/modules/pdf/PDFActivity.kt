@@ -10,7 +10,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
-import com.github.barteksc.pdfviewer.PDFView
 
 class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.View {
 
@@ -46,8 +45,9 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
         val url = intent?.getValue(URL, ExtraType.STRING.name) as? String
         url?.let {
             viewModel.downloadFile(it) { file ->
-                val pdfView = findViewById<PDFView>(R.id.pdfView)
-                pdfView.fromFile(file)
+                //val pdfView = findViewById<PDFView>(R.id.pdfView)
+                //pdfView.fromFile(file)
+                showToast("File downloaded")
             }
         } ?: close()
     }
