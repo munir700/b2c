@@ -158,15 +158,19 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                when {
-                    viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
-                        showUpperLowerLimitError()
-                    }
-                    isOtpRequired() -> {
-                        startOtpFragment()
-                    }
-                    else -> {
-                        viewModel.proceedToTransferAmount()
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
+                } else {
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                            showUpperLowerLimitError()
+                        }
+                        isOtpRequired() -> {
+                            startOtpFragment()
+                        }
+                        else -> {
+                            viewModel.proceedToTransferAmount()
+                        }
                     }
                 }
             }
@@ -185,7 +189,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     amount = viewModel.state.amount,
                     logoData = LogoData(
                         imageUrl = viewModel.state.imageUrl,
-                        position =  args.position
+                        position = args.position
                     )
                 )
             )
@@ -264,7 +268,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
         val action =
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                viewModel.state.fullName,viewModel.state.imageUrl,
+                viewModel.state.fullName, viewModel.state.imageUrl,
                 "AED",
                 viewModel.state.amount ?: "", args.position
             )

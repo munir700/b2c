@@ -48,6 +48,12 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+//            startActivity(
+//                PDFActivity.newIntent(
+//                    view.context,
+//                    (data as CardStatement).statementURL?.replace("https", "http") ?: ""
+//                )
+//            )
             startFragment<WebViewFragment>(
                 fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                     Constants.PAGE_URL to "http://docs.google.com/viewer?embedded=true&url=" + (data as CardStatement).statementURL

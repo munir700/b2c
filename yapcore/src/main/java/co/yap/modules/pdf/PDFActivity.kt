@@ -3,13 +3,16 @@ package co.yap.modules.pdf
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
-import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
+import com.github.barteksc.pdfviewer.PDFView
 
-class PDFActivity : DefaultActivity() {
+class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.View {
 
     companion object {
         private const val URL = "URL"
@@ -20,9 +23,15 @@ class PDFActivity : DefaultActivity() {
         }
     }
 
+    override val viewModel: IPDFActivity.ViewModel
+        get() = ViewModelProviders.of(this).get(PDFViewModel::class.java)
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_pdf
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pdf)
         setupData()
     }
 
@@ -36,10 +45,10 @@ class PDFActivity : DefaultActivity() {
     private fun setupData() {
         val url = intent?.getValue(URL, ExtraType.STRING.name) as? String
         url?.let {
-
-            //val pdfView = findViewById<View>(R.id.pdfView) as PDFView
-            //pdfView.fromFile("zan.pdf")
-
+            viewModel.downloadFile(it) { file ->
+                val pdfView = findViewById<PDFView>(R.id.pdfView)
+                pdfView.fromFile(file)
+            }
         } ?: close()
     }
 

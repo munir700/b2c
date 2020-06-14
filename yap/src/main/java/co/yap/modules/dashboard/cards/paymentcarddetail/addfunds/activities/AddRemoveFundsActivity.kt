@@ -95,9 +95,12 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         setDenominationClickObservers()
         setupData()
     }
-    fun getAmountWithFee():Double{
-        return viewModel.state.amount.parseToDouble().plus(parentViewModel?.updatedFee?.value.parseToDouble())
+
+    fun getAmountWithFee(): Double {
+        return viewModel.state.amount.parseToDouble()
+            .plus(parentViewModel?.updatedFee?.value.parseToDouble())
     }
+
     private fun setDenominationClickObservers() {
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
@@ -159,30 +162,33 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
 
     private val clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnAction -> (if (btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
-                if (isAddFundScreen == true)
-                    when {
-                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> showUpperLowerLimitError()
-                        isOtpRequired() -> startOtpFragment()
-                        else -> viewModel.addFunds()
-                    }
-                else {
-                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit)
-                        showUpperLowerLimitError()
-                    else
-                        viewModel.removeFunds()
+            R.id.btnAction ->
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(context))
+                } else {
+                    (if (btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
+                        if (isAddFundScreen == true)
+                            when {
+                                viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> showUpperLowerLimitError()
+                                isOtpRequired() -> startOtpFragment()
+                                else -> viewModel.addFunds()
+                            }
+                        else {
+                            if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit)
+                                showUpperLowerLimitError()
+                            else
+                                viewModel.removeFunds()
+                        }
+                    } else {
+                        if (isAddFundScreen == true) co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(
+                            AdjustEvents.TOP_UP_END.type
+                        )
+                        if (fundsAddedRemoveSuccess) {
+                            setupActionsIntent()
+                        }
+                        this.finish()
+                    })
                 }
-            } else {
-                if (isAddFundScreen == true) co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(
-                    AdjustEvents.TOP_UP_END.type
-                )
-                if (fundsAddedRemoveSuccess) {
-                    setupActionsIntent()
-                }
-
-                this.finish()
-            })
-
             R.id.ivCross -> this.finish()
             R.id.tbIvClose -> this.finish()
 
@@ -196,6 +202,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
             }
         }
     }
+
     private fun setupData() {
         card = intent.getParcelableExtra(CARD)
         viewModel.state.cardNumber = card?.maskedCardNo ?: ""

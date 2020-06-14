@@ -29,6 +29,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
@@ -123,13 +124,19 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
-                    showUpperLowerLimitError()
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    if (viewModel.isUaeftsBeneficiary()) {
-                        if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else  showToast("Select a reason ^${AlertType.DIALOG.name}")
-                    } else
-                        startOtpFragment()
+                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
+                        showUpperLowerLimitError()
+                    } else {
+                        if (viewModel.isUaeftsBeneficiary()) {
+                            if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
+                                "Select a reason ^${AlertType.DIALOG.name}"
+                            )
+                        } else
+                            startOtpFragment()
+                    }
                 }
             }
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
@@ -257,7 +264,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.getMoneyTransferLimits(productCode)
                     viewModel.getTransferFees(
                         productCode,
-                        RemittanceFeeRequest(country = viewModel.parentViewModel?.beneficiary?.value?.country))
+                        RemittanceFeeRequest(country = viewModel.parentViewModel?.beneficiary?.value?.country)
+                    )
                     viewModel.getPurposeOfPayment(productCode)
                     setObservers()
                 }

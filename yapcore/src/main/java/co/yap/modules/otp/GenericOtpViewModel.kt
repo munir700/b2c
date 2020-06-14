@@ -103,9 +103,9 @@ class GenericOtpViewModel(application: Application) :
                         is RetroApiResponse.Error -> {
                             state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             state.otp = ""
+                            state.loading = false
                             otpUiBlocked(response.error.actualCode)
                             //errorEvent.call()
-                            state.loading = false
                         }
                     }
                     state.loading = false
@@ -136,9 +136,9 @@ class GenericOtpViewModel(application: Application) :
                         is RetroApiResponse.Error -> {
                             state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             state.otp = ""
+                            state.loading = false
                             otpUiBlocked(response.error.actualCode)
                             // errorEvent.call()
-                            state.loading = false
                         }
                     }
                     state.loading = false
@@ -203,9 +203,9 @@ class GenericOtpViewModel(application: Application) :
                     handleResendEvent(resend, context)
                 }
                 is RetroApiResponse.Error -> {
-                    otpUiBlocked(response.error.actualCode)
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -288,13 +288,15 @@ class GenericOtpViewModel(application: Application) :
 
     private fun otpUiBlocked(errorCode: String) {
         when (errorCode) {
-            "1095" -> {
+            "1095" -> {// otp just blocked
                 state.validResend = false
 //                state.valid = false // to disable confirm button
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(true)
-                MyUserManager.getAccountInfo()
             }
+//            "1095" -> { // otp already blocked
+//                state.isOtpBlocked.set(true)
+//            }
         }
     }
 

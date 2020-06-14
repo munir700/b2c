@@ -21,6 +21,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -50,8 +51,8 @@ class InternationalFundsTransferFragment :
         viewModel.getTransferFees(
             productCode,
             RemittanceFeeRequest(
-               country =  viewModel.parentViewModel?.beneficiary?.value?.country,
-               currency =  viewModel.parentViewModel?.beneficiary?.value?.currency
+                country = viewModel.parentViewModel?.beneficiary?.value?.country,
+                currency = viewModel.parentViewModel?.beneficiary?.value?.currency
             )
         )
         viewModel.getReasonList(productCode)
@@ -129,16 +130,19 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                when {
-                    viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
-                        showLowerAndUpperLimitError()
-                    }
-                    viewModel.parentViewModel?.selectedPop != null -> moveToConfirmTransferScreen()
-                    else -> showToast("Select a reason ^${AlertType.DIALOG.name}")
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
+                } else {
+                    when {
+                        viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
+                            showLowerAndUpperLimitError()
+                        }
+                        viewModel.parentViewModel?.selectedPop != null -> moveToConfirmTransferScreen()
+                        else -> showToast("Select a reason ^${AlertType.DIALOG.name}")
 
+                    }
                 }
             }
-
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
         }
     }
