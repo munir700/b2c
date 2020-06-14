@@ -203,10 +203,7 @@ class InternationalFundsTransferFragment :
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
-                                "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
-                                    (dailyLimit - totalHoldAmount).toString()
-                                        .toFormattedAmountWithCurrency()
-                                )
+                                "Sorry, you've reached your daily limit. Let's try again tomorrow."
                             return (enteredAmount > remainingDailyLimit)
                         } else {
                             val remainingDailyLimit =
