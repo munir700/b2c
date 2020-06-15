@@ -1,0 +1,85 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.household.contact.HHAddUserContactVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingMobile"
+                style="@style/Yap.App.Widget.TextView.Medium"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/screen_yap_house_hold_user_info_contact_display_text_heading"
+                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_heading}" />
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
+
+                <co.yap.widgets.PrefixSuffixEditText
+                    android:id="@+id/etPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
+                    android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.phone}" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">
+
+                <co.yap.widgets.PrefixSuffixEditText
+                    android:id="@+id/etConfirmPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
+                    android:hint="55 1248389"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.confirmPhone}" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="@string/common_button_add"
+                app:text="@{Strings.common_button_add}" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>

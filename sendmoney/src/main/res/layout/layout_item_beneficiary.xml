@@ -26,7 +26,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        android:paddingStart="@dimen/small"
+        android:paddingEnd="@dimen/small"
+      >
 
         <LinearLayout
             android:id="@+id/swipe"
@@ -40,7 +44,8 @@
                 android:id="@+id/btnEdit"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_56sdp"
-                android:background="?attr/colorPrimaryAttr">
+                android:background="?attr/colorSwipeToEditAttr"
+                android:paddingStart="@dimen/small">
 
                 <TextView
                     style="@style/Micro"
@@ -61,16 +66,16 @@
                 android:id="@+id/btnDelete"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_56sdp"
-                android:background="@color/colorSecondaryMagenta">
+                android:background="?attr/colorSwipeToDeleteAttr">
 
                 <TextView
                     style="@style/Micro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/ic_close"
                     android:drawablePadding="@dimen/_2sdp"
-                    android:layout_centerInParent="true"
                     android:drawableTint="@color/white"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -95,20 +100,21 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/empty_string"
                     android:layout_marginTop="@dimen/margin_extra_small"
+                    android:contentDescription="@string/empty_string"
                     android:src="@drawable/ic_store_b2b"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:colorType="@{`Beneficiary`}"
                     app:fullName="@{viewModel.beneficiary.fullName()}"
                     app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:position="@{viewModel.position}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -169,8 +175,9 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    android:tint="@{viewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`)?@color/greyDark:@color/greyDark}"
                     app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    app:cashPayoutIconTint="@{viewModel.beneficiary.beneficiaryType}"
+                    app:isSearching="@{viewModel.isSearching()}"
                     tools:src="@drawable/ic_cash"
                     tools:visibility="visible" />
 
@@ -179,8 +186,8 @@
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    tools:src="@drawable/flag_ae"
-                    app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
+                    app:setFlagDrawable="@{viewModel.beneficiary.country}"
+                    tools:src="@drawable/flag_ae" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,7 +71,8 @@
                     android:background="@color/white"
                     app:backgroundTint="@color/white"
                     app:elevation="0dp"
-                    app:srcCompat="@drawable/ic_yap_it" />
+                    app:srcCompat="@drawable/ic_yap_it"
+                    yapItIconTint="@{true}"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatTextView

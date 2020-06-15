@@ -13,7 +13,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
-
+@Deprecated("Used HouseHoldLandingFragment")
 class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel>(),
     IHouseHoldLanding.View {
 

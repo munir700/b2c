@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.store.household.states
 import androidx.databinding.ObservableBoolean
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldLanding
 import co.yap.yapcore.BaseState
-
+@Deprecated("Used HouseHoldLandingFragment")
 class HouseHoldLandingStates : BaseState(), IHouseHoldLanding.State {
 
     override var rightIcon: ObservableBoolean = ObservableBoolean(false)

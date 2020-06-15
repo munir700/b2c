@@ -35,6 +35,8 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINA
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -343,14 +345,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                             clearAllPrevious = true
                         )
                     else
-                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
-                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
-                            putExtra(
-                                NAVIGATION_Graph_START_DESTINATION_ID,
-                                R.id.householdDashboardFragment
-                            )
-                        }
-//                       launchActivity<YapDashboardActivity>(clearPrevious = true)
+//                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+//                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+//                            putExtra(
+//                                NAVIGATION_Graph_START_DESTINATION_ID,
+//                                R.id.householdDashboardFragment
+//                            )
+//                        }
+                       launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }
         }
@@ -362,6 +364,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
+                    context.switchTheme(HOUSEHOLD())
                     launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                         putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                         putExtra(
@@ -372,6 +375,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 //                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             } else {
+                context.switchTheme(HOUSEHOLD())
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
