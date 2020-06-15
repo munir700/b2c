@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldConfirmPaymentViewModel" />
+            type="co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation.HouseHoldConfirmPaymentVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,7 +61,7 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:padding="@dimen/small"
-                android:text="@{viewModel.parentViewModel.username}"
+                android:text="@{viewModel.username}"
                 tools:text="Faheem Riaz" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{viewModel.parentViewModel.countryCode+` `+viewModel.parentViewModel.userMobileNo}"
+                android:text="@{viewModel.countryCode+` `+viewModel.userMobileNo}"
                 tools:text="971 55 5555 5555" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
