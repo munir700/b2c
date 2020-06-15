@@ -1,7 +1,13 @@
 package co.yap.modules.di.module.fragment
 
+import co.yap.modules.dashboard.store.household.contact.HHAddUserContactFragment
+import co.yap.modules.dashboard.store.household.contact.HHAddUserContactModule
 import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingFragment
 import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingModule
+import co.yap.modules.dashboard.store.household.success.HHAddUserSuccessFragment
+import co.yap.modules.dashboard.store.household.success.HHAddUserSuccessModule
+import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragment
+import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -81,5 +87,17 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [HouseHoldLandingModule::class])
     @FragmentScope
     abstract fun houseHoldLandingFragmentInjector(): HouseHoldLandingFragment
+
+    @ContributesAndroidInjector(modules = [HHAddUserNameModule::class])
+    @FragmentScope
+    abstract fun hhAddUserNameFragmentInjector(): HHAddUserNameFragment
+
+    @ContributesAndroidInjector(modules = [HHAddUserSuccessModule::class])
+    @FragmentScope
+    abstract fun hHAddUserSuccessFragmentInjector(): HHAddUserSuccessFragment
+
+    @ContributesAndroidInjector(modules = [HHAddUserContactModule::class])
+    @FragmentScope
+    abstract fun hHAddUserContactFragmentInjector(): HHAddUserContactFragment
 
 }
