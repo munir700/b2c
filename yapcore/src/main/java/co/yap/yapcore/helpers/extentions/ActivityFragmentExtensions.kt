@@ -53,8 +53,8 @@ inline fun <reified T : Any> Fragment.launchActivity(
     noinline init: Intent.() -> Unit = {}
 ) {
     val intent = newIntent<T>(requireContext())
-    intent.init()
     intent.putExtra(EXTRA , options)
+    intent.init()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         startActivityForResult(intent, requestCode, options)
     } else {

@@ -8,7 +8,7 @@ import co.yap.modules.dashboard.store.household.states.HouseHoldLandingStates
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("Used HouseHoldLandingFragment")
 class HouseHoldLandingViewModel(application: Application) :
     BaseViewModel<IHouseHoldLanding.State>(application),
     IHouseHoldLanding.ViewModel {

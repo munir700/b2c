@@ -17,6 +17,8 @@ import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.ThemeColorUtils
+import co.yap.yapcore.helpers.Utils
 
 
 class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
@@ -217,6 +219,11 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
 
     private fun getBindings(): FragmentTransferSuccessBinding {
         return viewDataBinding as FragmentTransferSuccessBinding
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let { Utils.setStatusBarColor(it, ThemeColorUtils.colorStatusBarSuccessAttribute(requireContext())) }
     }
 
 }

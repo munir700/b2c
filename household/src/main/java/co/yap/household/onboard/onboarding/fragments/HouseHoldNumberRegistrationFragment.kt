@@ -137,6 +137,7 @@ class HouseHoldNumberRegistrationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialer.showDialerPassCodeView = false
         dialer.setInPutEditText(etPhoneNumber)
         dialer.hideFingerprintView()
     }

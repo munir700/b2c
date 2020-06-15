@@ -11,6 +11,7 @@ import co.yap.yapcore.dagger.di.FragmentKey
 import co.yap.yapcore.dagger.di.qualifiers.ActivityContext
 import co.yap.yapcore.dagger.di.qualifiers.ActivityFragmentManager
 import co.yap.yapcore.dagger.di.qualifiers.ChildFragmentManager
+import co.yap.yapcore.helpers.validation.Validator
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -29,8 +30,8 @@ abstract class BaseFragmentModule<in T : Fragment> {
 
     @Provides
     @ActivityContext
-    fun provideContext(fragment: T): Context? {
-        return fragment.context
+    fun provideContext(fragment: T): Context {
+        return fragment.requireContext()
     }
 
     @Provides
@@ -49,7 +50,10 @@ abstract class BaseFragmentModule<in T : Fragment> {
     fun provideBaseActivity(fragment: T): BaseActivity<*> {
         return (fragment as BaseViewModelFragment<*, *, *>).getBaseActivity()
     }
-
+    @Provides
+    fun provideValidator(): Validator {
+        return Validator(null)
+    }
     @Provides
     fun provideActivity(fragment: T): FragmentActivity {
         return fragment.requireActivity()

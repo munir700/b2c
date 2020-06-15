@@ -10,6 +10,7 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragment
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -62,10 +63,11 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
         tvSignUpPrefix.setOnClickListener {
-            launchActivity<NavHostPresenterActivity> {
-                putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
-                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
-            }
+            startFragment(HHAddUserNameFragment::class.java.name)
+//            launchActivity<NavHostPresenterActivity> {
+//                putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+//                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
+//            }
         }
     }
 
