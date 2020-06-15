@@ -75,7 +75,7 @@ class HouseholdHomeFragment :
     private val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is HomeNotification) {
-                val notification: HomeNotification = mNotificationAdapter.getData().get(pos)
+                val notification: HomeNotification = mNotificationAdapter.getData()[pos]
                 when (notification.action) {
                     NotificationAction.COMPLETE_VERIFICATION -> {
                         launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {

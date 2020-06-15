@@ -8,6 +8,7 @@ import androidx.lifecycle.*
 import co.yap.translation.Translator
 import co.yap.widgets.State
 import co.yap.yapcore.IBase
+import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.interfaces.CoroutineViewModel
 
 

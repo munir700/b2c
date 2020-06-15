@@ -85,7 +85,8 @@
                     app:cardCornerRadius="@dimen/_4sdp"
                     app:cardElevation="2dp"
                     app:lable1="My money"
-                    app:lable2="AED 0.00" />
+                    app:lable2="AED 0.00"
+                    app:preset_layoutResId="@layout/custom_preset_button" />
 
                 <co.yap.widgets.radiocus.PresetValueButton
                     android:id="@+id/secondIndicator"
@@ -102,7 +103,8 @@
                     app:cardCornerRadius="@dimen/_4sdp"
                     app:cardElevation="2dp"
                     app:lable1="Expense money"
-                    app:lable2="AED 0.00" />
+                    app:lable2="AED 0.00"
+                    app:preset_layoutResId="@layout/custom_preset_button" />
             </co.yap.widgets.radiocus.PresetRadioGroup>
 
             <androidx.appcompat.widget.LinearLayoutCompat

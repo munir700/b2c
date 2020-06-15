@@ -28,7 +28,7 @@ class TextViewRichDrawable : AppCompatTextView, DrawableEnriched {
 
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         mRichDrawableHelper = RichDrawableHelper(context, attrs!!, defStyleAttr, defStyleRes)
-        mRichDrawableHelper!!.apply(this)
+        mRichDrawableHelper?.apply(this)
     }
 
     /**
@@ -42,26 +42,26 @@ class TextViewRichDrawable : AppCompatTextView, DrawableEnriched {
      * {@inheritDoc}
      */
     override fun getCompoundDrawableWidth(): Int {
-        return mRichDrawableHelper!!.getCompoundDrawableWidth()
+        return mRichDrawableHelper?.getCompoundDrawableWidth()?:0
     }
 
     override fun setDrawableStartVectorId(@DrawableRes id: Int) {
-        mRichDrawableHelper!!.setDrawableStartVectorId(id)
-        mRichDrawableHelper!!.apply(this)
+        mRichDrawableHelper?.setDrawableStartVectorId(id)
+        mRichDrawableHelper?.apply(this)
     }
 
     override fun setDrawableEndVectorId(@DrawableRes id: Int) {
-        mRichDrawableHelper!!.setDrawableEndVectorId(id)
-        mRichDrawableHelper!!.apply(this)
+        mRichDrawableHelper?.setDrawableEndVectorId(id)
+        mRichDrawableHelper?.apply(this)
     }
 
     override fun setDrawableTopVectorId(@DrawableRes id: Int) {
-        mRichDrawableHelper!!.setDrawableTopVectorId(id)
-        mRichDrawableHelper!!.apply(this)
+        mRichDrawableHelper?.setDrawableTopVectorId(id)
+        mRichDrawableHelper?.apply(this)
     }
 
     override fun setDrawableBottomVectorId(@DrawableRes id: Int) {
-        mRichDrawableHelper!!.setDrawableBottomVectorId(id)
-        mRichDrawableHelper!!.apply(this)
+        mRichDrawableHelper?.setDrawableBottomVectorId(id)
+        mRichDrawableHelper?.apply(this)
     }
 }

@@ -136,4 +136,9 @@
     <color name="colorSearchViewHintHouseHold">#fcb9b2</color>
     <color name="disabledLightHouseHold">#ffe9e7</color>
 
- </resources>
+    <!--    EditTheme Color-->
+    <color name="colorControlNormal">#dae0f0</color>
+    <color name="colorControlActivated">#dae0f0</color>
+    <color name="colorControlHighlight">#dae0f0</color>
+
+</resources>

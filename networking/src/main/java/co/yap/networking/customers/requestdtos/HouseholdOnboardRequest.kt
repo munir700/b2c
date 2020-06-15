@@ -1,8 +1,12 @@
 package co.yap.networking.customers.requestdtos
 
+import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
+@Parcelize
 data class HouseholdOnboardRequest(
     @SerializedName("firstName")
     val firstName: String? = null,
@@ -15,5 +19,5 @@ data class HouseholdOnboardRequest(
     @SerializedName("accountType")
     val accountType: String? = null,
     @SerializedName("feeFrequency")
-    val feeFrequency: String
-) : Serializable
+    val feeFrequency: String?=null
+) : ApiResponse(), Parcelable

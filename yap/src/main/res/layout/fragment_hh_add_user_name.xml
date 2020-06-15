@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingMobile"
+                style="@style/Yap.App.Widget.TextView.Medium"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/screen_yap_house_hold_user_info_display_text_heading"
+                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_heading}" />
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_first_name">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Yap.App.Widget.TextInputEditText.UserName"
+                    android:hint="@string/screen_yap_house_hold_user_info_input_text_first_name_hint"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.firstName}"
+                    app:validateMinLength="@{10}"
+                     />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_last_name">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Yap.App.Widget.TextInputEditText.UserName"
+                    android:hint="@string/screen_yap_house_hold_user_info_display_text_last_name"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.lastName}"
+                    app:validateType='@{"lastname"}'/>
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:text="@string/screen_yap_house_hold_user_info_button_next"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
+                app:text="@{Strings.screen_yap_house_hold_user_info_button_next}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>
