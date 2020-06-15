@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_house_hold_user_navigation"
+    app:startDestination="@id/houseHoldLandingFragment">
+
+    <fragment
+        android:id="@+id/houseHoldLandingFragment"
+        android:name="co.yap.modules.dashboard.store.household.landing.HouseHoldLandingFragment"
+        android:label="HouseHoldLandingFragment"
+        tools:layout="@layout/fragment_house_hold_landing">
+        <action
+            android:id="@+id/action_houseHoldLandingFragment_to_HHAddUserNameFragment"
+            app:destination="@id/HHAddUserNameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHAddUserNameFragment"
+        android:name="co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragment"
+        android:label="HHAddUserNameFragment"
+        tools:layout="@layout/fragment_hh_add_user_name">
+        <action
+            android:id="@+id/action_HHAddUserNameFragment_to_HHAddUserContactFragment"
+            app:destination="@id/HHAddUserContactFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHAddUserContactFragment"
+        android:name="co.yap.modules.dashboard.store.household.contact.HHAddUserContactFragment"
+        android:label="HHAddUserContactFragment"
+        tools:layout="@layout/fragment_hh_add_user_contact">
+        <action
+            android:id="@+id/action_HHAddUserContactFragment_to_HHAddUserSuccessFragment"
+            app:destination="@id/HHAddUserSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHAddUserSuccessFragment"
+        android:name="co.yap.modules.dashboard.store.household.success.HHAddUserSuccessFragment"
+        android:label="HHAddUserSuccessFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        tools:layout="@layout/fragment_hh_add_user_success" />
+</navigation>

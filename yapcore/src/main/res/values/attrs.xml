@@ -628,6 +628,7 @@
         <attr name="lable2" format="string" />
         <attr name="lable1Color" format="color" />
         <attr name="lable2Color" format="color" />
+        <attr name="preset_layoutResId" format="reference" />
         <attr name="presetButtonPressedTextColor" format="color" />
     </declare-styleable>
 
@@ -662,5 +663,10 @@
 
         <!-- Class name of error adapter, instance of the class will be created reflectively. -->
         <attr name="errorAdapter" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CollapsedColoredHintTextInputLayout">
+        <attr name="hintTextColorNormal" format="color" />
+        <attr name="hintTextColorSelected" format="color" />
     </declare-styleable>
 </resources>

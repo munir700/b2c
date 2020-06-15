@@ -178,3 +178,7 @@
 -keep class com.crashlytics.** { *; }
 -keep class com.crashlytics.android.**
 -keepattributes SourceFile, LineNumberTable, *Annotation*
+
+-keepclassmembers class com.google.android.material.textfield.TextInputLayout {
+    private void collapseHint;
+}

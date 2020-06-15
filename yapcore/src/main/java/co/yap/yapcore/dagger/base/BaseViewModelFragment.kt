@@ -16,6 +16,8 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -68,6 +70,9 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
+        if (viewModel is IValidator) {
+            (viewModel as IValidator).validator = Validator(mViewDataBinding)
+        }
         postExecutePendingBindings()
         viewModel.onCreate(arguments)
     }
@@ -111,13 +116,13 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     fun setupToolbar(
         toolbar: Toolbar?,
         toolbarMenu: Int? = null,
-        navigationOnClickListener: ((View) -> Unit?)?=null
+        navigationOnClickListener: ((View) -> Unit?)? = null
     ) {
         toolbar?.apply {
             title = ""
             setHomeAsUpIndicator()?.let { setNavigationIcon(it) }
             getBaseActivity().setSupportActionBar(this)
-            navigationOnClickListener?.let {l-> this.setNavigationOnClickListener {l.invoke(it)  } }
+            navigationOnClickListener?.let { l -> this.setNavigationOnClickListener { l.invoke(it) } }
 //            this.setNavigationOnClickListener {v-> navigationOnClickListener?.invoke(v) }
             getBaseActivity().supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(setDisplayHomeAsUpEnabled() ?: true)

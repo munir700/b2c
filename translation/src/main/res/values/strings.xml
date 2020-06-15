@@ -32,7 +32,8 @@
     <string name="error_message_id_validation">The value should be between 13 and 15 characters.</string>
     <string name="error_message_regex_validation">Invalid format</string>
     <string name="error_message_email_validation">Invalid Email format</string>
-    <string name="error_message_username_validation">Invalid Esername format</string>
+    <string name="error_message_first_name_validation">Invalid first name format</string>
+    <string name="error_message_last_name_validation">Invalid last name format</string>
     <string name="error_message_cpf_validation">Invalid CPF format</string>
     <string name="error_message_url_validation">Invalid url format</string>
     <string name="error_message_credit_card_validation">Invalid Credit Card format</string>
@@ -895,7 +896,7 @@
 
 
     <!-- YAP Household success screen -->
-    <string name="screen_yap_house_hold_success_display_text_title">Payment confirmed and %1s has been added to your account!</string>
+    <string name="screen_yap_house_hold_success_display_text_title">Payment confirmed and\n%1s has been added to\nyour account!</string>
     <string name="screen_yap_house_hold_success_display_text_heading">%1s\'s card is on it\'s way</string>
     <string name="screen_yap_house_hold_success_display_text_house_hold_card">Household card</string>
     <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS with instructions to download the app and complete sign up</string>
