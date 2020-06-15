@@ -18,6 +18,7 @@
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
+    <string name="common_display_text_daily_limit_remaining_error">That\'s over your daily limit. Please enter an amount lower than %1s</string>
     <string name="common_display_text_daily_limit_error_single_transaction">This amount exceeds your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
