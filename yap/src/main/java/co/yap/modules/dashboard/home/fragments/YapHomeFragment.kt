@@ -414,7 +414,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onResume() {
         super.onResume()
-        checkUserStatus()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
         MyUserManager.updateCardBalance()
     }
@@ -562,11 +561,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val isPinSet =
                         it.getBooleanExtra(Constants.isPinCreated, false)
                     val isSkip =
-                        it.getBooleanExtra("isTopUpSkip", false)
+                        it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
                         viewModel.getDebitCards()
                     } else {
+                        viewModel.getDebitCards()
                         openTopUpScreen()
                     }
                 }

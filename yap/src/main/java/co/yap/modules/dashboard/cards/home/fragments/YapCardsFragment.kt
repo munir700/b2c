@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
@@ -25,7 +26,10 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -229,6 +233,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
             Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
+                    viewModel.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
 
@@ -241,20 +246,18 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 showToast(Utils.getOtpBlockedMessage(requireContext()))
                             } else {
                                 startActivityForResult(
-                                    AddRemoveFundsActivity.newIntent(
+                                    TopUpBeneficiariesActivity.newIntent(
                                         requireContext(),
-                                        it,
-                                        isAddFund = true
+                                        getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
                                     ),
                                     RequestCodes.REQUEST_ADD_FUNDS_WHEN_ADD
                                 )
                             }
-                        }
+                        } ?: showToast("Invalid card found.")
                     } else {
                         isPinCreated?.let {
                             if (it) {
                                 adapter.removeAllItems()
-                                viewModel.getDebitCard()
                             }
                         }
                     }
