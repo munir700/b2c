@@ -414,7 +414,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onResume() {
         super.onResume()
-        checkUserStatus()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
         MyUserManager.updateCardBalance()
     }
@@ -567,6 +566,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (isPinSet && isSkip) {
                         viewModel.getDebitCards()
                     } else {
+                        viewModel.getDebitCards()
                         openTopUpScreen()
                     }
                 }
