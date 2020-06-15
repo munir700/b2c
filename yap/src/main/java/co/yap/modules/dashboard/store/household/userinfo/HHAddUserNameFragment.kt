@@ -6,6 +6,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhAddUserNameBinding
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
+import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 class HHAddUserNameFragment :
@@ -31,5 +32,13 @@ class HHAddUserNameFragment :
                 )
             }
         }
+    }
+
+    override fun getToolBarTitle() =
+        getString(Strings.screen_yap_house_hold_user_info_display_text_title)
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
 }

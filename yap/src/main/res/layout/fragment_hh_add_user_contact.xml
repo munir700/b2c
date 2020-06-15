@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,6 +9,8 @@
             type="co.yap.modules.dashboard.store.household.contact.HHAddUserContactVM" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
 
         <import type="android.view.View" />
 
@@ -28,39 +31,47 @@
                 style="@style/Yap.App.Widget.TextView.Medium"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:text="@string/screen_yap_house_hold_user_info_contact_display_text_heading"
-                app:text="@{Strings.screen_yap_house_hold_user_info_display_text_heading}" />
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_user_info_contact_display_text_heading,viewModel.state.request.firstName)}" />
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginTop="@dimen/margin_xl"
+                android:drawablePadding="11dp"
                 android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"
                     style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
-                    android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
+                    android:gravity="start"
+                    android:hint="551234567"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
+                    android:maxLength="9"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
-                    android:text="@={viewModel.state.phone}" />
+                    android:text="@={viewModel.state.phone}"
+                    app:isoCountryCode="@{`+971`}"
+                    app:pse_showHint="true" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginTop="@dimen/margin_medium_large"
+                android:drawablePadding="11dp"
                 android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etConfirmPhoneNumber"
                     style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
-                    android:hint="55 1248389"
+                    android:hint="551234567"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
-                    android:text="@={viewModel.state.confirmPhone}" />
+                    android:text="@={viewModel.state.confirmPhone}"
+                    app:pse_showHint="true"
+                    app:validateMobile="@{etPhoneNumber}"
+                    app:validateMobileMessage="@{@string/error_message_not_equal_phone}" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <Space
@@ -73,6 +84,7 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                 android:layout_marginStart="@dimen/margin_xxl"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_xxl"

@@ -39,6 +39,7 @@
     <string name="error_message_credit_card_validation">Invalid Credit Card format</string>
     <string name="error_message_empty_validation">This field can\'t be empty</string>
     <string name="error_message_not_equal_password">Passwords are not the same</string>
+    <string name="error_message_not_equal_phone">Mobile No are not the same</string>
     <string name="default_required_validation_message">This field is required.</string>
     <string name="error_message_postal_address">Postal Address is not valid</string>
     <string name="default_required_length_message_min_max">The input must have length between %1$d

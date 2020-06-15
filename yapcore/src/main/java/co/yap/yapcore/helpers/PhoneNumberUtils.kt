@@ -113,7 +113,7 @@ fun isValidPhoneNumber(number: String, code: String): Boolean {
     var isMobile: PhoneNumberUtil.PhoneNumberType? = null
     try {
         val ph = phoneUtil.parse(number, code)
-        ph.setCountryCode(phoneUtil.getCountryCodeForRegion(code))
+        ph.countryCode = phoneUtil.getCountryCodeForRegion(code)
         isValid = phoneUtil.isValidNumber(ph) && !number.startsWith("0")
         isMobile = phoneUtil.getNumberType(ph)
         return isValid && (PhoneNumberUtil.PhoneNumberType.MOBILE === isMobile || PhoneNumberUtil.PhoneNumberType.FIXED_LINE_OR_MOBILE === isMobile)

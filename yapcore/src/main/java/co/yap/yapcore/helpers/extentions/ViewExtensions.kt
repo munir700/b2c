@@ -4,6 +4,9 @@ import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.appbar.AppBarLayout
@@ -131,3 +134,5 @@ fun getClickableSpan(color: Int, action: (view: View) -> Unit): ClickableSpan {
         }
     }
 }
+
+fun View.getDrawable(@DrawableRes drawResId: Int) = ContextCompat.getDrawable(context, drawResId)
