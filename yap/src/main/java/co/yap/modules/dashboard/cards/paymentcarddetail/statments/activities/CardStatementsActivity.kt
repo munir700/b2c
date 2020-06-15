@@ -10,6 +10,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces.ICardStatments
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementsViewModel
+import co.yap.modules.pdf.PDFActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
@@ -48,17 +49,17 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            startActivity(
-//                PDFActivity.newIntent(
-//                    view.context,
-//                    (data as CardStatement).statementURL?.replace("https", "http") ?: ""
-//                )
-//            )
-            startFragment<WebViewFragment>(
-                fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                    Constants.PAGE_URL to "http://docs.google.com/viewer?embedded=true&url=" + (data as CardStatement).statementURL
-                ), showToolBar = true
+            startActivity(
+                PDFActivity.newIntent(
+                    view.context,
+                    (data as CardStatement).statementURL ?: ""
+                )
             )
+//            startFragment<WebViewFragment>(
+//                fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+//                    Constants.PAGE_URL to "http://docs.google.com/viewer?embedded=true&url=" + (data as CardStatement).statementURL
+//                ), showToolBar = true
+//            )
         }
     }
 }

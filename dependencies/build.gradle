@@ -140,10 +140,10 @@ project.ext {
             //adjust
             adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
             adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
-            expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+            expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             //pdfViewer
-            //pdfViewer                : 'com.github.barteksc:android-pdf-viewer:2.8.2'
+            pdfViewer                : 'com.github.barteksc:android-pdf-viewer:2.8.2'
     ]
 
     // Test dependencies which need to be added in all modules
@@ -181,6 +181,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.adjust],
             [configuration: "implementation", dependency: libraries.adjustReferrer],
             [configuration: "implementation", dependency: libraries.expand],
+            [configuration: "implementation", dependency: libraries.pdfViewer],
             [configuration: "implementation", dependency: libraries.baloon]
     ]
 
@@ -350,6 +351,15 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'mips', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            universalApk false
+        }
     }
 
 }
