@@ -151,15 +151,20 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         when (requestCode) {
             Constants.EVENT_CREATE_CARD_PIN -> {
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {// search this to look into conflict YAP_ISSUE_KNOWN_01
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-                    if (isPinCreated!!) {
+                    val serialNumber: String? =
+                        data?.getStringExtra(Constants.CARD_SERIAL_NUMBER)
+                    val isTopupSkip: Boolean? =
+                        data?.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
+                    if (isPinCreated == true) {
                         val returnIntent = Intent()
-                        returnIntent.putExtra(Constants.isPinCreated, true)
+                        returnIntent.putExtra(Constants.CARD_SERIAL_NUMBER, serialNumber)
+                        returnIntent.putExtra(Constants.isPinCreated, isPinCreated)
+                        returnIntent.putExtra(Constants.IS_TOPUP_SKIP, isTopupSkip)
                         activity?.setResult(Activity.RESULT_OK, returnIntent)
                         activity?.finish()
                     }
