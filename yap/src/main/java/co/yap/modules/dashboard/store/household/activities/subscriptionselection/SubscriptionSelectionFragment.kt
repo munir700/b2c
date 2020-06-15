@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityHouseHoldSubscriptionSelctionBinding
+import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.
 import javax.inject.Inject
 
 class SubscriptionSelectionFragment :
-    BaseNavViewModelFragment<ActivityHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
+    BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
     lateinit var item: View
     var selectedPosition: Int = 0
     var incrementValue: Boolean = true
