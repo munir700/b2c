@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.ActivityHouseHoldSubscriptionSelctionBinding
 import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.onboarding.models.WelcomeContent

@@ -7,17 +7,14 @@
 
         <import type="co.yap.translation.Strings" />
 
-
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.store.household.activities.subscriptionselection.SubscriptionSelectionVM" />
 
         <import type="android.view.View" />
-
     </data>
 
-
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +28,7 @@
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btnClose"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_25sdp"
@@ -40,6 +37,7 @@
                 android:layout_marginLeft="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_large"
                 android:clickable="true"
+                android:contentDescription="@string/empty_string"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
@@ -47,7 +45,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_close_primary" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTitle"
                 style="@style/Regular"
                 android:layout_width="match_parent"
@@ -59,10 +57,7 @@
                 android:gravity="center"
                 android:text="@string/screen_yap_house_hold_subscription_selection_display_text_title"
                 app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_title}" />
-
-
         </RelativeLayout>
-
 
         <ScrollView
             android:layout_width="match_parent"
@@ -70,7 +65,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:paddingTop="@dimen/small"
                 android:paddingBottom="@dimen/margin_medium">
@@ -87,18 +82,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="MissingConstraints" />
 
-
                 <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
                     android:id="@+id/worm_dots_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_24sdp"
                     app:dotsColor="?attr/colorPrimaryAttr"
                     app:dotsCornerRadius="8dp"
                     app:dotsSize="12dp"
                     app:dotsSpacing="4dp"
-                    android:layout_marginTop="@dimen/_4sdp"
                     app:dotsStrokeColor="@color/grey"
                     app:dotsStrokeWidth="6dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -113,8 +107,7 @@
                     android:background="@color/greyLight"
                     app:layout_constraintTop_toBottomOf="@+id/worm_dots_indicator" />
 
-
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvBenefits"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -128,7 +121,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardFee"
                     app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_house_hold_heading}" />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvSubscriptionPackageBenefits"
@@ -145,7 +137,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvBenefits"
                     tools:listitem="@layout/item_benefits" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCardType"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -161,7 +153,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/rvSubscriptionPackageBenefits"
                     app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan}" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/llFees"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,18 +165,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardType">
 
-                    <LinearLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/llMonthlySubscription"
                         android:layout_width="@dimen/_130sdp"
                         android:layout_height="@dimen/_150sdp"
-                        android:layout_marginRight="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
                         android:background="@drawable/card_selector"
                         android:clickable="true"
                         android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                         android:orientation="vertical"
                         android:paddingTop="@dimen/margin_medium_large">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Regular"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -192,7 +184,7 @@
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly}" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/SmallGrey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -201,8 +193,7 @@
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_months"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_months}" />
 
-
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Large"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -212,7 +203,7 @@
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="AED 59.99" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPerMonths"
                             style="@style/SmallGrey"
                             android:layout_width="match_parent"
@@ -221,10 +212,9 @@
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_per_month"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_per_month}" />
 
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/llAnnualSubscription"
                         android:layout_width="@dimen/_130sdp"
                         android:layout_height="@dimen/_150sdp"
@@ -234,7 +224,7 @@
                         android:orientation="vertical"
                         android:paddingTop="@dimen/margin_medium_large">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Regular"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -242,8 +232,7 @@
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly}" />
 
-
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="@dimen/_70sdp"
                             android:layout_height="@dimen/_18sdp"
                             android:layout_gravity="center"
@@ -260,8 +249,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/cardView"
                             tools:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_saving}" />
 
-
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvAnnaulFee"
                             style="@style/Large"
                             android:layout_width="match_parent"
@@ -272,7 +260,7 @@
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="AED 59.99" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPerYear"
                             style="@style/SmallGrey"
                             android:layout_width="match_parent"
@@ -281,10 +269,10 @@
                             android:text="@string/screen_yap_house_hold_subscription_selection_display_text_per_year"
                             app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_per_year}" />
 
-                    </LinearLayout>
-                </LinearLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCharges"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
@@ -301,7 +289,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llFees"
                     app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_charges}" />
-
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnGetStarted"
@@ -321,5 +308,5 @@
                     tools:layout_editor_absoluteX="44dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

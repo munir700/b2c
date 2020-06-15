@@ -21,7 +21,7 @@
         android:layout_marginEnd="@dimen/margin_medium"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivHouse"
             android:layout_width="@dimen/_55sdp"
             android:layout_height="@dimen/_55sdp"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_house_hold" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHeading"
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             app:text="@{Strings.screen_yap_house_hold_confirm_payment_display_text_title}"
             tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_title" />
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/llUserInfoContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvHeading">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ALarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,14 +64,14 @@
                 android:text="@{viewModel.username}"
                 tools:text="Faheem Riaz" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/ALarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@{viewModel.countryCode+` `+viewModel.userMobileNo}"
                 tools:text="971 55 5555 5555" />
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
             android:id="@+id/vDivider"
@@ -90,7 +90,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vDivider">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvHeadingPlan"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
