@@ -17,7 +17,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 import javax.inject.Inject
 
-class HouseHoldConfirmPaymentVm @Inject constructor(override var state: IHouseHoldConfirmPayment.State) :
+class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHoldConfirmPayment.State) :
     DaggerBaseViewModel<IHouseHoldConfirmPayment.State>(), IHouseHoldConfirmPayment.ViewModel {
 
     override var repository: CustomersApi = CustomersRepository

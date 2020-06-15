@@ -13,9 +13,9 @@ class HouseHoldConfirmPaymentModule : BaseFragmentModule<HouseHoldConfirmPayment
     @ViewModelInjection
     fun provideHouseHoldConfirmPaymentVM(
         fragment: HouseHoldConfirmPaymentFragment,
-        viewModelProvider: InjectionViewModelProvider<HouseHoldConfirmPaymentVm>
-    ): HouseHoldConfirmPaymentVm =
-        viewModelProvider.get(fragment, HouseHoldConfirmPaymentVm::class)
+        viewModelProvider: InjectionViewModelProvider<HouseHoldConfirmPaymentVM>
+    ): HouseHoldConfirmPaymentVM =
+        viewModelProvider.get(fragment, HouseHoldConfirmPaymentVM::class)
 
     @Provides
     @FragmentScope

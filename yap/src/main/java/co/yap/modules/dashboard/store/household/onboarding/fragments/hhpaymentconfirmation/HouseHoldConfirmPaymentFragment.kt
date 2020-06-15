@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentc
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.databinding.FragmentHouseHoldCofirmPaymentBinding
+import co.yap.databinding.FragmentHouseHoldCofirmPaymentV2Binding
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
@@ -14,9 +14,9 @@ import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.fragment_house_hold_cofirm_payment.*
 
 class HouseHoldConfirmPaymentFragment :
-    BaseNavViewModelFragment<FragmentHouseHoldCofirmPaymentBinding, IHouseHoldConfirmPayment.State, HouseHoldConfirmPaymentVm>() {
+    BaseNavViewModelFragment<FragmentHouseHoldCofirmPaymentV2Binding, IHouseHoldConfirmPayment.State, HouseHoldConfirmPaymentVM>() {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_house_hold_cofirm_payment
+    override fun getLayoutId(): Int = R.layout.fragment_house_hold_cofirm_payment_v2
     private var householdPlanPopMenu: PopupMenu? = null
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
