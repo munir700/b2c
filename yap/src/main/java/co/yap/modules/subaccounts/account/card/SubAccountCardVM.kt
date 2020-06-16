@@ -10,6 +10,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.leanplum.HHUserActivityEvents
+import co.yap.yapcore.leanplum.trackEvent
 import javax.inject.Inject
 
 class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.State) :
@@ -85,6 +87,7 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         launch {
             when (val response = repository.RemoveRefundHouseHoldUser(account.accountUuid)) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHUserActivityEvents.HH_HELP_USER_DECLINED.type)
                     removeItem(account)
                 }
                 is RetroApiResponse.Error -> {

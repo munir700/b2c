@@ -27,6 +27,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -64,6 +66,7 @@ class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelec
             }
         })
         viewModel.orderCardRequestSuccess.observe(this, Observer {
+            trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_ONBOARDING_SUCCESS.type)
             startFragment<KycSuccessFragment>(clearAllPrevious = true)
         })
     }

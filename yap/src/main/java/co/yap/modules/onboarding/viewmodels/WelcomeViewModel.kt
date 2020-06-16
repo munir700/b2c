@@ -9,6 +9,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application),
     IWelcome.ViewModel {

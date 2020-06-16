@@ -17,3 +17,5 @@ class HHIbanSendMoneyVM @Inject constructor(override val state: IHHIbanSendMoney
 
     }
 }
+
+//TODO  Add this line in onSuccess of expense transfer API call. trackEvent(HHUserActivityEvents.HH_EXPENSE_TRANSFERRED.type)

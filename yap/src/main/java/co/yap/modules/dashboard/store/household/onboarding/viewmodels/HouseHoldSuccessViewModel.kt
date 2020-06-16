@@ -5,12 +5,15 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.modules.dashboard.store.household.onboarding.states.HouseHoldSuccessState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class HouseHoldSuccessViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldSuccess.State>(application),
     IHouseHoldSuccess.ViewModel/*,
     IRepositoryHolder<CardsRepository>*/ {
     override fun handlePressOnShare(id: Int) {
+        trackEvent(HHSubscriptionEvents.HH_SHARE.type)
         clickEvent.setValue(id)
     }
 

@@ -5,6 +5,8 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.modules.dashboard.store.household.onboarding.states.HouseHoldUserInfoStates
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class HouseHoldUserInfoViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldUserInfo.State>(application),
@@ -16,6 +18,7 @@ class HouseHoldUserInfoViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnNext(id: Int) {
+        trackEvent(HHSubscriptionEvents.HH_PLAN_NAME.type/*, state.firstName + " " + state.lastName*/)
         clickEvent.setValue(id)
     }
 

@@ -13,6 +13,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel>(),
     IHouseHoldLanding.View {
@@ -28,6 +31,7 @@ class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnGetHouseHoldAccount -> {
+                    trackEvent(HHSubscriptionEvents.HH_START_SUBSCRIPTION.type)
                     launchActivity<SubscriptionSelectionActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
                 }
                 R.id.imgClose -> {

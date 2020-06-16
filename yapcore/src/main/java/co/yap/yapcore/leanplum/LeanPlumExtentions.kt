@@ -1,5 +1,6 @@
 package co.yap.yapcore.leanplum
 
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,10 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import com.leanplum.Leanplum
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
+    fireEventWithAttribute(eventName, value)
+}
+
+fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 

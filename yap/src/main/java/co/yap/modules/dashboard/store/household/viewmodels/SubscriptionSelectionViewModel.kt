@@ -17,6 +17,9 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -37,14 +40,17 @@ class SubscriptionSelectionViewModel(application: Application) :
     }
 
     override fun handlePressOnGetStarted(id: Int) {
+        trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnMonthlyPackage(id: Int) {
+        trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnYearlyPackage(id: Int) {
+        trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
         clickEvent.setValue(id)
     }
 

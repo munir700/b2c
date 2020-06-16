@@ -12,6 +12,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.getCountryCodeForRegionWithZeroPrefix
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class HouseHoldNumberRegistrationViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldNumberRegistration.State>(application),
@@ -45,6 +47,7 @@ class HouseHoldNumberRegistrationViewModel(application: Application) :
             )
             when (val response = repository.verifyHouseholdParentMobile(state.phoneNumber, request )) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_PHONE_CORRECT.type)
                     parentMobileValidationResponse?.postValue(response.data.data)
                     state.loading = false
                 }

@@ -11,6 +11,8 @@ import co.yap.translation.Strings
 import co.yap.widgets.State
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.leanplum.HHUserActivityEvents
+import co.yap.yapcore.leanplum.trackEvent
 import javax.inject.Inject
 
 class SubscriptionVM @Inject constructor(override val state: ISubscription.State) :
@@ -90,6 +92,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
                     state.subAccount.value?.accountUuid
                 )) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHUserActivityEvents.HH_SUBS_CANCEL.type)
                     getSubscriptionData()
                 }
                 is RetroApiResponse.Error -> {

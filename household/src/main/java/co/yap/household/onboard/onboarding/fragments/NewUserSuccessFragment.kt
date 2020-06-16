@@ -27,6 +27,8 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
@@ -54,6 +56,7 @@ class NewUserSuccessFragment :
         rootContainer.children.forEach { it.alpha = 0f }
 
         btnCompleteVerifiocation.setOnClickListener {
+            trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_SIGN_UP.type)
             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                 putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
                 putExtra(Constants.data, false)
@@ -96,6 +99,7 @@ class NewUserSuccessFragment :
                     val status = data.getStringExtra("status")
                     success?.let {
                         if (it) {
+                            trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID.type)
                             startActivity(
                                 HouseHoldCardsSelectionActivity.newIntent(
                                     requireContext(),
@@ -106,6 +110,7 @@ class NewUserSuccessFragment :
                         } else {
                             skipped?.let { skip ->
                                 if (skip) {
+                                    trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
                                     when (status) {
                                         KYCAction.ACTION_EID_FAILED.name ->
                                             startFragment(InvalidEIDFragment::class.java.name)
