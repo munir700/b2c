@@ -20,10 +20,10 @@
         android:id="@+id/clContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/margin_small"
-        android:paddingEnd="@dimen/margin_small"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSelectCountry"
@@ -145,12 +145,13 @@
                 android:overScrollMode="never"
                 android:overlapAnchor="false"
                 android:spinnerMode="dropdown"
-                app:adaptor="@{viewModel.taxModel.reasons}" />
+                app:adaptor="@{viewModel.taxModel.reasons}"
+                app:selectedListener="@{viewModel.spinnerItemClickListener}" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/margin_normal"
                 android:layout_height="1dp"
+                android:layout_marginStart="@dimen/margin_normal"
                 android:background="@color/greyLight" />
         </LinearLayout>
 
