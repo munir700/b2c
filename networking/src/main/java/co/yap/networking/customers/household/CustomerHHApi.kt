@@ -2,10 +2,7 @@ package co.yap.networking.customers.household
 
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
-import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
-import co.yap.networking.customers.household.responsedtos.HouseHoldUserProfile
-import co.yap.networking.customers.household.responsedtos.SalaryTransaction
-import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.BaseResponse
@@ -58,7 +55,7 @@ interface CustomerHHApi : CustomersApi {
         category: String?
     ): RetroApiResponse<BaseResponse<SalaryTransaction>>
 
-    suspend fun getLastNextTransaction(uuid: String?): RetroApiResponse<ApiResponse>
+    suspend fun getLastNextTransaction(uuid: String?): RetroApiResponse<BaseListResponse<HouseHoldLastNextSalary>>
     suspend fun cancelSchedulePayment(scheduledPaymentUuid: String?): RetroApiResponse<ApiResponse>
     suspend fun updateSchedulePayment(scheduledPaymentUuid: String?, request: SchedulePayment?): RetroApiResponse<ApiResponse>
 }
