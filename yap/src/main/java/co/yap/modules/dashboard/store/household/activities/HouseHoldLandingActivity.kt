@@ -16,6 +16,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
+@Deprecated("Used HouseHoldLandingFragment")
 
 class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel>(),
     IHouseHoldLanding.View {

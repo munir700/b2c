@@ -60,7 +60,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch {
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    usersList?.value = response.data.data as ArrayList
+                    usersList?.postValue(response.data.data as ArrayList)
+//                    usersList?.value = response.data.data as ArrayList
                     user = getCurrentUser()
                     onAccountInfoSuccess.postValue(true)
                 }

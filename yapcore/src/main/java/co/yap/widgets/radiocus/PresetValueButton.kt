@@ -22,6 +22,7 @@ class PresetValueButton : CardView, RadioCheckable {
     private var lable1Color = 0
     private var lable2Color = 0
     private var mPressedTextColor = 0
+    private var layoutResId = -1
     private var mInitialBackgroundDrawable: Drawable? = null
     private var mOnClickListener: OnClickListener? = null
     var onTouchListener: OnTouchListener? = null
@@ -58,6 +59,7 @@ class PresetValueButton : CardView, RadioCheckable {
         )
         val resources = context.resources
         try {
+            layoutResId = a.getResourceId(R.styleable.PresetValueButton_preset_layoutResId, -1)
             lable1 = a.getString(R.styleable.PresetValueButton_lable1)
             lable2 = a.getString(R.styleable.PresetValueButton_lable2)
             lable1Color = a.getColor(
@@ -79,15 +81,17 @@ class PresetValueButton : CardView, RadioCheckable {
     }
 
     private fun setupView() {
-        inflateView()
-        bindView()
+        if (layoutResId > -1) {
+            inflateView()
+            bindView()
+        }
         setCustomTouchListener()
     }
 
     private fun inflateView() {
         val inflater =
             LayoutInflater.from(context)
-        inflater.inflate(R.layout.custom_preset_button, this, true)
+        inflater.inflate(layoutResId, this, true)
         tvLable1 = findViewById(R.id.tvLable1)
         tvLable2 = findViewById(R.id.tvLable2)
         mInitialBackgroundDrawable = background

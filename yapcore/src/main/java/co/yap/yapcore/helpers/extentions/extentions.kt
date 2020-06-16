@@ -22,6 +22,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -170,6 +172,12 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
     this.movementMethod =
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
+}
+
+fun Context?.switchTheme(theme: YAPThemes) {
+    this?.let {
+        SharedPreferenceManager.getInstance(it).setThemeValue(theme::class.simpleName.toString())
+    }
 }
 
 /**

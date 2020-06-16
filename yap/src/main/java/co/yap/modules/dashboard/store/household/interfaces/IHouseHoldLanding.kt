@@ -6,7 +6,7 @@ import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("Used HouseHoldLandingFragment")
 interface IHouseHoldLanding {
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean

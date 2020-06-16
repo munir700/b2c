@@ -16,10 +16,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.getSnackBarFromQueue
-import co.yap.yapcore.helpers.showSnackBar
-import co.yap.yapcore.helpers.updateSnackBarText
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.snackbar.Snackbar
@@ -108,6 +105,11 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
         viewModel.clickEvent.removeObservers(this)
         viewModel.errorEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Utils.setStatusBarColor(this)
     }
 
 }

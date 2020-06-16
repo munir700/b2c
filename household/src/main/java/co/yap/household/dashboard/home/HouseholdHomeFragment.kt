@@ -10,14 +10,17 @@ import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.requestdtos.REQUEST_PAGE_SIZE
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.MANUAL_CREDIT
 import co.yap.yapcore.constants.Constants.MANUAL_DEBIT
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
@@ -26,6 +29,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
@@ -63,7 +67,7 @@ class HouseholdHomeFragment :
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
-            pagination = viewModel.getPaginationListener()
+           // pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }
@@ -71,9 +75,17 @@ class HouseholdHomeFragment :
     private val onItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is HomeNotification) {
-                val notification: HomeNotification = mNotificationAdapter.getData().get(pos)
+                val notification: HomeNotification = mNotificationAdapter.getData()[pos]
                 when (notification.action) {
-                    // bundleOf(Pair(Card::class.simpleName , null))
+                    NotificationAction.COMPLETE_VERIFICATION -> {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            putExtra(
+                                Constants.name,
+                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, false)
+                        }
+                    }
 
                     NotificationAction.SET_PIN -> {
                         launchActivity<NavHostPresenterActivity>(

@@ -51,14 +51,15 @@ class HouseHoldDashboardModule : BaseFragmentModule<HouseholdDashboardFragment>(
             .setEndAngle(-180).setRadius(fragment.requireContext().dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
             .addSubActionView(
-                fragment.requireContext().getString(R.string.yap_to_yap),
-                co.yap.R.drawable.ic_yap_to_yap,
+                fragment.requireContext().getString(R.string.send_money),
+                co.yap.R.drawable.ic_send_money,
                 co.yap.R.layout.component_yap_menu_sub_button,
                 fragment.requireActivity(), 1
             )
+
             .addSubActionView(
-                fragment.requireContext().getString(R.string.top_up),
-                co.yap.R.drawable.ic_top_up,
+                fragment.requireContext().getString(R.string.request_money),
+           R.drawable.ic_request_money,
                 co.yap.R.layout.component_yap_menu_sub_button,
                 fragment.requireActivity(), 2
             ).setStateChangeListener(fragment)

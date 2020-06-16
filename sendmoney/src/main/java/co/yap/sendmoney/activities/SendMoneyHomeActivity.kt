@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -40,6 +41,7 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        setStatusBarColor()
         viewModel.clickEvent.observe(this, backButtonObserver)
     }
 
@@ -81,4 +83,10 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
             }
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        Utils.setStatusBarColor(this)
+    }
+
 }

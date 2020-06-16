@@ -18,7 +18,7 @@
     <color name="grey">#c9c8d8</color>
     <color name="red">#d32f2f</color>
     <color name="greyDark">#9391b1</color>
-    <color name="greyLight">#00E0F0</color>
+    <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
@@ -106,8 +106,10 @@
     <color name="colordisabledTickHouseHold">#FC6253</color>
     <color name="seekbarProgresskHouseHold">#FFE3E0</color>
     <color name="colorSnackBarBackGround">#fff4f3</color>
-
     <color name="colorPrimaryDarkIconsHouseHold">#fafafa</color>
+    <color name="colorLightPink">#FEF1EF</color>
+    <color name="colorLightPinkBankTransfer">#FFF8F7</color>
+    <color name="colorDarkPinkBankTransfer">#FFE0DD</color>
 
     <color name="grey88848d">#c9c8d8</color>
 
@@ -128,6 +130,14 @@
     <color name="colorDarkPeach">#F57F17</color>
 
     <color name="colorCoachMarkOverlay">#4D272262</color>
+    <color name="colorSendMoneyToolBar">#00000000</color>
+    <color name="colorSendMoneyToolBarHouseHold">#fc6253</color>
+    <color name="colorSearchViewHouseHold">#fb867a</color>
+    <color name="colorSearchViewHintHouseHold">#fcb9b2</color>
 
+    <!--    EditTheme Color-->
+    <color name="colorControlNormal">#dae0f0</color>
+    <color name="colorControlActivated">#dae0f0</color>
+    <color name="colorControlHighlight">#dae0f0</color>
 
 </resources>
