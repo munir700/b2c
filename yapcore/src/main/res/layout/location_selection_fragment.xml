@@ -182,6 +182,47 @@
                     android:layout_height="@dimen/_1sdp"
                     android:background="@color/greySoft" />
 
+                <TextView
+                    android:id="@+id/tvLandMark"
+                    style="@style/ASmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:textSize="@dimen/text_size_h2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etAddressField"
+                    app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
+                    tools:text="@string/screen_meeting_location_input_text_landmark_title" />
+                <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
+
+                <EditText
+                    android:id="@+id/etLandMarkField"
+                    style="@style/ALarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="@dimen/margin_extra_small"
+                    android:inputType="textPersonName"
+                    android:maxLength="100"
+                    android:text="@={viewModel.state.addressSubtitle}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/text_size_h3"
+                    app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
+                    app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
+                    app:textSelection="@{viewModel.state.addressSubtitle}"
+                    tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
+                    tools:ignore="MissingConstraints" />
+
+                <View
+                    android:id="@+id/breakLineFlatNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/greySoft" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutCitiesBottomSheet"
                     android:layout_width="match_parent"
@@ -235,48 +276,6 @@
                         tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/tvLandMark"
-                    style="@style/ASmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:textSize="@dimen/text_size_h2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etAddressField"
-                    app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
-                    tools:text="@string/screen_meeting_location_input_text_landmark_title" />
-                <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
-
-                <EditText
-                    android:id="@+id/etLandMarkField"
-                    style="@style/ALarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:background="@android:color/transparent"
-                    android:drawablePadding="@dimen/margin_extra_small"
-                    android:inputType="textPersonName"
-                    android:maxLength="100"
-                    android:text="@={viewModel.state.addressSubtitle}"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textColorHint="@color/grey"
-                    android:textSize="@dimen/text_size_h3"
-                    app:drawableClick="@{viewModel.state.addressSubtitle.isEmpty()?false : true}"
-                    app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
-                    app:textSelection="@{viewModel.state.addressSubtitle}"
-                    tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
-                    tools:ignore="MissingConstraints" />
-
-                <View
-                    android:id="@+id/breakLineFlatNo"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/greySoft" />
-
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/nextButton"

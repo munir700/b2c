@@ -16,6 +16,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
+import com.github.barteksc.pdfviewer.PDFView
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import kotlinx.android.synthetic.main.activity_pdf.*
 import java.io.File
 import java.io.IOException
@@ -53,15 +55,27 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
         val url = intent?.getValue(URL, ExtraType.STRING.name) as? String
         url?.let {
             viewModel.downloadFile(it) { file ->
-                try {
-                    openRenderer(file)
-                    showPage(pageIndex)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+                val pdfView = findViewById<PDFView>(R.id.pdfView)
+                pdfView.fromFile(file)
+                    .defaultPage(0)
+                    .enableSwipe(true)
+                    .swipeHorizontal(false)
+                    //.onPageChange(this)
+                    .enableAnnotationRendering(true)
+                    .onLoad {
+                    }
+                    .scrollHandle(DefaultScrollHandle(this))
+                    .load()
+//                try {
+//                    openRenderer(file)
+//                    showPage(pageIndex)
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
             }
         } ?: close()
     }
+
 
     val listener = Observer<Int> {
         when (it) {
