@@ -47,7 +47,6 @@
         <item name="colorCircularTextAttr">@color/purple</item>
         <item name="colorCircularBgAttr">@color/disabledLight</item>
         <item name="colorYapItBgAttr">@color/white</item>
-
         <item name="colorButtonPressedAttr">@color/colorPressedBtnState</item>
         <item name="colorButtonUnPressedAttr">@color/colorPrimary</item>
         <item name="colorCoreButtonTextAttr">@color/white</item>
@@ -100,7 +99,6 @@
         <item name="colorCircularTextAttr">@color/colorSecondaryMagenta</item>
         <item name="colorCircularBgAttr">@color/bg_round_light_secondary_magenta</item>
         <item name="colorYapItBgAttr">@color/colorPrimaryHouseHold</item>
-
         <item name="colorButtonPressedAttr">@color/white</item>
         <item name="colorButtonUnPressedAttr">@color/white</item>
         <item name="colorCoreButtonTextAttr">@color/colorPrimaryDark</item>
@@ -121,7 +119,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
     <style name="Widget.Button.Primary" parent="Widget.AppCompat.Button">
         <item name="colorButtonNormal">?attr/colorPrimaryAttr</item>
         <item name="android:textColor">@color/white</item>
@@ -131,14 +128,11 @@
         <item name="android:background">?attr/colorPrimaryWarmAttr</item>
     </style>
 
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">?attr/colorPrimary</item>
         <item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
         <item name="colorAccent">?attr/colorAccent</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
-
-
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -118,10 +118,8 @@
                             android:layout_height="@dimen/_20sdp"
                             android:layout_marginTop="@dimen/margin_normal"
                             app:layout_constraintStart_toStartOf="parent"
-
                             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
                             app:setFlagDrawable="@{editBeneficiaryViewModel.state.beneficiary.country}"
-
                             tools:src="@drawable/flag_ae" />
 
                         <TextView
@@ -302,7 +300,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_nick_name}"
                     app:textColor="@{editBeneficiaryViewModel.state.nickName.empty ? true : false}"
-
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -478,8 +475,6 @@
                         android:text="(403) 292-1100"
                         android:textSize="@dimen/text_size_c3"
                         android:visibility="gone" />
-
-
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -508,8 +503,8 @@
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}"
                     app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
-                <!---->
-                <androidx.appcompat.widget.AppCompatTextView
+
+                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -517,7 +512,6 @@
                     android:text="@string/screen_beneficiary_overview_display_text_swift_code"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
-
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_beneficiary_overview_display_text_swift_code}"
@@ -534,8 +528,8 @@
                     android:text="@={editBeneficiaryViewModel.state.swiftCode}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}" />
-                <!---->
-                <TextView
+
+                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

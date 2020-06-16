@@ -1,10 +1,7 @@
 package co.yap.yapcore.helpers
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.res.Resources
 import android.net.Uri
-import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -43,7 +40,6 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter(value = ["beneficiaryPicture", "fullName"], requireAll = true)
     fun loadAvatar(imageView: ImageView, beneficiaryPicture: String?, fullName: String?) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp))
@@ -61,16 +57,13 @@ object ImageBinding {
         )
     }
 
-
-
-
     fun loadAvatar(
         imageView: ImageView,
         beneficiaryPicture: String?,
         fullName: String?,
         @ColorRes color: Int,
         @DimenRes fontSize: Int = R.dimen.text_size_h5,
-        @SuppressLint("ResourceType")  textColor: Int =  ThemeColorUtils.colorPrimAttribute(imageView.context)
+        @SuppressLint("ResourceType") textColor: Int = ThemeColorUtils.colorPrimAttribute(imageView.context)
     ) {
 
         val builder = TextDrawable.builder()
