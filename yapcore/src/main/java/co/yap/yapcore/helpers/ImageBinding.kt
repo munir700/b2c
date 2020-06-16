@@ -65,7 +65,6 @@ object ImageBinding {
         @DimenRes fontSize: Int = R.dimen.text_size_h5,
         @SuppressLint("ResourceType") textColor: Int = ThemeColorUtils.colorPrimAttribute(imageView.context)
     ) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
@@ -265,7 +264,6 @@ object ImageBinding {
 
 
     private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
-
         return when (colorType) {
             "Beneficiary" -> Utils.getBeneficiaryColors(imageView.context, position = position)
             else -> Utils.getContactColors(imageView.context, position = position)
@@ -280,14 +278,12 @@ object ImageBinding {
                 position = position
             )
             else -> Utils.getBackgroundColor(imageView.context, position = position)
-
         }
     }
 
     @JvmStatic
     @BindingAdapter(value = ["countryCode", "countryName"], requireAll = false)
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
-
         val resId = getResId(
             "flag_${getDrawableName(
                 countryName
@@ -297,6 +293,5 @@ object ImageBinding {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
-
     }
 }

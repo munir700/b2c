@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -12,6 +11,7 @@
             type="co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel" />
 
         <import type="android.view.View" />
+
     </data>
 
     <ScrollView
@@ -45,7 +45,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_title}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_title" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -130,7 +129,6 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:background="@color/divider" />
 
-
                 <!--
                     this wil be the common screen in all three case
                      only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
@@ -193,7 +191,6 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:text="@{Strings.screen_add_beneficiary_detail_display_text_change_currency}" />
-
                     </LinearLayout>
 
                     <View
@@ -230,7 +227,6 @@
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
                     tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint" />
 
-
                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -243,7 +239,6 @@
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
                     app:textColor="@{viewModel.state.firstName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_first_name" />
-
 
                 <EditText
                     android:id="@+id/etFirstName"
@@ -260,7 +255,6 @@
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}"
                     tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint" />
 
-
                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -273,7 +267,6 @@
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_last_name}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_last_name" />
-
 
                 <EditText
                     android:id="@+id/etLastName"
@@ -336,7 +329,6 @@
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="44dp"
                     tools:text="@string/common_button_next" />
-
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

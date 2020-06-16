@@ -173,7 +173,6 @@
                             app:text='@{editBeneficiaryViewModel.state.transferType.equals("CASHPAYOUT")?Strings.screen_add_beneficiary_display_text_transfer_type_cash_pickup:Strings.screen_add_beneficiary_display_text_transfer_type_bank}'
                             tools:text="@string/screen_add_beneficiary_display_text_transfer_type_bank" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <LinearLayout
@@ -286,7 +285,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-
                     android:background="@color/divider" />
 
                 <androidx.appcompat.widget.AppCompatTextView
