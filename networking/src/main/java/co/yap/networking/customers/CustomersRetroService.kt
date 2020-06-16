@@ -1,8 +1,5 @@
 package co.yap.networking.customers
 
-import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
-import co.yap.networking.customers.responsedtos.AppUpdateResponse
-import co.yap.networking.customers.responsedtos.VerifyUsernameResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
@@ -199,5 +196,11 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_CITIES)
     suspend fun getCities(): Response<CitiesModel>
+
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
 
 }

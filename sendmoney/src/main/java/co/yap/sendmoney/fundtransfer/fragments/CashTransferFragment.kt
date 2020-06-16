@@ -246,8 +246,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 } ?: return false
             } ?: return false
         } ?: return false
-
     }
+
 
     private fun startFlows(productCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
@@ -345,6 +345,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
+            viewModel.parentViewModel?.isInCoolingPeriod() == true -> {
+                showToast("Fall in cooling period")
+            }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
@@ -357,6 +360,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.state.valid = true
             }
         }
+    }
+
+    private fun getError() {
+
     }
 
     fun getBindings(): FragmentCashTransferBinding {

@@ -2,7 +2,9 @@ package co.yap.sendmoney.fundtransfer.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.SMCoolingPeriod
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.sendmoney.fundtransfer.models.TransferFundData
@@ -13,6 +15,8 @@ interface IBeneficiaryFundTransfer {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnView(id: Int)
+        fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest)
+        fun isInCoolingPeriod(): Boolean
         val clickEvent: SingleClickEvent
         var errorEvent: MutableLiveData<String>
         var beneficiary: MutableLiveData<Beneficiary>
@@ -21,6 +25,7 @@ interface IBeneficiaryFundTransfer {
         var transactionWillHold: Boolean
         var selectedPop: PurposeOfPayment?
         var isSameCurrency: Boolean
+        var smCoolingPeriod: SMCoolingPeriod?
     }
 
     interface State : IBase.State {

@@ -85,5 +85,6 @@ interface CustomersApi {
     suspend fun changePasscode(newPasscode: String, token: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
     suspend fun getCities(): RetroApiResponse<CitiesModel>
+    suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
 
 }
