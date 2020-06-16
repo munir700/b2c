@@ -263,30 +263,6 @@
                 </LinearLayout>
 
                 <TextView
-                    style="@style/SmallGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_extra_small"
-                    android:gravity="center"
-                    android:text="@{viewModel.state.transferFeeSpannable}"
-                    android:textSize="@dimen/text_size_c3"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.VISIBLE : View.GONE}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_fee" />
-
-                <TextView
-                    style="@style/SmallGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/margin_extra_small"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_c3"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.VISIBLE : View.GONE}"
-                    app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_note" />
-
-                <TextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/MicroGrey"
                     android:layout_width="match_parent"
@@ -295,7 +271,6 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:gravity="center"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:text="@{viewModel.state.availableBalanceString}"
                     android:textAlignment="center"
                     app:layout_constraintStart_toStartOf="parent"
@@ -375,7 +350,6 @@
                     android:layout_marginTop="@dimen/small"
                     android:layout_marginRight="@dimen/margin_extra_small"
                     android:gravity="center"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:text="@{viewModel.state.transferFeeSpannable}"
                     android:textSize="@dimen/text_size_c3"
                     tools:text="@string/screen_international_funds_transfer_display_text_fee" />
@@ -388,7 +362,6 @@
                     android:layout_marginRight="@dimen/margin_extra_small"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_c3"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
