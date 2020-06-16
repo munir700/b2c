@@ -12,7 +12,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.modules.location.CitiesListBottomSheet
 import co.yap.modules.location.helper.MapSupportFragment
@@ -433,16 +432,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     private fun skipLocationSelectionFragment() {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.locationSelectionFragment, true) // starting destination skiped
-            .build()
-
-        findNavController().navigate(
-            R.id.action_locationSelectionFragment_to_POBSelectionFragment,
-            null,
-            navOptions
-        )
-
+        findNavController().navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
     }
 
 }

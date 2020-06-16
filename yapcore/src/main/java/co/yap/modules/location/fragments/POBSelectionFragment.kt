@@ -1,5 +1,7 @@
 package co.yap.modules.location.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -13,6 +15,7 @@ import co.yap.modules.location.viewmodels.POBSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -52,6 +55,10 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
                     )
                 }
             }
+            R.id.ivBackBtn -> {
+                setIntentResult()
+                //activity?.onBackPressed()
+            }
         }
     }
 
@@ -87,7 +94,7 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
 
     private fun skipPOBSelectionFragment() {
         val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.POBSelectionFragment, true) // starting destination skiped
+            .setPopUpTo(R.id.POBSelectionFragment, true) // starting destination skipped
             .build()
 
         findNavController().navigate(
@@ -97,5 +104,15 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         )
     }
 
-    override fun onBackPressed(): Boolean = true
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra(Constants.ADDRESS_SUCCESS, false)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
+    }
+
+    override fun onBackPressed(): Boolean {
+        setIntentResult()
+        return true
+    }
 }
