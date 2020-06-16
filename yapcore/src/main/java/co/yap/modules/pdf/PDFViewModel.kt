@@ -5,7 +5,9 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -16,11 +18,13 @@ class PDFViewModel(application: Application) :
     IPDFActivity.ViewModel {
     override val state: PDFState = PDFState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var file: File? = null
 
     override fun downloadFile(filePath: String, success: (file: File?) -> Unit) {
         launch {
             state.loading = true
-            getLocalContacts(filePath)?.let {
+            getPDFFileFromWeb(filePath)?.let {
+                file = it
                 success.invoke(it)
             } ?: success.invoke(null)
             state.loading = false
@@ -30,31 +34,11 @@ class PDFViewModel(application: Application) :
     override fun handlePressView(id: Int) {
     }
 
-    private suspend fun getLocalContacts(path: String) = viewModelBGScope.async(Dispatchers.IO) {
+    private suspend fun getPDFFileFromWeb(path: String) = viewModelBGScope.async(Dispatchers.IO) {
         downloadPDF(path)
     }.await()
 
     private fun downloadPDF(path: String): File? {
-
-//        val url: URL
-////        var urlConnection: HttpURLConnection? = null
-////        try {
-////            url = URL(path)
-////            urlConnection = url
-////                .openConnection() as HttpURLConnection
-////            val `in`: InputStream = urlConnection.inputStream
-////            val isw = InputStreamReader(`in`)
-////            var data: Int = isw.read()
-////            while (data != -1) {
-////                val current = data.toChar()
-////                data = isw.read()
-////                print(current)
-////            }
-////        } catch (e: Exception) {
-////            e.printStackTrace()
-////        } finally {
-////            urlConnection?.disconnect()
-////        }
         try {
             val url = URL(path)
             val urlConnection = url.openConnection() as HttpURLConnection

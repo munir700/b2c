@@ -4,17 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.webview.WebViewFragment
+import co.yap.modules.pdf.PDFActivity
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.helpers.extentions.startFragment
 
 class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
 
@@ -36,10 +34,8 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
             Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
                     viewModel.saveInfoDetails(false) { pdf ->
-                        startFragment(
-                            fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                                Constants.PAGE_URL to "http://docs.google.com/viewer?embedded=true&url=$pdf"
-                            ), showToolBar = true
+                        startActivity(
+                            PDFActivity.newIntent(view.context, pdf ?: "")
                         )
                     }
                 }
@@ -59,7 +55,7 @@ class TaxInfoFragment : BaseBindingFragment<ITaxInfo.ViewModel>(), ITaxInfo.View
                 }
             }
             R.id.ivBackBtn -> {
-               activity?.onBackPressed()
+                activity?.onBackPressed()
             }
         }
     }

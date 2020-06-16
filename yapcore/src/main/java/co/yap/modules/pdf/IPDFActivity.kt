@@ -11,6 +11,7 @@ interface IPDFActivity {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        var file: File?
         fun handlePressView(id: Int)
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
     }
