@@ -137,7 +137,6 @@
             android:onClick="@{(v) -> viewModel.handlePressOnResendClick(context)}"
             android:textAllCaps="false"
             android:textColor="@{viewModel.state.color}"
-            android:visibility="@{viewModel.state.isOtpBlocked ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/btnDone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
