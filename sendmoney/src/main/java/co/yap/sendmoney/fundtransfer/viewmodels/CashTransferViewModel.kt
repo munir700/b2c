@@ -307,7 +307,7 @@ class CashTransferViewModel(application: Application) :
                 return (when {
                     parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
                             pop.cbwsi == true -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
-                    else -> false
+                    else -> true
                 })
 
             } ?: state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
