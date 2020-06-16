@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
+import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
@@ -42,9 +42,11 @@ class BeneficiaryAccountDetailsFragment :
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
             bundle.putString(Constants.IS_IBAN_NEEDED, "Yes")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
-            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
-                putExtra(Constants.EXTRA, bundle)
-            }
+            launchActivity<EditBeneficiaryActivity>(
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                bundle
+            )
+
         }
     }
 

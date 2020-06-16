@@ -73,7 +73,8 @@
                             android:layout_gravity="center_horizontal"
                             android:contentDescription="@string/empty_string"
                             app:beneficiaryPicture="@{``}"
-                            app:fullName="@{viewModel.state.bankName}" />
+                            app:fullName="@{viewModel.state.bankName}"
+                           />
 
                     </FrameLayout>
 
