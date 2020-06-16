@@ -16,10 +16,10 @@ import co.yap.household.setpin.setpinstart.HHSetPinCardReviewFragment
 import co.yap.household.setpin.setpinstart.HHSetPinCardReviewModule
 import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessFragment
 import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessModule
-import co.yap.modules.dashboard.store.household.activities.subscriptionselection.SubscriptionSelectionFragment
-import co.yap.modules.dashboard.store.household.activities.subscriptionselection.SubscriptionSelectionModule
-import co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation.HouseHoldConfirmPaymentFragment
-import co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation.HouseHoldConfirmPaymentModule
+import co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionFragment
+import co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionModule
+import co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentFragment
+import co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

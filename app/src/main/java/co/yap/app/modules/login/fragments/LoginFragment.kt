@@ -66,7 +66,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 //            startFragment(HHAddUserNameFragment::class.java.name)
             launchActivity<NavHostPresenterActivity> {
                 putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
-                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHAddUserNameFragment)
+                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
             }
         }
     }

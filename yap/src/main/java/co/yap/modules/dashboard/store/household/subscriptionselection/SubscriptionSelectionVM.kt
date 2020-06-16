@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.household.activities.subscriptionselection
+package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -16,7 +16,6 @@ import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import javax.inject.Inject
-
 
 class SubscriptionSelectionVM @Inject constructor(override var state: ISubscriptionSelection.State) :
     DaggerBaseViewModel<ISubscriptionSelection.State>(), ISubscriptionSelection.ViewModel {

@@ -27,7 +27,7 @@ class HHAddUserContactFragment :
                 viewModel.verifyMobileNumber {
                     if (it == true) {
                         navigateForwardWithAnimation(
-                            HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHHAddUserSuccessFragment(),
+                            HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHouseHoldConfirmPaymentFragment(),
                             arguments
                         )
                     }

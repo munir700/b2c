@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.household.activities.subscriptionselection
+package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR

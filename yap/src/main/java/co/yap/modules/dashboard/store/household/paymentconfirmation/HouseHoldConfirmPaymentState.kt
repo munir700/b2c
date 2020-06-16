@@ -1,7 +1,8 @@
-package co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation
+package co.yap.modules.dashboard.store.household.paymentconfirmation
 
 import android.text.SpannableStringBuilder
 import androidx.databinding.ObservableField
+import co.yap.modules.dashboard.store.household.paymentconfirmation.IHouseHoldConfirmPayment
 import co.yap.yapcore.BaseState
 
 class HouseHoldConfirmPaymentState : BaseState(), IHouseHoldConfirmPayment.State {

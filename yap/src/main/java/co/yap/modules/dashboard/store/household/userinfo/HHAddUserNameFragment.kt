@@ -8,6 +8,7 @@ import co.yap.databinding.FragmentHhAddUserNameBinding
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.extentions.plus
 
 class HHAddUserNameFragment :
     BaseNavViewModelFragment<FragmentHhAddUserNameBinding, IHHAddUserName.State, HHAddUserNameVM>() {
@@ -23,10 +24,12 @@ class HHAddUserNameFragment :
             R.id.btnNext -> {
                 navigateForwardWithAnimation(
                     HHAddUserNameFragmentDirections.actionHHAddUserNameFragmentToHHAddUserContactFragment(),
-                    bundleOf(
-                        HouseholdOnboardRequest::class.java.name to HouseholdOnboardRequest(
-                            firstName = state.firstName.value,
-                            lastName = state.lastName.value
+                    arguments?.plus(
+                        bundleOf(
+                            HouseholdOnboardRequest::class.java.name to HouseholdOnboardRequest(
+                                firstName = state.firstName.value,
+                                lastName = state.lastName.value
+                            )
                         )
                     )
                 )

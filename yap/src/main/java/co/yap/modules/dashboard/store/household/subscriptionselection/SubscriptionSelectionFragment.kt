@@ -1,8 +1,10 @@
-package co.yap.modules.dashboard.store.household.activities.subscriptionselection
+package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.app.Activity
 import android.content.Intent
 import android.view.View
+import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -12,11 +14,14 @@ import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.bindView
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.*
@@ -37,8 +42,15 @@ class SubscriptionSelectionFragment :
     lateinit var list: ArrayList<WelcomeContent>
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_subscription_selction
+    override fun setHomeAsUpIndicator() = co.yap.yapcore.R.drawable.ic_back_arrow_left
+    override fun toolBarVisibility() = true
+    override fun getToolBarTitle() =
+        getString(Strings.screen_yap_house_hold_user_info_display_text_title)
 
     override fun postExecutePendingBindings() {
+        if (activity is ManageToolBarListener) {
+            (activity as ManageToolBarListener).setupToolbar(activity?.findViewById(R.id.toolBar))
+        }
         super.postExecutePendingBindings()
         adapter = Adapter(list, null)
         pagerSlider.adapter = adapter
@@ -70,38 +82,39 @@ class SubscriptionSelectionFragment :
 
                 R.id.btnGetStarted -> {
                     if (!viewModel.plansList.isNullOrEmpty())
-                        launchActivityForResult<HouseHoldOnboardingActivity>(
-                            init = {
-                                putExtra(
-                                    "selected_plan", selectedPlan
-                                )
-                                putExtra("plans_list", viewModel.plansList)
-                            },
-                            requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD,
-                            completionHandler = { resultCode, data ->
-                                if (resultCode == RequestCodes.REQUEST_ADD_HOUSE_HOLD) {
-                                    if (resultCode == Activity.RESULT_OK) {
-                                        data?.let {
-                                            val finishScreen =
-                                                data.getValue(
-                                                    RequestCodes.REQUEST_CODE_FINISH,
-                                                    ExtraType.BOOLEAN.name
-                                                ) as? Boolean
-                                            finishScreen?.let { it ->
-                                                if (it) {
-                                                    setIntentResult(true)
-                                                } else {
-                                                    // other things?
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            })
-                }
+                        navigateForwardWithAnimation(
+                            SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
+                            bundleOf(HouseHoldPlan::class.java.name to selectedPlan)
+                        )
 
-                R.id.imgClose -> {
-                    setIntentResult(false)
+//                        launchActivityForResult<HouseHoldOnboardingActivity>(
+//                            init = {
+//                                putExtra(
+//                                    "selected_plan", selectedPlan
+//                                )
+//                                putExtra("plans_list", viewModel.plansList)
+//                            },
+//                            requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD,
+//                            completionHandler = { resultCode, data ->
+//                                if (resultCode == RequestCodes.REQUEST_ADD_HOUSE_HOLD) {
+//                                    if (resultCode == Activity.RESULT_OK) {
+//                                        data?.let {
+//                                            val finishScreen =
+//                                                data.getValue(
+//                                                    RequestCodes.REQUEST_CODE_FINISH,
+//                                                    ExtraType.BOOLEAN.name
+//                                                ) as? Boolean
+//                                            finishScreen?.let { it ->
+//                                                if (it) {
+//                                                    setIntentResult(true)
+//                                                } else {
+//                                                    // other things?
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            })
                 }
             }
         })
@@ -114,7 +127,6 @@ class SubscriptionSelectionFragment :
 //        finish()
     }
 
-    override fun toolBarVisibility() = false
     class Adapter(mValue: ArrayList<WelcomeContent>, navigation: NavController?) :
         BaseRVAdapter<WelcomeContent, SubscriptionSelectionItemVM, BaseViewHolder<WelcomeContent, SubscriptionSelectionItemVM>>(
             mValue,

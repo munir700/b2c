@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.household.activities.subscriptionselection
+package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import co.yap.R
 import co.yap.modules.onboarding.models.WelcomeContent

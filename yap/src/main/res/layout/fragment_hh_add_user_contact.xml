@@ -50,7 +50,7 @@
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.phone}"
-                    app:isoCountryCode="@{`+971`}"
+                    app:isoCountryCode="@{viewModel.state.countryCode}"
                     app:pse_showHint="true" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -84,11 +84,11 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                 android:layout_marginStart="@dimen/margin_xxl"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                 android:text="@string/common_button_add"
                 app:text="@{Strings.common_button_add}" />
 

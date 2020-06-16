@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation
+package co.yap.modules.dashboard.store.household.paymentconfirmation
 
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
