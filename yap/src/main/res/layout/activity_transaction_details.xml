@@ -424,8 +424,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode) ? StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.settlementAmount.toString(),`AED`) : StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.amount.toString(),`AED`) }"
-                    app:layout_constraintLeft_toRightOf="@+id/guideline1"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvReceiverName"
                     tools:text="1500" />
@@ -448,6 +446,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small"
                     android:gravity="end"
+                    android:text="@{viewModel.transaction.postedFees!=null ?  StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.postedFees.toString(),`AED`) :  `AED 0.00`}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                     tools:text="1000" />
