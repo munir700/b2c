@@ -93,7 +93,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         totalAmount = parentViewModel?.transferData?.value?.transferAmount.parseToDouble().plus(
                             parentViewModel?.transferData?.value?.transferFee.parseToDouble()
                         ).toString(),
-                        cbwsi = parentViewModel?.selectedPop?.cbwsi,
+                        cbwsi = if (parentViewModel?.transactionWillHold == true) false else parentViewModel?.selectedPop?.cbwsi,
                         cbwsiFee = parentViewModel?.selectedPop?.cbwsiFee,
                         nonChargeable = parentViewModel?.selectedPop?.nonChargeable,
                         remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
