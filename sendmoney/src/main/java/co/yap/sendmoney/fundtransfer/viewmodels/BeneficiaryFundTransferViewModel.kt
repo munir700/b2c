@@ -31,6 +31,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var transferData: MutableLiveData<TransferFundData> = MutableLiveData()
     override var transactionThreshold: MutableLiveData<TransactionThresholdModel> = MutableLiveData()
     override var selectedPop: PurposeOfPayment? = null
+    override var isCutOffTimeStarted: Boolean = false
     override var isSameCurrency: Boolean = false
     override var transactionWillHold: Boolean = false
     override var smCoolingPeriod: SMCoolingPeriod? = null

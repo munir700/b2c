@@ -24,6 +24,7 @@ interface IBeneficiaryFundTransfer {
         var transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var transactionWillHold: Boolean
         var selectedPop: PurposeOfPayment?
+        var isCutOffTimeStarted: Boolean
         var isSameCurrency: Boolean
         var smCoolingPeriod: SMCoolingPeriod?
     }
