@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -13,7 +12,6 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
@@ -21,10 +19,10 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 
-class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
+class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
-    override val viewModel: IPOBSelection.ViewModel
+    override val viewModel: POBSelectionViewModel
         get() = ViewModelProviders.of(this).get(POBSelectionViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,16 +46,11 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         when (it) {
             R.id.nextButton -> {
                 viewModel.saveDOBInfo {
-                    val bundle = bundleOf("countries" to viewModel.populateSpinnerData.value)
-                    findNavController().navigate(
-                        R.id.action_POBSelectionFragment_to_taxInfoFragment,
-                        bundle
-                    )
+                    findNavController().navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
                 }
             }
             R.id.ivBackBtn -> {
                 setIntentResult()
-                //activity?.onBackPressed()
             }
         }
     }
@@ -66,7 +59,11 @@ class POBSelectionFragment : BaseBindingFragment<IPOBSelection.ViewModel>(), IPO
         getBinding().spinner.setItemSelectedListener(selectedItemListener)
         getBinding().spinner.setAdapter(it)
         if (viewModel.state.selectedCountry != null) {
-            getBinding().spinner.setSelectedItem(viewModel.countries.indexOf(viewModel.state.selectedCountry!!))
+            getBinding().spinner.setSelectedItem(
+                viewModel.parentViewModel?.countries?.indexOf(
+                    viewModel.state.selectedCountry ?: Country()
+                ) ?: 0
+            )
         }
     }
 

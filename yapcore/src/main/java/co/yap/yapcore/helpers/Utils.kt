@@ -48,7 +48,7 @@ import java.util.regex.Pattern
 
 @SuppressLint("StaticFieldLeak")
 object Utils {
-    var countries: ArrayList<Country> = ArrayList()
+
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
@@ -858,6 +858,7 @@ object Utils {
 
     fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
+        var countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
             countries.add(

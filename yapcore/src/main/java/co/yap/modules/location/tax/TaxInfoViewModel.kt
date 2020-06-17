@@ -4,24 +4,24 @@ import android.app.Application
 import android.view.View
 import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
+import co.yap.modules.location.viewmodels.LocationChildViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.TaxInfoDetailRequest
 import co.yap.networking.customers.requestdtos.TaxInfoRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoViewModel(application: Application) :
-    BaseViewModel<ITaxInfo.State>(application),
+    LocationChildViewModel<ITaxInfo.State>(application),
     ITaxInfo.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITaxInfo.State = TaxInfoState()
     override var taxInfoList: MutableList<TaxModel> = mutableListOf()
-    override var countries: ArrayList<Country>? = null
+    //override var countries: ArrayList<Country>? = null
     override var taxInfoAdaptor: TaxInfoAdaptor = TaxInfoAdaptor(taxInfoList)
     override val repository: CustomersRepository = CustomersRepository
     override var reasonsList: ArrayList<String> = arrayListOf()
@@ -57,19 +57,18 @@ class TaxInfoViewModel(application: Application) :
             when (val response = repository.getTaxReasons()) {
                 is RetroApiResponse.Success -> {
                     reasonsList = response.data.reasons
-                    if (countries != null) {
+                    if (!parentViewModel?.countries.isNullOrEmpty()) {
                         createModel(reasonsList, options, ObservableField(rowTitles[0]))
                         state.onSuccess.set(true)
                         state.loading = false
 
                     } else
                         getAllCountries {
-                            countries = it
+                            parentViewModel?.countries = it
                             createModel(reasonsList, options, ObservableField(rowTitles[0]))
                             state.onSuccess.set(true)
                             state.loading = false
                         }
-
                 }
 
                 is RetroApiResponse.Error -> {
@@ -122,7 +121,7 @@ class TaxInfoViewModel(application: Application) :
     ) {
         taxInfoList.add(
             TaxModel(
-                countries = countries ?: arrayListOf(),
+                countries = parentViewModel?.countries ?: arrayListOf(),
                 reasons = reasons,
                 options = options,
                 canAddMore = ObservableField(taxInfoList.size in 0..1),
@@ -190,8 +189,8 @@ class TaxInfoViewModel(application: Application) :
     }
 
     override fun getAllCountries(success: (ArrayList<Country>) -> Unit) {
-        if (!countries.isNullOrEmpty()) {
-            success(countries ?: arrayListOf())
+        if (!parentViewModel?.countries.isNullOrEmpty()) {
+            success(parentViewModel?.countries ?: arrayListOf())
         } else {
             launch {
                 when (val response = repository.getAllCountries()) {

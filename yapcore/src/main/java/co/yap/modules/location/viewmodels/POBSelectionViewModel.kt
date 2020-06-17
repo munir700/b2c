@@ -9,17 +9,15 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.BirthInfoRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 
 class POBSelectionViewModel(application: Application) :
-    BaseViewModel<IPOBSelection.State>(application),
+    LocationChildViewModel<IPOBSelection.State>(application),
     IPOBSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State = POBSelectionState()
     override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
-    override var countries: ArrayList<Country> = ArrayList()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -32,15 +30,15 @@ class POBSelectionViewModel(application: Application) :
     }
 
     private fun getAllCountries() {
-        if (!countries.isNullOrEmpty()) {
-            populateSpinnerData.setValue(countries)
+        if (!parentViewModel?.countries.isNullOrEmpty()) {
+            populateSpinnerData.setValue(parentViewModel?.countries)
         } else {
             launch {
                 state.loading = true
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
                         populateSpinnerData.value = Utils.parseCountryList(response.data.data)
-                        countries = populateSpinnerData.value as ArrayList<Country>
+                        parentViewModel?.countries = populateSpinnerData.value as ArrayList<Country>
                         state.loading = false
                     }
 

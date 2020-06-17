@@ -23,6 +23,8 @@ interface ILocation {
         var subHeading: String
         val clickEvent: SingleClickEvent
         var selectedCountry: Country?
+        var countries: ArrayList<Country>
+
     }
 
     interface View : IBase.View<ViewModel>

@@ -20,7 +20,7 @@ class LocationViewModel(application: Application) :
     override val state: LocationState = LocationState()
     override var address: Address? = null
     override var isOnBoarding: Boolean = false
-
+    override var countries: ArrayList<Country> = ArrayList()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
