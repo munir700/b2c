@@ -26,6 +26,7 @@ import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
+import java.io.File
 
 
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
@@ -275,5 +276,12 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             ),
             IdentityScannerActivity.SCAN_EID_CAM
         )
+    }
+
+    override fun onDestroy() {
+        viewModel.parentViewModel?.paths?.forEach { filePath ->
+            File(filePath).deleteRecursively()
+        }
+        super.onDestroy()
     }
 }
