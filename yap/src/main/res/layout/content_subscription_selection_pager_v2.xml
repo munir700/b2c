@@ -7,7 +7,7 @@
 
         <variable
             name="content"
-            type="co.yap.modules.dashboard.store.household.activities.subscriptionselection.SubscriptionSelectionItemVM" />
+            type="co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionItemVM" />
     </data>
 
     <LinearLayout
@@ -17,28 +17,22 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/_4sdp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivPoster"
             android:layout_width="@dimen/_121sdp"
             android:layout_height="@dimen/_150sdp"
             android:paddingBottom="@dimen/small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:src="@{content.mItem.imageResource}"
             tools:ignore="MissingConstraints"
             tools:src="@drawable/rose_gold" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDescription"
             style="@style/Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{content.mItem.subTitle}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivPoster" />
+            android:text="@{content.mItem.subTitle}" />
 
     </LinearLayout>
 </layout>

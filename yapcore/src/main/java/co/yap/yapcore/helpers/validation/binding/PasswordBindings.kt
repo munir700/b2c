@@ -3,7 +3,7 @@ package co.yap.yapcore.helpers.validation.binding
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.validation.rule.ConfirmPasswordRule
+import co.yap.yapcore.helpers.validation.rule.ConfirmMobileNoRule
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
 import co.yap.yapcore.helpers.validation.util.ViewTagHelper
@@ -33,7 +33,7 @@ object PasswordBindings {
         )
         ViewTagHelper.appendValue(
             R.id.validator_rule, view,
-            ConfirmPasswordRule(view, comparableView, handledErrorMessage, errorEnabled)
+            ConfirmMobileNoRule(view, comparableView, handledErrorMessage, errorEnabled)
         )
     }
 }

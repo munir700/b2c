@@ -5,7 +5,7 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.modules.dashboard.store.household.onboarding.states.HouseHoldUserInfoStates
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 class HouseHoldUserInfoViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldUserInfo.State>(application),
     IHouseHoldUserInfo.ViewModel/*,

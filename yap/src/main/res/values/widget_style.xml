@@ -340,7 +340,7 @@
     <style name="Yap.App.Widget.TextInputEditText.Mobile.Prefix" parent="Yap.App.Widget.TextInputEditText">
         <item name="pse_compoundDrawableHeight">@dimen/_16sdp</item>
         <item name="pse_compoundDrawableWidth">@dimen/_16sdp</item>
-        <item name="pse_setPrefix">+971</item>
+        <item name="pse_setPrefix">971</item>
         <item name="pse_setPrefixDrawable">@drawable/flag_ae</item>
         <item name="pse_space">@dimen/margin_small</item>
         <item name="android:singleLine">true</item>

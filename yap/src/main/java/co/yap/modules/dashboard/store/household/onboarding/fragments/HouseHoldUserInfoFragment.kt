@@ -10,7 +10,7 @@ import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserInfo
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserInfoViewModel
 
-
+@Deprecated("")
 class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.ViewModel>(),
     IHouseHoldUserInfo.View {
 

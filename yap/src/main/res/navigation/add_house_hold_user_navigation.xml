@@ -11,10 +11,8 @@
         android:label="HouseHoldLandingFragment"
         tools:layout="@layout/fragment_house_hold_landing">
         <action
-            android:id="@+id/action_houseHoldLandingFragment_to_HHAddUserNameFragment"
-            app:destination="@id/HHAddUserNameFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            android:id="@+id/action_houseHoldLandingFragment_to_subscriptionSelectionFragment"
+            app:destination="@id/subscriptionSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/HHAddUserNameFragment"
@@ -33,10 +31,8 @@
         android:label="HHAddUserContactFragment"
         tools:layout="@layout/fragment_hh_add_user_contact">
         <action
-            android:id="@+id/action_HHAddUserContactFragment_to_HHAddUserSuccessFragment"
-            app:destination="@id/HHAddUserSuccessFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            android:id="@+id/action_HHAddUserContactFragment_to_houseHoldConfirmPaymentFragment"
+            app:destination="@id/houseHoldConfirmPaymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/HHAddUserSuccessFragment"
@@ -45,4 +41,22 @@
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         tools:layout="@layout/fragment_hh_add_user_success" />
+    <fragment
+        android:id="@+id/houseHoldConfirmPaymentFragment"
+        android:name="co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentFragment"
+        android:label="HouseHoldConfirmPaymentFragment"
+        tools:layout="@layout/fragment_house_hold_cofirm_payment_v2">
+        <action
+            android:id="@+id/action_houseHoldConfirmPaymentFragment_to_HHAddUserSuccessFragment"
+            app:destination="@id/HHAddUserSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subscriptionSelectionFragment"
+        android:name="co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionFragment"
+        android:label="SubscriptionSelectionFragment"
+        tools:layout="@layout/fragment_house_hold_subscription_selction">
+        <action
+            android:id="@+id/action_subscriptionSelectionFragment_to_HHAddUserNameFragment"
+            app:destination="@id/HHAddUserNameFragment" />
+    </fragment>
 </navigation>

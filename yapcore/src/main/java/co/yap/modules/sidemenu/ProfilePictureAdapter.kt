@@ -1,10 +1,10 @@
-package co.yap.household.dashboard.main.menu
+package co.yap.modules.sidemenu
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
-import co.yap.BR
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 

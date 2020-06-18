@@ -12,7 +12,7 @@ import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserContact
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class HouseHoldUserContactState(application: Application) : BaseState(),
     IHouseHoldUserContact.State {
     val context = application.applicationContext

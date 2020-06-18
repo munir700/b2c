@@ -63,11 +63,11 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
         tvSignUpPrefix.setOnClickListener {
-            startFragment(HHAddUserNameFragment::class.java.name)
-//            launchActivity<NavHostPresenterActivity> {
-//                putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
-//                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
-//            }
+//            startFragment(HHAddUserNameFragment::class.java.name)
+            launchActivity<NavHostPresenterActivity> {
+                putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
+                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
+            }
         }
     }
 

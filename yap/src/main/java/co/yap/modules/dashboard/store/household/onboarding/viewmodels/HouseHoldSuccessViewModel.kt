@@ -5,7 +5,7 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.modules.dashboard.store.household.onboarding.states.HouseHoldSuccessState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 class HouseHoldSuccessViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldSuccess.State>(application),
     IHouseHoldSuccess.ViewModel/*,

@@ -1,5 +1,6 @@
 package co.yap.yapcore.dagger.base.interfaces
 
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 
 interface ManageToolBarListener {
@@ -18,6 +19,7 @@ interface ManageToolBarListener {
     var toolBarVisibility: Boolean?
     var displayHomeAsUpEnabled: Boolean?
     var homeAsUpIndicator: Int?
+    fun setupToolbar(toolbar:Toolbar?)
 
 //    fun setSupportActionBar(displayHomeAsUpEnabled: Boolean, homeAsUpIndicator: Int)
 //    fun getToolBarTitle(): String?

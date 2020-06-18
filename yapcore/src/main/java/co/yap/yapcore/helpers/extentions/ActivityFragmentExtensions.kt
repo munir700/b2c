@@ -85,7 +85,6 @@ inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
 ) {
-
     val intent = newIntent<T>(this)
     intent.init()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

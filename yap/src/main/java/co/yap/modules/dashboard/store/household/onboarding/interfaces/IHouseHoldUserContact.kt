@@ -5,7 +5,7 @@ import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldUserContact {
 
     interface State : IBase.State {

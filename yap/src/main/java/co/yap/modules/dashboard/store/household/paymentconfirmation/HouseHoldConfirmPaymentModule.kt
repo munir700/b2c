@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation
+package co.yap.modules.dashboard.store.household.paymentconfirmation
 
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
