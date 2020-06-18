@@ -1,6 +1,5 @@
 package co.yap.modules.subaccounts.paysalary.transfer
 
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer

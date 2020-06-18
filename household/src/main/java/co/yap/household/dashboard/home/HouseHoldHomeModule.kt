@@ -1,13 +1,12 @@
 package co.yap.household.dashboard.home
 
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
+import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
-import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.managers.MyUserManager
 import dagger.Module
 import dagger.Provides
@@ -50,9 +49,4 @@ class HouseHoldHomeModule : BaseFragmentModule<HouseholdHomeFragment>() {
         adapter: HomeTransactionAdapter,
         mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
     ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
-
-    @Provides
-    @FragmentScope
-    fun provideProfilePictureAdapter() =
-        ProfilePictureAdapter(MyUserManager.usersList?.value ?: mutableListOf(), null)
 }

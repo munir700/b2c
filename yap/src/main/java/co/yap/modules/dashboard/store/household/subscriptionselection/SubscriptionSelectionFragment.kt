@@ -1,9 +1,6 @@
 package co.yap.modules.dashboard.store.household.subscriptionselection
 
-import android.app.Activity
-import android.content.Intent
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -11,30 +8,20 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
-import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
+import co.yap.widgets.radiocus.PresetRadioGroup
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
-import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.bindView
-import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.*
 import javax.inject.Inject
 
 class SubscriptionSelectionFragment :
     BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
-    lateinit var item: View
-    var selectedPosition: Int = 0
-    var incrementValue: Boolean = true
-    var exitEvent: Boolean = false
-    var selectedPlan: HouseHoldPlan = HouseHoldPlan()
-
     @Inject
     lateinit var adapter: Adapter
 
@@ -52,79 +39,40 @@ class SubscriptionSelectionFragment :
             (activity as ManageToolBarListener).setupToolbar(activity?.findViewById(R.id.toolBar))
         }
         super.postExecutePendingBindings()
-        adapter = Adapter(list, null)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
-        addListeners()
-    }
-
-    private fun addListeners() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnClose -> {
-                    setIntentResult(false)
-                }
-                R.id.llAnnualSubscription -> {
-                    viewModel.state.hasSelectedPackage = true
-                    llMonthlySubscription.isActivated = false
-                    llAnnualSubscription.isActivated = true
-                    if (!viewModel.plansList.isNullOrEmpty())
-                        selectedPlan = viewModel.plansList[1]
-                }
-
-                R.id.llMonthlySubscription -> {
-                    viewModel.state.hasSelectedPackage = true
-                    llMonthlySubscription.isActivated = true
-                    llAnnualSubscription.isActivated = false
-                    if (!viewModel.plansList.isNullOrEmpty())
-                        selectedPlan = viewModel.plansList[0]
-                }
-
-                R.id.btnGetStarted -> {
-                    if (!viewModel.plansList.isNullOrEmpty())
-                        navigateForwardWithAnimation(
-                            SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
-                            bundleOf(HouseHoldPlan::class.java.name to selectedPlan)
-                        )
-
-//                        launchActivityForResult<HouseHoldOnboardingActivity>(
-//                            init = {
-//                                putExtra(
-//                                    "selected_plan", selectedPlan
-//                                )
-//                                putExtra("plans_list", viewModel.plansList)
-//                            },
-//                            requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD,
-//                            completionHandler = { resultCode, data ->
-//                                if (resultCode == RequestCodes.REQUEST_ADD_HOUSE_HOLD) {
-//                                    if (resultCode == Activity.RESULT_OK) {
-//                                        data?.let {
-//                                            val finishScreen =
-//                                                data.getValue(
-//                                                    RequestCodes.REQUEST_CODE_FINISH,
-//                                                    ExtraType.BOOLEAN.name
-//                                                ) as? Boolean
-//                                            finishScreen?.let { it ->
-//                                                if (it) {
-//                                                    setIntentResult(true)
-//                                                } else {
-//                                                    // other things?
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            })
-                }
+        viewModel.clickEvent.observe(this, Observer { onClick(it) })
+        selectorGroup?.onCheckedChangeListener = object : PresetRadioGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(
+                radioGroup: View?,
+                radioButton: View?,
+                isChecked: Boolean,
+                checkedId: Int
+            ) {
+                state.selectedPlanPosition.value = if (checkedId == R.id.monthlyIndicator) 0 else 1
             }
-        })
+        }
     }
 
-    private fun setIntentResult(shouldFinished: Boolean) {
-        val intent = Intent()
-        intent.putExtra(RequestCodes.REQUEST_CODE_FINISH, shouldFinished)
-        requireActivity().setResult(Activity.RESULT_OK, intent)
-//        finish()
+    private fun onClick(id: Int) {
+        when (id) {
+            R.id.btnGetStarted -> {
+                selectorGroup?.mCheckedId
+                if (!state.plansList.isNullOrEmpty())
+                    navigateForwardWithAnimation(
+                        SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
+                        bundleOf(
+                            HouseHoldPlan::class.java.name to state.plansList,
+                            Constants.POSITION to state.selectedPlanPosition.value
+                        )
+                    )
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
 
     class Adapter(mValue: ArrayList<WelcomeContent>, navigation: NavController?) :

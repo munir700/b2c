@@ -11,7 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 class HouseHoldUserContactViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldUserContact.State>(application),
     IHouseHoldUserContact.ViewModel,

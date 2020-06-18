@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.main.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
+import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
@@ -18,6 +20,8 @@ class YapDashBoardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
+    override val profilePictureAdapter: ObservableField<ProfilePictureAdapter>? =
+        ObservableField<ProfilePictureAdapter>()
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)

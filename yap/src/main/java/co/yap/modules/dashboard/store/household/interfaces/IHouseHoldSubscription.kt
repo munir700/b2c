@@ -5,7 +5,7 @@ import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldSubscription {
     interface State : IBase.State {
         var monthlyFee: String

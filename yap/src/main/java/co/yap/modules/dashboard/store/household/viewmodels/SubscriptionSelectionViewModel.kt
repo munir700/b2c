@@ -19,7 +19,7 @@ import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-
+@Deprecated("")
 class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
     IHouseHoldSubscription.ViewModel, IRepositoryHolder<TransactionsRepository> {

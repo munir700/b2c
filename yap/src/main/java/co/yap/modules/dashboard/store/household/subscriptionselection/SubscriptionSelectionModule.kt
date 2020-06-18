@@ -22,9 +22,9 @@ class SubscriptionSelectionModule : BaseFragmentModule<SubscriptionSelectionFrag
     ): SubscriptionSelectionVM = viewModelProvider.get(fragment, SubscriptionSelectionVM::class)
 
     @Provides
-    fun provideMyCardTransactionsAdapter() =
+    fun provideMyCardTransactionsAdapter(list: ArrayList<WelcomeContent>) =
         SubscriptionSelectionFragment.Adapter(
-            ArrayList(),
+            list,
             null
         )
 

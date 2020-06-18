@@ -1,8 +1,7 @@
 package co.yap.household.dashboard.main
 
-import android.view.View
 import co.yap.household.R
-import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
+import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.adpters.SectionsPagerAdapter
@@ -10,11 +9,8 @@ import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
-import co.yap.yapcore.helpers.extentions.bind
-import co.yap.yapcore.helpers.extentions.bindView
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.managers.MyUserManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.Module
 import dagger.Provides
 
@@ -59,7 +55,7 @@ class HouseHoldDashboardModule : BaseFragmentModule<HouseholdDashboardFragment>(
 
             .addSubActionView(
                 fragment.requireContext().getString(R.string.request_money),
-           R.drawable.ic_request_money,
+                R.drawable.ic_request_money,
                 co.yap.R.layout.component_yap_menu_sub_button,
                 fragment.requireActivity(), 2
             ).setStateChangeListener(fragment)

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.contact
 
+import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import co.yap.BR
@@ -9,6 +10,8 @@ import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragmentDi
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.extentions.plus
+import kotlinx.android.synthetic.main.fragment_hh_add_user_contact.*
 
 class HHAddUserContactFragment :
     BaseNavViewModelFragment<FragmentHhAddUserContactBinding, IHHAddUserContact.State, HHAddUserContactVM>() {
@@ -26,11 +29,14 @@ class HHAddUserContactFragment :
             R.id.btnNext -> {
                 viewModel.verifyMobileNumber {
                     if (it == true) {
+                        state.request?.value?.countryCode = state.countryCode.value
+                        state.request?.value?.mobileNo = state.phone.value
+                        cvErrorCard?.visibility = View.GONE
                         navigateForwardWithAnimation(
                             HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHouseHoldConfirmPaymentFragment(),
-                            arguments
+                            arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.request?.value))
                         )
-                    }
+                    } else cvErrorCard?.visibility = View.VISIBLE
                 }
 
             }

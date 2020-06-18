@@ -10,5 +10,4 @@ interface IHouseHoldLanding {
         fun handlePressOnView(id: Int)
     }
     interface View : IBase.View<ViewModel>
-
 }

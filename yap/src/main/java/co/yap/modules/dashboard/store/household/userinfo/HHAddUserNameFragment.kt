@@ -8,6 +8,7 @@ import co.yap.databinding.FragmentHhAddUserNameBinding
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.plus
 
 class HHAddUserNameFragment :
@@ -28,7 +29,8 @@ class HHAddUserNameFragment :
                         bundleOf(
                             HouseholdOnboardRequest::class.java.name to HouseholdOnboardRequest(
                                 firstName = state.firstName.value,
-                                lastName = state.lastName.value
+                                lastName = state.lastName.value,
+                                accountType = AccountType.B2C_HOUSEHOLD.name
                             )
                         )
                     )
