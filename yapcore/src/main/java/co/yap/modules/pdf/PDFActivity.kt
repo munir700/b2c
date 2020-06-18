@@ -14,6 +14,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import com.github.barteksc.pdfviewer.PDFView
@@ -189,4 +190,9 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
         parcelFileDescriptor?.close()
     }
 
+    override fun onDestroy() {
+        context.deleteTempFolder()
+        super.onDestroy()
+    }
 }
+

@@ -3,6 +3,7 @@ package co.yap.modules.pdf
 import android.app.Application
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.createTempFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import java.io.File
@@ -42,7 +43,7 @@ class PDFViewModel(application: Application) :
         try {
             val url = URL(path)
             val urlConnection = url.openConnection() as HttpURLConnection
-            val file = File.createTempFile("121", ".pdf")
+            val file = context.createTempFile("pdf")
             val fileOutput = FileOutputStream(file)
             val inputStream = urlConnection.inputStream
 
@@ -61,6 +62,9 @@ class PDFViewModel(application: Application) :
             e.printStackTrace()
             return null
         } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        } catch (e: Exception) {
             e.printStackTrace()
             return null
         }
