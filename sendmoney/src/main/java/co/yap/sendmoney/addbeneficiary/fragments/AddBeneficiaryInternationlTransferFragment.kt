@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.otp.GenericOtpFragment
@@ -16,6 +17,7 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.translation.Strings
@@ -54,6 +56,7 @@ class AddBeneficiaryInternationlTransferFragment :
                 addBeneficiaryDialog()
             }
         })
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +70,28 @@ class AddBeneficiaryInternationlTransferFragment :
             )
         )
         viewModel.otpCreateObserver.observe(this, otpCreateObserver)
+        showResidenceCountries()
 
+    }
+
+    private fun showResidenceCountries() {
+        getBinding().spinner.setItemSelectedListener(selectedItemListener)
+        getBinding().spinner.setAdapter(viewModel.parentViewModel?.countriesList)
+        if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
+            getBinding().spinner.setSelectedItem(
+                viewModel.parentViewModel?.countriesList?.indexOf(
+                    viewModel.parentViewModel?.selectedResidenceCountry ?: Country()
+                ) ?: 0
+            )
+        }
+    }
+
+    private val selectedItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Country) {
+                viewModel.parentViewModel?.selectedResidenceCountry = data
+            }
+        }
     }
 
     private fun initComponents() {
@@ -227,6 +251,10 @@ class AddBeneficiaryInternationlTransferFragment :
             return true
         }
         return false
+    }
+
+    private fun getBinding(): FragmentAddBeneficiaryInternationalBankTransferBinding {
+        return (viewDataBinding as FragmentAddBeneficiaryInternationalBankTransferBinding)
     }
 
 }

@@ -616,6 +616,7 @@
     <string name="screen_add_beneficiary_display_text_select_country">Select country</string>
     <string name="screen_add_beneficiary_button_next">Next</string>
     <string name="screen_add_beneficiary_detail_display_text_error_iban_current_user">You cannot enter your own IBAN</string>
+    <string name="screen_add_beneficiary_display_text_select_residence_country">Select country of residence</string>
 
     <!--  Add Beneficiary transfer type -->
     <string name="screen_add_beneficiary_display_text_transfer_type">What type of transfer will this be?</string>

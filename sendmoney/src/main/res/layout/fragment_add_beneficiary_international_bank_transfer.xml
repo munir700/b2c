@@ -290,6 +290,25 @@
                     tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSelectCountry"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:gravity="center"
+                    android:text="@string/screen_add_beneficiary_display_text_select_residence_country"
+                    android:visibility="@{viewModel.state.transferType.equals(`Cash Pickup`)? View.GONE:View.VISIBLE}"
+                    app:text="@{Strings.screen_add_beneficiary_display_text_select_residence_country}"
+                    tools:text="@string/screen_add_beneficiary_display_text_select_residence_country" />
+
+                <co.yap.widgets.country_spinner.CountrySpinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="@{viewModel.state.transferType.equals(`Cash Pickup`)? View.GONE:View.VISIBLE}" />
+
                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"

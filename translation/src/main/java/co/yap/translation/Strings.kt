@@ -975,9 +975,13 @@ object Strings {
         "screen_add_beneficiary_display_text_country_title"
     const val screen_add_beneficiary_display_text_select_country: String =
         "screen_add_beneficiary_display_text_select_country"
-    const val screen_add_beneficiary_button_next: String = "screen_add_beneficiary_button_next"
+    const val screen_add_beneficiary_button_next: String =
+        "screen_add_beneficiary_button_next"
     const val screen_add_beneficiary_detail_display_text_error_iban_current_user: String =
         "screen_add_beneficiary_detail_display_text_error_iban_current_user"
+    const val screen_add_beneficiary_display_text_select_residence_country: String =
+        "screen_add_beneficiary_display_text_select_residence_country"
+
 
 
     // Add Beneficiary transfer type

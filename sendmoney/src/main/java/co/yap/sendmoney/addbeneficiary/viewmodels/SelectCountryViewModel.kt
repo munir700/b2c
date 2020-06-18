@@ -124,7 +124,9 @@ class SelectCountryViewModel(application: Application) :
                                     ibanMandatory = it.ibanMandatory
                                 )
                             })
+
                         }
+                        parentViewModel?.countriesList = countries
                         state.loading = false
                     }
 

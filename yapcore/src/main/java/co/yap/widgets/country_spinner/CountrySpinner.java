@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.List;
@@ -59,13 +58,16 @@ public class CountrySpinner extends LinearLayout {
 
                 }
             });
-
         _spinner.setAdapter(countryAdapter);
 
     }
 
     public void setItemSelectedListener(OnItemClickListener listener) {
         this.itemSelectedListener = listener;
+    }
+
+    public void setEnabledSpinner(boolean isEnabled) {
+        _spinner.setEnabled(isEnabled);
     }
 
     private CountryListAdapter getCountryAdapter(List<Country> countries) {
