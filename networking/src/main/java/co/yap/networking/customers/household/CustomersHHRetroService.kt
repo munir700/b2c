@@ -1,10 +1,7 @@
 package co.yap.networking.customers.household
 
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
-import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
-import co.yap.networking.customers.household.responsedtos.HouseHoldUserProfile
-import co.yap.networking.customers.household.responsedtos.SalaryTransaction
-import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.networking.customers.household.responsedtos.*
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
 import co.yap.networking.models.BaseListResponse
@@ -68,7 +65,7 @@ interface CustomersHHRetroService {
     ): Response<BaseResponse<SalaryTransaction>>
 
     @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION)
-    suspend fun getLastNextTransaction(@Path("UUID") uuid: String?): Response<ApiResponse>
+    suspend fun getLastNextTransaction(@Path("UUID") uuid: String?): Response<BaseListResponse<HouseHoldLastNextSalary>>
 
     @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_CANCEL_SCHEDULE_PAYMENT)
     suspend fun cancelSchedulePayment(@Path("UUID") uuid: String?): Response<ApiResponse>

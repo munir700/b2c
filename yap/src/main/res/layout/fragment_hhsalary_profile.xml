@@ -13,6 +13,8 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -107,27 +109,39 @@
                     android:background="@color/greySoft"
                     android:orientation="vertical"
                     android:padding="@dimen/margin_medium"
-                    android:visibility="gone">
+                    android:visibility="@{(hhSalaryProfileVM.state.lastSalaryTransfer==null||hhSalaryProfileVM.state.nextSalaryTransfer==null||hhSalaryProfileVM.state.expense==null)?View.GONE:View.VISIBLE}">
 
                     <include
                         android:id="@+id/tv_last_salary"
                         layout="@layout/layout_recent_transfer_pay_salary"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="@{hhSalaryProfileVM.state.lastSalaryTransfer!=null? View.VISIBLE:View.GONE}"
+                        app:amount="@{hhSalaryProfileVM.state.lastSalaryTransfer.amount}"
+                        app:date="@{DateUtils.INSTANCE.reformatStringDate(hhSalaryProfileVM.state.lastSalaryTransfer.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
+                        app:lable="@{@string/screen_household_employee_salary_last_salary_transfer_text}" />
 
                     <include
                         android:id="@+id/tv_next_salary"
                         layout="@layout/layout_recent_transfer_pay_salary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium" />
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:visibility="@{hhSalaryProfileVM.state.nextSalaryTransfer!=null? View.VISIBLE:View.GONE}"
+                        app:amount="@{hhSalaryProfileVM.state.nextSalaryTransfer.amount}"
+                        app:date="@{DateUtils.INSTANCE.reformatStringDate(hhSalaryProfileVM.state.nextSalaryTransfer.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
+                        app:lable="@{`Next salary auto payment`}" />
 
                     <include
                         android:id="@+id/tv_last_expense"
                         layout="@layout/layout_recent_transfer_pay_salary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium" />
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:visibility="@{hhSalaryProfileVM.state.expense!=null? View.VISIBLE:View.GONE}"
+                        app:amount="@{hhSalaryProfileVM.state.expense.amount}"
+                        app:date="@{DateUtils.INSTANCE.reformatStringDate(hhSalaryProfileVM.state.expense.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
+                        app:lable="@{`Last expense transfer`}" />
 
                 </LinearLayout>
 
