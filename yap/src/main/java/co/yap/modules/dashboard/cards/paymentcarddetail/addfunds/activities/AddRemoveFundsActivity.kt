@@ -486,12 +486,13 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
-                            when {
-                                dailyLimit == totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
-                                enteredAmount > dailyLimit && totalConsumedAmount == 0.0 -> {
-                                    getString(Strings.common_display_text_daily_limit_error_single_transaction)
-                                }
-                                else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
+                            when (dailyLimit) {
+                                totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                else -> Translator.getString(
+                                    this,
+                                    Strings.common_display_text_daily_limit_remaining_error,
+                                    remainingDailyLimit.toString().toFormattedAmountWithCurrency()
+                                )
                             }
                         return enteredAmount > remainingDailyLimit
 
