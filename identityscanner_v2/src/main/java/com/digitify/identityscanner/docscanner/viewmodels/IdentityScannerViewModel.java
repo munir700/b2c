@@ -13,8 +13,8 @@ import com.digitify.identityscanner.docscanner.models.DocumentImage;
 import com.digitify.identityscanner.docscanner.models.Identity;
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult;
 import com.digitify.identityscanner.docscanner.states.IdentityScannerState;
-import com.digitify.identityscanner.utils.FileUtils;
 import com.digitify.identityscanner.base.BaseAndroidViewModel;
+import com.digitify.identityscanner.utils.ImageUtils;
 
 public class IdentityScannerViewModel extends BaseAndroidViewModel implements IIdentityScanner.IViewModel {
     private DocumentType documentType;
@@ -42,7 +42,7 @@ public class IdentityScannerViewModel extends BaseAndroidViewModel implements II
 
     @Override
     public void onPictureTaken(@NonNull String filepath) {
-        if (FileUtils.isValidFile(filepath)) {
+        if (ImageUtils.isValidFile(filepath)) {
             getView().reviewDoc(filepath);
         } else {
             setErrorMessage(getString(R.string.invalid_file));

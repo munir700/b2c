@@ -15,6 +15,7 @@ import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
+import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
@@ -95,6 +96,13 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.parentViewModel?.paths?.forEach { filePath ->
+            File(filePath).deleteRecursively()
+        }
+        super.onDestroy()
     }
 
     override fun onBackPressed(): Boolean {

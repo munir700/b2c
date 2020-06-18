@@ -133,6 +133,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 RequestCodes.REQUEST_FOR_LOCATION -> handleLocationRequestResult(data)
                 RequestCodes.REQUEST_MEETING_CONFIRMED -> handleMeetingConfirmationRequest(data)
             }
+        }else{
+            goToDashboard()
         }
     }
 
