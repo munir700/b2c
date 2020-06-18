@@ -1364,6 +1364,8 @@ object Strings {
         "screen_yap_house_hold_user_info_contact_display_text_confirm_mobile"
     const val screen_yap_house_hold_user_info_contact_button_next: String =
         "screen_yap_house_hold_user_info_contact_button_next"
+    const val screen_yap_house_hold_user_info_mobile_no_exit_error_msg: String =
+        "screen_yap_house_hold_user_info_mobile_no_exit_error_msg"
 
     //    YAP Household success screen
     const val screen_yap_house_hold_success_display_text_title: String =
@@ -1400,6 +1402,8 @@ object Strings {
         "screen_yap_house_hold_display_button_confirm"
     const val screen_yap_house_hold_confirm_payment_display_text_change_plan: String =
         "screen_yap_house_hold_confirm_payment_display_text_change_plan"
+    const val screen_yap_house_hold_confirm_payment_display_text_top_up_to_continue: String =
+        "screen_yap_house_hold_confirm_payment_display_text_top_up_to_continue"
 
     //   New User Email household screen
     const val screen_new_user_email_display_text_title: String =

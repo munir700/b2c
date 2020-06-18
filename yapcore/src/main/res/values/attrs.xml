@@ -635,6 +635,8 @@
         <attr name="lable1Color" format="color" />
         <attr name="lable2Color" format="color" />
         <attr name="preset_layoutResId" format="reference" />
+        <attr name="preset_drawableSelected" format="reference" />
+        <attr name="preset_drawableNormal" format="reference" />
         <attr name="presetButtonPressedTextColor" format="color" />
     </declare-styleable>
 
@@ -674,5 +676,6 @@
     <declare-styleable name="CollapsedColoredHintTextInputLayout">
         <attr name="hintTextColorNormal" format="color" />
         <attr name="hintTextColorSelected" format="color" />
+        <attr name="android:drawablePadding" format="dimension|reference"/>
     </declare-styleable>
 </resources>

@@ -39,6 +39,7 @@
     <string name="error_message_credit_card_validation">Invalid Credit Card format</string>
     <string name="error_message_empty_validation">This field can\'t be empty</string>
     <string name="error_message_not_equal_password">Passwords are not the same</string>
+    <string name="error_message_not_equal_phone">Mobile No are not the same</string>
     <string name="default_required_validation_message">This field is required.</string>
     <string name="error_message_postal_address">Postal Address is not valid</string>
     <string name="default_required_length_message_min_max">The input must have length between %1$d
@@ -888,13 +889,11 @@
     <string name="screen_yap_house_hold_user_info_display_text_email">Email address</string>
     <string name="screen_yap_house_hold_user_info_display_text_email_hint">example@email.com</string>
     <string name="screen_yap_house_hold_user_info_button_next">Next</string>
-
+    <string name="screen_yap_house_hold_user_info_mobile_no_exit_error_msg">The mobile number %1s is linked to an existing user’s Household card. Check the number and try again.</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_heading">Tell us how to contact %1s</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_mobile">Mobile number</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">Confirm mobile number</string>
     <string name="screen_yap_house_hold_user_info_contact_button_next">Add</string>
-
-
     <!-- YAP Household success screen -->
     <string name="screen_yap_house_hold_success_display_text_title">Payment confirmed and\n%1s has been added to\nyour account!</string>
     <string name="screen_yap_house_hold_success_display_text_heading">%1s\'s card is on it\'s way</string>
@@ -913,6 +912,7 @@
     <string name="screen_yap_house_hold_confirm_payment_display_text_account_deducted">Your account will be deducted by</string>
     <string name="screen_yap_house_hold_confirm_payment_display_text_toolbar_title">Confirm payment</string>
     <string name="screen_yap_house_hold_confirm_payment_display_text_change_plan">Change plan</string>
+    <string name="screen_yap_house_hold_confirm_payment_display_text_top_up_to_continue">Please %1s to continue.</string>
     <string name="screen_yap_house_hold_display_button_confirm">Confirm</string>
 
     <!-- New User Email household screen -->

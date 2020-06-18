@@ -15,7 +15,7 @@ import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
-
+@Deprecated("")
 class HouseHoldConfirmPaymentViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldConfirmPayment.State>(application),
     IHouseHoldConfirmPayment.ViewModel, IRepositoryHolder<CustomersRepository> {

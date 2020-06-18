@@ -36,7 +36,11 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.modules.dummy.ActivityNavigator
+import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.modules.sidemenu.ProfilePictureAdapter
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -45,11 +49,17 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -61,6 +71,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_yap_dashboard
+    private lateinit var mNavigator: ActivityNavigator
 
     override val viewModel: IYapDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(YapDashBoardViewModel::class.java)
@@ -75,6 +86,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        setupMultiAccountSideMenu()
+        mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
     }
 
     private fun setupYapButton() {
@@ -451,5 +464,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
+    }
+
+    private fun setupMultiAccountSideMenu() {
+        viewModel.profilePictureAdapter?.set(
+            ProfilePictureAdapter(
+                MyUserManager.usersList?.value ?: mutableListOf(), null
+            )
+        )
+        viewModel.profilePictureAdapter?.get()?.onItemClickListener = object : OnItemClickListener {
+            override fun onItemClick(view: View, data: Any, pos: Int) {
+                if (data is AccountInfo) {
+                    if (data.accountType == AccountType.B2C_ACCOUNT.name) {
+                        data.uuid?.let {
+                            SwitchProfileLiveData.get(it, this@YapDashboardActivity)
+                                .observe(this@YapDashboardActivity, Observer<AccountInfo?> {
+                                    mNavigator.startHouseHoldModule(this@YapDashboardActivity)
+                                    finish()
+                                })
+                        }
+                    }
+                }
+            }
+        }
     }
 }

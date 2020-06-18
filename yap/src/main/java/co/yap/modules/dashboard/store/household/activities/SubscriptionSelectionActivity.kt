@@ -27,7 +27,7 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.*
 
-
+@Deprecated("")
 class SubscriptionSelectionActivity :
     BaseBindingActivity<IHouseHoldSubscription.ViewModel>(),
     IHouseHoldSubscription.View, SpareCardsLandingAdapter.OnItemClickedListener {

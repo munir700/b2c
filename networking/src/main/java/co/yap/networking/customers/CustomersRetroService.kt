@@ -166,7 +166,7 @@ interface CustomersRetroService {
     ): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
-    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
+    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest?): Response<HouseholdOnBoardingResponse>
 
     @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
     suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>

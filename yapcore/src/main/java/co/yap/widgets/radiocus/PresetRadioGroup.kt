@@ -19,7 +19,7 @@ class PresetRadioGroup @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
-    private var mCheckedId = View.NO_ID
+    var mCheckedId = View.NO_ID
     private var rangeSeekBar: RangeSeekBar? = null
     private var mSeekBarId = View.NO_ID
     private var mProtectFromCheckedChange = false
@@ -51,7 +51,6 @@ class PresetRadioGroup @JvmOverloads constructor(
                 R.styleable.PresetRadioGroup_rangeSeekBarId,
                 View.NO_ID
             )
-
         } finally {
             a.recycle()
         }
@@ -238,14 +237,16 @@ class PresetRadioGroup @JvmOverloads constructor(
             id?.let {
                 setCheckedId(id, true)
             }
-
-            if (!rangeSeekBar?.isPressed!!) {
-                if (id == getChildAt(0).id) {
-                    rangeSeekBar?.setProgress(30f)
-                } else {
-                    rangeSeekBar?.setProgress(160f)
+            rangeSeekBar?.let {
+                if (!it.isPressed) {
+                    if (id == getChildAt(0).id) {
+                        rangeSeekBar?.setProgress(30f)
+                    } else {
+                        rangeSeekBar?.setProgress(160f)
+                    }
                 }
             }
+
         }
     }
 

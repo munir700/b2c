@@ -9,7 +9,7 @@ import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHold
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
-
+@Deprecated("")
 class HouseHoldUserInfoStates(var application: Application) : BaseState(),
     IHouseHoldUserInfo.State {
 

@@ -50,7 +50,7 @@ class HouseholdHomeFragment :
     override fun getLayoutId() = R.layout.fragment_household_home
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_home)
+        setupToolbar(toolbar = mViewDataBinding.toolbar, toolbarMenu = R.menu.menu_home)
         setHasOptionsMenu(true)
         GetAccountBalanceLiveData.get()
             .observe(this, Observer { state.availableBalance?.value = it?.availableBalance })
@@ -67,7 +67,7 @@ class HouseholdHomeFragment :
             mRecyclerViewExpandableItemManager.attachRecyclerView(this)
             adapter = mWrappedAdapter
             viewModel.transactionAdapter?.set(mAdapter)
-           // pagination = viewModel.getPaginationListener()
+            // pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
     }

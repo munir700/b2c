@@ -15,7 +15,7 @@ import co.yap.widgets.popmenu.PopupMenuItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import kotlinx.android.synthetic.main.fragment_house_hold_cofirm_payment.*
-
+@Deprecated("")
 class HHConfirmPaymentFragment : BaseOnBoardingFragment<IHouseHoldConfirmPayment.ViewModel>(),
     IHouseHoldConfirmPayment.View {
     override fun getBindingVariable(): Int = BR.viewModel

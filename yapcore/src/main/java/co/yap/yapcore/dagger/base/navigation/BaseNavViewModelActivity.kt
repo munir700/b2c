@@ -83,14 +83,17 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setupToolbar()
-    }
-
-    private fun setupToolbar() {
         val toolbar: Toolbar? by bindView(
             R.id.toolbar
         )
-        toolbar?.apply {
+        setupToolbar(toolbar)
+    }
+
+    override fun setupToolbar(toolbar: Toolbar?) {
+        var toolBar = toolbar
+        if (toolBar == null)
+            toolBar = bindView<Toolbar>(R.id.toolbar).value
+        toolBar.apply {
             title = ""
             setNavigationIcon(R.drawable.ic_back_arrow_left)
             setSupportActionBar(this)

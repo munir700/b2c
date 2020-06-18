@@ -6,7 +6,7 @@ import co.yap.modules.dashboard.store.household.onboarding.states.BaseOnboarding
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
-
+@Deprecated("")
 class HouseHoldOnboardingViewModel(application: Application) :
     BaseViewModel<IBaseOnboarding.State>(application),
     IBaseOnboarding.ViewModel {

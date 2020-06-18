@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentVM" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/Yap.App.Layout.LinearLayout.Vertical"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHouse"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="@dimen/_55sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:contentDescription="@string/empty_string"
+            app:srcCompat="@drawable/ic_house_hold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHeading"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            app:text="@{Strings.screen_yap_house_hold_confirm_payment_display_text_title}"
+            tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_title" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/ALarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:maxLines="2"
+            android:text="@{viewModel.state.onBoardRequest.fullName}"
+            tools:text="Faheem Riaz" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/ALarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@{String.format(`%1s %2s`, viewModel.state.onBoardRequest.countryCode , viewModel.state.onBoardRequest.mobileNo)}"
+            tools:text="971 55 5555 5555" />
+
+        <View
+            android:id="@+id/vDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:background="@color/divider" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPlanContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingPlan"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:text="@{Strings.screen_yap_house_hold_confirm_payment_display_text_heading}"
+                tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_heading" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCardPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@drawable/round_light_gery_background"
+                android:gravity="center"
+                android:text="@{String.format(`%1s | %2s` , viewModel.state.selectedPlan.type , viewModel.state.selectedPlan.amount ) }"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_9sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvHeadingPlan"
+                tools:text="Yearly | AED 720" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChangePlan"
+                style="@style/Micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:padding="@dimen/margin_small"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/tvCardPlan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvCardPlan"
+                app:text="@{Strings.screen_yap_house_hold_confirm_payment_display_text_change_plan}"
+                tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_change_plan" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPlanSaving"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:fontFamily="@font/roboto_medium_italic"
+                android:gravity="center"
+                android:text="Your saving 0%!"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCardPlan"
+                tools:text="Your saving 25%!" />
+
+            <View
+                android:id="@+id/vDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:background="@color/divider"
+                app:layout_constraintTop_toBottomOf="@id/tvPlanSaving" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAccDeduct"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:text="@{Strings.screen_yap_house_hold_confirm_payment_display_text_account_deducted}"
+            tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_account_deducted" />
+
+        <co.yap.widgets.libcurrencyview.CurrencyTextView
+            android:id="@+id/tvPlanAmount"
+            style="@style/Yap.App.Widget.TextView.Currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="@{viewModel.state.selectedPlan.amount}"
+            android:textSize="@dimen/text_size_h4"
+            tools:text="723220.00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAvailableBalance"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance,``)))}"
+            tools:text="Your available balance is " />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:gravity="center"
+            android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_yap_house_hold_confirm_payment_display_text_top_up_to_continue),SpannableKt.underline(SpannableKt.color(@color/colorPrimaryDark, `Top up`)))}"
+            tools:text="Please Top up to continue." />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/confirmButton"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            app:btn_enable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:text="@{Strings.screen_yap_house_hold_display_button_confirm}"
+            tools:text="@string/screen_yap_house_hold_display_button_confirm" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

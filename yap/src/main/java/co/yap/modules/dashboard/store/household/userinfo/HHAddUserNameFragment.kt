@@ -6,7 +6,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhAddUserNameBinding
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
+import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.helpers.extentions.plus
 
 class HHAddUserNameFragment :
     BaseNavViewModelFragment<FragmentHhAddUserNameBinding, IHHAddUserName.State, HHAddUserNameVM>() {
@@ -22,14 +25,25 @@ class HHAddUserNameFragment :
             R.id.btnNext -> {
                 navigateForwardWithAnimation(
                     HHAddUserNameFragmentDirections.actionHHAddUserNameFragmentToHHAddUserContactFragment(),
-                    bundleOf(
-                        HouseholdOnboardRequest::class.java.name to HouseholdOnboardRequest(
-                            firstName = state.firstName.value,
-                            lastName = state.lastName.value
+                    arguments?.plus(
+                        bundleOf(
+                            HouseholdOnboardRequest::class.java.name to HouseholdOnboardRequest(
+                                firstName = state.firstName.value,
+                                lastName = state.lastName.value,
+                                accountType = AccountType.B2C_HOUSEHOLD.name
+                            )
                         )
                     )
                 )
             }
         }
+    }
+
+    override fun getToolBarTitle() =
+        getString(Strings.screen_yap_house_hold_user_info_display_text_title)
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
 }

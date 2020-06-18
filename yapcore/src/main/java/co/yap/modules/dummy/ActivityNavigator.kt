@@ -11,4 +11,6 @@ interface ActivityNavigator {
         bundle: Bundle = Bundle(),
         completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
     )
+
+    fun startHouseHoldModule(activity: FragmentActivity)
 }

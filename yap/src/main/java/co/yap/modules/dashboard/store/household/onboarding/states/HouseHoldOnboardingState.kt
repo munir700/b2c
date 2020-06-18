@@ -4,7 +4,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldOnboarding
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class HouseHoldOnboardingState : BaseState(), IHouseHoldOnboarding.State {
 
     @get:Bindable

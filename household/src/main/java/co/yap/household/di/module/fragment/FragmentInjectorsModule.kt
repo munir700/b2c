@@ -16,6 +16,10 @@ import co.yap.household.setpin.setpinstart.HHSetPinCardReviewFragment
 import co.yap.household.setpin.setpinstart.HHSetPinCardReviewModule
 import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessFragment
 import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessModule
+import co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionFragment
+import co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionModule
+import co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentFragment
+import co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -52,4 +56,12 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [HouseHoldExpenseModule::class])
     @FragmentScope
     abstract fun HouseHoldExpenseFragmentInjector(): HouseHoldExpenseFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [SubscriptionSelectionModule::class])
+    abstract fun SubscriptionSelectionFragmentInjector(): SubscriptionSelectionFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HouseHoldConfirmPaymentModule::class])
+    abstract fun houseHoldConfirmPaymentFragmentInjector(): HouseHoldConfirmPaymentFragment
 }

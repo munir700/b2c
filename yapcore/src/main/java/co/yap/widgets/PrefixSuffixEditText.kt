@@ -55,6 +55,7 @@ class PrefixSuffixEditText : AppCompatEditText {
     private var prefixBitmap: Bitmap? = null
     private var showPrefixDrawable: Boolean = true
     private var showHint: Boolean = false
+
     // private val textFormatter = PhoneNumberFormatter(Locale.getDefault().country)
     var prefix: String?
         get() = this.mPrefix
@@ -174,7 +175,7 @@ class PrefixSuffixEditText : AppCompatEditText {
         if (mPrefix != null && mPrefix!!.length > 0) {
             calculatePrefix()
         }
-        if(!showPrefixDrawable) prefix = mPrefix
+        if (!showPrefixDrawable) prefix = mPrefix
 
         if (isPassword)
             if (!TextUtils.isEmpty(text)) {
@@ -332,7 +333,7 @@ class PrefixSuffixEditText : AppCompatEditText {
                 canvas.drawBitmap(
                     prefixBitmap!!,
                     mOriginalLeftPadding,
-                    (((height - prefixBitmap?.height!!) / 2) - (paddingBottom / 2 - paddingTop)).toFloat(),
+                    (((height - prefixBitmap?.height!!) / 2) - (paddingBottom - paddingTop)).toFloat(),
                     myPaint
                         ?: paint
                 )
@@ -503,13 +504,13 @@ class PrefixSuffixEditText : AppCompatEditText {
             if (prefixBitmap != null && showPrefixDrawable) {
                 setPadding(
                     (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
-                    paddingRight, paddingTop,
+                    paddingTop, paddingRight,
                     paddingBottom
                 )
             } else {
                 setPadding(
                     (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
-                    paddingRight, paddingTop,
+                    paddingTop, paddingRight,
                     paddingBottom
                 )
             }
@@ -529,13 +530,13 @@ class PrefixSuffixEditText : AppCompatEditText {
         if (prefixBitmap != null && showPrefixDrawable) {
             setPadding(
                 (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
-                paddingRight, paddingTop,
+                paddingTop, paddingRight,
                 paddingBottom
             )
         } else {
             setPadding(
                 (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
-                paddingRight, paddingTop,
+                paddingTop, paddingRight,
                 paddingBottom
             )
         }
@@ -634,13 +635,14 @@ class PrefixSuffixEditText : AppCompatEditText {
             formattedNumber = PhoneNumberUtils.formatNumber(
                 countryCode + formattedNumber,
                 getDefaultCountryCode(context)
-
             )
             if (formattedNumber != null) {
                 formattedNumber = formattedNumber.substring(countryCode?.length!!).trim()
             }
-
-            formattedNumber = formattedNumber.replace("[0-9]".toRegex(), "#")
+            if (showHint){
+                hint = formattedNumber
+            }
+                formattedNumber = formattedNumber.replace("[0-9]".toRegex(), "#")
 
         }
         mask = formattedNumber

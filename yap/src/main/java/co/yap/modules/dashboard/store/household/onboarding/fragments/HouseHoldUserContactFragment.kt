@@ -13,7 +13,7 @@ import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldU
 import co.yap.yapcore.helpers.showSnackBar
 import kotlinx.android.synthetic.main.fragment_house_hold_user_contact_info.*
 import kotlinx.android.synthetic.main.fragment_mobile.etMobileNumber
-
+@Deprecated("")
 class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContact.ViewModel>(),
     IHouseHoldUserContact.View {
 

@@ -21,6 +21,7 @@ class FirstNameRule(view: TextView, errorMessage: String, errorEnabled: Boolean)
 
     override fun onValidationSucceeded(view: TextView?) {
         super.onValidationSucceeded(view)
+
         view?.let { EditTextHandler.removeError(it) }
 
     }

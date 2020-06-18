@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionVM" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:paddingBottom="@dimen/margin_medium">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pagerSlider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_190sdp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal" />
+
+            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                android:id="@+id/worm_dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/margin_medium"
+                app:dotsColor="?attr/colorPrimaryAttr"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="12dp"
+                app:dotsSpacing="4dp"
+                app:dotsStrokeColor="@color/grey"
+                app:dotsStrokeWidth="6dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greyLight" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBenefits"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@string/screen_yap_house_hold_subscription_selection_display_text_house_hold_heading"
+                app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_house_hold_heading}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCardType"
+                style="@style/ASmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:gravity="center_horizontal"
+                android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan"
+                app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan}" />
+
+            <co.yap.widgets.radiocus.PresetRadioGroup
+                android:id="@+id/selectorGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:weightSum="2">
+
+                <co.yap.widgets.radiocus.PresetValueButton
+                    android:id="@+id/monthlyIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/_12sdp"
+                    app:cardElevation="1dp"
+                    app:preset_drawableNormal="@drawable/bg_card_subscription_normal"
+                    app:preset_drawableSelected="@drawable/bg_card_subscription_selected">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llMonthlySubscription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_small">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_normal_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly"
+                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly}" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/SmallGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_months"
+                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_months}" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_normal"
+                            android:gravity="center"
+                            android:text="@={viewModel.state.monthlyFee}"
+                            android:textColor="?attr/colorPrimaryAttr"
+                            tools:text="AED 59.99" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPerMonths"
+                            style="@style/SmallGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_normal"
+                            android:layout_marginBottom="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_per_month"
+                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_per_month}" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </co.yap.widgets.radiocus.PresetValueButton>
+
+                <co.yap.widgets.radiocus.PresetValueButton
+                    android:id="@+id/yearlyIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/_12sdp"
+                    app:cardElevation="1dp"
+                    app:preset_drawableNormal="@drawable/bg_card_subscription_normal"
+                    app:preset_drawableSelected="@drawable/bg_card_subscription_selected">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llAnnualSubscription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_small">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_normal_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly"
+                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly}" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:background="@drawable/round_light_gery_background"
+                            android:gravity="center"
+                            android:text="@{viewModel.state.planDiscount}"
+                            android:textColor="?attr/colorPrimaryAttr"
+                            android:textSize="@dimen/_9sdp"
+                            android:visibility="@{viewModel.state.planDiscount.equals(``)?View.INVISIBLE:View.VISIBLE}"
+                            tools:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_saving}" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvAnnaulFee"
+                            style="@style/Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_normal"
+                            android:gravity="center"
+                            android:text="@={viewModel.state.annuallyFee}"
+                            android:textColor="?attr/colorPrimaryAttr"
+                            tools:text="AED 59.99" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPerYear"
+                            style="@style/SmallGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_normal"
+                            android:layout_marginBottom="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_per_year"
+                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_per_year}" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </co.yap.widgets.radiocus.PresetValueButton>
+            </co.yap.widgets.radiocus.PresetRadioGroup>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCharges"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:text="@string/screen_yap_house_hold_subscription_selection_display_text_charges"
+                app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_charges}" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnGetStarted"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                app:enableCoreButton="@{viewModel.state.selectedPlanPosition>-1}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCharges"
+                app:text="@{Strings.screen_yap_house_hold_subscription_selection_button_get_started}"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="44dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>
