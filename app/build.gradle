@@ -58,8 +58,8 @@ productFlavors {
         }
 
         stg {
-            versionCode 136
-            versionName "0.13.6"
+            versionCode 137
+            versionName "0.13.7"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")

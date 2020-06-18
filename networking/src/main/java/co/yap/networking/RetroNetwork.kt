@@ -73,6 +73,7 @@ object RetroNetwork : Network {
                     networkConstraintsListener?.onSessionInvalid()
                 }
             })
+        //return okHttpClientBuilder.build()
         return sslImplementation(context, okHttpClientBuilder, appData)
     }
 
