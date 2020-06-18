@@ -17,6 +17,7 @@ interface IBeneficiaryFundTransfer {
         fun handlePressOnView(id: Int)
         fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest)
         fun isInCoolingPeriod(): Boolean
+        fun isCPAmountConsumed(inputAmount: String): Boolean
         val clickEvent: SingleClickEvent
         var errorEvent: MutableLiveData<String>
         var beneficiary: MutableLiveData<Beneficiary>

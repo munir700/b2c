@@ -195,6 +195,19 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
+    private fun showCoolingPeriodLimitError() {
+        viewModel.state.errorDescription = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_cooling_period_limit_error,
+            viewModel.parentViewModel?.smCoolingPeriod?.maxAllowedCoolingPeriodAmount.toString()
+                .toFormattedAmountWithCurrency(),
+            viewModel.parentViewModel?.smCoolingPeriod?.coolingPeriodDuration.toString() + " hour's",
+            viewModel.parentViewModel?.beneficiary?.value?.fullName().toString()
+        )
+        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+
+    }
+
     private fun showUpperLowerLimitError() {
         viewModel.state.errorDescription = Translator.getString(
             requireContext(),
@@ -205,7 +218,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
     }
-
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
@@ -345,8 +357,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-            viewModel.parentViewModel?.isInCoolingPeriod() == true -> {
-                showToast("Fall in cooling period")
+            viewModel.parentViewModel?.isInCoolingPeriod() == true
+                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
+                showCoolingPeriodLimitError()
+                viewModel.state.valid = false
             }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
@@ -361,11 +375,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             }
         }
     }
-
-    private fun getError() {
-
-    }
-
     fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }

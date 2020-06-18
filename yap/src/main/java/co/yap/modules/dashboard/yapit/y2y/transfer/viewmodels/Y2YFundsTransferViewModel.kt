@@ -5,28 +5,33 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YFundsTransferState
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
+import co.yap.networking.customers.responsedtos.sendmoney.SMCoolingPeriod
+import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
 
 class Y2YFundsTransferViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransfer.State>(application),
-    IY2YFundsTransfer.ViewModel {
+    IY2YFundsTransfer.ViewModel, IRepositoryHolder<CustomersRepository> {
     override val state: Y2YFundsTransferState = Y2YFundsTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
         MutableLiveData()
-    private val repository: TransactionsRepository = TransactionsRepository
+    private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    override val repository: CustomersRepository = CustomersRepository
     override var receiverUUID: String = ""
     override val transferFundSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var smCoolingPeriod: SMCoolingPeriod? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -47,7 +52,7 @@ class Y2YFundsTransferViewModel(application: Application) :
         )
         launch {
             state.loading = true
-            when (val response = repository.y2yFundsTransferRequest(y2yFundsTransfer)) {
+            when (val response = transactionsRepository.y2yFundsTransferRequest(y2yFundsTransfer)) {
                 is RetroApiResponse.Success -> {
                     transferFundSuccess.value = true
                 }
@@ -66,7 +71,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun getTransactionThresholds() {
         launch {
             state.loading=true
-            when (val response = repository.getTransactionThresholds()) {
+            when (val response = transactionsRepository.getTransactionThresholds()) {
                 is RetroApiResponse.Success -> {
                     transactionThreshold.value = response.data.data
                     state.loading=false
@@ -82,7 +87,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun getTransactionLimits() {
         launch {
             when (val response =
-                repository.getFundTransferLimits(TransactionProductCode.Y2Y_TRANSFER.pCode)) {
+                transactionsRepository.getFundTransferLimits(TransactionProductCode.Y2Y_TRANSFER.pCode)) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data?.maxLimit?.toDouble() ?: 0.00
                     state.minLimit = response.data.data?.minLimit?.toDouble() ?: 0.00
@@ -92,6 +97,35 @@ class Y2YFundsTransferViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest) {
+        launch {
+            when (val response = repository.getCoolingPeriod(smCoolingPeriodRequest)) {
+                is RetroApiResponse.Success -> {
+                    smCoolingPeriod = response.data.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+                }
+            }
+        }
+    }
+
+    override fun isInCoolingPeriod(): Boolean {
+        smCoolingPeriod?.let { period ->
+            val coolingPeriodDurationInSeconds =
+                period.coolingPeriodDuration.parseToDouble().times(3600).toLong()
+            return period.difference ?: 0 < coolingPeriodDurationInSeconds
+        } ?: return false
+    }
+
+    override fun isCPAmountConsumed(inputAmount: String): Boolean {
+        smCoolingPeriod?.let { period ->
+            val remainingLimit = period.maxAllowedCoolingPeriodAmount.parseToDouble()
+                .minus(period.consumedAmount ?: 0.0)
+            return inputAmount.parseToDouble() > remainingLimit
+        } ?: return false
     }
 
     fun getTotalAmountWithFee(): Double {
@@ -110,6 +144,7 @@ class Y2YFundsTransferViewModel(application: Application) :
             }
         })
     }
+
 
     override fun onResume() {
         super.onResume()

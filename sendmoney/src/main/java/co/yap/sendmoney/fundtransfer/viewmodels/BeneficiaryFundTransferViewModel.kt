@@ -16,6 +16,7 @@ import co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.parseToDouble
 
 
@@ -55,16 +56,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
                     smCoolingPeriod = response.data.data
                 }
                 is RetroApiResponse.Error -> {
-                    smCoolingPeriod = SMCoolingPeriod(
-                        coolingPeriodDuration = "8",
-                        maxAllowedCoolingPeriodAmount = "10000",
-                        createdOn = "2020-06-09T09:45:47",
-                        difference = 2030,
-                        consumedAmount = 0.0,
-                        beneficiaryId = smCoolingPeriodRequest.beneficiaryId,
-                        productCode = smCoolingPeriodRequest.productCode
-                    )
-//                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
                 }
             }
         }
@@ -78,4 +70,11 @@ class BeneficiaryFundTransferViewModel(application: Application) :
         } ?: return false
     }
 
+    override fun isCPAmountConsumed(inputAmount: String): Boolean {
+        smCoolingPeriod?.let { period ->
+            val remainingLimit = period.maxAllowedCoolingPeriodAmount.parseToDouble()
+                .minus(period.consumedAmount ?: 0.0)
+            return inputAmount.parseToDouble() > remainingLimit
+        } ?: return false
+    }
 }

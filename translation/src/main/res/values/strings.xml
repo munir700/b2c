@@ -24,6 +24,7 @@
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
+    <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
 
 
