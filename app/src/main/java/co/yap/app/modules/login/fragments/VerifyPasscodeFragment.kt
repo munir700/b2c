@@ -134,7 +134,9 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
                 activity?.onBackPressed()
             } else {
-                doLogout()
+                viewModel.logout {
+                    doLogout()
+                }
             }
         }
     }
@@ -397,6 +399,11 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     override fun onNumberClicked(number: Int, text: String) {
         viewModel.state.passcode = dialer.getText()
+    }
+
+    override fun onLeftButtonClicked() {
+        super.onLeftButtonClicked()
+        showFingerprintDialog()
     }
 }
 

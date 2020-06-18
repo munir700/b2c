@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
@@ -234,28 +233,6 @@ class YapHomeViewModel(application: Application) :
         return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
-    override fun requestOrderCard(address: Address?) {
-        address?.let {
-            // Please confirm weather card name and design code is empty on IOS too or its typo mistake
-            it.cardName = ""
-            launch {
-                state.loading = true
-                when (val response = cardsRepository.orderCard(it)) {
-                    is RetroApiResponse.Success -> {
-                        state.error = ""
-                        clickEvent.setValue(ON_ADD_NEW_ADDRESS_EVENT)
-                        state.loading = false
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    }
-                }
-            }
-        }
-    }
-
     override fun getNotifications(
         accountInfo: AccountInfo,
         paymentCard: Card
@@ -270,7 +247,7 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
+        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name || accountInfo.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
             list.add(
                 HomeNotification(
                     id = "2",

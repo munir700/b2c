@@ -27,6 +27,7 @@ import co.yap.sendmoney.fundtransfer.viewmodels.InternationalTransactionConfirma
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
@@ -155,7 +156,11 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                viewModel.requestForTransfer()
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
+                } else {
+                    viewModel.requestForTransfer()
+                }
             }
 
             Constants.ADD_SUCCESS -> {

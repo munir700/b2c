@@ -10,6 +10,7 @@
     <string name="common_button_settings">Settings</string>
     <string name="common_button_save">Save</string>
     <string name="common_button_confirm">Confirm</string>
+    <string name="common_button_submit">Submit</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
@@ -161,7 +162,6 @@
     <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
     <string name="screen_meeting_location_text_accept_terms">I accept the </string>
     <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
-
     <string name="screen_meeting_location_display_text_add_new_address_title">Add new delivery address</string>
     <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliver your debit card?</string>
     <string name="screen_meeting_location_display_text_add_manual_address_subtitle">We’ll need you to enter your address below</string>
@@ -809,7 +809,7 @@
     <string name="screen_reorder_card_completion_display_text_complete_transaction">Your card has been blocked \n and reordered successfully</string>
     <string name="screen_reorder_card_purchase_display_text_alert_title">Top up now to continue with this purchase.</string>
     <string name="screen_cards_display_text_hotlisted">This card is blocked/stolen</string>
-    <string name="screen_cards_button_reorder_card">Reorder card</string>
+    <string name="screen_cards_button_reorder_card">Reorder Card</string>
 
 
     <!-- HouseHold screen-->
@@ -986,7 +986,23 @@
     <string name="screen_blocked_otp_display_text_message">This feature has been blocked due to too many OTP attempts. Use our live chat or call us on %1s to get access.</string>
     <string name="screen_popup_activation_pending_display_text_message">Account activation pending</string>
 
+    <!--  Place of birth selection screen -->
+    <string name="screen_place_of_birth_display_text_heading">Where were you born?</string>
+    <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
+    <string name="screen_place_of_birth_display_text_select_country">Select country</string>
+    <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
 
+    <!--  Tax info screen -->
+    <string name="screen_tax_info_display_text_heading">Tax Information</string>
+    <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax committments</string>
+    <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
+    <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
+    <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
+    <string name="screen_tax_info_display_text_country_no_tin_issue">The country does not issue a TIN</string>
+    <string name="screen_tax_info_display_text_add_another_country">Add another country</string>
+    <string name="screen_tax_info_display_text_not_us_national">I am not a US national/resident for tax purposes.</string>
+    <string name="screen_tax_info_display_text_trs_conditions_disclaimer">By clicking submit below, you are accepting the Individual Self Certification Form for CRS &amp; FATCA.</string>
+    <string name="screen_tax_info_display_text_heading_tin_number">Enter your TIN number</string>
 
 </resources>
 

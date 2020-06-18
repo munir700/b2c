@@ -7,6 +7,7 @@ object Strings {
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
+    const val common_button_submit: String = "common_button_submit"
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
@@ -1560,6 +1561,38 @@ object Strings {
         "screen_popup_activation_pending_display_text_message"
     const val screen_otp_blocked_display_text_heading: String =
         "screen_otp_blocked_display_text_heading"
-const val screen_otp_blocked_display_text_details: String =
+    const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
+
+    // Place of birth selection screen
+    const val screen_place_of_birth_display_text_heading: String =
+        "screen_place_of_birth_display_text_heading"
+    const val screen_place_of_birth_display_text_description: String =
+        "screen_place_of_birth_display_text_description"
+    const val screen_place_of_birth_display_text_select_country: String =
+        "screen_place_of_birth_display_text_select_country"
+    const val screen_place_of_birth_display_text_city_of_birth: String =
+        "screen_place_of_birth_display_text_city_of_birth"
+
+    // Tax info screen
+    const val screen_tax_info_display_text_heading: String =
+        "screen_tax_info_display_text_heading"
+    const val screen_tax_info_display_text_desc: String =
+        "screen_tax_info_display_text_desc"
+    const val screen_tax_info_display_text_select_country: String =
+        "screen_tax_info_display_text_select_country"
+    const val screen_tax_info_display_text_have_tin_number: String =
+        "screen_tax_info_display_text_have_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number: String =
+        "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_heading_tin_number: String =
+        "screen_tax_info_display_text_heading_tin_number"
+    const val screen_tax_info_display_text_country_no_tin_issue: String =
+        "screen_tax_info_display_text_country_no_tin_issue"
+    const val screen_tax_info_display_text_add_another_country: String =
+        "screen_tax_info_display_text_add_another_country"
+    const val screen_tax_info_display_text_not_us_national: String =
+        "screen_tax_info_display_text_not_us_national"
+    const val screen_tax_info_display_text_trs_conditions_disclaimer: String =
+        "screen_tax_info_display_text_trs_conditions_disclaimer"
 }
