@@ -15,10 +15,8 @@
     <attr name="colorPressedBtnStateAttr" format="color|reference" />
     <attr name="colordisabledTick" format="color|reference" />
     <attr name="colorSeekBar" format="color|reference" />
-
     <attr name="colorSwipeToDeleteAttr" format="color|reference" />
     <attr name="colorSwipeToEditAttr" format="color|reference" />
-
     <attr name="colorSendMoneyToolBarAttr" format="color|reference" />
     <attr name="colorTextAttr" format="color|reference" />
     <attr name="colorIconsTintAttr" format="color|reference" />
@@ -36,8 +34,16 @@
     <attr name="colorToolbarTextAttr" format="color|reference" />
     <attr name="colorLightBankTransferAttr" format="color|reference" />
     <attr name="colorDarkBankTransferAttr" format="color|reference" />
-
     <attr name="cardSuccessBorderWidth" format="dimension|reference" />
+    <attr name="colorEditBeneficiaryLabelTextAttr" format="color|reference" />
+    <attr name="colorEditBeneficiaryLabelBgAttr" format="color|reference" />
+    <attr name="colorCircularTextAttr" format="color|reference" />
+    <attr name="colorCircularBgAttr" format="color|reference" />
+    <attr name="colorDefaultTextAttr" format="color|reference" />
+    <attr name="colorYapItBgAttr" format="color|reference" />
+    <attr name="colorButtonPressedAttr" format="color|reference" />
+    <attr name="colorButtonUnPressedAttr" format="color|reference" />
+    <attr name="colorCoreButtonTextAttr" format="color|reference" />
 
 
     <!--components theme-->

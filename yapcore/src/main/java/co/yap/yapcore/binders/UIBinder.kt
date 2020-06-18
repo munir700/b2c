@@ -43,6 +43,7 @@ import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.loadImage
@@ -946,7 +947,8 @@ object UIBinder {
                 .height(imageView.context.dimen(R.dimen._35sdp))
                 .fontSize(imageView.context.dimen(R.dimen.text_size_h2))
                 .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
-                .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
+                .textColor(ThemeColorUtils.colorCircularTextAttribute(imageView.context))
+
             setCircleCropImage(
                 imageView,
                 imageUrl ?: "",

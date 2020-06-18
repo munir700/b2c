@@ -154,6 +154,7 @@ object ThemeColorUtils {
             )
         }.data
     }
+
     fun colorSendMoneyToolBarAttribute(context: Context): Int {
         return TypedValue().also {
             context.theme.resolveAttribute(
@@ -216,8 +217,37 @@ object ThemeColorUtils {
     }
 
     fun colorStatusBarSuccessAttribute(context: Context): Int {
-        return TypedValue().also { context.theme.resolveAttribute(R.attr.colorStatusBarSuccessAttr, it, true) }
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorStatusBarSuccessAttr,
+                it,
+                true
+            )
+        }
             .data
 
     }
+
+
+    fun colorCircularTextAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorCircularTextAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
+
+    fun colorCircularBgAttribute(context: Context): Int {
+        return TypedValue().also {
+            context.theme.resolveAttribute(
+                R.attr.colorCircularBgAttr,
+                it,
+                true
+            )
+        }.data
+    }
+
 }
