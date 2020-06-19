@@ -16,6 +16,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
 class HouseHoldConfirmPaymentViewModel(application: Application) :
@@ -72,6 +73,7 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
             when (val response = repository.onboardHousehold(getOnboardRequest())) {
                 is RetroApiResponse.Success -> {
                     trackEvent(HHSubscriptionEvents.HH_PLAN_CONFIRM.type)
+                    trackEventWithAttributes(MyUserManager.user, isMainUser = true)
                     parentViewModel?.tempPasscode = response.data.data?.passcode ?: "0000"
                     onBoardUserSuccess.value = true
                 }

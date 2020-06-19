@@ -11,6 +11,9 @@ import co.yap.sendmoney.editbeneficiary.states.EditBeneficiaryStates
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.leanplum.HHTransactionsEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class EditBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IEditBeneficiary.State>(application), IEditBeneficiary.ViewModel
@@ -74,6 +77,7 @@ class EditBeneficiaryViewModel(application: Application) :
                 when (val response = repository.addBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
+                        trackEvent(it)
                         onBeneficiaryCreatedSuccess.value = true
                         state.beneficiary = response.data.data
                     }
@@ -82,6 +86,26 @@ class EditBeneficiaryViewModel(application: Application) :
                         state.loading = false
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         onBeneficiaryCreatedSuccess.value = false
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Dealing International beneficiaries
+     *
+     */
+
+    private fun trackEvent(beneficiary: Beneficiary?){
+        beneficiary?.beneficiaryType?.let { beneficiaryType ->
+            if (beneficiaryType.isNotEmpty()) {
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                    SendMoneyBeneficiaryType.RMT -> {
+                        trackEvent(HHTransactionsEvents.HH_USER_ADD_BENEFICIARY_SUCCESSFULLY_INTL.type)  // TODO need to differentiate for YAP and Household
+                    }
+                    SendMoneyBeneficiaryType.SWIFT -> {
+                        trackEvent(HHTransactionsEvents.HH_USER_ADD_BENEFICIARY_SUCCESSFULLY_INTL.type)  // TODO need to differentiate for YAP and Household
                     }
                 }
             }

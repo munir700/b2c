@@ -11,6 +11,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.trackEventWithAttributes
+import co.yap.yapcore.managers.MyUserManager
 
 class HouseHoldCardsSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldCardsSelection.State>(application), IHouseHoldCardsSelection.ViewModel {
@@ -78,6 +80,7 @@ class HouseHoldCardsSelectionViewModel(application: Application) :
                     address
                 )) {
                 is RetroApiResponse.Success -> {
+                    trackEventWithAttributes(MyUserManager.user, card_color = address.designCode)
                     orderCardRequestSuccess.value = true
                     state.loading = false
                 }

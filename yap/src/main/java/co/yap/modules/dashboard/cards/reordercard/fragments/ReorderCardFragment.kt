@@ -19,6 +19,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.leanplum.HHTransactionsEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 
 class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRenewCard.View {
@@ -38,6 +40,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.reorderCardSuccess.observe(this, Observer {
             if (it) {
+                trackEvent(HHTransactionsEvents.HH_USER_CARD_BLOCKED_AND_REORDERED.type)  // TODO need to differentiate for YAP and Household
                 findNavController().navigate(R.id.action_reorderCardFragment_to_reorderCardSuccessFragment)
             }
         })

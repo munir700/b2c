@@ -19,6 +19,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.leanplum.HHTransactionsEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 
 class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
@@ -77,18 +79,23 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER_INTL.type)
                                 setDataForRmt()
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER_INTL.type)
                                 setDataForSwift()
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_CASH_TRANSFER.type)
                                 setDataForCashPayout()
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER_DOMESTIC.type)
                                 setDataForDomestic()
                             }
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER.type)
                                 setDataForUAEFTS()
                             }
                             else -> {
