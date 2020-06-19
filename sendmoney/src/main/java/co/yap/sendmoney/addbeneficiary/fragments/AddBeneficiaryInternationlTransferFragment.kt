@@ -3,6 +3,7 @@ package co.yap.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -123,9 +124,13 @@ class AddBeneficiaryInternationlTransferFragment :
         when (it) {
             R.id.confirmButton -> {
                 if (viewModel.state.transferType != "Cash Pickup") {
-                    if (viewModel.parentViewModel?.selectedResidenceCountry != null)
+                    if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
+                        Log.d(
+                            "ADD BENEFICIARY",
+                            "Selected country " + viewModel.parentViewModel?.selectedResidenceCountry
+                        )
                         findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
-                    else {
+                    } else {
                         showToast("Select country of residence")
                     }
                 }
