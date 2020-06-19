@@ -381,7 +381,7 @@
                         android:layout_marginBottom="@dimen/small"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:setFlagDrawable="@{editBeneficiaryViewModel.state.residenceCountry!=null ? editBeneficiaryViewModel.state.residenceCountry.isoCountryCode2Digit : null}"
+                        app:setFlagDrawable="@{editBeneficiaryViewModel.state.beneficiary.countryOfResidence}"
                         tools:src="@drawable/flag_ae" />
 
                     <TextView
@@ -391,7 +391,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/small"
                         android:layout_toEndOf="@+id/ivCountryFlag"
-                        android:text="@{editBeneficiaryViewModel.state.residenceCountry.name}"
+                        android:text="@{editBeneficiaryViewModel.state.beneficiary.countryOfResidenceName}"
                         app:layout_constraintBottom_toBottomOf="@+id/ivCountryFlag"
                         app:layout_constraintStart_toEndOf="@+id/ivCountryFlag"
                         app:layout_constraintTop_toTopOf="@+id/ivCountryFlag"

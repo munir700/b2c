@@ -2,7 +2,6 @@ package co.yap.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
-import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
@@ -10,13 +9,6 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
-
-    @get:Bindable
-    override var residenceCountry: Country? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.residenceCountry)
-        }
 
     @get:Bindable
     override var country: String? = ""

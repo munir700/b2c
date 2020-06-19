@@ -122,8 +122,13 @@ class AddBeneficiaryInternationlTransferFragment :
     private val observer = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                if (viewModel.state.transferType != "Cash Pickup")
-                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+                if (viewModel.state.transferType != "Cash Pickup") {
+                    if (viewModel.parentViewModel?.selectedResidenceCountry != null)
+                        findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+                    else {
+                        showToast("Select country of residence")
+                    }
+                }
             }
 
             R.id.tvChangeCurrency -> {

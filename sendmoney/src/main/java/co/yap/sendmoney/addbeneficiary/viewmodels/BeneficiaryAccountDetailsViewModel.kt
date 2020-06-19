@@ -5,11 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.RetroApiResponse
+import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.sendmoney.addbeneficiary.states.BeneficiaryAccountDetailsState
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -60,6 +59,8 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
             state.bankAddress = it.branchName ?: "" + it.branchAddress ?: ""
             state.bankPhoneNumber = ""
+            it.countryOfResidence = parentViewModel?.selectedResidenceCountry?.isoCountryCode2Digit
+            it.countryOfResidenceName = parentViewModel?.selectedResidenceCountry?.getName()
         }
     }
 

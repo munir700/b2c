@@ -34,7 +34,6 @@ interface IEditBeneficiary {
         var swiftCode: String?
         var countryBankRequirementFieldCode: String?
         var beneficiary: Beneficiary?
-        var residenceCountry: Country?
         var needOverView:Boolean?
         var needIban:Boolean?
         var showIban:Boolean?

@@ -7,9 +7,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.countryutils.country.Country
-import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
-import co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
@@ -17,6 +14,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.ActivityEditBeneficiaryBinding
+import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
+import co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
 import co.yap.translation.Translator
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
@@ -59,8 +58,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     updateAccountTitle(bundleData)
                     viewModel.state.beneficiary =
                         bundleData.getParcelable(Beneficiary::class.java.name)
-                    viewModel.state.residenceCountry =
-                        bundleData.getParcelable(Country::class.java.name)
                 }
             }
         }

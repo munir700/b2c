@@ -7,10 +7,10 @@ import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -203,5 +203,6 @@ class SelectCountryViewModel(application: Application) :
             val country: Country = countries[pos]
             state.selectedCountry = country
         }
+        parentViewModel?.selectedResidenceCountry = null
     }
 }
