@@ -60,7 +60,7 @@ class SubscriptionSelectionFragment :
             R.id.btnGetStarted -> {
                 selectorGroup?.mCheckedId
                 if (!state.plansList.isNullOrEmpty())
-                    co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_USER_SUBSCRIPTION.type)
+                    co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
                 navigateForwardWithAnimation(
                     SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
                     bundleOf(
