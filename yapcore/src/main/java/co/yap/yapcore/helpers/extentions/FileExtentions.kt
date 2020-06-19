@@ -1,7 +1,12 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 fun File.sizeInMb(): Int {
     return if (!exists()) 0 else {
@@ -20,6 +25,25 @@ fun Context.createTempFile(extension: String): File {
     }
     val time = System.currentTimeMillis().toString()
     return File(dir, "${time}.$extension")
+}
+
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+@Throws(IOException::class)
+fun Context.dummyEID(): File? {
+    val file = this.createTempFile(".jpg")
+    if (!file.exists()) {
+        val asset: InputStream = this.assets.open("dummy_eid.jpg")
+        val output = FileOutputStream(file)
+        val buffer = ByteArray(1024)
+        var size: Int
+        while (asset.read(buffer).also { size = it } != -1) {
+            output.write(buffer, 0, size)
+        }
+        asset.close()
+        output.close()
+        return file
+    }
+    return null
 }
 
 fun Context.getTempFolder(): File {

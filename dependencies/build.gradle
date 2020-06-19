@@ -144,7 +144,7 @@ project.ext {
             expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             //pdfViewer
-            pdfViewer                : 'com.github.barteksc:android-pdf-viewer:2.8.2',
+            pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
 
             rootChecker              : 'com.scottyab:rootbeer-lib:0.0.8'
     ]

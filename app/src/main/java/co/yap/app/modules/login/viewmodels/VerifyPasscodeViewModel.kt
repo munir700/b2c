@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
-import co.yap.modules.onboarding.viewmodels.OnboardingChildViewModel
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
@@ -14,7 +13,6 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -210,16 +208,19 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-     fun logout(success: () -> Unit) {
+    fun logout(success: () -> Unit) {
         val deviceId: String? =
             SharedPreferenceManager(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
         launch {
+            state.loading = true
             when (val response = repository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
                     success.invoke()
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     success.invoke()
+                    state.loading = false
                 }
             }
         }
