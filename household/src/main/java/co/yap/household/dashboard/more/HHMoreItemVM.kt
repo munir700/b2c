@@ -25,4 +25,3 @@ class HHMoreItemVM : BaseListItemViewModel<MoreOption>() {
     override fun onItemClick(view: View, data: Any, pos: Int) {
     }
 }
-

@@ -104,7 +104,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvBic"
                 tools:text="Account number: 1234567890" />
 
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgSettings"
                 android:layout_width="@dimen/_26sdp"
@@ -116,8 +115,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -125,8 +122,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:layout_marginTop="@dimen/margin_medium"
+            android:layout_weight="1"
             app:adapter="@{viewModel.adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
@@ -137,13 +134,12 @@
             style="@style/Yap.App.Widget.TextView"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_xl"
+            android:background="?selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:padding="@dimen/margin_normal"
             android:text="@string/screen_profile_settings_display_text_logout"
             android:textColor="@color/colorPrimaryHouseHold"
             android:textSize="@dimen/text_size_h3"
-            android:background="?selectableItemBackground"
             app:text="@{Strings.screen_profile_settings_display_text_logout}" />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
