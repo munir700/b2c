@@ -94,6 +94,8 @@ class EmailHouseHoldViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EMAIL.type)
                     trackEventWithAttributes(MyUserManager.user, phoneNumberVerified = true)
+//                    trackEventWithAttributes(MyUserManager.user, signup_length = null = true)
+
                     state.loading = false
                     setVerificationLabel()
                     onEmailVerifySuccess.value = true

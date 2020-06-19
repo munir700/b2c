@@ -45,6 +45,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
+import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -305,6 +306,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     private val onFetchAccountInfo = Observer<AccountInfo?> {
         it?.run {
+            trackEvents(it)
             sharedPreferenceManager.save(KEY_IS_USER_LOGGED_IN, true)
             if (!sharedPreferenceManager.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -356,6 +358,21 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
             }
         }
+    }
+
+    private fun trackEvents(accountInfo: AccountInfo){
+        accountInfo.let {
+            if(it.currentCustomer.mobileNoVerified == true){
+                trackEventInFragments(MyUserManager.user, phoneNumberVerified = true)  // This was not added before in Core
+            }
+            if(it.currentCustomer.emailVerified == true){
+                trackEventInFragments(MyUserManager.user, emailVerified = true)  // This was not added before in Core
+            }
+            if(it.active == true){
+                trackEventInFragments(MyUserManager.user, isAccountActive = true)
+            }
+        }
+
     }
 
     private val switchProfileObserver = Observer<AccountInfo?> {

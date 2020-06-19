@@ -26,7 +26,7 @@ data class UserAttributes(
     val accountActiveMonthly: String = "account_active_HouseholdUser_monthly",
     val emailVerified: String = "Household_user_email_verified",
     val phoneNumberVerified: String = "phoneNumberVerifiedHHuser",
-    val account_cancel_timestamp: String = "account cancel timestamp",
+    val account_cancel_timestamp: String = "account cancel timestamp",  //TODO when account canceled from subscription screen
     val expense_pots: String = "expense_pots",
     val card_color: String = "card_color"
     )
