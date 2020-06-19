@@ -5,6 +5,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhAddUserSuccessBinding
 import co.yap.translation.Strings
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.share
@@ -22,6 +23,7 @@ class HHAddUserSuccessFragment :
     private val onClick = Observer<Int> {
         when (it) {
             R.id.btnShare -> {
+                co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SHARE.type)
                 requireContext().share(
                     getString(Strings.screen_yap_house_hold_confirm_payment_share_text).format(
                         state.onBoardRequest?.value?.getFullName(),
