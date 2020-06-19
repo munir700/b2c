@@ -8,6 +8,8 @@ import co.yap.household.dashboard.home.HouseHoldHomeModule
 import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.dashboard.main.HouseHoldDashboardModule
 import co.yap.household.dashboard.main.HouseholdDashboardFragment
+import co.yap.household.dashboard.more.HouseHoldMoreFragment
+import co.yap.household.dashboard.more.HouseHoldMoreModule
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessModule
 import co.yap.household.setpin.setnewpin.HHSetPinFragment
@@ -64,4 +66,8 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HouseHoldConfirmPaymentModule::class])
     abstract fun houseHoldConfirmPaymentFragmentInjector(): HouseHoldConfirmPaymentFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HouseHoldMoreModule::class])
+    abstract fun houseHoldMoreFragmentInjector(): HouseHoldMoreFragment
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.more.HHMoreItemVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cornor_edges_gery"
+        android:padding="@dimen/margin_medium">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/imgIcon"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="@dimen/_43sdp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:tint="@color/white"
+            app:backgroundTint="@color/colorPrimaryHouseHold"
+            app:elevation="@dimen/margin_zero_dp"
+            app:fabCustomSize="@dimen/_43sdp"
+            app:fabSize="normal"
+            android:elevation="@dimen/margin_zero_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/transparent"
+            app:srcCompat="@{viewModel.item.image}"
+            tools:src="@drawable/ic_notification" />
+
+        <FrameLayout
+            android:id="@+id/lyBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:background="@drawable/bg_round_with_space_white_small"
+            android:visibility="@{viewModel.item.hasBadge ? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/imgIcon"
+            app:layout_constraintStart_toStartOf="@+id/imgIcon"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <co.yap.widgets.BadgeTextView
+                android:id="@+id/textBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSecondaryMagenta"
+                android:text="@{Integer.toString(viewModel.item.badgeCount)}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp"
+                app:mbtv_border_alpha="1"
+                app:mbtv_border_color="@color/white"
+                app:mbtv_border_width="@dimen/_1sdp"
+                app:mbtv_type="shadow_alpha"
+                tools:text="4" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/ASmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
+            android:text="@{viewModel.item.name}"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/imgIcon"
+            tools:text="android:asdasdas" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

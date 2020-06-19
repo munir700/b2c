@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.home.models
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import co.yap.networking.models.ApiResponse
 import kotlinx.android.parcel.Parcelize
 
 
@@ -14,4 +15,4 @@ data class MoreOption(
     val bgColor: Int,
     var hasBadge: Boolean,
     var badgeCount:Int
-) : Parcelable
+) : ApiResponse(), Parcelable

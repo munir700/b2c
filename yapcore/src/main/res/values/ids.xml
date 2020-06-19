@@ -5,4 +5,8 @@
     <item type="id" name="nav_host_fragment"/>
     <item type="id" name="validator_rule" />
     <item type="id" name="text_watcher_clear_error" />
+    <item name="more_notification" type="id"/>
+    <item name="more_atm_cdm" type="id"/>
+    <item name="more_help_support" type="id"/>
+    <item name="more_terms_condition" type="id"/>
 </resources>

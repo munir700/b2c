@@ -18,10 +18,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 
-class CoreCircularImageView :ImageView {
+class CoreCircularImageView :AppCompatImageView {
 
     private val mDrawableRect = RectF()
     private val mBorderRect = RectF()

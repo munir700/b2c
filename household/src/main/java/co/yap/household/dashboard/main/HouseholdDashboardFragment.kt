@@ -12,6 +12,7 @@ import co.yap.household.R
 import co.yap.household.dashboard.cards.MyCardFragment
 import co.yap.household.dashboard.expense.HouseHoldExpenseFragment
 import co.yap.household.dashboard.home.HouseholdHomeFragment
+import co.yap.household.dashboard.more.HouseHoldMoreFragment
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
@@ -78,7 +79,7 @@ class HouseholdDashboardFragment :
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseHoldExpenseFragment>()
-        adapter.addFragmentInfo<HouseHoldExpenseFragment>()
+        adapter.addFragmentInfo<HouseHoldMoreFragment>()
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
         viewPager.offscreenPageLimit = 3

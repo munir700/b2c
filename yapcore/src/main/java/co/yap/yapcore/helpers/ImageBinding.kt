@@ -20,9 +20,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object ImageBinding {
     @JvmStatic
-    @BindingAdapter("setImageUrl")
-    fun setImageUrl(imageView: AppCompatImageView, url: String?) {
-        url?.let { setImage(imageView, it) }
+    @BindingAdapter(
+        value = ["imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor"],
+        requireAll = true
+    )
+    fun setImageUrl(
+        imageView: AppCompatImageView,
+        imageUrl: String?,
+        fullName: String,
+        bgColor: Int, initialTextSize: Int,
+        initialTextColor: Int
+    ) {
+        loadAvatar(
+            imageView,
+            imageUrl,
+            fullName,
+            bgColor,
+            initialTextSize,
+            initialTextColor
+        )
     }
 
     @JvmStatic
@@ -63,7 +79,7 @@ object ImageBinding {
         fullName: String?,
         @ColorRes color: Int,
         @DimenRes fontSize: Int = R.dimen.text_size_h5,
-        @SuppressLint("ResourceType") textColor: Int = ThemeColorUtils.colorPrimAttribute(imageView.context)
+        @ColorRes textColor: Int = R.color.colorPrimary
     ) {
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
@@ -71,7 +87,7 @@ object ImageBinding {
             .fontSize(imageView.context.dimen(fontSize))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
-            .textColor(textColor)
+            .textColor(ContextCompat.getColor(imageView.context, textColor))
         setCircleCropImage(
             imageView,
             beneficiaryPicture ?: "",

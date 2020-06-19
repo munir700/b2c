@@ -16,7 +16,7 @@ private fun span(s: CharSequence, o: Any) =
         ?: SpannableString("")).apply { setSpan(o, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) }
 
 operator fun SpannableString.plus(s: SpannableString) = SpannableString(TextUtils.concat(this, s))
-operator fun SpannableString.plus(s: String) = SpannableString(TextUtils.concat(this, s))
+operator fun SpannableString.plus(s: String?) = SpannableString(TextUtils.concat(this, s ?: ""))
 
 fun bold(s: CharSequence) = span(
     s,
