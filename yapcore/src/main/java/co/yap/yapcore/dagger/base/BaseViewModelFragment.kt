@@ -115,7 +115,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
 
     fun setupToolbar(
         toolbar: Toolbar?,
-        toolbarMenu: Int? = null,
+        toolbarMenu: Int? = null, setActionBar: Boolean = true,
         navigationOnClickListener: ((View) -> Unit?)? = null
     ) {
         toolbar?.apply {
@@ -123,12 +123,13 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
             setHomeAsUpIndicator()?.let { setNavigationIcon(it) }
             getBaseActivity().setSupportActionBar(this)
             navigationOnClickListener?.let { l -> this.setNavigationOnClickListener { l.invoke(it) } }
-//            this.setNavigationOnClickListener {v-> navigationOnClickListener?.invoke(v) }
-            getBaseActivity().supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(setDisplayHomeAsUpEnabled() ?: true)
-                setHomeButtonEnabled(setDisplayHomeAsUpEnabled() ?: true)
-                setDisplayShowCustomEnabled(setDisplayHomeAsUpEnabled() ?: true)
-                setHomeAsUpIndicator()?.let { setHomeAsUpIndicator(it) }
+            if (setActionBar) {
+                getBaseActivity().supportActionBar?.apply {
+                    setDisplayHomeAsUpEnabled(setDisplayHomeAsUpEnabled() ?: true)
+                    setHomeButtonEnabled(setDisplayHomeAsUpEnabled() ?: true)
+                    setDisplayShowCustomEnabled(setDisplayHomeAsUpEnabled() ?: true)
+                    setHomeAsUpIndicator()?.let { setHomeAsUpIndicator(it) }
+                }
             }
             toolbarMenu?.let { this.inflateMenu(it) }
         }

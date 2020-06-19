@@ -15,6 +15,9 @@ import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.alert
@@ -47,7 +50,7 @@ class SubAccountCardFragment :
     }
 
     private fun initDragDropAdapter() {
-            mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
+        mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
             mWrappedAdapter = createWrappedAdapter(adapter)
             setInitiateOnLongPress(true)
             setInitiateOnMove(false)
@@ -123,7 +126,11 @@ class SubAccountCardFragment :
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
+        launchActivity<NavHostPresenterActivity> {
+            putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
+            putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
+        }
+//        launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
         return super.onOptionsItemSelected(item)
     }
 

@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorRes
@@ -19,9 +20,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object ImageBinding {
     @JvmStatic
-    @BindingAdapter("setImageUrl")
-    fun setImageUrl(imageView: AppCompatImageView, url: String?) {
-        url?.let { setImage(imageView, it) }
+    @BindingAdapter(
+        value = ["imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor"],
+        requireAll = true
+    )
+    fun setImageUrl(
+        imageView: AppCompatImageView,
+        imageUrl: String?,
+        fullName: String,
+        bgColor: Int, initialTextSize: Int,
+        initialTextColor: Int
+    ) {
+        loadAvatar(
+            imageView,
+            imageUrl,
+            fullName,
+            bgColor,
+            initialTextSize,
+            initialTextColor
+        )
     }
 
     @JvmStatic
@@ -39,19 +56,19 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter(value = ["beneficiaryPicture", "fullName"], requireAll = true)
     fun loadAvatar(imageView: ImageView, beneficiaryPicture: String?, fullName: String?) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp))
             .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
-            .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
+            .textColor(ThemeColorUtils.colorCircularTextAttribute(imageView.context))
         setCircleCropImage(
             imageView,
             beneficiaryPicture ?: "",
             builder.buildRect(
                 Utils.shortName(fullName ?: ""),
-                ContextCompat.getColor(imageView.context, R.color.disabledLight)
+                ThemeColorUtils.colorDisabledLightAttribute(imageView.context)
+
             )
         )
     }
@@ -64,7 +81,6 @@ object ImageBinding {
         @DimenRes fontSize: Int = R.dimen.text_size_h5,
         @ColorRes textColor: Int = R.color.colorPrimary
     ) {
-
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
             .height(imageView.context.dimen(R.dimen._35sdp))
@@ -99,9 +115,10 @@ object ImageBinding {
             imageView,
             imageUrl,
             fullName,
-            R.color.disabledLight,
+            ThemeColorUtils.colorDisabledLightAttribute(imageView.context),
             R.dimen.text_size_h2,
-            R.color.colorPrimary
+            ThemeColorUtils.colorPrimaryAttribute(imageView.context)
+
         )
 
     }
@@ -263,7 +280,6 @@ object ImageBinding {
 
 
     private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
-
         return when (colorType) {
             "Beneficiary" -> Utils.getBeneficiaryColors(imageView.context, position = position)
             else -> Utils.getContactColors(imageView.context, position = position)
@@ -278,14 +294,12 @@ object ImageBinding {
                 position = position
             )
             else -> Utils.getBackgroundColor(imageView.context, position = position)
-
         }
     }
 
     @JvmStatic
     @BindingAdapter(value = ["countryCode", "countryName"], requireAll = false)
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
-
         val resId = getResId(
             "flag_${getDrawableName(
                 countryName
@@ -295,6 +309,5 @@ object ImageBinding {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
-
     }
 }

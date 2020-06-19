@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.household.activities.subscriptionselection
+package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import co.yap.R
 import co.yap.modules.onboarding.models.WelcomeContent
@@ -22,9 +22,9 @@ class SubscriptionSelectionModule : BaseFragmentModule<SubscriptionSelectionFrag
     ): SubscriptionSelectionVM = viewModelProvider.get(fragment, SubscriptionSelectionVM::class)
 
     @Provides
-    fun provideMyCardTransactionsAdapter() =
+    fun provideMyCardTransactionsAdapter(list: ArrayList<WelcomeContent>) =
         SubscriptionSelectionFragment.Adapter(
-            ArrayList(),
+            list,
             null
         )
 

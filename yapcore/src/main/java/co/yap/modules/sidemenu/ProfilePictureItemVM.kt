@@ -1,12 +1,11 @@
-package co.yap.household.dashboard.main.menu
+package co.yap.modules.sidemenu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.NavController
-import co.yap.household.R
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseListItemViewModel
+import co.yap.yapcore.R
 
 class ProfilePictureItemVM : BaseListItemViewModel<AccountInfo>() {
     private lateinit var mItem: AccountInfo

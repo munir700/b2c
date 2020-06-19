@@ -14,7 +14,7 @@ import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldS
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
-
+@Deprecated("")
 class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewModel>(),
     IHouseHoldSuccess.View {
 

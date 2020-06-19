@@ -21,11 +21,19 @@ class HouseHoldLandingFragment :
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
+    override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
+
+    override fun toolBarVisibility() = false
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetHouseHoldAccount -> {
                 trackEvent(HHSubscriptionEvents.HH_START_SUBSCRIPTION.type)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
 }

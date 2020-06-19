@@ -16,6 +16,5 @@ class HHAddUserNameVM @Inject constructor(override val state: IHHAddUserName.Sta
     }
     override fun handlePressOnClick(id: Int) {
         clickEvent.postValue(id)
-        validator?.validate()
     }
 }

@@ -34,6 +34,10 @@
         <item name="font">@font/roboto_regular</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
+    <style name="Yap.App.Widget.TextView.Small" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
 
     <style name="Yap.App.Widget.TextView.Normal" parent="TextAppearance.AppCompat.Title">
         <item name="android:layout_width">wrap_content</item>
@@ -340,7 +344,7 @@
     <style name="Yap.App.Widget.TextInputEditText.Mobile.Prefix" parent="Yap.App.Widget.TextInputEditText">
         <item name="pse_compoundDrawableHeight">@dimen/_16sdp</item>
         <item name="pse_compoundDrawableWidth">@dimen/_16sdp</item>
-        <item name="pse_setPrefix">+971</item>
+        <item name="pse_setPrefix">971</item>
         <item name="pse_setPrefixDrawable">@drawable/flag_ae</item>
         <item name="pse_space">@dimen/margin_small</item>
         <item name="android:singleLine">true</item>

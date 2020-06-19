@@ -7,7 +7,7 @@ import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldO
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 
-
+@Deprecated("")
 abstract class BaseOnBoardingFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

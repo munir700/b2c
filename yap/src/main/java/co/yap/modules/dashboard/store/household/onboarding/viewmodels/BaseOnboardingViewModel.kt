@@ -4,7 +4,7 @@ import android.app.Application
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IBaseOnboarding
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
-
+@Deprecated("")
 abstract class BaseOnboardingViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
     var parentViewModel: IBaseOnboarding.ViewModel? = null

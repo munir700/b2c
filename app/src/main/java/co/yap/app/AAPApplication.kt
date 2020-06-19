@@ -17,15 +17,19 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -52,8 +56,8 @@ class AAPApplication : HouseHoldApplication(
         super.onCreate()
         sAppComponent = AppInjector.init(this)
         initNetworkLayer()
-//        SharedPreferenceManager(this).setThemeValue(Constants.THEME_HOUSEHOLD)
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+//        switchTheme(YAPThemes.HOUSEHOLD())
+        switchTheme(YAPThemes.CORE())
         initFireBase()
         inItLeanPlum()
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
@@ -132,6 +136,7 @@ class AAPApplication : HouseHoldApplication(
                 completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
             ) {
                 try {
+                    activity.launchActivity<VerifyPassCodePresenterActivity>()
                     val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
                     intent.putExtra(EXTRA, bundle)
                     (activity as AppCompatActivity).startForResult(intent) { result ->
@@ -149,9 +154,15 @@ class AAPApplication : HouseHoldApplication(
                         )
                     }
                 }
+            }
 
+            override fun startHouseHoldModule(activity: FragmentActivity) {
+                activity.launchActivity<NavHostPresenterActivity>() {
+                    putExtra(NAVIGATION_Graph_ID, co.yap.app.R.navigation.hh_main_nav_graph)
+                }
             }
         }
+
     }
 
 

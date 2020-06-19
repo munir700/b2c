@@ -13,11 +13,16 @@ data class HouseholdOnboardRequest(
     @SerializedName("lastName")
     val lastName: String? = null,
     @SerializedName("countryCode")
-    val countryCode: String? = null,
+    var countryCode: String? = null,
     @SerializedName("mobileNo")
-    val mobileNo: String? = null,
+    var mobileNo: String? = null,
     @SerializedName("accountType")
-    val accountType: String? = null,
+    var accountType: String? = null,
     @SerializedName("feeFrequency")
-    val feeFrequency: String?=null
-) : ApiResponse(), Parcelable
+    var feeFrequency: String? = null,
+    @Transient var tempPassCode: String? = null
+) : ApiResponse(), Parcelable {
+    fun getFullName(): String {
+        return "$firstName $lastName"
+    }
+}

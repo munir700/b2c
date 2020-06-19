@@ -30,7 +30,10 @@ class YapMoreItemViewHolder(private val itemYapMoreBinding: ItemYapMoreBinding) 
         itemYapMoreBinding.imgIcon.background = wrappedDrawable
 
         itemYapMoreBinding.viewModel =
-            YapMoreItemViewModel(moreOption, position, onItemClickListener)
+            YapMoreItemViewModel().apply {
+                this.onItemClickListener = onItemClickListener
+                setItem(moreOption, position)
+            }
         itemYapMoreBinding.executePendingBindings()
 
     }

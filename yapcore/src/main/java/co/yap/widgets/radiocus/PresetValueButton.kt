@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import co.yap.widgets.drawables.DrawableEnriched
 import co.yap.yapcore.R
 import java.util.*
 
@@ -24,6 +25,8 @@ class PresetValueButton : CardView, RadioCheckable {
     private var mPressedTextColor = 0
     private var layoutResId = -1
     private var mInitialBackgroundDrawable: Drawable? = null
+    private var mDrawableSelected: Int = 0
+    private var mDrawableNormal: Int = 0
     private var mOnClickListener: OnClickListener? = null
     var onTouchListener: OnTouchListener? = null
         private set
@@ -75,6 +78,16 @@ class PresetValueButton : CardView, RadioCheckable {
                     R.styleable.PresetValueButton_presetButtonPressedTextColor,
                     resources.getColor(R.color.colorAccentHouseHold, null)
                 )
+            mDrawableSelected =
+                a.getResourceId(
+                    R.styleable.PresetValueButton_preset_drawableSelected,
+                    -1
+                )
+            mDrawableNormal =
+                a.getResourceId(
+                    R.styleable.PresetValueButton_preset_drawableNormal,
+                    -1
+                )
         } finally {
             a.recycle()
         }
@@ -85,6 +98,9 @@ class PresetValueButton : CardView, RadioCheckable {
             inflateView()
             bindView()
         }
+        if (mDrawableNormal > -1) setBackgroundResource(mDrawableNormal)
+        else
+            mInitialBackgroundDrawable = background
         setCustomTouchListener()
     }
 
@@ -94,7 +110,6 @@ class PresetValueButton : CardView, RadioCheckable {
         inflater.inflate(layoutResId, this, true)
         tvLable1 = findViewById(R.id.tvLable1)
         tvLable2 = findViewById(R.id.tvLable2)
-        mInitialBackgroundDrawable = background
     }
 
     private fun bindView() {
@@ -131,12 +146,14 @@ class PresetValueButton : CardView, RadioCheckable {
     }
 
     private fun setCheckedState() {
-        setBackgroundResource(R.drawable.background_shape_preset_button_pressed)
+        if (mDrawableSelected > -1) setBackgroundResource(mDrawableSelected)
+        else setBackgroundResource(R.drawable.background_shape_preset_button_pressed)
         tvLable1?.setTextColor(mPressedTextColor);
     }
 
     private fun setNormalState() {
-        background = mInitialBackgroundDrawable
+        if (mDrawableNormal > -1) setBackgroundResource(mDrawableNormal)
+        else background = mInitialBackgroundDrawable
         tvLable1?.setTextColor(lable1Color);
     }
 

@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.store.household.onboarding.interfaces
 import android.graphics.drawable.Drawable
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldUserInfo {
 
     interface State : IBase.State {

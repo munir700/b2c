@@ -1,10 +1,11 @@
-package co.yap.modules.dashboard.store.household.activities.subscriptionselection
+package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -17,16 +18,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import javax.inject.Inject
 
-
 class SubscriptionSelectionVM @Inject constructor(override var state: ISubscriptionSelection.State) :
     DaggerBaseViewModel<ISubscriptionSelection.State>(), ISubscriptionSelection.ViewModel {
-    override val repository: TransactionsRepository = TransactionsRepository
+    override val repository: TransactionsApi = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var benefitsList: ArrayList<BenefitsModel> = ArrayList()
-    override var plansList: ArrayList<HouseHoldPlan> = ArrayList()
-    var monthlyFee: Double? = 0.0
-    var yearlyFee: Double? = 0.0
-
+    private var monthlyFee: Double? = 0.0
+    private var yearlyFee: Double? = 0.0
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         fetchHouseholdPackagesFee()
     }
@@ -35,37 +32,11 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
         clickEvent.setValue(id)
     }
 
-    override fun loadDummyData(): ArrayList<BenefitsModel> {
-
-        val benefitsTitle: ArrayList<String> = arrayListOf(
-            getString(Strings.screen_yap_house_hold_success_display_text_pager_color),
-            getString(Strings.screen_yap_house_hold_success_display_text_pager_schedule_payments),
-            getString(Strings.screen_yap_house_hold_success_display_text_pager_schedule_pots)
-        )
-
-        val benefitsDescription: ArrayList<String> = arrayListOf(" ", " ", " ", " ")
-
-        val benefitsModelList: ArrayList<BenefitsModel> = ArrayList<BenefitsModel>()
-
-        for (i in 0 until 4) {
-            val benfitTitle: String = benefitsTitle.get(i)
-            val benfitDetail: String = benefitsDescription.get(i)
-
-            val benefitsModel: BenefitsModel = BenefitsModel(
-                benfitTitle,
-                benfitDetail
-            )
-            benefitsModelList.add(benefitsModel)
-        }
-        return benefitsModelList
-    }
-
     override fun fetchHouseholdPackagesFee() {
         launch {
             val monthly = viewModelBGScope.async(Dispatchers.IO) {
                 repository.getHousholdFeePackage(PackageType.MONTHLY.type)
             }
-
             val yearly = viewModelBGScope.async(Dispatchers.IO) {
                 repository.getHousholdFeePackage(PackageType.YEARLY.type)
             }
@@ -100,13 +71,13 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
             }
             state.monthlyFee.value = monthlyFee.toString().toFormattedAmountWithCurrency()
             state.annuallyFee.value = yearlyFee.toString().toFormattedAmountWithCurrency()
-            plansList.add(
+            state.plansList.add(
                 HouseHoldPlan(
                     type = PackageType.MONTHLY.type,
                     amount = state.monthlyFee.value
                 )
             )
-            plansList.add(
+            state.plansList.add(
                 HouseHoldPlan(
                     type = "Yearly",
                     amount = state.annuallyFee.value,

@@ -15,10 +15,8 @@
     <attr name="colorPressedBtnStateAttr" format="color|reference" />
     <attr name="colordisabledTick" format="color|reference" />
     <attr name="colorSeekBar" format="color|reference" />
-
     <attr name="colorSwipeToDeleteAttr" format="color|reference" />
     <attr name="colorSwipeToEditAttr" format="color|reference" />
-
     <attr name="colorSendMoneyToolBarAttr" format="color|reference" />
     <attr name="colorTextAttr" format="color|reference" />
     <attr name="colorIconsTintAttr" format="color|reference" />
@@ -36,8 +34,16 @@
     <attr name="colorToolbarTextAttr" format="color|reference" />
     <attr name="colorLightBankTransferAttr" format="color|reference" />
     <attr name="colorDarkBankTransferAttr" format="color|reference" />
-
     <attr name="cardSuccessBorderWidth" format="dimension|reference" />
+    <attr name="colorEditBeneficiaryLabelTextAttr" format="color|reference" />
+    <attr name="colorEditBeneficiaryLabelBgAttr" format="color|reference" />
+    <attr name="colorCircularTextAttr" format="color|reference" />
+    <attr name="colorCircularBgAttr" format="color|reference" />
+    <attr name="colorDefaultTextAttr" format="color|reference" />
+    <attr name="colorYapItBgAttr" format="color|reference" />
+    <attr name="colorButtonPressedAttr" format="color|reference" />
+    <attr name="colorButtonUnPressedAttr" format="color|reference" />
+    <attr name="colorCoreButtonTextAttr" format="color|reference" />
 
 
     <!--components theme-->
@@ -629,6 +635,8 @@
         <attr name="lable1Color" format="color" />
         <attr name="lable2Color" format="color" />
         <attr name="preset_layoutResId" format="reference" />
+        <attr name="preset_drawableSelected" format="reference" />
+        <attr name="preset_drawableNormal" format="reference" />
         <attr name="presetButtonPressedTextColor" format="color" />
     </declare-styleable>
 
@@ -668,5 +676,6 @@
     <declare-styleable name="CollapsedColoredHintTextInputLayout">
         <attr name="hintTextColorNormal" format="color" />
         <attr name="hintTextColorSelected" format="color" />
+        <attr name="android:drawablePadding" format="dimension|reference"/>
     </declare-styleable>
 </resources>

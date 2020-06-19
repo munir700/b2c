@@ -14,6 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
 
+@Deprecated("")
 class HouseHoldUserContactViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldUserContact.State>(application),
     IHouseHoldUserContact.ViewModel,

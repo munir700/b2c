@@ -19,7 +19,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-
+@Deprecated("")
 class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 

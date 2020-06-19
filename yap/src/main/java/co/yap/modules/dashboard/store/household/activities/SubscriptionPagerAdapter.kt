@@ -13,7 +13,7 @@ import co.yap.databinding.ContentSubscriptionSelectionPagerBinding
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.interfaces.IBindable
 
-
+@Deprecated("")
 public class SubscriptionPagerAdapter(
     private val context: Context,
     private val contents: ArrayList<WelcomeContent>,

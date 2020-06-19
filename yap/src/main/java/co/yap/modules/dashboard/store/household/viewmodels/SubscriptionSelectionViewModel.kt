@@ -22,7 +22,7 @@ import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-
+@Deprecated("")
 class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
     IHouseHoldSubscription.ViewModel, IRepositoryHolder<TransactionsRepository> {

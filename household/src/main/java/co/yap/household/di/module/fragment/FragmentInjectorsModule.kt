@@ -8,6 +8,8 @@ import co.yap.household.dashboard.home.HouseHoldHomeModule
 import co.yap.household.dashboard.home.HouseholdHomeFragment
 import co.yap.household.dashboard.main.HouseHoldDashboardModule
 import co.yap.household.dashboard.main.HouseholdDashboardFragment
+import co.yap.household.dashboard.more.HouseHoldMoreFragment
+import co.yap.household.dashboard.more.HouseHoldMoreModule
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessModule
 import co.yap.household.setpin.setnewpin.HHSetPinFragment
@@ -16,10 +18,10 @@ import co.yap.household.setpin.setpinstart.HHSetPinCardReviewFragment
 import co.yap.household.setpin.setpinstart.HHSetPinCardReviewModule
 import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessFragment
 import co.yap.household.setpin.setpinsuccess.HHSetPinSuccessModule
-import co.yap.modules.dashboard.store.household.activities.subscriptionselection.SubscriptionSelectionFragment
-import co.yap.modules.dashboard.store.household.activities.subscriptionselection.SubscriptionSelectionModule
-import co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation.HouseHoldConfirmPaymentFragment
-import co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation.HouseHoldConfirmPaymentModule
+import co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionFragment
+import co.yap.modules.dashboard.store.household.subscriptionselection.SubscriptionSelectionModule
+import co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentFragment
+import co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -64,4 +66,8 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HouseHoldConfirmPaymentModule::class])
     abstract fun houseHoldConfirmPaymentFragmentInjector(): HouseHoldConfirmPaymentFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HouseHoldMoreModule::class])
+    abstract fun houseHoldMoreFragmentInjector(): HouseHoldMoreFragment
 }

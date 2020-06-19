@@ -1,9 +1,11 @@
-package co.yap.modules.dashboard.store.household.onboarding.fragments.hhpaymentconfirmation
+package co.yap.modules.dashboard.store.household.paymentconfirmation
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentHouseHoldCofirmPaymentV2Binding
+import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
@@ -11,6 +13,7 @@ import co.yap.widgets.popmenu.PopupMenuItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.plus
 import kotlinx.android.synthetic.main.fragment_house_hold_cofirm_payment.*
 
 class HouseHoldConfirmPaymentFragment :
@@ -20,24 +23,22 @@ class HouseHoldConfirmPaymentFragment :
     private var householdPlanPopMenu: PopupMenu? = null
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-        setObservers()
+        viewModel.clickEvent.observe(this, onClick)
         initComponents()
     }
 
-    private fun setObservers() {
-        viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.onBoardUserSuccess.observe(this, Observer {
-            if (it) findNavController().navigate(R.id.action_HHConfirmPaymentFragment_to_houseHoldSuccessFragment)
-        })
-    }
-
-    private val clickObserver = Observer<Int> {
+    private val onClick = Observer<Int> {
         when (it) {
             R.id.tvChangePlan -> {
                 householdPlanPopMenu?.showAsAnchorRightBottom(tvChangePlan, 0, 30)
             }
             R.id.confirmButton -> {
-                viewModel.addHouseholdUser()
+                viewModel.addHouseholdUser() {
+                    navigateForwardWithAnimation(
+                        HouseHoldConfirmPaymentFragmentDirections.actionHouseHoldConfirmPaymentFragmentToHHAddUserSuccessFragment(),
+                        arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.onBoardRequest?.value))
+                    )
+                }
             }
         }
     }
@@ -54,42 +55,19 @@ class HouseHoldConfirmPaymentFragment :
 
     private fun getHouseholdPlans(): List<PopupMenuItem> {
         val popMenuHouseholdPlansList = ArrayList<PopupMenuItem>()
-        getPlansList()?.let {
-            for (item in it.iterator()) {
-                popMenuHouseholdPlansList.add(PopupMenuItem("${item.type} - ${item.amount}"))
-            }
-        }
-
+        state.plansList?.value?.forEach { item -> popMenuHouseholdPlansList.add(PopupMenuItem("${item.type} - ${item.amount}")) }
         return popMenuHouseholdPlansList
-    }
-
-    private fun getPlansList(): List<HouseHoldPlan>? {
-        return viewModel.plansList.value
     }
 
     private val popupItemClickListener =
         OnMenuItemClickListener<PopupMenuItem?> { position, _ ->
             householdPlanPopMenu?.selectedPosition = position
-            populateHouseholdPlanData(getPlansList()?.get(position))
+            state.selectedPlan?.value = state.plansList?.value?.get(position)
         }
-
-    private fun populateHouseholdPlanData(selectedPlan: HouseHoldPlan?) {
-        viewModel.selectedPlanType?.type = selectedPlan?.type
-        viewModel.state.selectedPlanFee.set(viewModel.state.currencyType.get() + " " + selectedPlan?.amount)
-        viewModel.state.selectedCardPlan.set(selectedPlan?.type + " | " + viewModel.state.selectedPlanFee.get())
-        selectedPlan?.discount?.let {
-            if (it != 0) {
-                viewModel.state.selectedPlanSaving.set("Your saving $it%!")
-            } else {
-                viewModel.state.selectedPlanSaving.set("")
-            }
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-        viewModel.onBoardUserSuccess.removeObservers(this)
     }
 
     override fun onBackPressed(): Boolean = false

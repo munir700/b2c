@@ -78,9 +78,9 @@ class Validator(private val target: ViewDataBinding?) {
     fun toValidate() {
         requireNotNull(validationListener) { "Validation listener should not be null." }
         if (validate()) {
-            validationListener!!.onValidationSuccess()
+            validationListener?.onValidationSuccess()
         } else {
-            validationListener!!.onValidationError()
+            validationListener?.onValidationError()
         }
     }
 

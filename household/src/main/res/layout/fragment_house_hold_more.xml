@@ -1,0 +1,145 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.dashboard.more.HouseHoldMoreVM" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryHouseHold"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_medium_large"
+            android:paddingTop="@dimen/margin_extra_large"
+            android:paddingEnd="@dimen/margin_medium_large"
+            android:paddingBottom="@dimen/margin_medium">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/_64sdp"
+                android:layout_height="@dimen/_64sdp"
+                android:contentDescription="@string/empty_string"
+                app:bgColor="@{R.color.colorPrimaryHouseHold}"
+                app:civ_border_color="#4DFFFFFF"
+                app:civ_border_width="3dp"
+                app:fullName="@{MyUserManager.INSTANCE.getUser().currentCustomer.fullName}"
+                app:imageUrl="@{MyUserManager.INSTANCE.getUser().currentCustomer.picture}"
+                app:initialTextColor="@{R.color.white}"
+                app:initialTextSize="@{R.dimen.text_size_h3}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvName"
+                style="@style/Yap.App.Widget.TextView.FullName"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@{MyUserManager.INSTANCE.userLiveData.currentCustomer.fullName}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_h3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+                tools:text="Logan Pearson" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvIban"
+                style="@style/Yap.App.Widget.TextView.Small"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@{SpannableKt.plus(SpannableKt.bold(`IBAN `), Utils.INSTANCE.formateIbanString(MyUserManager.INSTANCE.user.iban))}"
+                android:textColor="@color/white"
+                android:visibility="@{StringExtensionsKt.isEmpty(MyUserManager.INSTANCE.user.iban)?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="IBAN AE357599475775847" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBic"
+                style="@style/Yap.App.Widget.TextView.Small"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:text="@{SpannableKt.plus(SpannableKt.bold(`BIC `), Utils.INSTANCE.formateIbanString(MyUserManager.INSTANCE.user.bank.swiftCode))}"
+                android:textColor="@color/white"
+                android:visibility="@{StringExtensionsKt.isEmpty(MyUserManager.INSTANCE.user.bank.swiftCode)?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvIban"
+                tools:text="BIC NTSBDHF2373" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAccountNo"
+                style="@style/Yap.App.Widget.TextView.Small"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@{SpannableKt.plus(SpannableKt.bold(`Account number: `), Utils.INSTANCE.formateIbanString(MyUserManager.INSTANCE.user.accountNo))}"
+                android:textColor="@color/white"
+                android:visibility="@{StringExtensionsKt.isEmpty(MyUserManager.INSTANCE.user.accountNo)?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBic"
+                tools:text="Account number: 1234567890" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgSettings"
+                android:layout_width="@dimen/_26sdp"
+                android:layout_height="@dimen/_26sdp"
+                android:layout_gravity=""
+                android:contentDescription="@string/empty_string"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:tint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_settings" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_weight="1"
+            app:adapter="@{viewModel.adapter}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_hh_more" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLogOut"
+            style="@style/Yap.App.Widget.TextView"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_xl"
+            android:background="?selectableItemBackground"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:padding="@dimen/margin_normal"
+            android:text="@string/screen_profile_settings_display_text_logout"
+            android:textColor="@color/colorPrimaryHouseHold"
+            android:textSize="@dimen/text_size_h3"
+            app:text="@{Strings.screen_profile_settings_display_text_logout}" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.store.household.onboarding.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldSuccess {
 
     interface View : IBase.View<ViewModel>

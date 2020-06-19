@@ -12,9 +12,13 @@ import co.yap.household.R
 import co.yap.household.dashboard.cards.MyCardFragment
 import co.yap.household.dashboard.expense.HouseHoldExpenseFragment
 import co.yap.household.dashboard.home.HouseholdHomeFragment
-import co.yap.household.dashboard.main.menu.ProfilePictureAdapter
+import co.yap.household.dashboard.more.HouseHoldMoreFragment
 import co.yap.household.databinding.ActivityHouseholdDashboardBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.modules.dashboard.more.cdm.CdmMapFragment
+import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.translation.Strings
@@ -25,6 +29,8 @@ import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -73,7 +79,7 @@ class HouseholdDashboardFragment :
         adapter.addFragmentInfo<HouseholdHomeFragment>()
         adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseHoldExpenseFragment>()
-        adapter.addFragmentInfo<HouseHoldExpenseFragment>()
+        adapter.addFragmentInfo<HouseHoldMoreFragment>()
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
         viewPager.offscreenPageLimit = 3
@@ -97,6 +103,23 @@ class HouseholdDashboardFragment :
             R.id.btnCopyHH -> {
             }
             R.id.lyHeader_section -> expandableLayout.toggle(true)
+            R.id.notification -> toast("Coming Soon")
+            R.id.ContactUs -> {
+                startFragment(HelpSupportFragment::class.java.name)
+                drawerLayout.closeDrawer(GravityCompat.END)
+            }
+            R.id.helpSupport -> {
+                drawerLayout.closeDrawer(GravityCompat.END)
+                startFragment(HelpSupportFragment::class.java.name)
+            }
+            R.id.atm_cdm -> {
+                drawerLayout.closeDrawer(GravityCompat.END)
+                startFragment(CdmMapFragment::class.java.name)
+            }
+            R.id.ivSettings -> {
+                launchActivity<MoreActivity>()
+                drawerLayout.closeDrawer(GravityCompat.END)
+            }
         }
     }
 

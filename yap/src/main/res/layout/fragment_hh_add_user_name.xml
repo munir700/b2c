@@ -43,7 +43,7 @@
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.firstName}"
-                    app:validateMinLength="@{10}"
+                    app:validateType='@{"firstname"}'
                      />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 

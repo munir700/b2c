@@ -20,7 +20,7 @@ import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
-
+@Deprecated("")
 class HouseHoldConfirmPaymentViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldConfirmPayment.State>(application),
     IHouseHoldConfirmPayment.ViewModel, IRepositoryHolder<CustomersRepository> {

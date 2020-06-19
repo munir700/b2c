@@ -10,6 +10,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.translation.Translator" />
+
         <import type="android.view.View" />
     </data>
 
@@ -28,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/_2sdp"
-                android:text="@string/screen_yap_house_hold_success_display_text_title" />
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_success_display_text_title,viewModel.state.onBoardRequest.firstName)}" />
 
             <co.yap.widgets.AspectRatioImageView
                 android:id="@+id/cardView"
@@ -58,20 +60,21 @@
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="6sp"
                 android:maxLines="10"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_success_display_text_direct_message,viewModel.state.onBoardRequest.firstName)}"
                 app:compoundDrawableHeight="@dimen/margin_extra_large"
                 app:compoundDrawableWidth="@dimen/margin_extra_large"
                 tools:text="@string/screen_yap_house_hold_success_display_text_direct_message" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Small"
+                style="@style/Regular"
+                android:fontFamily="@font/roboto_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@string/screen_yap_house_hold_success_display_text_share_credentials"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_success_display_text_share_credentials,viewModel.state.onBoardRequest.firstName)}"
                 android:textSize="@dimen/_13sdp"
-                app:text="@{Strings.screen_yap_house_hold_success_display_text_share_credentials}"
                 tools:text="@string/screen_yap_house_hold_success_display_text_share_credentials" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -97,6 +100,7 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@{String.format(`%1s %2s`, viewModel.state.onBoardRequest.countryCode , viewModel.state.onBoardRequest.mobileNo)}"
                     tools:text="@string/screen_yap_house_hold_success_display_text_share_mobile_no" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -112,6 +116,7 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.state.onBoardRequest.tempPassCode}"
                     tools:text="2250" />
 
                 <co.yap.widgets.CoreButton
@@ -125,6 +130,7 @@
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:gravity="center"
                     android:textStyle="bold"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:btn_drawable="@drawable/ic_share_small"
                     app:btn_drawable_padding_right="1.68"
                     app:btn_drawable_padding_top="9"
@@ -146,6 +152,7 @@
                 android:layout_marginBottom="@dimen/margin_normal_large"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_goneMarginTop="@dimen/margin_extra_large"

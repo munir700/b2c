@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.store.household.onboarding.interfaces
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
-
+@Deprecated("")
 interface IBaseOnboarding {
 
     interface State : IBase.State {
