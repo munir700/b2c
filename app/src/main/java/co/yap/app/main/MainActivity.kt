@@ -25,7 +25,7 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override val viewModel: IMain.ViewModel
         get() = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-    private external fun signatureKeysFromJNI(): AppSignature
+    private external fun signatureKeysFromJNI(name: String): AppSignature
 
     init {
         System.loadLibrary("native-lib")
@@ -37,14 +37,19 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-//        val originalSign = signatureKeysFromJNI()
-//        SecurityHelper(this, originalSign, object : SignatureValidator {
-//            override fun onValidate(isValid: Boolean) {
-//                if (!isValid) {
-//                    showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
-//                }
-//            }
-//        })
+        if (YAPApplication.appInfo?.isReleaseStg() == true) {
+            val originalSign =
+                signatureKeysFromJNI(
+                    AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""
+                )
+            SecurityHelper(this, originalSign, object : SignatureValidator {
+                override fun onValidate(isValid: Boolean) {
+                    if (!isValid) {
+                        showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
+                    }
+                }
+            })
+        }
     }
 
     override fun onBackPressed() {

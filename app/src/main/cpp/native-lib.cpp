@@ -7,8 +7,10 @@
 #include <chrono>
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_co_yap_app_main_MainActivity_signatureKeysFromJNI(JNIEnv *env, jobject /*this*/) {
-    jclass appSignature = env->FindClass("co/yap/security/AppSignature");
+Java_co_yap_app_main_MainActivity_signatureKeysFromJNI(JNIEnv *env, jobject /*this*/,
+                                                       jstring javaString) {
+    const char *nativeString = env->GetStringUTFChars(javaString, 0);
+    jclass appSignature = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(appSignature, "<init>",
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
@@ -19,16 +21,13 @@ Java_co_yap_app_main_MainActivity_signatureKeysFromJNI(JNIEnv *env, jobject /*th
 //    std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
 //                                        sha256.length());
 
-
     std::string sha1Decoded = base64_decode((sha1Encoded.c_str()));
     std::string md5Decoded = base64_decode((md5Encoded.c_str()));
-    std::string sha256Decoded = base64_decode((sha256Encoded .c_str()));
+    std::string sha256Decoded = base64_decode((sha256Encoded.c_str()));
 
-
-    jobject jObj = env->NewObject(appSignature, constructor, env->NewStringUTF(sha1Decoded.c_str()),
-                                  env->NewStringUTF(md5Decoded.c_str()),
+    jobject jObj = env->NewObject(appSignature, constructor, env->NewStringUTF(md5Decoded.c_str()),
+                                  env->NewStringUTF(sha1Decoded.c_str()),
                                   env->NewStringUTF(sha256Decoded.c_str()));
-
     return jObj;
 }
 
