@@ -104,7 +104,6 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_Y2Y_RECENT_BENEFICIARIES)
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
 
-
     @GET(CustomersRepository.URL_TOPUP_BENEFICIARIES)
     suspend fun getTopUpBeneficiaries(): Response<TopUpBeneficiariesResponse>
 
