@@ -88,18 +88,26 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun requestUploadProfilePicture(actualFile: File) {
         launch {
-            var file = actualFile
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                file = Compressor.compress(context, actualFile)
+                Compressor.compress(context, actualFile) {
+                    upload(actualFile)
+                }
+            } else {
+                upload(actualFile)
             }
+        }
+    }
+
+    private fun upload(file: File) {
+        launch {
             if (file.sizeInMb() < 25) {
+                state.loading = true
                 val reqFile =
                     RequestBody.create(MediaType.parse("image/${file.extension}"), file)
                 val multiPartImageFile: MultipartBody.Part =
                     MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
                 when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
                     is RetroApiResponse.Success -> {
-
                         if (null != response.data.data) {
                             response.data.data?.let {
                                 it.imageURL?.let { url -> state.profilePictureUrl = url }
@@ -112,6 +120,7 @@ class ProfileSettingsViewModel(application: Application) :
                                 state.loading = false
                             }
                         }
+                        file.deleteRecursively()
                     }
 
                     is RetroApiResponse.Error -> {
@@ -120,11 +129,12 @@ class ProfileSettingsViewModel(application: Application) :
                             MyUserManager.user?.currentCustomer?.getFullName() ?: ""
                         state.nameInitialsVisibility = GONE
                         state.loading = false
+                        file.deleteRecursively()
                     }
                 }
             } else {
                 state.toast = "File size not supported^${AlertType.DIALOG.name}"
-                state.loading = true
+                file.deleteRecursively()
             }
         }
     }
