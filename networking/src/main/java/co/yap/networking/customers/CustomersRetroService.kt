@@ -7,6 +7,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
@@ -32,6 +33,14 @@ interface CustomersRetroService {
     // Post demographic dataList
     @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA)
     suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
+
+    // Post demographic dataList
+    @POST(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA_SIGN_IN)
+    suspend fun generateOTPForDeviceVerification(@Body demographicDataRequest: DemographicDataRequest): Response<ValidateDeviceResponse>
+
+    // Post demographic dataList
+    @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA_SIGN_IN)
+    suspend fun verifyOTPForDeviceVerification(@Body demographicDataRequest: DemographicDataRequest): Response<OtpValidationResponse>
 
     // Validate demographic dataList
     @GET(CustomersRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
@@ -168,11 +177,6 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SAVE_REFERAL_INVITATION)
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): Response<ApiResponse>
 
-
-    /*
-   * fun that comes from admin repo
-   * */
-
     // Verify username
     @POST(CustomersRepository.URL_VERIFY_USERNAME)
     suspend fun verifyUsername(@Query("username") username: String): Response<VerifyUsernameResponse>
@@ -188,7 +192,7 @@ interface CustomersRetroService {
 
     //change passcode
     @POST(CustomersRepository.URL_CHANGE_PASSCODE)
-    suspend fun changePasscode(@Query("new-password") newPasscode: String,@Query("token") token: String): Response<ApiResponse>
+    suspend fun changePasscode(@Query("new-password") newPasscode: String, @Query("token") token: String): Response<ApiResponse>
 
     //  App Update
     @GET(CustomersRepository.URL_APP_VERSION)
@@ -196,6 +200,15 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_CITIES)
     suspend fun getCities(): Response<CitiesModel>
+
+    @GET(CustomersRepository.URL_TAX_REASONS)
+    suspend fun getTaxReasons(): Response<TaxReasonResponse>
+
+    @POST(CustomersRepository.URL_BIRTH_INFO)
+    suspend fun saveBirthInfo(@Body birthInfoRequest: BirthInfoRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_TAX_INFO)
+    suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
     @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
     suspend fun getCoolingPeriod(

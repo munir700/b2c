@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
@@ -82,6 +83,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         viewModel.paths.forEach { filePath ->
             File(filePath).deleteRecursively()
         }
+        context.deleteTempFolder()
         super.onDestroy()
     }
 

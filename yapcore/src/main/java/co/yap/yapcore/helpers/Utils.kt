@@ -26,6 +26,8 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -852,5 +854,74 @@ object Utils {
         return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
             MyUserManager.helpPhoneNumber
         )}^${AlertType.DIALOG.name}"
+    }
+
+    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {
+        val sortedList = list?.sortedWith(compareBy { it.name })
+        var countries: ArrayList<Country> = ArrayList()
+        return sortedList?.let { it ->
+            countries.clear()
+            countries.add(
+                0,
+                Country(name = "Select country")
+            )
+            countries.addAll(it.map {
+                Country(
+                    id = it.id,
+                    isoCountryCode3Digit = it.isoCountryCode2Digit,
+                    isoCountryCode2Digit = it.isoCountryCode2Digit,
+                    supportedCurrencies = it.currencyList?.filter { curr -> curr.active == true }
+                        ?.map { cur ->
+                            Currency(
+                                code = cur.code,
+                                default = cur.default,
+                                name = cur.name,
+                                active = cur.active,
+                                cashPickUp = cur.cashPickUp,
+                                rmtCountry = cur.rmtCountry
+                            )
+                        },
+                    active = it.active,
+                    isoNum = it.isoNum,
+                    signUpAllowed = it.signUpAllowed,
+                    name = it.name,
+                    currency = getDefaultCurrency(
+                        it.currencyList?.filter { curr -> curr.active == true }
+                    ),
+                    ibanMandatory = it.ibanMandatory
+                )
+            })
+            return@let countries
+        }
+    }
+
+    private fun getDefaultCurrency(
+        activeCurrencies: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?
+    ): Currency? {
+        val defaultCurrency = activeCurrencies?.firstOrNull { it.default == true }
+        return defaultCurrency?.let { item ->
+            return Currency(
+                code = item.code,
+                default = item.default,
+                name = item.name,
+                active = item.active,
+                cashPickUp = item.cashPickUp,
+                rmtCountry = item.rmtCountry
+            )
+        } ?: getFirst(activeCurrencies)
+    }
+
+    private fun getFirst(activeCurrencies: List<co.yap.networking.customers.responsedtos.sendmoney.Currency>?): Currency? {
+        return activeCurrencies?.firstOrNull { activeCurr -> activeCurr.active == true }
+            ?.let { item ->
+                return Currency(
+                    code = item.code,
+                    default = item.default,
+                    name = item.name,
+                    active = item.active,
+                    cashPickUp = item.cashPickUp,
+                    rmtCountry = item.rmtCountry
+                )
+            }
     }
 }

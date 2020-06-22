@@ -18,7 +18,7 @@
         android:background="@color/white"
         android:keepScreenOn="true"
         android:orientation="vertical"
-        tools:context="co.yap.app.activities.MainActivity">
+        tools:context="co.yap.app.main.MainActivity">
 
         <co.yap.widgets.video.AndExoPlayerView
             android:id="@+id/andExoPlayerView"

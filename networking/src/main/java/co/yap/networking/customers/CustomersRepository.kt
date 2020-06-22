@@ -8,6 +8,11 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.Country
+import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -23,6 +28,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_SIGN_UP = "/customers/api/profile"
     const val URL_SEND_VERIFICATION_EMAIL = "/customers/api/sign-up/email"
     const val URL_ACCOUNT_INFO = "/customers/api/accounts"
+    const val URL_POST_DEMOGRAPHIC_DATA_SIGN_IN = "/customers/api/demographics/device-login"
     const val URL_POST_DEMOGRAPHIC_DATA = "/customers/api/demographics/"
     const val URL_VALIDATE_DEMOGRAPHIC_DATA =
         "customers/api/demographics/validate/user-device/{device_id}"
@@ -49,9 +55,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_DETECT = "digi-ocr/detect/"
     const val URL_SAVE_REFERAL_INVITATION = "/customers/api/save-referral-invitation"
-
-
-    // Bank transfer information as per old project integration................................................
 
     const val URL_GET_ALL_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer"
     const val URL_GET_RECENT_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer/recent"
@@ -87,9 +90,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
     const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
-
-
-    //.................... End region of old projects apis................................................
+    const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
+    const val URL_TAX_INFO = "customers/api/tax-information"
+    const val URL_CITIES = "customers/api/cities"
+    const val URL_TAX_REASONS = "customers/api/tin-reasons"
 
     /*
    * Url's that comes from admin repo
@@ -99,9 +103,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_VALIDATE_CURRENT_PASSCODE = "/customers/api/user/verify-passcode"
     const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
-    //.................... End region of admin repo urls................................................
 
-    const val URL_CITIES = "customers/api/cities"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     private val api: CustomersRetroService =
@@ -124,6 +126,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse> =
         executeSafely(call = { api.getAccountInfo() })
+
+    override suspend fun generateOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.generateOTPForDeviceVerification(demographicDataRequest) })
+
+    override suspend fun verifyOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<OtpValidationResponse> =
+        executeSafely(call = { api.verifyOTPForDeviceVerification(demographicDataRequest) })
 
     override suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.postDemographicData(demographicDataRequest) })
@@ -324,6 +332,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCities(): RetroApiResponse<CitiesModel> =
         executeSafely(call = { api.getCities() })
 
+    override suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse> =
+        executeSafely(call = { api.getTaxReasons() })
+
+    override suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.saveBirthInfo(birthInfoRequest) })
+
+    override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
+        executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
     override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
         executeSafely(call = {
             api.getCoolingPeriod(

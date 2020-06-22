@@ -26,7 +26,8 @@ project.ext {
             household  : ':household',
             yapcore    : ':yapcore',
             kyc        : ':identityscanner_v2',
-            sendmoney  : ':sendmoney'
+            sendmoney  : ':sendmoney',
+            security   : ':security'
     ]
 
     // All libraries that any module can contain
@@ -143,7 +144,9 @@ project.ext {
             expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             //pdfViewer
-            pdfViewer                : 'com.github.barteksc:android-pdf-viewer:2.8.2'
+            pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
+
+            rootChecker              : 'com.scottyab:rootbeer-lib:0.0.8'
     ]
 
     // Test dependencies which need to be added in all modules
@@ -182,12 +185,14 @@ project.ext {
             [configuration: "implementation", dependency: libraries.adjustReferrer],
             [configuration: "implementation", dependency: libraries.expand],
             [configuration: "implementation", dependency: libraries.pdfViewer],
+            [configuration: "implementation", dependency: libraries.rootChecker],
             [configuration: "implementation", dependency: libraries.baloon]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     appDependencies = [
             [configuration: "implementation", dependency: project(modules.translation)],
+            [configuration: "implementation", dependency: project(modules.security)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.household)],
@@ -297,8 +302,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coroutineCore],
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
     ]
-
-
 }
 
 android {
@@ -313,6 +316,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     signingConfigs {
         release {
             storeFile file("${android_releasekey_storefile}")
@@ -332,14 +336,12 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             debuggable false
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.debug
-            //shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -352,6 +354,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include 'x86', 'x86_64', 'mips', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+//            universalApk false
+//        }
+//    }
 
 }
 

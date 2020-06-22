@@ -12,7 +12,7 @@ object AuthRepository : BaseRepository(), AuthApi {
 
     // Security URLS
     const val URL_GET_CSRF_TOKEN = "/auth/login"
-    const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/token"
+    const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/login-token"
     const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_LOGOUT = "/auth/oauth/oidc/logout"
 
@@ -20,9 +20,10 @@ object AuthRepository : BaseRepository(), AuthApi {
 
     override suspend fun login(
         username: String,
-        password: String
+        password: String,
+        device_id: String
     ): RetroApiResponse<LoginResponse> {
-        val response = executeSafely(call = { API.login("client_credentials", username, password) })
+        val response = executeSafely(call = { API.login("client_credentials", username, password,device_id) })
         when (response) {
             is RetroApiResponse.Success -> {
                 CookiesManager.jwtToken = response.data.accessToken

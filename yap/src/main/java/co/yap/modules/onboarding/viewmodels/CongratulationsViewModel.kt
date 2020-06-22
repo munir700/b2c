@@ -21,7 +21,6 @@ class CongratulationsViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: CongratulationsState = CongratulationsState()
     override val repository: CardsRepository = CardsRepository
-    override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override var elapsedOnboardingTime: Long = 0
 
     override fun onCreate() {
@@ -58,27 +57,6 @@ class CongratulationsViewModel(application: Application) :
             "$firstPartIban $secondPartIban $thirdPartIban $fourthPartIban******"
         } else {
             unmaskedIban
-        }
-    }
-
-    override fun requestOrderCard(address: Address?) {
-        address?.let {
-            it.cardName = ""
-            launch {
-                state.loading = true
-                when (val response = repository.orderCard(it)) {
-                    is RetroApiResponse.Success -> {
-                        orderCardSuccess.value = true
-                        state.loading = false
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        orderCardSuccess.value = false
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    }
-                }
-            }
         }
     }
 }

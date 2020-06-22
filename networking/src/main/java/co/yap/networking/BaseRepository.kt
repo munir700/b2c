@@ -31,7 +31,7 @@ abstract class BaseRepository : IRepository {
                 )
             )
         } catch (exception: Exception) {
-            return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
+            return RetroApiResponse.Error(ApiError(0, exception.localizedMessage ?: ""))
         }
     }
 

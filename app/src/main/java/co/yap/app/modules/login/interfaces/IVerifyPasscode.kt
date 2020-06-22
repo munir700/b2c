@@ -17,7 +17,6 @@ interface IVerifyPasscode {
         fun login()
         fun createOtp()
         fun createForgotPassCodeOtp(success:()->Unit)
-        fun validateDevice()
         fun getAccountInfo()
         fun verifyPasscode()
         fun showAccountBlockedError(errorMessage: String)

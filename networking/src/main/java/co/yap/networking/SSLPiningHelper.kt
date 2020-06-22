@@ -1,20 +1,18 @@
 package co.yap.networking
 
-import android.content.Context
-import java.io.BufferedInputStream
+import okhttp3.OkHttpClient
 import java.io.IOException
-import java.io.InputStream
 import java.net.InetAddress
 import java.net.Socket
 import java.net.UnknownHostException
 import java.security.KeyStore
-import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
+import java.util.*
 import javax.net.ssl.*
 
 
-class SSLPiningHelper(val context: Context) {
+object SSLPiningHelper {
 
+    /*This is implementation with keystore file in assests
     private val cf: CertificateFactory = CertificateFactory.getInstance("X.509")
     private val caInput: InputStream = BufferedInputStream(getInputStream("yap-cert.crt"))
 
@@ -36,28 +34,32 @@ class SSLPiningHelper(val context: Context) {
         load(null, null)
         setCertificateEntry("ca", ca)
     }
+
     private val tmfAlgorithm: String = TrustManagerFactory.getDefaultAlgorithm()
     private val tmf: TrustManagerFactory = TrustManagerFactory.getInstance(tmfAlgorithm).apply {
         init(keyStore)
     }
 
-    fun getDefaultTrustManager(): X509TrustManager {
-        val trustManagers: Array<TrustManager> =
-            tmf.trustManagers
-        check(!(trustManagers.size != 1 || trustManagers[0] !is X509TrustManager)) {
-            ("Unexpected default trust managers:"
-                    + trustManagers.contentToString())
-        }
-        return trustManagers[0] as X509TrustManager
-    }
-
-    private val sslContext: SSLContext = SSLContext.getInstance("TLS").apply {
-        init(null, tmf.trustManagers, null)
-    }
-
     fun getSSLFactory(): SSLSocketFactory {
-        ///return sslContext.socketFactory
         return TLSSocketFactory(tmf)
+    }
+    */
+
+
+    fun setSSLContext(builder: OkHttpClient.Builder): OkHttpClient.Builder {
+        val trustManagerFactory =
+            TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+        trustManagerFactory.init(null as KeyStore?)
+        val trustManagers = trustManagerFactory.trustManagers
+        check(!(trustManagers.size != 1 || trustManagers[0] !is X509TrustManager)) {
+            "Unexpected default trust managers:" + Arrays.toString(
+                trustManagers
+            )
+        }
+        val trustManager = trustManagers[0] as X509TrustManager
+        val sslContext = TLSSocketFactory(trustManagerFactory)
+        builder.sslSocketFactory(sslContext, trustManager)
+        return builder
     }
 
     class TLSSocketFactory(tmf: TrustManagerFactory) : SSLSocketFactory() {
@@ -124,7 +126,7 @@ class SSLPiningHelper(val context: Context) {
 
         private fun enableTLSOnSocket(socket: Socket?): Socket? {
             if (socket != null && socket is SSLSocket) {
-                (socket).enabledProtocols = arrayOf(
+                socket.enabledProtocols = arrayOf(
                     "TLSv1.1",
                     "TLSv1.2"
                 )

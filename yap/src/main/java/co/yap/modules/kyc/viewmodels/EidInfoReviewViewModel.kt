@@ -15,6 +15,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -134,15 +135,18 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = File(result.document.files[1].croppedFile)
+            val file = if (YAPApplication.appInfo?.build_type == "debug") {
+                context.dummyEID()
+            } else {
+                File(result.document.files[1].croppedFile)
+            }
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-
             val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
             val part =
-                MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+                MultipartBody.Part.createFormData("image", file?.name, fileReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(part)) {
@@ -173,10 +177,17 @@ class EidInfoReviewViewModel(application: Application) :
                                 state.toast =
                                     "${response.data.errors?.message
                                         ?: " Error occurred"}^${AlertType.DIALOG_WITH_FINISH.name}"
-                            } else
+                                parentViewModel?.paths?.forEach { filePath ->
+                                    File(filePath).deleteRecursively()
+                                }
+                            } else {
                                 state.toast =
                                     "${response.data.errors?.message
                                         ?: " Error occurred"}^${AlertType.DIALOG.name}"
+                                parentViewModel?.paths?.forEach { filePath ->
+                                    File(filePath).deleteRecursively()
+                                }
+                            }
                         }
                     }
                     is RetroApiResponse.Error -> {
@@ -186,6 +197,9 @@ class EidInfoReviewViewModel(application: Application) :
                         else
                             state.toast =
                                 "${response.error.message}^${AlertType.DIALOG.name}"
+                        parentViewModel?.paths?.forEach { filePath ->
+                            File(filePath).deleteRecursively()
+                        }
                     }
                 }
                 state.loading = false

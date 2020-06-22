@@ -14,7 +14,7 @@ object BindingHelper {
     fun setAdaptor(recycleview: RecyclerView, list: ObservableField<List<CardStatement>>) {
         if (!list.get().isNullOrEmpty())
             if (recycleview.adapter is CardStatementsAdaptor)
-                (recycleview.adapter as CardStatementsAdaptor).setList(list.get()!!)
+                (recycleview.adapter as CardStatementsAdaptor).setList(list.get() ?: emptyList())
     }
 //
 //    @BindingAdapter("adaptorListBankParams")
