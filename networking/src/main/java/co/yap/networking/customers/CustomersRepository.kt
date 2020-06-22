@@ -7,6 +7,7 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
@@ -104,6 +105,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
 
 
+    const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -338,4 +340,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
+    override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
+        executeSafely(call = {
+            api.getCoolingPeriod(
+                smCoolingPeriodRequest.beneficiaryId,
+                smCoolingPeriodRequest.productCode
+            )
+        })
+
 }

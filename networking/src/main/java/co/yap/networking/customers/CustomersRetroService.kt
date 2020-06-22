@@ -210,4 +210,10 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
+
 }
