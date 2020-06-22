@@ -1634,10 +1634,12 @@ object Strings {
         "screen_household_amount_to_transfer_title"
     const val screen_household_currency_title: String = "screen_household_currency_title"
     const val screen_household_start_date_title: String = "screen_household_start_date_title"
+    const val screen_household_date_of_transfer: String = "screen_household_date_of_transfer"
     const val screen_household_daily_title: String = "screen_household_daily_title"
     const val screen_household_weekly_title: String = "screen_household_weekly_title"
     const val screen_household_monthly_title: String = "screen_household_monthly_title"
     const val screen_household_button_text: String = "screen_household_button_text"
+    const val screen_household_employee_salary_delete_recurring_text: String = "screen_household_employee_salary_delete_recurring_text"
 
     //House hold set pin card preview screen
     const val screen_household_set_card_pin_review_heading: String =

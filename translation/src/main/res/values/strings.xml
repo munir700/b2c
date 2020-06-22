@@ -1072,6 +1072,7 @@
     <string name="screen_household_amount_to_transfer_title">Amount to transfer</string>
     <string name="screen_household_currency_title">AED</string>
     <string name="screen_household_start_date_title">Starting date</string>
+    <string name="screen_household_date_of_transfer">Date of transfer </string>
     <string name="screen_household_daily_title">Daily</string>
     <string name="screen_household_weekly_title">Weekly</string>
     <string name="screen_household_monthly_title">Monthly</string>
