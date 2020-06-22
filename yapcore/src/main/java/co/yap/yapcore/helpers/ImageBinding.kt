@@ -115,12 +115,10 @@ object ImageBinding {
             imageView,
             imageUrl,
             fullName,
-            ThemeColorUtils.colorDisabledLightAttribute(imageView.context),
+            R.color.disabledLight,
             R.dimen.text_size_h2,
-            ThemeColorUtils.colorPrimaryAttribute(imageView.context)
-
+            R.color.colorPrimary
         )
-
     }
 
     @JvmStatic

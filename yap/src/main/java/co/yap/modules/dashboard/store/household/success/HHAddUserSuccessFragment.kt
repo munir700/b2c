@@ -16,8 +16,10 @@ class HHAddUserSuccessFragment :
     BaseNavViewModelFragment<FragmentHhAddUserSuccessBinding, IHHAddUserSuccess.State, HHAddUserSuccessVM>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hh_add_user_success
+    override fun toolBarVisibility() = false
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
+        setBackButtonDispatcher()
         viewModel.clickEvent.observe(this, onClick)
     }
 
