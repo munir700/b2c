@@ -99,12 +99,6 @@
             android:background="@color/divider"
             app:layout_constraintTop_toBottomOf="@id/tv_recent_transactions_label" />
 
-        <!--<include
-            layout="@layout/refresh_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:adapter="@{viewModel.adapter}" />-->
         <co.yap.widgets.MultiStateView
             android:id="@+id/multiStateView"
             android:layout_width="match_parent"
