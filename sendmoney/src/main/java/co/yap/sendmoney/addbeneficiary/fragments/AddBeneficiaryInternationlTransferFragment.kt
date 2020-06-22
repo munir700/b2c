@@ -83,6 +83,12 @@ class AddBeneficiaryInternationlTransferFragment :
                     viewModel.parentViewModel?.selectedResidenceCountry ?: Country()
                 ) ?: 0
             )
+        } else if (viewModel.parentViewModel?.selectedCountry?.value != null) {
+            getBinding().spinner.setSelectedItem(
+                viewModel.parentViewModel?.countriesList?.indexOf(
+                    viewModel.parentViewModel?.selectedCountry?.value ?: Country()
+                ) ?: 0
+            )
         }
     }
 
