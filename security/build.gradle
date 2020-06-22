@@ -1,0 +1,19 @@
+android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cFlags "-fvisibility=hidden"
+                cppFlags "-fvisibility=hidden"
+            }
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

@@ -17,6 +17,8 @@ interface CustomersApi {
     suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
+    suspend fun generateOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
+    suspend fun verifyOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse>
     suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse>
     suspend fun getDocuments(): RetroApiResponse<ApiResponse>

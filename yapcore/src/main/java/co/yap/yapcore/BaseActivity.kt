@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
+import com.scottyab.rootbeer.RootBeer
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -82,7 +83,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun onResume() {
         super.onResume()
-        if (DeviceUtils().isDeviceRooted()) {
+        if (RootBeer(context).isRootedWithBusyBoxCheck) {
             showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
         }
     }

@@ -247,7 +247,12 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name || accountInfo.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name) && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status) {
+        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name
+                    || accountInfo.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+                    || accountInfo.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+                    || accountInfo.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
+            && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
+        ) {
             list.add(
                 HomeNotification(
                     id = "2",
@@ -268,7 +273,10 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
+                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
+            && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+        ) {
             list.add(
                 HomeNotification(
                     id = "4",

@@ -1,7 +1,5 @@
 package co.yap.modules.location.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -13,7 +11,6 @@ import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -50,7 +47,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                 }
             }
             R.id.ivBackBtn -> {
-                setIntentResult()
+                activity?.onBackPressed()
             }
         }
     }
@@ -101,15 +98,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         )
     }
 
-    private fun setIntentResult() {
-        val intent = Intent()
-        intent.putExtra(Constants.ADDRESS_SUCCESS, false)
-        activity?.setResult(Activity.RESULT_OK, intent)
-        activity?.finish()
-    }
-
     override fun onBackPressed(): Boolean {
-        setIntentResult()
-        return true
+        return false
     }
 }

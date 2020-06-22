@@ -93,13 +93,13 @@ class ProfileSettingsViewModel(application: Application) :
                 file = Compressor.compress(context, actualFile)
             }
             if (file.sizeInMb() < 25) {
+                state.loading = true
                 val reqFile =
                     RequestBody.create(MediaType.parse("image/${file.extension}"), file)
                 val multiPartImageFile: MultipartBody.Part =
                     MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
                 when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
                     is RetroApiResponse.Success -> {
-
                         if (null != response.data.data) {
                             response.data.data?.let {
                                 it.imageURL?.let { url -> state.profilePictureUrl = url }
@@ -124,7 +124,6 @@ class ProfileSettingsViewModel(application: Application) :
                 }
             } else {
                 state.toast = "File size not supported^${AlertType.DIALOG.name}"
-                state.loading = true
             }
         }
     }

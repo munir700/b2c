@@ -75,6 +75,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        showToast()
     }
 
     private fun setupYapButton() {
