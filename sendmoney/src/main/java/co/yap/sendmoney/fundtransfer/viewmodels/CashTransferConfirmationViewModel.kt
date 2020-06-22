@@ -93,7 +93,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         totalAmount = parentViewModel?.transferData?.value?.transferAmount.parseToDouble().plus(
                             parentViewModel?.transferData?.value?.transferFee.parseToDouble()
                         ).toString(),
-                        cbwsi = if (parentViewModel?.isCutOffTimeStarted == true) !checkCBWSI() else false,
+                        cbwsi =  !checkCBWSI(),
                         cbwsiFee = parentViewModel?.selectedPop?.cbwsiFee,
                         nonChargeable = parentViewModel?.selectedPop?.nonChargeable,
                         remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
@@ -159,7 +159,6 @@ class CashTransferConfirmationViewModel(application: Application) :
                         pop.cbwsi == true -> parentViewModel?.transferData?.value?.transferAmount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
                 else -> true
             })
-
         } ?: true
     }
 }
