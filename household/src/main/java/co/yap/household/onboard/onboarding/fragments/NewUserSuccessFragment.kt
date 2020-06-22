@@ -122,7 +122,6 @@ class NewUserSuccessFragment :
         }
     }
 
-
     private fun runAnimations() {
         AnimationUtils.runSequentially(
 //            titleAnimation(),

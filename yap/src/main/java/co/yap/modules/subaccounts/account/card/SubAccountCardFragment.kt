@@ -130,7 +130,6 @@ class SubAccountCardFragment :
             putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
             putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
         }
-//        launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
         return super.onOptionsItemSelected(item)
     }
 
@@ -152,8 +151,10 @@ class SubAccountCardFragment :
                     else showRequestDeclinedPopup(subAccount)
                 }
             }
+        } ?: launchActivity<NavHostPresenterActivity> {
+            putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
+            putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
         }
-            ?: launchActivity<HouseHoldLandingActivity>(requestCode = RequestCodes.REQUEST_ADD_HOUSE_HOLD)
     }
 
 

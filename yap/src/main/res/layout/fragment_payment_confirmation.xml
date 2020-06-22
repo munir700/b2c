@@ -71,7 +71,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:text="@{ SpannableStringCreatorKt.getText(context.resources, paymentConfirmationVM.getString(Strings.screen_household_recurring_payment_date_text),SpannableKt.color(@color/colorPrimaryDark,paymentConfirmationVM.state.schedulePayment.nextProcessingDate))}"
             android:textSize="@dimen/text_size_h3"
-            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring &amp;&amp; !paymentConfirmationVM.state.schedulePayment.nextProcessingDate.empty?View.VISIBLE:View.GONE}"
+            android:visibility="@{paymentConfirmationVM.state.schedulePayment.isRecurring || !paymentConfirmationVM.state.schedulePayment.nextProcessingDate.empty?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currencyTextView"

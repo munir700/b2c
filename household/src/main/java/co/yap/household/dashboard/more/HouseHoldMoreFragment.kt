@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.more
 
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -11,9 +12,11 @@ import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
@@ -53,7 +56,11 @@ class HouseHoldMoreFragment :
                 R.id.more_atm_cdm -> startFragment(CdmMapFragment::class.java.name)
                 R.id.more_help_support -> startFragment(HelpSupportFragment::class.java.name)
                 R.id.more_notification -> toast("Coming Soon")
-                R.id.more_terms_condition -> toast("Coming Soon")
+                R.id.more_terms_condition -> startFragment(
+                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                    ), showToolBar = true
+                )
             }
         }
     }

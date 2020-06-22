@@ -20,6 +20,8 @@ import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountF
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountModule
 import co.yap.modules.subaccounts.paysalary.future.FuturePaymentFragment
 import co.yap.modules.subaccounts.paysalary.future.FuturePaymentModule
+import co.yap.modules.subaccounts.paysalary.future.edit.EditFuturePaymentFragment
+import co.yap.modules.subaccounts.paysalary.future.edit.EditFuturePaymentModule
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileFragment
 import co.yap.modules.subaccounts.paysalary.profile.HHSalaryProfileModule
 import co.yap.modules.subaccounts.paysalary.profile.cardholderprofile.HHProfileFragment
@@ -83,6 +85,10 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [FuturePaymentModule::class])
     @FragmentScope
     abstract fun futurePaymentFragmentInjector(): FuturePaymentFragment
+
+    @ContributesAndroidInjector(modules = [EditFuturePaymentModule::class])
+    @FragmentScope
+    abstract fun editFuturePaymentFragmentInjector(): EditFuturePaymentFragment
 
     @ContributesAndroidInjector(modules = [HouseHoldLandingModule::class])
     @FragmentScope
