@@ -15,7 +15,6 @@ enum class AdjustEvents(val type: String) {
     TOP_UP_END("jw0tz5"),
     TOP_UP_START("cadxmk"),
     INVITER("sgy2ni"),
-
     // House Hold Events
     HOUSE_HOLD_MAIN_USER_SUBSCRIPTION("temp"),
     HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM("temp"),
