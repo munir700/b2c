@@ -20,6 +20,8 @@ import co.yap.household.onboard.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils
@@ -54,6 +56,7 @@ class NewUserSuccessFragment :
         rootContainer.children.forEach { it.alpha = 0f }
 
         btnCompleteVerifiocation.setOnClickListener {
+            trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_SIGNUP.type)
             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                 putExtra(Constants.name, MyUserManager.user?.currentCustomer?.firstName.toString())
                 putExtra(Constants.data, false)

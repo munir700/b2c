@@ -21,7 +21,7 @@ enum class AdjustEvents(val type: String) {
     HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM("temp"),
     HOUSE_HOLD_MAIN_PLAN_NAME("temp"),
     HOUSE_HOLD_MAIN_SHARE("temp"),
-    ONBOARDING_START_NEW_HH_USER("temp"),
+    ONBOARDING_START_NEW_HH_USER("temp"),//need to confirm the flow
     ONBOARDING_NEW_HH_USER_MAIN_USER_PHONE_CORRECT("temp"),
     ONBOARDING_NEW_HH_USER_EMAIL("temp"),
     ONBOARDING_NEW_HH_USER_SIGNUP("temp"),

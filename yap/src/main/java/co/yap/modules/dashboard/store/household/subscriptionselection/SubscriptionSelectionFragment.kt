@@ -12,6 +12,7 @@ import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
 import co.yap.widgets.radiocus.PresetRadioGroup
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.adjust.AdjustEvents
@@ -60,7 +61,7 @@ class SubscriptionSelectionFragment :
             R.id.btnGetStarted -> {
                 selectorGroup?.mCheckedId
                 if (!state.plansList.isNullOrEmpty())
-                    co.yap.yapcore.AdjustEvents.trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
+                    trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
                 navigateForwardWithAnimation(
                     SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
                     bundleOf(

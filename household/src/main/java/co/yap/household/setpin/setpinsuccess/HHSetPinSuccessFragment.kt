@@ -5,6 +5,8 @@ import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhSetPinSuccessBinding
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
 
@@ -17,8 +19,8 @@ class HHSetPinSuccessFragment :
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
-
         viewModel.clickEvent.observe(this, clickEvent)
+        trackAdjustPlatformEvent(AdjustEvents.HH_USER_ACCOUNT_ACTIVE.type)
     }
 
     var clickEvent = Observer<Int> {
