@@ -491,8 +491,8 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
+                    android:textAllCaps="true"
                     android:text="@={viewModel.state.swiftCode}" />
-
 
                 <TextView
                     style="@style/Small"

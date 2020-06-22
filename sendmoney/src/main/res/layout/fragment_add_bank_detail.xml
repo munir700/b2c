@@ -169,6 +169,7 @@
                             android:importantForAutofill="no"
                             android:singleLine="true"
                             android:maxLength="50"
+                            android:textAllCaps="true"
                             android:text="@={viewModel.state.swiftCode}"
                             app:hint="@{Strings.screen_bank_details_display_text_swift_code}" />
 

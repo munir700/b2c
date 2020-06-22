@@ -3,7 +3,6 @@ package co.yap.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -34,7 +33,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     }
 
     private fun addListener() {
-        etSwiftCode.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
         viewModel.clickEvent.observe(this, observer)
         viewModel.bankList.observe(this, Observer {
             setupAdaptorBanks(it)
