@@ -107,16 +107,23 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
     }
 
     override fun handlePressOnClick(id: Int) {
-        val time = datetoString(calendar.time, SERVER_DATE_FORMAT, GMT)
-        val request = SchedulePayment(
-            amount = state.amount.value,
-            nextProcessingDate = time,
-            isRecurring = false
-        )
-        state.futureTransaction?.value?.scheduledPaymentUuid?.let {
-            request.scheduledPaymentUuid = it
-            updateSchedulePayment(state.subAccount.value?.accountUuid, request)
-        } ?: createSchedulePayment(state.subAccount.value?.accountUuid, request)
+        when (id) {
+            R.id.tvCancel -> {
+                clickEvent.postValue(id)
+            }
+            else -> {
+                val time = datetoString(calendar.time, SERVER_DATE_FORMAT, GMT)
+                val request = SchedulePayment(
+                    amount = state.amount.value,
+                    nextProcessingDate = time,
+                    isRecurring = false
+                )
+                state.futureTransaction?.value?.scheduledPaymentUuid?.let {
+                    request.scheduledPaymentUuid = it
+                    updateSchedulePayment(state.subAccount.value?.accountUuid, request)
+                } ?: createSchedulePayment(state.subAccount.value?.accountUuid, request)
+            }
+        }
     }
 
     override fun cancelSchedulePayment(scheduledPaymentUuid: String?) {
@@ -134,7 +141,10 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
         }
     }
 
-    override fun updateSchedulePayment(scheduledPaymentUuid: String?, request: SchedulePayment) {
+    override fun updateSchedulePayment(
+        scheduledPaymentUuid: String?,
+        request: SchedulePayment
+    ) {
         launch {
             when (val response = repository.updateSchedulePayment(
                 scheduledPaymentUuid, request
