@@ -161,7 +161,6 @@ class CashTransferConfirmationViewModel(application: Application) :
                         pop.cbwsi == true -> parentViewModel?.transferData?.value?.transferAmount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
                 else -> true
             })
-
         } ?: true
     }
 }
