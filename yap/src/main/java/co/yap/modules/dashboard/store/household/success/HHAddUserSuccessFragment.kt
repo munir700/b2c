@@ -8,6 +8,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.share
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 
 class HHAddUserSuccessFragment :
@@ -24,6 +26,7 @@ class HHAddUserSuccessFragment :
     private val onClick = Observer<Int> {
         when (it) {
             R.id.btnShare -> {
+                trackEvent(HHSubscriptionEvents.HH_SHARE.type)
                 requireContext().share(
                     getString(Strings.screen_yap_house_hold_confirm_payment_share_text).format(
                         state.onBoardRequest?.value?.getFullName(),

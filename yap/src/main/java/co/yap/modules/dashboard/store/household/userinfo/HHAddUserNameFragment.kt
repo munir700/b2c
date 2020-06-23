@@ -10,6 +10,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.plus
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class HHAddUserNameFragment :
     BaseNavViewModelFragment<FragmentHhAddUserNameBinding, IHHAddUserName.State, HHAddUserNameVM>() {
@@ -23,6 +25,7 @@ class HHAddUserNameFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
+                trackEvent(HHSubscriptionEvents.HH_PLAN_NAME.type)
                 navigateForwardWithAnimation(
                     HHAddUserNameFragmentDirections.actionHHAddUserNameFragmentToHHAddUserContactFragment(),
                     arguments?.plus(

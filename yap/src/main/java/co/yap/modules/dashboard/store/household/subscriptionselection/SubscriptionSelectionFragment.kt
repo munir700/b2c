@@ -17,6 +17,9 @@ import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.*
 import javax.inject.Inject
 
@@ -58,7 +61,9 @@ class SubscriptionSelectionFragment :
         when (id) {
             R.id.btnGetStarted -> {
                 selectorGroup?.mCheckedId
-                if (!state.plansList.isNullOrEmpty())
+                if (!state.plansList.isNullOrEmpty()) {
+                    trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
+                    trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
                     navigateForwardWithAnimation(
                         SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
                         bundleOf(
@@ -66,6 +71,7 @@ class SubscriptionSelectionFragment :
                             Constants.POSITION to state.selectedPlanPosition.value
                         )
                     )
+                }
             }
         }
     }
