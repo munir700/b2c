@@ -355,12 +355,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    splits {
-        abi {
-            universalApk true
-        }
-    }
-
 }
 
 kapt {
