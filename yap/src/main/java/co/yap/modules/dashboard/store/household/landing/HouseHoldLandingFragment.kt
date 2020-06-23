@@ -28,6 +28,7 @@ class HouseHoldLandingFragment :
         when (id) {
             R.id.btnGetHouseHoldAccount -> {
                 trackEvent(HHSubscriptionEvents.HH_START_SUBSCRIPTION.type)
+                navigate(HouseHoldLandingFragmentDirections.actionHouseHoldLandingFragmentToSubscriptionSelectionFragment())
             }
         }
     }

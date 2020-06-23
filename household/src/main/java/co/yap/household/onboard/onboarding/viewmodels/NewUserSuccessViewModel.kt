@@ -47,7 +47,7 @@ class NewUserSuccessViewModel(application: Application) :
             val secondPartIban: String = unmaskedIban.substring(2, 4)
             val thirdPartIban: String = unmaskedIban.substring(4, 7)
             val fourthPartIban: String = unmaskedIban.substring(7, unmaskedIban.length - 6)
-            "$firstPartIban $secondPartIban $thirdPartIban $fourthPartIban******"
+            "$firstPartIban $secondPartIban $thirdPartIban $+******"
         } else {
             unmaskedIban
         }
