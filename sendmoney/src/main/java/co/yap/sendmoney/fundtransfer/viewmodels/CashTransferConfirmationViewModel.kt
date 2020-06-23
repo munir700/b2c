@@ -76,6 +76,14 @@ class CashTransferConfirmationViewModel(application: Application) :
 
     }
 
+    /* don't remove this code will be use later
+     feeAmount = if (parentViewModel?.transferData?.value?.feeAmount.isNullOrBlank()) "0.0" else parentViewModel?.transferData?.value?.feeAmount,
+                            vat = if (parentViewModel?.transferData?.value?.vat.isNullOrBlank()) "0.0" else parentViewModel?.transferData?.value?.vat,
+                            totalCharges = parentViewModel?.transferData?.value?.transferFee,
+                            totalAmount = parentViewModel?.transferData?.value?.transferAmount.parseToDouble().plus(
+                                parentViewModel?.transferData?.value?.transferFee.parseToDouble()
+                            ).toString()
+     */
     override fun uaeftsTransferRequest(beneficiaryId: String?) {
         launch {
             state.loading = true
@@ -87,13 +95,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         settlementAmount = 0.0,
                         purposeCode = parentViewModel?.selectedPop?.purposeCode,
                         purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                        feeAmount = if (parentViewModel?.transferData?.value?.feeAmount.isNullOrBlank()) "0.0" else parentViewModel?.transferData?.value?.feeAmount,
-                        vat = if (parentViewModel?.transferData?.value?.vat.isNullOrBlank()) "0.0" else parentViewModel?.transferData?.value?.vat,
-                        totalCharges = parentViewModel?.transferData?.value?.transferFee,
-                        totalAmount = parentViewModel?.transferData?.value?.transferAmount.parseToDouble().plus(
-                            parentViewModel?.transferData?.value?.transferFee.parseToDouble()
-                        ).toString(),
-                        cbwsi =  !checkCBWSI(),
+                        cbwsi = if (parentViewModel?.isCutOffTimeStarted == true) !checkCBWSI() else false,
                         cbwsiFee = parentViewModel?.selectedPop?.cbwsiFee,
                         nonChargeable = parentViewModel?.selectedPop?.nonChargeable,
                         remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue

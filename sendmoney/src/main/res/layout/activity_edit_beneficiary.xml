@@ -590,7 +590,7 @@
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
                     android:imeOptions="actionDone"
-                    android:textAllCaps="true"
+                    app:capitalise="@{true}"
                     android:inputType="phone"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.swiftCode}"

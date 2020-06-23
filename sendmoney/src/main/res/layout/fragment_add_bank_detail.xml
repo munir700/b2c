@@ -80,11 +80,11 @@
                         android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
-                        android:singleLine="true"
                         android:maxLength="50"
+                        android:singleLine="true"
                         android:text="@={viewModel.state.bankName}"
-                        tools:hint="@string/screen_bank_details_display_text_bank_name"
-                        app:hint="@{Strings.screen_bank_details_display_text_bank_name}" />
+                        app:hint="@{Strings.screen_bank_details_display_text_bank_name}"
+                        tools:hint="@string/screen_bank_details_display_text_bank_name" />
 
 
                     <TextView
@@ -107,9 +107,9 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
                         android:importantForAutofill="no"
                         android:maxLength="50"
+                        android:singleLine="true"
                         android:text="@={viewModel.state.bankBranch}"
                         app:hint="@{Strings.screen_bank_details_input_text_branch_hint}" />
 
@@ -133,9 +133,9 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
-                        android:singleLine="true"
                         android:importantForAutofill="no"
                         android:maxLength="50"
+                        android:singleLine="true"
                         android:text="@={viewModel.state.bankCity}"
                         app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />
                     <!-- this will vary according the transfer type-->
@@ -167,10 +167,10 @@
                             android:backgroundTint="@color/greyLight"
                             android:imeOptions="actionDone"
                             android:importantForAutofill="no"
-                            android:singleLine="true"
                             android:maxLength="50"
-                            android:textAllCaps="true"
+                            android:singleLine="true"
                             android:text="@={viewModel.state.swiftCode}"
+                            app:capitalise="@{true}"
                             app:hint="@{Strings.screen_bank_details_display_text_swift_code}" />
 
                     </LinearLayout>
@@ -227,16 +227,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_normal"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@{viewModel.state.buttonText}"
                 app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintTop_toBottomOf="@+id/llMain"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@+id/llMain"
                 app:layout_constraintVertical_bias="1.0"
+                tools:ignore="MissingConstraints"
                 tools:text="@string/common_button_next" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
