@@ -7,6 +7,7 @@ import co.yap.app.main.MainChildViewModel
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.authentication.requestdtos.LoginRequest
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -104,7 +105,14 @@ class VerifyPasscodeViewModel(application: Application) :
     override fun login() {
         launch {
             state.loading = true
-            when (val response = repository.login(state.username, state.passcode, state.deviceId)) {
+            when (val response = repository.login(
+                LoginRequest(
+                    grant_type = "client_credentials",
+                    client_id = state.username,
+                    client_secret = state.passcode,
+                    device_id = state.deviceId
+                )
+            )) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.accessToken.isNullOrBlank()) {
                         authRepository.setJwtToken(response.data.accessToken)
