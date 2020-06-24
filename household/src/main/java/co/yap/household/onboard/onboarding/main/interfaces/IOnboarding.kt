@@ -23,5 +23,6 @@ interface IOnboarding {
         var currentBackground: Int
         var existingYapUser: Boolean?
         var accountInfo: AccountInfo?
+        var nextScreen: Boolean
     }
 }

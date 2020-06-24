@@ -42,4 +42,10 @@ class OnBoardingState(val application: Application) : BaseState(), IOnboarding.S
             field = value
             notifyPropertyChanged(BR.accountInfo)
         }
+    @get:Bindable
+    override var nextScreen: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.nextScreen)
+        }
 }

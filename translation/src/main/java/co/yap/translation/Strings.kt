@@ -1806,5 +1806,9 @@ const val screen_household_pay_salary_screen_display_text_title: String =
         "screen_home_renewed_id_title"
     const val screen_home_renewed_id_desc: String =
         "screen_home_renewed_id_desc"
+    const val screen_house_hold_onBoarding_new_title_display_text: String =
+        "screen_house_hold_onBoarding_new_title_display_text"
+    const val screen_house_hold_onBoarding_new_title_accept_text: String =
+        "screen_house_hold_onBoarding_new_title_accept_text"
 
  }

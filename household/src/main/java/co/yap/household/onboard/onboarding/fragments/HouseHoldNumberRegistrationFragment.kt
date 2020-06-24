@@ -14,8 +14,10 @@ import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFr
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.household.onboard.onboarding.newuser.HHNewUserFragment
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
@@ -26,6 +28,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 class HouseHoldNumberRegistrationFragment :
@@ -49,15 +52,25 @@ class HouseHoldNumberRegistrationFragment :
             if (!notificationStatuses.isNullOrBlank())
                 when (AccountStatus.valueOf(notificationStatuses)) {
                     AccountStatus.INVITE_PENDING -> {
+                            val bundle = Bundle()
+                            bundle.putParcelable(
+                                OnBoardingHouseHoldActivity.USER_INFO,
+                                viewModel.parentViewModel?.state?.accountInfo
+                            )
+                            startFragment(ExistingHouseholdFragment::class.java.name, true, bundle)
+                    }
+
+                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
                         val bundle = Bundle()
                         bundle.putParcelable(
                             OnBoardingHouseHoldActivity.USER_INFO,
                             viewModel.parentViewModel?.state?.accountInfo
                         )
-                        startFragment(ExistingHouseholdFragment::class.java.name, true, bundle)
-                    }
 
-                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                        var nextScreen: Boolean = viewModel.parentViewModel?.state?.nextScreen ?: false
+                        if(!MyUserManager.isExistingUser() && !nextScreen) {
+                            startFragment(HHNewUserFragment::class.java.name, true, bundle)
+                        }
                     }
                     AccountStatus.PASS_CODE_PENDING -> {
                         findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)

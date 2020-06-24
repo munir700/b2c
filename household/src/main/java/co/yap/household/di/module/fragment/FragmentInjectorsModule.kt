@@ -12,6 +12,8 @@ import co.yap.household.dashboard.more.HouseHoldMoreFragment
 import co.yap.household.dashboard.more.HouseHoldMoreModule
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessModule
+import co.yap.household.onboard.onboarding.newuser.HHNewUserFragment
+import co.yap.household.onboard.onboarding.newuser.HHNewUserModule
 import co.yap.household.setpin.setnewpin.HHSetPinFragment
 import co.yap.household.setpin.setnewpin.HHSetPinModule
 import co.yap.household.setpin.setpinstart.HHSetPinCardReviewFragment
@@ -70,4 +72,8 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HouseHoldMoreModule::class])
     abstract fun houseHoldMoreFragmentInjector(): HouseHoldMoreFragment
+
+    @ContributesAndroidInjector(modules = [HHNewUserModule::class])
+    @FragmentScope
+    abstract fun hhNewUserFragmentInjector(): HHNewUserFragment
 }

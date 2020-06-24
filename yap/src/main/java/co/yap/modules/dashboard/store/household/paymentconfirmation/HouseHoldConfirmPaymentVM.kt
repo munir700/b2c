@@ -55,7 +55,7 @@ class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHo
                     trackEvent(HHSubscriptionEvents.HH_PLAN_CONFIRM.type)
                     trackEventWithAttributes(MyUserManager.user, isMainUser = true)
                     if(MyUserManager.user?.accountType == AccountType.B2C_HOUSEHOLD.name){
-                        if(parentViewModel?.selectedPlanType?.type == PackageType.MONTHLY.type) {
+                        if(state.selectedPlan?.value?.type == PackageType.MONTHLY.type) {
                             trackEventWithAttributes(
                                 MyUserManager.user,
                                 accountActiveMonthly = true
