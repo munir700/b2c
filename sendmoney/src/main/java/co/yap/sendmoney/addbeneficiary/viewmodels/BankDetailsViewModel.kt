@@ -103,9 +103,7 @@ class BankDetailsViewModel(application: Application) :
                         state.isRmt.set(false)
                         state.buttonText = "Next"
                         state.hideSwiftSection = true
-                        state.valid = true
-                        //searchRMTBanks()
-                        //Swift changes
+//                        state.valid = true  // don't remember why we set valid = true
                     }
                     else -> {
                         state.isRmt.set(false)

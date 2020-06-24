@@ -95,8 +95,13 @@ class AddBeneficiaryInternationlTransferFragment :
     private val selectedItemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Country) {
-                if (data.getName() != "Select country")
+                if (data.getName() != "Select country") {
                     viewModel.parentViewModel?.selectedResidenceCountry = data
+                    viewModel.state.countryOfResidence = data.getName()
+                } else {
+                    viewModel.parentViewModel?.selectedResidenceCountry = null
+                    viewModel.state.countryOfResidence = null
+                }
             }
         }
     }
@@ -133,7 +138,7 @@ class AddBeneficiaryInternationlTransferFragment :
                     if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
                         findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
                     } else {
-                        showToast("Select country of residence")
+                        viewModel.showToast("Select country of residence")
                     }
                 }
             }

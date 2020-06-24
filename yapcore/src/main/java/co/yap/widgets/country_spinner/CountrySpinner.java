@@ -70,6 +70,11 @@ public class CountrySpinner extends LinearLayout {
         _spinner.setEnabled(isEnabled);
     }
 
+        public void showDropDownArrow(boolean isShow) {
+        if (!isShow)
+            _spinner.setBackground(null);
+    }
+
     private CountryListAdapter getCountryAdapter(List<Country> countries) {
         if (countryAdapter == null)
             countryAdapter = new CountryListAdapter(getContext(), countries);
