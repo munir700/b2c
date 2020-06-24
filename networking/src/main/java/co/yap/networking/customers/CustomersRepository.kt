@@ -157,15 +157,13 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     files,
                     RequestBody.create(MediaType.parse("multipart/form-dataList"), documentType),
                     RequestBody.create(MediaType.parse("multipart/form-dataList"), firstName),
-                    middleName = if (!middleName.isNullOrBlank()) RequestBody.create(
+                    middleName = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
-                        middleName
-                    ) else null,
-                    lastName = if (!lastName.isNullOrBlank()) RequestBody.create(
-                        MediaType.parse("multipart/form-dataList"),
-                        lastName
-                    ) else null,
-
+                        middleName ?: ""
+                    ),
+                    lastName = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"), lastName ?: ""
+                    ),
                     nationality = RequestBody.create(
                         MediaType.parse("multipart/form-dataList"),
                         nationality
