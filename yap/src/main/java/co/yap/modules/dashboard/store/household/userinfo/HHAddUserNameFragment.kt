@@ -7,6 +7,8 @@ import co.yap.R
 import co.yap.databinding.FragmentHhAddUserNameBinding
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.translation.Strings
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.extentions.plus
@@ -26,6 +28,7 @@ class HHAddUserNameFragment :
         when (id) {
             R.id.btnNext -> {
                 trackEvent(HHSubscriptionEvents.HH_PLAN_NAME.type)
+                trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_PLAN_NAME.type)
                 navigateForwardWithAnimation(
                     HHAddUserNameFragmentDirections.actionHHAddUserNameFragmentToHHAddUserContactFragment(),
                     arguments?.plus(

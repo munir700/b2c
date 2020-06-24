@@ -14,6 +14,19 @@ enum class AdjustEvents(val type: String) {
     SIGN_UP_START("73mcc8"),
     TOP_UP_END("jw0tz5"),
     TOP_UP_START("cadxmk"),
-    INVITER("sgy2ni");
-
+    INVITER("sgy2ni"),
+    // House Hold Events
+    HOUSE_HOLD_MAIN_USER_SUBSCRIPTION("pcqzve"),
+    HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM("8d6ih4"),
+    HOUSE_HOLD_MAIN_PLAN_NAME("cbdm7f"),
+    HOUSE_HOLD_MAIN_SHARE("1ud3kv"),
+    ONBOARDING_START_NEW_HH_USER("w82q34"),//need to confirm the flow
+    ONBOARDING_NEW_HH_USER_MAIN_USER_PHONE_CORRECT("mril67"),
+    ONBOARDING_NEW_HH_USER_EMAIL("bp0dv8"),
+    ONBOARDING_NEW_HH_USER_SIGNUP("f7b3ci"),
+    ONBOARDING_NEW_HH_USER_EID("xtq06k"),
+    ONBOARDING_NEW_HH_USER_EID_DECLINED("la5oeu"),
+    ONBOARD_NEW_HH_USER_ONBOARDING_SUCCESS("c2x7a8"),
+    HH_USER_ACCOUNT_ACTIVE("29lifk"),
+    HH_USER_EXISTING_ACCOUNT_ACTIVE("l3lh9r");
 }

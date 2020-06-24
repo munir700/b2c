@@ -12,8 +12,10 @@ import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
 import co.yap.widgets.radiocus.PresetRadioGroup
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
@@ -72,6 +74,15 @@ class SubscriptionSelectionFragment :
                         )
                     )
                 }
+                if (!state.plansList.isNullOrEmpty())
+                    trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
+                navigateForwardWithAnimation(
+                    SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
+                    bundleOf(
+                        HouseHoldPlan::class.java.name to state.plansList,
+                        Constants.POSITION to state.selectedPlanPosition.value
+                    )
+                )
             }
         }
     }
