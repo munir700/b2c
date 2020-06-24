@@ -3,7 +3,6 @@ package co.yap.security
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.os.Build
 import java.security.MessageDigest
 
 class SecurityHelper(
@@ -11,17 +10,17 @@ class SecurityHelper(
     private val originalSign: AppSignature,
     private val validator: SignatureValidator
 ) {
-
     init {
-        System.loadLibrary("native-lib")
+        System.loadLibrary("signature-lib")
         validateAppSignature()
     }
+
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    private external fun bytesFromJNI(): ByteArray?
+    private external fun bytesFromJNI(context: Context): ByteArray?
 
     private fun validateAppSignature() {
         getApplicationSignature(context).find { it == originalSign }?.let {
@@ -34,31 +33,28 @@ class SecurityHelper(
         val packageInfo = getPackageInfo(context)
         val signaturesList = arrayListOf<AppSignature>()
         packageInfo?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                it.signingInfo.apkContentsSigners.map { sign ->
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                it.signingInfo.apkContentsSigners.map { sign ->
+//                    signaturesList.add(
+//                        AppSignature(
+//                            sha1 = getGivenSignature("SHA", sign.toByteArray()),
+//                            md5 = getGivenSignature("MD5", sign.toByteArray()),
+//                            sha256 = getGivenSignature("SHA256", sign.toByteArray())
+//                        )
+//                    )
+//                }
+//            } else {
+            if (it.signatures.isNotEmpty()) {
+                val rawCertJava = it.signatures[0].toByteArray()
+                val rawCertNative = bytesFromJNI(context)
+                rawCertNative?.let { byteArray ->
                     signaturesList.add(
                         AppSignature(
-                            sha1 = getGivenSignature("SHA", sign.toByteArray()),
-                            md5 = getGivenSignature("MD5", sign.toByteArray()),
-                            sha256 = getGivenSignature("SHA256", sign.toByteArray())
+                            sha1 = getGivenSignature("SHA", byteArray),
+                            md5 = getGivenSignature("MD5", byteArray),
+                            sha256 = getGivenSignature("SHA256", byteArray)
                         )
                     )
-                }
-            } else {
-                if (it.signatures.isNotEmpty()) {
-                    val rawCertJava = it.signatures[0].toByteArray()
-                    val rawCertNative = bytesFromJNI()
-
-                    rawCertNative?.let { byteArray ->
-                        signaturesList.add(
-                            AppSignature(
-                                sha1 = getGivenSignature("SHA", byteArray),
-                                md5 = getGivenSignature("MD5", byteArray),
-                                sha256 = getGivenSignature("SHA256", byteArray)
-                            )
-                        )
-                    }
-                } else {
                 }
             }
         }
@@ -66,17 +62,17 @@ class SecurityHelper(
     }
 
     private fun getPackageInfo(context: Context): PackageInfo? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            context.packageManager.getPackageInfo(
-                context.packageName,
-                PackageManager.GET_SIGNING_CERTIFICATES
-            )
-        } else {
-            context.packageManager.getPackageInfo(
-                context.packageName,
-                PackageManager.GET_SIGNATURES
-            )
-        }
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//            context.packageManager.getPackageInfo(
+//                context.packageName,
+//                PackageManager.GET_SIGNING_CERTIFICATES
+//            )
+//        } else {
+        return context.packageManager.getPackageInfo(
+            context.packageName,
+            PackageManager.GET_SIGNATURES
+        )
+//        }
     }
 
     private fun getGivenSignature(type: String, toByteArray: ByteArray): String? {
