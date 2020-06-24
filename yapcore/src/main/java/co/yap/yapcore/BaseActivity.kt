@@ -22,6 +22,7 @@ import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
@@ -51,6 +52,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
+        preventTakeScreenShot(true)
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -275,11 +277,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             if (closeActivity)
                 finish()
         }
-       if(isOtpBlocked) {
-           label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
-               makeCall(MyUserManager.helpPhoneNumber)
-           }))
-       }
+        if (isOtpBlocked) {
+            label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
+                makeCall(MyUserManager.helpPhoneNumber)
+            }))
+        }
 
         builder.setView(dialogLayout)
         builder.setCancelable(false)

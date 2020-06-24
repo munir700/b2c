@@ -55,14 +55,14 @@ fun Activity.preventTakeScreenShot(isPrevent: Boolean) {
     if (isPrevent)
         window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     else
-        window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
 fun Fragment.preventTakeScreenShot(isPrevent: Boolean) {
     if (isPrevent)
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     else
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
 fun ImageView.loadImage(path: String, requestOptions: RequestOptions) {
