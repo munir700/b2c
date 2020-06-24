@@ -4,6 +4,8 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
+import co.yap.networking.authentication.requestdtos.LoginRequest
+import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -13,25 +15,9 @@ object AuthRepository : BaseRepository(), AuthApi {
     // Security URLS
     const val URL_GET_CSRF_TOKEN = "/auth/login"
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/login-token"
-    const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_LOGOUT = "/auth/oauth/oidc/logout"
 
     private val API: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
-
-    override suspend fun login(
-        username: String,
-        password: String,
-        device_id: String
-    ): RetroApiResponse<LoginResponse> {
-        val response = executeSafely(call = { API.login("client_credentials", username, password,device_id) })
-        when (response) {
-            is RetroApiResponse.Success -> {
-                CookiesManager.jwtToken = response.data.accessToken
-                CookiesManager.isLoggedIn = true
-            }
-        }
-        return response
-    }
 
     override suspend fun getCSRFToken(): RetroApiResponse<ApiResponse> {
         val response: RetroApiResponse<ApiResponse> = executeSafely(call = { API.getCSRFToken() })
@@ -46,8 +32,20 @@ object AuthRepository : BaseRepository(), AuthApi {
         return response
     }
 
-    override suspend fun refreshJWTToken(token: String): RetroApiResponse<LoginResponse> {
-        val response = executeSafely(call = { API.refreshJWTToken("refresh", token) })
+    override suspend fun login(loginRequest: LoginRequest): RetroApiResponse<LoginResponse> {
+        val response =
+            executeSafely(call = { API.login(loginRequest) })
+        when (response) {
+            is RetroApiResponse.Success -> {
+                CookiesManager.jwtToken = response.data.accessToken
+                CookiesManager.isLoggedIn = true
+            }
+        }
+        return response
+    }
+
+    override suspend fun refreshJWTToken(tokenRefreshRequest: TokenRefreshRequest): RetroApiResponse<LoginResponse> {
+        val response = executeSafely(call = { API.refreshJWTToken(tokenRefreshRequest) })
         when (response) {
             is RetroApiResponse.Success -> {
                 CookiesManager.jwtToken = response.data.accessToken

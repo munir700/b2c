@@ -2,11 +2,9 @@ package co.yap.networking.intercepters
 
 import co.yap.networking.CookiesManager
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.interfaces.TokenValidator
 import co.yap.networking.models.RetroApiResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -26,10 +24,18 @@ internal abstract class SessionValidator : TokenValidator, Interceptor {
             if (!tokenRefreshInProgress) {
                 // Refresh token
                 tokenRefreshInProgress = true
-                when (runBlocking { AuthRepository.refreshJWTToken(CookiesManager.jwtToken ?: "") }) {
+                when (runBlocking {
+                    AuthRepository.refreshJWTToken(
+                        TokenRefreshRequest(
+                            id_token = CookiesManager.jwtToken,
+                            grant_type = "refresh"
+                        )
+                    )
+                }) {
                     is RetroApiResponse.Success -> {
                         val builder =
-                            request.newBuilder().header(KEY_AUTHORIZATION, KEY_BEARER + CookiesManager.jwtToken)
+                            request.newBuilder()
+                                .header(KEY_AUTHORIZATION, KEY_BEARER + CookiesManager.jwtToken)
                                 .method(request.method(), request.body())
                         response = chain.proceed(builder.build())
                     }
