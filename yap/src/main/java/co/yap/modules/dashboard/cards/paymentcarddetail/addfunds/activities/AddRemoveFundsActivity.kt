@@ -258,10 +258,18 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                 setErrorBg()
                 showUpperLowerLimitError()
             }
+            isTopUpLimitReached() -> {
+                setErrorBg()
+                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            }
             else -> {
                 removeErrorBg()
             }
         }
+    }
+
+    private fun isTopUpLimitReached(): Boolean {
+        return true
     }
 
     private fun showUpperLowerLimitError() {
