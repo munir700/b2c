@@ -32,7 +32,7 @@ fun Context.createTempFile(extension: String): File {
 fun Context.dummyEID(): File? {
     val file = this.createTempFile(".jpg")
     if (!file.exists()) {
-        val asset: InputStream = this.assets.open("dummy_eid.jpg")
+        val asset: InputStream = this.assets.open("eid_doc.jpg")
         val output = FileOutputStream(file)
         val buffer = ByteArray(1024)
         var size: Int

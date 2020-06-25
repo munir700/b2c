@@ -19,7 +19,10 @@ interface ISendMoney {
         var selectedCountry: MutableLiveData<Country>
         var beneficiary: MutableLiveData<Beneficiary>
         var otpSuccess:MutableLiveData<Boolean>
+        var countriesList: List<Country>?
+        var selectedResidenceCountry: Country?
         fun handlePressButton(id: Int)
+
     }
 
     interface View : IBase.View<ViewModel>

@@ -40,6 +40,8 @@ interface IAddBeneficiary {
         var identifierCode2: String?
         var selectedBeneficiaryType: String?
         var otpType: String?
+        var countryOfResidence: String?
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {

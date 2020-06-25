@@ -36,6 +36,8 @@ object Strings {
         "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
         "common_display_text_daily_limit_error"
+    const val common_display_text_cooling_period_limit_error: String =
+        "common_display_text_cooling_period_limit_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -975,9 +977,13 @@ object Strings {
         "screen_add_beneficiary_display_text_country_title"
     const val screen_add_beneficiary_display_text_select_country: String =
         "screen_add_beneficiary_display_text_select_country"
-    const val screen_add_beneficiary_button_next: String = "screen_add_beneficiary_button_next"
+    const val screen_add_beneficiary_button_next: String =
+        "screen_add_beneficiary_button_next"
     const val screen_add_beneficiary_detail_display_text_error_iban_current_user: String =
         "screen_add_beneficiary_detail_display_text_error_iban_current_user"
+    const val screen_add_beneficiary_display_text_select_residence_country: String =
+        "screen_add_beneficiary_display_text_select_residence_country"
+
 
 
     // Add Beneficiary transfer type

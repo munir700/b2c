@@ -46,7 +46,7 @@ class TaxInfoViewModel(application: Application) :
     override fun handleOnPressView(id: Int) {
         if (id == R.id.cbTermsAndConditions) {
             state.isAgreed.set(!(state.isAgreed.get() as Boolean))
-            state.valid.set(isTaxInfoValid(taxInfoList) && state.isAgreed.get() == true)
+            state.valid.set(isTaxInfoValid(taxInfoList))
         } else
             clickEvent.setValue(id)
     }
@@ -146,7 +146,7 @@ class TaxInfoViewModel(application: Application) :
             }
             if (!valid) break
         }
-        return valid
+        return valid && state.isAgreed.get() == true
     }
 
     override fun saveInfoDetails(isSubmit: Boolean, success: (pdfUrl: String?) -> Unit) {

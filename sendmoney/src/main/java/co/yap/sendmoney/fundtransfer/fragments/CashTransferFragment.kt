@@ -210,7 +210,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
     }
-
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
@@ -251,8 +250,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 } ?: return false
             } ?: return false
         } ?: return false
-
     }
+
 
     private fun startFlows(productCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
@@ -350,6 +349,11 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
+            viewModel.parentViewModel?.isInCoolingPeriod() == true
+                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
+                viewModel.parentViewModel?.showCoolingPeriodLimitError()
+                viewModel.state.valid = false
+            }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
@@ -363,7 +367,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             }
         }
     }
-
     fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
