@@ -75,6 +75,7 @@ project.ext {
             vectordrawable           : 'androidx.vectordrawable:vectordrawable:1.1.0-beta02',
             biometric                : 'androidx.biometric:biometric:1.0.1',
             viewpager2               : 'androidx.viewpager2:viewpager2:1.0.0-beta03',
+            security                 : 'androidx.security:security-crypto:1.0.0-rc02',
 
             // Navigation
             navigationFragmentKtx    : "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
@@ -186,7 +187,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.expand],
             [configuration: "implementation", dependency: libraries.pdfViewer],
             [configuration: "implementation", dependency: libraries.rootChecker],
-            [configuration: "implementation", dependency: libraries.baloon]
+            [configuration: "implementation", dependency: libraries.baloon],
+            [configuration: "implementation", dependency: libraries.security]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
