@@ -258,10 +258,43 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                 setErrorBg()
                 showUpperLowerLimitError()
             }
+            isTopUpLimitReached() -> {
+                setErrorBg()
+                showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
+            }
             else -> {
                 removeErrorBg()
             }
         }
+    }
+
+    private fun isTopUpLimitReached(): Boolean {
+        return viewModel.transactionThreshold.value?.let { threshold ->
+            return when {
+                card?.availableBalance.parseToDouble() == threshold.virtualCardBalanceLimit ?: 0.0 -> {
+                    viewModel.state.errorDescription = Translator.getString(
+                        this,
+                        Strings.screen_add_funds_display_text_error_card_balance_limit_reached,
+                        threshold.virtualCardBalanceLimit.toString().toFormattedAmountWithCurrency()
+                    )
+                    return@let true
+                }
+                viewModel.state.amount.parseToDouble()
+                    .plus(card?.availableBalance.parseToDouble()) > threshold.virtualCardBalanceLimit ?: 0.0 -> {
+                    viewModel.state.errorDescription = Translator.getString(
+                        this,
+                        Strings.screen_add_funds_display_text_error_card_balance_limit,
+                        threshold.virtualCardBalanceLimit.toString()
+                            .toFormattedAmountWithCurrency(),
+                        (threshold.virtualCardBalanceLimit ?: 0.0
+                            .minus(card?.availableBalance.parseToDouble())).toString()
+                            .toFormattedAmountWithCurrency()
+                    )
+                    return@let true
+                }
+                else -> false
+            }
+        } ?: false
     }
 
     private fun showUpperLowerLimitError() {

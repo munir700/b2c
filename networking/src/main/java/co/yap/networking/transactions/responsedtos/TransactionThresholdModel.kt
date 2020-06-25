@@ -26,5 +26,7 @@ data class TransactionThresholdModel(
     @SerializedName("dailyLimitTopUpSupplementary")
     var dailyLimitTopUpSupplementary: Double?,
     @SerializedName("otpLimitTopUpSupplementary")
-    var otpLimitTopUpSupplementary: Double?
+    var otpLimitTopUpSupplementary: Double?,
+    @SerializedName("virtualCardBalanceLimit")
+    var virtualCardBalanceLimit: Double?
 )
