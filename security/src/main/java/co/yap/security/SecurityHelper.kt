@@ -3,6 +3,7 @@ package co.yap.security
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.widget.Toast
 import java.security.MessageDigest
 
 class SecurityHelper(
@@ -48,6 +49,7 @@ class SecurityHelper(
                 val rawCertJava = it.signatures[0].toByteArray()
                 val rawCertNative = bytesFromJNI(context)
                 rawCertNative?.let { byteArray ->
+//                    Toast.makeText(context,"SHA 1"+getGivenSignature("SHA", byteArray),Toast.LENGTH_LONG).show()
                     signaturesList.add(
                         AppSignature(
                             sha1 = getGivenSignature("SHA", byteArray),
@@ -55,7 +57,11 @@ class SecurityHelper(
                             sha256 = getGivenSignature("SHA256", byteArray)
                         )
                     )
-                }
+                } ?: Toast.makeText(
+                    context,
+                    "Couldn't able to find app signature",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
         return signaturesList
