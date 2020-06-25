@@ -566,6 +566,10 @@ object Strings {
         "screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance"
     const val screen_success_funds_transaction_display_text_button: String =
         "screen_success_funds_transaction_display_text_button"
+    const val screen_add_funds_display_text_error_card_balance_limit_reached: String =
+        "screen_add_funds_display_text_error_card_balance_limit_reached"
+    const val screen_add_funds_display_text_error_card_balance_limit: String =
+        "screen_add_funds_display_text_error_card_balance_limit"
 
     // Remove funds Screen
     const val screen_remove_funds_display_text_remove_funds: String =
