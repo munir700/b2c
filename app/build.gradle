@@ -67,6 +67,7 @@ android {
             resValue "string", "app_name", "YAP Stage"
         }
     }
+    ndkVersion '20.0.5594570'
 }
 
 dependencies {
