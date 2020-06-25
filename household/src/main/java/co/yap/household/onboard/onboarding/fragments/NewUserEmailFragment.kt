@@ -16,6 +16,8 @@ import co.yap.household.onboard.onboarding.interfaces.IEmail
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.household.onboard.onboarding.viewmodels.EmailHouseHoldViewModel
 import co.yap.widgets.AnimatingProgressBar
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
@@ -51,6 +53,7 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         })
         viewModel.onEmailVerifySuccess.observe(this, Observer {
             if (it) {
+                trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EMAIL.type)
                 viewModel.postDemographicData()
             }
         })

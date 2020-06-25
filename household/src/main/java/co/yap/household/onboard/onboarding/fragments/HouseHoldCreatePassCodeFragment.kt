@@ -12,6 +12,8 @@ import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldCreatePassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.NumberKeyboardListener
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -54,7 +56,10 @@ class HouseHoldCreatePassCodeFragment :
             }
         })
         viewModel.onPasscodeSuccess.observe(this, Observer {
-            if (it) findNavController().navigate(R.id.to_emailHouseHoldFragment)
+            if (it) {
+                trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_MAIN_USER_PHONE_CORRECT.type)
+                findNavController().navigate(R.id.to_emailHouseHoldFragment)
+            }
         })
     }
 

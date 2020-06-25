@@ -8,8 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.BR
 import co.yap.household.R
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_eidnot_accepted.*
 
 class InvalidEIDFragment : BaseBindingFragment<IInvalidEIDSuccess.ViewModel>(), IFragmentHolder {
@@ -38,8 +42,8 @@ class InvalidEIDFragment : BaseBindingFragment<IInvalidEIDSuccess.ViewModel>(), 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         addObservers()
+        trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
     }
 
     private fun addObservers() {

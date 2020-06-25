@@ -11,11 +11,15 @@ import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.dummyEID
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -168,10 +172,11 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                             result.identity = identity
-
                             parentViewModel?.identity = identity
-
                             populateState(parentViewModel?.identity)
+                            if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+                                trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EID.type)
+                            }
                         } else {
                             if (null == parentViewModel?.identity) {
                                 state.toast =
