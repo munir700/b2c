@@ -11,6 +11,7 @@ enum class AccountStatus {
     EID_EXPIRED,
     EID_UPDATED,
     EID_RESCAN_REQ,
+    EID_FAILED,
     REJECTED,
     MEETING_FAILED, // notificationstatus become when meeting with FSS fail
     SOFT_KYC_DONE,
@@ -23,6 +24,9 @@ enum class AccountStatus {
     INVITE_PENDING,
     INVITE_ACCEPTED,
     USER_VERIFIED,
-    INVITE_DECLINED;
-
+    INVITE_DECLINED,
+    BIRTH_INFO_COLLECTED,
+    FATCA_GENERATED,
+    CAPTURED_ADDRESS,
+    INVITATION_PENDING;
 }

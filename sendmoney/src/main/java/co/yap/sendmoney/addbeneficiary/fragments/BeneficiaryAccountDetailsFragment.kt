@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -41,15 +42,18 @@ class BeneficiaryAccountDetailsFragment :
             val bundle = Bundle()
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
             bundle.putString(Constants.IS_IBAN_NEEDED, "Yes")
-            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+            bundle.putParcelable(Beneficiary::class.java.name, it)
+            bundle.putParcelable(
+                Country::class.java.name,
+                viewModel.parentViewModel?.selectedResidenceCountry
+            )
+
             launchActivity<EditBeneficiaryActivity>(
                 RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
                 bundle
             )
-
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {

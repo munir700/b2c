@@ -15,6 +15,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -49,7 +50,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun handlePressOnRescanBtn() {
-        parentViewModel?.identity?.let { populateState(it) }
+//        parentViewModel?.identity?.let { populateState(it) }
         clickEvent.setValue(EVENT_RESCAN)
     }
 
@@ -104,10 +105,12 @@ class EidInfoReviewViewModel(application: Application) :
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
-                    state.toast = "Your EID doesn't match with the current EID."
+                    state.toast =
+                        "Your EID doesn't match with the current EID.^${AlertType.DIALOG.name}"
                 }
                 else -> {
-                    performUploadDocumentsRequest()
+                    performUploadDocumentsRequest(false) {
+                    }
                 }
             }
         }
@@ -131,17 +134,19 @@ class EidInfoReviewViewModel(application: Application) :
 
 
     private fun uploadDocuments(result: IdentityScannerResult) {
-
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = File(result.document.files[1].croppedFile)
+            val file = if (YAPApplication.appInfo?.isReleaseStg() == false) {
+                context.dummyEID()
+            } else {
+                File(result.document.files[1].croppedFile)
+            }
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-
             val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
             val part =
-                MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+                MultipartBody.Part.createFormData("image", file?.name, fileReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(part)) {
@@ -168,18 +173,33 @@ class EidInfoReviewViewModel(application: Application) :
 
                             populateState(parentViewModel?.identity)
                         } else {
-                            result.identity = Identity()
-                            parentViewModel?.identity = Identity()
-                            populateState(Identity())
-//                            clickEvent.setValue(EVENT_FINISH)
-                            state.toast = "${response.data.errors?.message
-                                ?: " Error occurred"}^${AlertType.DIALOG_WITH_FINISH.name}"
+                            if (null == parentViewModel?.identity) {
+                                state.toast =
+                                    "${response.data.errors?.message
+                                        ?: " Error occurred"}^${AlertType.DIALOG_WITH_FINISH.name}"
+                                parentViewModel?.paths?.forEach { filePath ->
+                                    File(filePath).deleteRecursively()
+                                }
+                            } else {
+                                state.toast =
+                                    "${response.data.errors?.message
+                                        ?: " Error occurred"}^${AlertType.DIALOG.name}"
+                                parentViewModel?.paths?.forEach { filePath ->
+                                    File(filePath).deleteRecursively()
+                                }
+                            }
                         }
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast =
-                            "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-//                        clickEvent.setValue(EVENT_FINISH)
+                        if (null == parentViewModel?.identity)
+                            state.toast =
+                                "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+                        else
+                            state.toast =
+                                "${response.error.message}^${AlertType.DIALOG.name}"
+                        parentViewModel?.paths?.forEach { filePath ->
+                            File(filePath).deleteRecursively()
+                        }
                     }
                 }
                 state.loading = false
@@ -200,21 +220,26 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun performUploadDocumentsRequest() {
+    fun performUploadDocumentsRequest(
+        fromInformationErrorFragment: Boolean,
+        success: (message: String) -> Unit
+    ) {
         parentViewModel?.identity?.let {
             launch {
                 val request = UploadDocumentsRequest(
                     documentType = "EMIRATES_ID",
-                    firstName = it.givenName,
-                    lastName = it.sirName,
+                    firstName = state.firstName,
+                    middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                    lastName = if (state.lastName.isNotBlank()) state.lastName else null,
                     dateExpiry = it.expirationDate,
                     dob = it.dateOfBirth,
-                    fullName = it.givenName + " " + it.sirName,
+                    fullName = getFullName(),
                     gender = it.gender.mrz.toString(),
                     nationality = it.isoCountryCode3Digit.toUpperCase(),
                     identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random()
                         .toString() else it.citizenNumber,
-                    filePaths = parentViewModel?.paths ?: arrayListOf()
+                    filePaths = parentViewModel?.paths ?: arrayListOf(),
+                    countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                 )
 
                 state.loading = true
@@ -225,50 +250,95 @@ class EidInfoReviewViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         when (MyUserManager.eidStatus) {
                             EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                MyUserManager.eidStatus = EIDStatus.VALID
-                                clickEvent.setValue(EVENT_EID_UPDATE)
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    MyUserManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EVENT_EID_UPDATE)
+                                }
                             }
                             EIDStatus.NOT_SET -> {
-                                MyUserManager.eidStatus = EIDStatus.VALID
-                                clickEvent.setValue(EVENT_NEXT)
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    MyUserManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EVENT_NEXT)
+                                }
                             }
                             else -> {
-                                MyUserManager.eidStatus = EIDStatus.VALID
-                                clickEvent.setValue(EVENT_NEXT)
+                                if (fromInformationErrorFragment) {
+                                    success.invoke("success")
+                                } else {
+                                    MyUserManager.eidStatus = EIDStatus.VALID
+                                    clickEvent.setValue(EVENT_NEXT)
+                                }
                             }
                         }
                     }
                     is RetroApiResponse.Error -> {
-                        if (response.error.actualCode.equals(
-                                EVENT_ALREADY_USED_EID.toString(),
-                                true
-                            )
-                        ) {
-                            clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                        if (fromInformationErrorFragment) {
+                            success.invoke(response.error.message)
+                        } else {
+                            if (response.error.actualCode.equals(
+                                    EVENT_ALREADY_USED_EID.toString(),
+                                    true
+                                )
+                            ) {
+                                clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                            }
+                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         }
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     }
                 }
             }
         }
     }
 
-    fun splitLastNames(lastNames: String) {
-        val parts = lastNames.split(" ")
-        state.firstName = parts.get(0)
+    private fun getFullName(): String {
+        return (when {
+            state.middleName.isNotBlank() && state.lastName.isNotBlank() -> {
+                "${state.firstName} ${state.middleName} ${state.lastName}"
+            }
+            state.middleName.isNotBlank() -> {
+                "${state.firstName} ${state.middleName}"
+            }
+            state.lastName.isNotBlank() -> {
+                "${state.firstName} ${state.lastName}"
+            }
+            else -> {
+                state.firstName
+            }
+        })
+    }
 
-        if (parts.size == 2) {
-            state.lastName = parts.get(1)
-        } else if (parts.size > 2) {
-            state.middleName = parts.get(1)
-            var x = 2
-            while (x < parts.size) {
-                if (state.lastName.isEmpty()) {
-                    state.lastName = parts.get(x)
-                } else {
-                    state.lastName = state.lastName + " " + parts.get(x)
+    private fun splitLastNames(lastNames: String) {
+        val parts = lastNames.split(" ")
+        state.firstName = parts[0]
+
+        when {
+            parts.size == 2 -> {
+                state.lastName = parts[1]
+                state.isShowLastName.set(true)
+                state.isShowMiddleName.set(false)
+            }
+            parts.size > 2 -> {
+                state.lastName = ""
+                state.isShowLastName.set(true)
+                state.isShowMiddleName.set(true)
+                state.middleName = parts[1]
+                var x = 2
+                while (x < parts.size) {
+                    if (state.lastName.isEmpty()) {
+                        state.lastName = parts[x]
+                    } else {
+                        state.lastName = state.lastName + " " + parts[x]
+                    }
+                    x++
                 }
-                x++
+            }
+            else -> {
+                state.isShowLastName.set(false)
+                state.isShowMiddleName.set(false)
             }
         }
     }
@@ -301,20 +371,21 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-
-    private fun getFormattedCitizenNumber(citizenNo: String): String {
-        state?.caption =
-            getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
-                parentViewModel?.name?.value
-            )
-        val builder = StringBuilder()
-        builder.append(citizenNo.subSequence(0..2))
-        builder.append("-")
-        builder.append(citizenNo.subSequence(3..6))
-        builder.append("-")
-        builder.append(citizenNo.subSequence(7..13))
-        builder.append("-")
-        builder.append(citizenNo.subSequence(14..14))
-        return builder.toString()
+    private fun getFormattedCitizenNumber(citizenNo: String?): String {
+        return citizenNo?.let {
+            state.caption =
+                getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
+                    parentViewModel?.name?.value
+                )
+            val builder = StringBuilder()
+            builder.append(it.subSequence(0..2))
+            builder.append("-")
+            builder.append(it.subSequence(3..6))
+            builder.append("-")
+            builder.append(it.subSequence(7..13))
+            builder.append("-")
+            builder.append(it.subSequence(14..14))
+            return@let builder.toString()
+        } ?: ""
     }
 }

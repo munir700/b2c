@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import co.yap.app.YAPApplication
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -12,6 +13,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.digitify.identityscanner.core.arch.Gender
@@ -70,12 +72,17 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = File(result.document.files[1].croppedFile)
+
+            val file = if (YAPApplication.appInfo?.build_type == "debug") {
+                context.dummyEID()
+            } else {
+                File(result.document.files[1].croppedFile)
+            }
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
-            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+            val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file!!)
             val part =
                 MultipartBody.Part.createFormData("image", file.name, fileReqBody)
             launch {
@@ -111,6 +118,9 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                     is RetroApiResponse.Error -> {
                         trackEvent(KYCEvents.EID_FAILURE.type)
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        parentViewModel?.paths?.forEach { filePath ->
+                            File(filePath).deleteRecursively()
+                        }
                     }
                 }
 

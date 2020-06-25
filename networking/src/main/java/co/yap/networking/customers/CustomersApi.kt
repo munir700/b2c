@@ -5,6 +5,7 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -16,6 +17,8 @@ interface CustomersApi {
     suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
+    suspend fun generateOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
+    suspend fun verifyOTPForDeviceVerification(demographicDataRequest: DemographicDataRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse>
     suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse>
     suspend fun getDocuments(): RetroApiResponse<ApiResponse>
@@ -85,4 +88,8 @@ interface CustomersApi {
     suspend fun changePasscode(newPasscode: String, token: String): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
     suspend fun getCities(): RetroApiResponse<CitiesModel>
+    suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse>
+    suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
+    suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
+    suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
 }

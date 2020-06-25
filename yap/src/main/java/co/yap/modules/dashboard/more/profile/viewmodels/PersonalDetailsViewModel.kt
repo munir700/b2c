@@ -164,6 +164,7 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     private fun populateVerifiedDocumentData() {
+        //context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
         state.drawbleRight =
             context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
         state.verificationText = Translator.getString(

@@ -307,7 +307,7 @@ class CashTransferViewModel(application: Application) :
                 return (when {
                     parentViewModel?.beneficiary?.value?.cbwsicompliant == true &&
                             pop.cbwsi == true -> state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
-                    else -> false
+                    else -> true
                 })
 
             } ?: state.amount.parseToDouble() > parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit ?: 0.0
@@ -320,11 +320,13 @@ class CashTransferViewModel(application: Application) :
                     productCode = getProductCode(),
                     currency = "AED",
                     amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1).toString(),
-                    isCbwsi = parentViewModel?.selectedPop?.cbwsi ?: false
+                    isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
+                        ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.errorMsg?.let {
                         transactionMightGetHeld.value = true
+                        parentViewModel?.isCutOffTimeStarted = true
                         parentViewModel?.transferData?.value?.cutOffTimeMsg = it
                     }
                 }

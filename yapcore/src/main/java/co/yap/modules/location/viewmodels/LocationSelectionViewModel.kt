@@ -4,19 +4,19 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.states.LocationSelectionState
+import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.City
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 
 class LocationSelectionViewModel(application: Application) :
-    BaseViewModel<ILocationSelection.State>(application),
+    LocationSelectionBaseViewModel<ILocationSelection.State>(application),
     ILocationSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var isUnNamedLocation: Boolean = false
     override var hasSeletedLocation: Boolean = false
@@ -28,6 +28,7 @@ class LocationSelectionViewModel(application: Application) :
     override var cities: MutableLiveData<ArrayList<City>> = MutableLiveData()
     override val state: LocationSelectionState = LocationSelectionState(application)
     override val repository: CustomersRepository = CustomersRepository
+    private val cardsRepository: CardsRepository = CardsRepository
     override var address: Address? = null
 
     override fun onCreate() {
@@ -103,6 +104,37 @@ class LocationSelectionViewModel(application: Application) :
                 )
             )
         }
+    }
 
+    override fun requestOrderCard(address: Address?, success: () -> Unit) {
+        address?.let {
+            // Please confirm weather card name and design code is empty on IOS too or its typo mistake
+            it.cardName = ""
+            launch {
+                state.loading = true
+                when (val response = cardsRepository.orderCard(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        success()
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    }
+                }
+            }
+        }
+    }
+
+    fun getUserAddress():Address?{
+        address?.address1 = state.addressTitle.get()
+        address?.address2 = state.addressSubtitle.get()
+        address?.city = state.city.get()
+        // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
+        address?.nearestLandMark = state.addressTitle.get()
+        address?.country = "United Arab Emirates"
+
+        return address
     }
 }

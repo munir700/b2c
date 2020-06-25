@@ -12,6 +12,7 @@ object Constants {
     const val CHANGE_PASSCODE: String = "CHANGE_PASSCODE"
     const val TRANSACTION_ID: String = "TRANSACTION_ID"
     const val CARD_SERIAL_NUMBER: String = "CARD_SERIAL_NUMBER"
+    const val IS_TOPUP_SKIP: String = "isTopUpSkip"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
 

@@ -38,7 +38,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
         setSpentLabel()
-        setFeeAmount()
+        setAmount()
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
@@ -49,12 +49,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setContentDataColor(viewModel.transaction.get())
     }
 
-    private fun setFeeAmount() {
-        getBindings().tvFeeAmount.text = viewModel.transaction.get()?.let {
+    private fun setAmount() {
+        getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
-                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "0.00".toFormattedAmountWithCurrency()
-                it.postedFees != null -> it.postedFees.toString().toFormattedAmountWithCurrency()
-                else -> "0.00".toFormattedAmountWithCurrency()
+                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                    "0.00".toFormattedAmountWithCurrency()
+                }
+                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
+                    it.settlementAmount.toString().toFormattedAmountWithCurrency()
+                }
+                else -> it.amount.toString().toFormattedAmountWithCurrency()
             }
 
         } ?: "0.00"

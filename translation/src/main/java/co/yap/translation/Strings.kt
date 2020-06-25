@@ -7,6 +7,7 @@ object Strings {
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
+    const val common_button_submit: String = "common_button_submit"
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
@@ -21,20 +22,22 @@ object Strings {
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
     const val common_text_fee: String = "common_text_fee"
+    const val common_display_text_daily_limit_remaining_error: String =
+        "common_display_text_daily_limit_remaining_error"
     const val common_display_text_daily_limit_error_single_transaction: String =
         "common_display_text_daily_limit_error_single_transaction"
     const val common_display_text_daily_limit_error_multiple_transactions: String =
         "common_display_text_daily_limit_error_multiple_transactions"
     const val common_display_text_available_balance_error: String =
         "common_display_text_available_balance_error"
-    const val sm_common_display_text_available_balance_error: String =
-        "sm_common_display_text_available_balance_error"
     const val common_display_text_min_max_limit_error_transaction: String =
         "common_display_text_min_max_limit_error_transaction"
     const val sm_display_text_min_max_limit_error_transaction: String =
         "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
         "common_display_text_daily_limit_error"
+    const val common_display_text_cooling_period_limit_error: String =
+        "common_display_text_cooling_period_limit_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -974,9 +977,12 @@ object Strings {
         "screen_add_beneficiary_display_text_country_title"
     const val screen_add_beneficiary_display_text_select_country: String =
         "screen_add_beneficiary_display_text_select_country"
-    const val screen_add_beneficiary_button_next: String = "screen_add_beneficiary_button_next"
+    const val screen_add_beneficiary_button_next: String =
+        "screen_add_beneficiary_button_next"
     const val screen_add_beneficiary_detail_display_text_error_iban_current_user: String =
         "screen_add_beneficiary_detail_display_text_error_iban_current_user"
+    const val screen_add_beneficiary_display_text_select_residence_country: String =
+        "screen_add_beneficiary_display_text_select_residence_country"
 
 
     // Add Beneficiary transfer type
@@ -1223,6 +1229,8 @@ object Strings {
         "screen_funds_toolbar_header"
     const val screen_funds_confirmation_success_description: String =
         "screen_funds_confirmation_success_description"
+    const val screen_funds_confirmation_success_description_same_currency: String =
+        "screen_funds_confirmation_success_description_same_currency"
     const val screen_funds_receive_description: String =
         "screen_funds_receive_description"
     const val screen_funds_transfer_fee_description: String =
@@ -1641,7 +1649,8 @@ object Strings {
     const val screen_household_weekly_title: String = "screen_household_weekly_title"
     const val screen_household_monthly_title: String = "screen_household_monthly_title"
     const val screen_household_button_text: String = "screen_household_button_text"
-    const val screen_household_employee_salary_delete_recurring_text: String = "screen_household_employee_salary_delete_recurring_text"
+    const val screen_household_employee_salary_delete_recurring_text: String =
+        "screen_household_employee_salary_delete_recurring_text"
 
     //House hold set pin card preview screen
     const val screen_household_set_card_pin_review_heading: String =
@@ -1697,11 +1706,12 @@ object Strings {
     const val screen_otp_blocked_display_text_details: String =
         "screen_otp_blocked_display_text_details"
 
-     const val screen_add_beneficiary_detail_display_button_block_alert_yes_household: String =
+    const val screen_add_beneficiary_detail_display_button_block_alert_yes_household: String =
         "screen_add_beneficiary_detail_display_button_block_alert_yes_household"
     const val screen_add_beneficiary_detail_display_button_block_alert_no_household: String =
         "screen_add_beneficiary_detail_display_button_block_alert_no_household"
-     //    House hold payment confirmation screen
+
+    //    House hold payment confirmation screen
     const val screen_household_payment_confirmation_tool_bar_text: String =
         "screen_household_payment_confirmation_tool_bar_text"
     const val screen_household_normal_payment_success_text: String =
@@ -1745,11 +1755,11 @@ object Strings {
     const val screen_household_employee_salary_last_salary_transfer_text: String =
         "screen_household_employee_salary_last_salary_transfer_text"
 
-//    Household  Pay Salary Screen
-const val screen_household_pay_salary_screen_display_text_title: String =
-    "screen_household_pay_salary_screen_display_text_title"
+    //    Household  Pay Salary Screen
+    const val screen_household_pay_salary_screen_display_text_title: String =
+        "screen_household_pay_salary_screen_display_text_title"
     const val screen_household_pay_salary_screen_enter_transfer_amount_title: String =
-    "screen_household_pay_salary_screen_enter_transfer_amount_title"
+        "screen_household_pay_salary_screen_enter_transfer_amount_title"
     const val screen_household_pay_salary_screen_available_balance_text: String =
         "screen_household_pay_salary_screen_available_balance_text"
     const val screen_household_pay_salary_screen_last_salary_text: String =
@@ -1809,4 +1819,35 @@ const val screen_household_pay_salary_screen_display_text_title: String =
     const val screen_home_renewed_id_desc: String =
         "screen_home_renewed_id_desc"
 
- }
+    // Place of birth selection screen
+    const val screen_place_of_birth_display_text_heading: String =
+        "screen_place_of_birth_display_text_heading"
+    const val screen_place_of_birth_display_text_description: String =
+        "screen_place_of_birth_display_text_description"
+    const val screen_place_of_birth_display_text_select_country: String =
+        "screen_place_of_birth_display_text_select_country"
+    const val screen_place_of_birth_display_text_city_of_birth: String =
+        "screen_place_of_birth_display_text_city_of_birth"
+
+    // Tax info screen
+    const val screen_tax_info_display_text_heading: String =
+        "screen_tax_info_display_text_heading"
+    const val screen_tax_info_display_text_desc: String =
+        "screen_tax_info_display_text_desc"
+    const val screen_tax_info_display_text_select_country: String =
+        "screen_tax_info_display_text_select_country"
+    const val screen_tax_info_display_text_have_tin_number: String =
+        "screen_tax_info_display_text_have_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number: String =
+        "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_heading_tin_number: String =
+        "screen_tax_info_display_text_heading_tin_number"
+    const val screen_tax_info_display_text_country_no_tin_issue: String =
+        "screen_tax_info_display_text_country_no_tin_issue"
+    const val screen_tax_info_display_text_add_another_country: String =
+        "screen_tax_info_display_text_add_another_country"
+    const val screen_tax_info_display_text_not_us_national: String =
+        "screen_tax_info_display_text_not_us_national"
+    const val screen_tax_info_display_text_trs_conditions_disclaimer: String =
+        "screen_tax_info_display_text_trs_conditions_disclaimer"
+}

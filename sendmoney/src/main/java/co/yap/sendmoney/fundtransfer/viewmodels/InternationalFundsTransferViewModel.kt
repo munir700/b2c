@@ -9,9 +9,9 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.purposepayment.PurposeOfPayment
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
+import co.yap.sendmoney.R
 import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.fundtransfer.states.InternationalFundsTransferState
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.FeeType
@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
+import java.math.RoundingMode
 import java.util.*
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -80,16 +81,22 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    isAPIFailed.value = true
-                    state.toast = response.error.message
+                    if (parentViewModel?.isSameCurrency == true) {
+                        state.sourceCurrency.set("AED")
+                        state.destinationCurrency.set("AED")
+                        parentViewModel?.transferData?.value?.rate = "1.0"
+                    } else {
+                        isAPIFailed.value = true
+                        state.toast = response.error.message
+                    }
                 }
             }
         }
     }
 
     override fun getReasonList(productCode: String) {
-//        state.loading = true
         launch {
+//            state.loading = true
             when (val response =
                 mTransactionsRepository.getPurposeOfPayment(productCode)) {
                 is RetroApiResponse.Success -> {
@@ -192,12 +199,9 @@ class InternationalFundsTransferViewModel(application: Application) :
         if (!state.etInputAmount.isNullOrBlank()) {
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
                 ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
-
-            state.etOutputAmount = String.format(
-                Locale.getDefault(),
-                "%.02f",
-                totalDestinationAmount
-            )
+            totalDestinationAmount?.let {
+                state.etOutputAmount = it.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toString()
+            }
         } else {
             state.etOutputAmount = ""
         }

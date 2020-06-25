@@ -16,6 +16,7 @@ import androidx.databinding.Observable;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.digitify.identityscanner.R;
+import com.digitify.identityscanner.base.BaseFragment;
 import com.digitify.identityscanner.camera.CameraException;
 import com.digitify.identityscanner.camera.CameraListener;
 import com.digitify.identityscanner.camera.CameraOptions;
@@ -28,13 +29,14 @@ import com.digitify.identityscanner.docscanner.interfaces.Cropper;
 import com.digitify.identityscanner.docscanner.interfaces.ICamera;
 import com.digitify.identityscanner.docscanner.viewmodels.CameraViewModel;
 import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewModel;
-import com.digitify.identityscanner.base.BaseFragment;
 import com.digitify.identityscanner.utils.ImageUtils;
 
 import org.jetbrains.annotations.NotNull;
 
 import co.yap.translation.Strings;
 import co.yap.translation.Translator;
+
+import static com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity.imageFiles;
 
 public class YapCameraFragment extends BaseFragment implements ICamera.View, CameraListener {
 
@@ -81,7 +83,6 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
         cardOverlay.setCardRatio(getParentViewModel().getDocumentType() == DocumentType.PASSPORT ? TransparentCardView.PASSPORT_RATIO : TransparentCardView.ID_CARD_RATIO);
 
 
-
         getViewModel().setDocumentType(getParentViewModel().getDocumentType());
         getViewModel().setScanMode(getParentViewModel().getState().getScanMode());
     }
@@ -121,6 +122,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
 
         @Override
         public void onCropped(Uri uri) {
+            imageFiles.add(uri.getPath());
             onCaptureProcessCompleted(uri.getPath());
         }
 

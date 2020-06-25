@@ -10,7 +10,7 @@ import co.yap.countryutils.country.Country
 import co.yap.sendmoney.R
 import co.yap.widgets.CoreCircularImageView
 
-class CountryAdapter(
+class CountryAdapter (
     val context: Context,
     private val objects: List<Country>
 ) : BaseAdapter() {

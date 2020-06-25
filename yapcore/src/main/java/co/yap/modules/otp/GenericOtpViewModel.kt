@@ -21,7 +21,6 @@ import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.managers.MyUserManager
 
 class GenericOtpViewModel(application: Application) :
     BaseViewModel<IGenericOtp.State>(application = application), IGenericOtp.ViewModel {
@@ -100,10 +99,9 @@ class GenericOtpViewModel(application: Application) :
                             clickEvent.setValue(id)
                         }
                         is RetroApiResponse.Error -> {
-                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                            showToast(response.error.message)
                             state.otp = ""
                             otpUiBlocked(response.error.actualCode)
-                            //errorEvent.call()
                             state.loading = false
                         }
                     }
@@ -135,9 +133,9 @@ class GenericOtpViewModel(application: Application) :
                         is RetroApiResponse.Error -> {
                             state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             state.otp = ""
+                            state.loading = false
                             otpUiBlocked(response.error.actualCode)
                             // errorEvent.call()
-                            state.loading = false
                         }
                     }
                     state.loading = false
@@ -202,9 +200,9 @@ class GenericOtpViewModel(application: Application) :
                     handleResendEvent(resend, context)
                 }
                 is RetroApiResponse.Error -> {
-                    otpUiBlocked(response.error.actualCode)
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
             state.loading = false
@@ -275,9 +273,8 @@ class GenericOtpViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.errorMessage = response.error.message
-                    errorEvent.call()
                     state.loading = false
+                    showToast(response.error.message)
                     otpUiBlocked(response.error.actualCode)
                 }
             }
@@ -287,13 +284,15 @@ class GenericOtpViewModel(application: Application) :
 
     private fun otpUiBlocked(errorCode: String) {
         when (errorCode) {
-            "1095" -> {
+            "1095" -> {// otp just blocked
                 state.validResend = false
 //                state.valid = false // to disable confirm button
                 state.color = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
-                state.isOtpBlocked.set(false)
-                MyUserManager.getAccountInfo()
+                state.isOtpBlocked.set(true)
             }
+//            "1095" -> { // otp already blocked
+//                state.isOtpBlocked.set(true)
+//            }
         }
     }
 

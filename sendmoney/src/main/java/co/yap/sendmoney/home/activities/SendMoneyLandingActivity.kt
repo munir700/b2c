@@ -166,7 +166,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this@SendMoneyLandingActivity))
                 } else {
                     startMoneyTransfer(data, pos)
                 }
@@ -290,7 +290,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         when (it) {
             R.id.addContactsButton -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     startActivityForResult(
                         SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
@@ -300,7 +300,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             }
             R.id.tbBtnAddBeneficiary -> {
                 if (MyUserManager.user?.otpBlocked == true) {
-                    showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     startActivityForResult(
                         SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
@@ -322,7 +322,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (MyUserManager.user?.otpBlocked == true) {
-                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                            showToast(Utils.getOtpBlockedMessage(this))
                         } else {
                             startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
                         }
@@ -335,7 +335,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (MyUserManager.user?.otpBlocked == true) {
-                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                            showToast(Utils.getOtpBlockedMessage(this))
                         } else {
                             openEditBeneficiary(payload.itemData as Beneficiary)
                         }
@@ -347,7 +347,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (MyUserManager.user?.otpBlocked == true) {
-                            showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                            showToast(Utils.getOtpBlockedMessage(this))
                         } else {
                             positionToDelete = payload.position
                             confirmDeleteBeneficiary(payload.itemData as Beneficiary)
@@ -389,7 +389,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             if (isMoneyTransfer == true)
                                 beneficiary?.let {
                                     if (MyUserManager.user?.otpBlocked == true) {
-                                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                                        showToast(Utils.getOtpBlockedMessage(this))
                                     } else {
                                         startMoneyTransfer(it, 0)
                                     }
