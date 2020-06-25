@@ -1,7 +1,5 @@
 package co.yap.household.onboard.onboarding.newuser
 
-import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
@@ -17,8 +15,8 @@ class HHNewUserFragment: BaseNavViewModelFragment<FragmentOnBoardingNewUserBindi
 
     override fun getLayoutId(): Int = R.layout.fragment_on_boarding_new_user
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun postExecutePendingBindings() {
+        super.postExecutePendingBindings()
         viewModel.clickEvent.observe(this, clickObserver)
     }
 
