@@ -31,7 +31,6 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), 
             arguments?.let(::fetchExtras)
             preInit()
         }
-
         setHasOptionsMenu(false)
     }
 

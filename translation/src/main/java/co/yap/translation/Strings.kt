@@ -1358,6 +1358,8 @@ object Strings {
 
     const val screen_yap_house_hold_user_info_contact_display_text_heading: String =
         "screen_yap_house_hold_user_info_contact_display_text_heading"
+    const val screen_yap_house_hold_user_info_contact_back_to_house_hold_text: String =
+        "screen_yap_house_hold_user_info_contact_back_to_house_hold_text"
     const val screen_yap_house_hold_user_info_contact_display_text_mobile: String =
         "screen_yap_house_hold_user_info_contact_display_text_mobile"
     const val screen_yap_house_hold_user_info_contact_display_text_confirm_mobile: String =

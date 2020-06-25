@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.store.household.subscriptionselection
 
+import android.content.Context
 import android.view.View
+import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -16,12 +18,14 @@ import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
+import co.yap.yapcore.dagger.base.navigation.BackNavigationResult
+import co.yap.yapcore.dagger.base.navigation.BackNavigationResultListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.*
 import javax.inject.Inject
 
 class SubscriptionSelectionFragment :
-    BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
+    BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>(){
     @Inject
     lateinit var adapter: Adapter
 
@@ -33,6 +37,11 @@ class SubscriptionSelectionFragment :
     override fun toolBarVisibility() = true
     override fun getToolBarTitle() =
         getString(Strings.screen_yap_house_hold_user_info_display_text_title)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
 
     override fun postExecutePendingBindings() {
         if (activity is ManageToolBarListener) {
@@ -57,7 +66,6 @@ class SubscriptionSelectionFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
-                selectorGroup?.mCheckedId
                 if (!state.plansList.isNullOrEmpty())
                     navigateForwardWithAnimation(
                         SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),

@@ -38,6 +38,7 @@ class HHAddUserContactVM @Inject constructor(
 
     override fun verifyMobileNumber(apiResponse: ((Boolean?) -> Unit?)?) {
         launch {
+            publishState(State.loading(null))
             state.loading = true
             val request = VerifyHouseholdMobileRequest(
                 countryCode = "00${state.countryCode.value?.replace("+", "")}",
@@ -45,9 +46,11 @@ class HHAddUserContactVM @Inject constructor(
             )
             when (val response = repository.verifyHouseholdMobile(request)) {
                 is RetroApiResponse.Success -> {
+                    publishState(State.success(null))
                     apiResponse?.invoke(true)
                 }
                 is RetroApiResponse.Error -> {
+                    publishState(State.error(null))
                     apiResponse?.invoke(false)
                 }
             }

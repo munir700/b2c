@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
 class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.View {
@@ -39,25 +40,35 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     }
 
     private fun initComponents() {
-        recycler_stores.adapter = YapStoreAdaptor(mutableListOf())
-        (recycler_stores.adapter as YapStoreAdaptor).allowFullItemClickListener = true
-        (recycler_stores.adapter as YapStoreAdaptor).setItemListener(listener)
+        YapStoreAdaptor(mutableListOf())?.apply {
+            viewModel.mAdapter?.set(this)
+            allowFullItemClickListener = true
+            setItemListener(listener)
+        }
     }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
-        viewModel.storesLiveData.observe(this, Observer {
-            (recycler_stores.adapter as YapStoreAdaptor).setList(it)
-        })
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
                 if (data.name == "YAP Household") {
+                    var navGraphId = 0
+                    var startDescription = 0
+                    MyUserManager.user?.let {
+                        if (it.noOfSubAccounts == null || it.noOfSubAccounts == 0) {
+                            navGraphId = R.navigation.add_house_hold_user_navigation
+                            startDescription = R.id.houseHoldLandingFragment
+                        } else {
+                            navGraphId = R.navigation.iban_subaccount_navigation
+                            startDescription = R.id.subAccountDashBoardFragment
+                        }
+                    }
                     launchActivity<NavHostPresenterActivity> {
-                        putExtra(NAVIGATION_Graph_ID, R.navigation.iban_subaccount_navigation)
-                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.subAccountDashBoardFragment)
+                        putExtra(NAVIGATION_Graph_ID, navGraphId)
+                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, startDescription)
                     }
                 }
             }

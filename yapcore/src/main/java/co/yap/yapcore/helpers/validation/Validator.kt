@@ -158,7 +158,7 @@ class Validator(private val target: ViewDataBinding?) {
     private fun getViewsWithValidation(): List<View> {
         if (target == null) return ArrayList()
         if (target.root is ViewGroup) {
-           return getViewsByTag(
+            return getViewsByTag(
                 (target.root as ViewGroup),
                 R.id.validator_rule
             )
@@ -188,6 +188,8 @@ class Validator(private val target: ViewDataBinding?) {
 
     init {
         disabledViews = HashSet()
-        if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) applyTextWatcherOnAllViews()
+        target?.let {
+            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) applyTextWatcherOnAllViews()
+        }
     }
 }

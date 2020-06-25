@@ -29,8 +29,10 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
     }
 
     @MainThread
+
     companion object :
         SingleSingletonHolder<GetAccountBalanceLiveData>(::GetAccountBalanceLiveData) {
+        @JvmStatic
         var cardBalance: MutableLiveData<CardBalance> = MyUserManager.cardBalance
     }
 }

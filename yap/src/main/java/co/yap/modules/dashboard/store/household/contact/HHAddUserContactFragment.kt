@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.store.household.contact
 
+import android.app.Activity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhAddUserContactBinding
@@ -17,7 +19,8 @@ class HHAddUserContactFragment :
     BaseNavViewModelFragment<FragmentHhAddUserContactBinding, IHHAddUserContact.State, HHAddUserContactVM>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hh_add_user_contact
-    override fun getToolBarTitle() = "Create account"
+    override fun getToolBarTitle() =
+        getString(Strings.screen_yap_house_hold_user_info_display_text_title)
 
     override fun postExecutePendingBindings() {
         super.postExecutePendingBindings()
@@ -36,9 +39,19 @@ class HHAddUserContactFragment :
                             HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHouseHoldConfirmPaymentFragment(),
                             arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.request?.value))
                         )
-                    } else cvErrorCard?.visibility = View.VISIBLE
+                    } else {
+                        cvErrorCard?.visibility = View.VISIBLE
+                        tvBack?.visibility = View.VISIBLE
+                    }
                 }
 
+            }
+            R.id.tvBack -> {
+                navigateForwardWithAnimation(HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToSubscriptionSelectionFragment())
+//                findNavController().popBackStack(R.id.action_HHAddUserContactFragment_to_subscriptionSelectionFragment, true)
+//                navigateBackWithResult(R.id.action_HHAddUserContactFragment_to_subscriptionSelectionFragment,
+//                    Activity.RESULT_OK
+//                )
             }
         }
     }

@@ -71,6 +71,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
         if (viewModel is IValidator) {
+            // if ((viewModel as IValidator).validator == null)
             (viewModel as IValidator).validator = Validator(mViewDataBinding)
         }
         postExecutePendingBindings()

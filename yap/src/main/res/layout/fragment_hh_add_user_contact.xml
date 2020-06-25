@@ -32,7 +32,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:gravity="center"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_user_info_contact_display_text_heading,viewModel.state.request.firstName)}" />
+                android:lineSpacingExtra="@dimen/_4sdp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_user_info_contact_display_text_heading,viewModel.state.request.firstName)}"
+                tools:text="@string/screen_yap_house_hold_user_info_contact_display_text_heading" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvErrorCard"
@@ -90,6 +92,7 @@
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.phone}"
                     app:isoCountryCode="@{viewModel.state.countryCode}"
+                    app:pse_setPrefixTextColor="@color/colorPrimaryDark"
                     app:pse_showHint="true" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -109,6 +112,7 @@
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.confirmPhone}"
+                    app:pse_setPrefixTextColor="@color/colorPrimaryDark"
                     app:pse_showHint="true"
                     app:validateMobile="@{etPhoneNumber}"
                     app:validateMobileMessage="@{@string/error_message_not_equal_phone}" />
@@ -133,6 +137,18 @@
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:text="@{Strings.common_button_add}" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBack"
+                style="@style/Yap.App.Widget.TextView"
+                android:layout_gravity="center_horizontal"
+                android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+                android:padding="@dimen/margin_extra_small"
+                android:text="@string/screen_yap_house_hold_user_info_contact_back_to_house_hold_text"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:text="@{Strings.screen_yap_house_hold_user_info_contact_back_to_house_hold_text}" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 </layout>

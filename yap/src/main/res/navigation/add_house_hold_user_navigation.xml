@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_house_hold_landing">
         <action
             android:id="@+id/action_houseHoldLandingFragment_to_subscriptionSelectionFragment"
-            app:destination="@id/subscriptionSelectionFragment" />
+            app:destination="@id/subscriptionSelectionFragment"
+            app:enterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_down"
+            app:popEnterAnim="@anim/slide_in_from_bottom"
+            app:popExitAnim="@anim/slide_down" />
     </fragment>
     <fragment
         android:id="@+id/HHAddUserNameFragment"
@@ -23,7 +27,9 @@
             android:id="@+id/action_HHAddUserNameFragment_to_HHAddUserContactFragment"
             app:destination="@id/HHAddUserContactFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/HHAddUserContactFragment"
@@ -32,7 +38,16 @@
         tools:layout="@layout/fragment_hh_add_user_contact">
         <action
             android:id="@+id/action_HHAddUserContactFragment_to_houseHoldConfirmPaymentFragment"
-            app:destination="@id/houseHoldConfirmPaymentFragment" />
+            app:destination="@id/houseHoldConfirmPaymentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/subscriptionSelectionFragment"
+            android:id="@+id/action_HHAddUserContactFragment_to_subscriptionSelectionFragment"
+            app:destination="@id/subscriptionSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/HHAddUserSuccessFragment"
@@ -48,7 +63,11 @@
         tools:layout="@layout/fragment_house_hold_cofirm_payment_v2">
         <action
             android:id="@+id/action_houseHoldConfirmPaymentFragment_to_HHAddUserSuccessFragment"
-            app:destination="@id/HHAddUserSuccessFragment" />
+            app:destination="@id/HHAddUserSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/subscriptionSelectionFragment"
@@ -57,6 +76,10 @@
         tools:layout="@layout/fragment_house_hold_subscription_selction">
         <action
             android:id="@+id/action_subscriptionSelectionFragment_to_HHAddUserNameFragment"
-            app:destination="@id/HHAddUserNameFragment" />
+            app:destination="@id/HHAddUserNameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 </navigation>

@@ -9,14 +9,13 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.helpers.extentions.ParseExtenstionKt" />
 
         <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
 
         <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
 
         <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
-
 
         <variable
             name="viewModel"
@@ -55,8 +54,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal"
             android:maxLines="2"
+            android:lineSpacingExtra="1dp"
+            android:gravity="center_horizontal"
             android:text="@{viewModel.state.onBoardRequest.fullName}"
-            tools:text="Faheem Riaz" />
+            tools:text="Faheem Rdsadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaiaz" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/ALarge"
@@ -168,15 +169,18 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:gravity="center"
-            android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance,``)))}"
+            android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.state.availableBalance,``)))}"
             tools:text="Your available balance is " />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTopUp"
             style="@style/Yap.App.Widget.TextView.Small.GrayDark"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_2sdp"
             android:gravity="center"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_yap_house_hold_confirm_payment_display_text_top_up_to_continue),SpannableKt.underline(SpannableKt.color(@color/colorPrimaryDark, `Top up`)))}"
+            android:visibility="@{ParseExtenstionKt.parseToDouble(viewModel.state.selectedPlan.amount)>ParseExtenstionKt.parseToDouble(viewModel.state.availableBalance) ? View.VISIBLE:View.GONE}"
             tools:text="Please Top up to continue." />
 
         <View
@@ -192,12 +196,10 @@
             android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_medium_large"
+            enableCoreButton="@{ParseExtenstionKt.parseToDouble(viewModel.state.selectedPlan.amount)>ParseExtenstionKt.parseToDouble(viewModel.state.availableBalance) ? false:true}"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_yap_house_hold_display_button_confirm}"
             tools:text="@string/screen_yap_house_hold_display_button_confirm" />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 </layout>

@@ -73,6 +73,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
                         0
                     )
                 ) {
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
             }

@@ -55,7 +55,7 @@
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#fc6253</item>
-        <item name="colorPrimaryDark">@color/textDarkColor</item>
+        <item name="colorPrimaryDark">#C94E42</item>
         <item name="colorAccent">#fc6253</item>
 
         <item name="colorPrimaryAttr">@color/colorPrimaryHouseHold</item>
