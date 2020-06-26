@@ -277,7 +277,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                         Strings.screen_add_funds_display_text_error_card_balance_limit_reached,
                         threshold.virtualCardBalanceLimit.toString().toFormattedAmountWithCurrency()
                     )
-                    return@let true
+                    return true
                 }
                 viewModel.state.amount.parseToDouble()
                     .plus(card?.availableBalance.parseToDouble()) > threshold.virtualCardBalanceLimit ?: 0.0 -> {
@@ -286,11 +286,10 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                         Strings.screen_add_funds_display_text_error_card_balance_limit,
                         threshold.virtualCardBalanceLimit.toString()
                             .toFormattedAmountWithCurrency(),
-                        (threshold.virtualCardBalanceLimit ?: 0.0
-                            .minus(card?.availableBalance.parseToDouble())).toString()
+                        (threshold.virtualCardBalanceLimit?.minus(card?.availableBalance.parseToDouble())).toString()
                             .toFormattedAmountWithCurrency()
                     )
-                    return@let true
+                    return true
                 }
                 else -> false
             }

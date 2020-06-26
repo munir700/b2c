@@ -57,9 +57,21 @@ class SharedPreferenceManager(val context: Context) {
     }
 
     fun clearSharedPreference() {
-        val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.clear()
-        editor.apply()
+        try {
+            sharedPref = EncryptedSharedPreferences.create(
+                PREFS_NAME,
+                masterKeyAlias,
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+
+            val editor: SharedPreferences.Editor = sharedPref.edit()
+            editor.clear()
+            editor.apply()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun removeValue(KEY_NAME: String) {
