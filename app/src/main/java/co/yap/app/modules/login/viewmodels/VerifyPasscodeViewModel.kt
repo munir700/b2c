@@ -10,6 +10,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.authentication.requestdtos.LoginRequest
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.requestdtos.VerifyPasscodeRequest
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -137,7 +138,8 @@ class VerifyPasscodeViewModel(application: Application) :
     override fun verifyPasscode() {
         launch {
             state.loading = true
-            when (val response = customersRepository.validateCurrentPasscode(state.passcode)) {
+            when (val response =
+                customersRepository.validateCurrentPasscode(VerifyPasscodeRequest(passcode = state.passcode))) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
                     state.loading = false
