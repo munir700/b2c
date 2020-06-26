@@ -198,7 +198,7 @@ interface CustomersRetroService {
 
 
     //validate current passcode
-    @GET(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
+    @POST(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
     suspend fun validateCurrentPasscode(@Body verifyPasscodeRequest: VerifyPasscodeRequest): Response<OtpValidationResponse>
 
     //change passcode
