@@ -53,8 +53,8 @@ interface CustomersRetroService {
         @Part files: List<MultipartBody.Part>,
         @Part("documentType") documentType: RequestBody,
         @Part("firstName") firstName: RequestBody,
-        @Part("middleName") middleName: RequestBody?=null,
-        @Part("lastName") lastName: RequestBody?=null,
+        @Part("middleName") middleName: RequestBody? = null,
+        @Part("lastName") lastName: RequestBody? = null,
         @Part("nationality") nationality: RequestBody,
         @Part("dateExpiry") dateExpiry: RequestBody,
         @Part("dob") dob: RequestBody,
@@ -83,10 +83,16 @@ interface CustomersRetroService {
 
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
-    suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
+    suspend fun validatePhoneNumber(
+        @Query("country-code") countryCode: String,
+        @Query("mobile-number") mobileNumber: String
+    ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
-    suspend fun changeMobileNumber(@Path("country-code") countryCode: String, @Path("mobile-number") mobileNumber: String): Response<ApiResponse>
+    suspend fun changeMobileNumber(
+        @Path("country-code") countryCode: String,
+        @Path("mobile-number") mobileNumber: String
+    ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
     suspend fun changeVerifiedEmail(@Path("email") email: String): Response<ApiResponse>
@@ -120,7 +126,10 @@ interface CustomersRetroService {
     suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
-    suspend fun getCountryTransactionLimits(@Query("countryCode") countryCode: String, @Query("currencyCode") currencyCode: String): Response<CountryLimitsResponseDTO>
+    suspend fun getCountryTransactionLimits(
+        @Query("countryCode") countryCode: String,
+        @Query("currencyCode") currencyCode: String
+    ): Response<CountryLimitsResponseDTO>
 
     /*  send money */
     @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
@@ -162,7 +171,10 @@ interface CustomersRetroService {
     suspend fun verifyHouseholdMobile(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_VERIFY_PARENT_HOUSEHOLD_MOBILE)
-    suspend fun verifyHouseholdParentMobile(@Query("mobileNo") mobileNumber: String?, @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
+    suspend fun verifyHouseholdParentMobile(
+        @Query("mobileNo") mobileNumber: String?,
+        @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
+    ): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
     suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
@@ -187,11 +199,11 @@ interface CustomersRetroService {
 
     //validate current passcode
     @GET(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
-    suspend fun validateCurrentPasscode(@Query("passcode") passcode: String): Response<OtpValidationResponse>
+    suspend fun validateCurrentPasscode(@Body verifyPasscodeRequest: VerifyPasscodeRequest): Response<OtpValidationResponse>
 
     //change passcode
     @POST(CustomersRepository.URL_CHANGE_PASSCODE)
-    suspend fun changePasscode(@Query("new-password") newPasscode: String, @Query("token") token: String): Response<ApiResponse>
+    suspend fun changePasscode(@Body changePasscodeRequest: ChangePasscodeRequest): Response<ApiResponse>
 
     //  App Update
     @GET(CustomersRepository.URL_APP_VERSION)

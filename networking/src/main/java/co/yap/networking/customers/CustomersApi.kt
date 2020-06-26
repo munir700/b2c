@@ -84,8 +84,8 @@ interface CustomersApi {
     suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
 
     suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
-    suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<OtpValidationResponse>
-    suspend fun changePasscode(newPasscode: String, token: String): RetroApiResponse<ApiResponse>
+    suspend fun validateCurrentPasscode(verifyPasscodeRequest: VerifyPasscodeRequest): RetroApiResponse<OtpValidationResponse>
+    suspend fun changePasscode(changePasscodeRequest: ChangePasscodeRequest): RetroApiResponse<ApiResponse>
     suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse>
     suspend fun getCities(): RetroApiResponse<CitiesModel>
     suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse>

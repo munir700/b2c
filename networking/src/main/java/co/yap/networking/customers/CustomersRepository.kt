@@ -312,14 +312,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.forgotPasscode(forgotPasscodeRequest) })
 
-    override suspend fun validateCurrentPasscode(passcode: String): RetroApiResponse<OtpValidationResponse> =
-        executeSafely(call = { api.validateCurrentPasscode(passcode) })
+    override suspend fun validateCurrentPasscode(verifyPasscodeRequest: VerifyPasscodeRequest): RetroApiResponse<OtpValidationResponse> =
+        executeSafely(call = { api.validateCurrentPasscode(verifyPasscodeRequest) })
 
-    override suspend fun changePasscode(
-        newPasscode: String,
-        token: String
-    ): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.changePasscode(newPasscode, token) })
+    override suspend fun changePasscode(changePasscodeRequest: ChangePasscodeRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.changePasscode(changePasscodeRequest) })
 
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
         executeSafely(call = { api.appUpdate() })
