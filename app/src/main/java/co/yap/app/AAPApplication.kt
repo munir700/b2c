@@ -36,7 +36,7 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
     override fun onCreate() {
         super.onCreate()
         initNetworkLayer()
-        SharedPreferenceManager(this).setThemeValue(Constants.THEME_YAP)
+        setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
@@ -45,7 +45,7 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
     private fun initNetworkLayer() {
         RetroNetwork.initWith(this, getAppDataForNetwork())
         NetworkConnectionManager.init(this)
-        setAppUniqueId(this)
+
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
             override fun onInternetUnavailable() {
             }
@@ -91,6 +91,7 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
         val sharedPrefs = SharedPreferenceManager(context)
+        sharedPrefs.setThemeValue(Constants.THEME_YAP)
         uuid = sharedPrefs.getValueString(KEY_APP_UUID)
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
