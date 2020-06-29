@@ -219,6 +219,8 @@
                                     android:id="@+id/llAddFunds"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:alpha="0.5"
+                                    android:enabled="false"
                                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                                     android:orientation="vertical">
 
