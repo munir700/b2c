@@ -12,6 +12,7 @@
         android:drawSelectorOnTop="false"
         android:dropDownHeight="@dimen/_300sdp"
         android:gravity="bottom"
+        android:padding="0dp"
         android:overScrollMode="never"
         android:overlapAnchor="false"
         android:spinnerMode="dropdown" />
