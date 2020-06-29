@@ -23,7 +23,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.fundvm
 import co.yap.modules.others.helper.Constants

@@ -167,7 +167,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.getTotalAmountWithFee())
+            (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
             false
     }

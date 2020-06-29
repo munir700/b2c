@@ -7,7 +7,7 @@ import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IAddFunds {
+interface IRemoveFunds {
     interface View : IBase.View<ViewModel> {
         fun addObservers()
         fun removeObservers()
@@ -17,8 +17,7 @@ interface IAddFunds {
         fun handleOnPressView(id: Int)
         fun getFundTransferDenominations()
         fun getFundTransferLimits()
-        fun getTransactionThresholds()
-        fun addFunds(success:()->Unit)
+        fun removeFunds(success:()->Unit)
         val clickEvent: SingleClickEvent
         var transactionThreshold: TransactionThresholdModel?
         var errorDescription: String

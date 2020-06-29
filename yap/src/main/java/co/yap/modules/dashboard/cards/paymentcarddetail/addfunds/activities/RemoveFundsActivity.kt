@@ -11,26 +11,21 @@ import android.os.Looper
 import android.text.InputFilter
 import android.view.View
 import androidx.core.animation.addListener
-import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.ActivityAddFundsBinding
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IAddFunds
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
-import co.yap.modules.otp.GenericOtpFragment
-import co.yap.modules.otp.OtpDataModel
+import co.yap.databinding.ActivityRemoveFundsBinding
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IRemoveFunds
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.RemoveFundsViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -38,19 +33,19 @@ import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_add_funds.*
+import kotlinx.android.synthetic.main.activity_remove_funds.*
 
-class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.View {
+class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemoveFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_add_funds
-    override val viewModel: AddFundsViewModel
-        get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.activity_remove_funds
+    override val viewModel: RemoveFundsViewModel
+        get() = ViewModelProviders.of(this).get(RemoveFundsViewModel::class.java)
 
     companion object {
         private const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
-            val intent = Intent(context, AddFundsActivity::class.java)
+            val intent = Intent(context, RemoveFundsActivity::class.java)
             intent.putExtra(CARD, card)
             return intent
         }
@@ -59,6 +54,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.card.set(intent.getParcelableExtra(CARD))
+        viewModel.showSpareCardAvailableBalance() // do not move this line to above set card
         addObservers()
         val display = this.windowManager.defaultDisplay
         display.getRectSize(Rect())
@@ -113,14 +109,12 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                when {
-                    getBinding().btnAction.text == getString(Strings.screen_success_funds_transaction_display_text_button) -> {
+                when (getBinding().btnAction.text) {
+                    getString(Strings.screen_success_funds_transaction_display_text_button) -> {
                         setupActionsIntent()
                     }
-                    isOtpRequired() -> startOtpFragment()
-
                     else -> {
-                        viewModel.addFunds {
+                        viewModel.removeFunds {
                             setUpSuccessData()
                             performSuccessOperations()
                         }
@@ -146,20 +140,13 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 setAmountBg(true)
                 showBalanceNotAvailableError()
             }
-            isDailyLimitReached() -> {
-                setAmountBg(true)
-                showErrorSnackBar(viewModel.errorDescription)
-            }
+
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid.set(false)
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 setAmountBg(true)
                 showUpperLowerLimitError()
-                showErrorSnackBar(viewModel.errorDescription)
-            }
-            isTopUpLimitReached() -> {
-                setAmountBg(true)
                 showErrorSnackBar(viewModel.errorDescription)
             }
             else -> {
@@ -187,74 +174,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            viewModel.state.card.get()?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getAmountWithFee())
         } else
             false
-    }
-
-    private fun isTopUpLimitReached(): Boolean {
-        return viewModel.transactionThreshold?.let { threshold ->
-            return when {
-                viewModel.state.card.get()?.availableBalance.parseToDouble() == threshold.virtualCardBalanceLimit ?: 0.0 -> {
-                    viewModel.errorDescription = Translator.getString(
-                        this,
-                        Strings.screen_add_funds_display_text_error_card_balance_limit_reached,
-                        threshold.virtualCardBalanceLimit.toString().toFormattedAmountWithCurrency()
-                    )
-                    return true
-                }
-                viewModel.state.amount.parseToDouble()
-                    .plus(viewModel.state.card.get()?.availableBalance.parseToDouble()) > threshold.virtualCardBalanceLimit ?: 0.0 -> {
-                    viewModel.errorDescription = Translator.getString(
-                        this,
-                        Strings.screen_add_funds_display_text_error_card_balance_limit,
-                        threshold.virtualCardBalanceLimit.toString()
-                            .toFormattedAmountWithCurrency(),
-                        (threshold.virtualCardBalanceLimit?.minus(viewModel.state.card.get()?.availableBalance.parseToDouble())).toString()
-                            .toFormattedAmountWithCurrency()
-                    )
-                    return true
-                }
-                else -> false
-            }
-        } ?: false
-    }
-
-    private fun isDailyLimitReached(): Boolean {
-        viewModel.transactionThreshold?.let {
-            it.dailyLimit?.let { dailyLimit ->
-                it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.amount.parseToDouble().let { enteredAmount ->
-                        val remainingDailyLimit =
-                            if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.errorDescription =
-                            when (dailyLimit) {
-                                totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
-                                else -> Translator.getString(
-                                    this,
-                                    Strings.common_display_text_daily_limit_remaining_error,
-                                    remainingDailyLimit.toString().toFormattedAmountWithCurrency()
-                                )
-                            }
-                        return enteredAmount > remainingDailyLimit
-                    }
-                } ?: return false
-            } ?: return false
-        } ?: return false
-    }
-
-    private fun isOtpRequired(): Boolean {
-        viewModel.transactionThreshold?.let {
-            it.totalDebitAmountTopUpSupplementary?.let { totalTopupConsumedAmount ->
-                viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                    val remainingOtpLimit =
-                        it.otpLimitTopUpSupplementary?.minus(totalTopupConsumedAmount)
-                    return enteredAmount > (remainingOtpLimit ?: 0.0)
-                } ?: return false
-            } ?: return false
-        } ?: return false
     }
 
     private fun setAmountBg(isError: Boolean = false) {
@@ -279,32 +203,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         )
     }
 
-
-    private fun startOtpFragment() {
-        startFragmentForResult<GenericOtpFragment>(
-            GenericOtpFragment::class.java.name,
-            bundleOf(
-                OtpDataModel::class.java.name to OtpDataModel(
-                    OTPActions.TOP_UP_SUPPLEMENTARY.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
-                        ?: "",
-                    amount = viewModel.state.amount
-                )
-            )
-        ) { resultCode, _ ->
-            if (resultCode == Activity.RESULT_OK) {
-                viewModel.addFunds {
-                    setUpSuccessData()
-                    performSuccessOperations()
-                }
-            }
-        }
-    }
-
     private fun setUpSuccessData() {
         viewModel.state.topUpSuccessMsg.set(
             resources.getText(
-                getString(Strings.screen_success_funds_transaction_display_text_top_up), this.color(
+                getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
+                this.color(
                     R.color.colorPrimaryDark,
                     viewModel.state.amount.toFormattedAmountWithCurrency()
                 )
@@ -327,7 +230,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance),
                 this.color(
                     R.color.colorPrimaryDark,
-                    (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
+                    (viewModel.state.card.get()?.availableBalance.parseToDouble() - viewModel.state.amount.parseToDouble()).toString()
                         .toFormattedAmountWithCurrency()
                 )
             )
@@ -355,12 +258,15 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private fun runAnimations() {
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
-                AnimationUtils.jumpInAnimation(tvCardNameSuccess),
-                AnimationUtils.jumpInAnimation(tvCardNumberSuccess).apply { startDelay = 100 },
-                AnimationUtils.jumpInAnimation(tvTopUp).apply { startDelay = 200 },
-                AnimationUtils.jumpInAnimation(tvPrimaryCardBalance).apply { startDelay = 300 },
-                AnimationUtils.jumpInAnimation(tvNewSpareCardBalance).apply { startDelay = 400 },
-                AnimationUtils.jumpInAnimation(btnAction).apply { startDelay = 600 }
+                AnimationUtils.jumpInAnimation(getBinding().tvCardNameSuccess),
+                AnimationUtils.jumpInAnimation(getBinding().tvCardNumberSuccess)
+                    .apply { startDelay = 100 },
+                AnimationUtils.jumpInAnimation(getBinding().tvTopUp).apply { startDelay = 200 },
+                AnimationUtils.jumpInAnimation(getBinding().tvPrimaryCardBalance)
+                    .apply { startDelay = 300 },
+                AnimationUtils.jumpInAnimation(getBinding().tvNewSpareCardBalance)
+                    .apply { startDelay = 400 },
+                AnimationUtils.jumpInAnimation(getBinding().btnAction).apply { startDelay = 600 }
 
             )
         ).apply {
@@ -374,7 +280,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         YoYo.with(Techniques.BounceIn)
             .duration(1000)
             .repeat(0)
-            .playOn(ivSuccessCheckMark)
+            .playOn(getBinding().ivSuccessCheckMark)
     }
 
 
@@ -406,7 +312,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         val returnIntent = Intent()
         returnIntent.putExtra(
             "newBalance",
-            (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
+            (viewModel.state.card.get()?.availableBalance.parseToDouble() - viewModel.state.amount.parseToDouble()).toString()
         )
         setResult(Activity.RESULT_OK, returnIntent)
         finish()
@@ -421,8 +327,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.clickEvent.removeObserver(clickObserver)
     }
 
-    private fun getBinding(): ActivityAddFundsBinding {
-        return (viewDataBinding as ActivityAddFundsBinding)
+    private fun getBinding(): ActivityRemoveFundsBinding {
+        return (viewDataBinding as ActivityRemoveFundsBinding)
     }
 
 }

@@ -98,7 +98,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     private fun onAddPhysicalCard() {
         updateTransactionOnHome()
-        MyUserManager.updateCardBalance()
+        MyUserManager.updateCardBalance(){}
 
         if (!viewModel.isFromBlockCardScreen) {
             if (activity is AddPaymentCardActivity) {
@@ -110,7 +110,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     private fun onAddVirtualCard() {
         updateTransactionOnHome()
-        MyUserManager.updateCardBalance()
+        MyUserManager.updateCardBalance(){}
         if (!viewModel.isFromBlockCardScreen) {
             if (activity is AddPaymentCardActivity)
                 (activity as AddPaymentCardActivity).hideToolbar()
