@@ -110,6 +110,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name=".modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
         <!--<activity-->
         <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->
         <!--android:screenOrientation="portrait"/>-->
