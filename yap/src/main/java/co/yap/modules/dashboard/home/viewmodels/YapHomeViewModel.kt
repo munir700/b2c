@@ -47,7 +47,7 @@ class YapHomeViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        MyUserManager.updateCardBalance()
+        MyUserManager.updateCardBalance{}
         requestAccountTransactions()
         getDebitCards()
     }

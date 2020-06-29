@@ -24,7 +24,8 @@ import co.yap.R
 import co.yap.databinding.ActivityPaymentCardDetailBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogPagerAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
@@ -206,7 +207,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
                         startActivityForResult(
-                            AddRemoveFundsActivity.newIntent(this, card, isAddFund = true),
+                            AddFundsActivity.newIntent(this, card),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
                     }
@@ -225,10 +226,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 } else {
                     if (viewModel.card.value?.blocked == false) {
                         startActivityForResult(
-                            AddRemoveFundsActivity.newIntent(
+                            RemoveFundsActivity.newIntent(
                                 this,
-                                viewModel.card.value!!,
-                                isAddFund = false
+                                viewModel.card.value!!
                             ),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
@@ -266,7 +266,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             viewModel.EVENT_REMOVE_CARD -> {
-                MyUserManager.updateCardBalance()
+                MyUserManager.updateCardBalance{}
                 cardRemoved = true
                 showToast("Card successfully removed!")
                 setupActionsIntent()
@@ -329,6 +329,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
             viewModel.getCardBalance { balance ->
+                llAddFunds.alpha = 1f
+                llAddFunds.isEnabled = true
                 if (balance.parseToDouble() > 0) {
                     llRemoveFunds.isEnabled = true
                     llRemoveFunds.alpha = 1f

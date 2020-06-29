@@ -23,8 +23,8 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.fundvm
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
@@ -74,7 +74,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
     override fun getLayoutId(): Int = R.layout.activity_fund_actions
 
     override val viewModel: IFundActions.ViewModel
-        get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(fundvm::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -306,7 +306,6 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
 
     }
-
 
     private fun showBalanceNotAvailableError() {
         viewModel.state.errorDescription = Translator.getString(

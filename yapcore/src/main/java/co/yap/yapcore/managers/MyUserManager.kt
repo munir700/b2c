@@ -35,8 +35,10 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun updateCardBalance() {
-        getAccountBalanceRequest()
+    fun updateCardBalance(success: () -> Unit) {
+        getAccountBalanceRequest{
+            success()
+        }
     }
 
     fun getAccountInfo() {
@@ -78,12 +80,12 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return getYapUser() != null && getHouseholdUser() != null
     }
 
-    private fun getAccountBalanceRequest() {
-
+    private fun getAccountBalanceRequest(success: () -> Unit) {
         GlobalScope.launch {
             when (val response = repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
                     cardBalance.postValue(CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
+                    success()
                 }
                 is RetroApiResponse.Error -> {
 

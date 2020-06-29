@@ -22,6 +22,7 @@ object Strings {
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
     const val common_text_fee: String = "common_text_fee"
+    const val common_display_text_available_balance: String = "common_display_text_available_balance"
     const val common_display_text_daily_limit_remaining_error: String =
         "common_display_text_daily_limit_remaining_error"
     const val common_display_text_daily_limit_error_single_transaction: String =

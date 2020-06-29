@@ -19,6 +19,7 @@
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
+    <string name="common_display_text_available_balance">Your available balance is %1s</string>
     <string name="common_display_text_daily_limit_remaining_error">That\'s over your daily limit. Please enter an amount lower than %1s</string>
     <string name="common_display_text_daily_limit_error_single_transaction">This amount exceeds your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
@@ -337,9 +338,9 @@
     <string name="screen_add_funds_display_text_max_limit_error">You cannot add an amount more than %1$s %2$s</string>
 
     <!--    Success funds transaction Screen-->
-    <string name="screen_success_funds_transaction_display_text_top_up">You have topped up with %1$s %2$s \nfrom your main debit card</string>
-    <string name="screen_success_funds_transaction_display_text_primary_balance">Now, your primary card balance is \n%1$s %2$s</string>
-    <string name="screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance">Your new spare card balance is \n %1$s %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_top_up">You have topped up with %1s \nfrom your main debit card</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance">Now, your primary card balance is \n %1s</string>
+    <string name="screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance">Your new spare card balance is \n %1s</string>
     <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit_reached">Your virtual card can only hold up to %1$s.</string>
     <string name="screen_add_funds_display_text_error_card_balance_limit">Your virtual card can only hold up to %1$s. Please enter an amount up to %2$s to proceed.</string>
@@ -354,7 +355,7 @@
     <string name="screen_remove_funds_display_text_available_balance_error">You can only move an amount less than or equal to your current balance of %1$s %2$s</string>
 
     <!--    Success remove funds Screen-->
-    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s %2$s \nto your main debit card </string>
+    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s \nto your main debit card </string>
 
     <!--    Set Limits Screen-->
     <string name="screen_set_limits_display_text_title">Set limits</string>
