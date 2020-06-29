@@ -10,6 +10,8 @@
             type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.RemoveFundsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
 
@@ -17,19 +19,20 @@
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:gravity="center_vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:minHeight="?android:actionBarSize"
             android:paddingStart="@dimen/_8sdp"
             android:paddingLeft="@dimen/_8sdp"
             android:paddingEnd="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp">
+            android:paddingRight="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/tbIvClose"
@@ -54,12 +57,13 @@
                 android:gravity="center"
                 android:text="@string/screen_add_funds_display_text_add_funds"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tbIvClose"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@string/screen_add_funds_display_text_add_funds" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clSnackBar"
             android:layout_width="match_parent"
@@ -128,9 +132,9 @@
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_marginTop="@dimen/margin_extra_small"
+                        android:background="@drawable/bg_funds"
                         android:paddingStart="@dimen/margin_medium"
                         android:paddingEnd="@dimen/margin_medium"
-                        android:background="@drawable/bg_funds"
                         app:layout_constraintLeft_toLeftOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintRight_toRightOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintTop_toBottomOf="@+id/tvCurrency">
@@ -164,6 +168,7 @@
                         android:layout_marginEnd="@dimen/text_content_margin"
                         android:gravity="center"
                         android:orientation="horizontal"
+                        android:visibility="@{viewModel.state.firstDenomination.empty ? View.INVISIBLE :View.VISIBLE}"
                         app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
 
                         <TextView
@@ -177,7 +182,7 @@
                             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
-                            android:text="@{`-`+viewModel.state.firstDenomination}"
+                            android:text="@{viewModel.state.firstDenomination.empty ?`` :`-`+viewModel.state.firstDenomination}"
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+100" />
 
@@ -193,7 +198,7 @@
                             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
-                            android:text="@{`-`+viewModel.state.secondDenomination}"
+                            android:text="@{viewModel.state.secondDenomination.empty ?`` :`-`+viewModel.state.secondDenomination}"
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+500" />
 
@@ -209,7 +214,7 @@
                             android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                             android:paddingLeft="@dimen/margin_small"
                             android:paddingRight="@dimen/margin_small"
-                            android:text="@{`-`+viewModel.state.thirdDenomination}"
+                            android:text="@{viewModel.state.thirdDenomination.empty ?`` :`-`+viewModel.state.thirdDenomination}"
                             android:textColor="?attr/colorPrimaryAttr"
                             tools:text="+1000" />
                     </LinearLayout>
