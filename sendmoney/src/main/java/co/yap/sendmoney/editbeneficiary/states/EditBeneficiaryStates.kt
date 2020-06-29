@@ -2,10 +2,12 @@ package co.yap.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
+import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
@@ -36,6 +38,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             field = value
             notifyPropertyChanged(BR.nickName)
             beneficiary?.title = field
+            validate()
         }
 
 
@@ -114,6 +117,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.countryCode)
 
         }
+
     @get:Bindable
     override var valid: Boolean? = false
         set(value) {
@@ -121,6 +125,15 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.valid)
         }
 
+    @get:Bindable
+    override var selectedCountryOfResidence: Country? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedCountryOfResidence)
+            beneficiary?.countryOfResidenceName = field?.getName()
+            beneficiary?.countryOfResidence = field?.isoCountryCode2Digit
+            validate()
+        }
 
     private fun updateAllFields(beneficiary: Beneficiary?) {
 
@@ -159,5 +172,14 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         }
     }
 
+    private fun validate() {
+        valid = when (transferType) {
+            SendMoneyBeneficiaryType.SWIFT.type, SendMoneyBeneficiaryType.RMT.type -> {
+                !nickName.isNullOrBlank() && selectedCountryOfResidence != null
+            }
+            else -> !nickName.isNullOrBlank()
+        }
+
+    }
 
 }

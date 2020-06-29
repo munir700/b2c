@@ -319,7 +319,7 @@ class EidInfoReviewViewModel(application: Application) :
             parts.size == 2 -> {
                 state.lastName = parts[1]
                 state.isShowLastName.set(true)
-                state.isShowMiddleName.set(false)
+                state.isShowMiddleName.set(true)
             }
             parts.size > 2 -> {
                 state.lastName = ""
@@ -337,8 +337,8 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
             else -> {
-                state.isShowLastName.set(false)
-                state.isShowMiddleName.set(false)
+                state.isShowLastName.set(true)
+                state.isShowMiddleName.set(true)
             }
         }
     }
