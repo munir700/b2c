@@ -22,4 +22,10 @@ dependencies {
     project.translationDependencies.each {
         add(it.configuration, it.dependency)
     }
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+apply plugin: 'kotlin-android'
+repositories {
+    mavenCentral()
 }

@@ -67,7 +67,7 @@ android {
             resValue "string", "app_name", "YAP Stage"
         }
     }
-    ndkVersion '21.1.6352462'
+    ndkVersion '20.0.5594570'
 }
 
 dependencies {
@@ -86,4 +86,9 @@ dependencies {
     project.appDependencies.each {
         add(it.configuration, it.dependency)
     }
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

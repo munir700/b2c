@@ -5,5 +5,6 @@
     <string name="brand_name">YAP Support</string>
     <string name="screen_splash_display_text_force_update">Please update your app in order to continue.</string>
     <string name="screen_splash_button_force_update">Update</string>
+    <string name="facebook_app_id">1406631953058525</string>
 
 </resources>

@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
+import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
@@ -40,6 +41,7 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
         initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+        initFacebook()
     }
 
     private fun initNetworkLayer() {
@@ -86,6 +88,10 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
 
         //Leanplum.setIsTestModeEnabled(true)
         Leanplum.start(this)
+    }
+
+    private fun initFacebook(){
+        AppEventsLogger.activateApp(this)
     }
 
     private fun setAppUniqueId(context: Context) {
