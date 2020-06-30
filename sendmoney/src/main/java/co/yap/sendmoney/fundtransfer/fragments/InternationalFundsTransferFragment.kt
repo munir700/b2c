@@ -169,7 +169,7 @@ class InternationalFundsTransferFragment :
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.getTotalAmountWithFee())
+            (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
             false
     }
@@ -203,8 +203,18 @@ class InternationalFundsTransferFragment :
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
-                                "Sorry, you've reached your daily limit. Let's try again tomorrow."
+                                when (dailyLimit) {
+                                    totalHoldAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                    else -> Translator.getString(
+                                        requireContext(),
+                                        Strings.common_display_text_on_hold_limit_error
+                                    ).format(
+                                        remainingDailyLimit.toString().toFormattedAmountWithCurrency()
+                                    )
+                                }
+
                             return (enteredAmount > remainingDailyLimit)
+
                         } else {
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
