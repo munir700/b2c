@@ -104,7 +104,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             if (!viewModel.state.amount.isBlank()) {
                 checkOnTextChangeValidation()
             } else {
-                setAmountBg()
+                setAmountBg(true)
             }
             viewModel.updateFees(viewModel.state.amount)
         }
@@ -224,12 +224,12 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
 
     private fun isDailyLimitReached(): Boolean {
         viewModel.transactionThreshold?.let {
-            it.dailyLimit?.let { dailyLimit ->
-                it.totalDebitAmount?.let { totalConsumedAmount ->
-                    viewModel.state.amount.parseToDouble().let { enteredAmount ->
+            it.dailyLimitTopUpSupplementary?.let { dailyLimit ->
+                it.totalDebitAmountTopUpSupplementary?.let { totalConsumedAmount ->
+                    viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        viewModel.errorDescription =
+                        if (enteredAmount > remainingDailyLimit) viewModel.errorDescription =
                             when (dailyLimit) {
                                 totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
                                 else -> Translator.getString(
@@ -239,7 +239,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                                 )
                             }
                         return enteredAmount > remainingDailyLimit
-                    }
+
+                    } ?: return false
                 } ?: return false
             } ?: return false
         } ?: return false
