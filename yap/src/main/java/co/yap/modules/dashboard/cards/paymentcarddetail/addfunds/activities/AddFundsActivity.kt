@@ -151,7 +151,12 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 showErrorSnackBar(viewModel.errorDescription)
             }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
-                viewModel.state.valid.set(false)
+                if (isTopUpLimitReached()) {
+                    setAmountBg(true)
+                    showErrorSnackBar(viewModel.errorDescription)
+                } else
+                    viewModel.state.valid.set(false)
+
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 setAmountBg(true)
