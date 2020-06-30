@@ -523,16 +523,16 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                     viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
+                        if (enteredAmount > remainingDailyLimit.roundVal()) viewModel.state.errorDescription =
                             when (dailyLimit) {
                                 totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
                                 else -> Translator.getString(
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
-                                    remainingDailyLimit.toString().toFormattedAmountWithCurrency()
+                                    remainingDailyLimit.roundVal().toString().toFormattedAmountWithCurrency()
                                 )
                             }
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit.roundVal()
 
                     } ?: return false
                 } ?: return false

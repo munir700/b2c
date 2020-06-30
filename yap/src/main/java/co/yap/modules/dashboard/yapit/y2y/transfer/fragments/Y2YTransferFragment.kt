@@ -264,7 +264,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                                 }
                                 else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
                             }
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit.roundVal()
                     }
                 } ?: return false
             } ?: return false

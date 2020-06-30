@@ -24,7 +24,6 @@ import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
-import java.math.BigDecimal
 import java.math.RoundingMode
 
 @Keep
@@ -200,6 +199,6 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
 
-fun Double?.roundVal(): BigDecimal {
-   return this?.toBigDecimal()?.setScale(2, RoundingMode.HALF_EVEN)?:(BigDecimal(0.0))
+fun Double?.roundVal(): Double {
+    return this?.toBigDecimal()?.setScale(2, RoundingMode.HALF_EVEN)?.toDouble() ?: 0.0
 }

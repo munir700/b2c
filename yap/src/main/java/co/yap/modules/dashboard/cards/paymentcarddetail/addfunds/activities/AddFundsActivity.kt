@@ -28,10 +28,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.*
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
@@ -231,19 +228,19 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.transactionThreshold?.let {
             it.dailyLimitTopUpSupplementary?.let { dailyLimit ->
                 it.totalDebitAmountTopUpSupplementary?.let { totalConsumedAmount ->
-                    viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
+                    viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        if (enteredAmount > remainingDailyLimit) viewModel.errorDescription =
+                        if (enteredAmount > remainingDailyLimit.roundVal()) viewModel.errorDescription =
                             when (dailyLimit) {
                                 totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
                                 else -> Translator.getString(
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
-                                    remainingDailyLimit.toString().toFormattedAmountWithCurrency()
+                                    remainingDailyLimit.roundVal().toString().toFormattedAmountWithCurrency()
                                 )
                             }
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit.roundVal()
 
                     } ?: return false
                 } ?: return false
