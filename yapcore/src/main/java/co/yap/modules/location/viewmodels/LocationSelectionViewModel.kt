@@ -14,6 +14,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.StringUtils
 
 class LocationSelectionViewModel(application: Application) :
     LocationSelectionBaseViewModel<ILocationSelection.State>(application),
@@ -71,9 +72,8 @@ class LocationSelectionViewModel(application: Application) :
     override fun onLocationSelected() {
         hasSeletedLocation = true
 
-        if (state.placeTitle.get()?.toLowerCase()?.contains(unNamed.toLowerCase()) == true) {
+        if (state.placeTitle.get()?.toLowerCase()?.contains(unNamed.toLowerCase()) == true || !StringUtils.isValidAddress(state.placeTitle.get()?:"")) {
             state.headingTitle.set(defaultHeading)
-
             isUnNamedLocation = true
             state.isUnNamed.set(true)
             state.subHeadingTitle.set(
@@ -93,10 +93,7 @@ class LocationSelectionViewModel(application: Application) :
         } else {
             state.isUnNamed.set(false)
             state.addressTitle.set(state.placeSubTitle.get() ?: "")
-            state.addressSubtitle.set(state.placeTitle.get() ?: "")
-            address?.address1 = state.addressTitle.get()
-            address?.address2 = state.addressSubtitle.get()
-            state.headingTitle.set(state.addressSubtitle.get())
+            state.headingTitle.set(state.placeTitle.get() ?: "")
             state.subHeadingTitle.set(
                 Translator.getString(
                     getApplication(),

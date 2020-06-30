@@ -6,6 +6,18 @@ import java.util.regex.Pattern
 
 object StringUtils {
 
+    fun isValidAddress(inputStr: String): Boolean {
+        var isValid = false
+        val expression = "^[a-zA-Z0-9]*\$"
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+        if (matcher.matches() && inputStr.isNotEmpty()) {
+            if (inputStr.length >= 2) {
+                isValid = true
+            }
+        }
+        return isValid
+    }
 
     fun validateName(name: String): Boolean {
 
