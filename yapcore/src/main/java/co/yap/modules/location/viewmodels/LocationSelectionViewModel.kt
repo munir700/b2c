@@ -72,7 +72,14 @@ class LocationSelectionViewModel(application: Application) :
     override fun onLocationSelected() {
         hasSeletedLocation = true
 
-        if (state.placeTitle.get()?.toLowerCase()?.contains(unNamed.toLowerCase()) == true || !StringUtils.isValidAddress(state.placeTitle.get()?:"")) {
+        if (state.placeTitle.get()?.toLowerCase()
+                ?.contains(unNamed.toLowerCase()) == true || !StringUtils.isValidAddress(
+                state.placeSubTitle.get() ?: ""
+            )
+            || !StringUtils.isValidAddress(
+                state.placeTitle.get() ?: ""
+            )
+        ) {
             state.headingTitle.set(defaultHeading)
             isUnNamedLocation = true
             state.isUnNamed.set(true)
@@ -124,7 +131,7 @@ class LocationSelectionViewModel(application: Application) :
         }
     }
 
-    fun getUserAddress():Address?{
+    fun getUserAddress(): Address? {
         address?.address1 = state.addressTitle.get()
         address?.address2 = state.addressSubtitle.get()
         address?.city = state.city.get()
