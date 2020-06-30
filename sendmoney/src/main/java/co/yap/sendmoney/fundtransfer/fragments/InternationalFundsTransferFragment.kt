@@ -23,10 +23,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -209,11 +206,12 @@ class InternationalFundsTransferFragment :
                                         requireContext(),
                                         Strings.common_display_text_on_hold_limit_error
                                     ).format(
-                                        remainingDailyLimit.toString().toFormattedAmountWithCurrency()
+                                        remainingDailyLimit.roundVal().toString()
+                                            .toFormattedAmountWithCurrency()
                                     )
                                 }
 
-                            return (enteredAmount > remainingDailyLimit)
+                            return (enteredAmount > remainingDailyLimit.roundVal())
 
                         } else {
                             val remainingDailyLimit =
@@ -226,7 +224,7 @@ class InternationalFundsTransferFragment :
                                     }
                                     else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
                                 }
-                            return (enteredAmount > remainingDailyLimit)
+                            return (enteredAmount > remainingDailyLimit.roundVal())
                         }
                     }
                 } ?: return false

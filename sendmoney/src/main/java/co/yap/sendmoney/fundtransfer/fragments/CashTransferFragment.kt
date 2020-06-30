@@ -231,7 +231,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
                                 "Sorry, you've reached your daily limit. Let's try again tomorrow."
-                            return (enteredAmount > remainingDailyLimit)
+                            return (enteredAmount > remainingDailyLimit.roundVal())
 
                         } else {
                             val remainingDailyLimit =
@@ -244,7 +244,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                                     }
                                     else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
                                 }
-                            return (enteredAmount > remainingDailyLimit)
+                            return (enteredAmount > remainingDailyLimit.roundVal())
                         }
                     } ?: return false
                 } ?: return false
