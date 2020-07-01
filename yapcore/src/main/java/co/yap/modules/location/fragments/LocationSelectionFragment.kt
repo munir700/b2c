@@ -426,6 +426,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
         viewModel.isMapExpanded.removeObservers(this)
+        viewModel.isMapExpanded.removeObservers(this)
         viewModel.state.isTermsChecked.removeOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressSubtitle.removeOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressTitle.removeOnPropertyChangedCallback(stateObserver)
