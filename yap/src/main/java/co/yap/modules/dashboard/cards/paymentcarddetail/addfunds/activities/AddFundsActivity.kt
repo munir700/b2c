@@ -98,10 +98,10 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-            if (!viewModel.state.amount.isBlank()) {
+            if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()
             } else {
-                setAmountBg(true)
+                setAmountBg()
             }
             viewModel.updateFees(viewModel.state.amount)
         }
@@ -111,11 +111,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         when (it) {
             R.id.btnAction -> {
                 when {
-                    getBinding().btnAction.text == getString(Strings.screen_success_funds_transaction_display_text_button) -> {
-                        setupActionsIntent()
-                    }
+                    getBinding().btnAction.text == getString(Strings.screen_success_funds_transaction_display_text_button) -> setupActionsIntent()
                     isOtpRequired() -> startOtpFragment()
-
                     else -> {
                         viewModel.addFunds {
                             setUpSuccessData()
@@ -152,8 +149,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                     setAmountBg(true)
                     showErrorSnackBar(viewModel.errorDescription)
                 } else
-                    viewModel.state.valid.set(false)
-
+                    setAmountBg()
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 setAmountBg(true)
@@ -165,7 +161,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 showErrorSnackBar(viewModel.errorDescription)
             }
             else -> {
-                setAmountBg()
+                setAmountBg(isValid = true)
             }
         }
     }
@@ -260,14 +256,14 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         } ?: return false
     }
 
-    private fun setAmountBg(isError: Boolean = false) {
+    private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
         getBinding().etAmountLayout.background =
             this.resources.getDrawable(
                 if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
                 null
             )
         if (!isError) cancelAllSnackBar()
-        viewModel.state.valid.set(!isError)
+        viewModel.state.valid.set(isValid)
     }
 
     private fun showErrorSnackBar(errorMessage: String) {
