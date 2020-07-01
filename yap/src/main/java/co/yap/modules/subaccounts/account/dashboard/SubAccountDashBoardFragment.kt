@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.account.dashboard
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import co.yap.BR
@@ -23,8 +24,8 @@ class SubAccountDashBoardFragment :
         return "Household"
     }
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.adapter.set(adapter)
     }
 

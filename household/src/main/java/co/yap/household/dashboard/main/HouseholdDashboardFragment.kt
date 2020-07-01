@@ -1,5 +1,6 @@
 package co.yap.household.dashboard.main
 
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
@@ -56,8 +57,8 @@ class HouseholdDashboardFragment :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.activity_household_dashboard
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.profilePictureAdapter.set(profilePictureAdapter)
         profilePictureAdapter.onItemClickListener = onItemClickListener
         setBackButtonDispatcher()

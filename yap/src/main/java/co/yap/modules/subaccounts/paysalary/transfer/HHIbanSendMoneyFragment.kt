@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.transfer
 
+import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
@@ -15,8 +16,8 @@ class HHIbanSendMoneyFragment :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hhiban_send_money
     override fun getToolBarTitle() = state.subAccount.value?.getFullName()
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         GetAccountBalanceLiveData.get().observe(this, Observer { response ->
             viewModel.state.availableBalance?.value = response?.availableBalance
         })

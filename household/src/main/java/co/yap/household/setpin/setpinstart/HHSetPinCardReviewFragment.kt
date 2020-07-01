@@ -1,5 +1,6 @@
 package co.yap.household.setpin.setpinstart
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
@@ -15,8 +16,8 @@ class HHSetPinCardReviewFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin_card_review
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
 //        viewModel.getCard()
         viewModel.clickEvent.observe(this, observer)
     }

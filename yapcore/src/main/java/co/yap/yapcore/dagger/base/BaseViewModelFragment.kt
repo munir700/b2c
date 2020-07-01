@@ -7,8 +7,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.widgets.State
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
@@ -17,7 +15,6 @@ import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.helpers.validation.IValidator
-import co.yap.yapcore.helpers.validation.Validator
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -71,10 +68,10 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
         if (viewModel is IValidator) {
-            // if ((viewModel as IValidator).validator == null)
-            (viewModel as IValidator).validator = Validator(mViewDataBinding)
+            if ((viewModel as IValidator).validator?.targetViewBinding == null)
+                (viewModel as IValidator).validator?.targetViewBinding = mViewDataBinding
         }
-        postExecutePendingBindings()
+        postExecutePendingBindings(savedInstanceState)
         viewModel.onCreate(arguments)
     }
 

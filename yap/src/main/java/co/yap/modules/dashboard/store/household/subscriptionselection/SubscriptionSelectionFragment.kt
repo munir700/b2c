@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
@@ -45,11 +46,11 @@ class SubscriptionSelectionFragment :
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
-    override fun postExecutePendingBindings() {
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         if (activity is ManageToolBarListener) {
             (activity as ManageToolBarListener).setupToolbar(activity?.findViewById(R.id.toolBar))
         }
-        super.postExecutePendingBindings()
+        super.postExecutePendingBindings(savedInstanceState)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
@@ -75,7 +76,7 @@ class SubscriptionSelectionFragment :
                     bundleOf(
                         HouseHoldPlan::class.java.name to state.plansList,
                         Constants.POSITION to state.selectedPlanPosition.value
-                    )
+                    ),null
                 )
             }
         }

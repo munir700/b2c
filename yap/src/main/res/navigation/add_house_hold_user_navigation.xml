@@ -13,10 +13,10 @@
         <action
             android:id="@+id/action_houseHoldLandingFragment_to_subscriptionSelectionFragment"
             app:destination="@id/subscriptionSelectionFragment"
-            app:enterAnim="@anim/slide_in_from_bottom"
-            app:exitAnim="@anim/slide_down"
-            app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_down" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/HHAddUserNameFragment"
@@ -40,9 +40,9 @@
             android:id="@+id/action_HHAddUserContactFragment_to_houseHoldConfirmPaymentFragment"
             app:destination="@id/houseHoldConfirmPaymentFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_to_bottom"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             app:popUpToInclusive="true"
             app:popUpTo="@+id/subscriptionSelectionFragment"
@@ -65,9 +65,9 @@
             android:id="@+id/action_houseHoldConfirmPaymentFragment_to_HHAddUserSuccessFragment"
             app:destination="@id/HHAddUserSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_to_bottom"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/subscriptionSelectionFragment"
@@ -78,8 +78,8 @@
             android:id="@+id/action_subscriptionSelectionFragment_to_HHAddUserNameFragment"
             app:destination="@id/HHAddUserNameFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_to_bottom"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

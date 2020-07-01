@@ -1,6 +1,7 @@
 package co.yap.household.dashboard.home
 
 import android.app.Activity
+import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -48,8 +49,8 @@ class HouseholdHomeFragment :
 
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_household_home
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setupToolbar(toolbar = mViewDataBinding.toolbar, toolbarMenu = R.menu.menu_home)
         setHasOptionsMenu(true)
         GetAccountBalanceLiveData.get()

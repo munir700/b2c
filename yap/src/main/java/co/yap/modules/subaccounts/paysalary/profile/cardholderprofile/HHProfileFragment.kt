@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.profile.cardholderprofile
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.Observer
@@ -19,8 +20,8 @@ class HHProfileFragment :
 
     override fun getLayoutId() = R.layout.fragment_hh_profile
     override fun getToolBarTitle() = "Card holder's profile"
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
         viewModel.stateLiveData.observe(
             this,

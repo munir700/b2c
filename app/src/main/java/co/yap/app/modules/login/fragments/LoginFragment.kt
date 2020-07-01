@@ -59,13 +59,12 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-        tvSignUpPrefix.setOnClickListener {
-//            startFragment(HHAddUserNameFragment::class.java.name)
-            launchActivity<NavHostPresenterActivity> {
-                putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
-                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
-            }
-        }
+//        tvSignUpPrefix.setOnClickListener {
+//            launchActivity<NavHostPresenterActivity> {
+//                putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
+//                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
+//            }
+//        }
     }
 
     override fun onDestroy() {

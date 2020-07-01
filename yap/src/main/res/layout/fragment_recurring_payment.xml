@@ -15,6 +15,8 @@
 
         <import type="java.util.Calendar" />
 
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
         <import type="co.yap.yapcore.enums.PackageType" />
 
         <import type="androidx.lifecycle.MutableLiveData" />
@@ -83,10 +85,12 @@
             android:onTextChanged="@{viewModel.onAmountChange}"
             android:text="@={viewModel.state.amount}"
             app:editable="@{true}"
+            app:errorEnabled="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/include4">
+            app:layout_constraintTop_toBottomOf="@+id/include4"
+            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
 
             <requestFocus />
         </co.yap.widgets.EasyMoneyEditText>
@@ -114,7 +118,8 @@
             android:text="@{viewModel.state.date}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/transferAmount" />
+            app:layout_constraintTop_toBottomOf="@+id/transferAmount"
+            app:validateMinLength="@{2}" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -173,7 +178,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
             app:btn_enable="true"
-            app:enableCoreButton="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid &amp;&amp; viewModel.state.date.length()>2 &amp;&amp; viewModel.state.recurringInterval.length()>1}"
+            app:enableCoreButton="@{viewModel.validator.isValidate &amp;&amp; viewModel.state.recurringInterval.length()>1}"
             app:layout_constraintBottom_toTopOf="@+id/tvCancel"
             app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -60,7 +60,7 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), 
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         //viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
-        postExecutePendingBindings()
+        postExecutePendingBindings(savedInstanceState)
     }
 
     /**MV
@@ -97,7 +97,7 @@ abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), 
     /**
      * Gets called right after the UI executePendingBindings.
      */
-    protected open fun postExecutePendingBindings() {
+    protected open fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         //
     }
     /**

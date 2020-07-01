@@ -9,7 +9,7 @@
             type="co.yap.yapcore.BaseRVAdapter" />
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <co.yap.widgets.YapSwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,5 +35,5 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2" />
         </co.yap.widgets.MultiStateView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </co.yap.widgets.YapSwipeRefreshLayout>
 </layout>

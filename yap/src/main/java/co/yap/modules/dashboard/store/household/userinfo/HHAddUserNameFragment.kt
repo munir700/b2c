@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.userinfo
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import co.yap.BR
@@ -17,8 +18,8 @@ class HHAddUserNameFragment :
     BaseNavViewModelFragment<FragmentHhAddUserNameBinding, IHHAddUserName.State, HHAddUserNameVM>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hh_add_user_name
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 

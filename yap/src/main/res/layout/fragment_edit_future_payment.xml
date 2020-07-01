@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
         <import type="android.view.View" />
 
         <import type="java.util.Calendar" />
@@ -30,11 +32,11 @@
         <include
             android:id="@+id/include1"
             layout="@layout/layout_textview_image_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
             app:imageUrl="@{futurePaymentVM.state.subAccount.profilePictureUrl ?? ` `}"
-            app:name="@{futurePaymentVM.state.subAccount.fullName}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{futurePaymentVM.state.subAccount.fullName}" />
 
         <include
             android:id="@+id/include4"
@@ -89,10 +91,12 @@
             android:onTextChanged="@{futurePaymentVM.onAmountChange}"
             android:text="@={futurePaymentVM.state.amount}"
             app:editable="@{true}"
+            app:errorEnabled="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/include4">
+            app:layout_constraintTop_toBottomOf="@+id/include4"
+            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
 
             <requestFocus />
         </co.yap.widgets.EasyMoneyEditText>
@@ -113,14 +117,15 @@
             android:id="@+id/tvDate"
             style="@style/Yap.App.Widget.TextView.Date.Rounded"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
             android:layout_marginTop="@dimen/margin_medium_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideLine"
-            app:layout_constraintTop_toBottomOf="@+id/transferAmount"
+            android:gravity="center"
             android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
             android:onClick="@{(v)->futurePaymentVM.datePicker(v)}"
             android:text="@{futurePaymentVM.state.date}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toBottomOf="@+id/transferAmount"
+            app:validateMinLength="@{2}"
             tools:text="Sep 17, 2019" />
 
 
@@ -133,7 +138,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:onClick="@{(v)->futurePaymentVM.handlePressOnClick(v.id)}"
             app:btn_enable="true"
-            app:enableCoreButton="@{futurePaymentVM.state.amount.length()>0 &amp;&amp; futurePaymentVM.state.isValid &amp;&amp; futurePaymentVM.state.date.length()>2}"
+            app:enableCoreButton="@{futurePaymentVM.validator.isValidate}"
             app:layout_constraintBottom_toTopOf="@+id/tvCancel"
             app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintLeft_toLeftOf="parent"

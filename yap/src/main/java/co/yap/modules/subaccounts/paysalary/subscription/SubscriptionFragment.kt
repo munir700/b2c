@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.subscription
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -19,8 +20,8 @@ class SubscriptionFragment :
 
     override fun getLayoutId() = R.layout.fragment_subscription
     override fun getToolBarTitle() = getString(Strings.screen_household_subscription_title)
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         ivUserImage?.setOnClickListener {
             navigateForwardWithAnimation(
                 SubscriptionFragmentDirections.actionSubscriptionFragmentToHHProfileFragment(),

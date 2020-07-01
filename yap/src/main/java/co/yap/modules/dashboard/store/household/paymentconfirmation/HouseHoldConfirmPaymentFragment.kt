@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.paymentconfirmation
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,8 +26,8 @@ class HouseHoldConfirmPaymentFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_cofirm_payment_v2
     private var householdPlanPopMenu: PopupMenu? = null
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, onClick)
         initComponents()
         GetAccountBalanceLiveData.get().observe(this, Observer {

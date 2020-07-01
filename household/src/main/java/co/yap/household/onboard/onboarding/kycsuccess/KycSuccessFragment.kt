@@ -1,5 +1,6 @@
 package co.yap.household.onboard.onboarding.kycsuccess
 
+import android.os.Bundle
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentKycSuccessBinding
@@ -17,8 +18,8 @@ class KycSuccessFragment :
 
     override fun getLayoutId() = R.layout.fragment_kyc_success
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         if (MyUserManager.isExistingUser()) {
             trackAdjustPlatformEvent(AdjustEvents.HH_USER_EXISTING_ACCOUNT_ACTIVE.type)
         } else {

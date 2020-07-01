@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.household.contact
 
 import android.app.Activity
+import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -22,8 +23,8 @@ class HHAddUserContactFragment :
     override fun getToolBarTitle() =
         getString(Strings.screen_yap_house_hold_user_info_display_text_title)
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
@@ -37,7 +38,7 @@ class HHAddUserContactFragment :
                         cvErrorCard?.visibility = View.GONE
                         navigateForwardWithAnimation(
                             HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHouseHoldConfirmPaymentFragment(),
-                            arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.request?.value))
+                            arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.request?.value)),null
                         )
                     } else {
                         cvErrorCard?.visibility = View.VISIBLE

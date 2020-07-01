@@ -25,12 +25,15 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 import javax.inject.Inject
 
-class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.State) :
-    DaggerBaseViewModel<IFuturePayment.State>(), IFuturePayment.ViewModel {
+class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.State,
+                                          override var validator: Validator?) :
+    DaggerBaseViewModel<IFuturePayment.State>(), IFuturePayment.ViewModel,IValidator {
     private val calendar = Calendar.getInstance()
     private val repository: CustomerHHApi = CustomersHHRepository
     override var fragmentManager: FragmentManager? = null
@@ -42,7 +45,7 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let {
-            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             state.futureTransaction?.value = it.getParcelable(SchedulePayment::class.simpleName)
             state.amount.value = state.futureTransaction?.value?.amount?.apply {
                 state.isValid.value = true
@@ -80,14 +83,12 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
         count: Int
     ) {
         if (amount.parseToDouble() > GetAccountBalanceLiveData.cardBalance.value?.availableBalance.parseToDouble()) {
-            state.isValid.value = false
             context.showTextUpdatedAbleSnackBar(
                 msg = "Looks like it’s time to Top Up! Please top up your account to continue with this transaction. ${underline(
                     "Top Up here!"
                 )}", clickListener = View.OnClickListener { })
         } else {
             cancelAllSnackBar()
-            state.isValid.value = true
         }
     }
 

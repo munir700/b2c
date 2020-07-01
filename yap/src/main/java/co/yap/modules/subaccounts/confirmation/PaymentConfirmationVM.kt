@@ -17,7 +17,7 @@ class PaymentConfirmationVM @Inject constructor(override val state: IPaymentConf
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let {
-            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
         }
 

@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.recurringpayment
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -16,8 +17,8 @@ class RecurringPaymentFragment :
     override fun getLayoutId(): Int = R.layout.fragment_recurring_payment
 
     override fun getToolBarTitle() = getString(Strings.screen_household_recurring_payment_title)
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 

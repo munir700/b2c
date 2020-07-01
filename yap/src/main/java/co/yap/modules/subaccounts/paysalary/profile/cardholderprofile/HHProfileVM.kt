@@ -15,7 +15,7 @@ class HHProfileVM @Inject constructor(override val state: IHHProfile.State) :
     private val repository: CustomerHHApi = CustomersHHRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         bundle?.let {
-            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             getHouseholdUser(state.subAccount.value)
         }
     }

@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -10,6 +11,8 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
+import co.yap.networking.models.ApiResponse
+import co.yap.yapcore.BaseListItemViewModel
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
@@ -19,6 +22,8 @@ import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
+import kotlin.reflect.KClass
+import kotlin.reflect.full.primaryConstructor
 
 class HHSalaryProfileFragment :
     BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
@@ -26,8 +31,8 @@ class HHSalaryProfileFragment :
     override fun getBindingVariable() = BR.hhSalaryProfileVM
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
         setRefreshEnabled(false)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
@@ -69,6 +74,7 @@ class HHSalaryProfileFragment :
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
     }
+
     override fun getToolBarTitle() = state.subAccount.value?.getFullName()
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

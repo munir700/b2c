@@ -1,12 +1,10 @@
 package co.yap.yapcore.helpers.validation.rule
 
-import android.view.View
+import androidx.core.content.ContextCompat
 import co.yap.widgets.EasyMoneyEditText
-import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.isEmpty
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.spannables.underline
-import co.yap.yapcore.helpers.validation.util.EditTextHandler
 
 class CurrencyInputRule(
     view: EasyMoneyEditText?,
@@ -29,10 +27,15 @@ class CurrencyInputRule(
     }
 
     override fun onValidationSucceeded(view: EasyMoneyEditText?) {
-        EditTextHandler.removeError(view)
+        view?.apply {
+            if (errorEnabled) background = ContextCompat.getDrawable(context, R.drawable.bg_funds)
+        }
     }
 
     override fun onValidationFailed(view: EasyMoneyEditText?) {
-        if (errorEnabled) EditTextHandler.setError(view, errorMessage)
+        view?.apply {
+            if (errorEnabled && valueString.parseToDouble() > (value ?: 0.00)) background =
+                ContextCompat.getDrawable(context, R.drawable.bg_funds_error)
+        }
     }
 }
