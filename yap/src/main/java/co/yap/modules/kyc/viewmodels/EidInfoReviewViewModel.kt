@@ -284,7 +284,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     true
                                 )
                             ) {
-                                clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                                //clickEvent.setValue(EVENT_ALREADY_USED_EID)
                             }
                             state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         }
