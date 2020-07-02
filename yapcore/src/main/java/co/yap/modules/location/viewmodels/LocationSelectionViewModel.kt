@@ -141,4 +141,15 @@ class LocationSelectionViewModel(application: Application) :
 
         return address
     }
+
+    fun isValidAddress(): Boolean {
+        if (!StringUtils.isValidAddress(
+                state.addressTitle.get() ?: ""
+            ) || !StringUtils.isValidAddress(state.addressSubtitle.get()?: "")
+        ) {
+            showToast("Invalid address found")
+            return false
+        }
+        return true
+    }
 }

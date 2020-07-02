@@ -97,7 +97,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-            if (!viewModel.state.amount.isBlank()) {
+            if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()
             } else {
                 setAmountBg()
@@ -144,13 +144,14 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid.set(false)
             }
+
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
                 setAmountBg(true)
                 showUpperLowerLimitError()
                 showErrorSnackBar(viewModel.errorDescription)
             }
             else -> {
-                setAmountBg()
+                setAmountBg(isValid = true)
             }
         }
     }
@@ -181,14 +182,14 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             false
     }
 
-    private fun setAmountBg(isError: Boolean = false) {
+    private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
         getBinding().etAmountLayout.background =
             this.resources.getDrawable(
                 if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
                 null
             )
         if (!isError) cancelAllSnackBar()
-        viewModel.state.valid.set(!isError)
+        viewModel.state.valid.set(isValid)
     }
 
     private fun showErrorSnackBar(errorMessage: String) {
