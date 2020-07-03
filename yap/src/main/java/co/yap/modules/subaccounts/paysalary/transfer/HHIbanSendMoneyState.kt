@@ -11,5 +11,4 @@ class HHIbanSendMoneyState : BaseState(), IHHIbanSendMoney.State {
             field = value
             notifyChange()
         }
-
 }
