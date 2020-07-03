@@ -46,8 +46,14 @@ class VerifyPasscodeViewModel(application: Application) :
 
     private fun handleAttemptsError(error: ApiError) {
         when (error.actualCode) {
-            "302" -> showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
-            "303" -> showBlockForSomeTimeError(error.message)
+            "302" -> {
+                showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
+                state.toast = "${error.message}^${AlertType.DIALOG.name}"
+            }
+            "303" -> {
+                showBlockForSomeTimeError(error.message)
+                state.toast = "${error.message}^${AlertType.DIALOG.name}"
+            }
             "1260" -> {
                 state.isAccountFreeze.set(true)
                 showAccountBlockedError(error.message)
@@ -127,7 +133,6 @@ class VerifyPasscodeViewModel(application: Application) :
                     parentViewModel?.signingInData?.token = response.data.id_token
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                     handleAttemptsError(response.error)
                 }
