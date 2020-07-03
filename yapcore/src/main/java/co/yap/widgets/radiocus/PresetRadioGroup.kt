@@ -1,11 +1,14 @@
 package co.yap.widgets.radiocus
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
+import co.yap.widgets.MultiStateView
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import com.jaygoo.widget.OnRangeChangedListener
@@ -290,6 +293,52 @@ class PresetRadioGroup @JvmOverloads constructor(
             }
             mChildViewsMap.remove(child.id)
             mOnHierarchyChangeListener?.onChildViewRemoved(parent, child)
+        }
+    }
+
+    public override fun onSaveInstanceState(): Parcelable? {
+        val savedState = SavedState(super.onSaveInstanceState())
+        savedState.mCheckedId = mCheckedId
+        return savedState
+    }
+
+    public override fun onRestoreInstanceState(state: Parcelable) {
+        if (state is SavedState) {
+            super.onRestoreInstanceState(state.superState)
+            //mCheckedId = state.mCheckedId
+            if (state.mCheckedId != View.NO_ID)
+                check(state.mCheckedId)
+        } else {
+            super.onRestoreInstanceState(state)
+        }
+    }
+
+    private class SavedState : BaseSavedState {
+
+        var mCheckedId: Int = View.NO_ID
+
+        constructor(source: Parcel) : super(source) {
+            mCheckedId = source.readInt()
+        }
+
+        constructor(superState: Parcelable) : super(superState)
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(mCheckedId)
+        }
+
+        companion object {
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(`in`: Parcel): SavedState {
+                    return SavedState(`in`)
+                }
+
+                override fun newArray(size: Int): Array<SavedState?> {
+                    return arrayOfNulls(size)
+                }
+            }
         }
     }
 }

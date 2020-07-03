@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.confirmation
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -16,8 +17,8 @@ class PaymentConfirmationFragment :
 
     override fun setDisplayHomeAsUpEnabled() = false
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }

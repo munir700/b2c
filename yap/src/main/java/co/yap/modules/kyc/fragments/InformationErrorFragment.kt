@@ -8,8 +8,6 @@ import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.modules.onboarding.interfaces.IInformationError
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 
 class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel

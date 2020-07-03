@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.RequestCodes
@@ -45,7 +46,10 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
             }
             R.id.llCardsTransferType -> {
                 startActivityForResult(
-                    TopUpBeneficiariesActivity.newIntent(this),
+                    TopUpBeneficiariesActivity.newIntent(
+                        this,
+                        getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
+                    ),
                     RequestCodes.REQUEST_SHOW_BENEFICIARY
                 )
             }
@@ -73,6 +77,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
                         0
                     )
                 ) {
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
             }

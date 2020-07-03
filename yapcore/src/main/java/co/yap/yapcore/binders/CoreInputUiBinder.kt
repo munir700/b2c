@@ -3,12 +3,14 @@ package co.yap.yapcore.binders
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Editable
+import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
@@ -276,6 +278,12 @@ object CoreInputUiBinder {
     }
 
 
-    /* end region textwatcher */
+    @JvmStatic
+    @BindingAdapter("capitalise")
+    fun capitaliseEditText(editText: EditText, activate: Boolean) {
+        if (activate) {
+            editText.filters = arrayOf<InputFilter>(InputFilter.AllCaps())
+        }
+    }
 
 }

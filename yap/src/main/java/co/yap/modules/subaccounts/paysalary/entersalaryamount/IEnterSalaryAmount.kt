@@ -12,7 +12,7 @@ interface IEnterSalaryAmount {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun onAmountChange(amount: CharSequence, start: Int, before: Int, count: Int)
-        fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?)
+//        fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?)
         fun paySalaryNow(request: PaySalaryNowRequest)
         fun handlePressOnClick(id: Int)
         val clickEvent: SingleClickEvent

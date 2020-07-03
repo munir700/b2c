@@ -28,7 +28,6 @@ class AddBeneficiaryViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
-
     override var beneficiary: Beneficiary? = Beneficiary()
 
     override fun onCreate() {
@@ -136,6 +135,10 @@ class AddBeneficiaryViewModel(application: Application) :
             parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
             parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
         }
+        parentViewModel?.beneficiary?.value?.countryOfResidence =
+            parentViewModel?.selectedResidenceCountry?.isoCountryCode2Digit
+        parentViewModel?.beneficiary?.value?.countryOfResidenceName =
+            parentViewModel?.selectedResidenceCountry?.getName()
     }
 
     override fun addCashPickupBeneficiary() {

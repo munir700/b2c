@@ -18,7 +18,7 @@ import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_store.*
-
+@Deprecated("not using anywhere")
 class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
     IYapStoreDetail.View {
 

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.success
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -17,8 +18,8 @@ class HHAddUserSuccessFragment :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hh_add_user_success
     override fun toolBarVisibility() = false
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
         viewModel.clickEvent.observe(this, onClick)
     }

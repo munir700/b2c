@@ -26,7 +26,8 @@ project.ext {
             household  : ':household',
             yapcore    : ':yapcore',
             kyc        : ':identityscanner_v2',
-            sendmoney  : ':sendmoney'
+            sendmoney  : ':sendmoney',
+            security   : ':security'
     ]
 
     // All libraries that any module can contain
@@ -88,7 +89,7 @@ project.ext {
             lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$arch",
             lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
             lifecycleExtensions      : "androidx.lifecycle:lifecycle-extensions:$arch",
-            livedataBuilder          :'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0',
+            livedataBuilder          : 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0',
 
             // kotlin coroutine
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
@@ -142,7 +143,11 @@ project.ext {
             //adjust
             adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
             adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
-            expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
+            //pdfViewer
+            pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
+
+            rootChecker              : 'com.scottyab:rootbeer-lib:0.0.8'
     ]
 
     // Test dependencies which need to be added in all modules
@@ -184,12 +189,15 @@ project.ext {
             [configuration: "implementation", dependency: libraries.bottomsheets_core],
             [configuration: "implementation", dependency: libraries.bottomsheets_ktx],
             [configuration: "implementation", dependency: libraries.bottomsheets],
-            [configuration: "implementation", dependency: libraries.expand]
+            [configuration: "implementation", dependency: libraries.expandableLayout],
+            [configuration: "implementation", dependency: libraries.pdfViewer],
+            [configuration: "implementation", dependency: libraries.rootChecker]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     appDependencies = [
             [configuration: "implementation", dependency: project(modules.translation)],
+            [configuration: "implementation", dependency: project(modules.security)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.household)],
@@ -300,8 +308,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coroutineCore],
             [configuration: "implementation", dependency: libraries.coroutineAndroid],
     ]
-
-
 }
 
 android {
@@ -316,6 +322,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     signingConfigs {
         release {
             storeFile file("${android_releasekey_storefile}")
@@ -335,14 +342,12 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             debuggable false
-//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.debug
-            //shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

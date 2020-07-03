@@ -1,5 +1,6 @@
 package co.yap.household.dashboard.cards
 
+import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -41,8 +42,8 @@ class MyCardFragment :
     @Inject
     lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setupToolbar(mViewDataBinding.toolbar, R.menu.menu_hh_options)
         intRecyclersView()
 //        setHasOptionsMenu(true)

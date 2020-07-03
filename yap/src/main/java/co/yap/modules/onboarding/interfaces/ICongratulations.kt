@@ -15,9 +15,7 @@ interface ICongratulations {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var elapsedOnboardingTime: Long
-        val orderCardSuccess:MutableLiveData<Boolean>
         fun handlePressOnCompleteVerification(id: Int)
-        fun requestOrderCard(address: Address?)
     }
 
     interface State : IBase.State {

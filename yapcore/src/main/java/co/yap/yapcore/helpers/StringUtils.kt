@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers
 
-import android.util.Log
 import org.json.JSONArray
 import java.util.regex.Pattern
 
@@ -43,6 +42,21 @@ object StringUtils {
         }
         return isValid
     }
+
+    fun validateRegix(value: String, expression: String): Boolean {
+
+        var isValid = false
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(value)
+
+        if (matcher.matches() && !value.isEmpty()) {
+            if (value.length >= 2) {
+                isValid = true
+            }
+        }
+        return isValid
+    }
+
 
     /**
      * Function takes a string value like "["hello", "world", "1"]"
@@ -124,13 +138,13 @@ object StringUtils {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression = "^($code)[0-9]{2}[0-9A-Z]{1,31}$"
-         inputStr = iban
-         val pattern = Pattern.compile(expression)
-         val matcher = pattern.matcher(inputStr)
+        inputStr = iban
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
 
-         if (matcher.matches() && iban.isNotEmpty()) {
-             isValid = true
-         }
+        if (matcher.matches() && iban.isNotEmpty()) {
+            isValid = true
+        }
         return isValid
     }
 

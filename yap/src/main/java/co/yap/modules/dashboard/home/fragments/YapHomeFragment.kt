@@ -55,7 +55,6 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
@@ -413,7 +412,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onResume() {
         super.onResume()
-        checkUserStatus()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
         MyUserManager.updateCardBalance()
     }
@@ -538,8 +536,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 data?.let {
                     val result = it.getBooleanExtra(ADDRESS_SUCCESS, false)
                     if (result) {
-                        val address = it.getParcelableExtra<Address>(ADDRESS)
-                        viewModel.requestOrderCard(address)
+                        viewModel.clickEvent.setValue(viewModel.ON_ADD_NEW_ADDRESS_EVENT)
                     }
                 }
             }
@@ -554,18 +551,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
-//                checkUserStatus()
+                MyUserManager.getAccountInfo()
             }
             RequestCodes.REQUEST_FOR_SET_PIN -> {
                 data?.let {
                     val isPinSet =
                         it.getBooleanExtra(Constants.isPinCreated, false)
                     val isSkip =
-                        it.getBooleanExtra("isTopUpSkip", false)
+                        it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
                         viewModel.getDebitCards()
                     } else {
+                        viewModel.getDebitCards()
                         openTopUpScreen()
                     }
                 }

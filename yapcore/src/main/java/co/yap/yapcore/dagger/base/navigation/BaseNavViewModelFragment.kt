@@ -35,8 +35,8 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         get() = arguments?.getInt(ARGUMENT_NAVIGATION_REQUEST_CODE, REQUEST_CODE_NOT_SET)
             ?: REQUEST_CODE_NOT_SET
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         if (activity is ManageToolBarListener) {
             (activity as ManageToolBarListener).toolBarTitle = getToolBarTitle()
             (activity as ManageToolBarListener).toolBarVisibility = toolBarVisibility()
@@ -145,10 +145,10 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
     protected fun navigateForwardWithAnimation(
         navDirections: NavDirections,
         args: Bundle?,
-        exitTransition: Any = Slide()
+        exitTransition: Any? = Slide()
     ) {
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
-        this.exitTransition = exitTransition
+        exitTransition?.let { this.exitTransition = it }
 //        this.enterTransition = Slide(Gravity.RIGHT)
         navigateForResult(navDirections.actionId, REQUEST_CODE_NOT_SET, args)
     }

@@ -10,7 +10,6 @@ import com.digitify.identityscanner.docscanner.enums.DocumentPageType;
 import com.digitify.identityscanner.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.docscanner.interfaces.IDocReview;
 import com.digitify.identityscanner.docscanner.states.DocReviewState;
-import com.digitify.identityscanner.utils.FileUtils;
 import com.digitify.identityscanner.utils.ImageUtils;
 import com.digitify.identityscanner.base.BaseAndroidViewModel;
 
@@ -54,7 +53,7 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
     }
 
     private void initiateReview(String path) {
-        if (!FileUtils.isValidFile(path)) {
+        if (!ImageUtils.isValidFile(path)) {
             handleClickOnRetake();
             return;
         }

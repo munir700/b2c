@@ -60,7 +60,7 @@
         <action
             android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
-             app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_changeEmailFragment"
             app:destination="@id/changeEmailFragment"
@@ -88,10 +88,10 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_successFragment"
+            app:destination="@id/successFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"
-            app:destination="@id/successFragment" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_yapDashboardActivity"
             app:destination="@id/yapDashboardActivity" />
@@ -129,13 +129,11 @@
         <argument
             android:name="staticString"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="destinationValue"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="successType"
             android:defaultValue=" "

@@ -81,8 +81,10 @@
                 android:text="@={futurePaymentVM.state.amount}"
                 android:textAlignment="center"
                 app:amount_drawable="@drawable/bg_funds"
+                app:errorEnabled="@{true}"
                 app:forceKeyboard="@{true}"
-                app:layout_constraintTop_toBottomOf="@+id/tvCurrency">
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
 
                 <requestFocus />
             </co.yap.widgets.EasyMoneyEditText>
@@ -109,6 +111,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
+                app:validateMinLength="@{2}"
                 android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
                 android:onClick="@{(v)->futurePaymentVM.datePicker(v)}"
                 android:text="@{futurePaymentVM.state.date}"
@@ -129,7 +132,7 @@
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:onClick="@{(v)-> futurePaymentVM.handlePressOnClick(v.id)}"
                 app:btn_enable="true"
-                app:enableCoreButton="@{futurePaymentVM.state.amount.length()>0 &amp;&amp; futurePaymentVM.state.isValid &amp;&amp; futurePaymentVM.state.date.length()>2}"
+                app:enableCoreButton="@{futurePaymentVM.validator.isValidate}"
                 app:text="@{Strings.screen_household_future_payment_screen_button_text}"
                 tools:text="Add" />
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -21,8 +21,13 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.hideKeyboard
+import co.yap.yapcore.helpers.extentions.makeCall
+import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
+import com.scottyab.rootbeer.RootBeer
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -48,6 +53,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (shouldRegisterViewModelLifeCycle)
             registerStateListeners()
         progress = Utils.createProgressDialog(this)
+        preventTakeScreenShot(true)
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -81,7 +87,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onResume() {
         super.onResume()
         if (!BuildConfig.DEBUG) {
-            if (DeviceUtils().isDeviceRooted()) {
+            if (RootBeer(context).isRootedWithBusyBoxCheck) {
                 showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
             }
         }
@@ -95,12 +101,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             if (msg.contains("^")) {
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
-                    AlertType.DIALOG.name -> showAlertDialogAndExitApp("", messages.first(), false)
+                    AlertType.DIALOG.name -> {
+                        showAlertDialogAndExitApp("", messages.first(), false)
+                    }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
                         messages.first(),
                         true
                     )
+                    AlertType.DIALOG_WITH_CLICKABLE.name -> {
+                        showAlertDialogAndExitApp(
+                            title = "",
+                            message = messages.first(),
+                            closeActivity = false,
+                            isOtpBlocked = true
+                        )
+                    }
                 }
             } else {
                 toast(messages.first())
@@ -247,7 +263,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun showAlertDialogAndExitApp(
         title: String? = null,
         message: String?,
-        closeActivity: Boolean = true
+        closeActivity: Boolean = true,
+        isOtpBlocked: Boolean = false
     ) {
         val builder = AlertDialog.Builder(this)
         var alertDialog: AlertDialog? = null
@@ -263,6 +280,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             alertDialog?.dismiss()
             if (closeActivity)
                 finish()
+        }
+        if (isOtpBlocked) {
+            label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
+                makeCall(MyUserManager.helpPhoneNumber)
+            }))
         }
 
         builder.setView(dialogLayout)

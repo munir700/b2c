@@ -1,5 +1,6 @@
 package co.yap.household.dashboard.expense
 
+import android.os.Bundle
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHouseHoldExpenseBinding
@@ -10,8 +11,8 @@ class HouseHoldExpenseFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_expense
     override fun toolBarVisibility() = false
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setupToolbar(mViewDataBinding.toolbar)
         setHasOptionsMenu(true)
     }

@@ -20,6 +20,7 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferVi
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -112,6 +113,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
+            viewModel.isInCoolingPeriod() && viewModel.isCPAmountConsumed(viewModel.state.amount) -> {
+                showCoolingPeriodLimitError()
+                viewModel.state.valid = false
+            }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
@@ -137,11 +142,23 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     }
 
+    private fun showCoolingPeriodLimitError() {
+        viewModel.state.errorDescription = Translator.getString(
+            requireContext(),
+            Strings.common_display_text_cooling_period_limit_error,
+            viewModel.smCoolingPeriod?.maxAllowedCoolingPeriodAmount.toString()
+                .toFormattedAmountWithCurrency(),
+            viewModel.smCoolingPeriod?.coolingPeriodDuration.toString() + " hour's",
+            viewModel.state.fullName
+        )
+        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+    }
+
 
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.sm_common_display_text_available_balance_error
+            Strings.common_display_text_available_balance_error
         ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
@@ -158,15 +175,19 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                when {
-                    viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
-                        showUpperLowerLimitError()
-                    }
-                    isOtpRequired() -> {
-                        startOtpFragment()
-                    }
-                    else -> {
-                        viewModel.proceedToTransferAmount()
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
+                } else {
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                            showUpperLowerLimitError()
+                        }
+                        isOtpRequired() -> {
+                            startOtpFragment()
+                        }
+                        else -> {
+                            viewModel.proceedToTransferAmount()
+                        }
                     }
                 }
             }
@@ -185,7 +206,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                     amount = viewModel.state.amount,
                     logoData = LogoData(
                         imageUrl = viewModel.state.imageUrl,
-                        position =  args.position
+                        position = args.position
                     )
                 )
             )
@@ -197,11 +218,15 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun setUpData() {
-
         viewModel.state.fullName = args.beneficiaryName
         viewModel.receiverUUID = args.receiverUUID
         viewModel.state.imageUrl = args.imagePath
-
+        viewModel.getCoolingPeriod(
+            SMCoolingPeriodRequest(
+                beneficiaryId = viewModel.receiverUUID,
+                productCode = TransactionProductCode.Y2Y_TRANSFER.pCode
+            )
+        )
 
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
             getBinding().lyUserImage.tvNameInitials.context,
@@ -232,9 +257,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                         viewModel.state.errorDescription =
-                            if (enteredAmount > dailyLimit && totalConsumedAmount==0.0) getString(Strings.common_display_text_daily_limit_error_single_transaction) else getString(
-                                Strings.common_display_text_daily_limit_error_multiple_transactions
-                            )
+                            when {
+                                dailyLimit == totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                enteredAmount > dailyLimit && totalConsumedAmount == 0.0 -> {
+                                    getString(Strings.common_display_text_daily_limit_error_single_transaction)
+                                }
+                                else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
+                            }
                         return enteredAmount > remainingDailyLimit
                     }
                 } ?: return false
@@ -260,7 +289,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
         val action =
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                viewModel.state.fullName,viewModel.state.imageUrl,
+                viewModel.state.fullName, viewModel.state.imageUrl,
                 "AED",
                 viewModel.state.amount ?: "", args.position
             )

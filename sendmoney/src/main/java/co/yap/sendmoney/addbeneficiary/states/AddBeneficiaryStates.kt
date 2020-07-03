@@ -2,9 +2,9 @@ package co.yap.sendmoney.addbeneficiary.states
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import co.yap.sendmoney.BR
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType.*
 import co.yap.yapcore.helpers.StringUtils
@@ -239,6 +239,13 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
             notifyPropertyChanged(BR.identifierCode2)
         }
 
+    @get:Bindable
+    override var countryOfResidence: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.countryOfResidence)
+            validate()
+        }
 
     fun validate() {
         if (!selectedBeneficiaryType.isNullOrEmpty()) {
@@ -247,7 +254,8 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                     valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
                 }
                 SWIFT -> {
-                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
+                    valid =
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && !countryOfResidence.isNullOrBlank()
                 }
                 DOMESTIC -> {
                     valid =

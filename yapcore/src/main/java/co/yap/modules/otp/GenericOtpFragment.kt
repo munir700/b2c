@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.managers.MyUserManager
 
 class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGenericOtp.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -32,6 +34,19 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, errorEvent)
+        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
+            viewModel.state.loading = false
+        })
+        viewModel.state.isOtpBlocked.addOnPropertyChangedCallback(stateObserver)
+    }
+
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (viewModel.state.isOtpBlocked.get() == true) {
+                viewModel.state.loading = true
+                MyUserManager.getAccountInfo()
+            }
+        }
     }
 
     val clickEvent = Observer<Int> {

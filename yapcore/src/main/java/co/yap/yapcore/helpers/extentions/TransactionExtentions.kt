@@ -82,7 +82,9 @@ fun Transaction?.getTransactionTypeTitle(): String {
             txn.getLabelValues() == TransactionLabelsCode.IS_REFUND -> "Refund"
             TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
             TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top-Up"
-            TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> "Deposit"
+            TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Deposit"
+            }
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> {
                 if (txn.category.equals("REVERSAL", true)) "Reversal" else "Cash"
             }
@@ -228,7 +230,9 @@ fun Transaction?.getSpentLabelText(): String {
                                 TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
                                     "Sent"
                                 }
-                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> "Sent in AED"
+                                TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
+                                    if (transaction.currency == "AED") "Sent" else "Sent in AED"
+                                }
                                 else -> "Spent"
                             }
                         }

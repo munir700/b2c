@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.store.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.states.YapStoreState
 import co.yap.networking.store.responsedtos.Store
@@ -15,7 +17,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapStoreState = YapStoreState()
-    override val storesLiveData: MutableLiveData<MutableList<Store>> = MutableLiveData()
+    override var mAdapter: ObservableField<YapStoreAdaptor>? = ObservableField()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -24,9 +26,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
     override fun getStoreList() {
         // need api in future
         val list = mutableListOf<Store>()
-        state.loading = true
         launch {
-            delay(1000)
             list.add(
                 Store(
                     1,
@@ -43,7 +43,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
                     R.drawable.ic_store_household, R.drawable.ic_young_household
                 )
             )
-            storesLiveData.value = list
+            mAdapter?.get()?.setList(list)
             state.loading = false
         }
     }

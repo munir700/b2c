@@ -21,6 +21,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -50,8 +51,8 @@ class InternationalFundsTransferFragment :
         viewModel.getTransferFees(
             productCode,
             RemittanceFeeRequest(
-               country =  viewModel.parentViewModel?.beneficiary?.value?.country,
-               currency =  viewModel.parentViewModel?.beneficiary?.value?.currency
+                country = viewModel.parentViewModel?.beneficiary?.value?.country,
+                currency = viewModel.parentViewModel?.beneficiary?.value?.currency
             )
         )
         viewModel.getReasonList(productCode)
@@ -129,16 +130,19 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                when {
-                    viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
-                        showLowerAndUpperLimitError()
-                    }
-                    viewModel.parentViewModel?.selectedPop != null -> moveToConfirmTransferScreen()
-                    else -> showToast("Select a reason ^${AlertType.DIALOG.name}")
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
+                } else {
+                    when {
+                        viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
+                            showLowerAndUpperLimitError()
+                        }
+                        viewModel.parentViewModel?.selectedPop != null -> moveToConfirmTransferScreen()
+                        else -> showToast("Select a reason ^${AlertType.DIALOG.name}")
 
+                    }
                 }
             }
-
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
         }
     }
@@ -172,7 +176,7 @@ class InternationalFundsTransferFragment :
 
     private fun showLowerAndUpperLimitError() {
         viewModel.state.errorDescription = getString(
-            Strings.sm_display_text_min_max_limit_error_transaction
+            if (viewModel.parentViewModel?.isSameCurrency == true) Strings.common_display_text_min_max_limit_error_transaction else Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
             viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
             viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
@@ -183,7 +187,7 @@ class InternationalFundsTransferFragment :
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
-            Strings.sm_common_display_text_available_balance_error
+            Strings.common_display_text_available_balance_error
         ).format(viewModel.state.etOutputAmount?.toFormattedAmountWithCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
@@ -199,20 +203,19 @@ class InternationalFundsTransferFragment :
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
-                                "You have exceeded your limit for held on transactions, please enter an amount less than %1s".format(
-                                    (dailyLimit - totalHoldAmount).toString()
-                                        .toFormattedAmountWithCurrency()
-                                )
+                                "Sorry, you've reached your daily limit. Let's try again tomorrow."
                             return (enteredAmount > remainingDailyLimit)
                         } else {
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
                             viewModel.state.errorDescription =
-                                if (enteredAmount > dailyLimit && totalConsumedAmount == 0.0) getString(
-                                    Strings.common_display_text_daily_limit_error_single_transaction
-                                ) else getString(
-                                    Strings.common_display_text_daily_limit_error_multiple_transactions
-                                )
+                                when {
+                                    dailyLimit == totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                    enteredAmount > dailyLimit && totalConsumedAmount == 0.0 -> {
+                                        getString(Strings.common_display_text_daily_limit_error_single_transaction)
+                                    }
+                                    else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
+                                }
                             return (enteredAmount > remainingDailyLimit)
                         }
                     }
@@ -287,6 +290,13 @@ class InternationalFundsTransferFragment :
             }
             isDailyLimitReached() -> {
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
+                viewModel.state.valid = false
+            }
+            viewModel.parentViewModel?.isInCoolingPeriod() == true
+                    && viewModel.parentViewModel?.isCPAmountConsumed(
+                viewModel.state.etOutputAmount ?: "0.0"
+            ) == true -> {
+                viewModel.parentViewModel?.showCoolingPeriodLimitError()
                 viewModel.state.valid = false
             }
             viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {

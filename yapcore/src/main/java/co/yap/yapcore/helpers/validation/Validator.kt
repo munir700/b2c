@@ -13,12 +13,11 @@ import co.yap.yapcore.helpers.validation.util.ViewTagHelper.filterViewWithTag
 import co.yap.yapcore.helpers.validation.util.ViewTagHelper.filterViewsWithTag
 import co.yap.yapcore.helpers.validation.util.ViewTagHelper.getViewsByTag
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created irfan arshad on 10/6/2020.
  */
-class Validator(private val target: ViewDataBinding?) {
+class Validator(val target: ViewDataBinding?) {
     private val disabledViews: MutableSet<View>
     private var validationListener: ValidationListener? = null
     private var mode =
@@ -26,6 +25,13 @@ class Validator(private val target: ViewDataBinding?) {
     private var msgValidationMode =
         VALIDATION_WITHOUT_ERROR_MESSAGES
 
+    var targetViewBinding:ViewDataBinding?=target
+    set(value) {
+        field = value
+        value?.let {
+            if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) applyTextWatcherOnAllViews()
+        }
+    }
     @JvmField
     var isValidate =
         MutableLiveData(false)
@@ -156,14 +162,21 @@ class Validator(private val target: ViewDataBinding?) {
     }
 
     private fun getViewsWithValidation(): List<View> {
-        if (target == null) return ArrayList()
-        if (target.root is ViewGroup) {
-           return getViewsByTag(
-                (target.root as ViewGroup),
-                R.id.validator_rule
-            )
+        targetViewBinding?.let {
+            return if(it.root is ViewGroup)
+                getViewsByTag((it.root as ViewGroup), R.id.validator_rule)
+            else
+                listOf(it.root)
         }
-        return listOf(target.root)
+        return emptyList()
+//        if (targetViewBinding == null) return ArrayList()
+//        if (targetViewBinding?.root is ViewGroup) {
+//            return getViewsByTag(
+//                (targetViewBinding?.root as ViewGroup),
+//                R.id.validator_rule
+//            )
+//        }
+//        return listOf(targetViewBinding?.root)
     }
 
     private fun <ViewType : View?> getViewsWithValidation(views: List<ViewType>): List<View> {
@@ -188,6 +201,6 @@ class Validator(private val target: ViewDataBinding?) {
 
     init {
         disabledViews = HashSet()
-        if (msgValidationMode == VALIDATION_WITHOUT_ERROR_MESSAGES) applyTextWatcherOnAllViews()
+
     }
 }

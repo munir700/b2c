@@ -63,13 +63,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="1dp"
+                android:text="@{viewModel.state.verificationDescription}"
                 android:textAlignment="center"
                 android:visibility="@{viewModel.state.otpDataModel.logoData==null?View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="@{viewModel.state.verificationDescription}"
                 tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
 
             <TextView
@@ -83,10 +83,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone"
                 app:layout_constraintVertical_bias="0.0"
                 app:text="@{viewModel.state.verificationDescriptionForLogo}"
-                tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
+                tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636"
+                tools:visibility="gone" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <co.yap.widgets.otptextview.OtpTextView

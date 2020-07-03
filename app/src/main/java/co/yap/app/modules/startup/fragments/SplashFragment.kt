@@ -1,43 +1,30 @@
 package co.yap.app.modules.startup.fragments
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.app.BR
 import co.yap.app.BuildConfig
 import co.yap.app.R
+import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
-import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
 
-class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
+class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
-    var appUpdate: Boolean = false
+    override fun getBindingVariable() = BR.viewModel
+    override fun getLayoutId() = R.layout.fragment_splash
 
-    override val viewModel: ISplash.ViewModel
+    override val viewModel: SplashViewModel
         get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
-
-    }
-
     override fun performDataBinding(savedInstanceState: Bundle?) {
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +51,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                     getString(R.string.screen_splash_button_force_update),
                     false
                 ) {
-                    appUpdate = true
                     requireContext().openPlayStore()
                     activity?.finish()
                 }
@@ -75,13 +61,12 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
     }
 
     private fun moveNext() {
-        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
-        if (sharedPreferenceManager.getValueBoolien(
+        if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                 KEY_IS_FIRST_TIME_USER,
                 true
-            )
+            ) == true
         ) {
-            sharedPreferenceManager.save(
+            viewModel.parentViewModel?.shardPrefs?.save(
                 KEY_IS_FIRST_TIME_USER,
                 false
             )

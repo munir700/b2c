@@ -23,33 +23,38 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 import javax.inject.Inject
 
 class RecurringPaymentVM @Inject constructor(
-    override var state: IRecurringPayment.State
+    override var state: IRecurringPayment.State, override var validator: Validator?
 ) :
-    DaggerBaseViewModel<IRecurringPayment.State>(), IRecurringPayment.ViewModel {
+    DaggerBaseViewModel<IRecurringPayment.State>(), IRecurringPayment.ViewModel, IValidator {
     private val repository: CustomerHHApi = CustomersHHRepository
     private val calendar = Calendar.getInstance()
     override var fragmentManager: FragmentManager? = null
     override val clickEvent = SingleClickEvent()
-    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        state.amount.value = state.recurringTransaction?.value?.amount?.apply {
+            // validator?.validate()
+        }
+        state.recurringTransaction?.value?.nextProcessingDate?.apply {
+            stringToDate(this, SERVER_DATE_FORMAT)?.run {
+                calendar.time = this
+                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+            }
+        }
+    }
+
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let {
-            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             state.recurringTransaction?.value = it.getParcelable(SchedulePayment::class.simpleName)
-            state.amount.value = state.recurringTransaction?.value?.amount?.apply {
-                state.isValid.value = true
-            }
-            state.recurringTransaction?.value?.nextProcessingDate?.apply {
-                stringToDate(this, SERVER_DATE_FORMAT)?.run {
-                    calendar.time = this
-                    state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
-                }
-            }
+
         }
     }
 
@@ -78,14 +83,12 @@ class RecurringPaymentVM @Inject constructor(
         count: Int
     ) {
         if (amount.parseToDouble() > GetAccountBalanceLiveData.cardBalance.value?.availableBalance.parseToDouble()) {
-            state.isValid.value = false
             context.showTextUpdatedAbleSnackBar(
                 msg = "Looks like it’s time to Top Up! Please top up your account to continue with this transaction. ${underline(
                     "Top Up here!"
                 )}", marginTop = 0, clickListener = View.OnClickListener { })
         } else {
             cancelAllSnackBar()
-            state.isValid.value = true
         }
     }
 

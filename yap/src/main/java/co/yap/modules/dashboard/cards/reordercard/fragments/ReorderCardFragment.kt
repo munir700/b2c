@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.reordercard.viewmodels.RenewCardViewModel
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -87,25 +88,26 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
 
     private fun showDialog() {
         context?.let { it ->
-            Utils.confirmationDialog(it,
+            Utils.confirmationDialog(it, null,
                 Translator.getString(
-                    it,
-                    R.string.screen_reorder_card_purchase_display_text_alert_title
-                ),
-                ""
+                    requireContext(), Strings.screen_add_spare_card_display_text_alert_title
+                )
                 , Translator.getString(
                     it,
-                    R.string.screen_add_topup_card_succes_button_top_up_now
+                    R.string.screen_add_spare_card_display_button_block_alert_top_up
                 ), Translator.getString(
                     it,
-                    R.string.screen_add_topup_card_succes_button_later
+                    R.string.screen_add_spare_card_display_button_block_alert_skip
                 ),
                 object : OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
                             if (data) {
                                 startActivityForResult(
-                                    TopUpBeneficiariesActivity.newIntent(requireContext()),
+                                    TopUpBeneficiariesActivity.newIntent(
+                                        requireContext(),
+                                        getString(Strings.screen_cards_button_reorder_card)
+                                    ),
                                     RequestCodes.REQUEST_SHOW_BENEFICIARY
                                 )
                                 //activity?.let { it.finish() }

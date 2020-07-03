@@ -13,7 +13,6 @@ class HHIbanSendMoneyVM @Inject constructor(override val state: IHHIbanSendMoney
 
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
-        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
-
+        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
     }
 }

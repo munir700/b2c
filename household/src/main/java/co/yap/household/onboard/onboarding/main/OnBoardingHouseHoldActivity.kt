@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -43,7 +44,7 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         viewModel.state.accountInfo = intent.getParcelableExtra(USER_INFO)
         viewModel.state.existingYapUser = intent.getBooleanExtra(EXISTING_USER, false)
 
-        viewModel.onboardingData.accountType = "B2C_ACCOUNT"
+        viewModel.onboardingData.accountType = AccountType.B2C_HOUSEHOLD.name
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
 
     }

@@ -1,5 +1,8 @@
 package co.yap.yapcore.dagger.base.navigation.host
 
+import android.os.Bundle
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelActivity
@@ -19,7 +22,13 @@ class NavHostPresenterActivity :
     override fun getBindingVariable() = BR.navHostPresenterVM
 
     override fun getLayoutId() = R.layout.activity_navhost_presenter
+    override fun onDestinationChanged(
+        controller: NavController?,
+        destination: NavDestination?,
+        arguments: Bundle?
+    ) {
 
+    }
 //    override fun init(savedInstanceState: Bundle?) {
 //        super.init(savedInstanceState)
 //        navHostFragment?.let {

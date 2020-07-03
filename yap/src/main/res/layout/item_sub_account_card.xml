@@ -31,27 +31,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/layout_swipe_image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_62sdp"
-                android:background="@drawable/layout_swipe_half_border"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_drag_and_drop_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_76sdp"
+                android:background="@drawable/layout_swipe_half_border"
+                android:gravity="center"
                 android:text="@string/screen_sub_accounts_profile_display_text_drag_and_drop"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_h2"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/layout_swipe_image"
-                app:layout_constraintEnd_toEndOf="@id/layout_swipe_image"
-                app:layout_constraintStart_toStartOf="@id/layout_swipe_image"
-                app:layout_constraintTop_toTopOf="@id/layout_swipe_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:text="@{Strings.screen_sub_accounts_profile_display_text_drag_and_drop}" />
 
             <co.yap.widgets.CoreCircularImageView
@@ -66,9 +57,9 @@
                 app:drawableName="@{subAccountCardItemVm.item.accountType==null? `ic_add_card`:null}"
                 app:fullName="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?MyUserManager.INSTANCE.user.currentCustomer.fullName:subAccountCardItemVm.item.fullName}"
                 app:imageUrl="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?MyUserManager.INSTANCE.user.currentCustomer.picture:subAccountCardItemVm.item.profilePictureUrl}"
-                app:layout_constraintEnd_toEndOf="@id/layout_swipe_image"
-                app:layout_constraintStart_toStartOf="@id/layout_swipe_image"
-                app:layout_constraintTop_toTopOf="@id/layout_swipe_image" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTitle"

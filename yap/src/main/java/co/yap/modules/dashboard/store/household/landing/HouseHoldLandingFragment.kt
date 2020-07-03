@@ -1,5 +1,11 @@
 package co.yap.modules.dashboard.store.household.landing
 
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -11,11 +17,10 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 class HouseHoldLandingFragment :
     BaseNavViewModelFragment<FragmentHouseHoldLandingBinding, IHouseHoldLanding.State, HouseHoldLandingVM>() {
-
     override fun getBindingVariable() = BR.houseHoldLandingVM
     override fun getLayoutId() = R.layout.fragment_house_hold_landing
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setupToolbar(toolbar = mViewDataBinding.toolbar, setActionBar = true) {
             finishActivity()
         }

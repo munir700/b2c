@@ -18,10 +18,6 @@
         <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
 
         <import type="co.yap.translation.Strings" />
-
-        <variable
-            name="cardBalance"
-            type="co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData.Companion" />
     </data>
 
     <ScrollView
@@ -78,9 +74,10 @@
                 android:onTextChanged="@{viewModel.onAmountChange}"
                 android:text="@={viewModel.state.amount}"
                 app:amount_drawable="@drawable/bg_funds"
-                app:editable="@{true}"
+                app:errorEnabled="@{true}"
                 app:forceKeyboard="@{true}"
-                app:layout_constraintTop_toBottomOf="@+id/tvCurrency">
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
 
                 <requestFocus />
             </co.yap.widgets.EasyMoneyEditText>
@@ -119,7 +116,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_18sdp"
                 android:checked="@={viewModel.state.isRecurring}"
-                android:enabled="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid , default = false}"
+                android:enabled="@{viewModel.validator.isValidate , default = false}"
                 android:text="Set this salary transfer up as a recurring payment"
                 tools:ignore="HardcodedText" />
 
@@ -140,7 +137,7 @@
                 android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                 android:text="Confirm"
                 app:btn_enable="true"
-                app:enableCoreButton="@{viewModel.state.amount.length()>0 &amp;&amp; viewModel.state.isValid}"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:layout_constraintVertical_bias="1.0"
                 tools:ignore="HardcodedText" />
         </androidx.appcompat.widget.LinearLayoutCompat>

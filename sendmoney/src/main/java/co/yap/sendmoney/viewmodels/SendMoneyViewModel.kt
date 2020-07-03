@@ -18,6 +18,9 @@ class SendMoneyViewModel(application: Application) :
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
     override val state: SendMoneyState = SendMoneyState()
     override var otpSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    override var countriesList: List<Country>? = null
+    override var selectedResidenceCountry: Country? = null
+
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)
     }

@@ -7,6 +7,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
+import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
@@ -34,6 +35,14 @@ interface CustomersRetroService {
     @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA)
     suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
 
+    // Post demographic dataList
+    @POST(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA_SIGN_IN)
+    suspend fun generateOTPForDeviceVerification(@Body demographicDataRequest: DemographicDataRequest): Response<ValidateDeviceResponse>
+
+    // Post demographic dataList
+    @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA_SIGN_IN)
+    suspend fun verifyOTPForDeviceVerification(@Body demographicDataRequest: DemographicDataRequest): Response<OtpValidationResponse>
+
     // Validate demographic dataList
     @GET(CustomersRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
     suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>
@@ -45,7 +54,8 @@ interface CustomersRetroService {
         @Part files: List<MultipartBody.Part>,
         @Part("documentType") documentType: RequestBody,
         @Part("firstName") firstName: RequestBody,
-        @Part("lastName") lastName: RequestBody,
+        @Part("middleName") middleName: RequestBody? = null,
+        @Part("lastName") lastName: RequestBody? = null,
         @Part("nationality") nationality: RequestBody,
         @Part("dateExpiry") dateExpiry: RequestBody,
         @Part("dob") dob: RequestBody,
@@ -74,7 +84,10 @@ interface CustomersRetroService {
 
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
-    suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
+    suspend fun validatePhoneNumber(
+        @Query("country-code") countryCode: String,
+        @Query("mobile-number") mobileNumber: String
+    ): Response<ApiResponse>
 
     @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
     suspend fun changeMobileNumber(
@@ -97,7 +110,6 @@ interface CustomersRetroService {
 
     @GET(CustomersRepository.URL_Y2Y_RECENT_BENEFICIARIES)
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
-
 
     @GET(CustomersRepository.URL_TOPUP_BENEFICIARIES)
     suspend fun getTopUpBeneficiaries(): Response<TopUpBeneficiariesResponse>
@@ -177,11 +189,6 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_SAVE_REFERAL_INVITATION)
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): Response<ApiResponse>
 
-
-    /*
-   * fun that comes from admin repo
-   * */
-
     // Verify username
     @POST(CustomersRepository.URL_VERIFY_USERNAME)
     suspend fun verifyUsername(@Query("username") username: String): Response<VerifyUsernameResponse>
@@ -189,7 +196,6 @@ interface CustomersRetroService {
     //Forgot passcode request
     @PUT(CustomersRepository.URL_FORGOT_PASSCODE)
     suspend fun forgotPasscode(@Body forgotPasscodeRequest: ForgotPasscodeRequest): Response<ApiResponse>
-
 
     //validate current passcode
     @GET(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
@@ -213,4 +219,18 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_CITIES)
     suspend fun getCities(): Response<CitiesModel>
 
+    @GET(CustomersRepository.URL_TAX_REASONS)
+    suspend fun getTaxReasons(): Response<TaxReasonResponse>
+
+    @POST(CustomersRepository.URL_BIRTH_INFO)
+    suspend fun saveBirthInfo(@Body birthInfoRequest: BirthInfoRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_TAX_INFO)
+    suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
+
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
 }
