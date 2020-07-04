@@ -200,5 +200,5 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
 }
 
 fun Double?.roundVal(): Double {
-    return this?.toBigDecimal()?.setScale(2, RoundingMode.HALF_EVEN)?.toDouble() ?: 0.0
+    return this?.toBigDecimal()?.setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
 }
