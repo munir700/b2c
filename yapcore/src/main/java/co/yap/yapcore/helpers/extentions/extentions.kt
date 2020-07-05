@@ -200,5 +200,17 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
 }
 
 fun Double?.roundVal(): Double {
-    return this?.toBigDecimal()?.setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
+//    this?.let {
+//        val floatingMultiplier = it * 100
+//        val rounded =
+//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
+//        val floatingDivisor = rounded ?: 0.0.div(100)
+//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
+//    } ?: return 0.0
+
+    val floatingMultiplier = (this ?: 0.0) * 100
+    val rounded =
+        floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
+    val floatingDivisor = (rounded ?: 0.0).div(100)
+    return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
 }

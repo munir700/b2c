@@ -17,8 +17,9 @@ class ExampleUnitTest {
 
     @Test
     fun isValidRoundUp() {
-        val value: Double = 101.385
-        value.roundVal().toString()
-        assertEquals("101.39", value.roundVal().toString())
+        val rate: Double = 0.033795
+        val amount: Double = 3000.0
+        val mul: Double = rate * amount
+        assertEquals("101.39", mul.roundVal().toString())
     }
 }
