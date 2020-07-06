@@ -95,7 +95,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
 
     private fun getCoolingHoursLabel(): String {
         return smCoolingPeriod?.coolingPeriodDuration?.parseToDouble()?.let { coolingHours ->
-            return@let if (coolingHours > 1) " hour's" else " hour"
+            return@let if (coolingHours > 1) " hours" else " hour"
         } ?: " hour"
     }
 }

@@ -12,6 +12,7 @@ import co.yap.sendmoney.R
 import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.fundtransfer.states.CashTransferState
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
@@ -19,6 +20,7 @@ import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -78,7 +80,6 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        //if (shouldFeeApply())
         updateFees(state.amount)
     }
 
@@ -86,6 +87,7 @@ class CashTransferViewModel(application: Application) :
         if (R.id.btnConfirm == id) {
             if (!isUaeftsBeneficiary()) {
                 when {
+                    state.amount.parseToDouble() < state.minLimit -> showUpperLowerLimitError()
                     isOtpRequired() -> createOtp(id = id)
                     else -> proceedToTransferAmount()
                 }
@@ -346,4 +348,14 @@ class CashTransferViewModel(application: Application) :
         })
     }
 
+    fun showUpperLowerLimitError() {
+        state.errorDescription = Translator.getString(
+            context,
+            Strings.common_display_text_min_max_limit_error_transaction,
+            state.minLimit.toString().toFormattedAmountWithCurrency(),
+            state.maxLimit.toString().toFormattedAmountWithCurrency()
+        )
+        parentViewModel?.errorEvent?.value = state.errorDescription
+
+    }
 }
