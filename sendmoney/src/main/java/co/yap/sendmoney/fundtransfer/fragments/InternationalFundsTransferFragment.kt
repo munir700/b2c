@@ -280,10 +280,12 @@ class InternationalFundsTransferFragment :
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
-            if (it.isNotBlank())
+            if (it.isNotBlank() && it.parseToDouble() > 0.0)
                 checkOnTextChangeValidation()
-            else
+            else {
                 viewModel.state.valid = false
+                cancelAllSnackBar()
+            }
 
             viewModel.updateFees()
         }

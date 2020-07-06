@@ -128,7 +128,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
-                        showUpperLowerLimitError()
+                        viewModel.showUpperLowerLimitError()
                     } else {
                         if (viewModel.isUaeftsBeneficiary()) {
                             if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
@@ -144,7 +144,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED";
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
                 viewModel.parentViewModel?.transferData?.value?.transferAmount =
                     viewModel.state.amount
                 val action =
@@ -200,16 +201,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
-    private fun showUpperLowerLimitError() {
-        viewModel.state.errorDescription = Translator.getString(
-            requireContext(),
-            Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
-        )
-        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
-    }
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
@@ -328,13 +320,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
         etAmount.afterTextChanged {
             viewModel.state.clearError()
-            if (viewModel.state.amount.isNotEmpty()) {
+            if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
             } else {
                 viewModel.state.valid = false
                 cancelAllSnackBar()
             }
-
             viewModel.updateFees()
         }
     }
@@ -358,7 +349,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.state.valid = true
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
-                showUpperLowerLimitError()
+                viewModel.showUpperLowerLimitError()
                 viewModel.state.valid = false
             }
             else -> {
