@@ -8,35 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:20948663414:android:f9de6bdd2c7ed34133b357",
-        "android_client_info": {
-          "package_name": "co.yap"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "20948663414-4tjkidkunkdk3au170352hgpd6eogs9p.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDQGlfccrkzgXNhcr52gCvNacQHZjdBPhg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "20948663414-4tjkidkunkdk3au170352hgpd6eogs9p.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:20948663414:android:116663fa56b4e27933b357",
         "android_client_info": {
           "package_name": "co.yap.dev"
@@ -98,6 +69,35 @@
         "mobilesdk_app_id": "1:20948663414:android:9f2735aea06a032e33b357",
         "android_client_info": {
           "package_name": "co.yap.stg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20948663414-4tjkidkunkdk3au170352hgpd6eogs9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQGlfccrkzgXNhcr52gCvNacQHZjdBPhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20948663414-4tjkidkunkdk3au170352hgpd6eogs9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20948663414:android:2deedf61e924697433b357",
+        "android_client_info": {
+          "package_name": "com.yap"
         }
       },
       "oauth_client": [
