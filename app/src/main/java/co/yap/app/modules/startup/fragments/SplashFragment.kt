@@ -16,6 +16,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
+import kotlinx.android.synthetic.main.fragment_splash.*
 
 class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -25,6 +26,11 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     override val viewModel: SplashViewModel
         get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        imageView3.setImageResource(56776)
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
