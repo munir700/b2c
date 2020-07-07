@@ -102,6 +102,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "20948663414-20tjtlbi08do94j677tpkl3m4f8vcq10.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yap",
+            "certificate_hash": "be61415c0434ded8456ec009e095dfe44980a7f6"
+          }
+        },
+        {
           "client_id": "20948663414-4tjkidkunkdk3au170352hgpd6eogs9p.apps.googleusercontent.com",
           "client_type": 3
         }
