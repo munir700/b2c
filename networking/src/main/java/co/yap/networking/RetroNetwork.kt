@@ -111,7 +111,7 @@ object RetroNetwork : Network {
             .add("*.yap.co", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
             .add("*.yap.co", "sha256/VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=")
             //PrePod server
-            .add("*.yap.co", "sha256/xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=")
+            .add("*.yap.com", "sha256/xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=")
             .build()
     }
 
@@ -120,9 +120,7 @@ object RetroNetwork : Network {
     ): HttpLoggingInterceptor {
         val logger = HttpLoggingInterceptor()
         logger.level =
-            if (appData.flavor.equals("stg", true)
-                && appData.build_type.equals("release", true)
-            ) {
+            if (appData.isReleaseStg()) {
                 HttpLoggingInterceptor.Level.NONE
             } else {
                 HttpLoggingInterceptor.Level.BODY
