@@ -1,4 +1,4 @@
-package co.yap.sendMoney
+package co.yap.sendmoney
 
 import co.yap.yapcore.helpers.extentions.roundVal
 import org.junit.Assert.assertEquals

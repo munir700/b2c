@@ -39,6 +39,8 @@ object Strings {
         "common_display_text_daily_limit_error"
     const val common_display_text_cooling_period_limit_error: String =
         "common_display_text_cooling_period_limit_error"
+    const val common_display_text_cooling_period_limit_consumed_error: String =
+        "common_display_text_cooling_period_limit_consumed_error"
     const val common_display_text_on_hold_limit_error: String =
         "common_display_text_on_hold_limit_error"
 
