@@ -19,4 +19,19 @@ class FundTransferTest {
             cp.consumedAmount ?: 0.0 >= cp.maxAllowedCoolingPeriodAmount.parseToDouble()
         )
     }
+
+    @Test
+    fun isCoolingPeriodAmountConsumed() {
+        val cp = SMCoolingPeriod()
+        cp.maxAllowedCoolingPeriodAmount = "10000.00"
+        cp.consumedAmount = 9000.00
+        val inputAmount = 1000.00
+        val remainingLimit = cp.maxAllowedCoolingPeriodAmount.parseToDouble()
+            .minus(cp.consumedAmount ?: 0.0)
+
+        Assert.assertEquals(
+            true,
+            inputAmount >= remainingLimit
+        )
+    }
 }
