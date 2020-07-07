@@ -24,8 +24,8 @@ android {
     productFlavors {
 
         live {
-            versionCode 10
-            versionName "0.14"
+            versionCode 1
+            versionName "0.1.0"
             resValue "string", "app_name", "YAP"
             applicationId "com.yap"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
