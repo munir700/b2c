@@ -81,15 +81,25 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     }
 
     override fun showCoolingPeriodLimitError() {
-        val errorDescription = Translator.getString(
-            context,
-            Strings.common_display_text_cooling_period_limit_error,
-            smCoolingPeriod?.maxAllowedCoolingPeriodAmount.parseToDouble()
-                .minus(smCoolingPeriod?.consumedAmount ?: 0.0)
-                .toString().toFormattedAmountWithCurrency(),
-            smCoolingPeriod?.coolingPeriodDuration.toString() + getCoolingHoursLabel(),
-            beneficiary.value?.fullName().toString()
-        )
+        var errorDescription = ""
+        if (smCoolingPeriod?.consumedAmount ?: 0.0 >= smCoolingPeriod?.maxAllowedCoolingPeriodAmount.parseToDouble()) {
+            errorDescription = Translator.getString(
+                context,
+                Strings.common_display_text_cooling_period_limit_consumed_error,
+                smCoolingPeriod?.coolingPeriodDuration.toString() + getCoolingHoursLabel(),
+                beneficiary.value?.fullName().toString()
+            )
+        } else {
+            errorDescription = Translator.getString(
+                context,
+                Strings.common_display_text_cooling_period_limit_error,
+                smCoolingPeriod?.maxAllowedCoolingPeriodAmount.parseToDouble()
+                    .minus(smCoolingPeriod?.consumedAmount ?: 0.0)
+                    .toString().toFormattedAmountWithCurrency(),
+                smCoolingPeriod?.coolingPeriodDuration.toString() + getCoolingHoursLabel(),
+                beneficiary.value?.fullName().toString()
+            )
+        }
         errorEvent.value = errorDescription
     }
 
