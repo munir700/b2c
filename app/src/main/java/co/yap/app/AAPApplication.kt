@@ -33,6 +33,10 @@ import java.util.*
 
 class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
 
+    companion object {
+        val appInfo = getAppInfo()
+    }
+
     override fun onCreate() {
         super.onCreate()
         initNetworkLayer()
