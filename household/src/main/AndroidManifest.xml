@@ -7,7 +7,7 @@
         tools:remove="android:debuggable"
         android:allowBackup="false"
         tools:replace="android:allowBackup"
-        android:supportsRtl="true">
+        android:supportsRtl="false">
 
         <activity
             android:name=".onboard.onboarding.main.OnBoardingHouseHoldActivity"
