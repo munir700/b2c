@@ -968,7 +968,7 @@
     <string name="screen_house_hold_onBoarding_existing_title_accept_text_second">plan will be added to your YAP app</string>
     <string name="screen_house_hold_onBoarding_existing_title_accept">Accept</string>
     <string name="screen_house_hold_onBoarding_existing_title_decline_request">Decline request</string>
-    <string name="screen_house_hold_existing_yap_message">Sorry %1s, looks like you already have a Household plan connected to this Emirates ID. Please log out and inform your employer that we cannot proceed with activating your plan at this time. </string>
+    <string name="screen_house_hold_existing_yap_message">Sorry %1s, looks like you already have a Household plan connected to this Emirates ID.\n\nPlease log out and inform your employer that we cannot proceed with activating your plan at this time. </string>
 
     <!-- Household Dashboard/Home -->
     <string name="screen_household_home_display_text_transactions_heading_title">Transactions</string>

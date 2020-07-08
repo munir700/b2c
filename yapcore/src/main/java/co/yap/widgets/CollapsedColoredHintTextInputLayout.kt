@@ -10,7 +10,6 @@ import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.isEmpty
-import co.yap.yapcore.viewbehavior.PercentageViewBehavior
 import com.google.android.material.textfield.TextInputLayout
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -124,7 +123,8 @@ class CollapsedColoredHintTextInputLayout : TextInputLayout {
             return
         try {
             bounds?.left =
-                if (drawablePadding > -1) drawablePadding else editText?.left!! + editText?.paddingLeft!!
+                if (drawablePadding > -1) drawablePadding else (editText?.left
+                    ?: 0) + (editText?.paddingLeft ?: 0)
             // setCollapsedBounds?.invoke(collapsingTextHelper , bounds)
             recalculateMethod?.invoke(collapsingTextHelper)
             /// collapseHintMethod?.invoke(this, false)
