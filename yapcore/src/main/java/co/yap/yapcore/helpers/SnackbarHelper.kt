@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.toastNow
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.google.android.material.snackbar.Snackbar
+
 
 fun Activity?.showSnackBar(
     msg: String,
@@ -204,6 +206,7 @@ fun Fragment?.showSnackBar(
                 validateString(msg),
                 duration
             )
+        snakbar.behavior = NoSwipeBehavior()
         snakbar.view.setBackgroundColor(ContextCompat.getColor(it.requireContext(), viewBgColor))
         val snackRootView = snakbar.view
         val snackTextView = snackRootView
@@ -285,6 +288,7 @@ fun View?.showSnackBar(
         val layoutInflater: LayoutInflater = LayoutInflater.from(it.context)
         val snackView = layoutInflater.inflate(R.layout.snackbar_card_status, null)
         layout.addView(snackView, 0)
+        snakbar.behavior = NoSwipeBehavior()
         snakbar.view.setBackgroundColor(ContextCompat.getColor(it.context, viewBgColor))
         val tvMessage = layout.findViewById(R.id.tvMessage) as TextView
         tvMessage.text = validateString(msg)
@@ -381,6 +385,7 @@ fun View?.showSnackBar(
     this?.let {
         val snakbar = Snackbar
             .make(it, validateString(msg), duration)
+        snakbar.behavior = NoSwipeBehavior()
         snakbar.view.setBackgroundColor(ContextCompat.getColor(it.context, viewBgColor))
         val snackRootView = snakbar.view
         val snackTextView = snackRootView
@@ -471,4 +476,9 @@ private object SnackBarQueue {
 
     fun removeSnackBar(snackBar: Snackbar) = snackBarQueue.remove(snackBar)
 
+}
+internal class NoSwipeBehavior : BaseTransientBottomBar.Behavior() {
+    override fun canSwipeDismissView(child: View): Boolean {
+        return false
+    }
 }
