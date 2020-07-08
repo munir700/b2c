@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hh_onboarding_navigation"
+    app:startDestination="@id/HHOnBoardingMobileFragment">
+
+    <fragment
+        android:id="@+id/HHOnBoardingMobileFragment"
+        android:name="co.yap.household.onboarding.onboardmobile.HHOnBoardingMobileFragment"
+        android:label="HHOnBoardingMobileFragment"
+        tools:layout="@layout/fragment_hhonboarding_mobile" />
+    <fragment
+        android:id="@+id/HHOnBoardingEmailFragment"
+        android:name="co.yap.household.onboarding.onboardemail.HHOnBoardingEmailFragment"
+        android:label="HHOnBoardingEmailFragment"
+        tools:layout="@layout/fragment_hhon_boarding_email" />
+    <fragment
+        android:id="@+id/HHOnBoardingInvalidEidFragment"
+        android:name="co.yap.household.onboarding.invalideid.HHOnBoardingInvalidEidFragment"
+        android:label="HHOnBoardingInvalidEidFragment"
+        tools:layout="@layout/fragment_hhon_boarding_invalid_eid" />
+    <fragment
+        android:id="@+id/HHOnBoardingSuccessFragment"
+        android:name="co.yap.household.onboarding.onboardsuccess.HHOnBoardingSuccessFragment"
+        android:label="HHOnBoardingSuccessFragment"
+        tools:layout="@layout/fragment_hhonboarding_success" />
+    <fragment
+        android:id="@+id/HHOnBoardingCardSelectionFragment"
+        android:name="co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionFragment"
+        android:label="HHOnBoardingCardSelectionFragment"
+        tools:layout="@layout/fragment_hhon_boarding_card_selection" />
+
+</navigation>
