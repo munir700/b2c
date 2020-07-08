@@ -148,7 +148,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             Strings.common_display_text_cooling_period_limit_error,
             viewModel.smCoolingPeriod?.maxAllowedCoolingPeriodAmount.toString()
                 .toFormattedAmountWithCurrency(),
-            viewModel.smCoolingPeriod?.coolingPeriodDuration.toString() + " hour's",
+            viewModel.smCoolingPeriod?.coolingPeriodDuration.toString() + viewModel.getCoolingHoursLabel(),
             viewModel.state.fullName
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription

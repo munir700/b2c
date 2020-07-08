@@ -128,6 +128,12 @@ class Y2YFundsTransferViewModel(application: Application) :
         } ?: return false
     }
 
+    fun getCoolingHoursLabel(): String {
+        return smCoolingPeriod?.coolingPeriodDuration?.parseToDouble()?.let { coolingHours ->
+            return@let if (coolingHours > 1) " hours" else " hour"
+        } ?: " hour"
+    }
+
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {

@@ -76,7 +76,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
         smCoolingPeriod?.let { period ->
             val remainingLimit = period.maxAllowedCoolingPeriodAmount.parseToDouble()
                 .minus(period.consumedAmount ?: 0.0)
-            return inputAmount.parseToDouble() >= remainingLimit
+            return inputAmount.parseToDouble() > remainingLimit
         } ?: return false
     }
 
