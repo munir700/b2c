@@ -23,6 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:remove="android:debuggable"
+        android:fullBackupContent="false"
         tools:replace="android:theme,android:allowBackup">
         <activity
             android:name=".main.MainActivity"
