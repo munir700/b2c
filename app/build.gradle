@@ -26,7 +26,7 @@ android {
         live {
             versionCode 1
             versionName "0.1.0"
-            applicationId "com.yap"
+            applicationId "com.yap.banking"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_prod_key}\"")
