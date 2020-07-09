@@ -79,13 +79,10 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        val appId = BuildConfig.LEANPLUM_CLIENT_SECRET
-        val devKey = BuildConfig.LEANPLUM_API_KEY
-
-        if (BuildConfig.DEBUG) {
-            Leanplum.setAppIdForDevelopmentMode(appId, devKey)
+        if (appInfo.isLiveRelease()) {
+            Leanplum.setAppIdForDevelopmentMode(BuildConfig.LEANPLUM_CLIENT_SECRET, BuildConfig.LEANPLUM_API_KEY)
         } else {
-            Leanplum.setAppIdForProductionMode(appId, devKey)
+            Leanplum.setAppIdForProductionMode(BuildConfig.LEANPLUM_CLIENT_SECRET, BuildConfig.LEANPLUM_API_KEY)
         }
 
         //Leanplum.setIsTestModeEnabled(true)

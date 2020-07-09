@@ -29,7 +29,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
             if (it) {
-                if (!AAPApplication.appInfo.isReleaseStg()) {
+                if (!AAPApplication.appInfo.isLiveRelease()) {
                     moveNext()
                 } else {
                     viewModel.getAppUpdate()

@@ -8,7 +8,7 @@ data class AppInfo(
     var baseUrl: String? = null
 ) {
 
-    fun isReleaseStg(): Boolean =
-        (build_type == "release" && flavor == "stg")
+    fun isLiveRelease(): Boolean =
+        (build_type == "release" && flavor == "live")
 
 }
