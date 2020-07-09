@@ -57,6 +57,7 @@ class VerifyPasscodeViewModel(application: Application) :
                 showAccountBlockedError(error.message)
             }
             else ->{
+                showToast(error.message)
                 loginSuccess.postValue(false)
             }
         }
