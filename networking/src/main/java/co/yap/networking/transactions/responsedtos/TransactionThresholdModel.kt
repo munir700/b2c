@@ -28,5 +28,7 @@ data class TransactionThresholdModel(
     @SerializedName("otpLimitTopUpSupplementary")
     var otpLimitTopUpSupplementary: Double?,
     @SerializedName("virtualCardBalanceLimit")
-    var virtualCardBalanceLimit: Double?
+    var virtualCardBalanceLimit: Double?,
+    @SerializedName("holdAmountIsIncludedInTotalDebitAmount")
+    var holdAmountIsIncludedInTotalDebitAmount: Boolean?
 )
