@@ -54,7 +54,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                         clickEvent.postValue(Constants.ADD_SUCCESS)
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
+                        showToast(response.error.message)
                         state.loading = false
                     }
                 }
@@ -86,7 +86,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                         clickEvent.postValue(Constants.ADD_SUCCESS)
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
+                        showToast(response.error.message)
                         state.loading = false
                     }
                 }
