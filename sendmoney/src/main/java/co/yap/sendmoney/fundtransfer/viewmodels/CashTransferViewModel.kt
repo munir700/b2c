@@ -94,7 +94,6 @@ class CashTransferViewModel(application: Application) :
             } else {
                 clickEvent.setValue(id)
             }
-
         } else {
             clickEvent.setValue(id)
         }
@@ -177,15 +176,13 @@ class CashTransferViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                }
-                is RetroApiResponse.Error -> {
-                    state.errorDescription =
-                        "${response.error.message}-${AlertType.DIALOG_WITH_FINISH.name}"
-                    errorEvent.call()
                     state.loading = false
                 }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    showToast(response.error.message)
+                }
             }
-            state.loading = false
         }
     }
 
@@ -202,7 +199,6 @@ class CashTransferViewModel(application: Application) :
                 }
             }
         }
-
     }
 
     override fun getCountryLimit() {
