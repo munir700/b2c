@@ -35,7 +35,6 @@ interface IYapHome {
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()
-        fun requestOrderCard(address: Address?)
         fun getNotifications(
             accountInfo: AccountInfo,
             paymentCard: Card

@@ -31,7 +31,6 @@ interface IRecurringPayment {
         var date: MutableLiveData<String>
         var subAccount: MutableLiveData<SubAccount>
         var schedulePayment: MutableLiveData<SchedulePayment>
-        var isValid: MutableLiveData<Boolean>
         var amount: MutableLiveData<String>
         var recurringInterval: MutableLiveData<String>
         var recurringTransaction: MutableLiveData<SchedulePayment>?

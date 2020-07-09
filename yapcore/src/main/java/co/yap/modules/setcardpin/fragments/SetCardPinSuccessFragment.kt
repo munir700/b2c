@@ -13,7 +13,8 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 
-class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewModel>(), ISetCardPinSuccess.View {
+class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewModel>(),
+    ISetCardPinSuccess.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -24,12 +25,12 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if(activity is SetCardPinWelcomeActivity){
+        if (activity is SetCardPinWelcomeActivity) {
             (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = false
         }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-            /*    R.id.btnTopUp -> activity?.finish()*/
+                /*    R.id.btnTopUp -> activity?.finish()*/
                 R.id.btnTopUp -> {
                     setupActionsIntentForTopUp()
                     activity?.finish()
@@ -53,10 +54,10 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
     }
 
     private fun setupActionsIntent() {
-            val returnIntent = Intent()
-            returnIntent.putExtra(Constants.isPinCreated, true)
-            returnIntent.putExtra("isTopUpSkip", true)
-            activity?.setResult(Activity.RESULT_OK, returnIntent)
+        val returnIntent = Intent()
+        returnIntent.putExtra(Constants.isPinCreated, true)
+        returnIntent.putExtra(Constants.IS_TOPUP_SKIP, true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 
     private fun setupActionsIntentForTopUp() {
@@ -65,7 +66,7 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
                 val returnIntent = Intent()
                 returnIntent.putExtra(Constants.CARD_SERIAL_NUMBER, serialNumber)
                 returnIntent.putExtra(Constants.isPinCreated, true)
-                returnIntent.putExtra("isTopUpSkip", false)
+                returnIntent.putExtra(Constants.IS_TOPUP_SKIP, false)
                 activity?.setResult(Activity.RESULT_OK, returnIntent)
             }
         } else {

@@ -49,6 +49,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var onAccountInfoSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    var helpPhoneNumber: String = ""
+
 
     @Deprecated("Use GetAccountBalanceLiveData instead")
     fun updateCardBalance() {

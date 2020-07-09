@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.employee
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -22,8 +23,8 @@ class PayHHEmployeeSalaryFragment :
         state.subAccount.value?.getFullName() ?: ""
     )
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
@@ -40,6 +41,7 @@ class PayHHEmployeeSalaryFragment :
                 )
             }
             R.id.llScheduleOnce -> {
+                arguments?.remove(SchedulePayment::class.simpleName)
                 state.futureTransaction?.value?.let {
                     arguments?.putParcelable(
                         SchedulePayment::class.simpleName, it
@@ -54,8 +56,10 @@ class PayHHEmployeeSalaryFragment :
                     PayHHEmployeeSalaryFragmentDirections.actionPayHHEmployeeSalaryFragmentToFuturePaymentFragment(),
                     arguments
                 )
+
             }
             R.id.llMakeRecurring -> {
+                arguments?.remove(SchedulePayment::class.simpleName)
                 arguments?.putParcelable(SchedulePayment::class.simpleName, null)
                 state.recurringTransaction?.value?.let {
                     arguments?.putParcelable(

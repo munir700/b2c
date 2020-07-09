@@ -21,7 +21,6 @@ class FirstNameRule(view: TextView, errorMessage: String, errorEnabled: Boolean)
 
     override fun onValidationSucceeded(view: TextView?) {
         super.onValidationSucceeded(view)
-
         view?.let { EditTextHandler.removeError(it) }
 
     }
@@ -32,6 +31,5 @@ class FirstNameRule(view: TextView, errorMessage: String, errorEnabled: Boolean)
             if (errorEnabled)
                 EditTextHandler.setError(it, errorMessage)
         }
-
     }
 }

@@ -44,7 +44,7 @@ data class Transaction(
     @SerializedName("creationDate")
     val creationDate: String? = null,
     @SerializedName("currency")
-    val currency: String? = null,
+    var currency: String? = null,
     @SerializedName("customerId1")
     val customerId1: String? = null,
     @SerializedName("customerId2")

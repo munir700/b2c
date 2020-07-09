@@ -1,6 +1,6 @@
 package co.yap.yapcore.dagger.base
 
-import android.view.DragEvent
+import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.networking.models.ApiResponse
 import co.yap.widgets.*
-import co.yap.yapcore.*
+import co.yap.yapcore.BaseRVAdapter
+import co.yap.yapcore.IBase
+import co.yap.yapcore.R
 import co.yap.yapcore.dagger.base.interfaces.UiRefreshable
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
@@ -33,15 +35,16 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
     protected var isRefreshing: Boolean = false
 
     val recyclerView: RecyclerView? by bindView(R.id.recyclerView)
-    private val refreshLayout: SwipeRefreshLayout? by bindView(R.id.refreshLayout)
+    private val refreshLayout: YapSwipeRefreshLayout? by bindView(R.id.refreshLayout)
     val stateLayout: MultiStateView? by bindView(R.id.multiStateView)
 
     /**
      * if return false in child fragment then child fragment should need implement owen [RecyclerView]
      */
     var setupRecyclerView = true
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
+//        refreshLayout = view?.findViewById(R.id.refreshLayout)
         if (setupRecyclerView) {
             getmViewModel().adapter.set(adapter)
             recyclerView?.addItemDecoration(getItemDecoration())
@@ -104,6 +107,8 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     override fun setRefreshEnabled(enabled: Boolean) {
         refreshLayout?.isEnabled = enabled
+        if (!enabled) refreshLayout?.setOnRefreshListener(null)
+        else refreshLayout?.setOnRefreshListener { onRefresh() }
     }
 
     override fun onRefresh() {
@@ -115,7 +120,6 @@ abstract class BaseRecyclerViewFragment<VB : ViewDataBinding, S : IBase.State, V
 
     private fun refreshUi() {
         refreshLayout?.isRefreshing = true
-
     }
 
     override fun onDestroyView() {

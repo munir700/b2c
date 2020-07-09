@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.store.household.subscriptionselection
 
+import android.content.Context
+import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -39,11 +42,16 @@ class SubscriptionSelectionFragment :
     override fun getToolBarTitle() =
         getString(Strings.screen_yap_house_hold_user_info_display_text_title)
 
-    override fun postExecutePendingBindings() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         if (activity is ManageToolBarListener) {
             (activity as ManageToolBarListener).setupToolbar(activity?.findViewById(R.id.toolBar))
         }
-        super.postExecutePendingBindings()
+        super.postExecutePendingBindings(savedInstanceState)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
@@ -62,8 +70,8 @@ class SubscriptionSelectionFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
-                selectorGroup?.mCheckedId
                 if (!state.plansList.isNullOrEmpty()) {
+                    trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
                     trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
                     trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
                     navigateForwardWithAnimation(
@@ -71,18 +79,9 @@ class SubscriptionSelectionFragment :
                         bundleOf(
                             HouseHoldPlan::class.java.name to state.plansList,
                             Constants.POSITION to state.selectedPlanPosition.value
-                        )
+                        ), null
                     )
                 }
-                if (!state.plansList.isNullOrEmpty())
-                    trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
-                navigateForwardWithAnimation(
-                    SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
-                    bundleOf(
-                        HouseHoldPlan::class.java.name to state.plansList,
-                        Constants.POSITION to state.selectedPlanPosition.value
-                    )
-                )
             }
         }
     }

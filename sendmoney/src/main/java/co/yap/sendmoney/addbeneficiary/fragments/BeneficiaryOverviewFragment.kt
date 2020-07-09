@@ -7,10 +7,12 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.countryutils.country.Country
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel
+import co.yap.sendmoney.databinding.FragmentBeneficiaryOverviewBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
@@ -24,11 +26,23 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_beneficiary_overview
 
-    override val viewModel: IBeneficiaryOverview.ViewModel
+    override val viewModel: BeneficiaryOverviewViewModel
         get() = ViewModelProviders.of(this).get(BeneficiaryOverviewViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    private fun showResidenceCountries() {
+        getBinding().spinner.setEnabledSpinner(false)
+        getBinding().spinner.setAdapter(viewModel.parentViewModel?.countriesList)
+        if (viewModel.parentViewModel?.selectedResidenceCountry != null) {
+            getBinding().spinner.setSelectedItem(
+                viewModel.parentViewModel?.countriesList?.indexOf(
+                    viewModel.parentViewModel?.selectedResidenceCountry ?: Country()
+                ) ?: 0
+            )
+        }
     }
 
     private fun editBeneficiaryScreen() {
@@ -43,6 +57,7 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showResidenceCountries()
         viewModel.beneficiary =
             arguments?.let { BeneficiaryOverviewFragmentArgs.fromBundle(it).beneficiary }!!
         if (viewModel.beneficiary.accountNo!!.length >= 22) {
@@ -150,6 +165,10 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
                 })
 
             .show()
+    }
+
+    private fun getBinding(): FragmentBeneficiaryOverviewBinding {
+        return (viewDataBinding as FragmentBeneficiaryOverviewBinding)
     }
 
 }

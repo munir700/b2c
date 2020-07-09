@@ -28,6 +28,7 @@ interface ILocationSelection {
         fun onLocationSelected()
         fun handleOnPressView(id: Int)
         fun getCities()
+        fun requestOrderCard(address: Address?,success:() -> Unit)
     }
 
     interface State : IBase.State {

@@ -1,5 +1,6 @@
 package co.yap.household.dashboard.more
 
+import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
@@ -37,8 +38,8 @@ class HouseHoldMoreFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_house_hold_more
     override fun toolBarVisibility() = false
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.adapter.set(adapter)
         adapter.onItemClickListener = onItemClickListener
         recyclerView.addItemDecoration(

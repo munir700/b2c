@@ -23,5 +23,6 @@ interface IHouseHoldConfirmPayment {
         var onBoardRequest: MutableLiveData<HouseholdOnboardRequest>?
         var plansList: MutableLiveData<ArrayList<HouseHoldPlan>>?
         var selectedPlan: MutableLiveData<HouseHoldPlan>?
+        var availableBalance: MutableLiveData<String>?
     }
 }

@@ -29,6 +29,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -129,10 +130,14 @@ class CashTransferConfirmationFragment :
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                if (isOtpRequired()) {
-                    startOtpFragment()
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    viewModel.proceedToTransferAmount()
+                    if (isOtpRequired()) {
+                        startOtpFragment()
+                    } else {
+                        viewModel.proceedToTransferAmount()
+                    }
                 }
             }
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {

@@ -185,6 +185,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(runnable)
+        andExoPlayerView?.stopPlayer()
         animatorSet?.cancel()
         animatorSet = null
         captionsIndex = -1

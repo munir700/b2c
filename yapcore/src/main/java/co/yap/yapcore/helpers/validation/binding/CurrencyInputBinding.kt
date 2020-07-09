@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.validation.binding
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.EasyMoneyEditText
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.validation.rule.CurrencyInputRule
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 import co.yap.yapcore.helpers.validation.util.ErrorMessageHelper
@@ -16,7 +17,7 @@ object CurrencyInputBinding {
     @JvmStatic
     fun bindingCurrency(
         view: EasyMoneyEditText?,
-        validAmount: Double?,
+        validAmount: String?,
         errorMessage: String?,
         autoDismiss: Boolean,
         errorEnabled: Boolean
@@ -30,7 +31,7 @@ object CurrencyInputBinding {
         )
         ViewTagHelper.appendValue(
             R.id.validator_rule, view,
-            CurrencyInputRule(view, validAmount, handledErrorMessage, errorEnabled)
+            CurrencyInputRule(view, validAmount.parseToDouble(), handledErrorMessage, errorEnabled)
         )
     }
 }

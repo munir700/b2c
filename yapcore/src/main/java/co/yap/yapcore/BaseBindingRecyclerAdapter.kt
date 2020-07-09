@@ -48,7 +48,8 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     }
 
     fun getDataForPosition(position: Int): T {
-        return list[position]
+        //if (position > list.size - 1)
+            return list[position]
     }
 
     fun getDataList(): MutableList<T> {

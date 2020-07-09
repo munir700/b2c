@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.entersalaryamount
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -20,8 +21,8 @@ class EnterSalaryAmountFragment :
         state.subAccount.value?.getFullName() ?: ""
     )
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         GetAccountBalanceLiveData.get().observe(this, Observer {})
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }

@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.paysalary.future
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
@@ -18,8 +19,8 @@ class FuturePaymentFragment :
     override fun getToolBarTitle() =
         getString(Strings.screen_household_future_payment_screen_tool_bar_text)
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 

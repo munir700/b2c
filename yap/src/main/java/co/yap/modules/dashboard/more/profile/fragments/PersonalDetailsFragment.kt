@@ -30,6 +30,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -74,7 +75,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (it) {
                 R.id.tvEditPhoneNumber -> {
                     if (MyUserManager.user?.otpBlocked == true) {
-                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         mNavigator.startVerifyPassCodePresenterActivity(
                             requireActivity(),
@@ -90,7 +91,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.tvEditEmail -> {
                     if (MyUserManager.user?.otpBlocked == true) {
-                        showToast("${getString(Strings.screen_blocked_otp_display_text_message)}^${AlertType.DIALOG.name}")
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         viewModel.toggleToolBar(true)
                         viewModel.updateToolBarText("")

@@ -1,5 +1,6 @@
 package co.yap.household.setpin.setpinsuccess
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
@@ -17,8 +18,8 @@ class HHSetPinSuccessFragment :
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin_success
     override fun toolBarVisibility(): Boolean? = false
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
         trackAdjustPlatformEvent(AdjustEvents.HH_USER_ACCOUNT_ACTIVE.type)
     }

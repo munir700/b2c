@@ -9,6 +9,9 @@
             <pin digest="SHA-256">jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=</pin>
             <pin digest="SHA-256">yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=</pin>
             <pin digest="SHA-256">8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=</pin>
+            <pin digest="SHA-256">Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=</pin>
+            <pin digest="SHA-256">ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=</pin>
+            <pin digest="SHA-256">VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=</pin>
         </pin-set>
         <domain-config cleartextTrafficPermitted="false">
             <domain includeSubdomains="true">secure.*.yap.co</domain>

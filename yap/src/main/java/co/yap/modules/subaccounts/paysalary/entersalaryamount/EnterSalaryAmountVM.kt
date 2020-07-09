@@ -20,11 +20,13 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import javax.inject.Inject
 
-class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAmount.State) :
-    DaggerBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel {
-    //private val repository: CustomerHHApi = CustomersHHRepository
+class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAmount.State,
+                                              override var validator: Validator?) :
+    DaggerBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel, IValidator {
     private val repository: TransactionsApi = TransactionsRepository
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
@@ -33,25 +35,9 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let {
-            state.subAccount.value = it.getParcelable(SubAccount::class.simpleName)
+            state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             state.lastTransaction?.value = it.getParcelable(SalaryTransaction::class.simpleName)
         }
-    }
-
-    override fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?) {
-//        launch {
-//            when (val response = repository.createSchedulePayment(
-//                uuid,
-//                schedulePayment
-//            )) {
-//                is RetroApiResponse.Success -> {
-//                    clickEvent.postValue(GO_TO_CONFIRMATION)
-//
-//                }
-//                is RetroApiResponse.Error -> {
-//                }
-//            }
-//        }
     }
 
     override fun paySalaryNow(request: PaySalaryNowRequest) {
@@ -72,14 +58,12 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
         count: Int
     ) {
         if (amount.parseToDouble() > GetAccountBalanceLiveData.cardBalance.value?.availableBalance.parseToDouble()) {
-            state.isValid.value = false
             context.showTextUpdatedAbleSnackBar(
                 msg = "Looks like it’s time to Top Up! Please top up your account to continue with this transaction. ${underline(
                     "Top Up here!"
                 )}", clickListener = View.OnClickListener { })
         } else {
             cancelAllSnackBar()
-            state.isValid.value = true
         }
     }
 
@@ -97,13 +81,6 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
                             beneficiaryName = state.subAccount.value?.getFullName()
                         )
                     )
-//                    createSchedulePayment(
-//                        state.subAccount.value?.accountUuid,
-//                        SchedulePayment(
-//                            amount = state.amount.value,
-//                            isRecurring = state.isRecurring.value
-//                        )
-//                    )
                 } else {
                     clickEvent.postValue(GO_TO_RECURING)
                 }

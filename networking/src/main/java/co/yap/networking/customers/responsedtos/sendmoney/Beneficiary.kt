@@ -49,12 +49,16 @@ data class Beneficiary(
     @SerializedName("identifierCode2")
     var identifierCode2: String? = null,
     @SerializedName("cbwsicompliant")
-    var cbwsicompliant: Boolean? = false,
+    var cbwsicompliant: Boolean? = null,
     // assuming this field for profile picture but not sure whether to add pic or just go with initials only
     @SerializedName("beneficiaryPictureUrl")
-    var beneficiaryPictureUrl: String? = "",
+    var beneficiaryPictureUrl: String? = null,
     @SerializedName("beneficiaryCountry")
-    var beneficiaryCountry: String? = null
+    var beneficiaryCountry: String? = null,
+    @SerializedName("countryOfResidence")
+    var countryOfResidence: String? = null,
+    @SerializedName("countryOfResidenceName")
+    var countryOfResidenceName: String? = null
 ) : ApiResponse(), Parcelable {
     fun fullName() = "$firstName $lastName"
 }

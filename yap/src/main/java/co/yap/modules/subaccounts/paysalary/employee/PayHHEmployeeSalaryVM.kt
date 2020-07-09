@@ -30,7 +30,7 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
 
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
-        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+        extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
     }
 
     override fun handlePressOnClick(id: Int) {

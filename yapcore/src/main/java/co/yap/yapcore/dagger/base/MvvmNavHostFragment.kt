@@ -18,6 +18,9 @@ package co.yap.yapcore.dagger.base
 
 import android.content.Context
 import android.os.Bundle
+import androidx.navigation.NavController
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.NavHostFragment
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import co.yap.yapcore.helpers.extentions.handleExtras

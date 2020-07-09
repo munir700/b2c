@@ -22,6 +22,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.cardview.widget.CardView
@@ -29,6 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.*
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
@@ -49,6 +51,7 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.interfaces.IBindable
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -60,6 +63,36 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import java.text.SimpleDateFormat
 
 object UIBinder {
+    @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
+    @JvmStatic
+    fun setSpinnerAdaptor(
+        spinner: Spinner,
+        options: ArrayList<String>, listener: OnItemClickListener?
+    ) {
+        val myListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                view?.let { listener?.onItemClick(view, options[position], position) }
+            }
+        }
+        spinner.onItemSelectedListener = myListener
+        val dataAdapter = ArrayAdapter<String>(
+            spinner.context,
+            android.R.layout.simple_spinner_item,
+            options
+        )
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = dataAdapter
+    }
+
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
@@ -928,6 +961,17 @@ object UIBinder {
 //            return
 //        view.adapter = adapter
 //    }
+
+    @JvmStatic
+    @BindingAdapter("recycleViewAdapter")
+    fun setRecycleViewAdapter(
+        recyclerView: RecyclerView,
+        adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>?
+    ) {
+        if (null == adapter)
+            return
+        recyclerView.adapter = adapter
+    }
 
     @JvmStatic
     @BindingAdapter("ibanMask")

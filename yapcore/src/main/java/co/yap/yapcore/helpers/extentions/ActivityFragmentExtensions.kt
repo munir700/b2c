@@ -286,10 +286,7 @@ fun <T : Fragment> FragmentActivity.startFragmentForResult(
 
     } catch (e: Exception) {
         if (e is ClassNotFoundException) {
-            toast(
-                "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
-                        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
-            )
+            toast("Something went wrong")
             startActivity(intent)
         }
     }
@@ -316,10 +313,7 @@ fun <T : Fragment> Fragment.startFragmentForResult(
 
     } catch (e: Exception) {
         if (e is ClassNotFoundException) {
-            toast(
-                "InlineActivityResult library not installed falling back to default method, please install \" +\n" +
-                        "\"it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results."
-            )
+            toast("Something went wrong")
             startActivity(intent)
         }
     }

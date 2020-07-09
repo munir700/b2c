@@ -7,10 +7,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigator
-import androidx.navigation.findNavController
+import androidx.navigation.*
 import co.yap.yapcore.IBase
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.EXTRA
@@ -70,6 +67,27 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
         intent?.extras?.let(::fetchExtras)
     }
 
+    private val onDestinationChangedListener =
+        NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            onDestinationChanged(controller, destination, arguments)
+        }
+
+    override fun onResume() {
+        super.onResume()
+        navController.addOnDestinationChangedListener(onDestinationChangedListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navController.removeOnDestinationChangedListener(onDestinationChangedListener)
+    }
+
+    abstract fun onDestinationChanged(
+        controller: NavController?,
+        destination: NavDestination?,
+        arguments: Bundle?
+    )
+
     /**
      * Gets called right before the pre-initialization stage ([preInit] method call),
      * if the received [Bundle] is not null.
@@ -81,8 +99,8 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
         extras?.let { extrasBundle = it }
     }
 
-    override fun postExecutePendingBindings() {
-        super.postExecutePendingBindings()
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         val toolbar: Toolbar? by bindView(
             R.id.toolbar
         )

@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.ActivityFragmentPresenterBinding
 import co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.onboarding.fragments.MeetingConfirmationFragment
@@ -96,11 +95,11 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            Constants.EVENT_CREATE_CARD_PIN -> {
+            Constants.EVENT_CREATE_CARD_PIN -> { // search this to look into conflict YAP_ISSUE_KNOWN_01
                 if (resultCode == Activity.RESULT_OK) {
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-                    if (isPinCreated!!) {
+                    if (isPinCreated == true) {
                         val returnIntent = Intent()
                         returnIntent.putExtra(Constants.isPinCreated, true)
                         setResult(Activity.RESULT_OK, returnIntent)

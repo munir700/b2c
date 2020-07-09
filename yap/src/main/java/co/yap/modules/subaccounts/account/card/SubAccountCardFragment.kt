@@ -2,6 +2,7 @@ package co.yap.modules.subaccounts.account.card
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
@@ -37,9 +38,9 @@ class SubAccountCardFragment :
     override fun getBindingVariable() = BR.subAccountCardVM
 
     override fun getLayoutId() = R.layout.fragment_sub_account_card
-    override fun postExecutePendingBindings() {
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
         setRefreshEnabled(false)
-        super.postExecutePendingBindings()
         setHasOptionsMenu(true)
         initDragDropAdapter()
     }
@@ -52,8 +53,8 @@ class SubAccountCardFragment :
     private fun initDragDropAdapter() {
         mRecyclerViewDragDropManager = RecyclerViewDragDropManager().apply {
             mWrappedAdapter = createWrappedAdapter(adapter)
-            setInitiateOnLongPress(true)
-            setInitiateOnMove(false)
+            setInitiateOnLongPress(false)
+            setInitiateOnMove(true)
             setLongPressTimeout(250)
             dragEdgeScrollSpeed = 1.0f
             dragStartItemAnimationDuration = 750
@@ -71,7 +72,6 @@ class SubAccountCardFragment :
     }
 
     override fun onItemDragStarted(position: Int) {
-        setRefreshEnabled(false)
     }
 
     override fun onItemDragPositionChanged(
@@ -83,16 +83,13 @@ class SubAccountCardFragment :
     }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
-        setRefreshEnabled(true)
         val subAccount = adapter.getData()[toPosition]
-        val args = Bundle()
-        args.putParcelable(SubAccount::class.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
                 AccountType.B2C_HOUSEHOLD.name -> {
                     navigateForwardWithAnimation(
                         SubAccountDashBoardFragmentDirections.actionSubAccountDashBoardFragmentToHHIbanSendMoneyFragment(),
-                        args
+                        bundleOf(SubAccount::class.java.simpleName to subAccount)
                     )
                 }
             }
@@ -136,7 +133,7 @@ class SubAccountCardFragment :
     override fun onItemClick(view: View, data: Any, pos: Int) {
         val subAccount = data as SubAccount
         val args = Bundle()
-        args.putParcelable(SubAccount::class.simpleName, subAccount)
+        args.putParcelable(SubAccount::class.java.simpleName, subAccount)
         subAccount.accountType?.let {
             when (it) {
                 AccountType.B2C_ACCOUNT.name -> swipeViews(true)
@@ -161,13 +158,10 @@ class SubAccountCardFragment :
     private fun swipeViews(swipe: Boolean) {
         if (swipe) {
             imgProfile.visibility = View.INVISIBLE
-            layout_swipe_image.visibility = View.VISIBLE
             tv_drag_and_drop_label.visibility = View.VISIBLE
-            YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(layout_swipe_image)
             YoYo.with(Techniques.SlideInDown).duration(400).repeat(0).playOn(tv_drag_and_drop_label)
         } else {
             imgProfile.visibility = View.VISIBLE
-            layout_swipe_image.visibility = View.INVISIBLE
             tv_drag_and_drop_label.visibility = View.INVISIBLE
         }
     }

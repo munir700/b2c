@@ -340,6 +340,14 @@
         <item name="android:maxLength">50</item>
         <item name="font">@font/roboto_regular</item>
     </style>
+    <style name="Yap.App.Widget.TextInputEditText.Email" parent="Yap.App.Widget.TextInputEditText">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="font">@font/roboto_regular</item>
+    </style>
 
     <style name="Yap.App.Widget.TextInputEditText.Mobile.Prefix" parent="Yap.App.Widget.TextInputEditText">
         <item name="pse_compoundDrawableHeight">@dimen/_16sdp</item>

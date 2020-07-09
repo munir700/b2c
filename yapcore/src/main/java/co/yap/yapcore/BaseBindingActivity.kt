@@ -44,7 +44,7 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         postInit()
         viewDataBinding.executePendingBindings()
-        postExecutePendingBindings()
+        postExecutePendingBindings(savedInstanceState)
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
     /**
      * Gets called right after the UI executePendingBindings.
      */
-    protected open fun postExecutePendingBindings() {
+    protected open fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         //
     }
 

@@ -64,7 +64,7 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
         init(savedInstanceState)
         postInit()
         mViewDataBinding.executePendingBindings()
-        postExecutePendingBindings()
+        postExecutePendingBindings(savedInstanceState)
         viewModel.onCreate(intent.extras)
     }
 

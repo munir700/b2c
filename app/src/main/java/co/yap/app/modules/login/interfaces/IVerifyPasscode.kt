@@ -17,7 +17,7 @@ interface IVerifyPasscode {
         fun login()
         fun createOtp()
         fun createForgotPassCodeOtp(success:()->Unit)
-        fun validateDevice()
+//        fun validateDevice()
         fun verifyPasscode()
         fun showAccountBlockedError(errorMessage: String)
         val onClickEvent: MutableLiveData<Int>

@@ -7,13 +7,14 @@ import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
-import co.yap.sendmoney.R
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 
 class SelectCountryViewModel(application: Application) :
     SendMoneyBaseViewModel<ISelectCountry.State>(application), ISelectCountry.ViewModel,
@@ -96,7 +97,7 @@ class SelectCountryViewModel(application: Application) :
                                 0,
                                 Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
                             )
-                            populateSpinnerData.value = countries
+                            populateSpinnerData.value =  Utils.parseCountryList(it)
                             countries.addAll(it.map {
                                 Country(
                                     id = it.id,
@@ -123,7 +124,9 @@ class SelectCountryViewModel(application: Application) :
                                     ibanMandatory = it.ibanMandatory
                                 )
                             })
+
                         }
+                        parentViewModel?.countriesList = countries
                         state.loading = false
                     }
 
@@ -200,5 +203,6 @@ class SelectCountryViewModel(application: Application) :
             val country: Country = countries[pos]
             state.selectedCountry = country
         }
+        parentViewModel?.selectedResidenceCountry = null
     }
 }

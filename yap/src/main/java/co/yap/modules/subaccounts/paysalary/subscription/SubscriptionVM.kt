@@ -21,7 +21,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
     override var customersRepository: CustomersHHRepository = CustomersHHRepository
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.simpleName) }
+        bundle?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
         getSubscriptionData()
     }
 

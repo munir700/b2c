@@ -18,16 +18,21 @@ import com.digitify.identityscanner.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.docscanner.fragments.DocReviewFragment;
 import com.digitify.identityscanner.docscanner.fragments.YapCameraFragment;
 import com.digitify.identityscanner.docscanner.interfaces.IIdentityScanner;
+import com.digitify.identityscanner.docscanner.models.DocumentImage;
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult;
 import com.digitify.identityscanner.docscanner.viewmodels.IdentityScannerViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import co.yap.yapcore.defaults.DefaultActivity;
-import co.yap.yapcore.helpers.permissions.PermissionHelper;
 import co.yap.yapcore.helpers.extentions.ToastKt;
+import co.yap.yapcore.helpers.permissions.PermissionHelper;
+
+import static co.yap.yapcore.helpers.extentions.FileExtentionsKt.deleteRecursivelyYap;
+import static co.yap.yapcore.helpers.extentions.FileExtentionsKt.deleteTempFolder;
 
 public class IdentityScannerActivity extends DefaultActivity implements IIdentityScanner.IView {
 
@@ -37,6 +42,7 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
     private static final String DOC_TYPE = "docType";
     private static final String SCAN_FROM = "scanFrom";
     public static final String SCAN_RESULT = "scannerResult";
+    public static final ArrayList<String> imageFiles = new ArrayList<>();
 
 
     public static Intent getLaunchIntent(Context context, DocumentType type, int scanFrom) {
@@ -112,6 +118,9 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
 
     @Override
     public void finishWithResult(IdentityScannerResult result) {
+        for (DocumentImage item : result.getDocument().getFiles()) {
+            imageFiles.remove(item.getCroppedFile());
+        }
         Intent in = new Intent();
         in.putExtra(SCAN_RESULT, result);
         setResult(RESULT_OK, in);
@@ -125,16 +134,6 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
         finish();
     }
 
-//    @Override
-//    public void onPermissionGranted(String permission) {
-//        scanDoc();
-//    }
-//
-//    @Override
-//    public void onPermissionNotGranted(String permission) {
-//        finishWithoutResult();
-//    }
-
     @Override
     public Context getContext() {
         return this;
@@ -144,6 +143,11 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
     protected void onDestroy() {
         if (vm != null)
             vm.onStop();
+        for (String file : imageFiles) {
+            File f = new File(file);
+            deleteRecursivelyYap(f);
+        }
+        deleteTempFolder(context);
         super.onDestroy();
     }
 
@@ -192,7 +196,8 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (permissionHelper != null) {
             permissionHelper.onRequestPermissionsResult(

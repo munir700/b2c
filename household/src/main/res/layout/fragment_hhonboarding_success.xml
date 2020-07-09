@@ -1,0 +1,86 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.onboardsuccess.HHOnBoardingSuccessVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/rootContainer"
+        style="@style/Yap.App.Layout.LinearLayout.Vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightPinkBackground"
+        android:padding="@dimen/margin_medium_large">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivTransfer"
+            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_tick_enabled" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/ALarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:lineSpacingExtra="9sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/screen_congratulations_display_text_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubTitle"
+            style="@style/ASmallGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center"
+            app:text="@{Strings.screen_congratulations_display_text_success_message}"
+            tools:text="@string/screen_congratulations_display_text_success_message" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMobileSuccess"
+            android:layout_width="@dimen/_258sdp"
+            android:layout_height="@dimen/_189sdp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/ic_hh_new_user_success" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnCompleteVerifiocation"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            app:btn_enable="true"
+            app:btn_pressed_color="@color/white"
+            app:btn_text_color="?attr/colorPrimaryDarkAttr"
+            app:btn_unpressed_color="@color/white"
+            app:text="@{Strings.screen_congratulations_display_button_complete_setup}"
+            tools:text="@string/screen_congratulations_display_button_complete_setup" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
