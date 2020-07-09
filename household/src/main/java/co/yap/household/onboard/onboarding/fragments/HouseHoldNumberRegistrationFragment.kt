@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFr
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.household.onboard.onboarding.newuser.HHNewUserFragment
 import co.yap.household.onboard.onboarding.viewmodels.HouseHoldNumberRegistrationViewModel
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.yapcore.constants.Constants
@@ -26,6 +28,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
 
 class HouseHoldNumberRegistrationFragment :
@@ -46,18 +49,16 @@ class HouseHoldNumberRegistrationFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.parentViewModel?.state?.accountInfo?.run {
-            if (!notificationStatuses.isNullOrBlank())
+            if (!notificationStatuses.isBlank())
                 when (AccountStatus.valueOf(notificationStatuses)) {
                     AccountStatus.INVITE_PENDING -> {
-                        val bundle = Bundle()
-                        bundle.putParcelable(
-                            OnBoardingHouseHoldActivity.USER_INFO,
-                            viewModel.parentViewModel?.state?.accountInfo
-                        )
-                        startFragment(ExistingHouseholdFragment::class.java.name, true, bundle)
+                        startFragment(ExistingHouseholdFragment::class.java.name , true , bundleOf(OnBoardingHouseHoldActivity.USER_INFO to viewModel.parentViewModel?.state?.accountInfo))
                     }
-
                     AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
+                        val nextScreen: Boolean = viewModel.parentViewModel?.state?.nextScreen ?: false
+                        if(!MyUserManager.isExistingUser() && !nextScreen) {
+                            startFragment(HHNewUserFragment::class.java.name, true, bundleOf(OnBoardingHouseHoldActivity.USER_INFO to viewModel.parentViewModel?.state?.accountInfo))
+                        }
                     }
                     AccountStatus.PASS_CODE_PENDING -> {
                         findNavController().navigate(R.id.to_houseHoldCreatePassCodeFragment)
@@ -79,7 +80,6 @@ class HouseHoldNumberRegistrationFragment :
                 }
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

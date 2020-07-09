@@ -12,6 +12,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class HouseHoldCreatePassCodeViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldCreatePassCode.State>(application),
@@ -48,6 +50,7 @@ class HouseHoldCreatePassCodeViewModel(application: Application) :
             when (val response =
                 repository.createHouseholdPasscode(CreatePassCodeRequest(passcode = state.passcode))) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_PASSCODE_CREATED.type)
                     onPasscodeSuccess.value = true
                 }
                 is RetroApiResponse.Error -> {

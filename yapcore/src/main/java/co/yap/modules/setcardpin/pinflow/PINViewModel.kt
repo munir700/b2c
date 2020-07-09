@@ -12,6 +12,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.leanplum.trackEvent
 
 class PINViewModel(application: Application) :
     BaseViewModel<IPin.State>(application),

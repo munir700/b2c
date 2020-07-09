@@ -13,6 +13,10 @@ import co.yap.networking.customers.requestdtos.AddHouseholdEmailRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
+import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -88,6 +92,10 @@ class EmailHouseHoldViewModel(application: Application) :
             when (val response =
                 repository.addHouseholdEmail(AddHouseholdEmailRequest(state.twoWayTextWatcher))) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EMAIL.type)
+                    trackEventWithAttributes(MyUserManager.user, phoneNumberVerified = true)
+                    trackEventWithAttributes(MyUserManager.user, MyUserManager.user?.creationDate)
+
                     state.loading = false
                     setVerificationLabel()
                     onEmailVerifySuccess.value = true

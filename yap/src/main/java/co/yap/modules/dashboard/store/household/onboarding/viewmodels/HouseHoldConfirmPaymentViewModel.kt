@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldConfirmPayment
 import co.yap.modules.dashboard.store.household.onboarding.states.HouseHoldConfirmPaymentState
+import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.HouseholdOnboardRequest
 import co.yap.networking.household.responsedtos.HouseHoldPlan
@@ -12,8 +13,12 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 @Deprecated("")
 class HouseHoldConfirmPaymentViewModel(application: Application) :
@@ -69,6 +74,16 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
             state.loading = true
             when (val response = repository.onboardHousehold(getOnboardRequest())) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHSubscriptionEvents.HH_PLAN_CONFIRM.type)
+                    trackEventWithAttributes(MyUserManager.user, isMainUser = true)
+                    if(MyUserManager.user?.accountType == AccountType.B2C_HOUSEHOLD.name){
+                        if(parentViewModel?.selectedPlanType?.type == PackageType.MONTHLY.type) {
+                            trackEventWithAttributes(
+                                MyUserManager.user,
+                                accountActiveMonthly = true
+                            )
+                        }
+                    }
                     parentViewModel?.tempPasscode = response.data.data?.passcode ?: "0000"
                     onBoardUserSuccess.value = true
                 }

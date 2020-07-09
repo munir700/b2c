@@ -9,6 +9,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import javax.inject.Inject
 
@@ -55,6 +57,11 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
                 serialNumb
             )) {
                 is RetroApiResponse.Success -> {
+                    if(MyUserManager.isExistingUser()){
+                        trackEvent(HHUserOnboardingEvents.HH_USER_EXISTING_ACCOUNT_ACTIVE.type)
+                    }else{
+                        trackEvent(HHUserOnboardingEvents.HH_USER_ACCOUNT_ACTIVE.type)
+                    }
                     clickEvent.setValue(eventSuccess)
                 }
                 is RetroApiResponse.Error -> {

@@ -11,6 +11,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
+
 @Deprecated("")
 class HouseHoldUserContactViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldUserContact.State>(application),
@@ -56,9 +59,16 @@ class HouseHoldUserContactViewModel(application: Application) :
             )
             when (val response = repository.verifyHouseholdMobile(request)) {
                 is RetroApiResponse.Success -> {
+                    /*parentViewModel?.userMobileNo?.let {
+                        trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE.type,
+                            it
+                        )
+                    }*/
+                    trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE.type)
                     verifyMobileSuccess.value = true
                 }
                 is RetroApiResponse.Error -> {
+                    trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE_ERROR.type/*, response.error.message*/)
                    verifyMobileError.value = response.error.message
 //                    state.toast = response.error.message
                 }

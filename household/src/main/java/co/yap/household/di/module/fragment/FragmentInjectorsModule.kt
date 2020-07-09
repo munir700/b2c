@@ -12,6 +12,8 @@ import co.yap.household.dashboard.more.HouseHoldMoreFragment
 import co.yap.household.dashboard.more.HouseHoldMoreModule
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment
 import co.yap.household.onboard.onboarding.kycsuccess.KycSuccessModule
+import co.yap.household.onboard.onboarding.newuser.HHNewUserFragment
+import co.yap.household.onboard.onboarding.newuser.HHNewUserModule
 import co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionFragment
 import co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionModule
 import co.yap.household.onboarding.invalideid.HHOnBoardingInvalidEidFragment
@@ -80,6 +82,10 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HouseHoldMoreModule::class])
     abstract fun houseHoldMoreFragmentInjector(): HouseHoldMoreFragment
+
+    @ContributesAndroidInjector(modules = [HHNewUserModule::class])
+    @FragmentScope
+    abstract fun hhNewUserFragmentInjector(): HHNewUserFragment
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [HHOnBoardingSuccessModule::class])

@@ -13,6 +13,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
 import javax.inject.Inject
 
 class HHAddUserContactVM @Inject constructor(
@@ -46,10 +48,12 @@ class HHAddUserContactVM @Inject constructor(
             )
             when (val response = repository.verifyHouseholdMobile(request)) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE.type)
                     publishState(State.success(null))
                     apiResponse?.invoke(true)
                 }
                 is RetroApiResponse.Error -> {
+                    trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE_ERROR.type)
                     publishState(State.error(null))
                     apiResponse?.invoke(false)
                 }

@@ -16,3 +16,5 @@ class HHIbanSendMoneyVM @Inject constructor(override val state: IHHIbanSendMoney
         extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
     }
 }
+
+//TODO  Add this line in onSuccess of expense transfer API call. trackEvent(HHUserActivityEvents.HH_EXPENSE_TRANSFERRED.type)

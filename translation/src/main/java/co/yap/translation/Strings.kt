@@ -1818,6 +1818,10 @@ object Strings {
         "screen_home_renewed_id_title"
     const val screen_home_renewed_id_desc: String =
         "screen_home_renewed_id_desc"
+    const val screen_house_hold_onBoarding_new_title_display_text: String =
+        "screen_house_hold_onBoarding_new_title_display_text"
+    const val screen_house_hold_onBoarding_new_title_accept_text: String =
+        "screen_house_hold_onBoarding_new_title_accept_text"
 
     // Place of birth selection screen
     const val screen_place_of_birth_display_text_heading: String =

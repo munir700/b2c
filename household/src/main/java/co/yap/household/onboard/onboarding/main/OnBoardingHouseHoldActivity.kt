@@ -24,6 +24,7 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
     companion object {
         const val EXISTING_USER = "existingYapUser"
         const val USER_INFO = "user_info"
+        const val NEXT_SCREEN = "next_screen"
     }
 
     override fun getBindingVariable(): Int = BR.viewModelHouseHold
@@ -43,6 +44,7 @@ class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>()
         super.onCreate(savedInstanceState)
         viewModel.state.accountInfo = intent.getParcelableExtra(USER_INFO)
         viewModel.state.existingYapUser = intent.getBooleanExtra(EXISTING_USER, false)
+        viewModel.state.nextScreen = intent.getBooleanExtra(NEXT_SCREEN, false)
 
         viewModel.onboardingData.accountType = AccountType.B2C_HOUSEHOLD.name
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)

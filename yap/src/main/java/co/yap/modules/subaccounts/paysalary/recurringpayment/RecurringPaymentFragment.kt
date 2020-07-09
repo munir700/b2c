@@ -10,6 +10,8 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.leanplum.HHUserActivityEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class RecurringPaymentFragment :
     BaseNavViewModelFragment<FragmentRecurringPaymentBinding, IRecurringPayment.State, RecurringPaymentVM>() {
@@ -30,6 +32,7 @@ class RecurringPaymentFragment :
         )
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
+                trackEvent(HHUserActivityEvents.HH_RECURRING_SALARY_SET.type)
                 navigateForwardWithAnimation(
                     RecurringPaymentFragmentDirections.actionRecurringPaymentFragmentToPaymentConfirmationFragment(),
                     arguments

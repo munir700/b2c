@@ -13,8 +13,12 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.enums.PackageType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import javax.inject.Inject
@@ -48,6 +52,16 @@ class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHo
                 state.selectedPlan?.value?.type?.toUpperCase(Locale.US)
             when (val response = repository.onboardHousehold(state.onBoardRequest?.value)) {
                 is RetroApiResponse.Success -> {
+                    trackEvent(HHSubscriptionEvents.HH_PLAN_CONFIRM.type)
+                    trackEventWithAttributes(MyUserManager.user, isMainUser = true)
+                    if(MyUserManager.user?.accountType == AccountType.B2C_HOUSEHOLD.name){
+                        if(state.selectedPlan?.value?.type == PackageType.MONTHLY.type) {
+                            trackEventWithAttributes(
+                                MyUserManager.user,
+                                accountActiveMonthly = true
+                            )
+                        }
+                    }
                     state.onBoardRequest?.value?.tempPassCode =
                         response.data.data?.passcode ?: "0000"
                     apiResponse?.invoke(true)

@@ -9,6 +9,8 @@ import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
+import co.yap.yapcore.leanplum.HHUserActivityEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class EnterSalaryAmountFragment :
     BaseNavViewModelFragment<FragmentEnterSalaryAmountBinding, IEnterSalaryAmount.State, EnterSalaryAmountVM>() {
@@ -34,11 +36,15 @@ class EnterSalaryAmountFragment :
             )
         )
         when (id) {
-            viewModel.GO_TO_CONFIRMATION -> navigateForwardWithAnimation(
-                EnterSalaryAmountFragmentDirections.actionEnterSalaryAmountFragmentToPaymentConfirmationFragment(),
-                arguments
-            )
+            viewModel.GO_TO_CONFIRMATION -> {
+                trackEvent(HHUserActivityEvents.HH_SALARY_PAID.type)
+                navigateForwardWithAnimation(
+                    EnterSalaryAmountFragmentDirections.actionEnterSalaryAmountFragmentToPaymentConfirmationFragment(),
+                    arguments
+                )
+            }
             viewModel.GO_TO_RECURING -> {
+                trackEvent(HHUserActivityEvents.HH_RECURRING_SALARY_SET_AND_PAID.type)
                 navigateForwardWithAnimation(
                     EnterSalaryAmountFragmentDirections.actionEnterSalaryAmountFragmentToRecurringPaymentFragment(),
                     arguments

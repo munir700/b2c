@@ -22,6 +22,7 @@ import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
@@ -34,6 +35,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
@@ -45,6 +47,9 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
@@ -303,6 +308,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo?> {
         it?.run {
+            trackEvents(it)
             viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
             if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -354,6 +360,30 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 }
             }
         }
+    }
+
+    private fun trackEvents(accountInfo: AccountInfo){
+        accountInfo.let {
+            if(it.currentCustomer.mobileNoVerified == true){
+                trackEventInFragments(MyUserManager.user, phoneNumberVerified = true)  // This was not added before in Core
+            }
+            if(it.currentCustomer.emailVerified == true){
+                trackEventInFragments(MyUserManager.user, emailVerified = true)  // This was not added before in Core
+            }
+            if(it.active == true){
+                trackEventInFragments(MyUserManager.user, isAccountActive = true)
+            }
+
+            MyUserManager.card.value?.let { card ->
+                if(isCardDelivered(card)){
+                    trackEvent(HHUserOnboardingEvents.HH_USER_KYC_CARD_DELIVERED.type)
+                }
+            }
+        }
+    }
+
+    private fun isCardDelivered(paymentCard: Card): Boolean {
+        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated  && paymentCard.active)
     }
 
     private val switchProfileObserver = Observer<AccountInfo?> {

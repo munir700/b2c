@@ -1,5 +1,6 @@
 package co.yap.yapcore.leanplum
 
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,10 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import com.leanplum.Leanplum
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
+    fireEventWithAttribute(eventName, value)
+}
+
+fun Activity.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
 }
 
@@ -30,7 +35,15 @@ fun Fragment.trackEventInFragments(
     context: Context? = null,
     eidExpire: Boolean = false,
     eidExpireDate: String = "",
-    city: String? = null
+    city: String? = null,
+    isMainUser: Boolean = false,
+    isAccountActive: Boolean = false,
+    accountActiveMonthly: Boolean = false,
+    emailVerified: Boolean = false,
+    phoneNumberVerified: Boolean = false,
+    account_cancel_timestamp: String? = null,
+    expense_pots: String? = null,
+    card_color: String? = null
 ) {
     trackAttributes(
         user,
@@ -38,7 +51,15 @@ fun Fragment.trackEventInFragments(
         account_active,
         context,
         eidExpire,
-        eidExpireDate, city
+        eidExpireDate, city,
+        isMainUser,
+        isAccountActive,
+        accountActiveMonthly,
+        emailVerified,
+        phoneNumberVerified,
+        account_cancel_timestamp,
+        expense_pots,
+        card_color
     )
 }
 
@@ -49,7 +70,15 @@ fun ViewModel.trackEventWithAttributes(
     context: Context? = null,
     eidExpire: Boolean = false,
     eidExpireDate: String = "",
-    city: String? = null
+    city: String? = null,
+    isMainUser:Boolean = false,
+    isAccountActive: Boolean = false,
+    accountActiveMonthly: Boolean = false,
+    emailVerified: Boolean = false,
+    phoneNumberVerified: Boolean = false,
+    account_cancel_timestamp: String? = null,
+    expense_pots: String? = null,
+    card_color: String? = null
 ) {
     trackAttributes(
         user,
@@ -57,7 +86,15 @@ fun ViewModel.trackEventWithAttributes(
         account_active,
         context,
         eidExpire,
-        eidExpireDate, city
+        eidExpireDate, city,
+        isMainUser,
+        isAccountActive,
+        accountActiveMonthly,
+        emailVerified,
+        phoneNumberVerified,
+        account_cancel_timestamp,
+        expense_pots,
+        card_color
     )
 }
 
@@ -68,9 +105,17 @@ private fun trackAttributes(
     context: Context? = null,
     eidExpire: Boolean = false,
     eidExpireDate: String = "",
-    city: String?
+    city: String?,
+    isMainUser:Boolean = false,
+    isAccountActive:Boolean = false,
+    accountActiveMonthly: Boolean = false,
+    emailVerified: Boolean = false,
+    phoneNumberVerified: Boolean = false,
+    account_cancel_timestamp: String? = null,
+    expense_pots: String? = null,
+    card_color: String? = null
 ) {
-    user?.let {
+    user?.let { it ->
         val info: HashMap<String, Any> = HashMap()
         info[UserAttributes().accountType] = it.accountType ?: ""
         info[UserAttributes().email] = it.currentCustomer.email ?: ""
@@ -98,6 +143,15 @@ private fun trackAttributes(
             info[UserAttributes().customerId] = customerId
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
+        info[UserAttributes().isMainUser] = isMainUser
+        info[UserAttributes().isAccountActive] = isAccountActive
+        info[UserAttributes().accountActiveMonthly] = accountActiveMonthly
+        info[UserAttributes().emailVerified] = emailVerified
+        info[UserAttributes().phoneNumberVerified] = phoneNumberVerified
+        account_cancel_timestamp?.let { info[UserAttributes().account_cancel_timestamp] = it }
+        expense_pots?.let { info[UserAttributes().expense_pots] = it }
+        card_color?.let { info[UserAttributes().expense_pots] = it }
+
     }
 }
 

@@ -17,6 +17,8 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop

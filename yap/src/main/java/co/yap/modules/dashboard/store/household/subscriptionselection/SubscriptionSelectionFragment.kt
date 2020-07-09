@@ -21,14 +21,15 @@ import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
-import co.yap.yapcore.dagger.base.navigation.BackNavigationResult
-import co.yap.yapcore.dagger.base.navigation.BackNavigationResultListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.leanplum.HHSubscriptionEvents
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
 import kotlinx.android.synthetic.main.fragment_house_hold_subscription_selction.*
 import javax.inject.Inject
 
 class SubscriptionSelectionFragment :
-    BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>(){
+    BaseNavViewModelFragment<FragmentHouseHoldSubscriptionSelctionBinding, ISubscriptionSelection.State, SubscriptionSelectionVM>() {
     @Inject
     lateinit var adapter: Adapter
 
@@ -69,15 +70,18 @@ class SubscriptionSelectionFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
-                if (!state.plansList.isNullOrEmpty())
+                if (!state.plansList.isNullOrEmpty()) {
                     trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
-                navigateForwardWithAnimation(
-                    SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
-                    bundleOf(
-                        HouseHoldPlan::class.java.name to state.plansList,
-                        Constants.POSITION to state.selectedPlanPosition.value
-                    ),null
-                )
+                    trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
+                    trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
+                    navigateForwardWithAnimation(
+                        SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
+                        bundleOf(
+                            HouseHoldPlan::class.java.name to state.plansList,
+                            Constants.POSITION to state.selectedPlanPosition.value
+                        ), null
+                    )
+                }
             }
         }
     }
