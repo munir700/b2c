@@ -302,6 +302,7 @@ class InternationalFundsTransferFragment :
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
+
             viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
                 viewModel.state.valid = true
             }
