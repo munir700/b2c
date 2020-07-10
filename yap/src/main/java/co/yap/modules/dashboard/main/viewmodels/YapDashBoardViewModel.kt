@@ -49,8 +49,8 @@ class YapDashBoardViewModel(application: Application) :
         state.appVersion.set(
             String.format(
                 "Version %s (%s)",
-                YAPApplication.configManager.versionName,
-                YAPApplication.configManager.versionCode
+                YAPApplication.configManager?.versionName ?: "",
+                YAPApplication.configManager?.versionCode ?: ""
             )
         )
     }

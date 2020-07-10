@@ -65,7 +65,7 @@ Java_co_yap_app_AAPApplication_buildConfigKeysFromJNI(JNIEnv *env, jobject /*thi
         leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
         leanPlumKey = "prod_MfjUF6Sh3GuNE2RtQMkXZTeCUSTS3K0v2CLeGCp0gzk";
 
-    } else if (strcmp(productFlavour, "live") == 0 && strcmp(buildType, "release") == 0) {
+    } else if (strcmp(productFlavour, "live") == 0 && strcmp(buildType, "debug") == 0) {
         leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
         leanPlumKey = "dev_RAFVBmDKypdOr3kbd326JUoqGLr8iSvt2Lei4BK48qk";
 

@@ -73,7 +73,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
 
-            val file = if (YAPApplication.configManager.buildType == "debug") {
+            val file = if (YAPApplication.configManager?.buildType == "debug") {
                 context.dummyEID()
             } else {
                 File(result.document.files[1].croppedFile)

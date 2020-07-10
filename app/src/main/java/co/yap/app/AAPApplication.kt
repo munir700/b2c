@@ -37,7 +37,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         name: String,
         productFlavour: String,
         buildType: String
-    ): BuildConfigManager
+    ): BuildConfigManager?
 
     init {
         System.loadLibrary("native-lib")
@@ -55,7 +55,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
-        initializeAdjustSdk(configManager.adjustToken)
+        initializeAdjustSdk(configManager?.adjustToken ?: "")
     }
 
     private fun initNetworkLayer() {
@@ -91,15 +91,15 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        if (configManager.isLiveRelease()) {
+        if (configManager?.isLiveRelease() == true) {
             Leanplum.setAppIdForProductionMode(
-                configManager.leanPlumSecretKey,
-                configManager.leanPlumKey
+                configManager?.leanPlumSecretKey,
+                configManager?.leanPlumKey
             )
         } else {
             Leanplum.setAppIdForDevelopmentMode(
-                configManager.leanPlumSecretKey,
-                configManager.leanPlumKey
+                configManager?.leanPlumSecretKey,
+                configManager?.leanPlumKey
             )
         }
         Leanplum.setIsTestModeEnabled(false)
@@ -163,9 +163,9 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     private fun getAppDataForNetwork(): AppData {
         return AppData(
-            flavor = configManager.flavor,
-            build_type = configManager.buildType,
-            baseUrl = configManager.baseUrl
+            flavor = configManager?.flavor ?: "",
+            build_type = configManager?.buildType ?: "",
+            baseUrl = configManager?.baseUrl ?: ""
         )
     }
 }
