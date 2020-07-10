@@ -36,7 +36,6 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
 
     init {
         System.loadLibrary("native-lib")
-        System.loadLibrary("build-config-lib")
     }
 
     override val navigator: IBaseNavigator
@@ -51,6 +50,7 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
                 productFlavour = BuildConfig.FLAVOR,
                 buildType = YAPApplication.appInfo?.build_type ?: ""
             )
+        showToast("API end point " + configManager.apiEndPoint)
         if (YAPApplication.appInfo?.isLiveRelease() == true) {
             val originalSign =
                 signatureKeysFromJNI(
