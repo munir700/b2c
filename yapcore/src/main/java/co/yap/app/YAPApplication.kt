@@ -2,7 +2,7 @@ package co.yap.app
 
 import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.yapcore.helpers.AppInfo
+import co.yap.yapcore.config.AppInfo
 
 open class YAPApplication(myAppInfo: AppInfo) : Application() {
     companion object {

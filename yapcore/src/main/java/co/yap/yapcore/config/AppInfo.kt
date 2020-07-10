@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers
+package co.yap.yapcore.config
 
 data class AppInfo(
     var version_name: String = "",
@@ -10,5 +10,4 @@ data class AppInfo(
 
     fun isLiveRelease(): Boolean =
         (build_type == "release" && flavor == "live")
-
 }

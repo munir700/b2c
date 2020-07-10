@@ -3,10 +3,9 @@ package co.yap.app
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import co.yap.yapcore.helpers.AppInfo
+import co.yap.yapcore.config.AppInfo
 import com.liveperson.api.LivePersonCallbackImpl
 import com.liveperson.api.LivePersonIntents
 import com.liveperson.api.response.types.CloseReason
@@ -17,7 +16,6 @@ import com.liveperson.infra.log.LPMobileLog
 import com.liveperson.messaging.TaskType
 import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
-import timber.log.Timber
 
 
 open class ChatApplication(appInfo: AppInfo) : YAPApplication(appInfo) {
