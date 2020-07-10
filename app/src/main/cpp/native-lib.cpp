@@ -21,9 +21,9 @@ Java_co_yap_app_main_MainActivity_signatureKeysFromJNI(JNIEnv *env, jobject /*th
 //    std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
 //                                        sha256.length());
 
-    std::string sha1Decoded = base64_decode((sha1Encoded));
-    std::string md5Decoded = base64_decode((md5Encoded));
-    std::string sha256Decoded = base64_decode((sha256Encoded));
+    std::string sha1Decoded = base64_decode((sha1Encoded.c_str()));
+    std::string md5Decoded = base64_decode((md5Encoded.c_str()));
+    std::string sha256Decoded = base64_decode((sha256Encoded.c_str()));
 
     jobject jObj = env->NewObject(appSignature, constructor, env->NewStringUTF(md5Decoded.c_str()),
                                   env->NewStringUTF(sha1Decoded.c_str()),
@@ -40,14 +40,6 @@ Java_co_yap_app_AAPApplication_buildConfigKeysFromJNI(JNIEnv *env, jobject /*thi
     jclass buildConfigManager = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(buildConfigManager, "<init>",
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-
-    //var leanPlumSecretKey: String = "",
-    //var leanPlumKey: String = "",
-    //var adjustToken: String = "",
-    //var buildType: String = "",
-    //var flavor: String = "",
-    //var versionName: String = "",
-    //var versionCode: String = ""
 
     std::string api_endpoint;
     std::string leanPlumSecretKey;
