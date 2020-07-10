@@ -13,10 +13,11 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.yapcore.config.BuildConfigManager
+import co.yap.yapcore.config.BuildConfigManager2
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
-import co.yap.yapcore.config.AppInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -31,19 +32,34 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.*
 
-class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
+class AAPApplication : ChatApplication(), NavigatorProvider {
 
-    companion object {
-        val appInfo = getAppInfo()
+    private external fun buildConfigKeysFromJNI(
+        name: String,
+        productFlavour: String,
+        buildType: String
+    ): BuildConfigManager2
+
+    init {
+        System.loadLibrary("build-config-lib")
     }
 
     override fun onCreate() {
         super.onCreate()
+
+        val config =
+            buildConfigKeysFromJNI(
+                name = BuildConfigManager2::class.java.canonicalName?.replace(".", "/") ?: "",
+                productFlavour = BuildConfig.FLAVOR,
+                buildType = BuildConfig.BUILD_TYPE
+            )
+
+        configManager = BuildConfigManager()
         initNetworkLayer()
         setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
-        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+        initializeAdjustSdk(configManager.adjustToken)
     }
 
     private fun initNetworkLayer() {
@@ -79,13 +95,18 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        if (appInfo.isLiveRelease()) {
-            Leanplum.setAppIdForDevelopmentMode(BuildConfig.LEANPLUM_CLIENT_SECRET, BuildConfig.LEANPLUM_API_KEY)
+        if (configManager.isLiveRelease()) {
+            Leanplum.setAppIdForProductionMode(
+                configManager.leanPlumSecretKey,
+                configManager.leanPlumKey
+            )
         } else {
-            Leanplum.setAppIdForProductionMode(BuildConfig.LEANPLUM_CLIENT_SECRET, BuildConfig.LEANPLUM_API_KEY)
+            Leanplum.setAppIdForDevelopmentMode(
+                configManager.leanPlumSecretKey,
+                configManager.leanPlumKey
+            )
         }
-
-        //Leanplum.setIsTestModeEnabled(true)
+        Leanplum.setIsTestModeEnabled(false)
         Leanplum.start(this)
     }
 
@@ -143,25 +164,12 @@ class AAPApplication() : ChatApplication(getAppInfo()), NavigatorProvider {
             }
         }
     }
-}
 
-fun getAppInfo(): AppInfo {
-    return AppInfo(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.VERSION_CODE,
-        BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
-}
-
-//will consult this with team
-fun getAppDataForNetwork(): AppData {
-    return AppData(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.VERSION_CODE,
-        BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
+    private fun getAppDataForNetwork(): AppData {
+        return AppData(
+            flavor = configManager.adjustToken,
+            build_type = configManager.adjustToken,
+            baseUrl = configManager.adjustToken
+        )
+    }
 }

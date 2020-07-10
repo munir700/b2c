@@ -135,7 +135,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = if (YAPApplication.appInfo?.isLiveRelease() == false) {
+            val file = if (!YAPApplication.configManager.isLiveRelease()) {
                 context.dummyEID()
             } else {
                 File(result.document.files[1].croppedFile)
@@ -236,7 +236,7 @@ class EidInfoReviewViewModel(application: Application) :
                     fullName = getFullName(),
                     gender = it.gender.mrz.toString(),
                     nationality = it.isoCountryCode3Digit.toUpperCase(),
-                    identityNo = if (YAPApplication.appInfo?.build_type == "debug") (700000000000000..800000000000000).random()
+                    identityNo = if (YAPApplication.configManager.buildType == "debug") (700000000000000..800000000000000).random()
                         .toString() else it.citizenNumber,
                     filePaths = parentViewModel?.paths ?: arrayListOf(),
                     countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
