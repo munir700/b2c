@@ -3,7 +3,6 @@ package co.yap.app.main
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.app.BuildConfig
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.security.AppSignature
@@ -28,15 +27,9 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
         get() = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
     private external fun signatureKeysFromJNI(name: String): AppSignature
-    private external fun buildConfigKeysFromJNI(
-        name: String,
-        productFlavour: String,
-        buildType: String
-    ): BuildConfigManager
 
     init {
         System.loadLibrary("native-lib")
-        System.loadLibrary("build-config-lib")
     }
 
     override val navigator: IBaseNavigator
@@ -45,13 +38,7 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        val configManager =
-            buildConfigKeysFromJNI(
-                name = BuildConfigManager::class.java.canonicalName?.replace(".", "/") ?: "",
-                productFlavour = BuildConfig.FLAVOR,
-                buildType = YAPApplication.appInfo?.build_type ?: ""
-            )
-        if (YAPApplication.appInfo?.isLiveRelease() == true) {
+        if (YAPApplication.configManager.isLiveRelease()) {
             val originalSign =
                 signatureKeysFromJNI(
                     AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""

@@ -7,7 +7,7 @@
 #include <chrono>
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*this*/,
+Java_co_yap_app_AAPApplication_buildConfigKeysFromJNI(JNIEnv *env, jobject /*this*/,
                                                          jstring javaString, jstring flavour,
                                                          jstring buildVariant) {
 
@@ -51,7 +51,10 @@ Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*
         leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
     }
 
-    const char *nativeString = env->GetStringUTFChars(javaString, nullptr);
+    leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+    leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
+
+    const char *nativeString = env->GetStringUTFChars(javaString, 0);
     jclass buildConfigManager = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(buildConfigManager, "<init>",
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");

@@ -2,12 +2,12 @@ package co.yap.app
 
 import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.yapcore.config.AppInfo
+import co.yap.yapcore.config.BuildConfigManager
 
-open class YAPApplication(myAppInfo: AppInfo) : Application() {
+open class YAPApplication : Application() {
     companion object {
         var AUTO_RESTART_APP = true
-        var appInfo: AppInfo? = null
+        lateinit var configManager: BuildConfigManager
         const val pageSize = 200
         var hasFilterStateChanged = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
@@ -30,9 +30,4 @@ open class YAPApplication(myAppInfo: AppInfo) : Application() {
             )
         }
     }
-
-    init {
-        appInfo = myAppInfo
-    }
-
 }

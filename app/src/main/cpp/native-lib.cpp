@@ -30,4 +30,3 @@ Java_co_yap_app_main_MainActivity_signatureKeysFromJNI(JNIEnv *env, jobject /*th
                                   env->NewStringUTF(sha256Decoded.c_str()));
     return jObj;
 }
-
