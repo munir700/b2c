@@ -10,21 +10,45 @@ extern "C" JNIEXPORT jobject JNICALL
 Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*this*/,
                                                          jstring javaString, jstring flavour,
                                                          jstring buildVariant) {
-    std::string leanPlumApiKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
-    std::string adjustAppToken = "am0wjeshw5xc";
 
+    std::string leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+    std::string leanPlumKey = "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0";
+    std::string leanPlumKDebugKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
+    std::string adjustAppToken = "am0wjeshw5xc";
 
     const char *productFlavour = env->GetStringUTFChars(flavour, nullptr);
     const char *buildType = env->GetStringUTFChars(buildVariant, nullptr);
     if (strcmp(productFlavour, "live") == 0 && strcmp(buildType, "release") == 0) {
-        leanPlumApiKey = "prod_MfjUF6Sh3GuNE2RtQMkXZTeCUSTS3K0v2CLeGCp0gzk";
-        adjustAppToken = "am0wjeshw5xc";
-    } else if (strcmp(productFlavour, "live") == 0 && strcmp(, "debug") == 0) {
-        leanPlumApiKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
-        adjustAppToken = "am0wjeshw5xc";
-    } else if (strcmp(productFlavour, "stg") == 0) {
-    } else if (strcmp(productFlavour, "qa") == 0) {
-    } else if (strcmp(productFlavour, "dev") == 0) {
+        leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
+        leanPlumKey = "prod_MfjUF6Sh3GuNE2RtQMkXZTeCUSTS3K0v2CLeGCp0gzk";
+
+    } else if (strcmp(productFlavour, "live") == 0 && strcmp(buildType, "release") == 0) {
+        leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
+        leanPlumKey = "dev_RAFVBmDKypdOr3kbd326JUoqGLr8iSvt2Lei4BK48qk";
+
+    } else if (strcmp(productFlavour, "stg") == 0 && strcmp(buildType, "release") == 0) {
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0";
+
+    } else if (strcmp(productFlavour, "stg") == 0 && strcmp(buildType, "debug") == 0) {
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
+
+    } else if (strcmp(productFlavour, "qa") == 0 && strcmp(buildType, "release") == 0) {
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0";
+    } else if (strcmp(productFlavour, "qa") == 0 && strcmp(buildType, "debug") == 0) {
+
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
+    } else if (strcmp(productFlavour, "dev") == 0 && strcmp(buildType, "release") == 0) {
+
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0";
+    } else if (strcmp(productFlavour, "dev") == 0 && strcmp(buildType, "debug") == 0) {
+
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
     }
 
     const char *nativeString = env->GetStringUTFChars(javaString, nullptr);
@@ -32,17 +56,9 @@ Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*
     jmethodID constructor = env->GetMethodID(buildConfigManager, "<init>",
                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
-
-    //un-comment when we needed to encode a string into base64
-//    std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
-//                                        sha256.length());
-
-//    std::string sha1Decoded = base64_decode((sha1Encoded.c_str()));
-//    std::string md5Decoded = base64_decode((md5Encoded.c_str()));
-//    std::string sha256Decoded = base64_decode((sha256Encoded.c_str()));
-
     jobject jObj = env->NewObject(buildConfigManager, constructor,
-                                  env->NewStringUTF(leanPlumApiKey.c_str()),
+                                  env->NewStringUTF(leanPlumSecretKey.c_str()),
+                                  env->NewStringUTF(leanPlumKey.c_str()),
                                   env->NewStringUTF(adjustAppToken.c_str()));
     return jObj;
 }
