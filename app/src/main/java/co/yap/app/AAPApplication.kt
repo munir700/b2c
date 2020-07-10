@@ -14,7 +14,6 @@ import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.config.BuildConfigManager
-import co.yap.yapcore.config.BuildConfigManager2
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -38,10 +37,10 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         name: String,
         productFlavour: String,
         buildType: String
-    ): BuildConfigManager2
+    ): BuildConfigManager
 
     init {
-        System.loadLibrary("build-config-lib")
+        System.loadLibrary("native-lib")
     }
 
     override fun onCreate() {
@@ -49,7 +48,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
         val config =
             buildConfigKeysFromJNI(
-                name = BuildConfigManager2::class.java.canonicalName?.replace(".", "/") ?: "",
+                name = BuildConfigManager::class.java.canonicalName?.replace(".", "/") ?: "",
                 productFlavour = BuildConfig.FLAVOR,
                 buildType = BuildConfig.BUILD_TYPE
             )

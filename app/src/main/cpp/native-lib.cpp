@@ -32,22 +32,30 @@ Java_co_yap_app_main_MainActivity_signatureKeysFromJNI(JNIEnv *env, jobject /*th
 }
 
 extern "C" JNIEXPORT jobject JNICALL
-Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*this*/,
-                                                         jstring javaString, jstring flavour,
-                                                         jstring buildVariant) {
+Java_co_yap_app_AAPApplication_buildConfigKeysFromJNI(JNIEnv *env, jobject /*this*/,
+                                                      jstring javaString, jstring flavour,
+                                                      jstring buildVariant) {
 
     const char *nativeString = env->GetStringUTFChars(javaString, 0);
     jclass buildConfigManager = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(buildConfigManager, "<init>",
-                                             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+                                             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
-    std::string api_endpoint = "";
-    std::string leanPlumSecretKey="";
-    std::string leanPlumKey="";
+    //var leanPlumSecretKey: String = "",
+    //var leanPlumKey: String = "",
+    //var adjustToken: String = "",
+    //var buildType: String = "",
+    //var flavor: String = "",
+    //var versionName: String = "",
+    //var versionCode: String = ""
+
+    std::string api_endpoint;
+    std::string leanPlumSecretKey;
+    std::string leanPlumKey;
     std::string adjustAppToken = "am0wjeshw5xc";
 
 #ifdef LIVE
-    api_endpoint = " https://stg.yap.co/";
+    api_endpoint = "https://stg.yap.co/";
 #endif
 #ifdef STG
     api_endpoint = "https://stg.yap.co/";
@@ -98,7 +106,11 @@ Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*
                                   env->NewStringUTF(leanPlumSecretKey.c_str()),
                                   env->NewStringUTF(leanPlumKey.c_str()),
                                   env->NewStringUTF(adjustAppToken.c_str()),
-                                  env->NewStringUTF(api_endpoint.c_str()));
+                                  env->NewStringUTF(api_endpoint.c_str()),
+                                  env->NewStringUTF(buildType),
+                                  env->NewStringUTF(productFlavour),
+                                  env->NewStringUTF(""),
+                                  env->NewStringUTF(""));
     return jObj;
 }
 
