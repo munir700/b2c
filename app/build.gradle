@@ -32,6 +32,7 @@ android {
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_prod_key}\"")
             buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP"
+            resValue "string", "google_maps_key", "AIzaSyD14efXe-xXjpqUPX85ZhiKaKFHZyANSrE"
         }
 
         dev {
@@ -43,6 +44,8 @@ android {
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
             buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Dev"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+
         }
 
         qa {
@@ -54,6 +57,8 @@ android {
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
             buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP QA"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+
         }
 
         stg {
@@ -65,6 +70,7 @@ android {
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
             buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Stage"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
         }
     }
     ndkVersion '21.1.6352462'

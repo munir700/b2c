@@ -1,4 +1,4 @@
 <resources>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD14efXe-xXjpqUPX85ZhiKaKFHZyANSrE</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false" />
     <!-- YAP restricted key -->
 </resources>

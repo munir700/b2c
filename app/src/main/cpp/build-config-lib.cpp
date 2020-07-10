@@ -12,7 +12,6 @@ Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*
                                                          jstring buildVariant) {
     std::string leanPlumApiKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
     std::string adjustAppToken = "am0wjeshw5xc";
-    std::string googleMapsAPIKey = "AIzaSyD14efXe-xXjpqUPX85ZhiKaKFHZyANSrE";
 
 
     const char *productFlavour = env->GetStringUTFChars(flavour, nullptr);
@@ -20,11 +19,9 @@ Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*
     if (strcmp(productFlavour, "live") == 0 && strcmp(buildType, "release") == 0) {
         leanPlumApiKey = "prod_MfjUF6Sh3GuNE2RtQMkXZTeCUSTS3K0v2CLeGCp0gzk";
         adjustAppToken = "am0wjeshw5xc";
-        googleMapsAPIKey = "AIzaSyD14efXe-xXjpqUPX85ZhiKaKFHZyANSrE"
     } else if (strcmp(productFlavour, "live") == 0 && strcmp(, "debug") == 0) {
         leanPlumApiKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
         adjustAppToken = "am0wjeshw5xc";
-        googleMapsAPIKey = "AIzaSyD14efXe-xXjpqUPX85ZhiKaKFHZyANSrE"
     } else if (strcmp(productFlavour, "stg") == 0) {
     } else if (strcmp(productFlavour, "qa") == 0) {
     } else if (strcmp(productFlavour, "dev") == 0) {
@@ -46,8 +43,7 @@ Java_co_yap_app_main_MainActivity_buildConfigKeysFromJNI(JNIEnv *env, jobject /*
 
     jobject jObj = env->NewObject(buildConfigManager, constructor,
                                   env->NewStringUTF(leanPlumApiKey.c_str()),
-                                  env->NewStringUTF(adjustAppToken.c_str()),
-                                  env->NewStringUTF(googleMapsAPIKey.c_str()));
+                                  env->NewStringUTF(adjustAppToken.c_str()));
     return jObj;
 }
 
