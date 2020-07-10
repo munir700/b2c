@@ -95,17 +95,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:20948663414:android:2deedf61e924697433b357",
+        "mobilesdk_app_id": "1:20948663414:android:7ad7767497f93ec733b357",
         "android_client_info": {
-          "package_name": "com.yap"
+          "package_name": "com.yap.banking"
         }
       },
       "oauth_client": [
         {
-          "client_id": "20948663414-20tjtlbi08do94j677tpkl3m4f8vcq10.apps.googleusercontent.com",
+          "client_id": "20948663414-g2hfo6qmsh07kc1a3171kmgcnsgclnhk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.yap",
+            "package_name": "com.yap.banking",
             "certificate_hash": "be61415c0434ded8456ec009e095dfe44980a7f6"
           }
         },

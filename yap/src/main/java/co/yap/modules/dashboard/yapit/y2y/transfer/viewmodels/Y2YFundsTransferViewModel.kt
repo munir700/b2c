@@ -6,8 +6,6 @@ import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YFundsTransferState
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
-import co.yap.networking.customers.responsedtos.sendmoney.SMCoolingPeriod
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -15,7 +13,6 @@ import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -31,7 +28,6 @@ class Y2YFundsTransferViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override var receiverUUID: String = ""
     override val transferFundSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
-    override var smCoolingPeriod: SMCoolingPeriod? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -97,35 +93,6 @@ class Y2YFundsTransferViewModel(application: Application) :
                 }
             }
         }
-    }
-
-    override fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest) {
-        launch {
-            when (val response = repository.getCoolingPeriod(smCoolingPeriodRequest)) {
-                is RetroApiResponse.Success -> {
-                    smCoolingPeriod = response.data.data
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-                }
-            }
-        }
-    }
-
-    override fun isInCoolingPeriod(): Boolean {
-        smCoolingPeriod?.let { period ->
-            val coolingPeriodDurationInSeconds =
-                period.coolingPeriodDuration.parseToDouble().times(3600).toLong()
-            return period.difference ?: 0 < coolingPeriodDurationInSeconds
-        } ?: return false
-    }
-
-    override fun isCPAmountConsumed(inputAmount: String): Boolean {
-        smCoolingPeriod?.let { period ->
-            val remainingLimit = period.maxAllowedCoolingPeriodAmount.parseToDouble()
-                .minus(period.consumedAmount ?: 0.0)
-            return inputAmount.parseToDouble() > remainingLimit
-        } ?: return false
     }
 
     fun getTotalAmountWithFee(): Double {

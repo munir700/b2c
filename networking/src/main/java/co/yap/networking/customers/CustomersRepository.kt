@@ -335,12 +335,5 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
-    override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
-        executeSafely(call = {
-            api.getCoolingPeriod(
-                smCoolingPeriodRequest.beneficiaryId,
-                smCoolingPeriodRequest.productCode
-            )
-        })
 
 }

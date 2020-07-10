@@ -68,7 +68,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    showToast(response.error.message)
                     state.loading = false
                 }
             }
@@ -108,7 +108,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    showToast(response.error.message)
                     state.loading = false
                 }
             }
@@ -135,12 +135,13 @@ class CashTransferConfirmationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     parentViewModel?.transferData?.value?.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    showToast(response.error.message)
                 }
             }
-            state.loading = false
         }
     }
 

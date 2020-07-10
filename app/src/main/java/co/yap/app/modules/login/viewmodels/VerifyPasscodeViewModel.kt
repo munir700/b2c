@@ -48,15 +48,17 @@ class VerifyPasscodeViewModel(application: Application) :
         when (error.actualCode) {
             "302" -> {
                 showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
-                state.toast = "${error.message}^${AlertType.DIALOG.name}"
             }
             "303" -> {
                 showBlockForSomeTimeError(error.message)
-                state.toast = "${error.message}^${AlertType.DIALOG.name}"
             }
             "1260" -> {
                 state.isAccountFreeze.set(true)
                 showAccountBlockedError(error.message)
+            }
+            else ->{
+                showToast(error.message)
+                loginSuccess.postValue(false)
             }
         }
     }

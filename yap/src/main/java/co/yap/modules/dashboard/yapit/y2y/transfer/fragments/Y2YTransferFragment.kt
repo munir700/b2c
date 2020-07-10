@@ -20,7 +20,6 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferVi
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
-import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -113,10 +112,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-            viewModel.isInCoolingPeriod() && viewModel.isCPAmountConsumed(viewModel.state.amount) -> {
-                showCoolingPeriodLimitError()
-                viewModel.state.valid = false
-            }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
@@ -141,19 +136,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
     }
-
-    private fun showCoolingPeriodLimitError() {
-        viewModel.state.errorDescription = Translator.getString(
-            requireContext(),
-            Strings.common_display_text_cooling_period_limit_error,
-            viewModel.smCoolingPeriod?.maxAllowedCoolingPeriodAmount.toString()
-                .toFormattedAmountWithCurrency(),
-            viewModel.smCoolingPeriod?.coolingPeriodDuration.toString() + " hour's",
-            viewModel.state.fullName
-        )
-        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
-    }
-
 
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
@@ -221,13 +203,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.fullName = args.beneficiaryName
         viewModel.receiverUUID = args.receiverUUID
         viewModel.state.imageUrl = args.imagePath
-        viewModel.getCoolingPeriod(
-            SMCoolingPeriodRequest(
-                beneficiaryId = viewModel.receiverUUID,
-                productCode = TransactionProductCode.Y2Y_TRANSFER.pCode
-            )
-        )
-
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
             getBinding().lyUserImage.tvNameInitials.context,
             args.position

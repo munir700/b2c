@@ -216,13 +216,22 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        if (viewModel.trxWillHold() && viewModel.transactionMightGetHeld.value == true) {
+                        if (viewModel.trxWillHold() && viewModel.transactionMightGetHeld.value == true && it.holdAmountIsIncludedInTotalDebitAmount == false) {
                             val totalHoldAmount =
                                 (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
-                                "Sorry, you've reached your daily limit. Let's try again tomorrow."
+                                when (dailyLimit) {
+                                    totalHoldAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                    else -> Translator.getString(
+                                        requireContext(),
+                                        Strings.common_display_text_on_hold_limit_error
+                                    ).format(
+                                        remainingDailyLimit.roundVal().toString()
+                                            .toFormattedAmountWithCurrency()
+                                    )
+                                }
                             return (enteredAmount > remainingDailyLimit.roundVal())
 
                         } else {
@@ -340,11 +349,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-            viewModel.parentViewModel?.isInCoolingPeriod() == true
-                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
-                viewModel.parentViewModel?.showCoolingPeriodLimitError()
-                viewModel.state.valid = false
-            }
+
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }

@@ -26,7 +26,7 @@ android {
         live {
             versionCode 1
             versionName "0.1.0"
-            applicationId "com.yap"
+            applicationId "com.yap.banking"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
             buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_prod_key}\"")
@@ -57,8 +57,8 @@ android {
         }
 
         stg {
-            versionCode 162
-            versionName "0.16.2"
+            versionCode 165
+            versionName "0.16.5"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
