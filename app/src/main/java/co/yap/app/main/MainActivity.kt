@@ -37,7 +37,7 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        if (YAPApplication.configManager.isLiveRelease()) {
+        if (YAPApplication.configManager.isLiveRelease() || false) {
             val originalSign =
                 signatureKeysFromJNI(
                     AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""

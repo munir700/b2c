@@ -45,15 +45,12 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
-
-        val config =
+        configManager =
             buildConfigKeysFromJNI(
                 name = BuildConfigManager::class.java.canonicalName?.replace(".", "/") ?: "",
                 productFlavour = BuildConfig.FLAVOR,
                 buildType = BuildConfig.BUILD_TYPE
             )
-
-        configManager = BuildConfigManager()
         initNetworkLayer()
         setAppUniqueId(this)
         initFireBase()
@@ -166,9 +163,9 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     private fun getAppDataForNetwork(): AppData {
         return AppData(
-            flavor = configManager.adjustToken,
-            build_type = configManager.adjustToken,
-            baseUrl = configManager.adjustToken
+            flavor = configManager.flavor,
+            build_type = configManager.buildType,
+            baseUrl = configManager.baseUrl
         )
     }
 }

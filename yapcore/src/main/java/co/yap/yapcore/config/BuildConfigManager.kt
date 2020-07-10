@@ -4,7 +4,7 @@ data class BuildConfigManager(
     var leanPlumSecretKey: String = "",
     var leanPlumKey: String = "",
     var adjustToken: String = "",
-    var apiEndPoint: String = "",
+    var baseUrl: String = "",
     var buildType: String = "",
     var flavor: String = "",
     var versionName: String = "",
