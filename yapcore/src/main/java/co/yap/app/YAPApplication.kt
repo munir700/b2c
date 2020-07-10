@@ -7,7 +7,7 @@ import co.yap.yapcore.config.BuildConfigManager
 open class YAPApplication : Application() {
     companion object {
         var AUTO_RESTART_APP = true
-        lateinit var configManager: BuildConfigManager
+        var configManager: BuildConfigManager? = null
         const val pageSize = 200
         var hasFilterStateChanged = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
