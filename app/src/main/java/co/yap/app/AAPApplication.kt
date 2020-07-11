@@ -13,7 +13,7 @@ import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
-import co.yap.yapcore.config.BuildConfigManager
+import co.yap.security.AppSignature
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -27,29 +27,39 @@ import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import io.fabric.sdk.android.Fabric
+import timber.log.Timber
 import java.util.*
 
 class AAPApplication : ChatApplication(), NavigatorProvider {
 
-    private external fun buildConfigKeysFromJNI(
+    private external fun signatureKeysFromJNI(
         name: String,
-        productFlavour: String,
-        buildType: String
-    ): BuildConfigManager
+        flavour: String,
+        buildVariant: String,
+        versionName: String,
+        versionCode: String
+    ): AppSignature
 
     init {
-        System.loadLibrary("keys-lib")
+        System.loadLibrary("native-lib")
+    }
+
+    companion object {
+        var originalSign: AppSignature? = null
     }
 
     override fun onCreate() {
         super.onCreate()
         initFireBase()
-        configManager =
-            buildConfigKeysFromJNI(
-                name = BuildConfigManager::class.java.canonicalName?.replace(".", "/") ?: "",
-                productFlavour = BuildConfig.FLAVOR,
-                buildType = BuildConfig.BUILD_TYPE
+        originalSign =
+            signatureKeysFromJNI(
+                AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""
+                , BuildConfig.FLAVOR,
+                BuildConfig.BUILD_TYPE,
+                BuildConfig.VERSION_NAME,
+                BuildConfig.VERSION_CODE.toString()
             )
+
         initNetworkLayer()
         setAppUniqueId(this)
         inItLeanPlum()
@@ -74,14 +84,14 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
     }
 
     private fun initFireBase() {
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(DebugTree())
-//        } else {
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .build()
-        Fabric.with(fabric)
-//        }
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        } else {
+            val fabric = Fabric.Builder(this)
+                .kits(Crashlytics())
+                .build()
+            Fabric.with(fabric)
+        }
     }
 
     private fun inItLeanPlum() {
@@ -163,7 +173,8 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         return AppData(
             flavor = configManager?.flavor ?: "",
             build_type = configManager?.buildType ?: "",
-            baseUrl = configManager?.baseUrl ?: ""
+            baseUrl = "https://stg.yap.co/"
+            //baseUrl = configManager?.baseUrl ?: ""
         )
     }
 }

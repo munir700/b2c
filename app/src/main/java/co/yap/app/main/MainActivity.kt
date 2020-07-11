@@ -3,6 +3,7 @@ package co.yap.app.main
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
+import co.yap.app.AAPApplication.Companion.originalSign
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.security.AppSignature
@@ -25,32 +26,26 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override val viewModel: IMain.ViewModel
         get() = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-    private external fun signatureKeysFromJNI(name: String): AppSignature
-
-    init {
-        System.loadLibrary("native-lib")
-    }
-
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@MainActivity, R.id.main_nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        if (YAPApplication.configManager?.isLiveRelease() == false) {
-            val originalSign =
-                signatureKeysFromJNI(
-                    AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""
-                )
+        //if (YAPApplication.configManager?.isLiveRelease() == true) {
+//        val originalSign =
+//            signatureKeysFromJNI(
+//                AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""
+//            )
 
-            SecurityHelper(this, originalSign, object : SignatureValidator {
-                override fun onValidate(isValid: Boolean) {
-                    if (!isValid) {
-                        showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
-                    }
+        SecurityHelper(this, originalSign!!, object : SignatureValidator {
+            override fun onValidate(isValid: Boolean, originalSign: AppSignature) {
+                if (!isValid) {
+                    showToast("App signature not matched ${originalSign.toString()}" + "^" + AlertType.DIALOG_WITH_FINISH)
                 }
-            })
-        }
+            }
+        })
+        //}
     }
 
     override fun onBackPressed() {

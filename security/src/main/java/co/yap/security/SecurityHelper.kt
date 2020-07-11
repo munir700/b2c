@@ -25,8 +25,8 @@ class SecurityHelper(
 
     private fun validateAppSignature() {
         getApplicationSignature(context).find { it == originalSign }?.let {
-            validator.onValidate(isValid = true)
-        } ?: validator.onValidate(isValid = false)
+            validator.onValidate(isValid = true, originalSign = originalSign)
+        } ?: validator.onValidate(isValid = false, originalSign = originalSign)
     }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -54,7 +54,15 @@ class SecurityHelper(
                         AppSignature(
                             sha1 = getGivenSignature("SHA", byteArray),
                             md5 = getGivenSignature("MD5", byteArray),
-                            sha256 = getGivenSignature("SHA256", byteArray)
+                            sha256 = getGivenSignature("SHA256", byteArray),
+                            leanPlumSecretKey = "",
+                            leanPlumKey = "",
+                            adjustToken = "",
+                            baseUrl = "",
+                            buildType = "",
+                            flavor = "",
+                            versionName = "",
+                            versionCode = ""
                         )
                     )
                 } ?: Toast.makeText(
