@@ -47,14 +47,10 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         System.loadLibrary("native-lib")
     }
 
-    companion object {
-        var originalSign: AppSignature? = null
-    }
-
     override fun onCreate() {
         super.onCreate()
         initFireBase()
-        originalSign =
+        val originalSign =
             signatureKeysFromJNI(
                 AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
                 BuildConfig.FLAVOR,
@@ -64,17 +60,17 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
             )
 
         configManager = BuildConfigManager(
-            md5 = originalSign?.md5,
-            sha1 = originalSign?.sha1,
-            sha256 = originalSign?.sha1,
-            leanPlumSecretKey = originalSign?.leanPlumSecretKey,
-            leanPlumKey = originalSign?.leanPlumKey,
-            adjustToken = originalSign?.adjustToken,
-            baseUrl = originalSign?.baseUrl,
-            buildType = originalSign?.buildType,
-            flavor = originalSign?.flavor,
-            versionName = originalSign?.versionName,
-            versionCode = originalSign?.versionCode
+            md5 = originalSign.md5,
+            sha1 = originalSign.sha1,
+            sha256 = originalSign.sha256,
+            leanPlumSecretKey = originalSign.leanPlumSecretKey,
+            leanPlumKey = originalSign.leanPlumKey,
+            adjustToken = originalSign.adjustToken,
+            baseUrl = originalSign.baseUrl,
+            buildType = originalSign.buildType,
+            flavor = originalSign.flavor,
+            versionName = originalSign.versionName,
+            versionCode = originalSign.versionCode
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {

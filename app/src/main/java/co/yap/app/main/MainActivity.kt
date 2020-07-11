@@ -3,7 +3,6 @@ package co.yap.app.main
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.app.AAPApplication.Companion.originalSign
 import co.yap.app.R
 import co.yap.app.YAPApplication
 import co.yap.yapcore.BaseBindingActivity

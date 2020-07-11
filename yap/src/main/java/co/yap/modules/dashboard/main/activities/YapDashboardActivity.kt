@@ -26,6 +26,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
@@ -71,6 +72,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (YAPApplication.configManager?.isLiveRelease() == true && YAPApplication.configManager?.hasValidSignature == false) {
+            showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
+        }
         setupPager()
         addObservers()
         addListeners()

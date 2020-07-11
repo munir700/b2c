@@ -11,8 +11,6 @@ data class AppSignature(
     var versionName: String?,
     var versionCode: String?
 ) {
-    fun isLiveRelease(): Boolean =
-        (buildType == "release" && flavor == "live")
 
     override fun equals(other: Any?): Boolean {
         return if (other is AppSignature) {
@@ -26,10 +24,4 @@ data class AppSignature(
     override fun hashCode(): Int {
         return super.hashCode()
     }
-
-    override fun toString(): String {
-        return "AppSignature(md5=$md5, sha1=$sha1, sha256=$sha256, leanPlumSecretKey=$leanPlumSecretKey, leanPlumKey=$leanPlumKey, adjustToken=$adjustToken, baseUrl=$baseUrl, buildType=$buildType, flavor=$flavor, versionName=$versionName, versionCode=$versionCode)"
-    }
-
-
 }

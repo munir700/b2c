@@ -19,8 +19,8 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string md5Encoded = "OEU6OUM6Qjk6QkM6MEM6RUE6QkY6NTY6ODE6MDQ6Q0Q6MTY6MTU6Qjk6RDA6NjI=";
     std::string sha256Encoded = "QTU6QjQ6MkY6MUQ6NEE6RTU6Q0E6Q0I6OEQ6ODM6NUI6Q0U6MUQ6ODU6N0E6NzY6NDE6RkU6NUM6QjI6NTk6RkI6M0Q6MDQ6NTM6MTE6Qzg6QkI6ODA6RjE6NjY6RkQ=";
     //un-comment when we needed to encode a string into base64
-//    std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
-//                                        sha256.length());
+    //std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
+    //sha256.length());
 
     std::string sha1Decoded = base64_decode((sha1Encoded.c_str()));
     std::string md5Decoded = base64_decode((md5Encoded.c_str()));
