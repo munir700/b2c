@@ -45,6 +45,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
+        initFireBase()
         configManager =
             buildConfigKeysFromJNI(
                 name = BuildConfigManager::class.java.canonicalName?.replace(".", "/") ?: "",
@@ -165,7 +166,6 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         return AppData(
             flavor = configManager?.flavor ?: "",
             build_type = configManager?.buildType ?: "",
-            baseUrl = configManager?.baseUrl ?: ""
         )
     }
 }
