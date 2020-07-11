@@ -1,5 +1,5 @@
 package co.yap.security
 
 interface SignatureValidator {
-    fun onValidate(isValid: Boolean, originalSign: AppSignature)
+    fun onValidate(isValid: Boolean, originalSign: AppSignature?)
 }

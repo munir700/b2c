@@ -6,9 +6,6 @@ import co.yap.BR
 import co.yap.app.AAPApplication.Companion.originalSign
 import co.yap.app.R
 import co.yap.app.YAPApplication
-import co.yap.security.AppSignature
-import co.yap.security.SecurityHelper
-import co.yap.security.SignatureValidator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -32,20 +29,9 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        //if (YAPApplication.configManager?.isLiveRelease() == true) {
-//        val originalSign =
-//            signatureKeysFromJNI(
-//                AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""
-//            )
-
-        SecurityHelper(this, originalSign!!, object : SignatureValidator {
-            override fun onValidate(isValid: Boolean, originalSign: AppSignature) {
-                if (!isValid) {
-                    showToast("App signature not matched ${originalSign.toString()}" + "^" + AlertType.DIALOG_WITH_FINISH)
-                }
-            }
-        })
-        //}
+        if (YAPApplication.configManager?.isLiveRelease() == true && YAPApplication.configManager?.hasValidSignature == false) {
+            showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
+        }
     }
 
     override fun onBackPressed() {

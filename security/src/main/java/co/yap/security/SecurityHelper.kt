@@ -8,14 +8,13 @@ import java.security.MessageDigest
 
 class SecurityHelper(
     private val context: Context,
-    private val originalSign: AppSignature,
+    private val originalSign: AppSignature?,
     private val validator: SignatureValidator
 ) {
     init {
         System.loadLibrary("signature-lib")
         validateAppSignature()
     }
-
 
     /**
      * A native method that is implemented by the 'native-lib' native library,

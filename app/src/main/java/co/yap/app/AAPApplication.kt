@@ -14,6 +14,9 @@ import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.security.AppSignature
+import co.yap.security.SecurityHelper
+import co.yap.security.SignatureValidator
+import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -53,13 +56,35 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         initFireBase()
         originalSign =
             signatureKeysFromJNI(
-                AppSignature::class.java.canonicalName?.replace(".", "/") ?: ""
-                , BuildConfig.FLAVOR,
+                AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
+                BuildConfig.FLAVOR,
                 BuildConfig.BUILD_TYPE,
                 BuildConfig.VERSION_NAME,
                 BuildConfig.VERSION_CODE.toString()
             )
 
+        configManager = BuildConfigManager(
+            md5 = originalSign?.md5,
+            sha1 = originalSign?.sha1,
+            sha256 = originalSign?.sha1,
+            leanPlumSecretKey = originalSign?.leanPlumSecretKey,
+            leanPlumKey = originalSign?.leanPlumKey,
+            adjustToken = originalSign?.adjustToken,
+            baseUrl = originalSign?.baseUrl,
+            buildType = originalSign?.buildType,
+            flavor = originalSign?.flavor,
+            versionName = originalSign?.versionName,
+            versionCode = originalSign?.versionCode
+        )
+        initAllModules()
+        SecurityHelper(this, originalSign, object : SignatureValidator {
+            override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
+                configManager?.hasValidSignature = isValid
+            }
+        })
+    }
+
+    private fun initAllModules() {
         initNetworkLayer()
         setAppUniqueId(this)
         inItLeanPlum()
@@ -173,8 +198,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         return AppData(
             flavor = configManager?.flavor ?: "",
             build_type = configManager?.buildType ?: "",
-            baseUrl = "https://stg.yap.co/"
-            //baseUrl = configManager?.baseUrl ?: ""
+            baseUrl = configManager?.baseUrl ?: ""
         )
     }
 }

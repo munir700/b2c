@@ -9,7 +9,8 @@ data class BuildConfigManager(
     var buildType: String?,
     var flavor: String?,
     var versionName: String?,
-    var versionCode: String?
+    var versionCode: String?,
+    var hasValidSignature: Boolean = false
 ) {
     fun isLiveRelease(): Boolean =
         (buildType == "release" && flavor == "live")
