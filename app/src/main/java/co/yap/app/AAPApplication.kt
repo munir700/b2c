@@ -27,8 +27,6 @@ import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import io.fabric.sdk.android.Fabric
-import timber.log.Timber
-import timber.log.Timber.DebugTree
 import java.util.*
 
 class AAPApplication : ChatApplication(), NavigatorProvider {
@@ -37,14 +35,15 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         name: String,
         productFlavour: String,
         buildType: String
-    ): BuildConfigManager?
+    ): BuildConfigManager
 
     init {
-        System.loadLibrary("native-lib")
+        System.loadLibrary("keys-lib")
     }
 
     override fun onCreate() {
         super.onCreate()
+        initFireBase()
         configManager =
             buildConfigKeysFromJNI(
                 name = BuildConfigManager::class.java.canonicalName?.replace(".", "/") ?: "",
@@ -53,7 +52,6 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
             )
         initNetworkLayer()
         setAppUniqueId(this)
-        initFireBase()
         inItLeanPlum()
         initializeAdjustSdk(configManager?.adjustToken ?: "")
     }
@@ -76,14 +74,14 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
     }
 
     private fun initFireBase() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        } else {
-            val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .build()
-            Fabric.with(fabric)
-        }
+//        if (BuildConfig.DEBUG) {
+//            Timber.plant(DebugTree())
+//        } else {
+        val fabric = Fabric.Builder(this)
+            .kits(Crashlytics())
+            .build()
+        Fabric.with(fabric)
+//        }
     }
 
     private fun inItLeanPlum() {
