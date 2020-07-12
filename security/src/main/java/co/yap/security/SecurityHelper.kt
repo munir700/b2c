@@ -3,7 +3,6 @@ package co.yap.security
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.widget.Toast
 import java.security.MessageDigest
 
 class SecurityHelper(
@@ -64,11 +63,7 @@ class SecurityHelper(
                             versionCode = ""
                         )
                     )
-                } ?: Toast.makeText(
-                    context,
-                    "Couldn't able to find app signature",
-                    Toast.LENGTH_LONG
-                ).show()
+                }
             }
         }
         return signaturesList
