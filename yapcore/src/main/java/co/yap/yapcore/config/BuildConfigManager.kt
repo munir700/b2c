@@ -13,5 +13,6 @@ data class BuildConfigManager(
     var hasValidSignature: Boolean = false
 ) {
     fun isLiveRelease(): Boolean =
-        (buildType == "release" && flavor == "live")
+        (buildType == "release" && flavor == "live") || (buildType == "release" && flavor == "stg")
+
 }
