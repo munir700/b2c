@@ -9,11 +9,12 @@
 extern "C" JNIEXPORT jobject JNICALL
 Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*/,
                                                     jstring javaString, jstring flavour,
-                                                    jstring buildVariant,jstring versionName,jstring versionCode) {
+                                                    jstring buildVariant, jstring applicationId,
+                                                    jstring versionName, jstring versionCode) {
     const char *nativeString = env->GetStringUTFChars(javaString, 0);
     jclass appSignature = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(appSignature, "<init>",
-                                             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+                                             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
     std::string sha1Encoded = "QkU6NjE6NDE6NUM6MDQ6MzQ6REU6RDg6NDU6NkU6QzA6MDk6RTA6OTU6REY6RTQ6NDk6ODA6QTc6RjY=";
     std::string md5Encoded = "OEU6OUM6Qjk6QkM6MEM6RUE6QkY6NTY6ODE6MDQ6Q0Q6MTY6MTU6Qjk6RDA6NjI=";
@@ -32,7 +33,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string adjustAppToken = "am0wjeshw5xc";
 
 #ifdef LIVE
-    api_endpoint = "https://yap.com/";
+    api_endpoint = "https://stg.yap.co/";
 #endif
 #ifdef STG
     api_endpoint = "https://stg.yap.co/";
@@ -44,6 +45,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     api_endpoint = https://dev-b.yap.com/;
 #endif
 
+    const char *appId = env->GetStringUTFChars(applicationId, 0);
     const char *productFlavour = env->GetStringUTFChars(flavour, 0);
     const char *buildType = env->GetStringUTFChars(buildVariant, 0);
     const char *vName = env->GetStringUTFChars(versionName, 0);
@@ -93,6 +95,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                   env->NewStringUTF(buildType),
                                   env->NewStringUTF(productFlavour),
                                   env->NewStringUTF(vName),
-                                  env->NewStringUTF(vCode));
+                                  env->NewStringUTF(vCode),
+                                  env->NewStringUTF(appId));
     return jObj;
 }

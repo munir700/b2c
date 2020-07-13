@@ -39,6 +39,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         name: String,
         flavour: String,
         buildVariant: String,
+        applicationId: String,
         versionName: String,
         versionCode: String
     ): AppSignature
@@ -55,6 +56,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
                 AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
                 BuildConfig.FLAVOR,
                 BuildConfig.BUILD_TYPE,
+                BuildConfig.APPLICATION_ID,
                 BuildConfig.VERSION_NAME,
                 BuildConfig.VERSION_CODE.toString()
             )
@@ -70,7 +72,8 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
             buildType = originalSign.buildType,
             flavor = originalSign.flavor,
             versionName = originalSign.versionName,
-            versionCode = originalSign.versionCode
+            versionCode = originalSign.versionCode,
+            applicationId = originalSign.applicationId
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {

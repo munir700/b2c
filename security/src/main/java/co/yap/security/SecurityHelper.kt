@@ -47,7 +47,6 @@ class SecurityHelper(
                 val rawCertJava = it.signatures[0].toByteArray()
                 val rawCertNative = bytesFromJNI(context)
                 rawCertNative?.let { byteArray ->
-//                    Toast.makeText(context,"SHA 1"+getGivenSignature("SHA", byteArray),Toast.LENGTH_LONG).show()
                     signaturesList.add(
                         AppSignature(
                             sha1 = getGivenSignature("SHA", byteArray),
@@ -60,7 +59,8 @@ class SecurityHelper(
                             buildType = "",
                             flavor = "",
                             versionName = "",
-                            versionCode = ""
+                            versionCode = "",
+                            applicationId = ""
                         )
                     )
                 }
