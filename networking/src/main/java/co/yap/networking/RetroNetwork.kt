@@ -82,11 +82,11 @@ object RetroNetwork : Network {
         builder: OkHttpClient.Builder,
         appData: AppData
     ): OkHttpClient {
-        return if (appData.isReleaseStg()) {
+        return if (appData.isReleaseMode()) {
             SSLPiningHelper.setSSLContext(builder)
             builder.certificatePinner(getCertificatePinner()).build()
 
-            /* implementation with certificate in assests
+            /* implementation with certificate in assets
             builder.sslSocketFactory(
                 SSLPiningHelper(context).getSSLFactory(),
                 SSLPiningHelper(context).getDefaultTrustManager()
@@ -120,7 +120,7 @@ object RetroNetwork : Network {
     ): HttpLoggingInterceptor {
         val logger = HttpLoggingInterceptor()
         logger.level =
-            if (appData.isReleaseStg()) {
+            if (appData.isReleaseMode()) {
                 HttpLoggingInterceptor.Level.NONE
             } else {
                 HttpLoggingInterceptor.Level.BODY
