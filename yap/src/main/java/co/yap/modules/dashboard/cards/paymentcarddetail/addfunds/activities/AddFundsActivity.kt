@@ -110,13 +110,17 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                when {
-                    getBinding().btnAction.text == getString(Strings.screen_success_funds_transaction_display_text_button) -> setupActionsIntent()
-                    isOtpRequired() -> startOtpFragment()
-                    else -> {
-                        viewModel.addFunds {
-                            setUpSuccessData()
-                            performSuccessOperations()
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(this))
+                } else {
+                    when {
+                        getBinding().btnAction.text == getString(Strings.screen_success_funds_transaction_display_text_button) -> setupActionsIntent()
+                        isOtpRequired() -> startOtpFragment()
+                        else -> {
+                            viewModel.addFunds {
+                                setUpSuccessData()
+                                performSuccessOperations()
+                            }
                         }
                     }
                 }
@@ -233,7 +237,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                                 else -> Translator.getString(
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
-                                    remainingDailyLimit.roundVal().toString().toFormattedAmountWithCurrency()
+                                    remainingDailyLimit.roundVal().toString()
+                                        .toFormattedAmountWithCurrency()
                                 )
                             }
                         return enteredAmount > remainingDailyLimit.roundVal()
