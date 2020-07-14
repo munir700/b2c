@@ -87,7 +87,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         initNetworkLayer()
         setAppUniqueId(this)
         inItLeanPlum()
-        initializeAdjustSdk(configManager?.adjustToken ?: "")
+        initializeAdjustSdk(configManager)
     }
 
     private fun initNetworkLayer() {

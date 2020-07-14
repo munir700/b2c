@@ -34,6 +34,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 
 #ifdef LIVE
     api_endpoint = "https://stg.yap.co/";
+    adjustAppToken = "xty7lf6skgsg";
 #endif
 #ifdef STG
     api_endpoint = "https://stg.yap.co/";
