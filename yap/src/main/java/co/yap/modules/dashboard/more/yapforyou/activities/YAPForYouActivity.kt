@@ -48,8 +48,6 @@ class YAPForYouActivity : BaseBindingActivity<IYapForYouMain.ViewModel>(), INavi
         val fragment = supportFragmentManager.findFragmentById(R.id.yap_for_you_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-
         }
     }
-
 }
