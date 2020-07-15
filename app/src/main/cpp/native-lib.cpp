@@ -14,7 +14,10 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     const char *nativeString = env->GetStringUTFChars(javaString, 0);
     jclass appSignature = env->FindClass(nativeString);
     jmethodID constructor = env->GetMethodID(appSignature, "<init>",
-                                             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+                                             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
+                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
+                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
+                                             "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
     std::string sha1Encoded = "QkU6NjE6NDE6NUM6MDQ6MzQ6REU6RDg6NDU6NkU6QzA6MDk6RTA6OTU6REY6RTQ6NDk6ODA6QTc6RjY=";
     std::string md5Encoded = "OEU6OUM6Qjk6QkM6MEM6RUE6QkY6NTY6ODE6MDQ6Q0Q6MTY6MTU6Qjk6RDA6NjI=";
@@ -32,18 +35,43 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string leanPlumKey;
     std::string adjustAppToken = "am0wjeshw5xc";
 
+    std::string sslPin1;
+    std::string sslPin2;
+    std::string sslPin3;
+    std::string sslHost;
+
 #ifdef LIVE
-    api_endpoint = "https://stg.yap.co/";
+    api_endpoint = "https://yap.com/";
     adjustAppToken = "xty7lf6skgsg";
+    sslPin1 = "sha256/xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=";
+    sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
+    sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
+    sslHost = "*.yap.com";
 #endif
 #ifdef STG
     api_endpoint = "https://stg.yap.co/";
+    sslPin1 = "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=";
+    sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";
+    sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
+    sslHost = "*.yap.co";
+
 #endif
 #ifdef QA
     api_endpoint = "https://qa.yap.co/";
+    sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
+    sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
+    sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
+    sslHost = "*.yap.co";
+
 #endif
 #ifdef DEV
-    api_endpoint = https://dev-b.yap.com/;
+    api_endpoint = "https://dev-b.yap.com/";
+    //dummy keys should be update on once dev server has SSL enabled
+    sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
+    sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
+    sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
+    sslHost = "*.yap.co";
+
 #endif
 
     const char *appId = env->GetStringUTFChars(applicationId, 0);
@@ -97,6 +125,10 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                   env->NewStringUTF(productFlavour),
                                   env->NewStringUTF(vName),
                                   env->NewStringUTF(vCode),
-                                  env->NewStringUTF(appId));
+                                  env->NewStringUTF(appId),
+                                  env->NewStringUTF(sslPin1.c_str()),
+                                  env->NewStringUTF(sslPin2.c_str()),
+                                  env->NewStringUTF(sslPin3.c_str()),
+                                  env->NewStringUTF(sslHost.c_str()));
     return jObj;
 }

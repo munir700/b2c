@@ -10,7 +10,12 @@ data class AppSignature(
     var flavor: String?,
     var versionName: String?,
     var versionCode: String?,
-    var applicationId: String?
+    var applicationId: String?,
+
+    var sslPin1: String?,
+    var sslPin2: String?,
+    var sslPin3: String?,
+    var sslHost: String?
 ) {
 
     override fun equals(other: Any?): Boolean {

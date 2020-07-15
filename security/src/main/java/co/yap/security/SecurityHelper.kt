@@ -60,7 +60,11 @@ class SecurityHelper(
                             flavor = "",
                             versionName = "",
                             versionCode = "",
-                            applicationId = ""
+                            applicationId = "",
+                            sslPin1 = "",
+                            sslPin2 = "",
+                            sslPin3 = "",
+                            sslHost = ""
                         )
                     )
                 }

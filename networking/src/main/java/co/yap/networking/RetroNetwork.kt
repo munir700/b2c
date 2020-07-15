@@ -84,7 +84,7 @@ object RetroNetwork : Network {
     ): OkHttpClient {
         return if (appData.isReleaseMode()) {
             SSLPiningHelper.setSSLContext(builder)
-            builder.certificatePinner(getCertificatePinner()).build()
+            builder.certificatePinner(getCertificatePinner(appData)).build()
 
             /* implementation with certificate in assets
             builder.sslSocketFactory(
@@ -97,21 +97,16 @@ object RetroNetwork : Network {
         }
     }
 
-    private fun getCertificatePinner(): CertificatePinner {
+    private fun getCertificatePinner(appData: AppData): CertificatePinner {
         return CertificatePinner.Builder()
-            .add("*.yap.co", "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=")
-            .add("*.yap.co", "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
-            .add("*.yap.co", "sha256/xYUxUshCD5PVwQ1AgAakwEG6dLIId5QMvqbNVBn1vFw=") // charles
-            .add("*.yap.co", "sha256/Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=") // charles
-            .add("*.yap.co", "sha256/jr1RBEN+F3KtPTYBMhudiTGBRAg8k2qZPEg3WbSerXU=")
-            .add("*.yap.co", "sha256/yJcy2FrimDcAjQrvDDImmFJna4OjlPQ4LAee9Vj2C74=")
-            //stage server
-            .add("*.yap.co", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
-            .add("*.yap.co", "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=")
-            .add("*.yap.co", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
-            .add("*.yap.co", "sha256/VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=")
             //PrePod server
-            .add("*.yap.com", "sha256/xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=")
+            // For testing removed all other pin leave only below
+            //.add("*.yap.co", "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
+            //.add("*.yap.co", "sha256/xYUxUshCD5PVwQ1AgAakwEG6dLIId5QMvqbNVBn1vFw=") // charles
+            //.add("*.yap.co", "sha256/Yf/ZlETuML9yDZbbwEFNdRnXKM/Nci/pXaCLCcH8yrU=") // charles
+            .add(appData.sslHost ?: "", appData.sslPin1)
+            .add(appData.sslHost ?: "", appData.sslPin2)
+            .add(appData.sslHost ?: "", appData.sslPin3)
             .build()
     }
 

@@ -73,7 +73,11 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
             flavor = originalSign.flavor,
             versionName = originalSign.versionName,
             versionCode = originalSign.versionCode,
-            applicationId = originalSign.applicationId
+            applicationId = originalSign.applicationId,
+            sslPin1 = originalSign.sslPin1,
+            sslPin2 = originalSign.sslPin2,
+            sslPin3 = originalSign.sslPin3,
+            sslHost = originalSign.sslHost
         )
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
@@ -91,7 +95,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
     }
 
     private fun initNetworkLayer() {
-        RetroNetwork.initWith(this, getAppDataForNetwork())
+        RetroNetwork.initWith(this, getAppDataForNetwork(configManager))
         NetworkConnectionManager.init(this)
 
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
@@ -193,11 +197,15 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         }
     }
 
-    private fun getAppDataForNetwork(): AppData {
+    private fun getAppDataForNetwork(configManager: BuildConfigManager?): AppData {
         return AppData(
             flavor = configManager?.flavor ?: "",
             build_type = configManager?.buildType ?: "",
-            baseUrl = configManager?.baseUrl ?: ""
+            baseUrl = configManager?.baseUrl ?: "",
+            sslPin1 = configManager?.sslPin1 ?: "",
+            sslPin2 = configManager?.sslPin2 ?: "",
+            sslPin3 = configManager?.sslPin3 ?: "",
+            sslHost = configManager?.sslHost ?: ""
         )
     }
 }

@@ -11,7 +11,11 @@ data class BuildConfigManager(
     var versionName: String?,
     var versionCode: String?,
     var applicationId: String?,
-    var hasValidSignature: Boolean = false
+    var hasValidSignature: Boolean = false,
+    var sslPin1: String?,
+    var sslPin2: String?,
+    var sslPin3: String?,
+    var sslHost: String?
 ) {
     fun isLiveRelease(): Boolean =
         (buildType == "release" && flavor == "live") || (buildType == "release" && flavor == "stg")
