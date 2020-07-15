@@ -52,11 +52,6 @@ class YAPForYouViewModel(application: Application) :
 
     }
 
-    fun getAchievmentIcons(color: Int, percent: Double): AchievmentIcons? {
-        val categoriesIcon: CategoriesIcon = CategoriesIcon(percent, color.toString())
-        return categoriesIcon.achievmentIcons
-    }
-
     override fun getAchievements() {
         launch {
             state.loading = true
@@ -80,15 +75,6 @@ class YAPForYouViewModel(application: Application) :
         }
     }
 
-//
-//    private fun getSortAchievementList(val list: MutableList<Achievement>): MutableList<Achievement> {
-//        val sortedAchievements = mutableListOf<Achievement>()
-//        val sequencedList = listOf("Get started","Up and running","Better together",)
-//
-//        for(achievement in )
-//
-//    }
-
     private fun achievementDataFactory(){
         var position = 0
         for(achievement in parentViewModel?.achievements?: mutableListOf()){
@@ -101,8 +87,8 @@ class YAPForYouViewModel(application: Application) :
 
     override fun getAchievementIcon(position: Int,isWithBadged:Boolean): Int {
         return when (position) {
-            0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_faded_yfy
-            1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_dark_blue
+            0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
+            1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
             2 -> if (!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
             3 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_2 else R.drawable.ic_y4y_rounded_locked_2
             4 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_3 else R.drawable.ic_y4y_rounded_locked_3
