@@ -24,7 +24,6 @@ import co.yap.modules.dashboard.more.notification.activities.NotificationsActivi
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.widgets.SpaceGridItemDecoration
-import co.yap.widgets.SpacesItemDecoration
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.formateIbanString
@@ -181,7 +180,6 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             R.id.yapForYou -> {
                 startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
-
             }
         }
     }

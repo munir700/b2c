@@ -51,11 +51,13 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
             when (it) {
                 R.id.btnView -> {
                     viewModel.parentViewModel?.selectedPosition = 0
-                    viewModel.parentViewModel?.achievement =
-                        viewModel.parentViewModel?.achievements?.get(0)
-                    val action =
-                        YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
-                    findNavController().navigate(action)
+                    if (!viewModel.parentViewModel?.achievements.isNullOrEmpty()) {
+                        viewModel.parentViewModel?.achievement =
+                            viewModel.parentViewModel?.achievements?.get(0)
+                        val action =
+                            YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         })

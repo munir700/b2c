@@ -2,8 +2,6 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
 import co.yap.R
-import co.yap.modules.dashboard.more.yapforyou.AchievmentIcons
-import co.yap.modules.dashboard.more.yapforyou.CategoriesIcon
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
@@ -52,11 +50,6 @@ class YAPForYouViewModel(application: Application) :
 
     }
 
-    fun getAchievmentIcons(color: Int, percent: Double): AchievmentIcons? {
-        val categoriesIcon: CategoriesIcon = CategoriesIcon(percent, color.toString())
-        return categoriesIcon.achievmentIcons
-    }
-
     override fun getAchievements() {
         launch {
             state.loading = true
@@ -74,20 +67,11 @@ class YAPForYouViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    showDialogWithCancel(response.error.message)
                 }
             }
         }
     }
-
-//
-//    private fun getSortAchievementList(val list: MutableList<Achievement>): MutableList<Achievement> {
-//        val sortedAchievements = mutableListOf<Achievement>()
-//        val sequencedList = listOf("Get started","Up and running","Better together",)
-//
-//        for(achievement in )
-//
-//    }
 
     private fun achievementDataFactory(){
         var position = 0
