@@ -10,8 +10,6 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 class YAPForYouAdapter(private val list: MutableList<Achievement>) :
     BaseBindingRecyclerAdapter<Achievement, RecyclerView.ViewHolder>(list) {
 
-//    private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 45)
-
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_yap_for_you
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {

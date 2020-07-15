@@ -57,7 +57,6 @@ class Y2YFundsTransferViewModel(application: Application) :
                     state.loading = false
                     state.errorDescription = response.error.message
                     parentViewModel?.errorEvent?.value = state.errorDescription
-                    //errorEvent.call()
                 }
             }
             state.loading = false
