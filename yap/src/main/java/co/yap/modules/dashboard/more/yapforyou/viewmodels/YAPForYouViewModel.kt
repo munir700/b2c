@@ -2,8 +2,6 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
 import co.yap.R
-import co.yap.modules.dashboard.more.yapforyou.AchievmentIcons
-import co.yap.modules.dashboard.more.yapforyou.CategoriesIcon
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
@@ -69,7 +67,7 @@ class YAPForYouViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    showDialogWithCancel(response.error.message)
                 }
             }
         }
