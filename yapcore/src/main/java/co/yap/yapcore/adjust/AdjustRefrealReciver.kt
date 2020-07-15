@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import com.adjust.sdk.Adjust
 
@@ -12,9 +13,9 @@ class AdjustReferrerReceiver : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         intent.data?.let { uri ->
             Adjust.appWillOpenUrl(uri, this)
-            val customerId = uri.getQueryParameter("inviter")
+            val customerId = uri.getQueryParameter(Constants.REFERRAL_ID)
             customerId?.let { cusId ->
-                uri.getQueryParameter("time")?.let { time ->
+                uri.getQueryParameter(Constants.REFERRAL_TIME)?.let { time ->
                     val date = time.replace("_", " ")
                     SharedPreferenceManager(this).setReferralInfo(
                         ReferralInfo(

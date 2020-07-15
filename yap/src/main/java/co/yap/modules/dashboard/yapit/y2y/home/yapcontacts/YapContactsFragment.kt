@@ -15,7 +15,6 @@ import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -109,9 +108,6 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.tvInvite -> {
-                    Utils.shareText(requireContext(), getBody())
-                }
                 R.id.lyContact -> {
                     if (MyUserManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
@@ -133,14 +129,11 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         }
     }
 
-    private fun getBody(): String {
-        return "App link"
-    }
 
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
-                Utils.shareText(requireContext(), getBody())
+                Utils.shareText(requireContext(), Utils.getGeneralInvitationBody(requireContext()))
             }
         }
     }
