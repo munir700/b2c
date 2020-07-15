@@ -646,20 +646,6 @@ object Utils {
         }
     }
 
-//    fun getCountryIsoCode(number: String): String {
-//        val validatedNumber = "+$number"
-//        val pnu = PhoneNumberUtil.getInstance()
-//        val phoneNumber = try {
-//            pnu.parse(validatedNumber, null)
-//        } catch (e: NumberParseException) {
-//            Log.e("UTILS", "error during parsing a number")
-//            return ""
-//        }
-//            ?: return ""
-//
-//        return pnu.getRegionCodeForCountryCode(phoneNumber.countryCode)
-//    }
-
     fun getDefaultCountryCode(context: Context): String {
         val countryCode = getCountryCodeFromTimeZone(context)
         return if (countryCode == "") "AE" else countryCode
@@ -677,8 +663,6 @@ object Utils {
     fun shareText(context: Context, body: String) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
-        // not set because ios team is not doing this.
-        //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
         sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
@@ -756,8 +740,7 @@ object Utils {
             Strings.common_display_text_y2y_share,
             StringUtils.getFirstname(contact.title!!),
             MyUserManager.user?.currentCustomer?.firstName!!,
-            Constants.URL_SHARE_APP_STORE,
-            Constants.URL_SHARE_PLAY_STORE
+            getAdjustURL()
         )
     }
 
@@ -766,8 +749,7 @@ object Utils {
             context,
             Strings.common_display_text_y2y_general_share,
             MyUserManager.user?.currentCustomer?.firstName!!,
-            Constants.URL_SHARE_APP_STORE,
-            Constants.URL_SHARE_PLAY_STORE
+            getAdjustURL()
         )
     }
 
@@ -923,5 +905,12 @@ object Utils {
                     rmtCountry = item.rmtCountry
                 )
             }
+    }
+
+    fun getAdjustURL(): String {
+        val userId = MyUserManager.user?.currentCustomer?.customerId
+        val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
+        val time = date.replace(" ", "_")
+        return "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
     }
 }

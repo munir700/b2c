@@ -101,12 +101,12 @@ class YAPForYouViewModel(application: Application) :
 
     override fun getAchievementIcon(position: Int,isWithBadged:Boolean): Int {
         return when (position) {
-            0 -> if(!isWithBadged) R.drawable.ic_round_badge_dark_purple else R.drawable.ic_badge_dark_purple
-            1 -> if(!isWithBadged) R.drawable.ic_round_badge_dark_blue else R.drawable.ic_badge_dark_blue
-            2 -> if(!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
-            3 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
-            4 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
-            5 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
+            0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_faded_yfy
+            1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_dark_blue
+            2 -> if (!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
+            3 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_2 else R.drawable.ic_y4y_rounded_locked_2
+            4 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_3 else R.drawable.ic_y4y_rounded_locked_3
+            5 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_1 else R.drawable.ic_y4y_rounded_locked_1
             else -> R.drawable.ic_round_badge_dark_grey
         }
     }

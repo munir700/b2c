@@ -148,4 +148,7 @@ object Constants {
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
+
+    const val REFERRAL_TIME = "time"
+    const val REFERRAL_ID = "customer_id"
 }
