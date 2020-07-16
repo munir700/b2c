@@ -16,11 +16,23 @@
         <domain-config cleartextTrafficPermitted="false">
             <domain includeSubdomains="true">secure.*.yap.co</domain>
         </domain-config>
+        <trustkit-config
+            disableDefaultReportUri="true"
+            enforcePinning="true" />
     </domain-config>
-    <debug-overrides>
-        <trust-anchors>
-            <certificates src="system" />
-            <certificates src="user" />
-        </trust-anchors>
-    </debug-overrides>
+
+    <domain-config>
+        <domain includeSubdomains="true">*.yap.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=</pin>
+            <pin digest="SHA-256">JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=</pin>
+            <pin digest="SHA-256">++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=</pin>
+        </pin-set>
+        <domain-config cleartextTrafficPermitted="false">
+            <domain includeSubdomains="true">secure.*.yap.com</domain>
+        </domain-config>
+        <trustkit-config
+            disableDefaultReportUri="true"
+            enforcePinning="true" />
+    </domain-config>
 </network-security-config>
