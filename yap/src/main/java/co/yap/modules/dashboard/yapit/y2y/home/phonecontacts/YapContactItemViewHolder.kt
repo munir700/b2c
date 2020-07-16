@@ -15,18 +15,6 @@ class YapContactItemViewHolder(private val itemContactsBinding: ItemContactsBind
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {
-
-        itemContactsBinding.lyUserImage.tvNameInitials.background = Utils.getContactBackground(
-            itemContactsBinding.lyUserImage.tvNameInitials.context,
-            position
-        )
-
-
-        itemContactsBinding.lyUserImage.tvNameInitials.setTextColor(
-            Utils.getContactColors(
-                itemContactsBinding.lyUserImage.tvNameInitials.context, position
-            )
-        )
         itemContactsBinding.viewModel =
             YapContactItemViewModel(contact, position, onItemClickListener)
         itemContactsBinding.executePendingBindings()

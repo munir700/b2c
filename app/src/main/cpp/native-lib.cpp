@@ -41,7 +41,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string sslHost;
 
 #ifdef LIVE
-    api_endpoint = "https://yap.com/";
+    api_endpoint = "https://ae-preprod.yap.com/";
     adjustAppToken = "xty7lf6skgsg";
     sslPin1 = "sha256/xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=";
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
