@@ -19,21 +19,14 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;"
                                              "Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
-    std::string sha1Encoded = "QkU6NjE6NDE6NUM6MDQ6MzQ6REU6RDg6NDU6NkU6QzA6MDk6RTA6OTU6REY6RTQ6NDk6ODA6QTc6RjY=";
-    std::string md5Encoded = "OEU6OUM6Qjk6QkM6MEM6RUE6QkY6NTY6ODE6MDQ6Q0Q6MTY6MTU6Qjk6RDA6NjI=";
-    std::string sha256Encoded = "QTU6QjQ6MkY6MUQ6NEE6RTU6Q0E6Q0I6OEQ6ODM6NUI6Q0U6MUQ6ODU6N0E6NzY6NDE6RkU6NUM6QjI6NTk6RkI6M0Q6MDQ6NTM6MTE6Qzg6QkI6ODA6RjE6NjY6RkQ=";
-    //un-comment when we needed to encode a string into base64
-    //std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
-    //sha256.length());
-
-    std::string sha1Decoded = base64_decode((sha1Encoded.c_str()));
-    std::string md5Decoded = base64_decode((md5Encoded.c_str()));
-    std::string sha256Decoded = base64_decode((sha256Encoded.c_str()));
+    std::string sha1Encoded;
+    std::string md5Encoded;
+    std::string sha256Encoded;
 
     std::string api_endpoint;
     std::string leanPlumSecretKey;
     std::string leanPlumKey;
-    std::string adjustAppToken = "am0wjeshw5xc";
+    std::string adjustAppToken;
 
     std::string sslPin1;
     std::string sslPin2;
@@ -43,35 +36,56 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 #ifdef LIVE
     api_endpoint = "https://ae-preprod.yap.com/";
     adjustAppToken = "xty7lf6skgsg";
-    sslPin1 = "sha256/xic4A6n1l2NivyecLfJqGZXEN6/VtFXeUR2yoEUg+ps=";
-    sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
-    sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
+    sslPin1 = "sha256/SK10shgwb9jAeBvxJXrkBmjL2joCFoSq2Sp1tGyOcQk=";
+    sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";
+    sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
+    //VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=
     sslHost = "*.yap.com";
+
+    sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
+    md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
+    sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
+
 #endif
 #ifdef STG
     api_endpoint = "https://stg.yap.co/";
+    adjustAppToken = "am0wjeshw5xc";
     sslPin1 = "sha256/ZrRL6wSXl/4lm1KItkcZyh56BGOoxMWUDJr7YVqE4no=";
     sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";
     sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
     sslHost = "*.yap.co";
 
+    sha1Encoded = "REI6QTg6REE6OTg6RUY6ODA6QkY6ODQ6MDQ6RDE6NzM6Rjg6QzE6RjE6QzA6MTU6NTk6MjA6MTY6RDI=";
+    md5Encoded = "MjU6ODQ6MUY6RTE6RjE6QTg6QzI6NTg6N0I6QUU6RUE6QjM6NDE6NjU6NzY6RkU=";
+    sha256Encoded = "QTQ6QUM6MTQ6RjM6REQ6RDg6NTc6RTk6RkM6QUM6N0M6MDk6NkM6QTQ6MEQ6RUM6QjU6MEU6RTE6OTY6QTI6RjA6Qjc6Q0M6QjA6MEY6MDc6MDA6Qzc6N0M6RjM6Qjg=";
+
 #endif
 #ifdef QA
     api_endpoint = "https://qa.yap.co/";
+    adjustAppToken = "am0wjeshw5xc";
     sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
     sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
     sslHost = "*.yap.co";
 
+    sha1Encoded = "";
+    md5Encoded = "";
+    sha256Encoded = "";
+
+
 #endif
 #ifdef DEV
     api_endpoint = "https://dev-b.yap.com/";
+    adjustAppToken = "am0wjeshw5xc";
     //dummy keys should be update on once dev server has SSL enabled
     sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
     sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
     sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
     sslHost = "*.yap.co";
 
+    sha1Encoded = "";
+    md5Encoded = "";
+    sha256Encoded = "";
 #endif
 
     const char *appId = env->GetStringUTFChars(applicationId, 0);
@@ -113,6 +127,13 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     } else {
 
     }
+
+    std::string sha1Decoded = base64_decode((sha1Encoded.c_str()));
+    std::string md5Decoded = base64_decode((md5Encoded.c_str()));
+    std::string sha256Decoded = base64_decode((sha256Encoded.c_str()));
+    //un-comment when we needed to encode a string into base64
+    //std::string encoded = base64_encode(reinterpret_cast<const unsigned char *>(sha256.c_str()),
+    //sha256.length());
 
     jobject jObj = env->NewObject(appSignature, constructor, env->NewStringUTF(md5Decoded.c_str()),
                                   env->NewStringUTF(sha1Decoded.c_str()),

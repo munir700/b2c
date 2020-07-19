@@ -102,6 +102,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "20948663414-7qka1ttj6algsgsti7phbge7brllo12n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yap.banking",
+            "certificate_hash": "859f637c627bb77a08e48b069e3e2de50d8c2825"
+          }
+        },
+        {
           "client_id": "20948663414-g2hfo6qmsh07kc1a3171kmgcnsgclnhk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

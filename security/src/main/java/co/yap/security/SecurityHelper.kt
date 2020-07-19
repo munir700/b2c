@@ -3,6 +3,7 @@ package co.yap.security
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.widget.Toast
 import java.security.MessageDigest
 
 class SecurityHelper(
@@ -47,27 +48,33 @@ class SecurityHelper(
                 val rawCertJava = it.signatures[0].toByteArray()
                 val rawCertNative = bytesFromJNI(context)
                 rawCertNative?.let { byteArray ->
-                    signaturesList.add(
-                        AppSignature(
-                            sha1 = getGivenSignature("SHA", byteArray),
-                            md5 = getGivenSignature("MD5", byteArray),
-                            sha256 = getGivenSignature("SHA256", byteArray),
-                            leanPlumSecretKey = "",
-                            leanPlumKey = "",
-                            adjustToken = "",
-                            baseUrl = "",
-                            buildType = "",
-                            flavor = "",
-                            versionName = "",
-                            versionCode = "",
-                            applicationId = "",
-                            sslPin1 = "",
-                            sslPin2 = "",
-                            sslPin3 = "",
-                            sslHost = ""
-                        )
+                    val signatures = AppSignature(
+                        sha1 = getGivenSignature("SHA", byteArray),
+                        md5 = getGivenSignature("MD5", byteArray),
+                        sha256 = getGivenSignature("SHA256", byteArray),
+                        leanPlumSecretKey = "",
+                        leanPlumKey = "",
+                        adjustToken = "",
+                        baseUrl = "",
+                        buildType = "",
+                        flavor = "",
+                        versionName = "",
+                        versionCode = "",
+                        applicationId = "",
+                        sslPin1 = "",
+                        sslPin2 = "",
+                        sslPin3 = "",
+                        sslHost = ""
                     )
-                }
+                    signaturesList.add(signatures)
+                    //showToast(
+                    //    context,
+                    //    "App signature ${signatures.toString()}"
+                    //)
+                } ?: showToast(
+                    context,
+                    "Couldn't able to find app signature"
+                )
             }
         }
         return signaturesList
@@ -135,5 +142,13 @@ class SecurityHelper(
             }
         }
         return md5StrBuff.toString()
+    }
+
+    private fun showToast(context: Context, msg: String) {
+        Toast.makeText(
+            context,
+            msg,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
