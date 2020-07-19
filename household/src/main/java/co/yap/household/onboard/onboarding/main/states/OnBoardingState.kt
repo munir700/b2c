@@ -7,7 +7,7 @@ import co.yap.household.R
 import co.yap.household.onboard.onboarding.main.interfaces.IOnboarding
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class OnBoardingState(val application: Application) : BaseState(), IOnboarding.State {
 
     @get:Bindable

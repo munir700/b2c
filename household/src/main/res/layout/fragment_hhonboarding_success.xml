@@ -9,9 +9,11 @@
             type="co.yap.household.onboarding.onboardsuccess.HHOnBoardingSuccessVM" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rootContainer"
         style="@style/Yap.App.Layout.LinearLayout.Vertical"
         android:layout_width="match_parent"
@@ -19,12 +21,13 @@
         android:background="@color/colorLightPinkBackground"
         android:padding="@dimen/margin_medium_large">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/ivTransfer"
-            style="@style/Yap.App.Widget.FloatingActionButton.Circle"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_tick_enabled" />
+        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--            android:id="@+id/ivTransfer"-->
+        <!--            style="@style/Yap.App.Widget.FloatingActionButton.Circle"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            android:visibility="gone"-->
+        <!--            app:srcCompat="@drawable/ic_tick_enabled" />-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -32,9 +35,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
             android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
             android:lineSpacingExtra="9sp"
+            android:text="@{Translator.INSTANCE.getString(context, Strings.screen_congratulations_display_text_title , viewModel.mUserLiveData.currentCustomer.firstName)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/screen_congratulations_display_text_title" />
 
@@ -46,32 +52,28 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:text="@{Strings.screen_congratulations_display_text_success_message}"
             tools:text="@string/screen_congratulations_display_text_success_message" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivMobileSuccess"
-            android:layout_width="@dimen/_258sdp"
-            android:layout_height="@dimen/_189sdp"
+            android:id="@+id/ivCard"
+            android:layout_width="@dimen/_248sdp"
+            android:layout_height="@dimen/_179sdp"
             android:layout_gravity="center_horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/btnCompleteVerification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
             app:srcCompat="@drawable/ic_hh_new_user_success" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnCompleteVerifiocation"
+            android:id="@+id/btnCompleteVerification"
             style="@style/RectangleBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal"
             android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
             android:paddingTop="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium"
@@ -79,8 +81,11 @@
             app:btn_pressed_color="@color/white"
             app:btn_text_color="?attr/colorPrimaryDarkAttr"
             app:btn_unpressed_color="@color/white"
-            app:text="@{Strings.screen_congratulations_display_button_complete_setup}"
-            tools:text="@string/screen_congratulations_display_button_complete_setup" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_congratulations_display_button_choose_card}"
+            tools:text="@string/screen_congratulations_display_button_choose_card" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

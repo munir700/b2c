@@ -5,7 +5,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
-
+@Deprecated("")
 interface IOnboarding {
 
     interface View : IBase.View<ViewModel>

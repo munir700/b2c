@@ -6,7 +6,7 @@ import co.yap.household.onboard.onboarding.viewmodels.HouseHoldCardSelectionItem
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.OnItemClickListener
-
+@Deprecated("")
 class HouseHoldCardSelectionItemViewHolder(private val itemHouseHoldCardBinding: ItemHouseHoldCardBinding) :
     RecyclerView.ViewHolder(itemHouseHoldCardBinding.root) {
     fun onBind(

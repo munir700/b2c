@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorRes
@@ -15,10 +14,25 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import co.yap.yapcore.helpers.glide.setRoundedImage
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 object ImageBinding {
+    @JvmStatic
+    @BindingAdapter(
+        value = ["roundedImageUrl", "radius"],
+        requireAll = true
+    )
+    fun setImageUrl(
+        imageView: AppCompatImageView,
+        imageUrl: String?, radius: Int
+    ) {
+        imageUrl?.let {
+            setRoundedImage(imageView, it, radius)
+        }
+    }
+
     @JvmStatic
     @BindingAdapter(
         value = ["imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor"],

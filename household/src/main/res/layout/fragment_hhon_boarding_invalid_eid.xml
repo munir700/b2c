@@ -8,6 +8,8 @@
             name="viewModel"
             type="co.yap.household.onboarding.invalideid.HHOnBoardingInvalidEidVM" />
 
+        <import type="co.yap.translation.Translator" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -35,6 +37,7 @@
             android:layout_marginTop="@dimen/margin_btn_side_paddings_xl"
             android:gravity="center"
             android:lineSpacingExtra="@dimen/_10sdp"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_house_hold_existing_yap_message, viewModel.mUserLiveData.currentCustomer.fullName)}"
             android:textColor="@color/textDarkColor"
             tools:text="@string/screen_house_hold_existing_yap_message" />
 
@@ -55,6 +58,8 @@
             android:layout_gravity="center_horizontal"
             android:autoLink="phone"
             android:gravity="center"
+            android:padding="@dimen/margin_small"
+            android:text="@{`+971`+ viewModel.state.contactPhone}"
             android:textColorLink="@color/colorPrimary"
             tools:text="+971 600551214" />
 
@@ -64,7 +69,7 @@
             android:layout_weight="1" />
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnEID_NotAccept"
+            android:id="@+id/btnLogout"
             style="@style/RectangleBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

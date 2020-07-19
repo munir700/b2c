@@ -39,7 +39,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvErrorCard"
                 style="@style/Yap.App.Layout.CardView"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.isMobileVerified?View.GONE:View.VISIBLE}"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/margin_small">
 
@@ -91,6 +91,7 @@
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.phone}"
+                    app:errorEnabled = "@{true}"
                     app:isoCountryCode="@{viewModel.state.countryCode}"
                     app:pse_setPrefixTextColor="@color/colorPrimaryDark"
                     app:pse_showHint="true" />
@@ -145,6 +146,7 @@
                 android:padding="@dimen/margin_extra_small"
                 android:text="@string/screen_yap_house_hold_user_info_contact_back_to_house_hold_text"
                 android:textColor="@color/colorPrimary"
+                android:visibility="@{viewModel.state.isMobileVerified?View.GONE:View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

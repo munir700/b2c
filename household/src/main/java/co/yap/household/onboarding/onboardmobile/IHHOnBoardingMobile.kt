@@ -10,8 +10,10 @@ interface IHHOnBoardingMobile {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnClick(id: Int)
+        fun verifyHouseholdParentMobile(apiResponse: ((String?) -> Unit?)?)
     }
     interface State : IBase.State {
-        var phone: MutableLiveData<String>
+        var phone: MutableLiveData<String>?
+        var countryCode: MutableLiveData<String>?
     }
 }

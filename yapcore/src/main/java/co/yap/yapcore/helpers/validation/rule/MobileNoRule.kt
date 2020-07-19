@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers.validation.rule
 
 import android.view.View
-import android.widget.TextView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.getDrawable
@@ -11,7 +10,7 @@ import co.yap.yapcore.helpers.isValidPhoneNumber
 import co.yap.yapcore.helpers.validation.util.EditTextHandler
 
 class MobileNoRule(
-    view:PrefixSuffixEditText?,
+    view: PrefixSuffixEditText?,
     value: String?,
     errorMessage: String?,
     errorEnabled: Boolean
@@ -30,24 +29,30 @@ class MobileNoRule(
 
     override fun onValidationSucceeded(view: PrefixSuffixEditText?) {
         super.onValidationSucceeded(view)
-        view?.apply {
-            setCompoundDrawablesWithIntrinsicBounds(compoundDrawables[0],
-                compoundDrawables[1],
-                getDrawable(R.drawable.path),
-                compoundDrawables[3])
+        if (errorEnabled) {
+            view?.apply {
+                setCompoundDrawablesWithIntrinsicBounds(
+                    compoundDrawables[0],
+                    compoundDrawables[1],
+                    getDrawable(R.drawable.path),
+                    compoundDrawables[3]
+                )
+            }
+//            EditTextHandler.removeError(view)
         }
-        EditTextHandler.removeError(view)
     }
 
     override fun onValidationFailed(view: PrefixSuffixEditText?) {
-        view?.apply {
-            setCompoundDrawablesWithIntrinsicBounds(
-                compoundDrawables[0],
-                compoundDrawables[1],
-                null,
-                compoundDrawables[3]
-            )
+        if (errorEnabled) {
+            view?.apply {
+                setCompoundDrawablesWithIntrinsicBounds(
+                    compoundDrawables[0],
+                    compoundDrawables[1],
+                    null,
+                    compoundDrawables[3]
+                )
+            }
+//            EditTextHandler.setError(view, errorMessage)
         }
-        if (errorEnabled) EditTextHandler.setError(view, errorMessage)
     }
 }

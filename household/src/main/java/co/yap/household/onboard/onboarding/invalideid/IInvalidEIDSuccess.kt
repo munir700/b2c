@@ -2,7 +2,7 @@ package co.yap.household.onboard.onboarding.invalideid
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IInvalidEIDSuccess {
 
     interface View: IBase.View<ViewModel> {

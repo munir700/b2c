@@ -2,8 +2,11 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -86,7 +89,7 @@ interface CardsRetroService {
 
     // House hold cards design
     @GET(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)
-    suspend fun getHouseHoldCardsDesign(@Query("account_type") accountType: String): Response<HouseHoldCardsDesignResponse>
+    suspend fun getHouseHoldCardsDesign(@Query("account_type") accountType: String): Response<BaseListResponse<HouseHoldCardsDesign>>
 
     // reorder debit card
     @POST(CardsRepository.URL_REORDER_DEBIT_CARD)

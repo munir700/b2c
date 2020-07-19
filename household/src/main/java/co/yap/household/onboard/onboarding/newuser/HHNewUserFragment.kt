@@ -8,7 +8,7 @@ import co.yap.household.databinding.FragmentOnBoardingNewUserBinding
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
-
+@Deprecated("")
 class HHNewUserFragment :
     BaseNavViewModelFragment<FragmentOnBoardingNewUserBinding, INewHouseHoldUser.State,
             NewHouseholdUserViewModel>() {

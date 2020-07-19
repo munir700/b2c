@@ -17,8 +17,5 @@ class KycSuccessModule : BaseFragmentModule<KycSuccessFragment>() {
     ) = viewModelProvider.get(fragment, KycSuccessVM::class)
 
     @Provides
-//    @ViewModelInjection
-    fun provideHouseholdHomeState(): IKycSuccess.State {
-       return KycSuccessState()
-    }
+    fun provideHouseholdHomeState(): IKycSuccess.State = KycSuccessState()
 }

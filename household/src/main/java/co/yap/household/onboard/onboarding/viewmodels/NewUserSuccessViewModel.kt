@@ -9,7 +9,7 @@ import co.yap.household.onboard.onboarding.main.viewmodels.OnboardingChildViewMo
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.getColors
-
+@Deprecated("")
 class NewUserSuccessViewModel(application: Application) :
     OnboardingChildViewModel<INewUserSuccess.State>(application),
     INewUserSuccess.ViewModel {

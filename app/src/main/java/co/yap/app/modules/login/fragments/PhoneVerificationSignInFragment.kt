@@ -11,7 +11,7 @@ import co.yap.app.constants.Constants
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
-import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
@@ -96,8 +96,16 @@ class PhoneVerificationSignInFragment :
             } else {
                 context.switchTheme(YAPThemes.HOUSEHOLD())
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
+                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
+                    putExtra(
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
+                    )
                     putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
                 }
+//                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
+//                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+//                }
             }
         }
     }

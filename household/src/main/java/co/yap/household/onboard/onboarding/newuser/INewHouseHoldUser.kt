@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface INewHouseHoldUser {
 
     interface View: IBase.View<ViewModel> {

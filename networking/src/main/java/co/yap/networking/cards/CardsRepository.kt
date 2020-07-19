@@ -5,8 +5,10 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
@@ -150,6 +152,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     override suspend fun getCardsAtmCdm() =
         AuthRepository.executeSafely(call = { API.getCardsAtmCdm() })
 
-    override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<HouseHoldCardsDesignResponse> =
+    override suspend fun getHouseHoldCardsDesign(accountType: String): RetroApiResponse<BaseListResponse<HouseHoldCardsDesign>> =
         AuthRepository.executeSafely(call = { API.getHouseHoldCardsDesign(accountType) })
+
 }

@@ -35,24 +35,16 @@ class HHAddUserContactFragment :
                     if (it == true) {
                         state.request?.value?.countryCode = state.countryCode.value
                         state.request?.value?.mobileNo = state.phone.value
-                        cvErrorCard?.visibility = View.GONE
                         navigateForwardWithAnimation(
                             HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToHouseHoldConfirmPaymentFragment(),
                             arguments?.plus(bundleOf(HouseholdOnboardRequest::class.java.name to state.request?.value)),null
                         )
-                    } else {
-                        cvErrorCard?.visibility = View.VISIBLE
-                        tvBack?.visibility = View.VISIBLE
                     }
                 }
 
             }
             R.id.tvBack -> {
                 navigateForwardWithAnimation(HHAddUserContactFragmentDirections.actionHHAddUserContactFragmentToSubscriptionSelectionFragment())
-//                findNavController().popBackStack(R.id.action_HHAddUserContactFragment_to_subscriptionSelectionFragment, true)
-//                navigateBackWithResult(R.id.action_HHAddUserContactFragment_to_subscriptionSelectionFragment,
-//                    Activity.RESULT_OK
-//                )
             }
         }
     }

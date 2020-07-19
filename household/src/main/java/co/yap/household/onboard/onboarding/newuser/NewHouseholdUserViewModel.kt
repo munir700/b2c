@@ -13,7 +13,7 @@ import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.managers.MyUserManager
 import javax.inject.Inject
-
+@Deprecated("")
 class NewHouseholdUserViewModel @Inject constructor(override var state: INewHouseHoldUser.State) :
     DaggerBaseViewModel<INewHouseHoldUser.State>(), INewHouseHoldUser.ViewModel {
 

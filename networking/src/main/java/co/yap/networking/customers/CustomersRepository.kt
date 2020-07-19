@@ -291,10 +291,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest?): RetroApiResponse<HouseholdOnBoardingResponse> =
         executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
 
-    override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = { api.addHouseholdEmail(addHouseholdEmailRequest) })
 
-    override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
     override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =

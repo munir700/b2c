@@ -4,7 +4,7 @@ import androidx.databinding.Bindable
 import co.yap.household.BR
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCreatePassCode
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class HouseHoldCreatePassCodeState : BaseState(), IHouseHoldCreatePassCode.State {
     @get:Bindable
     override var buttonValidation: Boolean = true

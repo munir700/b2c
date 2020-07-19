@@ -34,7 +34,7 @@
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_navigation_main_household" />
 
-            <co.yap.yapcore.helpers.CustomViewPager
+            <co.yap.widgets.viewpager.CustomViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -6,7 +6,7 @@ import co.yap.household.onboard.cardselection.adaptor.HouseHoldCardSelectionAdap
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldCardsSelection {
     interface View : IBase.View<ViewModel> {
         fun setObservers()

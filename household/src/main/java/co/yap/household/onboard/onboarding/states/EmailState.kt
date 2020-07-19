@@ -14,7 +14,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
-
+@Deprecated("")
 class EmailState (application: Application) : BaseState(), IEmail.State {
 
     override var verificationCompleted: Boolean = false

@@ -78,17 +78,17 @@ class HouseholdHomeFragment :
             if (data is HomeNotification) {
                 val notification: HomeNotification = mNotificationAdapter.getData()[pos]
                 when (notification.action) {
-                    NotificationAction.COMPLETE_VERIFICATION -> {
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                            putExtra(
-                                Constants.name,
-                                MyUserManager.user?.currentCustomer?.firstName.toString()
-                            )
-                            putExtra(Constants.data, false)
-                        }
-                    }
+//                    NotificationAction.COMPLETE_VERIFICATION -> {
+//                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+//                            putExtra(
+//                                Constants.name,
+//                                MyUserManager.user?.currentCustomer?.firstName.toString()
+//                            )
+//                            putExtra(Constants.data, false)
+//                        }
+//                    }
 
-                    NotificationAction.SET_PIN -> {
+                    NotificationAction.COMPLETE_VERIFICATION -> {
                         launchActivity<NavHostPresenterActivity>(
                             options = bundleOf(Card::class.java.name to state.card?.value)
                         ) {

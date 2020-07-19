@@ -30,7 +30,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_house_hold_number_registration.*
-
+@Deprecated("")
 class HouseHoldNumberRegistrationFragment :
     OnboardingChildFragment<IHouseHoldNumberRegistration.ViewModel>(),
     IHouseHoldNumberRegistration.View {
@@ -48,6 +48,7 @@ class HouseHoldNumberRegistrationFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        findNavController().navigate(R.id.action_houseHoldNumberRegistrationFragment_to_emailHouseHoldFragment)
         viewModel.parentViewModel?.state?.accountInfo?.run {
             if (!notificationStatuses.isBlank())
                 when (AccountStatus.valueOf(notificationStatuses)) {

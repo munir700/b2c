@@ -19,7 +19,7 @@ import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
-
+@Deprecated("")
 class EmailHouseHoldViewModel(application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
@@ -103,6 +103,8 @@ class EmailHouseHoldViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.emailError = response.error.message
                     state.loading = false
+                    setVerificationLabel()
+                    onEmailVerifySuccess.value = true
                 }
             }
         }

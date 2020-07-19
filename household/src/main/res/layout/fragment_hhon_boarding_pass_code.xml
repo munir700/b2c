@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.passcode.HHOnBoardingPassCodeVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCreatePassCodeHeading"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_house_hold_create_passcode_heading_text}"
+            tools:text="@string/screen_house_hold_create_passcode_heading_text" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPasscodeTitle"
+            style="@style/ASmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCreatePassCodeHeading"
+            app:text="@{Strings.screen_house_hold_create_passcode_heading_sub_heading_text}"
+            tools:text="@string/screen_house_hold_create_passcode_heading_sub_heading_text" />
+
+        <co.yap.widgets.CoreDialerPad
+            android:id="@+id/dialer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_weight="1"
+            app:componentDialerError="@{(viewModel.state.passCode.length()>=4 &amp;&amp; StringUtils.INSTANCE.hasAllSameChars(viewModel.state.passCode))?@string/screen_create_passcode_display_text_error_same_digits:((viewModel.state.passCode.length()>=4 &amp;&amp; StringUtils.INSTANCE.isSequenced(viewModel.state.passCode))?@string/screen_create_passcode_display_text_error_sequence:``)}"
+            app:dialer_pass_code="passcode"
+            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
+            app:layout_constraintTop_toBottomOf="@id/tvPasscodeTitle" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTermsAndConditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            app:layout_constraintBottom_toTopOf="@+id/btnCreatePasscode"
+            app:layout_constraintTop_toBottomOf="@+id/dialer">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTermsAndConditionsTitle"
+                style="@style/AMicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:text="@{Strings.screen_create_passcode_display_title_terms_and_conditions}"
+                tools:text="@string/screen_create_passcode_display_title_terms_and_conditions" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTermsAndConditions"
+                style="@style/AMicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+                android:padding="@dimen/_3sdp"
+                android:textAlignment="center"
+                android:textColor="?attr/colorPrimaryAttr"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
+                app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
+                tools:text="@string/screen_create_passcode_display_text_terms_and_conditions" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnCreatePasscode"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium_large"
+            android:layout_marginRight="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:gravity="center"
+            android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+            android:textColor="@color/colorWhite"
+            app:enableCoreButton="@{(viewModel.state.passCode.length()>=4 &amp;&amp; (StringUtils.INSTANCE.hasAllSameChars(viewModel.state.passCode)||StringUtils.INSTANCE.isSequenced(viewModel.state.passCode)))?false:true}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:text="@{Strings.screen_create_passcode_button_create_passcode}"
+            tools:ignore="MissingConstraints"
+            tools:text="@string/screen_create_passcode_button_create_passcode" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -10,6 +10,7 @@ interface IHHAddUserContact {
         var phone: MutableLiveData<String>
         var confirmPhone: MutableLiveData<String>
         var countryCode: MutableLiveData<String>
+        var isMobileVerified: MutableLiveData<Boolean>?
         var request: MutableLiveData<HouseholdOnboardRequest>?
     }
 

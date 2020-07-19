@@ -25,13 +25,13 @@ class AccountInfo(
     @SerializedName("accountNo")
     var accountNo: String? = null,
     @SerializedName("fssRequestRefNo")
-    var fssRequestRefNo: String,
+    var fssRequestRefNo: String?=null,
     @SerializedName("packageName")
     var packageName: String?,
     @SerializedName("status")
-    var status: String,
+    var status: String?=null,
     @SerializedName("onBoardingStatus")
-    var onBoardingStatus: String,
+    var onBoardingStatus: String?=null,
     @SerializedName("customer")
     var currentCustomer: Customer,
     @SerializedName("bank")

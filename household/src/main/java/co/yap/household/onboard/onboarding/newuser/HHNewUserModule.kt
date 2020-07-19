@@ -6,7 +6,7 @@ import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import dagger.Module
 import dagger.Provides
-
+@Deprecated("")
 @Module
 class HHNewUserModule : BaseFragmentModule<HHNewUserFragment>() {
     @Provides

@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers
+package co.yap.widgets.viewpager
 
 import android.content.Context
 import android.util.AttributeSet

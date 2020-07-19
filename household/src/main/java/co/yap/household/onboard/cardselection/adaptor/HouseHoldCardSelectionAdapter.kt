@@ -9,7 +9,7 @@ import co.yap.household.onboard.cardselection.HouseHoldCardSelectionItemViewHold
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
-
+@Deprecated("")
 class HouseHoldCardSelectionAdapter(
     context: Context,
     private val list: MutableList<HouseHoldCardsDesign>

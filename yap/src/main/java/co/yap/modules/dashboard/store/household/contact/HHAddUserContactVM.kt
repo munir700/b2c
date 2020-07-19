@@ -9,6 +9,7 @@ import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.validation.IValidator
@@ -51,10 +52,14 @@ class HHAddUserContactVM @Inject constructor(
                     trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE.type)
                     publishState(State.success(null))
                     apiResponse?.invoke(true)
+                    //stateLiveData.value?.status.value == Status.ERROR.value
+                    //Status.valueOf(stateLiveData.value?.status?.name!!)
+                    state.isMobileVerified?.value = true
                 }
                 is RetroApiResponse.Error -> {
                     trackEvent(HHSubscriptionEvents.HH_PLAN_PHONE_ERROR.type)
                     publishState(State.error(null))
+                    state.isMobileVerified?.value = false
                     apiResponse?.invoke(false)
                 }
             }

@@ -13,7 +13,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.managers.MyUserManager
 import io.reactivex.Single
-
+@Deprecated("")
 class ExistingHouseholdViewModel(application: Application) :
     BaseViewModel<IExistingHouseHold.State>(application = application), IExistingHouseHold.ViewModel{
     override var clickEvent: SingleClickEvent = SingleClickEvent()

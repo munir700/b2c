@@ -11,7 +11,7 @@ import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.extentions.launchActivity
-
+@Deprecated("")
 class HouseHoldSuccessFragment : BaseBindingFragment<IHouseHoldSuccess.ViewModel>() {
 //    private var existingUser:Boolean = false
     private var accountInfo: AccountInfo? = null

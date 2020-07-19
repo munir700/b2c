@@ -23,7 +23,7 @@ import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.helpers.extentions.hideKeyboard
-
+@Deprecated("")
 class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
     private val windowSize: Rect = Rect() // to hold the size of the visible window

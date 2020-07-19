@@ -15,7 +15,7 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_eidnot_accepted.*
-
+@Deprecated("")
 class InvalidEIDFragment : BaseBindingFragment<IInvalidEIDSuccess.ViewModel>(), IFragmentHolder {
 
     override fun getBindingVariable(): Int {

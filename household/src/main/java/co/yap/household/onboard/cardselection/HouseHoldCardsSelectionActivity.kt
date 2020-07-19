@@ -31,7 +31,7 @@ import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-
+@Deprecated("Use co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionFragment")
 class HouseHoldCardsSelectionActivity : BaseBindingActivity<IHouseHoldCardsSelection.ViewModel>(),
     IHouseHoldCardsSelection.View {
 
