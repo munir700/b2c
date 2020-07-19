@@ -19,8 +19,10 @@ data class BuildConfigManager(
     var sslPin3: String?,
     var sslHost: String?
 ) {
-    fun isLiveRelease(): Boolean =
+    fun isLiveRelease(): Boolean=
         (buildType == "release" && flavor == "live") || (buildType == "release" && flavor == "stg")
+
+    fun isLive():Boolean =  flavor == "live"
 
     fun getAdjustEvent(event: AdjustEvent): String {
         return when (event) {

@@ -26,6 +26,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.networking.customers.requestdtos.Contact
@@ -894,6 +895,10 @@ object Utils {
         val userId = MyUserManager.user?.currentCustomer?.customerId
         val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
-        return "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+        return if (YAPApplication.configManager?.isLive() == true)
+            "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+        else
+            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
     }
+
 }
