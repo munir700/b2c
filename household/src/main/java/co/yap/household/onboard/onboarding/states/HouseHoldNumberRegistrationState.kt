@@ -5,7 +5,7 @@ import co.yap.household.BR
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldNumberRegistration
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.isValidPhoneNumber
-
+@Deprecated("")
 class HouseHoldNumberRegistrationState : BaseState(), IHouseHoldNumberRegistration.State {
 
     @get:Bindable

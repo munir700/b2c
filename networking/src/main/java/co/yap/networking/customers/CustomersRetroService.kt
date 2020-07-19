@@ -181,10 +181,10 @@ interface CustomersRetroService {
     suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest?): Response<HouseholdOnBoardingResponse>
 
     @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
-    suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>
+    suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_CREATE_HOUSEHOLD_PASSCODE)
-    suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ApiResponse>
+    suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_SAVE_REFERAL_INVITATION)
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): Response<ApiResponse>

@@ -5,7 +5,7 @@ import co.yap.household.onboard.onboarding.main.interfaces.IOnboarding
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
-
+@Deprecated("")
 abstract class OnboardingChildViewModel<S : IBase.State>(application: Application) : BaseViewModel<S>(application) {
 
     var parentViewModel: IOnboarding.ViewModel? = null

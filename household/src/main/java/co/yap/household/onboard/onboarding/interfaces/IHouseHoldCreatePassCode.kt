@@ -3,7 +3,7 @@ package co.yap.household.onboard.onboarding.interfaces
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldCreatePassCode {
     interface View : IBase.View<ViewModel> {
         fun setObservers()

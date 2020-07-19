@@ -18,7 +18,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
-
+@Deprecated("")
 class HouseHoldCreatePassCodeFragment :
     OnboardingChildFragment<IHouseHoldCreatePassCode.ViewModel>(), IHouseHoldCreatePassCode.View,
     NumberKeyboardListener {
@@ -51,7 +51,6 @@ class HouseHoldCreatePassCodeFragment :
                             Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
                         ),showToolBar = true
                     )
-                    //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
                 }
             }
         })

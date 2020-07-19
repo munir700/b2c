@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.databinding.Bindable
 import co.yap.household.BR
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class ExistingHouseHoldState(val application: Application) : BaseState(), IExistingHouseHold.State {
 
     @get:Bindable

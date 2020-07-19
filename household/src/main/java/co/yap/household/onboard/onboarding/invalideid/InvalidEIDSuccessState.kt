@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.databinding.Bindable
 import co.yap.household.BR
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class InvalidEIDSuccessState(val application: Application) : BaseState(), IInvalidEIDSuccess.State {
 
     @get:Bindable

@@ -3,7 +3,7 @@ package co.yap.household.onboard.onboarding.householdsuccess
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface IHouseHoldSuccess {
 
     interface View: IBase.View<ViewModel> {

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-
+@Deprecated("")
 interface IEmail {
 
     interface View : IBase.View<ViewModel>

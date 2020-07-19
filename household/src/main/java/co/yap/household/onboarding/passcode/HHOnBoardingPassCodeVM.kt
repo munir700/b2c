@@ -1,0 +1,53 @@
+package co.yap.household.onboarding.passcode
+
+import android.os.Bundle
+import androidx.navigation.NavController
+import co.yap.networking.customers.CustomersApi
+import co.yap.networking.customers.requestdtos.CreatePassCodeRequest
+import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.managers.MyUserManager
+import javax.inject.Inject
+
+class HHOnBoardingPassCodeVM @Inject constructor(
+    override val state: IHHOnBoardingPassCode.State,
+    private val repository: CustomersApi
+) :
+    DaggerBaseViewModel<IHHOnBoardingPassCode.State>(), IHHOnBoardingPassCode.ViewModel {
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+    }
+
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override fun handlePressOnClick(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun createPassCodeRequest(apiResponse: ((Boolean?) -> Unit?)?) {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.createHouseholdPasscode(
+                    CreatePassCodeRequest(
+                        passcode = state.passCode.value ?: ""
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        MyUserManager.user?.notificationStatuses = it
+                        apiResponse?.invoke(true)
+                        trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_PASSCODE_CREATED.type)
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    apiResponse?.invoke(true)
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+}

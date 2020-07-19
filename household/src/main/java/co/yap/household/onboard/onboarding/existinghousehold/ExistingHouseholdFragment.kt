@@ -15,7 +15,7 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toCamelCase
-
+@Deprecated("")
 class ExistingHouseholdFragment : BaseBindingFragment<IExistingHouseHold.ViewModel>(){
 
 //    private var existingUser:Boolean = false

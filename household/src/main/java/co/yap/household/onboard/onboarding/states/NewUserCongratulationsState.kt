@@ -4,7 +4,7 @@ import androidx.databinding.Bindable
 import co.yap.household.BR
 import co.yap.household.onboard.onboarding.interfaces.INewUserSuccess
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class NewUserCongratulationsState : BaseState(), INewUserSuccess.State {
 
     override val nameList: Array<String?> = arrayOfNulls(1)

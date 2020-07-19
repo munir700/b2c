@@ -2,7 +2,7 @@ package co.yap.household.onboard.onboarding.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface INewUserSuccess {
 
     interface View : IBase.View<ViewModel> {

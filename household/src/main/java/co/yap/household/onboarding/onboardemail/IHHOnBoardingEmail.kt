@@ -12,6 +12,7 @@ interface IHHOnBoardingEmail {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnClick(id: Int)
+        fun verifyHouseholdEmail(apiResponse: ((Boolean) -> Unit?)?)
     }
 
     interface State : IBase.State {

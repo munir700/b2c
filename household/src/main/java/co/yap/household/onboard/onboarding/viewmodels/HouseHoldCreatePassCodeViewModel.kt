@@ -14,7 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
-
+@Deprecated("")
 class HouseHoldCreatePassCodeViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldCreatePassCode.State>(application),
     IHouseHoldCreatePassCode.ViewModel, IRepositoryHolder<CustomersRepository> {

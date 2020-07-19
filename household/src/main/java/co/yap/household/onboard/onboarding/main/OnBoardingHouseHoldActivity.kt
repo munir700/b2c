@@ -17,7 +17,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-
+@Deprecated("use co.yap.household.onboarding.main.OnBoardingHouseHoldActivity")
 class OnBoardingHouseHoldActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 

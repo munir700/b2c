@@ -16,6 +16,10 @@ import co.yap.household.onboard.onboarding.newuser.HHNewUserFragment
 import co.yap.household.onboard.onboarding.newuser.HHNewUserModule
 import co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionFragment
 import co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionModule
+import co.yap.household.onboarding.existing.HHOnBoardingExistingFragment
+import co.yap.household.onboarding.existing.HHOnBoardingExistingModule
+import co.yap.household.onboarding.existingsuccess.HHOnBoardingExistingSuccessFragment
+import co.yap.household.onboarding.existingsuccess.HHOnBoardingExistingSuccessModule
 import co.yap.household.onboarding.invalideid.HHOnBoardingInvalidEidFragment
 import co.yap.household.onboarding.invalideid.HHOnBoardingInvalidEidModule
 import co.yap.household.onboarding.onboardemail.HHOnBoardingEmailFragment
@@ -24,6 +28,10 @@ import co.yap.household.onboarding.onboardmobile.HHOnBoardingMobileFragment
 import co.yap.household.onboarding.onboardmobile.HHOnBoardingMobileModule
 import co.yap.household.onboarding.onboardsuccess.HHOnBoardingSuccessFragment
 import co.yap.household.onboarding.onboardsuccess.HHOnBoardingSuccessModule
+import co.yap.household.onboarding.passcode.HHOnBoardingPassCodeFragment
+import co.yap.household.onboarding.passcode.HHOnBoardingPassCodeModule
+import co.yap.household.onboarding.welcome.HHOnBoardingWelcomeFragment
+import co.yap.household.onboarding.welcome.HHOnBoardingWelcomeModule
 import co.yap.household.setpin.setnewpin.HHSetPinFragment
 import co.yap.household.setpin.setnewpin.HHSetPinModule
 import co.yap.household.setpin.setpinstart.HHSetPinCardReviewFragment
@@ -106,4 +114,20 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [HHOnBoardingInvalidEidModule::class])
     abstract fun hHOnBoardingInvalidEidFragmentInjector(): HHOnBoardingInvalidEidFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HHOnBoardingWelcomeModule::class])
+    abstract fun hHOnBoardingWelcomeFragmentInjector(): HHOnBoardingWelcomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HHOnBoardingPassCodeModule::class])
+    abstract fun hHOnBoardingPassCodeFragmentInjector(): HHOnBoardingPassCodeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HHOnBoardingExistingModule::class])
+    abstract fun hHOnBoardingExistingFragmentInjector(): HHOnBoardingExistingFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [HHOnBoardingExistingSuccessModule::class])
+    abstract fun hHOnBoardingExistingSuccessFragmentInjector(): HHOnBoardingExistingSuccessFragment
 }

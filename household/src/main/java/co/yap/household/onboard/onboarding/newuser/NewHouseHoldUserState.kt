@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.household.BR
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class NewHouseHoldUserState : BaseState(), INewHouseHoldUser.State {
 
     override var firstName : MutableLiveData<String> = MutableLiveData()

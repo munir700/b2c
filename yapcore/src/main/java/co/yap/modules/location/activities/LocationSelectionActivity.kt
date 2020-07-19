@@ -23,9 +23,9 @@ class LocationSelectionActivity : BaseBindingActivity<ILocation.ViewModel>(), IL
     INavigator, IFragmentHolder {
 
     companion object {
-        private const val HEADING = "heading"
-        private const val SUB_HEADING = "subHeading"
-        private const val IS_ON_BOARDING = "isOnBoarding"
+        const val HEADING = "heading"
+        const val SUB_HEADING = "subHeading"
+        const val IS_ON_BOARDING = "isOnBoarding"
         fun newIntent(
             context: Context,
             address: Address,

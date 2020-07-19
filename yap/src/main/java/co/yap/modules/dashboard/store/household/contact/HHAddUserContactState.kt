@@ -9,4 +9,5 @@ class HHAddUserContactState : BaseState(), IHHAddUserContact.State {
     override var confirmPhone: MutableLiveData<String> = MutableLiveData()
     override var countryCode: MutableLiveData<String> = MutableLiveData("971")
     override var request: MutableLiveData<HouseholdOnboardRequest>? = MutableLiveData()
+    override var isMobileVerified: MutableLiveData<Boolean>? = MutableLiveData(true)
 }

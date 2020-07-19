@@ -5,7 +5,7 @@ import co.yap.household.BR
 import co.yap.household.onboard.onboarding.interfaces.IHouseHoldCardsSelection
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.BaseState
-
+@Deprecated("")
 class HouseHoldCardsSelectionState : BaseState(), IHouseHoldCardsSelection.State {
 
     @get:Bindable

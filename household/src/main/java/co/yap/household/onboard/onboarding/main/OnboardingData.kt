@@ -2,7 +2,7 @@ package co.yap.household.onboard.onboarding.main
 
 import java.util.*
 
-
+@Deprecated("")
 data class OnboardingData(
     var countryCode: String,
     var mobileNo: String,

@@ -260,33 +260,33 @@
         <attr name="marker" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="RoundedImageView">
-        <attr name="riv_corner_radius" format="dimension" />
-        <attr name="riv_corner_radius_top_left" format="dimension" />
-        <attr name="riv_corner_radius_top_right" format="dimension" />
-        <attr name="riv_corner_radius_bottom_left" format="dimension" />
-        <attr name="riv_corner_radius_bottom_right" format="dimension" />
-        <attr name="riv_border_width" format="dimension" />
-        <attr name="riv_border_color" format="color" />
-        <attr name="riv_mutate_background" format="boolean" />
-        <attr name="riv_oval" format="boolean" />
-        <attr name="android:scaleType" />
-        <attr name="riv_tile_mode">
-            <enum name="clamp" value="0" />
-            <enum name="repeat" value="1" />
-            <enum name="mirror" value="2" />
-        </attr>
-        <attr name="riv_tile_mode_x">
-            <enum name="clamp" value="0" />
-            <enum name="repeat" value="1" />
-            <enum name="mirror" value="2" />
-        </attr>
-        <attr name="riv_tile_mode_y">
-            <enum name="clamp" value="0" />
-            <enum name="repeat" value="1" />
-            <enum name="mirror" value="2" />
-        </attr>
-    </declare-styleable>
+<!--    <declare-styleable name="RoundedImageView">-->
+<!--        <attr name="riv_corner_radius" format="dimension" />-->
+<!--        <attr name="riv_corner_radius_top_left" format="dimension" />-->
+<!--        <attr name="riv_corner_radius_top_right" format="dimension" />-->
+<!--        <attr name="riv_corner_radius_bottom_left" format="dimension" />-->
+<!--        <attr name="riv_corner_radius_bottom_right" format="dimension" />-->
+<!--        <attr name="riv_border_width" format="dimension" />-->
+<!--        <attr name="riv_border_color" format="color" />-->
+<!--        <attr name="riv_mutate_background" format="boolean" />-->
+<!--        <attr name="riv_oval" format="boolean" />-->
+<!--        <attr name="android:scaleType" />-->
+<!--        <attr name="riv_tile_mode">-->
+<!--            <enum name="clamp" value="0" />-->
+<!--            <enum name="repeat" value="1" />-->
+<!--            <enum name="mirror" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="riv_tile_mode_x">-->
+<!--            <enum name="clamp" value="0" />-->
+<!--            <enum name="repeat" value="1" />-->
+<!--            <enum name="mirror" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="riv_tile_mode_y">-->
+<!--            <enum name="clamp" value="0" />-->
+<!--            <enum name="repeat" value="1" />-->
+<!--            <enum name="mirror" value="2" />-->
+<!--        </attr>-->
+<!--    </declare-styleable>-->
 
     <declare-styleable name="ChartAttrs">
 
@@ -676,6 +676,43 @@
     <declare-styleable name="CollapsedColoredHintTextInputLayout">
         <attr name="hintTextColorNormal" format="color" />
         <attr name="hintTextColorSelected" format="color" />
-        <attr name="android:drawablePadding" format="dimension|reference"/>
+        <attr name="android:drawablePadding" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleView">
+        <attr name="cv_color" format="color" />
+        <attr name="cv_color_start" format="color" />
+        <attr name="cv_color_end" format="color" />
+        <attr name="cv_color_direction">
+            <flag name="left_to_right" value="1" />
+            <flag name="right_to_left" value="2" />
+            <flag name="top_to_bottom" value="3" />
+            <flag name="bottom_to_top" value="4" />
+        </attr>
+        <attr name="cv_border" format="boolean" />
+        <attr name="cv_border_width" format="dimension" />
+        <attr name="cv_border_color" format="color" />
+        <attr name="cv_border_color_start" format="color" />
+        <attr name="cv_border_color_end" format="color" />
+        <attr name="cv_border_color_direction">
+            <flag name="left_to_right" value="1" />
+            <flag name="right_to_left" value="2" />
+            <flag name="top_to_bottom" value="3" />
+            <flag name="bottom_to_top" value="4" />
+        </attr>
+        <attr name="cv_shadow" format="boolean" />
+        <attr name="cv_shadow_color" format="color" />
+        <attr name="cv_shadow_radius" format="float" />
+        <attr name="cv_shadow_gravity">
+            <flag name="center" value="1" />
+            <flag name="top" value="2" />
+            <flag name="bottom" value="3" />
+            <flag name="start" value="4" />
+            <flag name="end" value="5" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RoundedImageView">
+        <attr name="rounded_radius" format="float" />
     </declare-styleable>
 </resources>

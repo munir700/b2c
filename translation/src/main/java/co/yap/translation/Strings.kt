@@ -1429,6 +1429,8 @@ object Strings {
     //House hold Registration strings
     const val screen_house_hold_number_registration_display_text_heading: String =
         "screen_house_hold_number_registration_display_text_heading"
+    const val screen_house_hold_existing_number_registration_display_text_heading: String =
+        "screen_house_hold_existing_number_registration_display_text_heading"
     const val screen_house_hold_number_registration_display_text_parent_description: String =
         "screen_house_hold_number_registration_display_text_parent_description"
     const val screen_house_hold_existing_number_registration_display_text_parent_description: String =
@@ -1447,6 +1449,8 @@ object Strings {
         "screen_congratulations_display_text_success_message"
     const val screen_congratulations_display_button_complete_setup: String =
         "screen_congratulations_display_button_complete_setup"
+    const val screen_congratulations_display_button_choose_card: String =
+        "screen_congratulations_display_button_choose_card"
     const val screen_house_hold_create_passcode_heading_sub_heading_text: String =
         "screen_house_hold_create_passcode_heading_sub_heading_text"
 

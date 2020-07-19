@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cardSelectionItemVM"
+            type="co.yap.household.onboarding.cardselection.CardSelectionItemVM" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/imgCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/empty_string"
+            app:radius="@{16}"
+            app:roundedImageUrl="@{cardSelectionItemVM.item.frontSideDesignImage}"
+            tools:srcCompat="@drawable/card_spare" />
+    </FrameLayout>
+</layout>

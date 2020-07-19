@@ -34,7 +34,7 @@ import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_new_user_success.*
 import kotlinx.coroutines.delay
-
+@Deprecated("")
 class NewUserSuccessFragment :
     OnboardingChildFragment<INewUserSuccess.ViewModel>() {
 

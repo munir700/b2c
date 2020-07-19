@@ -1,0 +1,112 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.existing.HHOnBoardingExistingVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical"
+            android:background="@color/colorLightPinkBackground"
+            android:paddingStart="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_normal"
+            android:paddingEnd="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_large">
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/appCompatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/colorPrimaryHouseHold"
+                android:elevation="@dimen/margin_zero_dp"
+                android:tint="@color/white"
+                app:backgroundTint="@color/white"
+                app:borderWidth="@dimen/_6sdp"
+                app:elevation="@dimen/margin_zero_dp"
+                app:fabCustomSize="@dimen/_48sdp"
+                app:fabSize="normal"
+                app:maxImageSize="@dimen/_18sdp"
+                app:srcCompat="@drawable/ic_house_hold_it" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitleKYCSuccess"
+                style="@style/Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:gravity="center"
+                android:lineSpacingExtra="9sp"
+                android:text="@{Translator.INSTANCE.getString(context ,Strings.screen_house_hold_onBoarding_existing_title_display_text , viewModel.mUserLiveData.currentCustomer.firstName,  viewModel.mUserLiveData.parentAccount.currentCustomer.firstName)}"
+                android:textColor="@color/kyc_success_text_color"
+                app:layout_constraintTop_toBottomOf="@+id/rl_house_hold"
+                tools:text="@string/screen_house_hold_onBoarding_existing_title_display_text" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_ob_boarding_existing_yap"
+                android:layout_width="@dimen/_220sdp"
+                android:layout_height="@dimen/_190sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_large"
+                app:srcCompat="@drawable/ic_on_boarding_existing_yap_user" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOnBoardingExistingYapAccept"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_weight="1"
+                android:gravity="top|center_horizontal"
+                android:text="@string/screen_house_hold_onBoarding_existing_title_accept_text"
+                android:textColor="@color/kyc_success_text_color_light_gray"
+                app:text="@{Strings.screen_house_hold_onBoarding_existing_title_accept_text}"
+                tools:text="@string/screen_house_hold_onBoarding_existing_title_accept_text" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnAccepted"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:text="@string/screen_house_hold_onBoarding_existing_title_accept"
+                app:enableCoreButton="@{true}"
+                app:text="@{Strings.screen_house_hold_onBoarding_existing_title_accept}" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDecline"
+                style="@style/AppFontBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:lineSpacingExtra="9sp"
+                android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+                android:padding="@dimen/margin_small"
+                android:text="@string/screen_house_hold_onBoarding_existing_title_decline_request"
+                android:textColor="@color/colorPrimaryHouseHold"
+                app:text="@{Strings.screen_house_hold_onBoarding_existing_title_decline_request}"
+                tools:text="@string/screen_house_hold_onBoarding_existing_title_decline_request" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>

@@ -925,9 +925,9 @@
     <string name="screen_new_user_email_display_button_confirm">Confirm</string>
 
     <!--    House hold Registration strings-->
-    <string name="screen_house_hold_number_registration_display_text_heading">Welcome %1s</string>
+    <string name="screen_house_hold_number_registration_display_text_heading">Confirm this is you</string>
     <string name="screen_house_hold_existing_number_registration_display_text_heading">Great, let’s set up your plan</string>
-    <string name="screen_house_hold_number_registration_display_text_parent_description">To confirm this is really you, enter %1s\'s number below</string>
+    <string name="screen_house_hold_number_registration_display_text_parent_description">We want to make sure you really know %1s. Please enter %2s\'s mobile number</string>
     <string name="screen_house_hold_existing_number_registration_display_text_parent_description">Enter %1s\'s number below</string>
     <string name="screen_house_hold_number_registration_button_text_confirm">Confirm</string>
     <string name="screen_house_hold_number_registration_error_text">Oops! Looks like that\'s the wrong number. Please try again</string>
@@ -937,6 +937,7 @@
     <string name="screen_congratulations_display_text_title">Well done, %1s!</string>
     <string name="screen_congratulations_display_text_success_message">You’ve successfully registered yourself to the Household plan</string>
     <string name="screen_congratulations_display_button_complete_setup">Complete setup</string>
+    <string name="screen_congratulations_display_button_choose_card">Choose a card</string>
     <string name="screen_success_on_its_way_display_text_title">Your card is on its way!</string>
     <string name="screen_success_house_hold_we_will_call_you_to_text">We will call you to confirm the time.</string>
     <string name="screen_success_house_hold_make_sure_to_text">Make sure to keep your Emirates ID with you</string>
@@ -949,10 +950,10 @@
 
 
     <!--    Card color selection screen-->
-    <string name="screen_house_hold_card_color_selection_display_text_heading">Select a card color</string>
+    <string name="screen_house_hold_card_color_selection_display_text_heading">We have two colour choices for your card! Select the card color you prefer.</string>
     <string name="screen_house_hold_card_color_selection_display_text">Household card</string>
     <string name="screen_house_hold_card_color_selection_button_text_confirm_location">Confirm location</string>
-    <string name="screen_house_hold_card_color_selection_display_text_heading_existing_user">That’s right! \n Now select a card color</string>
+    <string name="screen_house_hold_card_color_selection_display_text_heading_existing_user">That’s right!\n Now select a card color</string>
 
     <!-- Household screen EID not accept -->
     <string name="screen_title_oops">Oops!</string>

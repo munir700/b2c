@@ -17,7 +17,7 @@ import co.yap.app.main.MainActivity
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
@@ -34,12 +34,10 @@ import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
-import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
-import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
@@ -265,10 +263,11 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     if (!isUserLoginIn()) {
                         startOtpFragment(viewModel.state.username)
                     } else {
-                        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()?.let { username ->
-                            viewModel.state.username = username
-                            startOtpFragment(viewModel.state.username)
-                        } ?: toast("Invalid user name")
+                        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
+                            ?.let { username ->
+                                viewModel.state.username = username
+                                startOtpFragment(viewModel.state.username)
+                            } ?: toast("Invalid user name")
                     }
                 }
             }
@@ -356,26 +355,32 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 //                                R.id.householdDashboardFragment
 //                            )
 //                        }
-                       launchActivity<YapDashboardActivity>(clearPrevious = true)
+                        launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }
         }
     }
 
-    private fun trackEvents(accountInfo: AccountInfo){
+    private fun trackEvents(accountInfo: AccountInfo) {
         accountInfo.let {
-            if(it.currentCustomer.mobileNoVerified == true){
-                trackEventInFragments(MyUserManager.user, phoneNumberVerified = true)  // This was not added before in Core
+            if (it.currentCustomer.mobileNoVerified == true) {
+                trackEventInFragments(
+                    MyUserManager.user,
+                    phoneNumberVerified = true
+                )  // This was not added before in Core
             }
-            if(it.currentCustomer.emailVerified == true){
-                trackEventInFragments(MyUserManager.user, emailVerified = true)  // This was not added before in Core
+            if (it.currentCustomer.emailVerified == true) {
+                trackEventInFragments(
+                    MyUserManager.user,
+                    emailVerified = true
+                )  // This was not added before in Core
             }
-            if(it.active == true){
+            if (it.active == true) {
                 trackEventInFragments(MyUserManager.user, isAccountActive = true)
             }
 
             MyUserManager.card.value?.let { card ->
-                if(isCardDelivered(card)){
+                if (isCardDelivered(card)) {
                     trackEvent(HHUserOnboardingEvents.HH_USER_KYC_CARD_DELIVERED.type)
                 }
             }
@@ -383,12 +388,12 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun isCardDelivered(paymentCard: Card): Boolean {
-        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated  && paymentCard.active)
+        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated && paymentCard.active)
     }
 
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (MyUserManager.isOnBoarded()) {
+            if (!MyUserManager.isOnBoarded()) {
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
@@ -400,12 +405,16 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                             R.id.householdDashboardFragment
                         )
                     }
-//                    launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
                 }
             } else {
                 context.switchTheme(HOUSEHOLD())
+                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
-                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
+                    putExtra(
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
+                    )
                 }
             }
         }

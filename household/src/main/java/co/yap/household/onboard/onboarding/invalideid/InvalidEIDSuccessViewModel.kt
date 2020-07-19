@@ -4,7 +4,7 @@ import android.app.Application
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
-
+@Deprecated("")
 class InvalidEIDSuccessViewModel(application: Application) :
     BaseViewModel<IInvalidEIDSuccess.State>(application = application), IInvalidEIDSuccess.ViewModel{
     override var clickEvent: SingleClickEvent = SingleClickEvent()

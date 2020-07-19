@@ -13,7 +13,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
-
+@Deprecated("")
 class HouseHoldCardsSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldCardsSelection.State>(application), IHouseHoldCardsSelection.ViewModel {
 

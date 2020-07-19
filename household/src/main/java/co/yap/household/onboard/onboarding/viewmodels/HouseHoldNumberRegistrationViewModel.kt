@@ -14,7 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.getCountryCodeForRegionWithZeroPrefix
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
-
+@Deprecated("")
 class HouseHoldNumberRegistrationViewModel(application: Application) :
     OnboardingChildViewModel<IHouseHoldNumberRegistration.State>(application),
     IHouseHoldNumberRegistration.ViewModel, IRepositoryHolder<CustomersRepository> {

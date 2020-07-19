@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hh_existing_user_onboarding_navigation"
+    app:startDestination="@id/HHOnBoardingExistingFragment">
+
+    <fragment
+        android:id="@+id/HHOnBoardingExistingFragment"
+        android:name="co.yap.household.onboarding.existing.HHOnBoardingExistingFragment"
+        android:label="HHOnBoardingExistingFragment"
+        tools:layout="@layout/fragment_hhon_boarding_existing">
+        <action
+            android:id="@+id/to_HHOnBoardingExistingSuccessFragment"
+            app:destination="@id/HHOnBoardingExistingSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHOnBoardingExistingSuccessFragment"
+        android:name="co.yap.household.onboarding.existingsuccess.HHOnBoardingExistingSuccessFragment"
+        android:label="HHOnBoardingExistingSuccessFragment"
+        tools:layout="@layout/fragment_hhon_boarding_existing_success">
+        <action
+            android:id="@+id/to_HHOnBoardingMobileFragment"
+            app:destination="@id/HHOnBoardingMobileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHOnBoardingMobileFragment"
+        android:name="co.yap.household.onboarding.onboardmobile.HHOnBoardingMobileFragment"
+        android:label="HHOnBoardingMobileFragment"
+        tools:layout="@layout/fragment_hhonboarding_mobile">
+        <action
+            android:id="@+id/to_HHOnBoardingPassCodeFragment"
+            app:destination="@id/HHOnBoardingCardSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/HHOnBoardingCardSelectionFragment"
+        android:name="co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionFragment"
+        android:label="HHOnBoardingCardSelectionFragment"
+        tools:layout="@layout/fragment_hhon_boarding_card_selection" >
+        <action
+            android:id="@+id/to_kycSuccessFragment"
+            app:destination="@id/kycSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/kycSuccessFragment"
+        tools:layout="@layout/fragment_kyc_success"
+        android:name="co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment"
+        android:label="KycSuccessFragment" />
+</navigation>

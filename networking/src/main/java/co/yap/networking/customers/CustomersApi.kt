@@ -6,6 +6,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -64,11 +65,11 @@ interface CustomersApi {
     suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyHouseholdParentMobile(
         mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
-    ): RetroApiResponse<ApiResponse>
+    ): RetroApiResponse<ValidateParentMobileResponse>
 
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest?): RetroApiResponse<HouseholdOnBoardingResponse>
-    suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
-    suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
+    suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ValidateParentMobileResponse>
+    suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ValidateParentMobileResponse>
     suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
     suspend fun getCountryTransactionLimits(
         countryCode: String,

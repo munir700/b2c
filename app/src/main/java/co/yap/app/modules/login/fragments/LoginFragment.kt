@@ -11,13 +11,18 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.helpers.GsonProvider
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.getJsonDataFromAsset
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
@@ -59,12 +64,30 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-//        tvSignUpPrefix.setOnClickListener {
-//            launchActivity<NavHostPresenterActivity> {
-//                putExtra(NAVIGATION_Graph_ID, R.navigation.add_house_hold_user_navigation)
-//                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.houseHoldLandingFragment)
-//            }
-//        }
+        tvSignUpPrefix.setOnClickListener {
+            requireContext().getJsonDataFromAsset("hh_user.json")?.let {
+                val user = GsonProvider.fromJson(
+                    it, AccountInfoResponse::class.java
+                )
+                MyUserManager.user = user.data[0]
+                MyUserManager.user?.notificationStatuses =
+                    AccountStatus.PASS_CODE_PENDING.name
+                launchActivity<NavHostPresenterActivity>() {
+                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_existing_user_onboarding_navigation)
+                    putExtra(
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingExistingFragment
+                    )
+                }
+//                launchActivity<OnBoardingHouseHoldActivity>() {
+//                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
+//                    putExtra(
+//                        NAVIGATION_Graph_START_DESTINATION_ID,
+//                        R.id.HHOnBoardingWelcomeFragment
+//                    )
+//                }
+            }
+        }
     }
 
     override fun onDestroy() {

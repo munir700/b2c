@@ -1,5 +1,6 @@
 package co.yap.networking.customers.responsedtos
 
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
 data class HouseHoldCardsDesign(
@@ -19,4 +20,4 @@ data class HouseHoldCardsDesign(
     val status: String? = null,
     @SerializedName("designColorCode")
     val designColorCode: String? = null
-)
+):ApiResponse()

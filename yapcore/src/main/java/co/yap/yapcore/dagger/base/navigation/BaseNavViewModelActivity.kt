@@ -51,7 +51,7 @@ abstract class BaseNavViewModelActivity<VB : ViewDataBinding, S : IBase.State, V
      * The initial input to be provided to the start destination fragment.
      */
     protected open var startDestinationInput: Bundle? = Bundle()
-    private var extrasBundle = Bundle()
+    protected open var extrasBundle = Bundle()
     private var navHostFragment: MvvmNavHostFragment? = null
 
     @CallSuper

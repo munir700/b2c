@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.main.OnBoardingHouseHoldVM" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Yap.App.Widget.ToolBar"
+            android:visibility="@{viewModel.state.toolsBarVisibility? View.VISIBLE : View.GONE}">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+                    app:srcCompat="@drawable/ic_back" />
+
+                <co.yap.widgets.AnimatingProgressBar
+                    android:id="@+id/tbProgressBar"
+                    style="@style/YAPProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_5sdp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="@{viewModel.state.currentProgress}" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/tbBtnCheck"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="true"
+                    app:enabled="@{false}"
+                    app:srcCompat="@drawable/ic_tick" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.Toolbar>
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="co.yap.yapcore.dagger.base.MvvmNavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

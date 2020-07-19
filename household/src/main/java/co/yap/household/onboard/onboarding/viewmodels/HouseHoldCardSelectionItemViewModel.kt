@@ -3,7 +3,7 @@ package co.yap.household.onboard.onboarding.viewmodels
 import android.view.View
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.interfaces.OnItemClickListener
-
+@Deprecated("")
 class HouseHoldCardSelectionItemViewModel(
     var position: Int?,
     var houseHoldCardsDesignModel: HouseHoldCardsDesign,

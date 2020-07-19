@@ -1,20 +1,21 @@
 package co.yap.modules.subaccounts.account.card
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSubAccountCardBinding
-import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragmentDirections
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.widgets.State
 import co.yap.widgets.advrecyclerview.animator.DraggableItemAnimator
 import co.yap.widgets.advrecyclerview.draggable.RecyclerViewDragDropManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
@@ -34,9 +35,7 @@ class SubAccountCardFragment :
             SubAccountAdapter, SubAccount>(), RecyclerViewDragDropManager.OnItemDragEventListener {
     private var mWrappedAdapter: RecyclerView.Adapter<*>? = null
     private var mRecyclerViewDragDropManager: RecyclerViewDragDropManager? = null
-
     override fun getBindingVariable() = BR.subAccountCardVM
-
     override fun getLayoutId() = R.layout.fragment_sub_account_card
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)

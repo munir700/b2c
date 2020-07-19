@@ -134,7 +134,7 @@ object Constants {
     val FRAGMENT_CLASS = "fragment_class"
     val SHOW_TOOLBAR = "_show_toolbar"
     val EXTRA = "_bundle_extras"
-   const val INDEX = "index"
+    const val INDEX = "index"
     const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
     const val IS_IBAN_NEEDED = "is_iban_need"
 

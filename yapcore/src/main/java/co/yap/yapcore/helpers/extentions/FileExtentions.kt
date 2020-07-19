@@ -58,3 +58,16 @@ fun Context.deleteTempFolder(): Boolean {
 fun File.deleteRecursivelyYap(): Boolean {
     return deleteRecursively()
 }
+
+fun Context?.getJsonDataFromAsset(fileName: String): String? {
+    var jsonString: String? = null
+    this?.let {
+        try {
+            jsonString = this.assets.open(fileName).bufferedReader().use { it.readText() }
+        } catch (ioException: IOException) {
+            ioException.printStackTrace()
+            return null
+        }
+    }
+    return jsonString
+}

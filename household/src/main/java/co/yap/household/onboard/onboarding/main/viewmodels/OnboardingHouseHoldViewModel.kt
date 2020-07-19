@@ -7,7 +7,7 @@ import co.yap.household.onboard.onboarding.main.states.OnBoardingState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 
-
+@Deprecated("")
 class OnboardingHouseHoldViewModel(application: Application) : BaseViewModel<IOnboarding.State>(application),
     IOnboarding.ViewModel {
 

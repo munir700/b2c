@@ -168,11 +168,6 @@
         android:label="YapDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
 
-    <activity
-        android:id="@+id/householdOnboard"
-        android:name="co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity"
-        android:label="householdOnboard"
-        tools:layout="@layout/activity_main_house_hold" />
     <fragment
         android:id="@+id/householdOnBoardingExistingYAP"
         android:name="co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment"

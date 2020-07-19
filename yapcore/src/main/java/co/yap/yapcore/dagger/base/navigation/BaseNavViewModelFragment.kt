@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.transition.ChangeBounds
 import android.transition.Fade
 import android.transition.Slide
-import android.view.Gravity
 import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import co.yap.yapcore.IBase
 import co.yap.yapcore.R
@@ -150,6 +148,13 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
         exitTransition?.let { this.exitTransition = it }
 //        this.enterTransition = Slide(Gravity.RIGHT)
+        navigateForResult(navDirections.actionId, REQUEST_CODE_NOT_SET, args)
+    }
+
+    protected fun navigateForward(
+        navDirections: NavDirections,
+        args: Bundle?
+    ) {
         navigateForResult(navDirections.actionId, REQUEST_CODE_NOT_SET, args)
     }
 

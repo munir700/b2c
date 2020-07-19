@@ -11,7 +11,7 @@ import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
-import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.customers.responsedtos.AccountInfo
@@ -20,6 +20,7 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -136,8 +137,13 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 }
             } else {
                 context.switchTheme(YAPThemes.HOUSEHOLD())
+                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
-                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
+                    putExtra(
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
+                    )
                 }
             }
         }
