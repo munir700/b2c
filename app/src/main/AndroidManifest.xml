@@ -107,9 +107,11 @@
                 <data
                     android:host="gqvg.adj.st"
                     android:scheme="https" />
+                <data
+                    android:host="grwl.adj.st"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
