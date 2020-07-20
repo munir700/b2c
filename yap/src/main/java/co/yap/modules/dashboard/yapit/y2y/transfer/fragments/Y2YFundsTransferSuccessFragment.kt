@@ -27,7 +27,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MyUserManager.updateCardBalance()
+        MyUserManager.updateCardBalance{}
         viewModel.clickEvent.observe(this, Observer {
             activity?.finish()
         })

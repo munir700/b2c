@@ -19,6 +19,7 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.THEME_YAP
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.YAPThemes
@@ -52,12 +53,17 @@ class AAPApplication : HouseHoldApplication(
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     lateinit var sAppComponent: AppComponent
 
+    companion object {
+        val appInfo = getAppInfo()
+    }
+
     override fun onCreate() {
         super.onCreate()
         sAppComponent = AppInjector.init(this)
         initNetworkLayer()
 //        switchTheme(YAPThemes.HOUSEHOLD())
         switchTheme(YAPThemes.CORE())
+        setAppUniqueId(this)
         initFireBase()
         inItLeanPlum()
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
@@ -67,7 +73,7 @@ class AAPApplication : HouseHoldApplication(
     private fun initNetworkLayer() {
         RetroNetwork.initWith(this, getAppDataForNetwork())
         NetworkConnectionManager.init(this)
-        setAppUniqueId(this)
+
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
             override fun onInternetUnavailable() {
             }
@@ -112,11 +118,11 @@ class AAPApplication : HouseHoldApplication(
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
-        val sharedPrefs = SharedPreferenceManager(context)
-        uuid = sharedPrefs.getValueString(KEY_APP_UUID)
+        SharedPreferenceManager.getInstance(context).setThemeValue(THEME_YAP)
+        uuid = SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            sharedPrefs.save(KEY_APP_UUID, uuid)
+            SharedPreferenceManager.getInstance(context).save(KEY_APP_UUID, uuid)
         }
     }
 

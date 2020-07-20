@@ -5,6 +5,8 @@ import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.StringUtils
 
 interface IEditBeneficiary {
     interface View : IBase.View<ViewModel> {
@@ -17,6 +19,7 @@ interface IEditBeneficiary {
         fun requestCountryInfo()
         fun validateBeneficiaryDetails(beneficiary:Beneficiary)
         fun createBeneficiaryRequest()
+        fun getAllCountries(beneficiary:Beneficiary?, success: (ArrayList<Country>?)->Unit)
         var onUpdateSuccess:MutableLiveData<Boolean>
         var isBeneficiaryValid:MutableLiveData<Boolean>
         var onBeneficiaryCreatedSuccess:MutableLiveData<Boolean>
@@ -38,5 +41,6 @@ interface IEditBeneficiary {
         var needIban:Boolean?
         var showIban:Boolean?
         var valid: Boolean?
+        var selectedCountryOfResidence: Country?
     }
 }

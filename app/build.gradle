@@ -46,8 +46,8 @@ android {
         }
 
         qa {
-            versionCode 66
-            versionName "0.6.6"
+            versionCode 68
+            versionName "0.6.8"
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
@@ -57,8 +57,8 @@ android {
         }
 
         stg {
-            versionCode 147
-            versionName "0.14.7"
+            versionCode 166
+            versionName "0.16.6"
             applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
             buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
@@ -66,29 +66,8 @@ android {
             buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Stage"
         }
-
-        hh {
-            versionCode 2
-            versionName "0.2"
-            applicationIdSuffix ".dev"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
-            resValue "string", "app_name", "YAP HH"
-        }
-        hh_qa {
-            versionCode 1
-            versionName "0.0.1"
-            applicationIdSuffix ".qa"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold_QA}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
-            resValue "string", "app_name", "YAP HH QA"
-        }
     }
-    ndkVersion '21.0.6113669'
+    ndkVersion '21.1.6352462'
 }
 
 dependencies {

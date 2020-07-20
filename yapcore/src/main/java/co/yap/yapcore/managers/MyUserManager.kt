@@ -44,17 +44,18 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     //    var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
 
-//    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
+    //    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var onAccountInfoSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var helpPhoneNumber: String = ""
 
-
     @Deprecated("Use GetAccountBalanceLiveData instead")
-    fun updateCardBalance() {
-        getAccountBalanceRequest()
+    fun updateCardBalance(success: () -> Unit) {
+        getAccountBalanceRequest {
+            success()
+        }
     }
 
     @Deprecated("Not used anymore")
@@ -99,12 +100,12 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return getYapUser() != null && getHouseholdUser() != null
     }
 
-    private fun getAccountBalanceRequest() {
-
+    private fun getAccountBalanceRequest(success: () -> Unit) {
         GlobalScope.launch {
             when (val response = repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
                     cardBalance.postValue(CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
+                    success()
                 }
                 is RetroApiResponse.Error -> {
 

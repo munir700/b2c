@@ -22,6 +22,7 @@ object Strings {
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
     const val common_text_fee: String = "common_text_fee"
+    const val common_display_text_available_balance: String = "common_display_text_available_balance"
     const val common_display_text_daily_limit_remaining_error: String =
         "common_display_text_daily_limit_remaining_error"
     const val common_display_text_daily_limit_error_single_transaction: String =
@@ -36,8 +37,8 @@ object Strings {
         "sm_display_text_min_max_limit_error_transaction"
     const val common_display_text_daily_limit_error: String =
         "common_display_text_daily_limit_error"
-    const val common_display_text_cooling_period_limit_error: String =
-        "common_display_text_cooling_period_limit_error"
+    const val common_display_text_on_hold_limit_error: String =
+        "common_display_text_on_hold_limit_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -566,6 +567,10 @@ object Strings {
         "screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance"
     const val screen_success_funds_transaction_display_text_button: String =
         "screen_success_funds_transaction_display_text_button"
+    const val screen_add_funds_display_text_error_card_balance_limit_reached: String =
+        "screen_add_funds_display_text_error_card_balance_limit_reached"
+    const val screen_add_funds_display_text_error_card_balance_limit: String =
+        "screen_add_funds_display_text_error_card_balance_limit"
 
     // Remove funds Screen
     const val screen_remove_funds_display_text_remove_funds: String =

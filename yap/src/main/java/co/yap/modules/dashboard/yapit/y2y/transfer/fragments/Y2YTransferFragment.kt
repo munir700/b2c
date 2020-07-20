@@ -20,7 +20,6 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferVi
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
-import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -92,7 +91,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-            if (viewModel.state.amount.isNotEmpty()) {
+            if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
             } else {
                 viewModel.state.valid = false
@@ -111,10 +110,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             }
             isDailyLimitReached() -> {
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
-                viewModel.state.valid = false
-            }
-            viewModel.isInCoolingPeriod() && viewModel.isCPAmountConsumed(viewModel.state.amount) -> {
-                showCoolingPeriodLimitError()
                 viewModel.state.valid = false
             }
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
@@ -142,19 +137,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     }
 
-    private fun showCoolingPeriodLimitError() {
-        viewModel.state.errorDescription = Translator.getString(
-            requireContext(),
-            Strings.common_display_text_cooling_period_limit_error,
-            viewModel.smCoolingPeriod?.maxAllowedCoolingPeriodAmount.toString()
-                .toFormattedAmountWithCurrency(),
-            viewModel.smCoolingPeriod?.coolingPeriodDuration.toString() + " hour's",
-            viewModel.state.fullName
-        )
-        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
-    }
-
-
     private fun showBalanceNotAvailableError() {
         val des = Translator.getString(
             requireContext(),
@@ -167,7 +149,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.getTotalAmountWithFee())
+            (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
             false
     }
@@ -221,13 +203,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.fullName = args.beneficiaryName
         viewModel.receiverUUID = args.receiverUUID
         viewModel.state.imageUrl = args.imagePath
-        viewModel.getCoolingPeriod(
-            SMCoolingPeriodRequest(
-                beneficiaryId = viewModel.receiverUUID,
-                productCode = TransactionProductCode.Y2Y_TRANSFER.pCode
-            )
-        )
-
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
             getBinding().lyUserImage.tvNameInitials.context,
             args.position
@@ -264,7 +239,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                                 }
                                 else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
                             }
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit.roundVal()
                     }
                 } ?: return false
             } ?: return false

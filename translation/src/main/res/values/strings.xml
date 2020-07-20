@@ -19,13 +19,13 @@
     <string name="error_view_text">No results found\ntab to retry</string>
     <string name="empty_view_text">No results found</string>
     <string name="common_text_fee">Fee: %1s</string>
+    <string name="common_display_text_available_balance">Your available balance is %1s</string>
     <string name="common_display_text_daily_limit_remaining_error">That\'s over your daily limit. Please enter an amount lower than %1s</string>
     <string name="common_display_text_daily_limit_error_single_transaction">This amount exceeds your daily transaction limit</string>
     <string name="common_display_text_daily_limit_error_multiple_transactions">You have exceeded your daily transaction limit</string>
     <string name="common_display_text_available_balance_error">Uh oh! You’ll need to have a minimum balance of %1s plus the fee stated to proceed with this payment. </string>
     <string name="common_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
-    <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
 
     <!--Validation Error Messages start-->
@@ -56,6 +56,7 @@
         required format.
     </string>
     <!--Validation Error Messages End-->
+    <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -365,10 +366,12 @@
     <string name="screen_add_funds_display_text_max_limit_error">You cannot add an amount more than %1$s %2$s</string>
 
     <!--    Success funds transaction Screen-->
-    <string name="screen_success_funds_transaction_display_text_top_up">You have topped up with %1$s %2$s \nfrom your main debit card</string>
-    <string name="screen_success_funds_transaction_display_text_primary_balance">Now, your primary card balance is \n%1$s %2$s</string>
-    <string name="screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance">Your new spare card balance is \n %1$s %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_top_up">You have topped up with %1s \nfrom your main debit card</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance">Now, your primary card balance is \n %1s</string>
+    <string name="screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance">Your new spare card balance is \n %1s</string>
     <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
+    <string name="screen_add_funds_display_text_error_card_balance_limit_reached">Your virtual card can only hold up to %1$s.</string>
+    <string name="screen_add_funds_display_text_error_card_balance_limit">Your virtual card can only hold up to %1$s. Please enter an amount up to %2$s to proceed.</string>
 
     <!--    Remove funds Screen-->
 
@@ -380,7 +383,7 @@
     <string name="screen_remove_funds_display_text_available_balance_error">You can only move an amount less than or equal to your current balance of %1$s %2$s</string>
 
     <!--    Success remove funds Screen-->
-    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s %2$s \nto your main debit card </string>
+    <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s \nto your main debit card </string>
 
     <!--    Set Limits Screen-->
     <string name="screen_set_limits_display_text_title">Set limits</string>
@@ -575,8 +578,8 @@
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">No contacts found.</string>
     <string name="screen_y2y_display_text_no_result">No results</string>
-    <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%3$s\n\nDownload on Play Store:\n%4$s"</string>
-    <string name="common_display_text_y2y_general_share">Hi \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%2$s\n\nDownload on Play Store:\n%3$s"</string>
+    <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>
+    <string name="common_display_text_y2y_general_share">Hi \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%2$s</string>
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
@@ -1015,7 +1018,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it\’s even better when you do it with friends. Send this special link to your special people and help change the way they bank!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload on App Store:\n%1s\n\nDownload on Play Store:\n%2s</string>
+    <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload YAP here:\n\n%1s</string>
 
     <!--  Household dashboard bottom bar  -->
 

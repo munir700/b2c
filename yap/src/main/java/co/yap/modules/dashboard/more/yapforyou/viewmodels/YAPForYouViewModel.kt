@@ -2,8 +2,6 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
 import co.yap.R
-import co.yap.modules.dashboard.more.yapforyou.AchievmentIcons
-import co.yap.modules.dashboard.more.yapforyou.CategoriesIcon
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
@@ -52,11 +50,6 @@ class YAPForYouViewModel(application: Application) :
 
     }
 
-    fun getAchievmentIcons(color: Int, percent: Double): AchievmentIcons? {
-        val categoriesIcon: CategoriesIcon = CategoriesIcon(percent, color.toString())
-        return categoriesIcon.achievmentIcons
-    }
-
     override fun getAchievements() {
         launch {
             state.loading = true
@@ -74,20 +67,11 @@ class YAPForYouViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    showDialogWithCancel(response.error.message)
                 }
             }
         }
     }
-
-//
-//    private fun getSortAchievementList(val list: MutableList<Achievement>): MutableList<Achievement> {
-//        val sortedAchievements = mutableListOf<Achievement>()
-//        val sequencedList = listOf("Get started","Up and running","Better together",)
-//
-//        for(achievement in )
-//
-//    }
 
     private fun achievementDataFactory(){
         var position = 0
@@ -101,12 +85,12 @@ class YAPForYouViewModel(application: Application) :
 
     override fun getAchievementIcon(position: Int,isWithBadged:Boolean): Int {
         return when (position) {
-            0 -> if(!isWithBadged) R.drawable.ic_round_badge_dark_purple else R.drawable.ic_badge_dark_purple
-            1 -> if(!isWithBadged) R.drawable.ic_round_badge_dark_blue else R.drawable.ic_badge_dark_blue
-            2 -> if(!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
-            3 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
-            4 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
-            5 -> if(!isWithBadged) R.drawable.lock else R.drawable.lock
+            0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
+            1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
+            2 -> if (!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
+            3 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_2 else R.drawable.ic_y4y_rounded_locked_2
+            4 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_3 else R.drawable.ic_y4y_rounded_locked_3
+            5 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_1 else R.drawable.ic_y4y_rounded_locked_1
             else -> R.drawable.ic_round_badge_dark_grey
         }
     }

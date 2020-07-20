@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.app.AAPApplication
 import co.yap.app.BR
 import co.yap.app.BuildConfig
 import co.yap.app.R
@@ -31,7 +32,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
             if (it) {
-                if (BuildConfig.DEBUG) {
+                if (!AAPApplication.appInfo.isReleaseStg()) {
                     moveNext()
                 } else {
                     viewModel.getAppUpdate()

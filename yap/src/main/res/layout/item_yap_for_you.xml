@@ -50,6 +50,17 @@
             tools:text="android:asdasdas" />
 
         <TextView
+            android:id="@+id/tvLocked"
+            style="@style/AMicroGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Locked"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <TextView
             android:id="@+id/tvPercentage"
             style="@style/AMicroGrey"
             android:layout_width="match_parent"
@@ -61,7 +72,6 @@
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="75% completed" />
-        <!--        android:visibility="@{viewModel.achievement.percentage != null ?View.VISIBLE:View.GONE}"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

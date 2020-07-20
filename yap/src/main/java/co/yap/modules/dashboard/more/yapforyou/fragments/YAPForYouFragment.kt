@@ -51,11 +51,13 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
             when (it) {
                 R.id.btnView -> {
                     viewModel.parentViewModel?.selectedPosition = 0
-                    viewModel.parentViewModel?.achievement =
-                        viewModel.parentViewModel?.achievements?.get(0)
-                    val action =
-                        YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
-                    findNavController().navigate(action)
+                    if (!viewModel.parentViewModel?.achievements.isNullOrEmpty()) {
+                        viewModel.parentViewModel?.achievement =
+                            viewModel.parentViewModel?.achievements?.get(0)
+                        val action =
+                            YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         })
@@ -89,15 +91,16 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (pos in 3..5)
+                return
+
             if (data is Achievement) {
                 viewModel.parentViewModel?.selectedPosition = pos
-
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
                 val action =
                     YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
                 findNavController().navigate(action)
-//                setSelectedAchievement(data.copy())
             }
         }
     }

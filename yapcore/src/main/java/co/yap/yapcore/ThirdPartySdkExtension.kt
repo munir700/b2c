@@ -81,8 +81,8 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
-    adjustEvent.setCallbackId(MyUserManager.user?.uuid)
-    adjustEvent.addCallbackParameter("account_id", MyUserManager.user?.uuid)
+    adjustEvent.setCallbackId(MyUserManager.user?.currentCustomer?.customerId)
+    adjustEvent.addCallbackParameter("account_id", MyUserManager.user?.currentCustomer?.customerId)
     Adjust.trackEvent(adjustEvent)
 }
 

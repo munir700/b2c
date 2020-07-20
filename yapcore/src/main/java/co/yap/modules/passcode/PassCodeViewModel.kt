@@ -2,7 +2,9 @@ package co.yap.modules.passcode
 
 import android.app.Application
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.ChangePasscodeRequest
 import co.yap.networking.customers.requestdtos.ForgotPasscodeRequest
+import co.yap.networking.customers.requestdtos.VerifyPasscodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -23,7 +25,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     override val repository: CustomersRepository = CustomersRepository
     private val messageRepository: MessagesRepository = MessagesRepository
     override var mobileNumber: String = ""
-    override var token: String =""
+    override var token: String = ""
     override fun setTitles(title: String, buttonTitle: String) {
         state.title = title
         state.buttonTitle = buttonTitle
@@ -37,7 +39,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
         launch {
             state.loading = true
             when (val response = repository.validateCurrentPasscode(
-                state.passCode
+                VerifyPasscodeRequest(passcode = state.passCode)
             )) {
                 is RetroApiResponse.Success -> {
                     token = response.data.token ?: ""
@@ -55,7 +57,13 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
     override fun updatePassCodeRequest(success: () -> Unit) {
         launch {
             state.loading = true
-            when (val response = repository.changePasscode(state.passCode, token)) {
+            when (val response =
+                repository.changePasscode(
+                    ChangePasscodeRequest(
+                        newPassword = state.passCode,
+                        token = token
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     success()

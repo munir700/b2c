@@ -2,11 +2,12 @@ package co.yap.yapcore.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
+import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
-import co.yap.yapcore.helpers.encryption.EncryptionUtils
-import co.yap.yapcore.adjust.ReferralInfo
 import com.google.gson.Gson
 import javax.inject.Inject
 
@@ -14,8 +15,15 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
     private val inviterAdjustId = "inviterAdjustId"
-    private val sharedPref: SharedPreferences =
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private var masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+
+    private var sharedPref = EncryptedSharedPreferences.create(
+        PREFS_NAME,
+        masterKeyAlias,
+        context,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     companion object : SingletonHolder<SharedPreferenceManager, Context>(::SharedPreferenceManager)
 
@@ -50,9 +58,16 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun clearSharedPreference() {
-        val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.clear()
-        editor.apply()
+        try {
+            val editor: SharedPreferences.Editor = sharedPref.edit()
+            val allEntr: Map<String, *> = sharedPref.all
+            for (entry in allEntr.keys) {
+                editor.remove(entry)
+            }
+            editor.apply()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
     }
 
     fun removeValue(KEY_NAME: String) {
@@ -63,10 +78,9 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     fun saveUserNameWithEncryption(text: String) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        EncryptionUtils.encrypt(context, text)?.let {
-            editor.putString(KEY_USERNAME, it)
-            editor.apply()
-        }
+        editor.putString(KEY_USERNAME, text)
+        editor.apply()
+
     }
 
     private fun isNumeric(str: String): Boolean {
@@ -74,34 +88,18 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun getDecryptedUserName(): String? {
-        SharedPreferenceManager(context).getValueString(KEY_USERNAME)?.let {
-            return EncryptionUtils.decrypt(
-                context,
-                it
-            )?.let { user_name ->
-                return user_name
-            }
-                ?: return null
-        } ?: return null
+        return SharedPreferenceManager(context).getValueString(KEY_USERNAME)
     }
 
     fun savePassCodeWithEncryption(text: String) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        EncryptionUtils.encrypt(context, text)?.let {
-            editor.putString(KEY_PASSCODE, it)
-            editor.apply()
-        }
+        editor.putString(KEY_PASSCODE, text)
+        editor.apply()
+
     }
 
     fun getDecryptedPassCode(): String? {
-        SharedPreferenceManager(context).getValueString(KEY_PASSCODE)?.let {
-            return EncryptionUtils.decrypt(context, it)?.let { passcode ->
-                return passcode
-            }
-                ?: return null
-        } ?: return null
-
-
+        return SharedPreferenceManager(context).getValueString(KEY_PASSCODE)
     }
 
     fun getThemeValue(): String? {
