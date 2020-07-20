@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.countryutils.country.Country
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.otp.OtpToolBarData
@@ -28,6 +29,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -58,6 +60,11 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     updateAccountTitle(bundleData)
                     viewModel.state.beneficiary =
                         bundleData.getParcelable(Beneficiary::class.java.name)
+                    if (viewModel.state.beneficiary.isRMTAndSWIFT()) {
+                        viewModel.getAllCountries(beneficiary = viewModel.state.beneficiary) { countries ->
+                            populateCountriesList(countries)
+                        }
+                    }
                 }
             }
         }
@@ -75,6 +82,28 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             "Yes" -> {
                 viewModel.state.needIban = true
                 viewModel.state.showIban = true //binding needed
+            }
+        }
+    }
+
+    private fun populateCountriesList(countries: ArrayList<Country>?) {
+        getBinding().spinner.setItemSelectedListener(selectedItemListener)
+        getBinding().spinner.setAdapter(countries)
+        if (viewModel.state.selectedCountryOfResidence != null) {
+            getBinding().spinner.setSelectedItem(
+                countries?.indexOf(viewModel.state.selectedCountryOfResidence ?: Country()) ?: 0
+            )
+        }
+    }
+
+    private val selectedItemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Country) {
+                if (data.getName() != "Select country") {
+                    viewModel.state.selectedCountryOfResidence = data
+                } else {
+                    viewModel.state.selectedCountryOfResidence = null
+                }
             }
         }
     }
@@ -210,7 +239,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     }
 
 
-    private fun getbinding(): ActivityEditBeneficiaryBinding {
+    private fun getBinding(): ActivityEditBeneficiaryBinding {
         return viewDataBinding as ActivityEditBeneficiaryBinding
     }
 

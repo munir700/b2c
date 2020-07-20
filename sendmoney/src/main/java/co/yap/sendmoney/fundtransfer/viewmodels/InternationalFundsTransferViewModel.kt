@@ -18,6 +18,7 @@ import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.roundVal
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -200,7 +201,7 @@ class InternationalFundsTransferViewModel(application: Application) :
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
                 ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
             totalDestinationAmount?.let {
-                state.etOutputAmount = it.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toString()
+                state.etOutputAmount = it.roundVal().toString()
             }
         } else {
             state.etOutputAmount = ""

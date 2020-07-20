@@ -35,6 +35,10 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         state.toast = "${message}^${AlertType.DIALOG.name}"
     }
 
+    fun showDialogWithCancel(message: String) {
+        state.toast = "${message}^${AlertType.DIALOG_WITH_FINISH.name}"
+    }
+
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()

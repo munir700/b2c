@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -18,7 +17,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.*
-import co.yap.yapcore.helpers.extentions.getProductCode
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.snackbar.Snackbar
@@ -94,11 +92,6 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
             viewModel.transferData.value = TransferFundData()
             viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
             viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == "AED"
-            val request = SMCoolingPeriodRequest(
-                beneficiaryId = viewModel.beneficiary.value?.id?.toString()!!,
-                productCode = viewModel.beneficiary.value.getProductCode()
-            )
-            viewModel.getCoolingPeriod(request)
         }
     }
 

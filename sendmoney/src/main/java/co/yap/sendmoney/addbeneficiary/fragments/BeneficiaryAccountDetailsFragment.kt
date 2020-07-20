@@ -42,6 +42,10 @@ class BeneficiaryAccountDetailsFragment :
             val bundle = Bundle()
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, true)
             bundle.putString(Constants.IS_IBAN_NEEDED, "Yes")
+            bundle.putString(
+                Constants.IS_IBAN_NEEDED,
+                if (viewModel.parentViewModel?.selectedCountry?.value?.ibanMandatory == true) "Yes" else "No"
+            )
             bundle.putParcelable(Beneficiary::class.java.name, it)
             bundle.putParcelable(
                 Country::class.java.name,

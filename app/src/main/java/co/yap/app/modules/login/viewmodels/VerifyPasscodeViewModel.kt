@@ -10,6 +10,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.authentication.requestdtos.LoginRequest
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.requestdtos.VerifyPasscodeRequest
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -44,11 +45,19 @@ class VerifyPasscodeViewModel(application: Application) :
 
     private fun handleAttemptsError(error: ApiError) {
         when (error.actualCode) {
-            "302" -> showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
-            "303" -> showBlockForSomeTimeError(error.message)
+            "302" -> {
+                showAccountBlockedError(getString(Strings.screen_verify_passcode_text_account_locked))
+            }
+            "303" -> {
+                showBlockForSomeTimeError(error.message)
+            }
             "1260" -> {
                 state.isAccountFreeze.set(true)
                 showAccountBlockedError(error.message)
+            }
+            else ->{
+                showToast(error.message)
+                loginSuccess.postValue(false)
             }
         }
     }
@@ -125,7 +134,6 @@ class VerifyPasscodeViewModel(application: Application) :
                     parentViewModel?.signingInData?.token = response.data.id_token
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.loading = false
                     handleAttemptsError(response.error)
                 }
@@ -136,7 +144,8 @@ class VerifyPasscodeViewModel(application: Application) :
     override fun verifyPasscode() {
         launch {
             state.loading = true
-            when (val response = customersRepository.validateCurrentPasscode(state.passcode)) {
+            when (val response =
+                customersRepository.validateCurrentPasscode(VerifyPasscodeRequest(passcode = state.passcode))) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
                     state.loading = false

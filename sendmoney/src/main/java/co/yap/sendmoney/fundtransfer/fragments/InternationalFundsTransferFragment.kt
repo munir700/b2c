@@ -23,10 +23,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -169,7 +166,7 @@ class InternationalFundsTransferFragment :
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
-            (availableBalance > viewModel.getTotalAmountWithFee())
+            (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
             false
     }
@@ -197,14 +194,25 @@ class InternationalFundsTransferFragment :
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.etOutputAmount.parseToDouble().let { enteredAmount ->
-                        if (viewModel.transactionMightGetHeld.value == true) {
+                        if (viewModel.transactionMightGetHeld.value == true && it.holdAmountIsIncludedInTotalDebitAmount == false) {
                             val totalHoldAmount =
                                 (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
-                                "Sorry, you've reached your daily limit. Let's try again tomorrow."
-                            return (enteredAmount > remainingDailyLimit)
+                                when (dailyLimit) {
+                                    totalHoldAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                    else -> Translator.getString(
+                                        requireContext(),
+                                        Strings.common_display_text_on_hold_limit_error
+                                    ).format(
+                                        remainingDailyLimit.roundVal().toString()
+                                            .toFormattedAmountWithCurrency()
+                                    )
+                                }
+
+                            return (enteredAmount > remainingDailyLimit.roundVal())
+
                         } else {
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
@@ -216,7 +224,7 @@ class InternationalFundsTransferFragment :
                                     }
                                     else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
                                 }
-                            return (enteredAmount > remainingDailyLimit)
+                            return (enteredAmount > remainingDailyLimit.roundVal())
                         }
                     }
                 } ?: return false
@@ -272,10 +280,12 @@ class InternationalFundsTransferFragment :
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
-            if (it.isNotBlank())
+            if (it.isNotBlank() && it.parseToDouble() > 0.0)
                 checkOnTextChangeValidation()
-            else
+            else {
                 viewModel.state.valid = false
+                cancelAllSnackBar()
+            }
 
             viewModel.updateFees()
         }
@@ -292,13 +302,7 @@ class InternationalFundsTransferFragment :
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-            viewModel.parentViewModel?.isInCoolingPeriod() == true
-                    && viewModel.parentViewModel?.isCPAmountConsumed(
-                viewModel.state.etOutputAmount ?: "0.0"
-            ) == true -> {
-                viewModel.parentViewModel?.showCoolingPeriodLimitError()
-                viewModel.state.valid = false
-            }
+
             viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
                 viewModel.state.valid = true
             }

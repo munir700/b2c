@@ -413,7 +413,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
-        MyUserManager.updateCardBalance()
+        MyUserManager.updateCardBalance{}
     }
 
     override fun onDestroyView() {

@@ -198,15 +198,12 @@ interface CustomersRetroService {
     suspend fun forgotPasscode(@Body forgotPasscodeRequest: ForgotPasscodeRequest): Response<ApiResponse>
 
     //validate current passcode
-    @GET(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
-    suspend fun validateCurrentPasscode(@Query("passcode") passcode: String): Response<OtpValidationResponse>
+    @POST(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
+    suspend fun validateCurrentPasscode(@Body verifyPasscodeRequest: VerifyPasscodeRequest): Response<OtpValidationResponse>
 
     //change passcode
     @POST(CustomersRepository.URL_CHANGE_PASSCODE)
-    suspend fun changePasscode(
-        @Query("new-password") newPasscode: String,
-        @Query("token") token: String
-    ): Response<ApiResponse>
+    suspend fun changePasscode(@Body changePasscodeRequest: ChangePasscodeRequest): Response<ApiResponse>
 
     //  App Update
     @GET(CustomersRepository.URL_APP_VERSION)
@@ -227,10 +224,4 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
-
-    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
-    suspend fun getCoolingPeriod(
-        @Query("beneficiaryId") beneficiaryId: String,
-        @Query("productCode") productCode: String
-    ): Response<SMCoolingPeriodResponseDTO>
 }
