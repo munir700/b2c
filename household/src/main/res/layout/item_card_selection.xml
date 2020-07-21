@@ -18,7 +18,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/empty_string"
             app:radius="@{16}"

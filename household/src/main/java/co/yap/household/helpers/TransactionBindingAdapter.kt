@@ -11,7 +11,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.ThemeColorUtils
 import co.yap.yapcore.transactions.TransactionRecyclerView
 import co.yap.yapcore.transactions.TransactionsAdapter
-
+@Deprecated("")
 object TransactionBindingAdapter {
     @BindingAdapter("txnList")
     @JvmStatic

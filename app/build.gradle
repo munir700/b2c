@@ -66,8 +66,28 @@ android {
             buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Stage"
         }
+        hh {
+            versionCode 3
+            versionName "0.3"
+            applicationIdSuffix ".dev"
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold}\"")
+            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
+            resValue "string", "app_name", "YAP HH"
+        }
+        hh_qa {
+            versionCode 2
+            versionName "0.0.2"
+            applicationIdSuffix ".qa"
+            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold_QA}\"")
+            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
+            resValue "string", "app_name", "YAP HH QA"
+        }
     }
-    ndkVersion '21.1.6352462'
+    ndkVersion '20.0.5594570'
 }
 
 dependencies {

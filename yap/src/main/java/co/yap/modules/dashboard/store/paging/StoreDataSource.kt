@@ -7,6 +7,7 @@ import co.yap.networking.store.StoresRepository
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.helpers.PagingState
 
+@Deprecated("Not used any more, Delete it")
 class StoreDataSource(private val storeRepo: StoresRepository) :
     PageKeyedDataSource<Long, Store>() {
 

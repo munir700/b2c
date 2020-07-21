@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorLightPinkBackground">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitleKYCSuccess"
                     style="@style/Large"
                     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                     app:text="@{Strings.screen_success_on_its_way_display_text_title}"
                     tools:text="@string/screen_success_on_its_way_display_text_title" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSubTitleKYCSuccess"
                     style="@style/ASmallGrey"
                     android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                     tools:text="@string/screen_success_house_hold_we_will_call_you_to_text" />
 
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSubTitleSecondKYCSuccess"
                     style="@style/ASmallGrey"
                     android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                     tools:text="@string/screen_success_house_hold_card_deliver_text" />
 
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitleKYCSuccessAddressOne"
                     style="@style/Large"
                     android:layout_width="match_parent"
@@ -122,19 +122,19 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="center"
-                    android:text="Burj Res Tower 1"
+                    android:text="@{kycSuccessVM.state.address.address1}"
                     android:textColor="@color/kyc_success_text_color"
                     app:layout_constraintBottom_toTopOf="@+id/tvTitleKYCSuccessAddressTwo"
                     tools:text="Burj Res Tower 1" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitleKYCSuccessAddressTwo"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_xxl"
                     android:gravity="center"
-                    android:text="Suite 1130"
+                    android:text="@{kycSuccessVM.state.address.address2}"
                     android:textColor="@color/kyc_success_text_color"
                     app:layout_constraintBottom_toTopOf="@+id/btnTopUp"
                     tools:layout_editor_absoluteX="31dp"

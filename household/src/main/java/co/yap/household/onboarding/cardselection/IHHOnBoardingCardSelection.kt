@@ -23,6 +23,7 @@ interface IHHOnBoardingCardSelection {
 
     interface State : IBase.State {
         var address:MutableLiveData<Address>?
+        var designCode:MutableLiveData<String>?
         var cardDesigns:MutableLiveData<MutableList<HouseHoldCardsDesign>>?
     }
 }

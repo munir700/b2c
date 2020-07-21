@@ -43,7 +43,7 @@ class HHOnBoardingPassCodeVM @Inject constructor(
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    apiResponse?.invoke(true)
+                    apiResponse?.invoke(false)
                     state.toast = response.error.message
                 }
             }

@@ -137,13 +137,10 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 }
             } else {
                 context.switchTheme(YAPThemes.HOUSEHOLD())
-                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
+//                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
-                    putExtra(
-                        NAVIGATION_Graph_START_DESTINATION_ID,
-                        R.id.HHOnBoardingWelcomeFragment
-                    )
+                    putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)
                 }
             }
         }

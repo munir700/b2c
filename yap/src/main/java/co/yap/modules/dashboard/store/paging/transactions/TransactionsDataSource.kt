@@ -12,7 +12,7 @@ import co.yap.yapcore.helpers.PagingState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
-
+@Deprecated("Not used any more, Delete it")
 class TransactionsDataSource(
     private val storeRepo: TransactionsRepository,
     private val yapHomeViewModel: YapHomeViewModel

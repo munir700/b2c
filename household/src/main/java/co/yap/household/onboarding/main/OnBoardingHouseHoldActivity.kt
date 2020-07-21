@@ -27,12 +27,6 @@ import kotlinx.android.synthetic.main.activity_onboarding_houe_hold.*
 class OnBoardingHouseHoldActivity :
     BaseNavViewModelActivity<ActivityOnboardingHoueHoldBinding, IOnBoardingHouseHold.State, OnBoardingHouseHoldVM>(),
     IOnBoardingHouseHold.View {
-    companion object {
-        const val EXISTING_USER = "existingYapUser"
-        const val USER_INFO = "user_info"
-    }
-
-    // to hold the size of the visible window
     override val navigationGraphId: Int
         get() = intent?.getIntExtra(NAVIGATION_Graph_ID, 0) ?: 0
     override val navigationGraphStartDestination: Int
@@ -67,6 +61,30 @@ class OnBoardingHouseHoldActivity :
             }
             return intent?.getIntExtra(NAVIGATION_Graph_START_DESTINATION_ID, 0) ?: 0
         }
+
+    override fun init(savedInstanceState: Bundle?) {
+        if (MyUserManager.isExistingUser()) {
+            var destination: Int = R.id.HHOnBoardingExistingSuccessFragment
+            MyUserManager.user?.let {
+                if (!it.notificationStatuses.isBlank()) {
+                    destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
+                        AccountStatus.INVITATION_PENDING -> R.id.HHOnBoardingExistingFragment
+                        AccountStatus.INVITE_ACCEPTED -> R.id.HHOnBoardingExistingSuccessFragment
+                        else -> R.id.HHOnBoardingMobileFragment
+
+                    }
+                }
+            }
+            launchActivity<NavHostPresenterActivity>() {
+                putExtra(
+                    NAVIGATION_Graph_ID, R.navigation.hh_existing_user_onboarding_navigation
+                )
+                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, destination)
+            }
+            finish()
+        } else
+            super.init(savedInstanceState)
+    }
 
     override fun getLayoutId() = R.layout.activity_onboarding_houe_hold
     override fun getBindingVariable() = BR.viewModel

@@ -95,13 +95,10 @@ class PhoneVerificationSignInFragment :
                 gotoYapDashboard()
             } else {
                 context.switchTheme(YAPThemes.HOUSEHOLD())
+//                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
-                    putExtra(
-                        NAVIGATION_Graph_START_DESTINATION_ID,
-                        R.id.HHOnBoardingWelcomeFragment
-                    )
-                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)
+                    putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)
                 }
 //                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
 //                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, MyUserManager.user)

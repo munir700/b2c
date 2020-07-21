@@ -66,6 +66,7 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
         apiResponse: ((Boolean) -> Unit?)?
     ) {
         launch {
+            address.designCode = state.designCode?.value
             state.loading = true
             when (val response =
                 repository.orderCard(
