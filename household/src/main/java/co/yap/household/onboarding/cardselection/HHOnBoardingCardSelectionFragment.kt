@@ -3,7 +3,9 @@ package co.yap.household.onboarding.cardselection
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
@@ -16,10 +18,7 @@ import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.launchActivityForResult
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -68,13 +67,17 @@ class HHOnBoardingCardSelectionFragment :
                         )
                         try {
                             view.circleColor = Color.parseColor(it[position].designColorCode)
+                            //tab.tag = it[position]
                         } catch (e: Exception) {
                         }
+                        tabLayout?.addOnTabSelectedListener(this@HHOnBoardingCardSelectionFragment)
                         tabViews.add(view)
+                        onTabSelected(tabLayout.getTabAt(0))
+                        state.designCode?.value =
+                            this@HHOnBoardingCardSelectionFragment.adapter.getData()[0].designCode
                         tab.customView = view
                     }).attach()
-                tabLayout?.addOnTabSelectedListener(this@HHOnBoardingCardSelectionFragment)
-                this.currentItem = 0
+
             })
         }
     }
@@ -90,12 +93,13 @@ class HHOnBoardingCardSelectionFragment :
                         )
                         putExtra(Constants.data, false)
                     }, completionHandler = { resultCode, data ->
-                        data?.run {
-                            val status = getStringExtra("status")
-                            if (getBooleanExtra(Constants.result, false)) {
+                        data?.let {
+                            val status = it.getStringExtra("status")
+                            if (it.getBooleanExtra(Constants.result, false)) {
                                 trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID.type)
-                                launchAddressSelection()
-                            } else if (getBooleanExtra(Constants.skipped, false)) {
+                                Handler().post { launchAddressSelection(true) }
+                                return@let
+                            } else if (it.getBooleanExtra(Constants.skipped, false)) {
                                 trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
                                 if (status == KYCAction.ACTION_EID_FAILED.name)
                                     navigateForward(
@@ -108,30 +112,42 @@ class HHOnBoardingCardSelectionFragment :
                     })
             }
             R.id.tvChangeLocation -> {
+                launchAddressSelection(false)
             }
             R.id.btnConfirmLocation -> {
+                state.address?.value?.let { address ->
+                    viewModel.orderHouseHoldPhysicalCardRequest(address) {
+                        if (it) {
+                            navigateForward(
+                                HHOnBoardingCardSelectionFragmentDirections.toKycSuccessFragment(),
+                                arguments?.plus(bundleOf(Constants.ADDRESS to address))
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 
-    private fun launchAddressSelection() {
+    private fun launchAddressSelection(gotoNext: Boolean) {
         launchActivityForResult<LocationSelectionActivity>(init = {
             putExtra(LocationSelectionActivity.HEADING, "Your Card is ready to be sent out!")
             putExtra(
                 LocationSelectionActivity.SUB_HEADING,
                 "Make sure you are available at the below address"
             )
-            putExtra(Constants.ADDRESS, state.address?.value)
+            putExtra(Constants.ADDRESS, state.address?.value ?: Address())
             putExtra(LocationSelectionActivity.IS_ON_BOARDING, false)
         }, completionHandler = { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
-                val address =
-                    data?.getValue(Constants.ADDRESS, ExtraType.PARCEABLE.name) as? Address
+                data?.getParcelableExtra<Address>(Constants.ADDRESS)?.apply {
+                    state.address?.value = this
+                }
                 val success =
                     data?.getValue(Constants.ADDRESS_SUCCESS, ExtraType.BOOLEAN.name) as? Boolean
-                address?.let { selectedAddress ->
+                state.address?.value?.let { selectedAddress ->
                     success?.let { success ->
-                        if (success) {
+                        if (success && gotoNext) {
                             //selectedAddress.designCode = viewModel.state.designCode
                             viewModel.orderHouseHoldPhysicalCardRequest(selectedAddress) {
                                 if (it) {
@@ -161,6 +177,8 @@ class HHOnBoardingCardSelectionFragment :
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.let {
+            state.designCode?.value =
+                adapter.getData()[it.position].designCode// (tab.tag as HouseHoldCardsDesign).designCode
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
         }

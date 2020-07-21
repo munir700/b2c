@@ -51,7 +51,7 @@ class HHOnBoardingEmailVM @Inject constructor(
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    apiResponse?.invoke(true)
+                    apiResponse?.invoke(false)
                     state.toast = response.error.message
                     state.loading = false
                 }

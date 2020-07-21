@@ -5,6 +5,7 @@ import androidx.paging.DataSource
 import co.yap.networking.store.StoresRepository
 import co.yap.networking.store.responsedtos.Store
 
+@Deprecated("Not used any more, Delete it")
 class StoreDataSourceFactory(private val storeRepo: StoresRepository) :
     DataSource.Factory<Long, Store>() {
 

@@ -8,5 +8,5 @@ import co.yap.yapcore.BaseState
 class HHOnBoardingCardSelectionState:BaseState(), IHHOnBoardingCardSelection.State {
     override var address: MutableLiveData<Address>?= MutableLiveData()
     override var cardDesigns: MutableLiveData<MutableList<HouseHoldCardsDesign>>? = MutableLiveData()
-
+    override var designCode: MutableLiveData<String>? = MutableLiveData()
 }

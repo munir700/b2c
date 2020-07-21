@@ -24,14 +24,17 @@ class HHOnBoardingExistingFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnAccepted -> viewModel.subAccountInvitationStatus((AccountStatus.INVITE_ACCEPTED.name.toCamelCase())) {
-                navigateForwardWithAnimation(
-                    HHOnBoardingExistingFragmentDirections.toHHOnBoardingExistingSuccessFragment(),
-                    arguments,
-                    null
-                )
+                it?.let {
+                    navigateForward(
+                        HHOnBoardingExistingFragmentDirections.toHHOnBoardingExistingSuccessFragment(),
+                        arguments
+                    )
+                }
             }
             R.id.tvDecline -> viewModel.subAccountInvitationStatus((AccountStatus.INVITE_DECLINED.name.toCamelCase())) {
-                launchActivity<YapDashboardActivity>(clearPrevious = true) { }
+                it?.let {
+                    launchActivity<YapDashboardActivity>(clearPrevious = true)
+                }
             }
         }
     }

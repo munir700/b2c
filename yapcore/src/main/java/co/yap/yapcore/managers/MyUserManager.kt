@@ -84,7 +84,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return usersList?.value?.firstOrNull { account -> account.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
-    private fun getCurrentUser(): AccountInfo? {
+     fun getCurrentUser(): AccountInfo? {
         return (if (isExistingUser()) {
             user = getHouseholdUser()
             if (isOnBoarded()) {
@@ -215,7 +215,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return data.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
-    @Deprecated("Not used anymore")
+    @Deprecated("Not used anymore",ReplaceWith("SwitchProfileLiveData"))
     fun switchProfile() {
         switchProfile(user?.uuid)
     }

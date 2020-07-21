@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionVM" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
@@ -22,8 +26,8 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
-            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_normal"
             android:background="@drawable/card_border_container"
             android:padding="@dimen/margin_normal_large">
@@ -55,13 +59,13 @@
                         style="@style/Yap.App.Widget.TextView.Normal"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="adasdsadsadsadsadsadsadadasdsadsadsadsadsadsadasdsadsa"
+                        android:text="@{viewModel.state.address.address1}"
                         android:textSize="@dimen/text_size_h2" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
                         android:singleLine="true"
-                        android:text="adasdsadsadsadsadsadsadadasdsadsadsadsadsadsadasdsadsa"
+                        android:text="@{viewModel.state.address.address2}"
                         android:textSize="@dimen/text_size_h2" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -79,6 +83,7 @@
                     style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
                     android:layout_gravity="center_vertical"
                     android:gravity="start"
+                    android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                     android:padding="@dimen/margin_small"
                     android:textColor="@color/colorPrimaryHouseHold"
                     android:textSize="@dimen/text_size_c3"
@@ -93,6 +98,7 @@
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/white"
                     app:btn_enable="true"
+                    android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
                     app:btn_has_bold_text="false"
                     app:text="@{Strings.screen_house_hold_card_color_selection_button_text_confirm_location}"
                     tools:text="@string/screen_house_hold_card_color_selection_button_text_confirm_location" />

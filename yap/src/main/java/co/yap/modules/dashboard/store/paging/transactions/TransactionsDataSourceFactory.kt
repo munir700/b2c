@@ -5,7 +5,7 @@ import androidx.paging.DataSource
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-
+@Deprecated("Not used any more, Delete it")
 class TransactionsDataSourceFactory(
     private val storeRepo: TransactionsRepository,
     private val yapHomeViewModel: YapHomeViewModel

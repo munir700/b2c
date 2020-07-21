@@ -5,6 +5,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.yapcore.BaseState
 
+@Deprecated("Not used any more, Delete it")
 class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
 
     @get:Bindable
