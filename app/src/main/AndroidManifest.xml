@@ -99,7 +99,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="co.yap.yapcore.adjust.AdjustReferrerReceiver">
+        <activity android:name=".modules.refreal.AdjustReferrerReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -107,7 +107,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="grwl.adj.st"
+                    android:host="gqvg.adj.st"
                     android:scheme="https" />
             </intent-filter>
         </activity>

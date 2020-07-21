@@ -27,7 +27,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
@@ -114,14 +113,18 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
-                    if (canOpenEIDCard()) {
-                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                            putExtra(
-                                Constants.name,
-                                MyUserManager.user?.currentCustomer?.firstName.toString()
-                            )
-                            putExtra(Constants.data, true)
-                            putExtra("document", viewModel.parentViewModel?.document)
+                    if (MyUserManager.user?.otpBlocked == true) {
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                    } else {
+                        if (canOpenEIDCard()) {
+                            launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                                putExtra(
+                                    Constants.name,
+                                    MyUserManager.user?.currentCustomer?.firstName.toString()
+                                )
+                                putExtra(Constants.data, true)
+                                putExtra("document", viewModel.parentViewModel?.document)
+                            }
                         }
                     }
                 }

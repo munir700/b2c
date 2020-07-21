@@ -284,7 +284,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     true
                                 )
                             ) {
-                                clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                                //clickEvent.setValue(EVENT_ALREADY_USED_EID)
                             }
                             state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         }
@@ -319,7 +319,7 @@ class EidInfoReviewViewModel(application: Application) :
             parts.size == 2 -> {
                 state.lastName = parts[1]
                 state.isShowLastName.set(true)
-                state.isShowMiddleName.set(false)
+                state.isShowMiddleName.set(true)
             }
             parts.size > 2 -> {
                 state.lastName = ""
@@ -337,8 +337,8 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
             else -> {
-                state.isShowLastName.set(false)
-                state.isShowMiddleName.set(false)
+                state.isShowLastName.set(true)
+                state.isShowMiddleName.set(true)
             }
         }
     }

@@ -9,6 +9,7 @@ import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import com.google.gson.Gson
+import java.lang.Exception
 
 class SharedPreferenceManager(val context: Context) {
 
@@ -57,9 +58,16 @@ class SharedPreferenceManager(val context: Context) {
     }
 
     fun clearSharedPreference() {
-        val editor: SharedPreferences.Editor = sharedPref.edit()
-        editor.clear()
-        editor.apply()
+        try {
+            val editor: SharedPreferences.Editor = sharedPref.edit()
+            val allEntr: Map<String, *> = sharedPref.all
+            for (entry in allEntr.keys) {
+                editor.remove(entry)
+            }
+            editor.apply()
+        }catch (ex:Exception){
+            ex.printStackTrace()
+        }
     }
 
     fun removeValue(KEY_NAME: String) {

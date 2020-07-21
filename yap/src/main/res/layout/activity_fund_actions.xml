@@ -268,7 +268,7 @@
                         android:layout_marginTop="@dimen/margin_large"
                         android:gravity="center"
                         android:lineSpacingExtra="@dimen/_1sdp"
-                        android:text="@{viewModel.state.topUpSuccess}"
+                        android:text="@string/screen_success_funds_transaction_display_text_top_up"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvCardNumberSuccess"

@@ -6,6 +6,15 @@ import java.util.regex.Pattern
 
 object StringUtils {
 
+    fun isValidAddress(s: String): Boolean {
+        var i = 0
+        while (i < s.length) {
+            val c = s.codePointAt(i)
+            if (c in 0x0600..0x06E0) return false
+            i += Character.charCount(c)
+        }
+        return true
+    }
 
     fun validateName(name: String): Boolean {
 

@@ -23,8 +23,8 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.fundvm
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
@@ -74,7 +74,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
     override fun getLayoutId(): Int = R.layout.activity_fund_actions
 
     override val viewModel: IFundActions.ViewModel
-        get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(fundvm::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -230,7 +230,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
 
         etAmount.afterTextChanged {
-            if (!viewModel.state.amount.isNullOrBlank()) {
+            if (!viewModel.state.amount.isNullOrBlank() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
             } else {
                 removeErrorBg()
@@ -277,7 +277,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                         Strings.screen_add_funds_display_text_error_card_balance_limit_reached,
                         threshold.virtualCardBalanceLimit.toString().toFormattedAmountWithCurrency()
                     )
-                    return@let true
+                    return true
                 }
                 viewModel.state.amount.parseToDouble()
                     .plus(card?.availableBalance.parseToDouble()) > threshold.virtualCardBalanceLimit ?: 0.0 -> {
@@ -286,11 +286,10 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                         Strings.screen_add_funds_display_text_error_card_balance_limit,
                         threshold.virtualCardBalanceLimit.toString()
                             .toFormattedAmountWithCurrency(),
-                        (threshold.virtualCardBalanceLimit ?: 0.0
-                            .minus(card?.availableBalance.parseToDouble())).toString()
+                        (threshold.virtualCardBalanceLimit?.minus(card?.availableBalance.parseToDouble())).toString()
                             .toFormattedAmountWithCurrency()
                     )
-                    return@let true
+                    return true
                 }
                 else -> false
             }
@@ -307,7 +306,6 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         showErrorSnackBar(viewModel.state.errorDescription, Snackbar.LENGTH_INDEFINITE)
 
     }
-
 
     private fun showBalanceNotAvailableError() {
         viewModel.state.errorDescription = Translator.getString(
@@ -525,16 +523,16 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                     viewModel.state.amount?.toDoubleOrNull()?.let { enteredAmount ->
                         val remainingDailyLimit =
                             if ((dailyLimit - totalConsumedAmount) < 0.0) 0.0 else (dailyLimit - totalConsumedAmount)
-                        if (enteredAmount > remainingDailyLimit) viewModel.state.errorDescription =
+                        if (enteredAmount > remainingDailyLimit.roundVal()) viewModel.state.errorDescription =
                             when (dailyLimit) {
                                 totalConsumedAmount -> getString(Strings.common_display_text_daily_limit_error)
                                 else -> Translator.getString(
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
-                                    remainingDailyLimit.toString().toFormattedAmountWithCurrency()
+                                    remainingDailyLimit.roundVal().toString().toFormattedAmountWithCurrency()
                                 )
                             }
-                        return enteredAmount > remainingDailyLimit
+                        return enteredAmount > remainingDailyLimit.roundVal()
 
                     } ?: return false
                 } ?: return false

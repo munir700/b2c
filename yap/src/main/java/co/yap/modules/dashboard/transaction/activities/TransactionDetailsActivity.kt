@@ -102,7 +102,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
                     it.settlementAmount?.plus(totalFee).toString()
                 }
-                else -> it.totalAmount.toString()
+                else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
             }
         } ?: "0.0"
         getBindings().tvTotalAmountValueCalculated.text =

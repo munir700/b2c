@@ -128,7 +128,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
-                        showUpperLowerLimitError()
+                        viewModel.showUpperLowerLimitError()
                     } else {
                         if (viewModel.isUaeftsBeneficiary()) {
                             if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
@@ -144,7 +144,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED";
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
+                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
                 viewModel.parentViewModel?.transferData?.value?.transferAmount =
                     viewModel.state.amount
                 val action =
@@ -200,16 +201,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
-    private fun showUpperLowerLimitError() {
-        viewModel.state.errorDescription = Translator.getString(
-            requireContext(),
-            Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
-        )
-        viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
-    }
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
             MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
@@ -224,14 +216,23 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             it.dailyLimit?.let { dailyLimit ->
                 it.totalDebitAmount?.let { totalConsumedAmount ->
                     viewModel.state.amount.toDoubleOrNull()?.let { enteredAmount ->
-                        if (viewModel.trxWillHold() && viewModel.transactionMightGetHeld.value == true) {
+                        if (viewModel.trxWillHold() && viewModel.transactionMightGetHeld.value == true && it.holdAmountIsIncludedInTotalDebitAmount == false) {
                             val totalHoldAmount =
                                 (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
                             val remainingDailyLimit =
                                 if ((dailyLimit - totalHoldAmount) < 0.0) 0.0 else (dailyLimit - totalHoldAmount)
                             viewModel.state.errorDescription =
-                                "Sorry, you've reached your daily limit. Let's try again tomorrow."
-                            return (enteredAmount > remainingDailyLimit)
+                                when (dailyLimit) {
+                                    totalHoldAmount -> getString(Strings.common_display_text_daily_limit_error)
+                                    else -> Translator.getString(
+                                        requireContext(),
+                                        Strings.common_display_text_on_hold_limit_error
+                                    ).format(
+                                        remainingDailyLimit.roundVal().toString()
+                                            .toFormattedAmountWithCurrency()
+                                    )
+                                }
+                            return (enteredAmount > remainingDailyLimit.roundVal())
 
                         } else {
                             val remainingDailyLimit =
@@ -244,7 +245,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                                     }
                                     else -> getString(Strings.common_display_text_daily_limit_error_multiple_transactions)
                                 }
-                            return (enteredAmount > remainingDailyLimit)
+                            return (enteredAmount > remainingDailyLimit.roundVal())
                         }
                     } ?: return false
                 } ?: return false
@@ -328,13 +329,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
         etAmount.afterTextChanged {
             viewModel.state.clearError()
-            if (viewModel.state.amount.isNotEmpty()) {
+            if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
             } else {
                 viewModel.state.valid = false
                 cancelAllSnackBar()
             }
-
             viewModel.updateFees()
         }
     }
@@ -349,16 +349,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-            viewModel.parentViewModel?.isInCoolingPeriod() == true
-                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
-                viewModel.parentViewModel?.showCoolingPeriodLimitError()
-                viewModel.state.valid = false
-            }
+
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
             viewModel.state.amount.parseToDouble() > viewModel.state.maxLimit -> {
-                showUpperLowerLimitError()
+                viewModel.showUpperLowerLimitError()
                 viewModel.state.valid = false
             }
             else -> {

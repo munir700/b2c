@@ -24,6 +24,7 @@ import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
+import java.math.RoundingMode
 
 @Keep
 enum class ExtraType {
@@ -196,4 +197,20 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
     this.movementMethod =
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
+}
+
+fun Double?.roundVal(): Double {
+//    this?.let {
+//        val floatingMultiplier = it * 100
+//        val rounded =
+//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
+//        val floatingDivisor = rounded ?: 0.0.div(100)
+//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
+//    } ?: return 0.0
+
+    val floatingMultiplier = (this ?: 0.0) * 100
+    val rounded =
+        floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
+    val floatingDivisor = (rounded ?: 0.0).div(100)
+    return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
 }

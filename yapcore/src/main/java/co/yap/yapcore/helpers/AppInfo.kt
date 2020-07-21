@@ -9,6 +9,6 @@ data class AppInfo(
 ) {
 
     fun isReleaseStg(): Boolean =
-        (build_type == "release" && flavor == "stg") || (build_type == "release" && flavor == "qa")
+        (build_type == "release" && flavor == "stg")
 
 }

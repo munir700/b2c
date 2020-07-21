@@ -16,3 +16,12 @@ fun Beneficiary?.getProductCode(): String {
         }
     } ?: return ""
 }
+
+fun Beneficiary?.isRMTAndSWIFT(): Boolean {
+    this?.let { beneficiary ->
+        return when (beneficiary.beneficiaryType) {
+            SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> true
+            else -> false
+        }
+    } ?: return false
+}

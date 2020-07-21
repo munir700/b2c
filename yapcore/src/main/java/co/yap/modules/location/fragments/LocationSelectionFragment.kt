@@ -157,7 +157,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                if (viewModel.parentViewModel?.isOnBoarding == true)
+                if (viewModel.parentViewModel?.isOnBoarding == true && viewModel.isValidAddress())
                     viewModel.requestOrderCard(viewModel.getUserAddress()) {
                         viewModel.address?.city?.let { city ->
                             trackEventInFragments(
@@ -342,11 +342,13 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     private fun setIntentAction(isUpdated: Boolean) {
-        val intent = Intent()
-        intent.putExtra(ADDRESS, viewModel.getUserAddress())
-        intent.putExtra(ADDRESS_SUCCESS, isUpdated)
-        activity?.setResult(Activity.RESULT_OK, intent)
-        activity?.finish()
+        if (viewModel.isValidAddress()) {
+            val intent = Intent()
+            intent.putExtra(ADDRESS, viewModel.getUserAddress())
+            intent.putExtra(ADDRESS_SUCCESS, isUpdated)
+            activity?.setResult(Activity.RESULT_OK, intent)
+            activity?.finish()
+        }
     }
 
 
