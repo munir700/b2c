@@ -82,7 +82,7 @@ object RetroNetwork : Network {
         builder: OkHttpClient.Builder,
         appData: AppData
     ): OkHttpClient {
-        return if (appData.isReleaseMode()) {
+        return if (appData.isStgOrLiveMode()) {
             SSLPiningHelper.setSSLContext(builder)
             builder.certificatePinner(getCertificatePinner(appData)).build()
 

@@ -11,4 +11,7 @@ data class AppData(
 ) {
     fun isReleaseMode(): Boolean =
         (build_type == "release" && flavor == "stg") || (build_type == "release" && flavor == "live")
+
+    fun isStgOrLiveMode(): Boolean =
+        (flavor == "stg") || (flavor == "live")
 }
