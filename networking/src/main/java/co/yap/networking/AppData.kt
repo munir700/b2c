@@ -1,11 +1,17 @@
 package co.yap.networking
 
 data class AppData(
-    var version_name: String = "",
-    var version_code: Int = 0,
     var flavor: String = "",
     var build_type: String = "",
-    var baseUrl: String = ""
+    var baseUrl: String = "",
+    var sslPin1: String?,
+    var sslPin2: String?,
+    var sslPin3: String?,
+    var sslHost: String?
 ) {
-    fun isReleaseStg(): Boolean = build_type == "release" && flavor == "stg"
+    fun isReleaseMode(): Boolean =
+        (build_type == "release" && flavor == "stg") || (build_type == "release" && flavor == "live")
+
+    fun isStgOrLiveMode(): Boolean =
+        (flavor == "stg") || (flavor == "live")
 }

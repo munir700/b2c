@@ -1,8 +1,3 @@
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-android {
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -20,9 +15,4 @@ dependencies {
     project.sendmoneyDependencies.each {
         add(it.configuration, it.dependency)
     }
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
 }

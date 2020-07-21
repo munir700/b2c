@@ -1,19 +1,35 @@
 package co.yap.yapcore.adjust
 
 import androidx.annotation.Keep
+import co.yap.app.YAPApplication
 
 @Keep
 enum class AdjustEvents(val type: String) {
-    //DELIVERY_CONFIRMED("66c7tk"),
-    KYC_END("9um5u9"),
-    KYC_START("mdcyli"),
-    SET_PIN_END("cs2msk"),
-    SET_PIN_START("smn577"),
-    SIGN_UP_MOBILE_NUMBER_VERIFIED("6zou42"),
-    SIGN_UP_END("4c9qmq"),
-    SIGN_UP_START("73mcc8"),
-    TOP_UP_END("jw0tz5"),
-    TOP_UP_START("cadxmk"),
-    INVITER("sgy2ni");
+    KYC_END(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.KYC_END) ?: ""),
+    KYC_START(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.KYC_START) ?: ""),
+    SET_PIN_END(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.SET_PIN_END) ?: ""),
+    SET_PIN_START(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.SET_PIN_START) ?: ""),
+    SIGN_UP_MOBILE_NUMBER_VERIFIED(
+        YAPApplication.configManager?.getAdjustEvent(AdjustEvent.SIGN_UP_MOBILE_NUMBER_VERIFIED)
+            ?: ""
+    ),
+    SIGN_UP_END(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.SIGN_UP_END) ?: ""),
+    SIGN_UP_START(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.SIGN_UP_START) ?: ""),
+    TOP_UP_END(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.TOP_UP_END) ?: ""),
+    TOP_UP_START(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.TOP_UP_START) ?: ""),
+    INVITER(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.INVITER) ?: "");
+}
 
+@Keep
+enum class AdjustEvent {
+    KYC_END,
+    KYC_START,
+    SET_PIN_END,
+    SET_PIN_START,
+    SIGN_UP_MOBILE_NUMBER_VERIFIED,
+    SIGN_UP_END,
+    SIGN_UP_START,
+    TOP_UP_END,
+    TOP_UP_START,
+    INVITER;
 }

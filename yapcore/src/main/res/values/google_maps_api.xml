@@ -1,28 +1,3 @@
 <resources>
-    <!--
-    TODO: Before you run your application, you need a Google Maps API key.
-
-    To get one, follow this link, follow the directions and press "Create" at the end:
-
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=E9:FC:75:36:CE:66:05:2D:22:73:9D:7F:4F:BC:BA:F8:CE:17:82:1D%3Bcom.digitify.mapassignment2
-
-    You can also add your credentials to an existing key, using these values:
-
-    Package name:
-    E9:FC:75:36:CE:66:05:2D:22:73:9D:7F:4F:BC:BA:F8:CE:17:82:1D
-
-    SHA-1 certificate fingerprint:
-    E9:FC:75:36:CE:66:05:2D:22:73:9D:7F:4F:BC:BA:F8:CE:17:82:1D
-
-    Alternatively, follow the directions here:
-    https://developers.google.com/maps/documentation/android/start#get-key
-
-    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
-    string in this file.
-    -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4</string> <!-- from old app the un restricted api key -->
-
-    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCyLf0e-07PzAGzGOhI7o2LLQ2CrH5BE60</string>  the new restricted api key-->
-
-
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false" />
 </resources>

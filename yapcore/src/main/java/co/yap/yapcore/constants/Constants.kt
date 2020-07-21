@@ -1,5 +1,7 @@
 package co.yap.yapcore.constants
 
+import co.yap.app.YAPApplication
+
 object Constants {
     const val addCard = "addCard"
     const val isPinCreated = "isPinCreated"
@@ -54,7 +56,8 @@ object Constants {
 
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
-    const val URL_SHARE_PLAY_STORE = "https://play.google.com/store/apps/details?id=co.yap"
+    val URL_SHARE_PLAY_STORE =
+        "https://play.google.com/store/apps/details?id=${YAPApplication.configManager?.applicationId}"
 
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
@@ -68,7 +71,7 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
 
-    const val URL_TERMS_CONDITION = "https://yap.co/terms"
+    const val URL_TERMS_CONDITION = "https://yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
 
     //HTML Key
