@@ -14,6 +14,7 @@ import co.yap.networking.transactions.requestdtos.Order
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
@@ -33,8 +34,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
         state.currencyType = getString(Strings.common_text_currency_type)
-        getFundTransferLimits(Constants.TOP_UP_VIA_CARD)
-        getFundTransferDenominations(Constants.TOP_UP_VIA_CARD)
+        getFundTransferLimits(TransactionProductCode.TOP_UP_VIA_CARD.pCode)
+        getFundTransferDenominations(TransactionProductCode.TOP_UP_VIA_CARD.pCode)
         state.availableBalanceGuide =
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
