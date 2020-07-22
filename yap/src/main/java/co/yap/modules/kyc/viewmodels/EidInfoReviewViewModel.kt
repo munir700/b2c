@@ -135,7 +135,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = if (YAPApplication.configManager?.isLiveRelease() != false) {
+            val file = if (YAPApplication.configManager?.isLiveRelease() == false) {
                 context.dummyEID()
             } else {
                 File(result.document.files[1].croppedFile)
