@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -51,7 +52,10 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Handler(Looper.getMainLooper()).postDelayed({ setupPlayer() }, 1000)
+    }
 
+    private fun setupPlayer() {
         andExoPlayerView.setSource(R.raw.yap_demo_intro)
         captionsIndex = 0
         handler.postDelayed(runnable, 1000)
