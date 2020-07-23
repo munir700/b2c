@@ -122,9 +122,8 @@ class CoreInputField @JvmOverloads constructor(
             )
 
             if (null != typedArray.getString(R.styleable.CoreInputField_view_input_text)) {
-
                 textInput =
-                    typedArray.getString(R.styleable.CoreInputField_view_input_text)
+                    typedArray.getString(R.styleable.CoreInputField_view_input_text) ?: ""
             }
 
             if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {

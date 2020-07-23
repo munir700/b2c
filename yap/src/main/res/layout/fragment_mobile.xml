@@ -63,6 +63,7 @@
                     android:layout_weight=".01"
                     android:clickable="false"
                     android:visibility="visible"
+                    app:ccp_clickable="false"
                     app:ccp_countryPreference="us,ae"
                     app:ccp_hintExampleNumber="true"
                     app:ccp_onFlagClick="false" />

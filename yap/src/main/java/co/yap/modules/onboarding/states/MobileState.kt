@@ -119,29 +119,19 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
                     mobileNoLength = 11
                     if (mobile.length == 11) {
                         setSuccessUI()
-//                        drawbleRight =
-//                            mContext!!.getDrawable(R.drawable.path)
-                        setDrawabeTint()
-//                        setDrawabeTint()
-//                        drawbleRight!!.setColorFilter(ContextCompat.getColor(mContext, R.attr.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY)
-
-
+                        setDrawableTint()
                         valid = true
 
                     } else {
                         setSuccessUI()
                     }
                 } else {
-//                    mobileNoLength=9
                     setSuccessUI()
-                    if (mobile.toString().replace(" ", "").trim().length >= 9) {
+                    if (mobile.replace(" ", "").trim().length >= 9) {
                         setErrorLayout()
-
                     } else {
                         setSuccessUI()
-
                     }
-
                 }
             }
         })
@@ -195,8 +185,8 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
     }
 
     @SuppressLint("ResourceType")
-    fun setDrawabeTint() {
-        drawbleRight = DrawableCompat.wrap(mContext.getDrawable(R.drawable.path))
+    fun setDrawableTint() {
+        drawbleRight = mContext.getDrawable(R.drawable.path)?.let { DrawableCompat.wrap(it) }
         drawbleRight?.let {
             if (SharedPreferenceManager(mContext).getThemeValue()
                     .equals(Constants.THEME_HOUSEHOLD)

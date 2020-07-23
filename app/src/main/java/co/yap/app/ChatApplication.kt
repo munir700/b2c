@@ -311,7 +311,7 @@ open class ChatApplication : YAPApplication() {
     }
 
     private fun onError(type: TaskType, message: String?) {
-        showToast(" problem " + type.name)
+        showToast(" problem " + type.name + " message " + message)
     }
 
     private fun onUserDeniedPermission(
