@@ -95,7 +95,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@{ SpannableStringCreatorKt.getText(context.resources, futurePaymentVM.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance,``)))}"
+                android:text="@{ SpannableStringCreatorKt.getText(context.resources, futurePaymentVM.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance??`0.00`,``)))}"
                 tools:text="Your available balance is " />
 
             <androidx.appcompat.widget.AppCompatTextView

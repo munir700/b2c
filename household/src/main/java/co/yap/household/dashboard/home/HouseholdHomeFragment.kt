@@ -21,7 +21,6 @@ import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManag
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.MANUAL_CREDIT
 import co.yap.yapcore.constants.Constants.MANUAL_DEBIT
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
@@ -78,17 +77,17 @@ class HouseholdHomeFragment :
             if (data is HomeNotification) {
                 val notification: HomeNotification = mNotificationAdapter.getData()[pos]
                 when (notification.action) {
-//                    NotificationAction.COMPLETE_VERIFICATION -> {
-//                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-//                            putExtra(
-//                                Constants.name,
-//                                MyUserManager.user?.currentCustomer?.firstName.toString()
-//                            )
-//                            putExtra(Constants.data, false)
-//                        }
-//                    }
-
                     NotificationAction.COMPLETE_VERIFICATION -> {
+                        launchActivity<DocumentsDashboardActivity>() {
+                            putExtra(
+                                Constants.name,
+                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, false)
+                        }
+                    }
+
+                    NotificationAction.SET_PIN -> {
                         launchActivity<NavHostPresenterActivity>(
                             options = bundleOf(Card::class.java.name to state.card?.value)
                         ) {

@@ -181,6 +181,7 @@
 
 -keepclassmembers class com.google.android.material.textfield.TextInputLayout {
     private void collapseHint;
+    }
 -keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
   <fields>;
 }

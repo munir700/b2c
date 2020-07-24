@@ -70,7 +70,7 @@ class SubscriptionSelectionFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
-                if (!state.plansList.isNullOrEmpty()) {
+                if (!state.plansList.value.isNullOrEmpty()) {
                     trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
                     trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
                     trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)

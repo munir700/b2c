@@ -87,7 +87,7 @@ android {
             resValue "string", "app_name", "YAP HH QA"
         }
     }
-    ndkVersion '20.0.5594570'
+    ndkVersion '21.1.6352462'
 }
 
 dependencies {

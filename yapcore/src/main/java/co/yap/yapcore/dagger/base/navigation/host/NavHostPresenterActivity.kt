@@ -29,13 +29,4 @@ class NavHostPresenterActivity :
     ) {
 
     }
-//    override fun init(savedInstanceState: Bundle?) {
-//        super.init(savedInstanceState)
-//        navHostFragment?.let {
-//            val navigator =
-//                KeepStateNavigator(this, it.childFragmentManager, R.id.nav_host_fragment)
-//            navController.navigatorProvider += navigator
-//        }
-//
-//    }
 }

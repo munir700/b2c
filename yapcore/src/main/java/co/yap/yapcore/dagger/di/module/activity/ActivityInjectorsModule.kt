@@ -14,5 +14,4 @@ abstract class ActivityInjectorsModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [NavHostPresenterModule::class, MvvmNavHostModule::class, FragmentInjectorsModule::class])
     abstract fun NavHostPresenterActivityInjector(): NavHostPresenterActivity
-
 }

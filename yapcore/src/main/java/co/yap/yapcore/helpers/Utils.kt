@@ -843,12 +843,12 @@ object Utils {
 
     fun setStatusBarColor(activity: Activity, color: Int) {
         val sharedPreferenceManager = SharedPreferenceManager(activity)
-        if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+      //  if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             val window: Window = activity.getWindow()
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = color
 
-        }
+       // }
     }
 
     fun validateAggressively(context: Context, pinCode: String): String {

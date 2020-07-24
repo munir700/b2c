@@ -22,6 +22,7 @@
             style="@style/Yap.App.Layout.LinearLayout.Vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:background="@color/colorWhite"
             android:paddingBottom="@dimen/margin_medium">
 
@@ -71,6 +72,7 @@
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:gravity="center_horizontal"
                 android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan"
+                android:visibility="@{viewModel.state.plansList.empty?View.GONE:View.VISIBLE}"
                 app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan}" />
 
             <co.yap.widgets.radiocus.PresetRadioGroup
@@ -79,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_small"
+                android:visibility="@{viewModel.state.plansList.size()>0?View.VISIBLE:View.GONE}"
                 android:weightSum="2">
 
                 <co.yap.widgets.radiocus.PresetValueButton
