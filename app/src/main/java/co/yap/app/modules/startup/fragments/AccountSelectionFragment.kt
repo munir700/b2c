@@ -44,7 +44,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
         "Track your spending", "Split bills effortlessly", "Spend locally wherever you go",
         "Instant spending notifications", "An app for everyone"
-
     )
     private var captionDelays = listOf(1800, 1000, 1800, 1800, 2500, 1800, 2800, 3000)
     override val viewModel: IAccountSelection.ViewModel
@@ -62,7 +61,10 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
         andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
-
+                handler.removeCallbacks(runnable)
+                andExoPlayerView.setSource(R.raw.demo_test)
+                captionsIndex = 0
+                handler.postDelayed(runnable, 1000)
             }
 
             override fun onTracksChanged(
