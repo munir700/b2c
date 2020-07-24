@@ -27,24 +27,19 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import kotlinx.android.synthetic.main.fragment_account_selection.*
 
-
 class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel>(),
     IAccountSelection.View {
-
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_account_selection
     var captionsIndex: Int = 0
     var isPaused = false
     var isVideoFinished = false
     private var animatorSet: AnimatorSet? = null
     val handler = Handler()
-
     private var captions = listOf(
         "Bank your way", "Get an account in seconds", "Money transfers made simple",
         "Track your spending", "Split bills effortlessly", "Spend locally wherever you go",
         "Instant spending notifications", "An app for everyone"
-
     )
     private var captionDelays = listOf(1800, 1000, 1800, 1800, 2500, 1800, 2800, 3000)
     override val viewModel: IAccountSelection.ViewModel
@@ -59,10 +54,12 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         andExoPlayerView.setSource(R.raw.yap_demo_intro)
         captionsIndex = 0
         handler.postDelayed(runnable, 1000)
-
         andExoPlayerView.setExoPlayerCallBack(object : ExoPlayerCallBack {
             override fun onError() {
-
+                handler.removeCallbacks(runnable)
+                andExoPlayerView.setSource(R.raw.demo_test)
+                captionsIndex = 0
+                handler.postDelayed(runnable, 1000)
             }
 
             override fun onTracksChanged(
@@ -116,7 +113,6 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 )
                 fadeIn.interpolator = DecelerateInterpolator() //add this
                 fadeIn.duration = 400
-
                 val fadeOut = ObjectAnimator.ofFloat(
                     it,
                     View.ALPHA,
@@ -133,10 +129,8 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                     }
 
                     override fun onAnimationEnd(animation: Animator?) {
-
                         captionsIndex += 1
                         if (captionsIndex < captions.size) {
-
                             playCaptionAnimation()
                         }
                     }
@@ -147,14 +141,12 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
 
                     override fun onAnimationStart(animation: Animator?) {
                         tvCaption?.visibility = View.VISIBLE
-
                     }
                 })
                 animatorSet?.start()
             }
         }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -196,5 +188,3 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
         isVideoFinished = false
     }
 }
-
-
