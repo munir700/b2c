@@ -168,14 +168,5 @@
         android:label="YapDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
 
-    <fragment
-        android:id="@+id/householdOnBoardingExistingYAP"
-        android:name="co.yap.household.onboard.onboarding.existinghousehold.ExistingHouseholdFragment"
-        android:label="OnBoardingExistingYAP"
-        tools:layout="@layout/activity_on_boarding_existing_yap" />
-    <action
-        android:id="@+id/action_goto_householdOnBoardingExistingYAP"
-        app:destination="@id/householdOnBoardingExistingYAP" />
-
 </navigation>
 

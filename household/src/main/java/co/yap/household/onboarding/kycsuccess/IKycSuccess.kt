@@ -1,4 +1,4 @@
-package co.yap.household.onboard.onboarding.kycsuccess
+package co.yap.household.onboarding.kycsuccess
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Address

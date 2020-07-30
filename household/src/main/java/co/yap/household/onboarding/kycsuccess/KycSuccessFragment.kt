@@ -1,4 +1,4 @@
-package co.yap.household.onboard.onboarding.kycsuccess
+package co.yap.household.onboarding.kycsuccess
 
 import android.os.Bundle
 import co.yap.household.BR
@@ -12,7 +12,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINA
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.activity_kyc_success.*
+import kotlinx.android.synthetic.main.fragment_kyc_success.*
 
 class KycSuccessFragment :
     BaseNavViewModelFragment<FragmentKycSuccessBinding, IKycSuccess.State, KycSuccessVM>() {

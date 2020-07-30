@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
-
+@Deprecated("")
 class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel>() {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager

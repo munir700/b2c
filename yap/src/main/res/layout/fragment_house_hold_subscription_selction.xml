@@ -72,7 +72,7 @@
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:gravity="center_horizontal"
                 android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan"
-                android:visibility="@{viewModel.state.plansList.empty?View.GONE:View.VISIBLE}"
+                android:visibility="@{viewModel.state.plansList.size()>0?View.VISIBLE:View.GONE}"
                 app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan}" />
 
             <co.yap.widgets.radiocus.PresetRadioGroup

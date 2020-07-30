@@ -1,4 +1,4 @@
-package co.yap.household.onboard.onboarding.kycsuccess
+package co.yap.household.onboarding.kycsuccess
 
 import android.os.Bundle
 import androidx.navigation.NavController

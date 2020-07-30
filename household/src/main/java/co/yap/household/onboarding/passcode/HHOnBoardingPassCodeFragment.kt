@@ -11,7 +11,7 @@ import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.startFragment
-import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
+import kotlinx.android.synthetic.main.fragment_hhon_boarding_pass_code.*
 
 class HHOnBoardingPassCodeFragment :
     BaseNavViewModelFragment<FragmentHhonBoardingPassCodeBinding, IHHOnBoardingPassCode.State, HHOnBoardingPassCodeVM>(),

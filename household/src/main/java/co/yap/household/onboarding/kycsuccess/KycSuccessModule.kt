@@ -1,4 +1,4 @@
-package co.yap.household.onboard.onboarding.kycsuccess
+package co.yap.household.onboarding.kycsuccess
 
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
