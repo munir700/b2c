@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsApi
@@ -71,19 +70,21 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
             }
             state.monthlyFee.value = monthlyFee.toString().toFormattedAmountWithCurrency()
             state.annuallyFee.value = yearlyFee.toString().toFormattedAmountWithCurrency()
-            state.plansList.add(
+            val planList = mutableListOf<HouseHoldPlan>()
+            planList.add(
                 HouseHoldPlan(
                     type = PackageType.MONTHLY.type,
                     amount = state.monthlyFee.value
                 )
             )
-            state.plansList.add(
+            planList.add(
                 HouseHoldPlan(
                     type = "Yearly",
                     amount = state.annuallyFee.value,
                     discount = getDiscount()
                 )
             )
+            state.plansList.value = planList
         } else if (monthlyFeeResponse is RetroApiResponse.Error) {
             state.error = monthlyFeeResponse.error.message
         } else if (yearlyFeeResponse is RetroApiResponse.Error)

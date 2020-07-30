@@ -1,5 +1,6 @@
 package co.yap.modules.subaccounts.account.card
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -22,6 +23,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINA
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils.setStatusBarColor
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -37,6 +39,10 @@ class SubAccountCardFragment :
     private var mRecyclerViewDragDropManager: RecyclerViewDragDropManager? = null
     override fun getBindingVariable() = BR.subAccountCardVM
     override fun getLayoutId() = R.layout.fragment_sub_account_card
+    override fun preInit() {
+        super.preInit()
+        setStatusBarColor(requireActivity() , Color.WHITE )
+    }
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setRefreshEnabled(false)

@@ -189,22 +189,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".modules.dashboard.store.household.activities.HouseHoldLandingActivity"
-            android:screenOrientation="portrait" />
-
-
-        <activity
-            android:name=".modules.dashboard.store.household.activities.SubscriptionSelectionActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-            <nav-graph android:value="@navigation/house_hold_onboarding_navigation" />
-        </activity>
-
-        <activity
             android:name=".modules.dashboard.cards.reordercard.activities.ReorderCardActivity"
             android:screenOrientation="portrait" />
         <activity

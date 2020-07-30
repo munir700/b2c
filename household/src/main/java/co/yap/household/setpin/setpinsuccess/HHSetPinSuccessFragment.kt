@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhSetPinSuccessBinding
-import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
@@ -27,7 +26,7 @@ class HHSetPinSuccessFragment :
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnGoToDashboard -> {
-                launchActivity<HouseHoldLandingActivity>(clearPrevious = true)
+//                launchActivity<HouseHoldLandingActivity>(clearPrevious = true)
             }
         }
     }

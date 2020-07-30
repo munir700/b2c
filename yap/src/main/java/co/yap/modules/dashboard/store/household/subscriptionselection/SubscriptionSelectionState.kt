@@ -11,5 +11,5 @@ class SubscriptionSelectionState : BaseState(), ISubscriptionSelection.State {
     override var annuallyFee: MutableLiveData<String> = MutableLiveData("AED 0.00")
     override var selectedPlanPosition: MutableLiveData<Int> = MutableLiveData(-1)
     override var planDiscount: MutableLiveData<String>? = MutableLiveData()
-    override var plansList: ArrayList<HouseHoldPlan> = ArrayList()
+    override var plansList: MutableLiveData<MutableList<HouseHoldPlan>> = MutableLiveData()
 }

@@ -10,7 +10,6 @@ import co.yap.app.di.component.AppComponent
 import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
 import co.yap.household.app.HouseHoldApplication
-import co.yap.household.onboard.onboarding.invalideid.InvalidEIDFragment
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
@@ -134,7 +133,7 @@ class AAPApplication : HouseHoldApplication(
     override fun provideNavigator(): ActivityNavigator {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
-                activity.startFragment<InvalidEIDFragment>(InvalidEIDFragment::class.java.name)
+//                activity.startFragment<InvalidEIDFragment>(InvalidEIDFragment::class.java.name)
             }
 
             override fun startVerifyPassCodePresenterActivity(

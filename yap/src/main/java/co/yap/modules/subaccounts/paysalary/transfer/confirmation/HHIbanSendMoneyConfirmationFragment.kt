@@ -13,13 +13,21 @@ class HHIbanSendMoneyConfirmationFragment :
     override fun getBindingVariable() = BR.hhIbanSendMoneyConfirmationVM
     override fun getLayoutId() = R.layout.fragment_hhiban_send_money_confirmation
     override fun getToolBarTitle() =
-        Strings.screen_iban_send_money_confirmation_display_text_transfer_completed
+        getString(Strings.screen_iban_send_money_confirmation_display_text_transfer_completed)
 
+    override fun setDisplayHomeAsUpEnabled() = false
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
+        setBackButtonDispatcher()
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     private fun onClick(id: Int) {
+        when (id) {
+            R.id.tvDoItLater -> navigateForward(
+                HHIbanSendMoneyConfirmationFragmentDirections.toSubAccountDashBoardFragment(),
+                arguments
+            )
+        }
     }
 }

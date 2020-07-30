@@ -22,8 +22,10 @@
         <include
             android:id="@+id/include2"
             layout="@layout/layout_textview_image_vertical"
+            app:imageUrl="@{hhIbanSendMoneyConfirmationVM.state.subAccount.profilePictureUrl ?? ` `}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:name="@{hhIbanSendMoneyConfirmationVM.state.subAccount.fullName}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView2"
@@ -43,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="147656653.22"
+            android:text="@{hhIbanSendMoneyConfirmationVM.state.request.amount}"
             android:textSize="20sp"
             app:ctv_decimalTextSize="12dp"
             app:ctv_nullToZero="false"
@@ -89,18 +91,19 @@
             android:paddingEnd="@dimen/margin_large"
             android:textAllCaps="false"
             app:enableCoreButton="@{false}"
-            app:layout_constraintBottom_toTopOf="@id/tv_do_it_later"
+            app:layout_constraintBottom_toTopOf="@id/tvDoItLater"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:text="@{Strings.screen_iban_send_money_confirmation_display_text_pick_expense_pot}"
             tools:text="@string/screen_iban_send_money_confirmation_display_text_pick_expense_pot" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_do_it_later"
+            android:id="@+id/tvDoItLater"
             style="@style/Yap.App.Widget.FloatingActionButton.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> hhIbanSendMoneyConfirmationVM.handlePressOnClick(v.id)}"
+            android:padding="@dimen/margin_extra_small"
             android:text="@string/screen_iban_send_money_confirmation_display_text_do_it_later"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

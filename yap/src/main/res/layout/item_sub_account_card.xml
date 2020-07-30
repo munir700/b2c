@@ -80,7 +80,7 @@
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/margin_medium"
-                android:text="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?MyUserManager.INSTANCE.cardBalance.availableBalance:subAccountCardItemVm.status}"
+                android:text="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?(MyUserManager.INSTANCE.cardBalance.availableBalance??`0.00`):subAccountCardItemVm.status}"
                 android:textColor="@{subAccountCardItemVm.item.accountType ==null?@color/colorPrimaryDark:subAccountCardItemVm.statusColorResId , default = @color/colorPrimaryDark}"
                 android:textSize="@dimen/text_size_h2"
                 app:layout_constraintEnd_toEndOf="parent"

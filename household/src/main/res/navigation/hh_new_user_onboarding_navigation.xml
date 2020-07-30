@@ -70,7 +70,7 @@
     <fragment
         android:id="@+id/kycSuccessFragment"
         tools:layout="@layout/fragment_kyc_success"
-        android:name="co.yap.household.onboard.onboarding.kycsuccess.KycSuccessFragment"
+        android:name="co.yap.household.onboarding.kycsuccess.KycSuccessFragment"
         android:label="KycSuccessFragment" />
 
 </navigation>

@@ -14,7 +14,7 @@ interface ISubscriptionSelection {
         var annuallyFee: MutableLiveData<String>
         var selectedPlanPosition: MutableLiveData<Int>
         var planDiscount: MutableLiveData<String>?
-        var plansList: ArrayList<HouseHoldPlan>
+        var plansList: MutableLiveData<MutableList<HouseHoldPlan>>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

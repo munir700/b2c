@@ -60,7 +60,7 @@
         android:id="@+id/houseHoldConfirmPaymentFragment"
         android:name="co.yap.modules.dashboard.store.household.paymentconfirmation.HouseHoldConfirmPaymentFragment"
         android:label="HouseHoldConfirmPaymentFragment"
-        tools:layout="@layout/fragment_house_hold_cofirm_payment_v2">
+        tools:layout="@layout/fragment_house_hold_cofirm_payment">
         <action
             android:id="@+id/action_houseHoldConfirmPaymentFragment_to_HHAddUserSuccessFragment"
             app:destination="@id/HHAddUserSuccessFragment"
