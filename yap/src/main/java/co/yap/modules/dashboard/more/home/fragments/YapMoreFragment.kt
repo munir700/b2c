@@ -25,9 +25,10 @@ import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.Utils.formateIbanString
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -76,7 +77,12 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         getBinding().tvName.text =
             MyUserManager.user?.currentCustomer?.getFullName()
         MyUserManager.user?.iban?.let {
-            val str = formateIbanString(it)
+            val str =
+                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    Utils.formateIbanString(it)
+                } else {
+                    it.trim().maskIbanNumber()
+                }
             val ibanSpan = SpannableString("IBAN $str")
             getBinding().tvIban.text = Utils.setSpan(
                 0,
@@ -102,7 +108,11 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
         getBinding().recyclerOptions.adapter = adapter
 
-        getBinding().recyclerOptions.addItemDecoration(SpaceGridItemDecoration(dimen(R.dimen.margin_normal_large)?:16, 2, true))
+        getBinding().recyclerOptions.addItemDecoration(
+            SpaceGridItemDecoration(
+                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+            )
+        )
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
     }
