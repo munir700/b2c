@@ -23,8 +23,10 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
@@ -189,7 +191,11 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 startActivity(BankDetailActivity.newIntent(requireContext()))
             }
             R.id.yapForYou -> {
-                startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+                } else {
+                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                }
             }
         }
     }
