@@ -1,5 +1,6 @@
 package co.yap.yapcore.leanplum
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -7,9 +8,11 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import com.leanplum.Leanplum
+import java.text.SimpleDateFormat
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
     fireEventWithAttribute(eventName, value)
@@ -84,7 +87,7 @@ private fun trackAttributes(
         info[UserAttributes().b2bUser] = false
         info[UserAttributes().country] = "United Arab Emirates"
         info[UserAttributes().city] = city ?: "UNKNOWN"
-        info[UserAttributes().signup_timestamp] = it.creationDate ?: System.currentTimeMillis()
+        info[UserAttributes().signup_timestamp] = getFormattedDate(it.creationDate)
         info[UserAttributes().biometric_login_enabled] =
             isBioMetricEnabled(context)
         info[UserAttributes().account_active] =
@@ -99,6 +102,26 @@ private fun trackAttributes(
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
     }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun getFormattedDate(creationDate: String?): String {
+    creationDate?.let { createDate ->
+        return try {
+            SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(
+                DateUtils.stringToDate(
+                    createDate,
+                    DateUtils.SERVER_DATE_FORMAT
+                )?.time
+            )
+        } catch (e: Exception) {
+            SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(
+                System.currentTimeMillis()
+            )
+        }
+    } ?: return SimpleDateFormat(DateUtils.LEAN_PLUM_EVENT_FORMAT).format(
+        System.currentTimeMillis()
+    )
 }
 
 private fun isBioMetricEnabled(context: Context?): Boolean {
