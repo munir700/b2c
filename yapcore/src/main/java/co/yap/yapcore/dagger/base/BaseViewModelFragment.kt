@@ -14,6 +14,7 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.validation.IValidator
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -91,6 +92,7 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
 //        view?.hideKeyboard()
 //        hideKeyboard()
         super.onDestroyView()
+        cancelAllSnackBar()
     }
 
     protected fun getmViewModel() = viewModel

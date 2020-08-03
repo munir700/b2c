@@ -53,7 +53,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (shouldRegisterViewModelLifeCycle)
             registerStateListeners()
         progress = Utils.createProgressDialog(this)
-        preventTakeScreenShot(true)
+        preventTakeScreenShot(!BuildConfig.DEBUG)
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {

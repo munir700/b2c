@@ -77,7 +77,7 @@ class SubscriptionSelectionFragment :
                     navigateForwardWithAnimation(
                         SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
                         bundleOf(
-                            HouseHoldPlan::class.java.name to state.plansList,
+                            HouseHoldPlan::class.java.name to state.plansList.value,
                             Constants.POSITION to state.selectedPlanPosition.value
                         ), null
                     )
