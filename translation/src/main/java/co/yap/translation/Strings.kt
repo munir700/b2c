@@ -1614,4 +1614,8 @@ object Strings {
         "screen_waiting_list_display_text_guide"
     const val screen_waiting_list_display_button_text: String =
         "screen_waiting_list_display_button_text"
+    const val screen_waiting_list_display_dialog_text: String =
+        "screen_waiting_list_display_dialog_text"
+    const val screen_waiting_list_display_dialog_button_text: String =
+        "screen_waiting_list_display_dialog_button_text"
 }

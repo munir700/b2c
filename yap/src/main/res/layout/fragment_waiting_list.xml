@@ -4,6 +4,10 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.onboarding.viewmodels.WaitingListViewModel" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,10 +40,10 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:gravity="center"
+                android:text="@{viewModel.state.rankNoInList}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivCheck"
-                app:text="@{Strings.screen_waiting_list_display_text_heading}"
                 tools:text="Well done! You’re #20 on our waiting list" />
 
             <TextView
@@ -51,30 +55,32 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:gravity="center"
-                android:text="@{Strings.screen_waiting_list_display_text_guide}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvRankingTitle"
+                app:text="@{Strings.screen_waiting_list_display_text_guide}"
                 tools:text="We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready!" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivCard"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGuide"
                 app:srcCompat="@drawable/card_spare" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnAction"
+                android:id="@+id/btnKeepMePosted"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginLeft="@dimen/margin_xl"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginRight="@dimen/margin_xl"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:text="@string/screen_add_funds_button_add"
+                android:onClick="@{(v)-> viewModel.handlePressOnNext(v.id)}"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

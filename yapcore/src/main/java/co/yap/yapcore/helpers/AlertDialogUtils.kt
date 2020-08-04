@@ -139,6 +139,37 @@ fun Context.alert(
         show()
     }
 
+fun Context.showYapAlertDialogCustom(
+    title: String? = null,
+    message: String?,
+    buttonText: String? = null,
+    callback: () -> Unit = {}
+) {
+    val builder = android.app.AlertDialog.Builder(this)
+    var alertDialog: android.app.AlertDialog? = null
+    val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    title?.let { builder.setTitle(title) }
+    val dialogLayout: View =
+        inflater.inflate(R.layout.alert_dialogue, null)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
+    ok.text = buttonText?:"OK"
+    ok.setOnClickListener {
+        callback()
+    }
+
+    builder.setView(dialogLayout)
+    builder.setCancelable(false)
+    alertDialog = builder.create()
+
+    alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    alertDialog.show()
+
+}
+
+
+
 fun Context.showYapAlertDialog(
     title: String? = null,
     message: String?
