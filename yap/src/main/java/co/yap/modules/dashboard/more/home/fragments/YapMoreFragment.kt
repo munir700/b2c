@@ -78,21 +78,14 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private fun initComponents() {
         getBinding().tvName.text =
             MyUserManager.user?.currentCustomer?.getFullName()
-        MyUserManager.user?.iban?.let {
-            val str =
-                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                    Utils.formateIbanString(it)
-                } else {
-                    it.trim().maskIbanNumber()
-                }
-            val ibanSpan = SpannableString("IBAN $str")
-            getBinding().tvIban.text = Utils.setSpan(
-                0,
-                4,
-                ibanSpan,
-                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-            )
-        }
+
+        val ibanSpan = SpannableString("IBAN ${MyUserManager.user?.iban?.maskIbanNumber()}")
+        getBinding().tvIban.text = Utils.setSpan(
+            0,
+            4,
+            ibanSpan,
+            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+        )
 
         MyUserManager.user?.bank?.swiftCode?.let {
             val bicSpan = SpannableString("BIC $it")
