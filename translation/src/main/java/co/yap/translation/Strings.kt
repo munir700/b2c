@@ -22,7 +22,8 @@ object Strings {
         "common_display_text_nothing_to_report"
     const val common_button_logout: String = "common_button_logout"
     const val common_text_fee: String = "common_text_fee"
-    const val common_display_text_available_balance: String = "common_display_text_available_balance"
+    const val common_display_text_available_balance: String =
+        "common_display_text_available_balance"
     const val common_display_text_daily_limit_remaining_error: String =
         "common_display_text_daily_limit_remaining_error"
     const val common_display_text_daily_limit_error_single_transaction: String =
@@ -990,7 +991,6 @@ object Strings {
         "screen_add_beneficiary_display_text_select_residence_country"
 
 
-
     // Add Beneficiary transfer type
     const val screen_add_beneficiary_display_text_transfer_type: String =
         "screen_add_beneficiary_display_text_transfer_type"
@@ -1606,4 +1606,12 @@ object Strings {
         "screen_tax_info_display_text_not_us_national"
     const val screen_tax_info_display_text_trs_conditions_disclaimer: String =
         "screen_tax_info_display_text_trs_conditions_disclaimer"
+
+    //    Waiting list screen
+    const val screen_waiting_list_display_text_heading: String =
+        "screen_waiting_list_display_text_heading"
+    const val screen_waiting_list_display_text_guide: String =
+        "screen_waiting_list_display_text_guide"
+    const val screen_waiting_list_display_button_text: String =
+        "screen_waiting_list_display_button_text"
 }

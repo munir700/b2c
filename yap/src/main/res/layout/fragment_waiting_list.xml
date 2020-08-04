@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCheck"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_tick" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRankingTitle"
+                style="@style/Title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivCheck"
+                app:text="@{Strings.screen_waiting_list_display_text_heading}"
+                tools:text="Well done! You’re #20 on our waiting list" />
+
+            <TextView
+                android:id="@+id/tvGuide"
+                style="@style/RegularGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:gravity="center"
+                android:text="@{Strings.screen_waiting_list_display_text_guide}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRankingTitle"
+                tools:text="We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready!" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                app:layout_constraintTop_toBottomOf="@+id/tvGuide"
+                app:srcCompat="@drawable/card_spare" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnAction"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="@string/screen_add_funds_button_add"
+                app:btn_enable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivCard"
+                app:layout_constraintVertical_bias="0.967"
+                app:text="@{Strings.screen_waiting_list_display_button_text}"
+                tools:text="Add" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
