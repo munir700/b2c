@@ -7,6 +7,8 @@ import co.yap.modules.dashboard.more.bankdetails.states.BankDetailStates
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.maskAccountNumber
+import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.managers.MyUserManager
 
 class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.State>(application),
@@ -16,10 +18,10 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
     override val state: BankDetailStates = BankDetailStates()
 
     init {
-        MyUserManager.user?.accountNo?.let { state.account.set(it) }
+        MyUserManager.user?.accountNo?.let { state.account.set(it.maskAccountNumber()) }
         MyUserManager.user?.bank?.address?.let { state.addresse.set(it) }
         MyUserManager.user?.bank?.name?.let { state.bank.set(it) }
-        MyUserManager.user?.iban?.let { state.iban.set(Utils.formateIbanString(it)) }
+        MyUserManager.user?.iban?.let { state.iban.set(it.maskIbanNumber()) }
         MyUserManager.user?.bank?.swiftCode?.let { state.swift.set(it) }
 
         state.name.set(MyUserManager.user?.currentCustomer?.getFullName())

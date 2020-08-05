@@ -28,7 +28,7 @@ class CongratulationsViewModel(application: Application) :
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel?.onboardingData?.firstName
         parentViewModel?.onboardingData?.ibanNumber?.let {
-            state.ibanNumber = it.trim().maskIbanNumber()
+            state.ibanNumber = it.maskIbanNumber()
         }
     }
 
