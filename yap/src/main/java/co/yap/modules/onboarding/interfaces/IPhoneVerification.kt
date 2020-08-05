@@ -2,9 +2,9 @@ package co.yap.modules.onboarding.interfaces
 
 import android.content.Context
 import androidx.databinding.ObservableField
+import co.yap.networking.customers.CustomersRepository
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IPhoneVerification {
 
@@ -21,6 +21,8 @@ interface IPhoneVerification {
 
         fun handlePressOnResendOTP(context: Context)
         fun setPasscode(passcode: String)
+        fun checkMobileNumberForWaitingList(success:() ->Unit)
+        val customersRepository: CustomersRepository
     }
 
     interface State : IBase.State {

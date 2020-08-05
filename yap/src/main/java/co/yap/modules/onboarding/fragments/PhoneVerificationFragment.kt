@@ -41,6 +41,13 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
                 context?.let { CreatePasscodeActivity.newIntent(it,true) },
                 Constants.REQUEST_CODE_CREATE_PASSCODE
             )
+        /*    viewModel.checkMobileNumberForWaitingList {
+//                findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment)
+                  startActivityForResult(
+                      context?.let { CreatePasscodeActivity.newIntent(it,true) },
+                      Constants.REQUEST_CODE_CREATE_PASSCODE
+                  )
+            }*/
         })
     }
 
