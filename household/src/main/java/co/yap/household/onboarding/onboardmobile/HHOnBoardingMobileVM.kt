@@ -51,7 +51,7 @@ class HHOnBoardingMobileVM @Inject constructor(
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    apiResponse?.invoke(null)
+                    apiResponse?.invoke(" ")
                     state.toast = response.error.message
 
                 }

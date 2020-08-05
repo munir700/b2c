@@ -19,5 +19,11 @@ data class HouseHoldCardsDesign(
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("designColorCode")
-    val designColorCode: String? = null
+    val designColorCode: String? = null,
+    @SerializedName("productCode")
+    val productCode: String? = null,
+    @SerializedName("designCodeDescription")
+    val designCodeDescription: String? = null,
+    @SerializedName("editAndDelete")
+    val editAndDelete: Boolean? = null
 ):ApiResponse()

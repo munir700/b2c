@@ -5,18 +5,21 @@ import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.household.CustomerHHApi
+import co.yap.networking.customers.household.requestdtos.SignUpFss
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import javax.inject.Inject
 
 class HHOnBoardingCardSelectionVM @Inject constructor(
     override val state: IHHOnBoardingCardSelection.State,
-    private val repository: CardsApi
+    private val repository: CardsApi, private val customerRepository: CustomerHHApi
 ) :
     DaggerBaseViewModel<IHHOnBoardingCardSelection.State>(), IHHOnBoardingCardSelection.ViewModel {
     override val clickEvent = SingleClickEvent()
@@ -28,6 +31,10 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
         ) {
             it?.let {
                 state.cardDesigns?.postValue(it)
+            }
+        }
+        if (MyUserManager.isExistingUser()) {
+            requestGetAddressForPhysicalCard {
             }
         }
     }
@@ -84,5 +91,39 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun requestGetAddressForPhysicalCard(
+        apiResponse: ((Boolean) -> Unit?)?
+    ) {
+        launch {
+            when (val response = repository.getUserAddressRequest()) {
+                is RetroApiResponse.Success -> {
+                    state.address?.value = response.data.data
+                    apiResponse?.invoke(true)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    apiResponse?.invoke(false)
+                }
+            }
+        }
+    }
+
+    override fun signupToFss(request: SignUpFss?, apiResponse: ((Boolean) -> Unit?)?) {
+        launch {
+            state.loading = true
+            when (val response = customerRepository.signupToFss(request)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    apiResponse?.invoke(true)
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 package co.yap.networking.customers.household
 
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
+import co.yap.networking.customers.household.requestdtos.SignUpFss
 import co.yap.networking.customers.household.responsedtos.*
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -72,4 +73,7 @@ interface CustomersHHRetroService {
 
     @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_UPDATE_SCHEDULE_PAYMENT)
     suspend fun updateSchedulePayment(@Path("UUID") uuid: String?,@Body request: SchedulePayment?): Response<ApiResponse>
+
+    @POST(CustomersHHRepository.URL_HOUSE_HOLD_SIGNUP_FSS)
+    suspend fun signupToFss(@Body request: SignUpFss?): Response<ApiResponse>
 }

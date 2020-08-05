@@ -24,6 +24,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -38,6 +39,7 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
+import co.yap.yapcore.helpers.GsonProvider
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
@@ -336,7 +338,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     findNavController().navigate(action)
                 }
             } else {
-                if (MyUserManager.shouldGoToHousehold()) {
+                if (!MyUserManager.shouldGoToHousehold()) {
                     MyUserManager.user?.uuid?.let { it1 ->
                         SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
                             .observe(this@VerifyPasscodeFragment, switchProfileObserver)
@@ -407,8 +409,15 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     }
                 }
             } else {
+                requireContext().getJsonDataFromAsset("hh_user.json")?.let {
+                    val user = GsonProvider.fromJson(
+                        it, AccountInfoResponse::class.java
+                    )
+                    MyUserManager.usersList?.value = ArrayList(user.data)
+                    MyUserManager.user = MyUserManager.getCurrentUser()
+                }
                 context.switchTheme(HOUSEHOLD())
-//                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
+               MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)

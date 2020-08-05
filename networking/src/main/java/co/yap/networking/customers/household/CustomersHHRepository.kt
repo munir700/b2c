@@ -2,13 +2,14 @@ package co.yap.networking.customers.household
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
-import co.yap.networking.models.BaseListResponse
 import co.yap.networking.customers.CustomersApi
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
+import co.yap.networking.customers.household.requestdtos.SignUpFss
 import co.yap.networking.customers.household.responsedtos.HouseHoldGetSubscriptionResponseDTO
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 
 object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersRepository,
@@ -43,6 +44,8 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
         "customers/api/household/last-next-transaction/{UUID}"
     const val URL_IBAN_HOUSE_HOLD_CANCEL_SCHEDULE_PAYMENT =
         "customers/api/household/cancel-household-schedule-payment/{UUID}"
+    const val URL_HOUSE_HOLD_SIGNUP_FSS =
+        "customers/api/household/signup-fss/"
 
     //    iban-household-schedule-payment
     //    Get All subaccounts for a IBAN user:
@@ -120,6 +123,13 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
     override suspend fun cancelSchedulePayment(scheduledPaymentUuid: String?) =
         executeSafely(call = { apiService.cancelSchedulePayment(scheduledPaymentUuid) })
 
-    override suspend fun updateSchedulePayment(scheduledPaymentUuid: String?,request: SchedulePayment?) =
-        executeSafely(call = { apiService.updateSchedulePayment(scheduledPaymentUuid,request) })
+    override suspend fun updateSchedulePayment(
+        scheduledPaymentUuid: String?,
+        request: SchedulePayment?
+
+    ) =
+        executeSafely(call = { apiService.updateSchedulePayment(scheduledPaymentUuid, request) })
+
+    override suspend fun signupToFss(request: SignUpFss?) =
+        executeSafely(call = { apiService.signupToFss(request) })
 }

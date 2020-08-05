@@ -14,6 +14,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.enums.KYCAction
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.household.requestdtos.SignUpFss
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.constants.Constants
@@ -85,43 +86,57 @@ class HHOnBoardingCardSelectionFragment :
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnCompleteSetup -> {
-                launchActivityForResult<DocumentsDashboardActivity>(
-                    init = {
-                        putExtra(
-                            Constants.name,
-                            MyUserManager.user?.currentCustomer?.firstName.toString()
-                        )
-                        putExtra(Constants.data, false)
-                    }, completionHandler = { resultCode, data ->
-                        data?.let {
-                            val status = it.getStringExtra("status")
-                            if (it.getBooleanExtra(Constants.result, false)) {
-                                trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID.type)
-                                Handler().post { launchAddressSelection(true) }
-                                return@let
-                            } else if (it.getBooleanExtra(Constants.skipped, false)) {
-                                trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
-                                if (status == KYCAction.ACTION_EID_FAILED.name)
-                                    navigateForward(
-                                        HHOnBoardingCardSelectionFragmentDirections.toHHOnBoardingInvalidEidFragment(),
-                                        arguments
-                                    )
+                viewModel.signupToFss(
+                    SignUpFss(
+                        designCode = adapter.getData()[tabLayout.selectedTabPosition].designCode,
+                        productCode = adapter.getData()[tabLayout.selectedTabPosition].productCode
+                    )
+                ) {
+                    launchActivityForResult<DocumentsDashboardActivity>(
+                        init = {
+                            putExtra(
+                                Constants.name,
+                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, false)
+                        }, completionHandler = { resultCode, data ->
+                            data?.let {
+                                val status = it.getStringExtra("status")
+                                if (it.getBooleanExtra(Constants.result, false)) {
+                                    trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID.type)
+                                    Handler().post { launchAddressSelection(true) }
+                                    return@let
+                                } else if (it.getBooleanExtra(Constants.skipped, false)) {
+                                    trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
+                                    if (status == KYCAction.ACTION_EID_FAILED.name)
+                                        navigateForward(
+                                            HHOnBoardingCardSelectionFragmentDirections.toHHOnBoardingInvalidEidFragment(),
+                                            arguments
+                                        )
+                                }
                             }
-                        }
 
-                    })
+                        })
+                }
             }
             R.id.tvChangeLocation -> {
                 launchAddressSelection(false)
             }
             R.id.btnConfirmLocation -> {
                 state.address?.value?.let { address ->
-                    viewModel.orderHouseHoldPhysicalCardRequest(address) {
-                        if (it) {
-                            navigateForward(
-                                HHOnBoardingCardSelectionFragmentDirections.toKycSuccessFragment(),
-                                arguments?.plus(bundleOf(Constants.ADDRESS to address))
-                            )
+                    viewModel.signupToFss(
+                        SignUpFss(
+                            designCode = adapter.getData()[tabLayout.selectedTabPosition].designCode,
+                            productCode = adapter.getData()[tabLayout.selectedTabPosition].productCode
+                        )
+                    ) {
+                        viewModel.orderHouseHoldPhysicalCardRequest(address) {
+                            if (it) {
+                                navigateForward(
+                                    HHOnBoardingCardSelectionFragmentDirections.toKycSuccessFragment(),
+                                    arguments?.plus(bundleOf(Constants.ADDRESS to address))
+                                )
+                            }
                         }
                     }
                 }

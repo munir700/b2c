@@ -33,7 +33,7 @@ interface CardsApi {
         address: Address
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
+    suspend fun getUserAddressRequest(): RetroApiResponse<GetPhysicalAddress>
     suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO>
     suspend fun freezeUnfreezeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun getCardDetails(cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO>

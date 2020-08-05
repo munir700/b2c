@@ -64,7 +64,7 @@ class OnBoardingHouseHoldActivity :
 
     override fun init(savedInstanceState: Bundle?) {
         if (MyUserManager.isExistingUser()) {
-            var destination: Int = R.id.HHOnBoardingExistingSuccessFragment
+            var destination: Int = R.id.HHOnBoardingExistingFragment
             MyUserManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
                     destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
