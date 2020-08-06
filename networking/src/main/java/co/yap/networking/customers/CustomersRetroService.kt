@@ -221,9 +221,4 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
-    //For waiting list user dummy api(need to change the URL when API available)
-    @POST(CustomersRepository.URL_VERIFY_HOUSEHOLD_MOBILE)
-    suspend fun checkWaitingListMobileNumber(@Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): Response<ApiResponse>
-
-
 }

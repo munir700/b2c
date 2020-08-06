@@ -148,7 +148,7 @@ class EmailViewModel(application: Application) :
 
                 }
                 is RetroApiResponse.Success -> {
-                    parentViewModel?.onboardingData?.token = response.data.token
+                    parentViewModel?.onboardingData?.token = response.data.data?.token
                     signUp()
                 }
             }

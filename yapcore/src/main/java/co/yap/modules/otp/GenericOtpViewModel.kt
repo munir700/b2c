@@ -157,7 +157,7 @@ class GenericOtpViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    response.data.token?.let {
+                    response.data.data?.token?.let {
                         val tokens = it.split("%")
                         token = tokens.first()
                         if (tokens.size > 1)

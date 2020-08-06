@@ -335,7 +335,4 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
-    //need to change this according to real request
-    override suspend fun checkWaitingListMobileNumber(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.checkWaitingListMobileNumber(verifyHouseholdMobileRequest) })
 }

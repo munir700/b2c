@@ -5,8 +5,6 @@ import android.content.Context
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
-import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.requestdtos.VerifyHouseholdMobileRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
@@ -27,7 +25,6 @@ open class PhoneVerificationViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val state: PhoneVerificationState = PhoneVerificationState(application)
     override val repository: MessagesRepository = MessagesRepository
-    override val customersRepository: CustomersRepository = CustomersRepository
 
     override fun onResume() {
         super.onResume()
@@ -83,9 +80,11 @@ open class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    parentViewModel?.onboardingData?.token = response.data.token
+                    parentViewModel?.onboardingData?.token = response.data.data?.token
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
                     trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
+                    parentViewModel?.isWaitingList?.value = response.data.data?.isWaiting
+                    parentViewModel?.rankNo?.value = response.data.data?.rankNo
                     nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> {
@@ -109,25 +108,6 @@ open class PhoneVerificationViewModel(application: Application) :
                 state.color = context.getColors(R.color.disabled)
                 state.isOtpBlocked.set(false)
             }
-        }
-    }
-
-    override fun checkMobileNumberForWaitingList(success:() ->Unit) {
-        launch {
-            state.loading = true
-            val request = VerifyHouseholdMobileRequest(
-                parentViewModel?.onboardingData?.countryCode ?: "",
-                parentViewModel?.onboardingData?.mobileNo ?: ""
-            )
-            when (val response = customersRepository.checkWaitingListMobileNumber(request)) {
-                is RetroApiResponse.Success -> {
-                    success()
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                }
-            }
-            state.loading = false
         }
     }
 }

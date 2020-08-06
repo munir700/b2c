@@ -92,8 +92,4 @@ interface CustomersApi {
     suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
 
-    //need to change the body of this request
-    suspend fun checkWaitingListMobileNumber(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
-
-
 }
