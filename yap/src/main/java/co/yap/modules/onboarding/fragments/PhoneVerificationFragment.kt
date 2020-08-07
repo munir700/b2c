@@ -37,17 +37,13 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            viewModel.parentViewModel?.isWaitingList?.value?.let {isWaitingList->
-                if (isWaitingList){
-                    findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment)
-                }else{
-                    startActivityForResult(
-                        context?.let { CreatePasscodeActivity.newIntent(it,true) },
-                        Constants.REQUEST_CODE_CREATE_PASSCODE
-                    )
-                }
-            }?:startActivityForResult(
-                context?.let { CreatePasscodeActivity.newIntent(it,true) },
+            viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
+                if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else startActivityForResult(
+                    context?.let { CreatePasscodeActivity.newIntent(it, true) },
+                    Constants.REQUEST_CODE_CREATE_PASSCODE
+                )
+            } ?: startActivityForResult(
+                context?.let { CreatePasscodeActivity.newIntent(it, true) },
                 Constants.REQUEST_CODE_CREATE_PASSCODE
             )
         })

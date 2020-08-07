@@ -42,7 +42,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                 VerifyPasscodeRequest(passcode = state.passCode)
             )) {
                 is RetroApiResponse.Success -> {
-                    token = response.data.data?.token ?: ""
+                    token = response.data.token ?: ""
                     success(true)
                     state.loading = false
                 }
