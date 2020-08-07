@@ -69,6 +69,13 @@ android {
         }
     }
     ndkVersion '21.1.6352462'
+    sourceSets {
+        live {
+            res {
+                srcDirs 'src/live/res', 'src/live/res/'
+            }
+        }
+    }
 }
 
 dependencies {
