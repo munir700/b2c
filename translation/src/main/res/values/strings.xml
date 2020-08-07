@@ -93,8 +93,8 @@
 
     <!-- Email Verification Screen-->
     <string name="screen_email_verification_display_text_title">Great!</string>
-    <string name="screen_email_verification_b2c_display_text_email_sent">we\'ve just sent an email to</string>
-    <string name="screen_email_verification_b2c_display_text_email_confirmation">Please validate your email address after signing up and we promise not to spam you.</string>
+    <string name="screen_email_verification_b2c_display_text_email_sent">you should now receive an email on</string>
+    <string name="screen_email_verification_b2c_display_text_email_confirmation">We’ve sent you this so we can remain connected and give you important updates about your account.</string>
     <string name="screen_email_verification_b2b_display_text_email_sent">We\'ve just sent a verification email to</string>
     <string name="screen_email_verification_b2b_display_text_email_confirmation">Please check your email to confirm that we got it right.</string>
 
