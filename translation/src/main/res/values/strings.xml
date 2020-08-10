@@ -228,14 +228,14 @@
     <string name="screen_set_card_pin_welcome_button_create_pin_later">I’ll do it later</string>
 
     <!-- Set card PIN screen -->
-    <string name="screen_set_card_pin_display_text_title">Set your PIN</string>
+    <string name="screen_set_card_pin_display_text_title">Create your 4-digit PIN</string>
     <string name="screen_set_card_pin_button_create_pin">Next</string>
 
     <!-- Confirm card PIN screen -->
-    <string name="screen_confirm_card_pin_display_text_title">Re-enter your PIN to confirm</string>
+    <string name="screen_confirm_card_pin_display_text_title">Enter that one more time to confirm</string>
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN you agree to our</string>
-    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="screen_confirm_card_pin_button_create_pin">Create PIN</string>
+    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">terms &amp; conditions</string>
+    <string name="screen_confirm_card_pin_button_create_pin">Set PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
 
