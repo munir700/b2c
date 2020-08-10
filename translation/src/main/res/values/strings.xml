@@ -403,7 +403,8 @@
     <string name="screen_confirm_card_pin_display_button_confirm_pin">Create new PIN</string>
 
     <!--    Change PIN success screen-->
-    <string name="screen_change_pin_success_display_text_heading">PIN has been updated successfully!</string>
+    <string name="screen_change_pin_success_display_text_heading">Great, you’ve successfully updated your PIN!</string>
+    <string name="screen_change_pin_success_display_text_sub_heading">Remember this PIN as you\'ll need it for all your transactions, and make sure you don\'t share it with anyone</string>
     <string name="screen_change_pin_success_display_text_button">Done</string>
 
     <!--   Card Statement screen-->

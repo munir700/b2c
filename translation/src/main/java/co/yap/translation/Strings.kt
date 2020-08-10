@@ -651,6 +651,8 @@ object Strings {
     //Change PIN success screen
     const val screen_change_pin_success_display_text_heading: String =
         "screen_change_pin_success_display_text_heading"
+    const val screen_change_pin_success_display_text_sub_heading: String =
+        "screen_change_pin_success_display_text_sub_heading"
     const val screen_change_pin_success_display_text_button: String =
         "screen_change_pin_success_display_text_button"
 
