@@ -82,8 +82,8 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         initAllModules()
         SecurityHelper(this, originalSign, object : SignatureValidator {
             override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
-                if (originalSign?.isLiveRelease() == true)
-                    configManager?.hasValidSignature = isValid
+                configManager?.hasValidSignature =
+                    if (originalSign?.isLiveRelease() == true) isValid else true
             }
         })
     }
