@@ -403,6 +403,8 @@ object Strings {
     // Forgot posscode success screen
     const val screen_passcode_success_display_text_heading: String =
         "screen_passcode_success_display_text_heading"
+    const val screen_passcode_success_display_text_heading_for_yap_core: String =
+        "screen_passcode_success_display_text_heading_for_yap_core"
     const val screen_passcode_success_display_text_sub_heading: String =
         "screen_passcode_success_display_text_sub_heading"
     const val screen_passcode_success_button_sign_in: String =
