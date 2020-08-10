@@ -79,7 +79,7 @@ class EidInfoReviewViewModel(application: Application) :
                     "US",
                     true
                 ) -> {
-                    errorTitle = "It's not you, its US"
+                    errorTitle = "Looks like you're from the United States"
                     errorBody =
                         "We're sorry, we aren't able to create bank accounts for US Citizens at this point. Stay tuned though, we'll announce it everywhere if this changes!"
                     sanctionedCountry = it.nationality
@@ -96,9 +96,9 @@ class EidInfoReviewViewModel(application: Application) :
                     }?.isoCountryCode2Digit,
                     true
                 ) -> {
-                    errorTitle = "We're so sorry"//countryName
+                    errorTitle = "We're sorry :("//countryName
                     errorBody =
-                        "Unfortunately, we cannot go ahead with creating your account at this time. Thank you for your interest in YAP."
+                        "Unfortunately, we're unable to proceed with creating your account at this time. However, we appreciate your interest in getting aYAP account."
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     handleUserAcceptance(EVENT_ERROR_FROM_USA)
