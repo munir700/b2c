@@ -228,7 +228,7 @@
     <string name="screen_set_card_pin_welcome_button_create_pin_later">I’ll do it later</string>
 
     <!-- Set card PIN screen -->
-    <string name="screen_set_card_pin_display_text_title">Create your 4-digit PIN</string>
+    <string name="screen_set_card_pin_display_text_title">Enter a new PIN</string>
     <string name="screen_set_card_pin_button_create_pin">Next</string>
 
     <!-- Confirm card PIN screen -->
@@ -399,8 +399,8 @@
     <string name="screen_create_card_pin_display_button_create_pin">Create PIN</string>
 
     <!--    confirm PIN screen-->
-    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your \nPIN</string>
-    <string name="screen_confirm_card_pin_display_button_confirm_pin">Confirm PIN</string>
+    <string name="screen_confirm_card_pin_display_text_heading">Enter it one more time</string>
+    <string name="screen_confirm_card_pin_display_button_confirm_pin">Create new PIN</string>
 
     <!--    Change PIN success screen-->
     <string name="screen_change_pin_success_display_text_heading">PIN has been updated successfully!</string>
@@ -475,9 +475,9 @@
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
     <string name="screen_change_email_placeholder_confirm_email_address">confirm email address</string>
-    <string name="screen_change_email_display_text_description">An email will be sent to your email address for\n verification.</string>
+    <string name="screen_change_email_display_text_description">A verification email will now be sent to this address</string>
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
-    <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
+    <string name="screen_change_email_display_text_confirm_email_title">Enter it one more time</string>
 
     <!--    Email Verification Screen-->
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
