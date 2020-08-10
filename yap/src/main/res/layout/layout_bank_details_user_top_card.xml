@@ -66,7 +66,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:gravity="center"
-                    android:text="This is your YAP account summary. Use these details to transfer funds from another account into YAP."
+                    android:text="This is your account summary. Use these details to add money to your YAP account"
                     app:layout_constraintTop_toBottomOf="@+id/ivLogo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="@dimen/margin_small"/>
