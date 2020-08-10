@@ -10,6 +10,9 @@
             type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.constants.Constants" />
+
     </data>
 
 
@@ -30,6 +33,7 @@
             android:background="@android:color/transparent"
             android:elevation="@dimen/_3sdp"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
@@ -89,12 +93,12 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/etAmountLayout"
-                        android:layout_width="@dimen/_150sdp"
+                        android:layout_width="@dimen/_170sdp"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_marginTop="@dimen/margin_extra_small"
                         android:background="@{viewModel.state.amountBackground}"
-                        android:paddingStart="@dimen/margin_medium"
-                        android:paddingEnd="@dimen/margin_medium"
+                        android:paddingStart="@dimen/small"
+                        android:paddingEnd="@dimen/small"
                         app:layout_constraintLeft_toLeftOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintRight_toRightOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintTop_toBottomOf="@+id/tvCurrency">
@@ -108,7 +112,7 @@
                             android:gravity="center_horizontal|center_vertical"
                             android:imeOptions="actionDone"
                             android:inputType="numberDecimal"
-                            android:maxLength="7"
+                            android:maxLength="@{Constants.INSTANCE.UnitsCount}"
                             android:maxLines="1"
                             android:text="@={viewModel.state.amount}"
                             app:hint="@{Strings.common_amount_hint}"
@@ -223,8 +227,6 @@
                             app:layout_constraintTop_toTopOf="@+id/tvAvailableBalanceGuide"
                             tools:text="AED 500" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
