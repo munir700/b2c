@@ -145,4 +145,7 @@ object Constants {
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
+
+    //
+    const val UnitsCount = 10
 }
