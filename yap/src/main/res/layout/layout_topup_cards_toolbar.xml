@@ -45,7 +45,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="Top up using card" />
+            android:text="Add money using a card" />
 
         <ImageView
             android:id="@+id/tbBtnAddCard"
