@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@{`AED ` +Utils.INSTANCE.getFormattedCurrency(viewModel.analyticsItem.totalSpending)}"
+                android:text="@{`AED` +Utils.INSTANCE.getFormattedCurrency(viewModel.analyticsItem.totalSpending)}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/content"
