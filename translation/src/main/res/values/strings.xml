@@ -136,7 +136,7 @@
 
     <!-- Meeting confirmation screen -->
     <string name="screen_meeting_confirmation_display_text_title">Your card is on it\'s way!</string>
-    <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your Emirates ID on you at the time of delivery</string>
+    <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your original Emirates ID on you at the time of delivery as we’ll need to scan it</string>
     <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
     <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
 
@@ -222,10 +222,10 @@
     <string name="idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete">Capturing Complete</string>
 
     <!-- Set card PIN Welcome screen -->
-    <string name="screen_set_card_pin_welcome_display_text_title">Great, looks like you just received your YAP card!</string>
-    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals</string>
+    <string name="screen_set_card_pin_welcome_display_text_title">Now create a unique PIN to start using this card</string>
+    <string name="screen_set_card_pin_welcome_display_text_sub_title">This 4-digit code is yours to keep. Please don’t share it with anyone</string>
     <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN</string>
-    <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
+    <string name="screen_set_card_pin_welcome_button_create_pin_later">I’ll do it later</string>
 
     <!-- Set card PIN screen -->
     <string name="screen_set_card_pin_display_text_title">Set your PIN</string>
