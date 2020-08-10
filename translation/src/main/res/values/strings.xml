@@ -53,11 +53,11 @@
     <string name="screen_welcome_button_get_started">Get started</string>
 
     <!--  Sign in screen -->
-    <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
+    <string name="screen_sign_in_display_text_heading_text">Sign in to your account</string>
     <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
     <string name="screen_sign_in_button_sign_in">Sign in</string>
-    <string name="screen_sign_in_display_text_sign_up_prefix">Don\'t have an account?</string>
-    <string name="screen_sign_in_display_text_sign_up">Sign up</string>
+    <string name="screen_sign_in_display_text_sign_up_prefix">New to YAP?</string>
+    <string name="screen_sign_in_display_text_sign_up">Sign up now</string>
     <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
     <string name="screen_sign_in_display_text_error_text">That\'s not the right email/phone number. Please try again.</string>
 
