@@ -651,10 +651,7 @@
     <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
     <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
-
-    <string name="screen_add_beneficiary_display_help_content">You can find your International Bank Account Number (IBAN) and Bank Identifier Code (BIC or SWIFT) on your paper statement or by logging in to Online Banking.</string>
-
-
+    <string name="screen_add_beneficiary_display_help_content">Your IBAN is a sequence of 23 characters and can be found in the top right menu on your dashboard</string>
     <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_description">Send money to this beneficiary now?</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">YES, SEND IT NOW</string>
