@@ -6,7 +6,6 @@
     <data>
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
-        <import type="co.yap.yapcore.constants.Constants" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -153,7 +152,7 @@
                         android:importantForAutofill="no"
                         android:inputType="numberDecimal"
                         android:labelFor="@+id/etAmount"
-                        android:maxLength="@{Constants.INSTANCE.UnitsCount}"
+                        android:maxLength="@integer/unitsCount"
                         android:maxLines="1"
                         android:text="@={viewModel.state.etInputAmount}"
                         app:layout_constraintBottom_toBottomOf="parent"

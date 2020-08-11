@@ -15,7 +15,6 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.constants.Constants" />
 
     </data>
 
@@ -112,7 +111,7 @@
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
-                    android:maxLength="@{Constants.INSTANCE.UnitsCount}"
+                    android:maxLength="@integer/unitsCount"
                     android:maxLines="1"
                     android:text="@={viewModel.state.amount}"
                     app:hint="@{Strings.common_amount_hint}"
