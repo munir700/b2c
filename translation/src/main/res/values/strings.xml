@@ -984,7 +984,7 @@
     <!--  Invite a friend screen  -->
     <string name="screen_invite_friend_display_text_title">Refer a friend</string>
     <string name="screen_invite_friend_display_text_reward">Tell your friends about us!</string>
-    <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it\’s even better when you do it with friends. Send this special link to your special people and help change the way they bank!</string>
+    <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
     <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload YAP here:\n\n%1s</string>
