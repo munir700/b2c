@@ -501,7 +501,8 @@
 
     <!--    Change Email Address Success Screen-->
     <string name="screen_email_address_success_display_text_heading">Success!</string>
-    <string name="screen_email_address_success_display_text_sub_heading">Your email address has been changed to \n</string>
+    <string name="screen_email_address_success_display_text_title">Awesome!</string>
+    <string name="screen_email_address_success_display_text_sub_heading">Your email address has been updated to \n</string>
 
     <!--    Change Phone Number Success Screen-->
     <string name="screen_phone_number_success_display_text_heading">Success!</string>

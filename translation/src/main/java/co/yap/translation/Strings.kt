@@ -773,6 +773,8 @@ object Strings {
     // Change Email Address Success Screen
     const val screen_email_address_success_display_text_heading: String =
         "screen_email_address_success_display_text_heading"
+    const val screen_email_address_success_display_text_title: String =
+        "screen_email_address_success_display_text_title"
     const val screen_email_address_success_display_text_sub_heading: String =
         "screen_email_address_success_display_text_sub_heading"
 
