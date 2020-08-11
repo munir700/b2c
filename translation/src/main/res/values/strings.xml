@@ -800,12 +800,12 @@
 
     <!--     Screen international funds transfer success-->
     <string name="screen_international_funds_transfer_display_text_amount_heading">You have sent</string>
-    <string name="screen_international_funds_transfer_display_text_success_title">Cash transfer successful!</string>
+    <string name="screen_international_funds_transfer_display_text_success_title">Bank transfer successful!</string>
     <string name="screen_international_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
     <!--    Screen domestic funds transfer success-->
     <string name="screen_domestic_funds_transfer_display_text_amount_heading">You have sent</string>
-    <string name="screen_domestic_funds_transfer_display_text_title">Cash transfer successful!</string>
+    <string name="screen_domestic_funds_transfer_display_text_title">Transfer successful</string>
 
     <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
