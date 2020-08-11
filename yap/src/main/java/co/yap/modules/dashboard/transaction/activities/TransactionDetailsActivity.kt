@@ -118,7 +118,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setAddress() {
         val location = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
+                it.status == TransactionStatus.CANCELLED.name -> "Transfer rejected"
                 it.productCode == TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
                 else -> it.cardAcceptorLocation ?: ""
             }
