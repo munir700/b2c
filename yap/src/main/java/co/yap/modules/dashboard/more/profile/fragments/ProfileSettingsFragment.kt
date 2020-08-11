@@ -1,12 +1,10 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.Manifest
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -28,7 +26,9 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
@@ -52,10 +52,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is MoreActivity) {
-            (context as MoreActivity).visibleToolbar()
-            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
-        }
+//        if (context is MoreActivity) {
+//            (context as MoreActivity).visibleToolbar()
+//            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
+//        }
 
 
         val sharedPreferenceManager =
@@ -188,24 +188,17 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun logoutAlert() {
-        AlertDialog.Builder(this.activity!!)
-            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
-            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
-            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
-                DialogInterface.OnClickListener { dialog, which ->
-                    viewModel.logout()
-                })
-
-            .setNegativeButton(
-                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
-                null
-            )
-            .show()
-    }
-
-    private fun doLogout() {
-        MyUserManager.doLogout(requireContext())
-        activity?.finish()
+        confirm(message = getString(R.string.screen_profile_settings_logout_display_text_alert_message),
+            title = getString(R.string.screen_profile_settings_logout_display_text_alert_title),
+            callback = {
+                LogOutLiveData.getInstance(requireContext())
+                    .observe(this@ProfileSettingsFragment, Observer {
+                        if (it) {
+                            MyUserManager.doLogout(requireContext())
+                        }
+                    })
+            },
+            negativeCallback = {})
     }
 
     override fun onRequestPermissionsResult(
@@ -286,10 +279,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
-                }
-
-                viewModel.EVENT_LOGOUT_SUCCESS -> {
-                    doLogout()
                 }
             }
         })

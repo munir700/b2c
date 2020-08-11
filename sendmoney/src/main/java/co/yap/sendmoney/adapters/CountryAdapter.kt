@@ -9,6 +9,7 @@ import android.widget.TextView
 import co.yap.countryutils.country.Country
 import co.yap.sendmoney.R
 import co.yap.widgets.CoreCircularImageView
+import co.yap.yapcore.helpers.ImageBinding
 
 class CountryAdapter (
     val context: Context,
@@ -38,8 +39,8 @@ class CountryAdapter (
         val label = row.findViewById(R.id.textView) as TextView
         val flag = row.findViewById(R.id.flag_img) as CoreCircularImageView
         label.text = objects[position].getName()
-        flag.setImageResource(objects[position].getFlagDrawableResId(label.context))
-
+        //flag.setImageResource(objects[position].getFlagDrawableResId(label.context))
+        ImageBinding.setIsoCountryDrawable(flag , objects[position].isoCountryCode2Digit)
         if (position == 0) {//Special style for dropdown header
             label.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
         }

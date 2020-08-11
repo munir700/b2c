@@ -34,6 +34,7 @@
         <item name="font">@font/roboto_regular</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
+
     <style name="Yap.App.Widget.TextView.Small" parent="Yap.App.Widget.TextView">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
@@ -340,6 +341,7 @@
         <item name="android:maxLength">50</item>
         <item name="font">@font/roboto_regular</item>
     </style>
+
     <style name="Yap.App.Widget.TextInputEditText.Email" parent="Yap.App.Widget.TextInputEditText">
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
@@ -488,4 +490,22 @@
         <item name="android:scrollbarStyle">outsideOverlay</item>
         <item name="android:scrollbars">vertical</item>
     </style>
+
+    <style name="Yap.App.Widget.FloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="fabCustomSize">@dimen/_30sdp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fabSize">mini</item>
+        <item name="backgroundTint">?attr/colorProfileSettingIconBgTint</item>
+        <item name="android:tint">?attr/colorToolbarTextAttr</item>
+        <item name="rippleColor">@color/transparent</item>
+        <item name="maxImageSize">@dimen/_16sdp</item>
+        <item name="borderWidth">@dimen/margin_zero_dp</item>
+        <item name="pressedTranslationZ">@dimen/margin_zero_dp</item>
+        <item name="elevation">@dimen/margin_zero_dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:elevation">@dimen/margin_zero_dp</item>
+    </style>
 </resources>
+

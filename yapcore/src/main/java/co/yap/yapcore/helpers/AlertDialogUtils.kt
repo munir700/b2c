@@ -126,11 +126,38 @@ fun Fragment.confirm(
     title: String = "",
     positiveButton: String? = "Yes",
     negativeButton: String? = "No",
-    cancelable: Boolean = true,
+    cancelable: Boolean = true, themeId: Int = R.style.AlertDialogTheme,
     callback: DialogInterface.() -> Unit,
     negativeCallback: DialogInterface.() -> Unit
 ) =
-    AlertDialog.Builder(requireContext()).apply {
+    AlertDialog.Builder(requireContext(), themeId).apply {
+        if (title.isEmpty().not())
+            setTitle(title)
+        setMessage(message)
+        setPositiveButton(
+            positiveButton ?: getString(android.R.string.ok)
+        )
+        { dialog, _ -> dialog.callback() }
+        setNegativeButton(
+            negativeButton ?: getString(android.R.string.no)
+        )
+        { dialog, _ -> dialog.negativeCallback() }
+        //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+        setCancelable(cancelable)
+        show()
+    }
+
+@JvmOverloads
+fun Fragment.confirm(
+    message: CharSequence,
+    title: String = "",
+    positiveButton: String? = "Yes",
+    negativeButton: String? = "No",
+    cancelable: Boolean = true, themeId: Int = R.style.AlertDialogTheme,
+    callback: DialogInterface.() -> Unit,
+    negativeCallback: DialogInterface.() -> Unit
+) =
+    AlertDialog.Builder(requireContext(), themeId).apply {
         if (title.isEmpty().not())
             setTitle(title)
         setMessage(message)
