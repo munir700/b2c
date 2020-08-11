@@ -486,8 +486,9 @@
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
     <!--    Change Phone Number Screen-->
-    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
-    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
+    <string name="screen_change_phone_number_display_text_heading">Change mobile number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new number</string>
+    <string name="screen_change_phone_number_display_text_text_description">We\'ve sent a code to\n %1$s</string>
 
     <!--    Current passcode screen-->
     <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
@@ -506,7 +507,7 @@
 
     <!--    Change Phone Number Success Screen-->
     <string name="screen_phone_number_success_display_text_heading">Success!</string>
-    <string name="screen_phone_number_success_display_text_sub_heading">Your phone number has been changed to \n</string>
+    <string name="screen_phone_number_success_display_text_sub_heading">Your mobile number has been updated to \n</string>
 
 
     <!--    Email Verified Popup Screen-->
