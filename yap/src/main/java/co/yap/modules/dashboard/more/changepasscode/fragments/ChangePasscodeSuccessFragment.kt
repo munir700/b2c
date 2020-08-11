@@ -27,8 +27,8 @@ class ChangePasscodeSuccessFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.topSubHeading = "Your passcode has been changed \n succesfully"
-        viewModel.state.topMainHeading = "Success!"
+        viewModel.state.topSubHeading = "Your passcode has been updated \n successfully"
+        viewModel.state.topMainHeading = "Awesome!"
     }
 
     override fun onDestroy() {
