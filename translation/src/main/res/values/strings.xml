@@ -190,10 +190,11 @@
     <string name="screen_b2c_eid_info_review_button_valid_emirates_id">No, I have a valid Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1s</string>
     <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from %1s</string>
+    <string name="screen_b2c_eid_info_review_display_expired_eid_text">Looks like your ID has expired. Please re-scan a valid ID</string>
 
-    <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First Name</string>
-    <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle Name</string>
-    <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last Name</string>
+    <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
+    <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name(if applicable)</string>
+    <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last name</string>
 
     <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
 

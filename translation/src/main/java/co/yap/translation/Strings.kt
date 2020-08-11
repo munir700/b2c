@@ -306,6 +306,8 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_error_from_usa"
     const val screen_b2c_eid_info_review_button_not_from_usa: String =
         "screen_b2c_eid_info_review_button_not_from_usa"
+    const val screen_b2c_eid_info_review_display_expired_eid_text: String =
+        "screen_b2c_eid_info_review_display_expired_eid_text"
     const val screen_b2c_eid_info_review_display_text_first_name_heading: String =
         "screen_b2c_eid_info_review_display_text_first_name_heading"
     const val screen_b2c_eid_info_review_display_text_middle_name_heading: String =

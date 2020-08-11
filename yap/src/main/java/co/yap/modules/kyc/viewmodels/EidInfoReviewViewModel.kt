@@ -98,7 +98,7 @@ class EidInfoReviewViewModel(application: Application) :
                 ) -> {
                     errorTitle = "We're sorry :("//countryName
                     errorBody =
-                        "Unfortunately, we're unable to proceed with creating your account at this time. However, we appreciate your interest in getting aYAP account."
+                        "Unfortunately, we're unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account."
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
                     handleUserAcceptance(EVENT_ERROR_FROM_USA)
