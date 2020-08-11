@@ -19,8 +19,12 @@ class ForgotPasscodeSuccessViewModel(application: Application) :
     }
 
     override fun onCreate() {
-        state.title =
+        if (MyUserManager.user?.currentCustomer?.firstName.isNullOrBlank()){
+            state.title =
+                getString(Strings.screen_passcode_success_display_text_heading)
+        }else  state.title =
             getString(Strings.screen_passcode_success_display_text_heading_for_yap_core).format(MyUserManager.user?.currentCustomer?.firstName)
+
         state.subTitle = getString(Strings.screen_passcode_success_display_text_sub_heading)
         state.buttonTitle = getString(Strings.screen_passcode_success_button_sign_in)
     }
