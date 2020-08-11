@@ -531,7 +531,7 @@
     <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>
 
     <!--    Yap to Yap Home Screen-->
-    <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
+    <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">Looks like none of your friends use YAP yet. Invite them now to make sending money easier than ever</string>
     <string name="screen_yap_to_yap_display_text_button">Invite now</string>
     <string name="screen_yap_to_yap_display_text_search_hint">Search</string>
 

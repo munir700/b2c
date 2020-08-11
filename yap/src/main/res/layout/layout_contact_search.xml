@@ -29,7 +29,7 @@
             android:background="@drawable/bg_search_widget"
             app:layout_constraintEnd_toEndOf="parent"
             app:searchIcon="@drawable/ic_search_grey"
-            app:queryHint="Search"
+            app:queryHint="Look up friends"
             app:queryBackground="@color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="Look up friends"
             app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
