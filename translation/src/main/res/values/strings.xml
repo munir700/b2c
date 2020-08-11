@@ -654,8 +654,8 @@
     <string name="screen_add_beneficiary_display_help_content">Your IBAN is a sequence of 23 characters and can be found in the top right menu on your dashboard</string>
     <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_description">Send money to this beneficiary now?</string>
-    <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">YES, SEND IT NOW</string>
-    <string name="screen_add_beneficiary_detail_display_button_block_alert_no">NO, DO IT LATER</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">Yes, send now</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_no">I’ll do it later</string>
 
     <string name="screen_unverified_success_display_text_heading">Success!</string>
     <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
@@ -775,7 +775,7 @@
     <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
     <string name="screen_cash_pickup_funds_display_otp_text_description">Enter the OTP sent to your registered mobile number to transfer %1s %2s to %3s</string>
     <string name="screen_cash_pickup_funds_display_otp_header">Confirm transfer</string>
-    <string name="screen_cash_pickup_funds_success_toolbar_header">Cash transfer successful</string>
+    <string name="screen_cash_pickup_funds_success_toolbar_header">Cash transfer successful!</string>
     <string name="screen_funds_toolbar_header">Send money to</string>
     <string name="screen_funds_local_toolbar_header">Transfer money to</string>
 
@@ -794,18 +794,18 @@
 
     <!--    Screen cash pickup funds transfer success-->
     <string name="screen_cash_pickup_funds_transfer_display_text_amount_heading">You have sent</string>
-    <string name="screen_cash_pickup_funds_transfer_display_text_title">Cash transfer successful</string>
+    <string name="screen_cash_pickup_funds_transfer_display_text_title">Cash transfer successful!</string>
     <string name="screen_cash_pickup_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
 
     <!--     Screen international funds transfer success-->
     <string name="screen_international_funds_transfer_display_text_amount_heading">You have sent</string>
-    <string name="screen_international_funds_transfer_display_text_success_title">Transfer successful</string>
+    <string name="screen_international_funds_transfer_display_text_success_title">Cash transfer successful!</string>
     <string name="screen_international_funds_transfer_back_to_dashboard">Back to dashboard</string>
 
     <!--    Screen domestic funds transfer success-->
     <string name="screen_domestic_funds_transfer_display_text_amount_heading">You have sent</string>
-    <string name="screen_domestic_funds_transfer_display_text_title">Transfer successful</string>
+    <string name="screen_domestic_funds_transfer_display_text_title">Cash transfer successful!</string>
 
     <!--    Screen funds transfer information custom view-->
     <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
