@@ -46,6 +46,17 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:backgroundTint="?attr/colorHelpSupportIconBgTint"
+                    android:src="@drawable/ic_support"
+                    android:tint="?attr/colorIconsTintAttr"
+                    app:fabCustomSize="@dimen/_40sdp"
+                    app:srcCompat="@drawable/ic_support"
+                    app:tint="?attr/colorIconsTintAttr" />
+
                 <ImageView
                     android:id="@+id/imgFaqs"
                     android:layout_width="@dimen/_40sdp"
@@ -53,16 +64,17 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:tint="?attr/colorPrimaryAttr"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_support" />
 
                 <TextView
                     android:id="@+id/tvFaqs"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_medium"
@@ -97,6 +109,18 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lLyFaqs">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:backgroundTint="?attr/colorHelpSupportIconBgTint"
+                    android:src="@drawable/ic_chat"
+                    android:tint="?attr/colorIconsTintAttr"
+                    app:fabCustomSize="@dimen/_40sdp"
+                    app:maxImageSize="@dimen/_18sdp"
+                    app:srcCompat="@drawable/ic_chat"
+                    app:tint="?attr/colorIconsTintAttr" />
+
                 <ImageView
                     android:id="@+id/imgChat"
                     android:layout_width="@dimen/_40sdp"
@@ -104,10 +128,11 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
@@ -148,6 +173,17 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lyChat">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:backgroundTint="?attr/colorHelpSupportIconBgTint"
+                    android:src="@drawable/ic_whatsapp"
+                    android:tint="?attr/colorIconsTintAttr"
+                    app:fabCustomSize="@dimen/_40sdp"
+                    app:srcCompat="@drawable/ic_whatsapp"
+                    app:tint="?attr/colorIconsTintAttr" />
+
                 <ImageView
                     android:id="@+id/imgWhatsApp"
                     android:layout_width="@dimen/_35sdp"
@@ -155,16 +191,17 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
                     android:id="@+id/tvWhatsApp"
                     style="@style/Small"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_medium"
@@ -199,6 +236,17 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lyLiveWhatsApp">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:backgroundTint="?attr/colorHelpSupportIconBgTint"
+                    android:src="@drawable/ic_phone_vector"
+                    android:tint="?attr/colorIconsTintAttr"
+                    app:fabCustomSize="@dimen/_40sdp"
+                    app:srcCompat="@drawable/ic_phone_vector"
+                    app:tint="?attr/colorIconsTintAttr" />
+
                 <ImageView
                     android:id="@+id/imgCall"
                     android:layout_width="@dimen/_40sdp"
@@ -206,10 +254,11 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_phone_vector" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -267,7 +316,7 @@
                     android:gravity="center|end"
                     android:lineSpacingExtra="8sp"
                     android:lines="1"
-                    android:textColor="?attr/colorPrimaryDarkAttr"
+                    android:textColor="?attr/colorPrimaryAttr"
                     android:textSize="@dimen/text_size_h2"
                     app:underline_text="@{viewModel.state.contactPhone}"
                     tools:text="+971 600 55 1214" />

@@ -44,6 +44,8 @@
     <attr name="colorButtonPressedAttr" format="color|reference" />
     <attr name="colorButtonUnPressedAttr" format="color|reference" />
     <attr name="colorCoreButtonTextAttr" format="color|reference" />
+    <attr name="colorProfileSettingIconBgTint" format="color|reference" />
+    <attr name="colorHelpSupportIconBgTint" format="color|reference" />
 
 
     <!--components theme-->

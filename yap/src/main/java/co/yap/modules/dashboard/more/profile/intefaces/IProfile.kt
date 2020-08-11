@@ -21,11 +21,9 @@ interface IProfile {
         val authRepository: AuthRepository
         var clickEvent: SingleClickEvent
         var PROFILE_PICTURE_UPLOADED: Int
-        var EVENT_LOGOUT_SUCCESS: Int
         fun handlePressOnViewClick(id: Int)
         fun requestProfileDocumentsInformation()
         fun requestUploadProfilePicture(actualFile: File)
-        fun logout()
     }
 
     interface View : IBase.View<ViewModel>

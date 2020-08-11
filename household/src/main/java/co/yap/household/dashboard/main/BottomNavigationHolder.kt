@@ -18,8 +18,8 @@ private fun ViewPager.onNavigationItemSelected(item: MenuItem): Boolean {
 private fun getPageIndexForMenuItem(item: MenuItem): Int {
     return when (item.itemId) {
         R.id.item_Home -> 0
-        R.id.item_my_card -> 1
-        R.id.item_expenses -> 2
+        R.id.item_expenses -> 1
+        R.id.item_my_card -> 2
         R.id.item_more -> 3
         else -> -1
     }

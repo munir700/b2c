@@ -338,7 +338,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     findNavController().navigate(action)
                 }
             } else {
-                if (!MyUserManager.shouldGoToHousehold()) {
+                if (MyUserManager.shouldGoToHousehold()) {
                     MyUserManager.user?.uuid?.let { it1 ->
                         SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
                             .observe(this@VerifyPasscodeFragment, switchProfileObserver)
@@ -395,7 +395,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (!MyUserManager.isOnBoarded()) {
+            if (MyUserManager.isOnBoarded()) {
                 if (MyUserManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
@@ -409,13 +409,13 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     }
                 }
             } else {
-                requireContext().getJsonDataFromAsset("hh_user.json")?.let {
-                    val user = GsonProvider.fromJson(
-                        it, AccountInfoResponse::class.java
-                    )
-                    MyUserManager.usersList?.value = ArrayList(user.data)
-                    MyUserManager.user = MyUserManager.getCurrentUser()
-                }
+//                requireContext().getJsonDataFromAsset("hh_user.json")?.let {
+//                    val user = GsonProvider.fromJson(
+//                        it, AccountInfoResponse::class.java
+//                    )
+//                    MyUserManager.usersList?.value = ArrayList(user.data)
+//                    MyUserManager.user = MyUserManager.getCurrentUser()
+//                }
                 context.switchTheme(HOUSEHOLD())
                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {

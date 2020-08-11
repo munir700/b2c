@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
@@ -55,21 +56,14 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Store) {
                 if (data.name == "YAP Household") {
-                    var navGraphId = 0
-                    var startDescription = 0
-                    MyUserManager.user?.let {
-                        if (it.noOfSubAccounts == null || it.noOfSubAccounts == 0) {
-                            navGraphId = R.navigation.add_house_hold_user_navigation
-                            startDescription = R.id.houseHoldLandingFragment
-                        } else {
-                            navGraphId = R.navigation.iban_subaccount_navigation
-                            startDescription = R.id.subAccountDashBoardFragment
-                        }
-                    }
-                    launchActivity<NavHostPresenterActivity> {
-                        putExtra(NAVIGATION_Graph_ID, navGraphId)
-                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, startDescription)
-                    }
+                    viewModel.clickEvent.setPayload(
+                        SingleClickEvent.AdaptorPayLoadHolder(
+                            view,
+                            data,
+                            pos
+                        )
+                    )
+                    viewModel.clickEvent.setValue(view.id)
                 }
             }
         }
@@ -100,6 +94,27 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgStoreShopping -> {
+            }
+            R.id.cvStore -> {
+                viewModel.clickEvent.getPayload()?.let {
+                    var navGraphId = 0
+                    var startDescription = 0
+                    MyUserManager.user?.let {
+                        if (it.noOfSubAccounts == null || it.noOfSubAccounts == 0) {
+                            navGraphId = R.navigation.add_house_hold_user_navigation
+                            startDescription = R.id.houseHoldLandingFragment
+                        } else {
+                            navGraphId = R.navigation.iban_subaccount_navigation
+                            startDescription = R.id.subAccountDashBoardFragment
+                        }
+                    }
+                    launchActivity<NavHostPresenterActivity> {
+                        putExtra(NAVIGATION_Graph_ID, navGraphId)
+                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, startDescription)
+                    }
+
+                }
+                viewModel.clickEvent.setPayload(null)
             }
         }
     }

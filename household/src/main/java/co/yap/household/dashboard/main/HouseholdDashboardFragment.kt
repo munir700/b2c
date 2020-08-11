@@ -43,7 +43,7 @@ import javax.inject.Inject
 
 class HouseholdDashboardFragment :
     BaseNavViewModelFragment<ActivityHouseholdDashboardBinding, IHouseholdDashboard.State, HouseHoldDashBoardVM>(),
-    FloatingActionMenu.MenuStateChangeListener {
+    FloatingActionMenu.MenuStateChangeListener, DrawerListenerImpl {
     @Inject
     lateinit var adapter: SectionsPagerAdapter
 
@@ -64,10 +64,11 @@ class HouseholdDashboardFragment :
         setBackButtonDispatcher()
         setHasOptionsMenu(true)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
-        actionMenu = actionMenuBuilder.attachTo(mViewDataBinding.ivYapIt)
+        actionMenu = actionMenuBuilder.attachTo(mViewDataBinding.ivYapItAction)
             .setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
             .setTxtYapIt(mViewDataBinding.txtYapIt).build()
         setupViewPager()
+        drawerLayout.addDrawerListener(this)
         expandableLayout.setOnExpansionUpdateListener { _, state ->
             when (state) {
                 ExpandableLayout.State.EXPANDED -> ivChevron.rotation = 180F
@@ -78,8 +79,8 @@ class HouseholdDashboardFragment :
 
     private fun setupViewPager() {
         adapter.addFragmentInfo<HouseholdHomeFragment>()
-        adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseHoldExpenseFragment>()
+        adapter.addFragmentInfo<MyCardFragment>()
         adapter.addFragmentInfo<HouseHoldMoreFragment>()
         viewModel.adapter.set(adapter)
         bottomNav.setUpWithViewPager(viewPager)
@@ -104,24 +105,42 @@ class HouseholdDashboardFragment :
             R.id.btnCopyHH -> {
             }
             R.id.lyHeader_section -> expandableLayout.toggle(true)
-            R.id.notification -> toast("Coming Soon")
-            R.id.ContactUs -> {
-                startFragment(HelpSupportFragment::class.java.name)
+//            R.id.notification -> toast("Coming Soon")
+//            R.id.ContactUs -> {
+//                drawerLayout.closeDrawer(GravityCompat.END)
+//                startFragment(HelpSupportFragment::class.java.name)
+//
+//            }
+//            R.id.helpSupport -> {
+//                drawerLayout.closeDrawer(GravityCompat.END)
+//                startFragment(HelpSupportFragment::class.java.name)
+//            }
+//            R.id.atm_cdm -> {
+//                drawerLayout.closeDrawer(GravityCompat.END)
+//                startFragment(CdmMapFragment::class.java.name)
+//            }
+            else -> {
                 drawerLayout.closeDrawer(GravityCompat.END)
-            }
-            R.id.helpSupport -> {
-                drawerLayout.closeDrawer(GravityCompat.END)
-                startFragment(HelpSupportFragment::class.java.name)
-            }
-            R.id.atm_cdm -> {
-                drawerLayout.closeDrawer(GravityCompat.END)
-                startFragment(CdmMapFragment::class.java.name)
-            }
-            R.id.ivSettings -> {
-                launchActivity<MoreActivity>()
-                drawerLayout.closeDrawer(GravityCompat.END)
+                drawerLayout.tag = id
+                //launchActivity<MoreActivity>()
             }
         }
+    }
+
+    override fun onDrawerClosed(drawerView: View) {
+        val id = drawerLayout.tag as? Int
+        id?.let {
+            when (id) {
+                R.id.ivSettings -> launchActivity<MoreActivity>()
+                R.id.atm_cdm -> startFragment(CdmMapFragment::class.java.name)
+                R.id.helpSupport -> startFragment(HelpSupportFragment::class.java.name)
+                R.id.ContactUs -> startFragment(HelpSupportFragment::class.java.name)
+                R.id.notification -> toast("Coming Soon")
+                else -> {
+                }
+            }
+        }
+        drawerLayout.tag = null
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -164,6 +183,7 @@ class HouseholdDashboardFragment :
 
             2 -> {
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    showToast("Not Implemented Yet! Coming Soon")
                     // will perform required action here
                 } else {
                     showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
@@ -175,7 +195,7 @@ class HouseholdDashboardFragment :
     override fun toolBarVisibility() = false
     override fun onBackPressed(): Boolean {
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
-            actionMenu?.toggle(mViewDataBinding.ivYapIt, true)
+            actionMenu?.toggle(mViewDataBinding.ivYapItAction, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) drawerLayout.closeDrawer(
             GravityCompat.END
         ) else finishActivityAffinity()

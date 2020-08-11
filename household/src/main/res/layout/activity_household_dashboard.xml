@@ -29,8 +29,8 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
                 app:elevation="2dp"
-                app:itemIconTint="@drawable/bottom_nav_color"
-                app:itemTextColor="@drawable/bottom_nav_color"
+                app:itemIconTint="@drawable/hh_bottom_nav_color"
+                app:itemTextColor="@drawable/hh_bottom_nav_color"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_navigation_main_household" />
 
@@ -53,7 +53,7 @@
             app:elevation="@dimen/_4sdp">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvYapIt"
+                android:id="@+id/cvYapItAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_3sdp"
@@ -65,14 +65,17 @@
                 app:contentPadding="0dp">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/ivYapIt"
+                    android:id="@+id/ivYapItAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    app:backgroundTint="@color/white"
+                    app:backgroundTint="@color/colorPrimaryHouseHold"
                     app:elevation="0dp"
-                    app:srcCompat="@drawable/ic_yap_it"
-                    yapItIconTint="@{true}"/>
+                    android:tint="@color/white"
+                    app:fabCustomSize="@dimen/_48sdp"
+                    app:fabSize="normal"
+                    app:maxImageSize="@dimen/_18sdp"
+                    app:srcCompat="@drawable/ic_house_hold_it" />
             </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatTextView

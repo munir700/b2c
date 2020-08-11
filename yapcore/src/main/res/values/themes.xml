@@ -50,6 +50,8 @@
         <item name="colorButtonPressedAttr">@color/colorPressedBtnState</item>
         <item name="colorButtonUnPressedAttr">@color/colorPrimary</item>
         <item name="colorCoreButtonTextAttr">@color/white</item>
+        <item name="colorProfileSettingIconBgTint">@color/transparent</item>
+        <item name="colorHelpSupportIconBgTint">#eae3ff</item>
 
     </style>
 
@@ -102,6 +104,8 @@
         <item name="colorButtonPressedAttr">@color/white</item>
         <item name="colorButtonUnPressedAttr">@color/white</item>
         <item name="colorCoreButtonTextAttr">@color/colorPrimaryDark</item>
+        <item name="colorProfileSettingIconBgTint">@color/colorPrimaryHouseHold</item>
+        <item name="colorHelpSupportIconBgTint">@color/colorPrimaryHouseHold</item>
 
     </style>
 
@@ -160,6 +164,19 @@
 
     <style name="CustomLightTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:statusBarColor">@color/colorSearchViewHintHouseHold</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#007AFF</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#00f</item>
     </style>
 
 

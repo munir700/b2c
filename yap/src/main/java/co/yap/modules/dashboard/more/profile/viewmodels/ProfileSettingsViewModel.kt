@@ -33,7 +33,6 @@ class ProfileSettingsViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
-    override var EVENT_LOGOUT_SUCCESS: Int = 101
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
@@ -64,24 +63,6 @@ class ProfileSettingsViewModel(application: Application) :
             } else {
                 state.fullName = it.currentCustomer.getFullName()
                 state.nameInitialsVisibility = GONE
-            }
-        }
-    }
-
-    override fun logout() {
-        val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
-        launch {
-            state.loading = true
-            when (val response = authRepository.logout(deviceId.toString())) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
-                    state.loading = true
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
             }
         }
     }

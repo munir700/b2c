@@ -85,9 +85,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         setupPager()
         addObservers()
         addListeners()
-        setupYapButton()
         setupMultiAccountSideMenu()
         mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
+        setupYapButton()
     }
 
     private fun setupYapButton() {
@@ -113,7 +113,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.layout.component_yap_menu_sub_button,
                 this, 3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .attachTo(getViewBinding().ivYapItAction).setAlphaOverlay(getViewBinding().flAlphaOverlay)
             .setTxtYapIt(getViewBinding().txtYapIt)
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
@@ -312,7 +312,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onBackPressed() {
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
-            actionMenu?.toggle(getViewBinding().ivYapIt, true)
+            actionMenu?.toggle(getViewBinding().ivYapItAction, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
             bottomNav.selectedItemId = R.id.yapHome

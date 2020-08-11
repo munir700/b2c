@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="android.view.View"></import>
+        <import type="android.view.View"/>
 
         <variable
             name="viewModel"
@@ -13,13 +13,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@color/white"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="?attr/colorYapItBgAttr"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tbBtnBack"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
@@ -31,6 +30,8 @@
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:tint="?attr/colorIconsTintAttr"
+            app:tint="?attr/colorIconsTintAttr"
             app:srcCompat="@drawable/ic_back_arrow_left" />
 
 
@@ -44,6 +45,7 @@
             android:layout_marginEnd="@dimen/_30sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
+            android:textColor="?attr/colorToolbarTextAttr"
             android:text="@={viewModel.state.tootlBarTitle}" />
 
         <ImageView
