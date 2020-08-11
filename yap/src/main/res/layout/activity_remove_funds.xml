@@ -13,8 +13,6 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.yapcore.constants.Constants" />
-
     </data>
 
 
@@ -151,7 +149,7 @@
                             android:gravity="center_horizontal|center_vertical"
                             android:imeOptions="actionDone"
                             android:inputType="numberDecimal"
-                            android:maxLength="@{Constants.INSTANCE.UnitsCount}"
+                            android:maxLength="@integer/unitsCount"
                             android:maxLines="1"
                             android:text="@={viewModel.state.amount}"
                             app:hint="@{Strings.common_amount_hint}"
