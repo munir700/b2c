@@ -171,6 +171,8 @@ object Strings {
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
     const val screen_notification_permission_text_title: String =
         "screen_notification_permission_text_title"
+    const val screen_notification_permission_text_sub_title: String =
+        "screen_notification_permission_text_sub_title"
     const val screen_system_permission_text_title_terms_and_conditions: String =
         "screen_system_permission_text_title_terms_and_conditions"
     const val screen_system_permission_text_terms_and_conditions: String =
@@ -178,6 +180,7 @@ object Strings {
     const val screen_system_permission_button_touch_id: String =
         "screen_system_permission_button_touch_id"
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
+    const val screen_system_permission_text_denied_notification: String = "screen_system_permission_text_denied_notification"
     const val screen_notification_permission_button_title: String =
         "screen_notification_permission_button_title"
     const val screen_system_permission_text_sub_title: String =
