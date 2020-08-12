@@ -55,12 +55,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/screen_add_funds_display_text_add_funds"
+                android:text="@string/screen_remove_funds_display_text_remove_funds"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tbIvClose"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/screen_add_funds_display_text_add_funds" />
+                tools:text="@string/screen_remove_funds_display_text_remove_funds" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
