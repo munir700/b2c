@@ -577,21 +577,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel.txnFilters = it
             homeTransactionsRequest.number = 0
             homeTransactionsRequest.size = YAPApplication.pageSize
-            homeTransactionsRequest.txnType = getTxnType()
+            homeTransactionsRequest.txnType = it.getTxnType()
             homeTransactionsRequest.amountStartRange = it.amountStartRange
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
         }
-    }
-
-    private fun getTxnType(): String? {
-        return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
-            null
-        } else if (viewModel.txnFilters.incomingTxn == true)
-            Constants.MANUAL_CREDIT
-        else
-            Constants.MANUAL_DEBIT
     }
 
     private fun getFilterTransactions() {
