@@ -369,9 +369,9 @@ class CCPCountry : Comparable<CCPCountry> {
             when (CCPCountry.nameCode.toLowerCase()) {
                 //this should be sorted based on country name isoCountryCode2Digit.
                 "ae" //united arab emirates
-                -> return R.drawable.bitmap
+                -> return R.drawable.flag_ae
 
-                else -> return R.drawable.bitmap
+                else -> return R.drawable.flag_ae
             }
         }
 

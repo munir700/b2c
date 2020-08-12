@@ -13,7 +13,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.helpers.extentions.maskAccountNumber
+import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
@@ -53,8 +54,8 @@ class YapDashBoardViewModel(application: Application) :
         state.appVersion.set(
             String.format(
                 "Version %s (%s)",
-                YAPApplication.appInfo?.version_name,
-                YAPApplication.appInfo?.version_code
+                YAPApplication.configManager?.versionName ?: "",
+                YAPApplication.configManager?.versionCode ?: ""
             )
         )
     }
@@ -66,8 +67,8 @@ class YapDashBoardViewModel(application: Application) :
 
     private fun populateState() {
         MyUserManager.user?.let { it ->
-            it.accountNo?.let { state.accountNo = it }
-            it.iban?.let { state.ibanNo = formateIbanString(it) ?: "" }
+            it.accountNo?.let { state.accountNo = it.maskAccountNumber() }
+            it.iban?.let { state.ibanNo = it.maskIbanNumber() }
             state.fullName = it.currentCustomer.getFullName()
             state.firstName = it.currentCustomer.firstName
             state.userNameImage.set(it.currentCustomer.getPicture() ?: "")

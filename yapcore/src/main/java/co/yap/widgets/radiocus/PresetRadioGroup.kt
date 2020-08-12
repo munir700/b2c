@@ -297,7 +297,7 @@ class PresetRadioGroup @JvmOverloads constructor(
     }
 
     public override fun onSaveInstanceState(): Parcelable? {
-        val savedState = SavedState(super.onSaveInstanceState())
+        val savedState = SavedState(super.onSaveInstanceState()!!)
         savedState.mCheckedId = mCheckedId
         return savedState
     }

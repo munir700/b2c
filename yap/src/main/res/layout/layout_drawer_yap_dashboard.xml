@@ -12,6 +12,10 @@
         <import type="co.yap.yapcore.helpers.StringUtils" />
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.enums.PartnerBankStatus" />
+
+        <import type="android.view.View" />
     </data>
 
     <!--    <ScrollView-->
@@ -118,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:el_duration="300"
-                    app:el_expanded="false"
+                    app:el_expanded="true"
                     app:el_parallax="0.5">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -171,6 +175,7 @@
                             android:gravity="center"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
                             android:text="Copy"
+                            android:visibility="@{MyUserManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
                             app:btn_pressed_color="@color/disabledLight"
                             app:btn_round_radius="@dimen/_10sdp"
                             app:btn_shape_type="rectangle"

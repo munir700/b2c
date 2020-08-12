@@ -128,7 +128,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                             }
 
                         }
-                        if (event!!.getX() > 490) {
+                        if (event.x > 490) {
                             //tapped on right of center
                             if (welcome_pager.currentItem < 2) {
 
@@ -173,13 +173,12 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
 
     fun slideInTitle(viewFirst: View, viewSecond: View, viewThird: View) {
-        viewFirst!!.visibility = VISIBLE
+        viewFirst.visibility = VISIBLE
 
-        var techniques: Techniques
-        if (incrementValue) {
-            techniques = Techniques.SlideInRight
+        val techniques: Techniques = if (incrementValue) {
+            Techniques.SlideInRight
         } else {
-            techniques = Techniques.SlideInLeft
+            Techniques.SlideInLeft
 
         }
 
@@ -213,7 +212,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
         }
 
-        viewSecond!!.visibility = VISIBLE
+        viewSecond.visibility = VISIBLE
 
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
@@ -244,7 +243,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
             techniques = Techniques.SlideInLeft
 
         }
-        viewThird!!.visibility = VISIBLE
+        viewThird.visibility = VISIBLE
 
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {

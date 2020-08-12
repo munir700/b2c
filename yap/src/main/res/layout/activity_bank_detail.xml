@@ -10,6 +10,10 @@
             type="co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.enums.PartnerBankStatus" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,9 +36,9 @@
             android:layout_marginTop="@dimen/_32sdp"
             android:background="@color/light_grey_background"
             android:orientation="vertical"
-            android:paddingEnd="@dimen/margin_normal_large"
             android:paddingStart="@dimen/margin_normal_large"
             android:paddingTop="@dimen/margin_normal_large"
+            android:paddingEnd="@dimen/margin_normal_large"
             android:paddingBottom="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -145,10 +149,10 @@
                     style="@style/Small"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:lines="1"
-                    android:layout_marginStart="@dimen/margin_normal"
                     android:text="@{viewModel.state.iban}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -326,6 +330,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Share"
+            android:visibility="@{MyUserManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
             app:btn_drawable="@drawable/ic_share_white"
             app:btn_drawable_padding_left="10"
             app:btn_drawable_padding_top="4"

@@ -39,3 +39,4 @@ app/~/tmp/full-r8-config.txt
 /household/.cxx/*
 /security/.cxx/*
 /security/build
+/app/live/release

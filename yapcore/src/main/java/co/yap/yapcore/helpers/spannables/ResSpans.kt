@@ -43,9 +43,8 @@ class ResSpans(val context: Context) : Iterable<Any> {
 
 fun clickableSpan(action: () -> Unit) = object : ClickableSpan() {
     override fun onClick(view: View) = action()
-
-    override fun updateDrawState(ds: TextPaint?) {
+    override fun updateDrawState(ds: TextPaint) {
         super.updateDrawState(ds)
-        ds?.isUnderlineText = false
+        ds.isUnderlineText = false
     }
 }

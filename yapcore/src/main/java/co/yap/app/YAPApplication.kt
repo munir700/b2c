@@ -1,13 +1,14 @@
 package co.yap.app
 
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.yapcore.helpers.AppInfo
+import co.yap.yapcore.config.BuildConfigManager
 import dagger.android.support.DaggerApplication
 
-abstract class YAPApplication(myAppInfo: AppInfo) : DaggerApplication() {
+
+abstract class YAPApplication : DaggerApplication() {
     companion object {
         var AUTO_RESTART_APP = true
-        var appInfo: AppInfo? = null
+        var configManager: BuildConfigManager? = null
         const val pageSize = 200
         var hasFilterStateChanged = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
@@ -30,9 +31,4 @@ abstract class YAPApplication(myAppInfo: AppInfo) : DaggerApplication() {
             )
         }
     }
-
-    init {
-        appInfo = myAppInfo
-    }
-
 }

@@ -8,14 +8,13 @@ import java.security.MessageDigest
 
 class SecurityHelper(
     private val context: Context,
-    private val originalSign: AppSignature,
+    private val originalSign: AppSignature?,
     private val validator: SignatureValidator
 ) {
     init {
         System.loadLibrary("signature-lib")
         validateAppSignature()
     }
-
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
@@ -25,8 +24,8 @@ class SecurityHelper(
 
     private fun validateAppSignature() {
         getApplicationSignature(context).find { it == originalSign }?.let {
-            validator.onValidate(isValid = true)
-        } ?: validator.onValidate(isValid = false)
+            validator.onValidate(isValid = true, originalSign = originalSign)
+        } ?: validator.onValidate(isValid = false, originalSign = originalSign)
     }
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -49,19 +48,26 @@ class SecurityHelper(
                 val rawCertJava = it.signatures[0].toByteArray()
                 val rawCertNative = bytesFromJNI(context)
                 rawCertNative?.let { byteArray ->
-//                    Toast.makeText(context,"SHA 1"+getGivenSignature("SHA", byteArray),Toast.LENGTH_LONG).show()
-                    signaturesList.add(
-                        AppSignature(
-                            sha1 = getGivenSignature("SHA", byteArray),
-                            md5 = getGivenSignature("MD5", byteArray),
-                            sha256 = getGivenSignature("SHA256", byteArray)
-                        )
+                    val signatures = AppSignature(
+                        sha1 = getGivenSignature("SHA", byteArray),
+                        md5 = getGivenSignature("MD5", byteArray),
+                        sha256 = getGivenSignature("SHA256", byteArray),
+                        leanPlumSecretKey = "",
+                        leanPlumKey = "",
+                        adjustToken = "",
+                        baseUrl = "",
+                        buildType = "",
+                        flavor = "",
+                        versionName = "",
+                        versionCode = "",
+                        applicationId = "",
+                        sslPin1 = "",
+                        sslPin2 = "",
+                        sslPin3 = "",
+                        sslHost = ""
                     )
-                } ?: Toast.makeText(
-                    context,
-                    "Couldn't able to find app signature",
-                    Toast.LENGTH_LONG
-                ).show()
+                    signaturesList.add(signatures)
+                }
             }
         }
         return signaturesList
@@ -129,5 +135,13 @@ class SecurityHelper(
             }
         }
         return md5StrBuff.toString()
+    }
+
+    private fun showToast(context: Context, msg: String) {
+        Toast.makeText(
+            context,
+            msg,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

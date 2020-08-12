@@ -22,7 +22,6 @@ import androidx.core.view.setPadding
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 
@@ -356,27 +355,24 @@ class CoreDialerPad @JvmOverloads constructor(
             resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
         etPassCodeText?.visibility = View.GONE
         llPasscode.visibility = View.VISIBLE
-//        btnFingerPrint.setImageDrawable(
-//            resources.getDrawable(
-//                R.drawable.ic_fingerprint_purple,
-//                null
-//            )
-//        )
-        setDrawabeTint()
+        setDrawableTint()
     }
 
     @SuppressLint("ResourceType")
-    fun setDrawabeTint() {
+    fun setDrawableTint() {
+        context.getDrawable(R.drawable.ic_fingerprint_purple)?.let {
+            val drawableRight: Drawable =
+                DrawableCompat.wrap(it)
+            if (SharedPreferenceManager(context).getThemeValue()
+                    .equals(Constants.THEME_HOUSEHOLD)
+            ) {
+                DrawableCompat.setTint(drawableRight, Color.RED);
+            }
 
-        var drawbleRight: Drawable =
-            DrawableCompat.wrap(context.getDrawable(R.drawable.ic_fingerprint_purple))
-        if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-            DrawableCompat.setTint(drawbleRight, Color.RED);
+            btnFingerPrint.setImageDrawable(
+                drawableRight
+            )
         }
-
-        btnFingerPrint.setImageDrawable(
-            drawbleRight
-        )
     }
 
     fun upDatedDialerPad(passcode: String? = null) {

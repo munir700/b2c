@@ -36,6 +36,7 @@ import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.layout_google_maps.*
 import kotlinx.android.synthetic.main.location_selection_fragment.*
 import java.text.SimpleDateFormat
@@ -59,10 +60,9 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
-        setAddress()
         setHeadings()
+        setAddress()
         addListeners()
-
     }
 
     private fun addListeners() {
@@ -98,6 +98,12 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     private fun setAddress() {
         viewModel.address = viewModel.parentViewModel?.address
+        viewModel.state.addressTitle.set(viewModel.address?.address1)
+        viewModel.state.addressSubtitle.set(viewModel.address?.address2)
+        populateCardState(viewModel.address, true)
+        if (viewModel.address?.latitude != null && viewModel.address?.longitude != null) {
+            mDefaultLocation = LatLng(viewModel.address?.latitude!!, viewModel.address?.longitude!!)
+        }
     }
 
     private fun setHeadings() {
@@ -198,10 +204,6 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
                 if (etAddressField.length() == 0 && !viewModel.hasSeletedLocation) {
                     onMapClickAction()
-                } else {
-                    etAddressField.isFocusable = true
-                    etAddressField.isFocusableInTouchMode = true
-                    etAddressField.setSelection(etAddressField.length())
                 }
             }
 
@@ -311,6 +313,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                     viewModel.state.isShowLocationCard.set(false)
                     collapseMap()
                     viewModel.onLocationSelected()
+                    etAddressField.setSelection(etAddressField.length())
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {

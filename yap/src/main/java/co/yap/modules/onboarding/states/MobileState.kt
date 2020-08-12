@@ -18,8 +18,8 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.SignupEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class MobileState(application: Application, var viewModel: MobileViewModel) : BaseState(),
     IMobile.State {
@@ -51,7 +51,6 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
     override var mobile: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.mobile)
             if (viewModel.parentViewModel?.isPhoneNumberEntered?.value == false) {
                 viewModel.parentViewModel?.isPhoneNumberEntered?.value = true
                 trackEvent(SignupEvents.SIGN_UP_START.type)
@@ -59,6 +58,7 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
             if (mobile.length < 9) {
                 mobileNoLength = 11
             }
+            notifyPropertyChanged(BR.mobile)
         }
 
     @get:Bindable
@@ -119,29 +119,19 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
                     mobileNoLength = 11
                     if (mobile.length == 11) {
                         setSuccessUI()
-//                        drawbleRight =
-//                            mContext!!.getDrawable(R.drawable.path)
-                        setDrawabeTint()
-//                        setDrawabeTint()
-//                        drawbleRight!!.setColorFilter(ContextCompat.getColor(mContext, R.attr.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY)
-
-
+                        setDrawableTint()
                         valid = true
 
                     } else {
                         setSuccessUI()
                     }
                 } else {
-//                    mobileNoLength=9
                     setSuccessUI()
-                    if (mobile.toString().replace(" ", "").trim().length >= 9) {
+                    if (mobile.replace(" ", "").trim().length >= 9) {
                         setErrorLayout()
-
                     } else {
                         setSuccessUI()
-
                     }
-
                 }
             }
         })
@@ -195,10 +185,12 @@ class MobileState(application: Application, var viewModel: MobileViewModel) : Ba
     }
 
     @SuppressLint("ResourceType")
-    fun setDrawabeTint() {
-        drawbleRight = DrawableCompat.wrap(mContext.getDrawable(R.drawable.path))
+    fun setDrawableTint() {
+        drawbleRight = mContext.getDrawable(R.drawable.path)?.let { DrawableCompat.wrap(it) }
         drawbleRight?.let {
-            if (SharedPreferenceManager(mContext).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+            if (SharedPreferenceManager(mContext).getThemeValue()
+                    .equals(Constants.THEME_HOUSEHOLD)
+            ) {
                 DrawableCompat.setTint(it, Color.RED)
             }
         }

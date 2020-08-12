@@ -3,6 +3,7 @@ package co.yap.yapcore
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.managers.MyUserManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
@@ -14,29 +15,35 @@ import com.adjust.sdk.LogLevel
 * -> Adjust SDK
 * */
 
-fun Application.initializeAdjustSdk(appToken: String) {
+fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
 
-    val environment =
-        if (BuildConfig.DEBUG) AdjustConfig.ENVIRONMENT_SANDBOX else AdjustConfig.ENVIRONMENT_PRODUCTION
-    val config = AdjustConfig(this, appToken, environment)
-    config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
-    config.setLogLevel(LogLevel.INFO)
-    config.setSendInBackground(true)
-    config.setOnAttributionChangedListener {}
+    configManager?.let { configurations ->
+        var config: AdjustConfig? = null
+        if (configurations.isLiveRelease()) {
+            config = AdjustConfig(
+                this,
+                configurations.adjustToken,
+                AdjustConfig.ENVIRONMENT_PRODUCTION
+            )
+            config.setAppSecret(1, 325677892, 77945854, 746350982, 870707894)
+        } else {
+            config =
+                AdjustConfig(this, configurations.adjustToken, AdjustConfig.ENVIRONMENT_SANDBOX)
+            config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
+            config.setLogLevel(LogLevel.VERBOSE)
+        }
 
-    config.setOnEventTrackingSucceededListener {}
-
-    config.setOnEventTrackingFailedListener { }
-
-    config.setOnSessionTrackingSucceededListener { }
-
-    config.setOnSessionTrackingFailedListener { }
-
-    config.setOnSessionTrackingFailedListener {}
-
-    config.setOnDeeplinkResponseListener { true }
-    Adjust.onCreate(config)
-    //registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+        config.setSendInBackground(true)
+        config.setOnAttributionChangedListener {}
+        config.setOnEventTrackingSucceededListener {}
+        config.setOnEventTrackingFailedListener { }
+        config.setOnSessionTrackingSucceededListener { }
+        config.setOnSessionTrackingFailedListener { }
+        config.setOnSessionTrackingFailedListener {}
+        config.setOnDeeplinkResponseListener { true }
+        Adjust.onCreate(config)
+        registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+    }
 }
 
 private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
@@ -66,18 +73,6 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
         Adjust.onPause()
     }
 }
-
-//fun Activity.trackAdjustEvent(event: String) {
-//    fireAdjustEvent(event)
-//}
-//
-//fun Fragment.trackAdjustEvent(event: String) {
-//    fireAdjustEvent(event)
-//}
-//
-//fun ViewModel.trackAdjustEvent(event: String) {
-//    fireAdjustEvent(event)
-//}
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
