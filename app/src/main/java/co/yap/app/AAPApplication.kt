@@ -22,7 +22,10 @@ import co.yap.yapcore.constants.Constants.THEME_YAP
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.YAPThemes
-import co.yap.yapcore.helpers.AppInfo
+import co.yap.security.AppSignature
+import co.yap.security.SecurityHelper
+import co.yap.security.SignatureValidator
+import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -41,36 +44,81 @@ import dagger.android.HasActivityInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
-import timber.log.Timber.DebugTree
 import java.util.*
 import javax.inject.Inject
 
-class AAPApplication : HouseHoldApplication(
-    getAppInfo()
-), NavigatorProvider, HasActivityInjector {
+class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     lateinit var sAppComponent: AppComponent
+    lateinit var originalSign:AppSignature
 
-    companion object {
-        val appInfo = getAppInfo()
+    private external fun signatureKeysFromJNI(
+        name: String,
+        flavour: String,
+        buildVariant: String,
+        applicationId: String,
+        versionName: String,
+        versionCode: String
+    ): AppSignature
+
+    init {
+        System.loadLibrary("native-lib")
     }
 
     override fun onCreate() {
         super.onCreate()
         sAppComponent = AppInjector.init(this)
+        initFireBase()
+         originalSign =
+            signatureKeysFromJNI(
+                AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
+                BuildConfig.FLAVOR,
+                BuildConfig.BUILD_TYPE,
+                BuildConfig.APPLICATION_ID,
+                BuildConfig.VERSION_NAME,
+                BuildConfig.VERSION_CODE.toString()
+            )
+
+        configManager = BuildConfigManager(
+            md5 = originalSign.md5,
+            sha1 = originalSign.sha1,
+            sha256 = originalSign.sha256,
+            leanPlumSecretKey = originalSign.leanPlumSecretKey,
+            leanPlumKey = originalSign.leanPlumKey,
+            adjustToken = originalSign.adjustToken,
+            baseUrl = originalSign.baseUrl,
+            buildType = originalSign.buildType,
+            flavor = originalSign.flavor,
+            versionName = originalSign.versionName,
+            versionCode = originalSign.versionCode,
+            applicationId = originalSign.applicationId,
+            sslPin1 = originalSign.sslPin1,
+            sslPin2 = originalSign.sslPin2,
+            sslPin3 = originalSign.sslPin3,
+            sslHost = originalSign.sslHost
+        )
+        initAllModules()
+        SecurityHelper(this, originalSign, object : SignatureValidator {
+            override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
+                configManager?.hasValidSignature = true
+                //if (originalSign?.isLiveRelease() == true) isValid else true
+            }
+        })
+    }
+
+    private fun initAllModules() {
         initNetworkLayer()
 //        switchTheme(YAPThemes.HOUSEHOLD())
         switchTheme(YAPThemes.CORE())
         setAppUniqueId(this)
-        initFireBase()
         inItLeanPlum()
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
-        initializeAdjustSdk(BuildConfig.ADJUST_APP_TOKEN)
+        initializeAdjustSdk(configManager)
     }
 
     private fun initNetworkLayer() {
-        RetroNetwork.initWith(this, getAppDataForNetwork())
+        RetroNetwork.initWith(this, getAppDataForNetwork(configManager))
         NetworkConnectionManager.init(this)
 
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
@@ -88,7 +136,7 @@ class AAPApplication : HouseHoldApplication(
 
     private fun initFireBase() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
+            Timber.plant(Timber.DebugTree())
         } else {
             val fabric = Fabric.Builder(this)
                 .kits(Crashlytics())
@@ -102,16 +150,18 @@ class AAPApplication : HouseHoldApplication(
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        val appId = BuildConfig.LEANPLUM_CLIENT_SECRET
-        val devKey = BuildConfig.LEANPLUM_API_KEY
-
-        if (BuildConfig.DEBUG) {
-            Leanplum.setAppIdForDevelopmentMode(appId, devKey)
+        if (configManager?.isLiveRelease() == true) {
+            Leanplum.setAppIdForProductionMode(
+                configManager?.leanPlumSecretKey,
+                configManager?.leanPlumKey
+            )
         } else {
-            Leanplum.setAppIdForProductionMode(appId, devKey)
+            Leanplum.setAppIdForDevelopmentMode(
+                configManager?.leanPlumSecretKey,
+                configManager?.leanPlumKey
+            )
         }
-
-        //Leanplum.setIsTestModeEnabled(true)
+        Leanplum.setIsTestModeEnabled(false)
         Leanplum.start(this)
     }
 
@@ -170,7 +220,6 @@ class AAPApplication : HouseHoldApplication(
 
     }
 
-
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return if (!this::sAppComponent.isInitialized) {
             sAppComponent = AppInjector.init(this)
@@ -182,25 +231,16 @@ class AAPApplication : HouseHoldApplication(
     }
 
     override fun activityInjector() = activityInjector
-}
 
-fun getAppInfo(): AppInfo {
-    return AppInfo(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.VERSION_CODE,
-        BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
-}
-
-//will consult this with team
-fun getAppDataForNetwork(): AppData {
-    return AppData(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.VERSION_CODE,
-        BuildConfig.FLAVOR,
-        BuildConfig.BUILD_TYPE,
-        BuildConfig.BASE_URL
-    )
+    private fun getAppDataForNetwork(configManager: BuildConfigManager?): AppData {
+        return AppData(
+            flavor = configManager?.flavor ?: "",
+            build_type = configManager?.buildType ?: "",
+            baseUrl = configManager?.baseUrl ?: "",
+            sslPin1 = configManager?.sslPin1 ?: "",
+            sslPin2 = configManager?.sslPin2 ?: "",
+            sslPin3 = configManager?.sslPin3 ?: "",
+            sslHost = configManager?.sslHost ?: ""
+        )
+    }
 }

@@ -20,6 +20,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
@@ -115,17 +116,20 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     sendInvite((data as Contact))
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
-                        if (parentFragment is YapToYapFragment) {
-                            (parentFragment as YapToYapFragment).findNavController().navigate(
-                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl!!
-                                    ,
-                                    data.accountDetailList?.get(0)?.accountUuid!!,
-                                    data.title!!,
-                                    pos
+                    if (MyUserManager.user?.otpBlocked == true && data is Contact && data.yapUser == false) {
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                    } else {
+                        if (data is Contact && data.yapUser == true && data.accountDetailList != null && data.accountDetailList?.isNotEmpty() == true) {
+                            if (parentFragment is YapToYapFragment) {
+                                (parentFragment as YapToYapFragment).findNavController().navigate(
+                                    YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                                        data.beneficiaryPictureUrl ?: "",
+                                        data.accountDetailList?.get(0)?.accountUuid ?: "",
+                                        data.title ?: "",
+                                        pos
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }

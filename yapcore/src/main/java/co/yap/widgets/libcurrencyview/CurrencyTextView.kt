@@ -208,11 +208,11 @@ class CurrencyTextView : AppCompatTextView {
             if (str.parseToInt() in 0..9)
                 str = "0$str"
             result.append(str,
-               // BigDecimal(str).intValueExact().toString(),
+                // BigDecimal(str).intValueExact().toString(),
                 AbsoluteSizeSpan(decimalSize.toInt(), false)
             )
         } catch (e: Exception) {
-        //    e.printStackTrace()
+            //    e.printStackTrace()
             result.clear()
             result.append(amount, AbsoluteSizeSpan(textSize.toInt(), false))
         }
@@ -268,10 +268,8 @@ class CurrencyTextView : AppCompatTextView {
          * 添加一个纯文本
          * @return this `Spanny`.
          */
-        override fun append(text: CharSequence): Spanny {
-            if (null != text) {
-                super.append(text)
-            }
+        override fun append(text: CharSequence?): Spanny {
+            text?.let { super.append(text) }
             return this
         }
 

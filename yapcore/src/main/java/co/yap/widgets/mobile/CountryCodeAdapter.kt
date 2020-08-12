@@ -37,7 +37,7 @@ internal class CountryCodeAdapter(
     var inflater: LayoutInflater
     var editText_search: EditText
     var dialog: Dialog
-    var context: Context
+    var context = context
     var rlQueryHolder: RelativeLayout
     var imgClearQuery: ImageView
     var preferredCountriesCount = 0
@@ -48,7 +48,6 @@ internal class CountryCodeAdapter(
     }
 
     init {
-        this.context = context
         this.masterCountries = countries
         this.codePicker = codePicker
         this.dialog = dialog
@@ -63,48 +62,42 @@ internal class CountryCodeAdapter(
 
     private fun setSearchBar() {
         if (codePicker.isSearchAllowed) {
-            imgClearQuery.setVisibility(View.GONE)
+            imgClearQuery.visibility = View.GONE
             setTextWatcher()
             setQueryClearListener()
         } else {
-            rlQueryHolder.setVisibility(View.GONE)
+            rlQueryHolder.visibility = View.GONE
         }
     }
 
     private fun setQueryClearListener() {
-        imgClearQuery.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                editText_search.setText("")
-            }
-        })
+        imgClearQuery.setOnClickListener { editText_search.setText("") }
     }
 
 
     private fun setTextWatcher() {
-        if (this.editText_search != null) {
-            this.editText_search.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {}
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    applyQuery(s.toString())
-                    if (s.toString().trim({ it <= ' ' }) == "") {
-                        imgClearQuery.setVisibility(View.GONE)
-                    } else {
-                        imgClearQuery.setVisibility(View.VISIBLE)
-                    }
+        this.editText_search.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                applyQuery(s.toString())
+                if (s.toString().trim { it <= ' ' } == "") {
+                    imgClearQuery.visibility = View.GONE
+                } else {
+                    imgClearQuery.visibility = View.VISIBLE
                 }
-            })
-            this.editText_search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        val `in` = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        `in`.hideSoftInputFromWindow(editText_search.getWindowToken(), 0)
-                        return true
-                    }
-                    return false
+            }
+        })
+        this.editText_search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val `in` = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    `in`.hideSoftInputFromWindow(editText_search.getWindowToken(), 0)
+                    return true
                 }
-            })
-        }
+                return false
+            }
+        })
     }
 
     private fun applyQuery(query: String) {
@@ -112,12 +105,12 @@ internal class CountryCodeAdapter(
         textView_noResult.setVisibility(View.GONE)
         query = query.toLowerCase()
         //if query started from "+" ignore it
-        if (query.length > 0 && query.get(0) == '+') {
+        if (query.isNotEmpty() && query[0] == '+') {
             query = query.substring(1)
         }
         filteredCountries = getFilteredCountries(query)
-        if (filteredCountries!!.size == 0) {
-            textView_noResult.setVisibility(View.VISIBLE)
+        if (filteredCountries!!.isEmpty()) {
+            textView_noResult.visibility = View.VISIBLE
         }
         notifyDataSetChanged()
     }
@@ -125,7 +118,7 @@ internal class CountryCodeAdapter(
     private fun getFilteredCountries(query: String): List<CCPCountry> {
         val tempCCPCountryList = ArrayList<CCPCountry>()
         preferredCountriesCount = 0
-        if (codePicker.preferredCountries != null && codePicker.preferredCountries!!.size > 0) {
+        if (codePicker.preferredCountries != null && codePicker.preferredCountries!!.isNotEmpty()) {
             for (CCPCountry in codePicker.preferredCountries!!) {
                 if (CCPCountry.isEligibleForQuery(query)) {
                     tempCCPCountryList.add(CCPCountry)
@@ -138,7 +131,7 @@ internal class CountryCodeAdapter(
                 preferredCountriesCount++
             }
         }
-        for (CCPCountry in this!!.masterCountries!!) {
+        for (CCPCountry in this.masterCountries!!) {
             if (CCPCountry.isEligibleForQuery(query)) {
                 tempCCPCountryList.add(CCPCountry)
             }
@@ -148,28 +141,23 @@ internal class CountryCodeAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): CountryCodeViewHolder {
         val rootView = inflater.inflate(R.layout.layout_recycler_country_tile, viewGroup, false)
-        val viewHolder = CountryCodeViewHolder(rootView)
-        return viewHolder
+        return CountryCodeViewHolder(rootView)
     }
 
     override fun onBindViewHolder(countryCodeViewHolder: CountryCodeViewHolder, i: Int) {
-        countryCodeViewHolder.setCountry(filteredCountries!!.get(i))
-        if (filteredCountries!!.size > i && filteredCountries!!.get(i) != null) {
-            countryCodeViewHolder.mainView.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(view: View) {
-                    if (filteredCountries != null && filteredCountries!!.size > i) {
-                        codePicker.onUserTappedCountry(filteredCountries!!.get(i))
-                    }
-                    if (view != null && filteredCountries != null && filteredCountries!!.size > i && filteredCountries!!.get(
-                            i
-                        ) != null
-                    ) {
-                        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
-                        dialog.dismiss()
-                    }
+        countryCodeViewHolder.setCountry(filteredCountries!![i])
+        if (filteredCountries!!.size > i) {
+            countryCodeViewHolder.mainView.setOnClickListener { view ->
+                if (filteredCountries != null && filteredCountries!!.size > i) {
+                    codePicker.onUserTappedCountry(filteredCountries!!.get(i))
                 }
-            })
+                if (view != null && filteredCountries != null && filteredCountries!!.size > i) {
+                    val imm =
+                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+                    dialog.dismiss()
+                }
+            }
         } else {
             countryCodeViewHolder.mainView.setOnClickListener(null)
         }
@@ -177,17 +165,13 @@ internal class CountryCodeAdapter(
 
     override fun getSectionTitle(position: Int): String {
         val ccpCountry = filteredCountries!!.get(position)
-        if (preferredCountriesCount > position) {
-            return "★"
-        } else if (ccpCountry != null) {
-            return ccpCountry.name.substring(0, 1)
-        } else {
-            return "☺" //this should never be the case
-        }
+        return if (preferredCountriesCount > position) {
+            "★"
+        } else ccpCountry.name.substring(0, 1) ?: "☺" //this should never be the case
     }
 
     internal inner class CountryCodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var mainView: RelativeLayout
+        var mainView: RelativeLayout = itemView as RelativeLayout
         var textView_name: TextView
         var textView_code: TextView
         var imageViewFlag: ImageView
@@ -195,13 +179,12 @@ internal class CountryCodeAdapter(
         var divider: View
 
         init {
-            mainView = itemView as RelativeLayout
             textView_name = mainView.findViewById(R.id.tvCountryName) as TextView
             textView_code = mainView.findViewById(R.id.tvCode) as TextView
             imageViewFlag = mainView.findViewById(R.id.ivFlag) as ImageView
             linearFlagHolder = mainView.findViewById(R.id.llFlagHolder) as LinearLayout
             divider = mainView.findViewById(R.id.preferenceDivider)
-            if (codePicker.dialogTextColor !== 0) {
+            if (codePicker.dialogTextColor != 0) {
                 textView_name.setTextColor(codePicker.dialogTextColor)
                 textView_code.setTextColor(codePicker.dialogTextColor)
                 divider.setBackgroundColor(codePicker.dialogTextColor)
@@ -211,13 +194,13 @@ internal class CountryCodeAdapter(
 
         fun setCountry(ccpCountry: CCPCountry) {
             if (ccpCountry != null) {
-                divider.setVisibility(View.GONE)
-                textView_name.setVisibility(View.VISIBLE)
-                textView_code.setVisibility(View.VISIBLE)
+                divider.visibility = View.GONE
+                textView_name.visibility = View.VISIBLE
+                textView_code.visibility = View.VISIBLE
                 if (codePicker.isCcpDialogShowPhoneCode) {
-                    textView_code.setVisibility(View.VISIBLE)
+                    textView_code.visibility = View.VISIBLE
                 } else {
-                    textView_code.setVisibility(View.GONE)
+                    textView_code.visibility = View.GONE
                 }
                 var countryName = ""
                 if (codePicker.ccpDialogShowFlag && codePicker.ccpUseEmoji) {
@@ -228,19 +211,19 @@ internal class CountryCodeAdapter(
                 if (codePicker.ccpDialogShowNameCode) {
                     countryName += " (" + ccpCountry.nameCode.toUpperCase() + ")"
                 }
-                textView_name.setText(countryName)
-                textView_code.setText("+" + ccpCountry.phoneCode)
+                textView_name.text = countryName
+                textView_code.text = "+" + ccpCountry.phoneCode
                 if (!codePicker.ccpDialogShowFlag || codePicker.ccpUseEmoji) {
-                    linearFlagHolder.setVisibility(View.GONE)
+                    linearFlagHolder.visibility = View.GONE
                 } else {
-                    linearFlagHolder.setVisibility(View.VISIBLE)
+                    linearFlagHolder.visibility = View.VISIBLE
                     imageViewFlag.setImageResource(ccpCountry.flagID)
                 }
             } else {
-                divider.setVisibility(View.VISIBLE)
-                textView_name.setVisibility(View.GONE)
-                textView_code.setVisibility(View.GONE)
-                linearFlagHolder.setVisibility(View.GONE)
+                divider.visibility = View.VISIBLE
+                textView_name.visibility = View.GONE
+                textView_code.visibility = View.GONE
+                linearFlagHolder.visibility = View.GONE
             }
         }
     }

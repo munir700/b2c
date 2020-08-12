@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.app.main.MainActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.security.AppSignature
 import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -40,11 +39,11 @@ class AdjustReferrerReceiver : AppCompatActivity() {
             activityManager.getRunningTasks(Int.MAX_VALUE)
         for (task in tasks) {
             if (MainActivity::class.java.canonicalName.equals(
-                    task.baseActivity.shortClassName,
+                    task.baseActivity?.shortClassName,
                     ignoreCase = true
                 )
                 || YapDashboardActivity::class.java.canonicalName.equals(
-                    task.baseActivity.shortClassName,
+                    task.baseActivity?.shortClassName,
                     ignoreCase = true
                 )
             ) {

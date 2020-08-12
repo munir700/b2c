@@ -297,12 +297,15 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:visibility="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)||viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)? View.VISIBLE : View.GONE}"
-                    app:layout_constraintTop_toBottomOf="@+id/cancelReasonLy"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="*9999" />
+                    app:layout_constraintStart_toEndOf="@+id/tvCardLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/cancelReasonLy"
+                    tools:text="*99999" />
 
                 <TextView
                     android:id="@+id/tvDestinationLabel"
@@ -371,14 +374,20 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/small"
+                    android:ellipsize="end"
                     android:gravity="end"
+                    android:lines="1"
                     android:text="@{viewModel.transaction.senderName.toString()}"
                     android:visibility="@{viewModel.state.isTransferTxn &amp;&amp; viewModel.transaction.txnType.equals(TxnType.CREDIT.type)? View.VISIBLE : View.GONE }"
                     app:layout_constraintBottom_toTopOf="@+id/tvReceiverName"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvSenderLable"
                     app:layout_constraintTop_toBottomOf="@+id/tvFxRateValue"
-                    tools:text="Hassnain Ali" />
+                    tools:text="Hassnain AliHassnain AliHassnain AliHassnain AliHassnain Ali" />
 
                 <TextView
                     android:id="@+id/tvReceiverLable"
@@ -397,16 +406,22 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/small"
                     android:layout_marginBottom="@dimen/small"
+                    android:ellipsize="end"
                     android:gravity="end"
+                    android:lines="1"
                     android:text="@{viewModel.transaction.receiverName.toString()}"
                     android:visibility="@{viewModel.state.isTransferTxn &amp;&amp; viewModel.transaction.txnType.equals(TxnType.DEBIT.type)? View.VISIBLE : View.GONE }"
                     app:layout_constraintBottom_toTopOf="@+id/tvCardSpendAmount"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/guideline1"
                     app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvReceiverLable"
                     app:layout_constraintTop_toBottomOf="@+id/tvSenderName"
-                    tools:text="Faheem Riaz" />
+                    tools:text="Faheem RiaFaheem RiaFaheem RiaFaheem RiaFaheem Riaz" />
 
                 <TextView
                     android:id="@+id/tvCardSpent"
@@ -507,19 +522,23 @@
                     tools:ignore="HardcodedText"
                     tools:text="Reference number" />
 
-            <TextView
-                android:id="@+id/tvReferenceNumberValue"
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
-                android:gravity="end"
-                android:text="@{viewModel.transaction.transactionId}"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountValueCalculated"
-                tools:text="168449563519" />
+                <TextView
+                    android:id="@+id/tvReferenceNumberValue"
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/small"
+                    android:gravity="end"
+                    android:text="@{viewModel.transaction.transactionId}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvReferenceNumber"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTotalAmountValueCalculated"
+                    tools:text="1684495635191684419563519" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

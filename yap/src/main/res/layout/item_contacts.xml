@@ -10,7 +10,6 @@
             type="co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.YapContactItemViewModel" />
 
 
-
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
@@ -21,18 +20,26 @@
         android:id="@+id/lyContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:background="@color/colorWhite"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
 
-        <include
-            android:id="@+id/lyUserImage"
-            layout="@layout/layout_initial_image_user"
-            app:contactId="@{viewModel.contact.beneficiaryPictureUrl}"
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/small"
+            android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_store_b2b"
+            app:colorType="@{`y2y`}"
+            app:fullName="@{viewModel.contact.title}"
+            app:imageUrl="@{viewModel.contact.beneficiaryPictureUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:name="@{viewModel.contact.title}" />
+            app:position="@{viewModel.position}" />
 
         <LinearLayout
             android:id="@+id/content"
@@ -44,8 +51,8 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/section"
-            app:layout_constraintStart_toEndOf="@+id/lyUserImage"
-            app:layout_constraintTop_toTopOf="@+id/lyUserImage">
+            app:layout_constraintStart_toEndOf="@+id/imgProfile"
+            app:layout_constraintTop_toTopOf="@+id/imgProfile">
 
             <TextView
                 android:id="@+id/tvName"

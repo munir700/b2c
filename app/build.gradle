@@ -21,73 +21,85 @@ android {
         }
     }
 
-
     productFlavors {
 
         live {
-            versionCode 10
-            versionName "0.14"
+            versionCode 16
+            versionName "1.1.6"
+            applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_live}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_prod_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
+            // It binds with SHA1- SHA 256 and package bundle
+            resValue "string", "google_maps_key", "AIzaSyD14efXe-xXjpqUPX85ZhiKaKFHZyANSrE"
+            externalNativeBuild.cmake {
+                cppFlags '-DLIVE'
+            }
         }
 
         dev {
             versionCode 2
             versionName "0.2"
             applicationIdSuffix ".dev"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_dev}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Dev"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DDEV'
+            }
         }
 
         qa {
             versionCode 68
             versionName "0.6.8"
             applicationIdSuffix ".qa"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_qa}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP QA"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DQA'
+            }
         }
 
         stg {
-            versionCode 166
-            versionName "0.16.6"
+            versionCode 175
+            versionName "0.17.5"
             applicationIdSuffix ".stg"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_stg}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP Stage"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DSTG'
+            }
         }
         hh {
             versionCode 5
             versionName "0.0.5"
             applicationIdSuffix ".dev"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
             resValue "string", "app_name", "YAP HH"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DHH'
+            }
         }
-        hh_qa {
-            versionCode 5
-            versionName "0.0.5"
-            applicationIdSuffix ".qa"
-            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold_QA}\"")
-            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
-            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
-            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
-            resValue "string", "app_name", "YAP HH QA"
-        }
+//        hh_qa {
+//            versionCode 5
+//            versionName "0.0.5"
+//            applicationIdSuffix ".qa"
+//            buildConfigField("String", "BASE_URL", "\"${api_endpoint_house_hold_QA}\"")
+//            buildConfigField("String", "LEANPLUM_CLIENT_SECRET", "\"${leanplum_client_secret_key}\"")
+//            buildConfigField("String", "LEANPLUM_API_KEY", "\"${leanplum_api_debug_key}\"")
+//            buildConfigField("String", "ADJUST_APP_TOKEN", "\"${adjust_app_tocken}\"")
+//            resValue "string", "app_name", "YAP HH QA"
+//            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+//            externalNativeBuild.cmake {
+//                cppFlags '-DQA'
+//            }
+//        }
     }
     ndkVersion '21.1.6352462'
+    sourceSets {
+        live {
+            res {
+                srcDirs 'src/live/res', 'src/live/res/'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -97,12 +109,10 @@ dependencies {
         add(it.configuration, it.dependency)
     }
 
-    // shared dependencies to all modules
     project.commonDependencies.each {
         add(it.configuration, it.dependency)
     }
 
-    // app specific dependencies
     project.appDependencies.each {
         add(it.configuration, it.dependency)
     }

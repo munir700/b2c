@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers.extentions
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -8,7 +7,8 @@ import android.content.Intent.EXTRA_EMAIL
 import android.content.Intent.createChooser
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.fragment.app.Fragment
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.URL_SHARE_PLAY_STORE
 
 
 /**
@@ -126,5 +126,6 @@ fun Context.sendSms(number: String, text: String = ""): Boolean {
  * Opens your application page inside the play store
  * @return A boolean representing if the action was successful or not
  */
+
 fun Context.openPlayStore(): Boolean =
-    openUrl("http://play.google.com/store/apps/details?id=${this.packageName}")
+    openUrl(URL_SHARE_PLAY_STORE)

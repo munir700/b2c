@@ -42,7 +42,9 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
     private fun initState() {
         viewModel.getState().observe(this, Observer { state ->
-            if ((getBinding().recycler.adapter as YapContactsAdaptor).getDataList().isNullOrEmpty()) {
+            if ((getBinding().recycler.adapter as YapContactsAdaptor).getDataList()
+                    .isNullOrEmpty()
+            ) {
                 getBinding().recycler.visibility = View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
@@ -109,7 +111,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.lyContact -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
+                    if (MyUserManager.user?.otpBlocked == true ) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         if (data is Contact && data.yapUser == true && data.accountDetailList != null && !data.accountDetailList.isNullOrEmpty()) {

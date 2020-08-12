@@ -24,7 +24,7 @@ class PopListBottomSheet(
         val view = inflater.inflate(R.layout.bottom_sheet_pop, container, false)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        val titleList = ArrayList(purposeCategories?.keys)
+        val titleList = purposeCategories?.keys?.let { ArrayList(it) } ?: arrayListOf()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
             PopParentAdapter(titleList, purposeCategories, recyclerView, mListener)

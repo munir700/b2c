@@ -144,8 +144,7 @@ class VerifyPasscodeViewModel(application: Application) :
     override fun verifyPasscode() {
         launch {
             state.loading = true
-            when (val response =
-                customersRepository.validateCurrentPasscode(VerifyPasscodeRequest(passcode = state.passcode))) {
+            when (customersRepository.validateCurrentPasscode(VerifyPasscodeRequest(passcode = state.passcode))) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
                     state.loading = false
@@ -210,7 +209,7 @@ class VerifyPasscodeViewModel(application: Application) :
             SharedPreferenceManager(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
         launch {
             state.loading = true
-            when (val response = repository.logout(deviceId.toString())) {
+            when (repository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
                     success.invoke()
                     state.loading = false

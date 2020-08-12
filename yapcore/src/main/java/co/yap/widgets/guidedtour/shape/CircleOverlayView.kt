@@ -50,7 +50,9 @@ class CircleOverlayView : LinearLayout {
         if (bitmap == null) {
             createWindowFrame()
         }
-        canvas.drawBitmap(bitmap, 0f, 0f, null)
+        bitmap?.let {
+            canvas.drawBitmap(it, 0f, 0f, null)
+        }
     }
 
     protected fun createWindowFrame() {
@@ -59,7 +61,7 @@ class CircleOverlayView : LinearLayout {
             height,
             Bitmap.Config.ARGB_8888
         )
-        val osCanvas = Canvas(bitmap)
+        val osCanvas = Canvas(bitmap!!)
         val outerRectangle =
             RectF(0f, 0f, width.toFloat(), height.toFloat())
         val paint =

@@ -1,6 +1,8 @@
 package co.yap.modules.location.helper
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -9,6 +11,7 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.os.Looper
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.location.fragments.LocationBaseFragment
@@ -145,23 +148,44 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         }
     }
 
-    private fun populateCardState(address: co.yap.networking.cards.responsedtos.Address?) {
-        if (viewModel.state.isLocationInAllowedCountry.get() == true) {
-            viewModel.state.isShowLocationCard.set(true)
-            address?.let { _address ->
-                viewModel.address?.latitude = _address.latitude
-                viewModel.address?.longitude = _address.longitude
-                viewModel.state.placeTitle.set(_address.address1)
-                viewModel.state.placeSubTitle.set(_address.address2)
-                viewModel.state.placePhoto.set(defaultPlacePhoto)
+    fun populateCardState(
+        address: co.yap.networking.cards.responsedtos.Address?,
+        populatePassingAddress: Boolean = false
+    ) {
+        if (populatePassingAddress) {
+            fillAddress(address, populatePassingAddress)
+        } else {
+            if (viewModel.state.isLocationInAllowedCountry.get() == true) {
+                viewModel.state.isShowLocationCard.set(true)
+                fillAddress(address)
+            } else
+                showNotAllowedError()
+        }
+    }
+
+    private fun fillAddress(
+        address: co.yap.networking.cards.responsedtos.Address?,
+        populatePassingAddress: Boolean = false
+    ) {
+        address?.let { _address ->
+            viewModel.address?.latitude = _address.latitude
+            viewModel.address?.longitude = _address.longitude
+            viewModel.state.addressSubtitle.set("")
+            viewModel.state.placeTitle.set(_address.address1)
+            viewModel.state.placeSubTitle.set(_address.address2)
+            viewModel.state.placePhoto.set(defaultPlacePhoto)
+            if (populatePassingAddress) {
+                viewModel.state.addressSubtitle.set(viewModel.address?.address2)
+                _address.city?.let { viewModel.state.city.set(_address.city) }
+                    ?: viewModel.state.city.set("Select")
+            } else {
                 val cityMatched =
                     viewModel.cities.value?.firstOrNull { it.name.equals(_address.city, true) }
                 cityMatched?.let {
                     viewModel.state.city.set(it.name)
                 } ?: viewModel.state.city.set("Select")
             }
-        } else
-            showNotAllowedError()
+        }
     }
 
     private fun showNotAllowedError() {
@@ -269,6 +293,16 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 10000
         locationRequest.fastestInterval = (10000 / 2).toLong()
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
         mFusedLocationProviderClient?.requestLocationUpdates(
             locationRequest,
             locationCallback,

@@ -237,7 +237,7 @@ class AndExoPlayerView : LinearLayout {
             ).show()
             return null
         }
-        return if (validUrl && uri.lastPathSegment.contains(KEY_MP4)) {
+        return if (validUrl && uri.lastPathSegment?.contains(KEY_MP4) == true) {
             val sourceFactory =
                 DefaultHttpDataSourceFactory(KEY_USER_AGENT)
             if (extraHeaders != null) {
@@ -246,7 +246,7 @@ class AndExoPlayerView : LinearLayout {
             }
             ProgressiveMediaSource.Factory(sourceFactory)
                 .createMediaSource(uri)
-        } else if (!validUrl && uri.lastPathSegment.contains(KEY_MP4)) {
+        } else if (!validUrl && uri.lastPathSegment?.contains(KEY_MP4) == true) {
             ProgressiveMediaSource.Factory(
                 DefaultDataSourceFactory(
                     context,
@@ -254,7 +254,7 @@ class AndExoPlayerView : LinearLayout {
                 )
             )
                 .createMediaSource(uri)
-        } else if (uri.lastPathSegment.contains(KEY_HLS)) {
+        } else if (uri.lastPathSegment?.contains(KEY_HLS) == true) {
             val sourceFactory =
                 DefaultHttpDataSourceFactory(KEY_USER_AGENT)
             if (extraHeaders != null) {
@@ -263,7 +263,7 @@ class AndExoPlayerView : LinearLayout {
             }
             HlsMediaSource.Factory(sourceFactory)
                 .createMediaSource(uri)
-        } else if (uri.lastPathSegment.contains(KEY_MP3)) {
+        } else if (uri.lastPathSegment?.contains(KEY_MP3) == true) {
             val sourceFactory =
                 DefaultHttpDataSourceFactory(KEY_USER_AGENT)
             if (extraHeaders != null) {

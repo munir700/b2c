@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -114,7 +117,6 @@ fun Fragment.confirm(
             positiveButton ?: getString(android.R.string.ok)
         )
         { dialog, _ -> dialog.callback() }
-
         setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
         setCancelable(cancelable)
         show()
@@ -306,3 +308,29 @@ fun Context.showCardDetailsPopup(cardDetail: CardDetail?, card: Card?) {
     dialog.show()
 }
 
+fun Context.showYapAlertDialog(
+    title: String? = null,
+    message: String?
+) {
+    val builder = android.app.AlertDialog.Builder(this)
+    var alertDialog: android.app.AlertDialog? = null
+    val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    title?.let { builder.setTitle(title) }
+    val dialogLayout: View =
+        inflater.inflate(R.layout.alert_dialogue, null)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
+    ok.text = "OK"
+    ok.setOnClickListener {
+        alertDialog?.dismiss()
+    }
+
+    builder.setView(dialogLayout)
+    builder.setCancelable(false)
+    alertDialog = builder.create()
+
+    alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    alertDialog.show()
+
+}

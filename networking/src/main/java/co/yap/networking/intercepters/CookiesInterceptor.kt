@@ -5,7 +5,7 @@ import co.yap.networking.CookiesManager
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import java.util.HashSet
+import java.util.*
 
 const val KEY_X_XSRF_TOKEN = "X-XSRF-TOKEN"
 const val KEY_XSRF_TOKEN = "XSRF-TOKEN="
@@ -45,7 +45,7 @@ internal class CookiesInterceptor : Interceptor {
         val cookies = HashSet<String>()
         if (response.headers(KEY_SET_COOKIE).isNotEmpty()) {
             for (header in response.headers(KEY_SET_COOKIE)) {
-                if (!header.contains(KEY_EXPIRES)) {
+                if (!header.contains(KEY_EXPIRES, true)) {
                     var cookie = header.replace(KEY_XSRF_TOKEN, KEY_EMPTY)
                     cookie = cookie.replace(KEY_XSRF_TOKEN, KEY_EMPTY)
                     cookie = cookie.replace(KEY_PATH_AUTH, KEY_EMPTY)
