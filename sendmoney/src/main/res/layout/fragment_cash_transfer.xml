@@ -89,7 +89,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/etAmountLayout"
-                android:layout_width="@dimen/_160sdp"
+                android:layout_width="@dimen/_170sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/margin_small"
                 android:background="@{viewModel.state.amountBackground}"
