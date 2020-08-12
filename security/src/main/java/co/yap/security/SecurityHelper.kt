@@ -67,14 +67,7 @@ class SecurityHelper(
                         sslHost = ""
                     )
                     signaturesList.add(signatures)
-                    //showToast(
-                    //    context,
-                    //    "App signature ${signatures.toString()}"
-                    //)
-                } ?: showToast(
-                    context,
-                    "Couldn't able to find app signature"
-                )
+                }
             }
         }
         return signaturesList

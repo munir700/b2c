@@ -114,7 +114,20 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (MyUserManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                        if (MyUserManager.eidStatus == EIDStatus.NOT_SET &&
+                            PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus
+                        ) {
+                            launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                                putExtra(
+                                    Constants.name,
+                                    MyUserManager.user?.currentCustomer?.firstName.toString()
+                                )
+                                putExtra(Constants.data, true)
+                                putExtra("document", viewModel.parentViewModel?.document)
+                            }
+                        } else {
+                            showToast(Utils.getOtpBlockedMessage(requireContext()))
+                        }
                     } else {
                         if (canOpenEIDCard()) {
                             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
