@@ -8,7 +8,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.InputFilter
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.view.children
@@ -25,6 +24,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.applyAmountFilters
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.spannables.color
@@ -93,9 +93,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setEditTextWatcher() {
-        getBinding().etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-
+        getBinding().etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()

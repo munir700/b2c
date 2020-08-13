@@ -5,4 +5,6 @@
     <integer name="backgroundFirstChild">2</integer>
     <integer name="backgroundLastChild">3</integer>
     <integer name="backgroundChild">4</integer>
+    <integer name="unitsCount">10</integer>
+    <integer name="decimalCount">2</integer>
 </resources>

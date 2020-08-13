@@ -8,7 +8,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.InputFilter
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.os.bundleOf
@@ -94,9 +93,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setEditTextWatcher() {
-        getBinding().etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-
+        getBinding().etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()

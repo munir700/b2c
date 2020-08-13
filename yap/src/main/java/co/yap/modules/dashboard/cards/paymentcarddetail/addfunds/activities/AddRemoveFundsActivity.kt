@@ -8,7 +8,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -226,9 +225,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
     }
 
     private fun setEditTextWatcher() {
-        etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-
+        etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isNullOrBlank() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()

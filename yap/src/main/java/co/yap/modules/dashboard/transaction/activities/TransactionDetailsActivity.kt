@@ -111,8 +111,18 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
 
         // hiding visibility on nada's request
-        getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
-        getBindings().tvTotalAmount.visibility = View.GONE
+        viewModel.transaction.get()?.let {
+            when {
+                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                    getBindings().tvTotalAmountValueCalculated.visibility = View.VISIBLE
+                    getBindings().tvTotalAmount.visibility = View.VISIBLE
+                }
+                else -> {
+                    getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
+                    getBindings().tvTotalAmount.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun setAddress() {
