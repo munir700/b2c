@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/congratulationsFragment"
-        android:name="co.yap.modules.onboardinokg.fragments.CongratulationsFragment"
+        android:name="co.yap.modules.onboarding.fragments.CongratulationsFragment"
         android:label="CongratulationsFragment"
         tools:layout="@layout/fragment_onboarding_congratulations">
         <action
