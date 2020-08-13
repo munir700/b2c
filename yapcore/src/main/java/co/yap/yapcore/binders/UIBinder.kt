@@ -698,14 +698,15 @@ object UIBinder {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("textSelection")
-    fun textSelection(view: EditText, selection: String) {
-        if (!selection.isNullOrEmpty()) {
-            val selectedString = selection.substring(0, selection.length.coerceAtMost(100))
-            view.setSelection(selectedString.length)
+    fun textSelection(view: EditText, selection: String?) {
+        selection?.let {
+            if (selection.isNotBlank()) {
+                val selectedString = selection.substring(0, selection.length.coerceAtMost(100))
+                view.setSelection(selectedString.length)
+            }
         }
     }
 

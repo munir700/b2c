@@ -35,7 +35,6 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_add_funds.*
-import kotlinx.android.synthetic.main.activity_add_funds.etAmount
 
 class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
