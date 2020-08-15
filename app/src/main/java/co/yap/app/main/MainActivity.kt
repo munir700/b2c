@@ -28,9 +28,9 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        if (YAPApplication.configManager?.isLiveRelease() == true && YAPApplication.configManager?.hasValidSignature == false) {
-            showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
-        }
+//        if (YAPApplication.configManager?.isLiveRelease() == true && YAPApplication.configManager?.hasValidSignature == false) {
+//            showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
+//        }
     }
 
     override fun onBackPressed() {
