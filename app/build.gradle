@@ -24,8 +24,8 @@ android {
     productFlavors {
 
         live {
-            versionCode 16
-            versionName "1.1.6"
+            versionCode 18
+            versionName "1.1.8"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -58,8 +58,8 @@ android {
         }
 
         stg {
-            versionCode 180
-            versionName "0.18.0"
+            versionCode 181
+            versionName "0.18.1"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
