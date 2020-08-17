@@ -234,11 +234,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                             ),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
+                        cancelAllSnackBar()
                     } else {
                         showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
                     }
                 }
-                cancelAllSnackBar()
             }
             R.id.llCardLimits -> {
                 startActivityForResult(
