@@ -24,8 +24,8 @@ android {
     productFlavors {
 
         live {
-            versionCode 16
-            versionName "1.1.6"
+            versionCode 17
+            versionName "1.1.7"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -35,14 +35,25 @@ android {
             }
         }
 
-        dev {
-            versionCode 2
-            versionName "0.2"
-            applicationIdSuffix ".dev"
-            resValue "string", "app_name", "YAP Dev"
+        stg {
+            versionCode 181
+            versionName "0.18.1"
+            applicationIdSuffix ".stg"
+            resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
             externalNativeBuild.cmake {
-                cppFlags '-DDEV'
+                cppFlags '-DSTG'
+            }
+        }
+
+        yapinternal {
+            versionCode 2
+            versionName "0.0.2"
+            applicationIdSuffix ".internal"
+            resValue "string", "app_name", "YAP Internal"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DSTG'
             }
         }
 
@@ -57,14 +68,14 @@ android {
             }
         }
 
-        stg {
-            versionCode 176
-            versionName "0.17.6"
-            applicationIdSuffix ".stg"
-            resValue "string", "app_name", "YAP Stage"
+        dev {
+            versionCode 2
+            versionName "0.2"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "YAP Dev"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
             externalNativeBuild.cmake {
-                cppFlags '-DSTG'
+                cppFlags '-DDEV'
             }
         }
     }

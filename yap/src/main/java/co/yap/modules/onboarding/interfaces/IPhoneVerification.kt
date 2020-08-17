@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IPhoneVerification {
 
-    interface View : IBase.View<ViewModel>{
+    interface View : IBase.View<ViewModel> {
         fun setObservers()
     }
 

@@ -364,8 +364,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             val handler = Handler()
             handler.postDelayed({
                 if (it) {
-
-
                     clSnackbar?.showSnackBar(
                         msg = getString(Strings.screen_cards_display_text_freeze_card),
                         viewBgColor = R.color.colorPrimary,
@@ -388,7 +386,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         tvSpareCardStatus.text = "Freeze card"
                     }
                 }
-            }, 600)
+            }, 1000)
 
         }
     }
@@ -420,6 +418,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     UpdateCardNameActivity.newIntent(this, viewModel.card.value!!),
                     Constants.REQUEST_CARD_NAME_UPDATED
                 )
+                cancelAllSnackBar()
             }
             Constants.EVENT_CHANGE_PIN -> {
                 if (!viewModel.card.value?.blocked!!) {
@@ -432,6 +431,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                                 viewModel.card.value?.cardSerialNumber!!
                             )
                         )
+                        cancelAllSnackBar()
                     }
                 } else {
                     showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
@@ -446,6 +446,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         startActivity(
                             ForgotCardPinActivity.newIntent(this, it)
                         )
+                        cancelAllSnackBar()
                     }
                 }
             }
@@ -456,6 +457,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         putExtra("card", it)
                         putExtra("isFromDrawer", false)
                     }
+                    cancelAllSnackBar()
                 }
             }
             Constants.EVENT_REPORT_CARD -> {
@@ -466,6 +468,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                             viewModel.card.value!!
                         ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
                     )
+                    cancelAllSnackBar()
                 }
             }
             Constants.EVENT_REMOVE_CARD -> {
