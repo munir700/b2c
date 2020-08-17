@@ -14,6 +14,8 @@ import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.security.AppSignature
+import co.yap.security.SecurityHelper
+import co.yap.security.SignatureValidator
 import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
@@ -78,12 +80,12 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
             sslHost = originalSign.sslHost
         )
         initAllModules()
-//        SecurityHelper(this, originalSign, object : SignatureValidator {
-//            override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
-//                configManager?.hasValidSignature = true
-//                //if (originalSign?.isLiveRelease() == true) isValid else true
-//            }
-//        })
+        SecurityHelper(this, originalSign, object : SignatureValidator {
+            override fun onValidate(isValid: Boolean, originalSign: AppSignature?) {
+                configManager?.hasValidSignature = true
+                //if (originalSign?.isLiveRelease() == true) isValid else true
+            }
+        })
     }
 
     private fun initAllModules() {
