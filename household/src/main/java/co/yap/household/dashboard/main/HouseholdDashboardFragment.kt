@@ -29,6 +29,7 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
@@ -102,23 +103,7 @@ class HouseholdDashboardFragment :
 
     private fun onClick(id: Int) {
         when (id) {
-            R.id.btnCopyHH -> {
-            }
             R.id.lyHeader_section -> expandableLayout.toggle(true)
-//            R.id.notification -> toast("Coming Soon")
-//            R.id.ContactUs -> {
-//                drawerLayout.closeDrawer(GravityCompat.END)
-//                startFragment(HelpSupportFragment::class.java.name)
-//
-//            }
-//            R.id.helpSupport -> {
-//                drawerLayout.closeDrawer(GravityCompat.END)
-//                startFragment(HelpSupportFragment::class.java.name)
-//            }
-//            R.id.atm_cdm -> {
-//                drawerLayout.closeDrawer(GravityCompat.END)
-//                startFragment(CdmMapFragment::class.java.name)
-//            }
             else -> {
                 drawerLayout.closeDrawer(GravityCompat.END)
                 drawerLayout.tag = id

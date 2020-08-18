@@ -1,6 +1,8 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.notification.HomeNotification
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
@@ -185,4 +187,7 @@ interface TransactionsRetroService {
     //    House Hold Pay Salary Now
     @POST(TransactionsRepository.URL_HOUSEHOLD_PAY_SALARY_NOW)
     suspend fun paySalaryNow(@Body request: PaySalaryNowRequest): Response<ApiResponse>
+
+    @GET(TransactionsRepository.URL_GET_FAILED_TRANSACTIONS)
+    suspend fun getFailedTransactions(): Response<BaseListResponse<HomeNotification>>
 }

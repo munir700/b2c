@@ -67,7 +67,11 @@ class AccountInfo(
     @SerializedName("csrDocumentTimeStamp")
     var csrDocumentTimeStamp: String? = null,
     @SerializedName("workItemCreated")
-    var workItemCreated: Boolean? = false
+    var workItemCreated: Boolean? = false,
+    @SerializedName("prepaidAccountNo")
+    var prepaidAccountNo: String? = null,
+    @SerializedName("emiratesID")
+    var emiratesID: String? = null
 
 
 ) : ApiResponse(), Parcelable

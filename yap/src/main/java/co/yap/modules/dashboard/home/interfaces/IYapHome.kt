@@ -37,13 +37,15 @@ interface IYapHome {
         fun requestAccountTransactions()
         fun getNotifications(
             accountInfo: AccountInfo,
-            paymentCard: Card
-        ): ArrayList<HomeNotification>
+            paymentCard: Card,apiResponse: (( Boolean) -> Unit?)?
+        )
+        fun getFailedTransactionAndSubNotifications(apiResponse: (( Boolean) -> Unit?)?)
     }
 
     interface State : IBase.State {
         var availableBalance: String
         var filterCount: ObservableField<Int>
         var isTransEmpty:ObservableField<Boolean>
+        var notificationList:MutableLiveData<MutableList<HomeNotification>>
     }
 }

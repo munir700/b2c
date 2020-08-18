@@ -98,6 +98,17 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     md5Encoded = "";
     sha256Encoded = "";
 #endif
+#ifdef HHQA
+    api_endpoint = "https://qa-hh.yap.co/";
+    adjustAppToken = "am0wjeshw5xc";
+    sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
+    sslPin2 = "sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";
+    sslPin3 = "sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=";
+    sslHost = "*.yap.co";
+    sha1Encoded = "";
+    md5Encoded = "";
+    sha256Encoded = "";
+#endif
 
     const char *appId = env->GetStringUTFChars(applicationId, 0);
     const char *productFlavour = env->GetStringUTFChars(flavour, 0);
@@ -143,8 +154,14 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 
         leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
         leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
-    }
-    else {
+    } else if (strcmp(productFlavour, "hh_qa") == 0 && strcmp(buildType, "release") == 0) {
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "prod_KX4ktWrg5iHyP12VbRZ92U0SOVXyYrcWk5B68TfBAW0";
+    } else if (strcmp(productFlavour, "hh_qa") == 0 && strcmp(buildType, "debug") == 0) {
+
+        leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
+        leanPlumKey = "dev_2ssrA8Mh1BazUIZHqIQabRP0a76cQwZ1MYfHsJpODMQ";
+    } else {
 
     }
 
