@@ -273,7 +273,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             viewModel.EVENT_REMOVE_CARD -> {
-                MyUserManager.updateCardBalance{}
+                MyUserManager.updateCardBalance {}
                 cardRemoved = true
                 showToast("Card successfully removed!")
                 setupActionsIntent()
@@ -421,20 +421,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cancelAllSnackBar()
             }
             Constants.EVENT_CHANGE_PIN -> {
-                if (!viewModel.card.value?.blocked!!) {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(this))
-                    } else {
-                        startActivity(
-                            ChangeCardPinActivity.newIntent(
-                                this,
-                                viewModel.card.value?.cardSerialNumber!!
-                            )
-                        )
-                        cancelAllSnackBar()
-                    }
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
-                    showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
+                    startActivity(
+                        ChangeCardPinActivity.newIntent(
+                            this,
+                            viewModel.card.value?.cardSerialNumber ?: ""
+                        )
+                    )
+                    cancelAllSnackBar()
                 }
             }
 
