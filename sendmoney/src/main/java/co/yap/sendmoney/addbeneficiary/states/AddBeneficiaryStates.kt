@@ -247,28 +247,77 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
             validate()
         }
 
-    fun validate() {
-        if (!selectedBeneficiaryType.isNullOrEmpty()) {
-            when (valueOf(selectedBeneficiaryType!!)) {
+    private fun validate() {
+        selectedBeneficiaryType?.let {
+            when (valueOf(it)) {
                 RMT -> {
-                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
+                    valid =
+                        StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
+                                StringUtils.validateRegix(
+                                    firstName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) &&
+                                StringUtils.validateRegix(
+                                    lastName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                )
                 }
                 SWIFT -> {
                     valid =
-                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && !countryOfResidence.isNullOrBlank()
+                        StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
+                                StringUtils.validateRegix(
+                                    firstName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) &&
+                                StringUtils.validateRegix(
+                                    lastName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) && !countryOfResidence.isNullOrBlank()
                 }
                 DOMESTIC -> {
                     valid =
-                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1  && iban.isNotEmpty() && confirmIban.isNotEmpty() && StringUtils.isValidIBAN(iban.replace(" ", ""), viewModel.parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit) && iban == confirmIban
+                        StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
+                                StringUtils.validateRegix(
+                                    firstName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) &&
+                                StringUtils.validateRegix(
+                                    lastName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) && iban.isNotEmpty() &&
+                                confirmIban.isNotEmpty() &&
+                                StringUtils.isValidIBAN(
+                                    iban.replace(" ", ""),
+                                    viewModel.parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit
+                                ) &&
+                                iban == confirmIban
                 }
                 CASHPAYOUT -> {
                     valid =
-                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && mobileNo.length > 1
+                        StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
+                                StringUtils.validateRegix(
+                                    firstName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) &&
+                                StringUtils.validateRegix(
+                                    lastName,
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    2
+                                ) && mobileNo.length > 1
                 }
                 UAEFTS -> {
-
                 }
-                INTERNAL_TRANSFER -> TODO()
+                INTERNAL_TRANSFER -> {
+                }
+                else -> {
+                }
             }
         }
     }
