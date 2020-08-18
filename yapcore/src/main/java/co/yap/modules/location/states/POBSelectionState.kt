@@ -33,6 +33,7 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
             StringUtils.validateRegix(
                 cityOfBirth,
                 "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$"
+                , 2
             ) && !selectedCountry?.getName().equals("Select country")
         )
     }
