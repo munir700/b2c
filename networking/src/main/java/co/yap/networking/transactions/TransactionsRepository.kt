@@ -74,6 +74,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
     const val URL_HOUSEHOLD_PAY_SALARY_NOW = "/transactions/api/y2y-household"
+    const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
+
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -238,4 +240,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     //    House Hold Pay Salary Now
     override suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.paySalaryNow(request) })
+
+    override suspend fun getFailedTransactions() =
+        executeSafely(call = { api.getFailedTransactions() })
 }

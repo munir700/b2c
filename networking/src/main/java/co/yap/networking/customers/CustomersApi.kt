@@ -9,7 +9,9 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.HomeNotification
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 
@@ -92,4 +94,5 @@ interface CustomersApi {
     suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse>
     suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
+    suspend fun getSubscriptionsNotifications(): RetroApiResponse<BaseListResponse<HomeNotification>>
 }

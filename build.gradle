@@ -37,6 +37,13 @@ allprojects {
         maven { url "https://dl.bintray.com/drummer-aidan/maven" }
         maven { url "http://pay.cards/maven" }
     }
+//    Include these compiler arguments in your build.gradle file to make Dagger more performant at build time:
+    afterEvaluate {
+        extensions.findByName('kapt')?.arguments {
+            arg("dagger.formatGeneratedSource", "disabled")
+            arg("dagger.gradle.incremental", "enabled")
+        }
+    }
 }
 
 task clean(type: Delete) {

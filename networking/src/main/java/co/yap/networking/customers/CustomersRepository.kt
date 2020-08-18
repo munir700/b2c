@@ -17,6 +17,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -96,6 +97,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
+    const val URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS =
+        "/transactions/api/household/get-subscriptions-notifications"
     //.................... End region of old projects apis................................................
 
     /*
@@ -341,4 +344,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
+
+    override suspend fun getSubscriptionsNotifications() =
+        TransactionsRepository.executeSafely(call = { api.getSubscriptionsNotifications() })
 }

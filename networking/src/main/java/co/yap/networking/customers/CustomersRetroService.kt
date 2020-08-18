@@ -11,6 +11,9 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.transactions.TransactionsRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -224,4 +227,6 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
+    @GET(CustomersRepository.URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS)
+    suspend fun getSubscriptionsNotifications(): Response<BaseListResponse<HomeNotification>>
 }

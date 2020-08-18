@@ -9,11 +9,13 @@ import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.CustomersRepository.getSubscriptionsNotifications
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.TransactionsRepository.getFailedTransactions
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -21,6 +23,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -48,7 +52,7 @@ class YapHomeViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        MyUserManager.updateCardBalance{}
+        MyUserManager.updateCardBalance {}
         requestAccountTransactions()
         getDebitCards()
     }
@@ -236,9 +240,9 @@ class YapHomeViewModel(application: Application) :
 
     override fun getNotifications(
         accountInfo: AccountInfo,
-        paymentCard: Card
-    ): ArrayList<HomeNotification> {
-        val list = ArrayList<HomeNotification>()
+        paymentCard: Card, apiResponse: ((Boolean) -> Unit?)?
+    ) {
+        val list: MutableList<HomeNotification> = mutableListOf()
         if (accountInfo.otpBlocked == true) {
             list.add(
                 HomeNotification(
@@ -288,12 +292,57 @@ class YapHomeViewModel(application: Application) :
             )
 
         }
-
-        return list
+        state.notificationList.value?.addAll(list)
+        apiResponse?.invoke(true)
     }
 
     private fun shouldShowSetPin(paymentCard: Card): Boolean {
         return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
+
+    //    override fun getFailedTransactions() {
+//        launch {
+//            when (val response = transactionsRepository.getFailedTransactions()) {
+//                is RetroApiResponse.Success -> {
+//                }
+//                is RetroApiResponse.Error -> {
+//                }
+//            }
+//        }
+//    }
+
+    override fun getFailedTransactionAndSubNotifications(apiResponse: ((Boolean) -> Unit?)?) {
+        launch {
+            val failedTransactions =
+                withContext(viewModelBGScope.coroutineContext + Dispatchers.IO) {
+                    getFailedTransactions()
+                }
+            val subscriptionsNotifications =
+                withContext(viewModelBGScope.coroutineContext + Dispatchers.IO) {
+                    getSubscriptionsNotifications()
+                }
+            val list: MutableList<HomeNotification> = mutableListOf()
+            if (failedTransactions is RetroApiResponse.Success) {
+                failedTransactions.data.data?.let { list.addAll(it) }
+            }
+            if (subscriptionsNotifications is RetroApiResponse.Success) {
+                subscriptionsNotifications.data.data?.let { list.addAll(it) }
+            }
+            state.notificationList.value = list
+            apiResponse?.invoke(true)
+        }
+    }
+
+//    override fun getSubscriptionsNotifications() {
+//        launch {
+//            when (val response = transactionsRepository.getSubscriptionsNotifications()) {
+//                is RetroApiResponse.Success -> {
+//                }
+//                is RetroApiResponse.Error -> {
+//                }
+//
+//            }
+//        }
+//    }
 }
 

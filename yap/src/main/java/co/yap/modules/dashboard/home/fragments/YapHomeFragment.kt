@@ -360,10 +360,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun setNotificationAdapter(accountInfo: AccountInfo?, paymentCard: Card?) {
         accountInfo?.let { account ->
             paymentCard?.let { card ->
-                mAdapter = NotificationAdapter(
-                    viewModel.getNotifications(account, card),
-                    this
-                )
+                viewModel.getNotifications(account, card) {
+                    mAdapter = NotificationAdapter(mutableListOf(), this)
+                    mAdapter.setList(viewModel.state.notificationList.value ?: mutableListOf())
+                }
+                viewModel.getFailedTransactionAndSubNotifications(){
+                    mAdapter.addList(viewModel.state.notificationList.value ?: mutableListOf())
+                }
+
                 getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
                 getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
                 getBindings().lyInclude.rvNotificationList.adapter = mAdapter
@@ -413,7 +417,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
-        MyUserManager.updateCardBalance{}
+        MyUserManager.updateCardBalance {}
     }
 
     override fun onDestroyView() {

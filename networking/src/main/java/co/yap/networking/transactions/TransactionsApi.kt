@@ -1,7 +1,9 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.HomeNotification
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
@@ -76,4 +78,5 @@ interface TransactionsApi {
 
     //    House Hold Pay Salary Now
     suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse>
+    suspend fun getFailedTransactions(): RetroApiResponse<BaseListResponse<HomeNotification>>
 }
