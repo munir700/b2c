@@ -16,6 +16,7 @@
 /coachmark/build
 /household/build
 /splitbill/build
+/multicurrency/build
 /send_money/*
 /coachmark/*
 /profile/*
