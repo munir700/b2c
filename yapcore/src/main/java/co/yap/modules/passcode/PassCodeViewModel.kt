@@ -94,7 +94,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                     success()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
 
