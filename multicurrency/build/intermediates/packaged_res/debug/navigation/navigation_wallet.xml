@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_wallet"
+    app:startDestination="@id/walletsFragment">
+
+    <fragment
+        android:id="@+id/walletsFragment"
+        android:name="co.yap.multicurrency.wallets.WalletsFragment"
+        android:label="WalletsFragment"
+        tools:layout="@layout/fragment_wallet">
+        <action
+            android:id="@+id/action_walletsFragment_to_walletDetailsFragment"
+            app:destination="@id/walletDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/walletDetailsFragment"
+        android:name="co.yap.multicurrency.walletcountry.WalletDetailsFragment"
+        android:label="WalletDetailsFragment"
+        tools:layout="@layout/fragment_wallet_details" >
+
+        <action
+            android:id="@+id/action_walletDetailsFragment_to_currencyExchangeInputFragment"
+            app:destination="@id/currencyExchangeInputFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/currencyExchangeInputFragment"
+        android:name="co.yap.multicurrency.currencyexchange.currencyexchangeinput.CurrencyExchangeInputFragment"
+        android:label="CurrencyExchangeInputFragment"
+        tools:layout="@layout/fragment_currency_exchange_input">
+        <action
+            android:id="@+id/action_currencyExchangeInputFragment_to_currencyExchangeConfirmationFragment"
+            app:destination="@id/currencyExchangeConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/currencyExchangeConfirmationFragment"
+        android:name="co.yap.multicurrency.currencyexchange.confirmation.CurrencyExchangeConfirmationFragment"
+        android:label="CurrencyExchangeConfirmationFragment"
+        tools:layout="@layout/fragment_currency_exchange_confirmation">
+        <action
+            android:id="@+id/action_currencyExchangeConfirmationFragment_to_currencyExchangeSuccessFragment"
+            app:destination="@id/currencyExchangeSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/currencyExchangeSuccessFragment"
+        android:name="co.yap.multicurrency.currencyexchange.exchangesuccess.CurrencyExchangeSuccessFragment"
+        android:label="CurrencyExchangeSuccessFragment"
+        tools:layout="@layout/fragment_currency_exchange_success"/>
+
+</navigation>

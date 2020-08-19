@@ -1,6 +1,7 @@
 package co.yap.networking.transactions.responsedtos
 
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -12,4 +13,4 @@ data class CardStatement(
     val month: String? = "",
     @SerializedName("year")
     val year: String? = ""
-) : Parcelable
+) : ApiResponse(), Parcelable

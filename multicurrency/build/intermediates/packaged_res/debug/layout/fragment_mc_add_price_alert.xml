@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                       
+                                                   
+
+    
+                 
+                            
+                                                                                              
+                                                    
+           
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true" android:tag="layout/fragment_mc_add_price_alert_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clRatesAndAlertsScreenContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="@dimen/margin_medium">
+
+            <co.yap.widgets.CurrencyPickerView
+                android:id="@+id/clSrcCurrContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:tag="binding_1"                                    
+                                                                         
+                                                                 
+                                                                     
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:showDropdownIcon="true" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSrcAmount"
+                style="@style/ATitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small"
+                android:text="1"
+                app:layout_constraintBottom_toBottomOf="@+id/clSrcCurrContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toEndOf="@+id/clSrcCurrContainer"
+                app:layout_constraintTop_toTopOf="@+id/clSrcCurrContainer"
+                tools:text="1" />
+
+            <co.yap.widgets.CurrencyPickerView
+                android:id="@+id/clTargetCurrContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:tag="binding_2"  
+                                                                   
+                                                                       
+                app:layout_constraintStart_toStartOf="@+id/clSrcCurrContainer"
+                app:layout_constraintTop_toBottomOf="@+id/clSrcCurrContainer"
+                app:showDropdownIcon="false" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/etAmountLayout"
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/bg_funds"
+                app:layout_constraintBottom_toBottomOf="@+id/clTargetCurrContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.98"
+                app:layout_constraintStart_toEndOf="@+id/clTargetCurrContainer"
+                app:layout_constraintTop_toTopOf="@+id/clTargetCurrContainer">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etAmount"
+                    style="@style/ATitle2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:labelFor="@+id/etAmount"
+                    android:maxLength="7"
+                    android:maxLines="1"
+                    android:tag="binding_3"                    
+                                                            
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.66"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="0.00" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblYapRate"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clTargetCurrContainer"
+                android:tag="binding_4"                                            
+                tools:text="YAP rate" />
+
+            <LinearLayout
+                android:id="@+id/ly_YapRate"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/btnAddAlert"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblYapRate"
+                app:layout_constraintVertical_bias="0.0">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:src="@drawable/ic_transaction_rate_arrow" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvYapRate"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:tag="binding_5"                        
+                    tools:text="1 CAD = 2.85 AED" />
+            </LinearLayout>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnAddAlert"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:tag="binding_6"                                    
+                                                               
+                app:layout_constraintBottom_toBottomOf="parent"
+                                                                              />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+         

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                       
+                                                   
+
+    
+
+                 
+                            
+                                                                                        
+
+                                                    
+
+                                                                              
+
+           
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_56sdp" android:tag="layout/layout_item_mc_rate_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+        <LinearLayout
+            android:id="@+id/swipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/btnDelete"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_56sdp"
+                android:background="@color/colorSecondaryMagenta">
+
+                <TextView
+                    style="@style/Micro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_delete_bin"
+                    android:drawablePadding="@dimen/_2sdp"
+                    android:drawableTint="@color/white"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:tag="binding_1"                   
+                    tools:text="Delete" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/foregroundContainer"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_first_curr"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:tag="binding_2"                                       
+                tools:src="@drawable/flag_ae" />
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_currency_switch"
+                app:layout_constraintStart_toEndOf="@+id/iv_first_curr"
+                app:layout_constraintTop_toTopOf="@+id/iv_first_curr">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:tag="binding_3"                                                                                 
+                    tools:text="1 AED" />
+
+                <TextView
+                    android:id="@+id/tvFullName"
+                    style="@style/AMicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:tag="binding_4"                       
+                    tools:text="Dirham" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_currency_switch"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:tag="binding_5"                      
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_switch"
+                tools:src="@drawable/ic_switch" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_second_curr"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:tag="binding_6"                                       
+                tools:src="@drawable/flag_au" />
+
+            <LinearLayout
+                android:id="@+id/content_second_currency"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:gravity="end"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/iv_second_curr"
+                app:layout_constraintEnd_toStartOf="@+id/iv_second_curr"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/iv_currency_switch"
+                app:layout_constraintTop_toTopOf="@+id/iv_second_curr">
+
+                <TextView
+                    android:id="@+id/tvSecondCurrency"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:lines="1"
+                    android:tag="binding_7"                                                                                                             
+                    tools:text="1.09 AUD" />
+
+                <TextView
+                    android:id="@+id/tvCurrencyName"
+                    style="@style/AMicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:ellipsize="end"
+                    android:gravity="bottom"
+                    android:lines="1"
+                    android:tag="binding_8"                       
+                    tools:text="Australian dollar" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+         

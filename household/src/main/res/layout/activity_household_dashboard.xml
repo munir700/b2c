@@ -69,12 +69,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:backgroundTint="@color/colorPrimaryHouseHold"
                     app:elevation="0dp"
-                    android:tint="@color/white"
-                    app:fabCustomSize="@dimen/_48sdp"
-                    app:fabSize="normal"
-                    app:maxImageSize="@dimen/_18sdp"
                     app:srcCompat="@drawable/ic_house_hold_it" />
             </androidx.cardview.widget.CardView>
 

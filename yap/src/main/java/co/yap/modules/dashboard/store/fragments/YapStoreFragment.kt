@@ -112,7 +112,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
                         putExtra(NAVIGATION_Graph_ID, navGraphId)
                         putExtra(NAVIGATION_Graph_START_DESTINATION_ID, startDescription)
                     }
-
+                    viewModel.clickEvent.setPayload(null)
                 }
                 viewModel.clickEvent.setPayload(null)
             }

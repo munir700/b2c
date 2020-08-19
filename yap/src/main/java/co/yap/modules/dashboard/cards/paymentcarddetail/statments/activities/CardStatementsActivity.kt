@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.Car
 import co.yap.modules.pdf.PDFActivity
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants.ACCOUNT_UUID
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
@@ -30,8 +31,10 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
         val isFromDrawer = intent.getBooleanExtra("isFromDrawer", false)
         if (isFromDrawer) {
             viewModel.loadStatementsFromDashBoard()
+        } else if (intent.hasExtra(ACCOUNT_UUID)) {
+            viewModel.getHouseHoldAccountStatements(intent.getStringExtra(ACCOUNT_UUID))
         } else {
-            viewModel.loadStatements(viewModel.card.cardSerialNumber)
+            viewModel.loadStatements(viewModel.card?.cardSerialNumber ?: "")
         }
         viewModel.clickEvent.observe(this, Observer {
             if (it == R.id.tbBtnBack) {

@@ -11,19 +11,18 @@ import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
-import co.yap.networking.models.ApiResponse
-import co.yap.yapcore.BaseListItemViewModel
+import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.toast
 import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
 
 class HHSalaryProfileFragment :
     BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
@@ -97,7 +96,12 @@ class HHSalaryProfileFragment :
                         HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToSubscriptionFragment(),
                         arguments
                     )
-                    "Salary statements" -> toast("Coming Soon")
+                    "Salary statements" -> {
+                        launchActivity<CardStatementsActivity> {
+                            putExtra("isFromDrawer", false)
+                            putExtra(Constants.ACCOUNT_UUID, state.subAccount.value?.accountUuid)
+                        }
+                    }
                 }
             }
         )

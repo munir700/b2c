@@ -16,9 +16,10 @@ interface ICardStatments {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var card: Card
+        var card: Card?
         fun handlePressOnView(id: Int)
         fun loadStatements(serialNumber: String)
+        fun getHouseHoldAccountStatements(householdAccountUUID: String?)
         fun loadStatementsFromDashBoard()
         val adapter: ObservableField<CardStatementsAdaptor>
     }
@@ -29,5 +30,6 @@ interface ICardStatments {
         var statementList: List<CardStatement>?
         var nextMonth: Boolean?
         var previousMonth: Boolean?
+        var householdAccountUUID: String?
     }
 }

@@ -190,4 +190,9 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_GET_FAILED_TRANSACTIONS)
     suspend fun getFailedTransactions(): Response<BaseListResponse<HomeNotification>>
+
+    // Get House Hold  Statements
+    @GET(TransactionsRepository.URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS)
+    suspend fun getHouseHoldAccountStatements(@Path("householdAccountUUID") householdAccountUUID: String?): Response<CardStatementsResponse>
+
 }

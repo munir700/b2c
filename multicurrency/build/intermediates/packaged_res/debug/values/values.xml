@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CurrencyComponent">
+        <attr format="reference" name="view_hint_input_field"/>
+        <attr format="reference" name="view_error_input_field"/>
+        <attr format="reference" name="view_drawable_right"/>
+
+
+    </declare-styleable>
+</resources>

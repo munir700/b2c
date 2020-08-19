@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                       
+                                                   
+
+    
+
+                                           
+
+                                                    
+
+                 
+                            
+                                                                  
+           
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingTop="@dimen/_24sdp"
+        android:paddingEnd="@dimen/_8sdp"
+        android:paddingBottom="@dimen/margin_medium"
+        android:tag="layout/layout_wallets_toolbar_0"                                   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tbBtnBack"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:tag="binding_1"                                      
+                                                                                           
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_primary"
+            app:tint="?colorPrimaryAttr" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="4dp"
+            android:layout_toStartOf="@+id/ivRate"
+            android:layout_toEndOf="@id/tbBtnBack"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/tbBtnBack"
+            app:layout_constraintEnd_toStartOf="@+id/ivRate"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tbBtnBack"
+            app:layout_constraintTop_toTopOf="parent"
+            android:tag="binding_2"                                              
+            tools:text="@string/screen_multi_currency_wallet_display_text_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivRate"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:tag="binding_3"                                  
+                                                                                           
+            app:layout_constraintBottom_toBottomOf="@+id/tbBtnBack"
+            app:layout_constraintEnd_toStartOf="@+id/ivAddWallet"
+            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
+            app:srcCompat="@drawable/ic_transaction_rate_arrow"
+            app:tint="?colorPrimaryAttr" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAddWallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:tag="binding_4"                                           
+            android:padding="@dimen/_10sdp"
+                                                                                                
+            app:layout_constraintBottom_toBottomOf="@+id/ivRate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_add_sign"
+            app:tint="?colorPrimaryAttr" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+         

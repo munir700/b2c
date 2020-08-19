@@ -75,6 +75,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
     const val URL_HOUSEHOLD_PAY_SALARY_NOW = "/transactions/api/y2y-household"
     const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
+    const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS = "/transactions/api/account-statements/{householdAccountUUID}"
 
 
     private val api: TransactionsRetroService =
@@ -243,4 +244,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getFailedTransactions() =
         executeSafely(call = { api.getFailedTransactions() })
+
+    override suspend fun getHouseHoldAccountStatements(householdAccountUUID: String?): RetroApiResponse<CardStatementsResponse> =
+        executeSafely(call = { api.getHouseHoldAccountStatements(householdAccountUUID) })
 }

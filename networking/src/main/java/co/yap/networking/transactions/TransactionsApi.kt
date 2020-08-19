@@ -79,4 +79,5 @@ interface TransactionsApi {
     //    House Hold Pay Salary Now
     suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse>
     suspend fun getFailedTransactions(): RetroApiResponse<BaseListResponse<HomeNotification>>
+    suspend fun getHouseHoldAccountStatements(householdAccountUUID: String?): RetroApiResponse<CardStatementsResponse>
 }
