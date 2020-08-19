@@ -34,7 +34,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_xl"
+            android:layout_marginTop="@dimen/_50sdp"
             android:layout_weight="80"
             android:elevation="4dp"
             android:orientation="vertical"
@@ -69,7 +69,8 @@
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:tint="?attr/colorPrimaryDarkAttr"
-                        app:srcCompat="@drawable/ic_chevron_down" />
+                        app:srcCompat="@drawable/ic_chevron_down"
+                        tools:ignore="UseAppTint" />
 
                     <LinearLayout
                         android:id="@+id/lAccountContainer"
@@ -323,7 +324,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_xl"
+            android:layout_marginTop="@dimen/_50sdp"
             android:layout_weight="20"
             android:paddingBottom="@dimen/margin_normal">
 
@@ -358,7 +359,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/settings"
-                android:tint="@color/greyDark" />
+                android:tint="@color/greyDark"
+                tools:ignore="UseAppTint" />
 
         </RelativeLayout>
 

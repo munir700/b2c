@@ -38,8 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/vLine">
 
             <TextView
@@ -57,7 +57,9 @@
                 android:id="@+id/cbInTransFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorPrimaryDark"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:scaleX="1.20"
+                android:scaleY="1.20"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,7 +78,9 @@
                 android:id="@+id/cbOutTransFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorPrimaryDark"
+                android:buttonTint="@color/checkbox_selector_tint"
+                android:scaleX="1.20"
+                android:scaleY="1.20"
                 app:layout_constraintBottom_toBottomOf="@+id/tvOutTrans"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvOutTrans" />
@@ -85,7 +89,7 @@
                 android:id="@+id/vLineTrans"
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:background="@color/greyLight"
                 app:layout_constraintTop_toBottomOf="@id/tvOutTrans" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/_18sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:text="@{Strings.screen_transaction_filter_display_text_balance}"
@@ -136,7 +140,7 @@
                 android:id="@+id/tvTransEndRange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/_16sdp"
                 android:gravity="center"
                 android:text="@{viewModel.state.rangeEndValue}"
                 android:textColor="?attr/colorPrimaryAttr"
@@ -147,8 +151,9 @@
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/rsbAmount"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_55sdp"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/tvTransEndRange"
                 app:rsb_max="20000"
                 app:rsb_min="0"
@@ -157,9 +162,11 @@
                 app:rsb_progress_default_color="?attr/colorSeekBar"
                 app:rsb_progress_height="@dimen/_4sdp"
                 app:rsb_progress_radius="@dimen/_2sdp"
-                app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
-                app:rsb_thumb_height="@dimen/_50sdp"
-                app:rsb_thumb_width="@dimen/_50sdp" />
+                app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb_croped"
+                app:rsb_thumb_height="@dimen/_35sdp"
+                app:rsb_thumb_width="@dimen/_37sdp"
+
+                />
 
             <View
                 android:id="@+id/vLineBalance"
