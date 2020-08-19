@@ -153,7 +153,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_55sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/margin_extra_small"
+                android:layout_marginTop="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/tvTransEndRange"
                 app:rsb_max="20000"
                 app:rsb_min="0"
@@ -162,9 +162,9 @@
                 app:rsb_progress_default_color="?attr/colorSeekBar"
                 app:rsb_progress_height="@dimen/_4sdp"
                 app:rsb_progress_radius="@dimen/_2sdp"
-                app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
-                app:rsb_thumb_height="@dimen/_40sdp"
-                app:rsb_thumb_width="@dimen/_40sdp"
+                app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb_croped"
+                app:rsb_thumb_height="@dimen/_35sdp"
+                app:rsb_thumb_width="@dimen/_37sdp"
 
                 />
 
