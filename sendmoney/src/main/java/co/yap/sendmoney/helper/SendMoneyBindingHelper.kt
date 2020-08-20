@@ -31,7 +31,7 @@ object SendMoneyBindingHelper {
     @JvmStatic
     @BindingAdapter("searchViewBG")
     fun searchViewBgColor(view: androidx.appcompat.widget.SearchView, search: Boolean?) {
-        if (SharedPreferenceManager(view.context).getThemeValue()
+        if (SharedPreferenceManager.getInstance(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
             view.setBackgroundDrawable(view.context.resources.getDrawable(R.drawable.bg_hh_disabled_search_view))
@@ -41,7 +41,7 @@ object SendMoneyBindingHelper {
     @JvmStatic
     @BindingAdapter("setShapeColor")
     fun setShapeColor(view: ConstraintLayout, setHouseHoldShape: Boolean) {
-        if (SharedPreferenceManager(view.context).getThemeValue()
+        if (SharedPreferenceManager.getInstance(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
             if (setHouseHoldShape) {
@@ -63,7 +63,7 @@ object SendMoneyBindingHelper {
     fun setsearchViewBGColor(view: FrameLayout, search: Boolean) {
         if (search) {
 
-            if (SharedPreferenceManager(view.context).getThemeValue()
+            if (SharedPreferenceManager.getInstance(view.context).getThemeValue()
                     .equals(Constants.THEME_HOUSEHOLD)
             ) {
                 view.setBackgroundColor(ThemeColorUtils.colorSendMoneyToolBarAttribute(view.context))
@@ -82,7 +82,7 @@ object SendMoneyBindingHelper {
     @JvmStatic
     @BindingAdapter("setSVTextColor")
     fun setSVTextColor(view: TextView, isSearching: Boolean) {
-        if (SharedPreferenceManager(view.context).getThemeValue()
+        if (SharedPreferenceManager.getInstance(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
             if (isSearching) {
@@ -101,7 +101,7 @@ object SendMoneyBindingHelper {
     @JvmStatic
     @BindingAdapter("setSVIconTint")
     fun setSVIconTint(view: ImageView, isSearching: Boolean) {
-        if (SharedPreferenceManager(view.context).getThemeValue()
+        if (SharedPreferenceManager.getInstance(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
             if (isSearching) {
@@ -126,7 +126,7 @@ object SendMoneyBindingHelper {
     @JvmStatic
     @BindingAdapter("cashPayoutIconTint", "isSearching")
     fun setCashPayoutIconTint(view: ImageView, transferType: String, isSearching: Boolean) {
-        if (SharedPreferenceManager(view.context).getThemeValue()
+        if (SharedPreferenceManager.getInstance(view.context).getThemeValue()
                 .equals(Constants.THEME_HOUSEHOLD)
         ) {
             if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type && isSearching) {

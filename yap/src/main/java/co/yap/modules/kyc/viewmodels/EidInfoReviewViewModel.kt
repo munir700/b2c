@@ -174,7 +174,7 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = identity
                             parentViewModel?.identity = identity
                             populateState(parentViewModel?.identity)
-                            if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+                            if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
                                 trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EID.type)
                             }
                         } else {

@@ -62,7 +62,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         if (tokens.size > 1)
                             repository.setJwtToken(tokens.last())
                     }
-                    val sharedPreferenceManager = SharedPreferenceManager(context)
+                    val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
                     sharedPreferenceManager.save(
                         KEY_IS_USER_LOGGED_IN,
                         true
@@ -109,7 +109,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     }
 
     override fun postDemographicData() {
-        val sharedPreferenceManager = SharedPreferenceManager(context)
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
         val deviceId: String? =
             sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {

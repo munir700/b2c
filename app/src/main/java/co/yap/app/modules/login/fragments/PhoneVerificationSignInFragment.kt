@@ -59,7 +59,7 @@ class PhoneVerificationSignInFragment :
             } else {
                 if (BiometricUtil.hasBioMetricFeature(requireActivity())
                 ) {
-                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                    if (SharedPreferenceManager.getInstance(requireContext()).getValueBoolien(
                             co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
                             false
                         )

@@ -107,7 +107,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
     }
 
     private fun navigateToForgotPassCodeFlow() {
-        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         if (viewModel.isUserLoggedIn()) {
             sharedPreferenceManager.getDecryptedUserName()?.let {
                 val action =

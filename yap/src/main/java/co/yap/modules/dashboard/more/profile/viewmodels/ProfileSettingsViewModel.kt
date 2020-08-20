@@ -35,7 +35,7 @@ class ProfileSettingsViewModel(application: Application) :
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(application)
+    private val sharedPreferenceManager = SharedPreferenceManager.getInstance(application)
     var pandemicValidation: Boolean = false
 
     override val state: ProfileStates =

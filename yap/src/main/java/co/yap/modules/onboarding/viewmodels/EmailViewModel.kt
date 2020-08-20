@@ -36,7 +36,7 @@ class EmailViewModel(application: Application) :
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(context)
+    private val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
 
     override fun onResume() {
         super.onResume()
@@ -226,13 +226,13 @@ class EmailViewModel(application: Application) :
     }
 
     private fun requestSaveReferral() {
-        SharedPreferenceManager(context).getReferralInfo()?.let {
+        SharedPreferenceManager.getInstance(context).getReferralInfo()?.let {
             launch {
                 when (val response =
                     repository.saveReferalInvitation(SaveReferalRequest(it.id, it.date))) {
 
                     is RetroApiResponse.Success -> {
-                        SharedPreferenceManager(context).setReferralInfo(null)
+                        SharedPreferenceManager.getInstance(context).setReferralInfo(null)
                     }
                     is RetroApiResponse.Error -> {
                     }

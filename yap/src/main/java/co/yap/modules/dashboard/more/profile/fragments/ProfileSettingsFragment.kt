@@ -59,7 +59,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
 
         val sharedPreferenceManager =
-            SharedPreferenceManager(requireContext())
+            SharedPreferenceManager.getInstance(requireContext())
 
         if (BiometricUtil.hasBioMetricFeature(requireContext())) {
             val isTouchIdEnabled: Boolean =
