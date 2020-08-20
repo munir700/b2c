@@ -40,8 +40,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/_12sdp"
-                android:paddingRight="@dimen/_12sdp">
+                android:paddingLeft="@dimen/margin_medium_large"
+                android:paddingRight="@dimen/margin_medium_large">
 
 
                 <RelativeLayout
@@ -308,7 +308,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium_large"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:text="@string/screen_add_beneficiary_display_text_transfer_type"
                     android:textSize="@dimen/_14sdp"
                     app:text="@{Strings.screen_international_funds_transfer_display_text_reson}"
