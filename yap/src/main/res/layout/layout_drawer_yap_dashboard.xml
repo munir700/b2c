@@ -34,11 +34,11 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_weight="80"
+            android:layout_marginTop="@dimen/_52sdp"
+            android:layout_weight="78"
             android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingStart="@dimen/margin_large"
+            android:paddingStart="@dimen/margin_medium"
             android:paddingEnd="0dp"
             app:elevation="4dp">
 
@@ -64,8 +64,8 @@
                         android:layout_width="@dimen/_26sdp"
                         android:layout_height="@dimen/_26sdp"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_13sdp"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:tint="?attr/colorPrimaryDarkAttr"
@@ -91,7 +91,7 @@
                         <View
                             android:layout_width="@dimen/_1sdp"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/_9sdp"
                             android:layout_marginTop="@dimen/_2sdp"
                             android:layout_marginBottom="@dimen/_2sdp"
                             android:background="@color/greyLight" />
@@ -104,7 +104,7 @@
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:text="Personal"
-                            android:textColor="?attr/colorPrimaryAttr" />
+                            android:textColor="@color/colorPrimaryDarkIcons" />
 
                     </LinearLayout>
 
@@ -114,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/lAccountContainer"
-                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:text="@{viewModel.state.fullName}" />
 
                 </RelativeLayout>
@@ -130,7 +130,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/margin_normal">
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        >
 
                         <TextView
                             android:id="@+id/tvAccountHeading"
@@ -190,13 +191,18 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/greyLight"
+                    android:layout_marginTop="@dimen/margin_normal_large"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_extra_small">
 
                 <include
@@ -324,14 +330,14 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_weight="20"
+            android:layout_marginTop="@dimen/_65sdp"
+            android:layout_weight="22"
             android:paddingBottom="@dimen/margin_normal">
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="@dimen/_43sdp"
-                android:layout_height="@dimen/_43sdp"
+                android:layout_width="@dimen/_44sdp"
+                android:layout_height="@dimen/_44sdp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"

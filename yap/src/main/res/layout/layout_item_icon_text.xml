@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/margin_extra_small"
-        android:paddingBottom="@dimen/margin_extra_small">
+        android:paddingTop="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_small">
 
         <ImageView
             tools:src="@drawable/ic_support"
