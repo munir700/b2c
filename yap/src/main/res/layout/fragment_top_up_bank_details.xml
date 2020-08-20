@@ -27,12 +27,11 @@
             android:id="@+id/svDetails"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnShare"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <include
                     android:id="@+id/layoutUserHeader"
@@ -53,30 +52,34 @@
                     app:layout_constraintVertical_bias="0.0"
                     app:viewModel="@{viewModel}"
                     tools:layout_editor_absoluteX="0dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutUserBankDetails">
+
+                    <co.yap.widgets.CoreButton
+                        android:id="@+id/btnShare"
+                        style="@style/FragmentsBtnStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_70sdp"
+                        android:layout_marginRight="@dimen/_70sdp"
+                        android:layout_marginBottom="@dimen/_50sdp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                        app:btn_drawable="@drawable/ic_share_white"
+                        app:btn_drawable_padding_top="4"
+                        app:btn_drawable_position="right"
+                        app:enableCoreButton="@{true}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_goneMarginTop="@dimen/margin_extra_large"
+                        app:text="@{Strings.screen_add_topup_bank_core_btn_label_text}" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnShare"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_70sdp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginRight="@dimen/_70sdp"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-            app:btn_drawable="@drawable/ic_share_white"
-            app:btn_drawable_padding_left="10"
-            app:btn_drawable_padding_top="4"
-            app:btn_drawable_position="right"
-            app:enableCoreButton="@{true}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/svDetails"
-            app:layout_goneMarginTop="@dimen/margin_extra_large"
-            app:text="@{Strings.screen_add_topup_bank_core_btn_label_text}" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

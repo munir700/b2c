@@ -159,5 +159,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvBankAddressHeading"
             tools:text="J3 johar town" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
