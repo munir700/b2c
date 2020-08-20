@@ -24,7 +24,9 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_topup_cards_toolbar"
-            app:viewModel="@{viewModel}" />
+            app:viewModel="@{viewModel}"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="3dp" />
 
         <TextView
             android:id="@+id/txtCardsCount"

@@ -44,8 +44,8 @@
                 android:id="@+id/ivMap"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_120sdp"
-                android:scaleType="fitXY"
                 android:contentDescription="@string/empty_string"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_image_brown_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -115,8 +115,8 @@
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvAddress"
                     app:src="@{viewModel.state.categoryIcon}"
-                    tools:src="@drawable/ic_send_money"
-                    tools:ignore="UseAppTint" />
+                    tools:ignore="UseAppTint"
+                    tools:src="@drawable/ic_send_money" />
 
                 <TextView
                     android:id="@+id/tvTransactionSubheading"

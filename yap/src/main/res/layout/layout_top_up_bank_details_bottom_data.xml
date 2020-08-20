@@ -8,6 +8,8 @@
             type="co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsViewModel" />
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,11 +26,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:text="Pay to"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Pay to" />
+            app:text="@{Strings.screen_add_topup_bank_account_name_label_text}"
+            tools:text="@string/screen_add_topup_bank_account_name_label_text" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvFullName"
@@ -52,11 +54,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:text="IBAN"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            tools:text="IBAN" />
+            app:text="@{Strings.screen_add_topup_bank_iban_label_text}"
+            tools:text="@string/screen_add_topup_bank_iban_label_text" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvIBan"
@@ -80,11 +82,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:text="Swift/BIC"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvIBan"
-            tools:text="Swift/BIC" />
+            app:text="@{Strings.screen_add_topup_bank_bic_label_text}"
+            tools:text="@string/screen_add_topup_bank_bic_label_text" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSwiftCode"
@@ -108,11 +110,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:text="Account number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSwiftCode"
-            tools:text="Account number" />
+            app:text="@{Strings.screen_add_topup_bank_account_number_label_text}"
+            tools:text="@string/screen_add_topup_bank_account_number_label_text" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAccountNo"
@@ -136,11 +138,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:text="Bank &amp; Address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAccountNo"
-            tools:text="Bank &amp; Address" />
+            app:text="@{Strings.screen_add_topup_bank_address_label_text}"
+            tools:text="@string/screen_add_topup_bank_address_label_text" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvBankAddress"
