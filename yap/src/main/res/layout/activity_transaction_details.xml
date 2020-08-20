@@ -160,7 +160,7 @@
             <View
                 android:id="@+id/vLine"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_2sdp"
+                android:layout_height="@dimen/_1sdp"
                 android:layout_marginTop="@dimen/margin_small"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="@id/clAmount"
