@@ -22,7 +22,7 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/margin_normal_large"
             android:layout_marginBottom="@dimen/margin_medium"
             android:text="Invite contacts from your address book"
