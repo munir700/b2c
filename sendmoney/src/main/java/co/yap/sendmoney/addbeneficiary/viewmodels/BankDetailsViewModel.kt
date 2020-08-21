@@ -11,12 +11,12 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParams
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
 import co.yap.sendmoney.addbeneficiary.adaptor.RAKBankAdaptor
+import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.sendmoney.addbeneficiary.states.BankDetailsState
+import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -101,7 +101,7 @@ class BankDetailsViewModel(application: Application) :
                     }
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.isRmt.set(false)
-                        state.buttonText = "Next"
+                        state.buttonText = "Confirm"
                         state.hideSwiftSection = true
 //                        state.valid = true  // don't remember why we set valid = true
                     }
