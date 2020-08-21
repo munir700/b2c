@@ -72,6 +72,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                         }
                     } else {
                         getBindings().dialer.startAnimation()
+                        viewModel.state.dialerError="Confirm pin not matched with new pin"
                     }
 
                 }
