@@ -27,7 +27,7 @@
                 android:id="@+id/lnUserImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginTop="@dimen/margin_medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -142,7 +142,9 @@
                     android:text="@{viewModel.state.availableBalanceGuide}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Your available balance is " />
+                    app:text="@{Strings.screen_y2y_funds_transfer_display_text_balance}"
+                    tools:text="@string/screen_y2y_funds_transfer_display_text_balance"
+                  />
 
                 <TextView
                     android:id="@+id/tvAvailableBalance"
@@ -163,30 +165,38 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
+                android:background="@null"
                 android:maxLength="@integer/note_max_length"
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
                 app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
-                tools:hint="Type a note here" />
+                tools:hint="@string/screen_y2y_funds_transfer_display_text_note_placeholder" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/light_grey"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:layout_constraintStart_toStartOf="@+id/etNote"
+                app:layout_constraintEnd_toEndOf="@+id/etNote"
+                android:layout_marginTop="@dimen/margin_extra_small"/>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etNote"
-                app:layout_constraintVertical_bias="0.987"
+                app:layout_constraintVertical_bias="0.928"
+                android:layout_marginHorizontal="@dimen/_70sdp"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
