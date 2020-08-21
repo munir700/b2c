@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_150sdp"
@@ -23,14 +23,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardType"
-            style="@style/Regular"
+            style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivCard"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
             android:text="@{viewModel.cardDetailsModel.cardType}"
@@ -39,34 +39,31 @@
             app:layout_constraintTop_toBottomOf="@+id/ivCard"
             tools:text="Spare Card" />
 
-        <RelativeLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/rlCardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCardType"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/tvCardType">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumber"
-                style="@style/AMicroGrey"
+                style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Card number" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumberValue"
-                style="@style/Regular"
+                style="@style/Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCardNumber"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:text="@{viewModel.cardDetailsModel.cardNumber}"
                 tools:text="5381 2301 0000 7021" />
-        </RelativeLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
