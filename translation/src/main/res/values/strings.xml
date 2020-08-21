@@ -670,6 +670,7 @@
     <string name="screen_bank_details_display_text_bank_city">Bank city</string>
     <string name="screen_bank_details_input_text_city_hint">City</string>
     <string name="screen_bank_details_display_text_swift_code">Swift code</string>
+    <string name="screen_bank_details_button_find_bank">Find Bank</string>
     <string name="screen_bank_details_button_confirm">Confirm</string>
 
 

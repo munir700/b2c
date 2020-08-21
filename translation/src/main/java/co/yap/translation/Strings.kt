@@ -1060,6 +1060,7 @@ object Strings {
         "screen_bank_details_input_text_city_hint"
     const val screen_bank_details_display_text_swift_code: String =
         "screen_bank_details_display_text_swift_code"
+    const val screen_bank_details_button_find_bank: String = "screen_bank_details_button_find_bank"
     const val screen_bank_details_button_confirm: String = "screen_bank_details_button_confirm"
 
 //Beneficiary account details screen
