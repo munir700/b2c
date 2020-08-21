@@ -750,6 +750,13 @@
     <string name="screen_topup_success_display_text_account_balance_title">Your new account balance is \n %1s %2s</string>
     <string name="screen_topup_success_display_text_dashboard_action_button_title">Back to dashboard</string>
 
+    <!--    Topup bank detail screen-->
+    <string name="screen_add_topup_bank_account_name_label_text">Account name</string>
+    <string name="screen_add_topup_bank_iban_label_text">IBAN</string>
+    <string name="screen_add_topup_bank_bic_label_text">Swift/BIC</string>
+    <string name="screen_add_topup_bank_account_number_label_text">Account number</string>
+    <string name="screen_add_topup_bank_address_label_text">Bank &amp; Address</string>
+    <string name="screen_add_topup_bank_core_btn_label_text">Share</string>
 
     <!--Screen add top up card -->
     <string name="screen_add_topup_card_display_text_title">Enter your card details</string>

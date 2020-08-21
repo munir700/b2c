@@ -1184,6 +1184,22 @@ object Strings {
     const val screen_topup_success_display_text_dashboard_action_button_title: String =
         "screen_topup_success_display_text_dashboard_action_button_title"
 
+
+    //Topup bank details
+    const val screen_add_topup_bank_account_name_label_text: String =
+        "screen_add_topup_bank_account_name_label_text"
+    const val screen_add_topup_bank_iban_label_text: String =
+        "screen_add_topup_bank_iban_label_text"
+    const val screen_add_topup_bank_bic_label_text: String =
+        "screen_add_topup_bank_bic_label_text"
+    const val screen_add_topup_bank_account_number_label_text: String =
+        "screen_add_topup_bank_account_number_label_text"
+    const val screen_add_topup_bank_address_label_text: String =
+        "screen_add_topup_bank_address_label_text"
+    const val screen_add_topup_bank_core_btn_label_text: String =
+        "screen_add_topup_bank_core_btn_label_text"
+
+
     //Screen add top up card
     const val screen_add_topup_card_display_text_title: String =
         "screen_add_topup_card_display_text_title"
@@ -1203,6 +1219,7 @@ object Strings {
         "screen_y2y_display_text_recent_transfer"
     const val screen_add_topup_card_limit_text_title: String =
         "screen_add_topup_card_limit_text_title"
+
 
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =
@@ -1228,6 +1245,7 @@ object Strings {
         "screen_cash_pickup_funds_success_toolbar_header"
     const val screen_funds_local_toolbar_header: String =
         "screen_funds_local_toolbar_header"
+
 
     //success Transfer flow
     const val screen_funds_success_header: String =

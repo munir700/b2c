@@ -6,6 +6,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsViewModel" />
+
         <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>
 
@@ -14,17 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_extra_small"
-            app:cardCornerRadius="@dimen/_12sdp"
-            app:cardElevation="@dimen/_3sdp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +36,7 @@
                     android:layout_height="@dimen/_42sdp"
                     android:layout_marginTop="@dimen/margin_small"
                     android:src="@drawable/ic_store_b2b"
+                    android:visibility="gone"
                     app:colorType="@{`Beneficiary`}"
                     app:fullName="@{MyUserManager.INSTANCE.getUser().currentCustomer.fullName}"
                     app:imageUrl="@{MyUserManager.INSTANCE.getUser().currentCustomer.picture}"
@@ -47,8 +47,8 @@
 
                 <ImageView
                     android:id="@+id/ivLogo"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_18sdp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_25sdp"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:src="@drawable/logo"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -57,24 +57,24 @@
 
                 <TextView
                     android:id="@+id/tvDetailsDescription"
+                    style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/SmallGrey"
-                    android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:gravity="center"
                     android:text="This is your YAP account summary. Use these details to transfer funds from another account into YAP."
-                    app:layout_constraintTop_toBottomOf="@+id/ivLogo"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="@dimen/margin_small"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

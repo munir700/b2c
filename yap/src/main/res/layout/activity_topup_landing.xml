@@ -57,7 +57,7 @@
                 android:id="@+id/llBankTransferType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/_18sdp"
                 android:layout_weight="1"
                 android:background="@drawable/cornor_edges_gery"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -79,7 +79,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_icon_bank_transfer" />
+                    app:srcCompat="@drawable/ic_icon_bank_transfer"
+                    tools:ignore="UseAppTint" />
 
                 <TextView
                     android:id="@+id/tvBankTransferTitle"
@@ -102,7 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/_18sdp"
                 android:layout_weight="1"
                 android:background="@drawable/cornor_edges_gery"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
