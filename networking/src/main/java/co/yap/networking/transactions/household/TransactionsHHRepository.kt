@@ -13,7 +13,26 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
         RetroNetwork.createService(TransactionsHHRetroService::class.java)
 
     const val URL_IBAN_SEND_MONEY = "/transactions/api/y2y-household/"
+    const val URL_IBAN_HOUSE_HOLD_GET_LAST_TRANSACTION =
+        "transactions/api/household/get-last-transaction/{UUID}/{category}"
+    const val URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION =
+        "transactions/api/household/last-next-transaction/{UUID}"
 
     override suspend fun ibanSendMoney(request: IbanSendMoneyRequest?) =
         CustomersHHRepository.executeSafely(call = { apiService.ibanSendMoney(request) })
+
+    override suspend fun getLastTransaction(uuid: String?, category: String?) =
+        CustomersHHRepository.executeSafely(call = {
+            apiService.getLastTransaction(
+                uuid,
+                category
+            )
+        })
+
+    override suspend fun getLastNextTransaction(uuid: String?) =
+        CustomersHHRepository.executeSafely(call = {
+            apiService.getLastNextTransaction(
+                uuid
+            )
+        })
 }

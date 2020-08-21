@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -239,7 +240,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     if (MyUserManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
-                        startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
+                        launchActivity<ChangePasscodeActivity> {  }
                     }
                 }
 

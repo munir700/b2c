@@ -8,6 +8,8 @@ import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.household.TransactionsHHApi
+import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
@@ -20,6 +22,7 @@ import javax.inject.Inject
 class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmployeeSalary.State) :
     DaggerBaseViewModel<IPayHHEmployeeSalary.State>(), IPayHHEmployeeSalary.ViewModel {
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
+    override var transactionsHHRepository: TransactionsHHApi = TransactionsHHRepository
     override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         state.subAccount.value?.let {
@@ -94,7 +97,7 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
     override fun getLastTransaction(uuid: String?) {
         launch {
             when (val response =
-                customersHHRepository.getLastTransaction(uuid, "Salary")) {
+                transactionsHHRepository.getLastTransaction(uuid, "Salary")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         state.lastTransaction?.value = it

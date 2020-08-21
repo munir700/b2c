@@ -143,7 +143,7 @@ abstract class DaggerViewModel : ViewModel(), Observable, CanFetchExtras {
                 return
             }
         }
-        mCallbacks!!.notifyCallbacks(this, fieldId, null)
+        mCallbacks?.notifyCallbacks(this, fieldId, null)
     }
 
     override fun onCleared() {
