@@ -114,12 +114,6 @@ object CustomersHHRepository : BaseRepository(), CustomersApi by CustomersReposi
     override suspend fun getSchedulePayment(uuid: String?, category: String?) =
         executeSafely(call = { apiService.getSchedulePayment(uuid, category) })
 
-    override suspend fun getLastTransaction(uuid: String?, category: String?) =
-        executeSafely(call = { apiService.getLastTransaction(uuid, category) })
-
-    override suspend fun getLastNextTransaction(uuid: String?) =
-        executeSafely(call = { apiService.getLastNextTransaction(uuid) })
-
     override suspend fun cancelSchedulePayment(scheduledPaymentUuid: String?) =
         executeSafely(call = { apiService.cancelSchedulePayment(scheduledPaymentUuid) })
 

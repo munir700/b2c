@@ -67,7 +67,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     }
 
     private fun moveToSuccessScreen() {
-        val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.passCode)
         findNavController().navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
     }

@@ -47,7 +47,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferenceManager = SharedPreferenceManager(requireContext())
+        sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
 
         viewModel.screenType = getScreenType()
         viewModel.registerLifecycleOwner(this)

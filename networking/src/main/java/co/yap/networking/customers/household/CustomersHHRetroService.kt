@@ -59,15 +59,6 @@ interface CustomersHHRetroService {
         @Path("category") category: String?
     ): Response<BaseListResponse<SchedulePayment>>
 
-    @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_TRANSACTION)
-    suspend fun getLastTransaction(
-        @Path("UUID") uuid: String?,
-        @Path("category") category: String?
-    ): Response<BaseResponse<SalaryTransaction>>
-
-    @GET(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION)
-    suspend fun getLastNextTransaction(@Path("UUID") uuid: String?): Response<BaseListResponse<HouseHoldLastNextSalary>>
-
     @POST(CustomersHHRepository.URL_IBAN_HOUSE_HOLD_CANCEL_SCHEDULE_PAYMENT)
     suspend fun cancelSchedulePayment(@Path("UUID") uuid: String?): Response<ApiResponse>
 

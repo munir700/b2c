@@ -74,7 +74,7 @@ object Utils {
 
     fun createProgressDialog(context: Context): Dialog {
         var customTheme = android.R.style.Theme_Light
-        if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+        if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             customTheme = R.style.CustomLightTheme
         }
         val dialog = Dialog(context, customTheme)
@@ -816,7 +816,7 @@ object Utils {
     }
 
     fun setStatusBarColor(activity: Activity) {
-        val sharedPreferenceManager = SharedPreferenceManager(activity)
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(activity)
         if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             val window: Window = activity.getWindow()
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -826,13 +826,13 @@ object Utils {
     }
 
     fun setStatusBarColor(activity: Activity, color: Int) {
-        val sharedPreferenceManager = SharedPreferenceManager(activity)
-      //  if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
-            val window: Window = activity.getWindow()
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = color
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(activity)
+        //  if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+        val window: Window = activity.getWindow()
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = color
 
-       // }
+        // }
     }
 
     fun validateAggressively(context: Context, pinCode: String): String {

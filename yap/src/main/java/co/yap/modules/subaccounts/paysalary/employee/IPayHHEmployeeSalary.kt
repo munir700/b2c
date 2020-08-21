@@ -5,6 +5,7 @@ import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
+import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,6 +15,7 @@ interface IPayHHEmployeeSalary {
 
     interface ViewModel : IBase.ViewModel<State> {
         var customersHHRepository: CustomerHHApi
+        var transactionsHHRepository: TransactionsHHApi
         val clickEvent: SingleClickEvent
         fun handlePressOnClick(id: Int)
         fun getLastTransaction(uuid: String?)

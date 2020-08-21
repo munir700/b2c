@@ -6,6 +6,8 @@ import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.household.TransactionsHHApi
+import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import javax.inject.Inject
@@ -14,6 +16,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
     BaseRecyclerAdapterVM<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
+    override var transactionsHHRepository: TransactionsHHApi = TransactionsHHRepository
 
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
@@ -34,7 +37,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
         launch {
 //            publishState(State.loading(null))
             when (val response =
-                customersHHRepository.getLastNextTransaction(uuid)) {
+                transactionsHHRepository.getLastNextTransaction(uuid)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         state.lastSalaryTransfer?.value = it[0]
