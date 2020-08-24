@@ -92,7 +92,7 @@ class BankDetailsViewModel(application: Application) :
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.RMT -> {
                         state.isRmt.set(true)
-                        state.buttonText = "Find Bank"
+                        state.buttonText = getString(Strings.screen_bank_details_button_find_bank)
                         state.hideSwiftSection = false
                         if (paramsAdaptor.getDataList().isNullOrEmpty())
                             parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit?.let { code ->
@@ -101,7 +101,7 @@ class BankDetailsViewModel(application: Application) :
                     }
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.isRmt.set(false)
-                        state.buttonText = "Confirm"
+                        state.buttonText = getString(Strings.screen_bank_details_button_confirm)
                         state.hideSwiftSection = true
 //                        state.valid = true  // don't remember why we set valid = true
                     }
