@@ -8,6 +8,7 @@
     <color name="colorPrimary">#5E35B1</color>
     <color name="colorPrimaryDark">#272262</color>
     <color name="colorPrimaryDarkFaded">#DD272262</color>
+    <color name="colorPrimaryDarkFadedLight">#81272262</color>
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#A682FF</color>
     <color name="colorPrimaryWarm">#502C9E</color>
