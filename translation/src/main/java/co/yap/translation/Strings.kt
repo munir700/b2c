@@ -382,6 +382,8 @@ object Strings {
         "screen_confirm_card_pin_display_text_error_sequence"
     const val screen_confirm_card_pin_display_text_error_same_digits: String =
         "screen_confirm_card_pin_display_text_error_same_digits"
+    const val screen_confirm_card_pin_display_text_error_pins_not_same: String =
+        "screen_confirm_card_pin_display_text_error_pins_not_same"
 
     //Set card PIN success screen
     const val screen_set_card_pin_success_display_text_title: String =
