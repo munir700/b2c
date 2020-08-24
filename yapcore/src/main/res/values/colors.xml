@@ -7,6 +7,7 @@
     <!-- Zeplin Color palette -->
     <color name="colorPrimary">#5E35B1</color>
     <color name="colorPrimaryDark">#272262</color>
+    <color name="colorPrimaryDarkFaded">#DD272262</color>
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#A682FF</color>
     <color name="colorPrimaryWarm">#502C9E</color>
@@ -22,6 +23,7 @@
     <color name="greySoft">#5cdae0f0</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
+
     <color name="error">#ff3b30</color>
     <color name="errorLightBackground">#fde9ee</color>
     <color name="white">#ffffff</color>
@@ -58,6 +60,7 @@
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
+    <color name="textGreyDark">#979797</color>
 
 
     <color name="colorLightGreyGradient">#eff2f9</color>
@@ -125,8 +128,8 @@
     <color name="colorDarkPink">#F44774</color>
     <color name="colorDarkGrey">#272262</color>
     <color name="colorDarkPeach">#F57F17</color>
-
     <color name="colorCoachMarkOverlay">#4D272262</color>
+    <color name="colorLightGrey">#59D8D8D8</color>
 
 
 </resources>

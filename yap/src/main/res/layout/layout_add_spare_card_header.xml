@@ -32,7 +32,7 @@
             android:id="@+id/labelCardType"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_18sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:textSize="@dimen/_9sdp"
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"

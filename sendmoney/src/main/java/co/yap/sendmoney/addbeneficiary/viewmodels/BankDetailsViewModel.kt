@@ -11,12 +11,12 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParams
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
 import co.yap.sendmoney.addbeneficiary.adaptor.RAKBankAdaptor
+import co.yap.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.sendmoney.addbeneficiary.states.BankDetailsState
+import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -92,7 +92,7 @@ class BankDetailsViewModel(application: Application) :
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.RMT -> {
                         state.isRmt.set(true)
-                        state.buttonText = "Find Bank"
+                        state.buttonText = getString(Strings.screen_bank_details_button_find_bank)
                         state.hideSwiftSection = false
                         if (paramsAdaptor.getDataList().isNullOrEmpty())
                             parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit?.let { code ->
@@ -101,7 +101,7 @@ class BankDetailsViewModel(application: Application) :
                     }
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.isRmt.set(false)
-                        state.buttonText = "Next"
+                        state.buttonText = getString(Strings.screen_bank_details_button_confirm)
                         state.hideSwiftSection = true
 //                        state.valid = true  // don't remember why we set valid = true
                     }

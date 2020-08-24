@@ -13,9 +13,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
+        style="@style/Yap.App.Widget.ToolBar"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
@@ -40,7 +38,7 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/Regular"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{viewModel.state.toolBarTitle}"
@@ -59,6 +57,7 @@
             tools:text="Cancel"
             android:text="@{viewModel.state.rightButtonText}"
             android:textColor="?attr/colorPrimaryAttr"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:visibility="@{viewModel.state.rightIcon? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -20,7 +20,7 @@
         android:background="@color/white"
         tools:context=".modules.onboarding.activities.CreatePasscodeActivity">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/Large"
             android:layout_width="match_parent"
@@ -40,8 +40,9 @@
         <co.yap.widgets.CoreDialerPad
             android:id="@+id/dialer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
+            android:layout_margin="@dimen/margin_medium_large"
             app:componentDialerError='@{viewModel.state.dialerError}'
             app:dialer_max_length="4"
             app:dialer_pass_code="passcode"
@@ -53,12 +54,11 @@
             android:id="@+id/clTermsAndConditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/btnAction"
-            app:layout_constraintTop_toBottomOf="@+id/dialer">
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="invisible">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTermsAndConditionsTitle"
                 style="@style/AMicroGrey"
                 android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 app:text="@{Strings.screen_confirm_card_pin_display_title_terms_and_conditions}"
                 tools:text="@string/screen_confirm_card_pin_display_title_terms_and_conditions" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTermsAndConditions"
                 style="@style/AMicroGrey"
                 android:layout_width="match_parent"
@@ -89,30 +89,26 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/RectangleBtnStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="@dimen/_50sdp"
             android:gravity="center"
             android:onClick="@{(v)-> viewModel.handlePressOnNextButton(v.id)}"
-            android:paddingStart="@dimen/_65sdp"
-            android:paddingTop="8dp"
-            android:paddingEnd="@dimen/_65sdp"
-            android:paddingBottom="8dp"
             android:text="@{viewModel.state.buttonTitle}"
             android:textColor="@color/colorWhite"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginBottom="@dimen/margin_normal_large"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clTermsAndConditions"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_set_card_pin_button_create_pin" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvForgotPasscode"
             style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal_large"
             android:onClick="@{(v)->viewModel.handlePressOnForgotPasscodeButton(v.id)}"
             android:textColor="?attr/colorPrimaryAttr"
             android:visibility="@{viewModel.state.forgotTextVisibility ? View.VISIBLE : View.GONE}"
