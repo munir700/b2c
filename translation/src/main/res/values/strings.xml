@@ -238,6 +238,7 @@
     <string name="screen_confirm_card_pin_button_create_pin">Create PIN</string>
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
+    <string name="screen_confirm_card_pin_display_text_error_pins_not_same">This doesn\'t match the previously entered PIN</string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>

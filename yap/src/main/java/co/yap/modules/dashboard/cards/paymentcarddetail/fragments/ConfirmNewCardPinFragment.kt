@@ -15,6 +15,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPinBinding
@@ -42,7 +43,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
         loadData()
-       // loadData()
+        // loadData()
         if (activity is ChangeCardPinActivity) {
             (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
         }
@@ -72,7 +73,8 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                         }
                     } else {
                         getBindings().dialer.startAnimation()
-                        viewModel.state.dialerError="Confirm pin not matched with new pin"
+                        viewModel.state.dialerError =
+                            getString(Strings.screen_confirm_card_pin_display_text_error_pins_not_same)
                     }
 
                 }
