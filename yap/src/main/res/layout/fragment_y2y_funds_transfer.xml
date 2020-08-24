@@ -27,7 +27,7 @@
                 android:id="@+id/lnUserImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginTop="@dimen/margin_medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -111,28 +111,14 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="0.00" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/tvFee"
-                style="@style/MicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                android:text="@{viewModel.state.transferFee}"
-                app:layout_constraintBottom_toTopOf="@+id/clAvailableAmount"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
-                tools:text="Fee: AED 500" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAvailableAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_extra_small"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFee">
+                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceGuide"
@@ -156,6 +142,18 @@
                     tools:text="AED 500" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/tvFee"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@{viewModel.state.transferFee}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
+                tools:text="Fee: AED 500" />
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
@@ -164,20 +162,29 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:maxLength="@integer/note_max_length"
+                android:background="@null"
                 android:singleLine="true"
+                android:textColorHint="@color/colorPrimaryDarkFadedLight"
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
-                tools:hint="Type a note here" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tvFee"
+                tools:hint="@string/screen_y2y_funds_transfer_display_text_note_placeholder" />
+            <View
+                android:layout_width="@dimen/margin_zero_dp"
+                android:layout_height="0.8dp"
+                android:background="@color/greyLight"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:layout_constraintStart_toStartOf="@+id/etNote"
+                app:layout_constraintEnd_toEndOf="@+id/etNote"/>
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginLeft="@dimen/_80sdp"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginRight="@dimen/_80sdp"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{viewModel.state.valid}"

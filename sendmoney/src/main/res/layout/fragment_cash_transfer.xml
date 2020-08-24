@@ -206,6 +206,7 @@
                     android:id="@+id/breakLine"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_below="@+id/ivSelector"
                     android:background="@color/greySoft"
                     tools:ignore="MissingConstraints" />

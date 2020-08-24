@@ -10,8 +10,8 @@
     <View
         android:id="@+id/sepretorTop"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/greyLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

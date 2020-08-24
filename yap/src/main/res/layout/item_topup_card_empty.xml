@@ -43,8 +43,7 @@
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_round_purple"
-                android:backgroundTint="#297C4DFF"
+                android:background="@drawable/bd_card_icon_circle"
                 android:contentDescription="@string/empty_string"
                 android:elevation="2dp"
                 app:srcCompat="@drawable/ic_icon_card_transfer" />

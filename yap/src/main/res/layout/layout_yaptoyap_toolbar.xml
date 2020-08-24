@@ -40,7 +40,7 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/Regular"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{viewModel.state.tootlBarTitle}"
