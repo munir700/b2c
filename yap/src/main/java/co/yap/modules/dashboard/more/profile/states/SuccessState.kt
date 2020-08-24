@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseState
 
 class SuccessState : BaseState(), ISuccess.State {
     @get:Bindable
-    override var topMainHeading: String = Strings.screen_email_address_success_display_text_heading
+    override var topMainHeading: String = Strings.screen_email_address_success_display_text_title
         set(value) {
             field = value
             notifyPropertyChanged(BR.topMainHeading)

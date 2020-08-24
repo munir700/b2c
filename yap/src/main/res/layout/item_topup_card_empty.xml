@@ -57,7 +57,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:elevation="2dp"
                 android:gravity="center"
-                android:text="+ Add a new card"
+                android:text="@{viewModel.topUpCard.id}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 tools:text="+ Add a new card" />
         </LinearLayout>

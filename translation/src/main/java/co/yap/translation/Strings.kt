@@ -172,6 +172,8 @@ object Strings {
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
     const val screen_notification_permission_text_title: String =
         "screen_notification_permission_text_title"
+    const val screen_notification_permission_text_sub_title: String =
+        "screen_notification_permission_text_sub_title"
     const val screen_system_permission_text_title_terms_and_conditions: String =
         "screen_system_permission_text_title_terms_and_conditions"
     const val screen_system_permission_text_terms_and_conditions: String =
@@ -179,6 +181,7 @@ object Strings {
     const val screen_system_permission_button_touch_id: String =
         "screen_system_permission_button_touch_id"
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
+    const val screen_system_permission_text_denied_notification: String = "screen_system_permission_text_denied_notification"
     const val screen_notification_permission_button_title: String =
         "screen_notification_permission_button_title"
     const val screen_system_permission_text_sub_title: String =
@@ -304,6 +307,8 @@ object Strings {
         "screen_b2c_eid_info_review_display_text_error_from_usa"
     const val screen_b2c_eid_info_review_button_not_from_usa: String =
         "screen_b2c_eid_info_review_button_not_from_usa"
+    const val screen_b2c_eid_info_review_display_expired_eid_text: String =
+        "screen_b2c_eid_info_review_display_expired_eid_text"
     const val screen_b2c_eid_info_review_display_text_first_name_heading: String =
         "screen_b2c_eid_info_review_display_text_first_name_heading"
     const val screen_b2c_eid_info_review_display_text_middle_name_heading: String =
@@ -406,6 +411,8 @@ object Strings {
     // Forgot posscode success screen
     const val screen_passcode_success_display_text_heading: String =
         "screen_passcode_success_display_text_heading"
+    const val screen_passcode_success_display_text_heading_for_yap_core: String =
+        "screen_passcode_success_display_text_heading_for_yap_core"
     const val screen_passcode_success_display_text_sub_heading: String =
         "screen_passcode_success_display_text_sub_heading"
     const val screen_passcode_success_button_sign_in: String =
@@ -654,6 +661,8 @@ object Strings {
     //Change PIN success screen
     const val screen_change_pin_success_display_text_heading: String =
         "screen_change_pin_success_display_text_heading"
+    const val screen_change_pin_success_display_text_sub_heading: String =
+        "screen_change_pin_success_display_text_sub_heading"
     const val screen_change_pin_success_display_text_button: String =
         "screen_change_pin_success_display_text_button"
 
@@ -769,6 +778,8 @@ object Strings {
     // Change Email Address Success Screen
     const val screen_email_address_success_display_text_heading: String =
         "screen_email_address_success_display_text_heading"
+    const val screen_email_address_success_display_text_title: String =
+        "screen_email_address_success_display_text_title"
     const val screen_email_address_success_display_text_sub_heading: String =
         "screen_email_address_success_display_text_sub_heading"
 
@@ -828,6 +839,8 @@ object Strings {
         "screen_change_phone_number_display_text_heading"
     const val screen_change_phone_number_display_text_text_field_title: String =
         "screen_change_phone_number_display_text_text_field_title"
+    const val screen_change_phone_number_display_text_text_description: String =
+        "screen_change_phone_number_display_text_text_description"
 
 
     //    Current passcode screen

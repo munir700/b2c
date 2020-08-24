@@ -21,6 +21,7 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             newEmailValidation()
             setButtonState()
         }
+
     @get:Bindable
     override var newConfirmEMail: String = ""
         set(value) {
@@ -28,6 +29,7 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             notifyPropertyChanged(BR.newConfirmEMail)
             confirmEmailValidation()
             setButtonState()
+            checkRunTimeValidations()
 
         }
 
@@ -112,6 +114,15 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             context.getDrawable(R.drawable.bg_edit_text_under_line)
         drawableConfirm =
             if (Utils.validateEmail(newConfirmEMail)) context.getDrawable(R.drawable.path) else null
+    }
+
+    private fun checkRunTimeValidations() {
+        if (!newEmail.contains(newConfirmEMail)) {
+            backgroundConfirm =
+                context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+            drawableConfirm = context.getDrawable(R.drawable.ic_error)
+            errorMessage = "email should match"
+        }
     }
 
     fun setErrors(errorMesage: String) {
