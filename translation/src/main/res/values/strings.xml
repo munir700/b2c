@@ -396,12 +396,12 @@
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
-    <string name="screen_create_card_pin_display_text_heading">Enter your new \nPIN</string>
-    <string name="screen_create_card_pin_display_button_create_pin">Create PIN</string>
+    <string name="screen_create_card_pin_display_text_heading">Enter a new PIN</string>
+    <string name="screen_create_card_pin_display_button_create_pin">Create new PIN</string>
 
     <!--    confirm PIN screen-->
-    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your new\nPIN code</string>
-    <string name="screen_confirm_card_pin_display_button_confirm_pin">Create PIN</string>
+    <string name="screen_confirm_card_pin_display_text_heading">Enter it one more time</string>
+    <string name="screen_confirm_card_pin_display_button_confirm_pin">Create new PIN</string>
 
     <!--    Change PIN success screen-->
     <string name="screen_change_pin_success_display_text_heading">PIN has been updated successfully!</string>
