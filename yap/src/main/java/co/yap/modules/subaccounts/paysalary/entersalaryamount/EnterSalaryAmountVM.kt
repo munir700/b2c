@@ -15,6 +15,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.PaySalaryNowRequest
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
@@ -42,12 +43,15 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
 
     override fun paySalaryNow(request: PaySalaryNowRequest) {
         launch {
+            state.loading = true
             when (val response = repository.paySalaryNow(request)) {
                 is RetroApiResponse.Success -> {
+                    state.loading = false
                     clickEvent.postValue(GO_TO_CONFIRMATION)
-
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }

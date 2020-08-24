@@ -50,9 +50,6 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
-import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
-import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -117,7 +114,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.layout.component_yap_menu_sub_button,
                 this, 3
             )
-            .attachTo(getViewBinding().ivYapItAction).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .attachTo(getViewBinding().ivYapItAction)
+            .setAlphaOverlay(getViewBinding().flAlphaOverlay)
             .setTxtYapIt(getViewBinding().txtYapIt)
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
@@ -136,7 +134,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                         }
                         2 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                openTopUpScreen()
+                                launchActivity<TopUpLandingActivity>()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
@@ -161,10 +159,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 this@YapDashboardActivity
             )
         )
-    }
-
-    private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
     }
 
     private fun setupPager() {

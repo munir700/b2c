@@ -240,7 +240,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
                 R.id.lyAdd -> {
                     if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        openTopUpScreen()
+                        launchActivity<TopUpLandingActivity>()
                     } else {
                         showToast("Account activation pending")
 
@@ -364,7 +364,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     mAdapter = NotificationAdapter(mutableListOf(), this)
                     mAdapter.setList(viewModel.state.notificationList.value ?: mutableListOf())
                 }
-                viewModel.getFailedTransactionAndSubNotifications(){
+                viewModel.getFailedTransactionAndSubNotifications() {
                     mAdapter.addList(viewModel.state.notificationList.value ?: mutableListOf())
                 }
 
@@ -568,7 +568,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         viewModel.getDebitCards()
                     } else {
                         viewModel.getDebitCards()
-                        openTopUpScreen()
+                        launchActivity<TopUpLandingActivity>()
                     }
                 }
             }
@@ -631,10 +631,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
         }
-    }
-
-    private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(requireContext()))
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {

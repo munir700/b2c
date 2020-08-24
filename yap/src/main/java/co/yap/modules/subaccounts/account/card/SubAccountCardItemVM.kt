@@ -18,10 +18,15 @@ class SubAccountCardItemVM : BaseListItemViewModel<SubAccount>() {
     var status: String? = "Add new card"
     var statusColorResId: Int = R.color.colorPrimary
 
+    //    1 cardStatus if REJECTED then ineligible for card
+//    4: salaryTransferred if true show manage
+//      2 if deliveryStatue is  shiped and pinCreated then show active
+//
+//    3 salaryTransferred  && salaryDueDate<5 salary in due 5 days
     override fun setItem(item: SubAccount, position: Int) {
         mItem = item
         this.position = position
-        item.pinCreated = true
+        //item.pinCreated = true
         item.accountType?.let {
             if (item.cardStatus == PartnerBankStatus.REJECTED.status) {
                 status = "Ineligible for a card"

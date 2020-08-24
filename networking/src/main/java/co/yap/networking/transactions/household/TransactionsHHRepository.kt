@@ -14,9 +14,9 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
 
     const val URL_IBAN_SEND_MONEY = "/transactions/api/y2y-household/"
     const val URL_IBAN_HOUSE_HOLD_GET_LAST_TRANSACTION =
-        "transactions/api/household/get-last-transaction/{UUID}/{category}"
+        "transactions/api/get-last-transaction/{UUID}/{category}"
     const val URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION =
-        "transactions/api/household/last-next-transaction/{UUID}"
+        "transactions/api/last-next-transaction/{UUID}"
 
     override suspend fun ibanSendMoney(request: IbanSendMoneyRequest?) =
         CustomersHHRepository.executeSafely(call = { apiService.ibanSendMoney(request) })
