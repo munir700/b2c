@@ -184,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_80sdp"
                 android:layout_marginTop="8dp"
+                android:paddingVertical="@dimen/_16sdp"
                 android:layout_marginRight="@dimen/_80sdp"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
