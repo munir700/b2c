@@ -974,6 +974,8 @@ object Strings {
         "screen_edit_beneficiary_display_text_requirement_field_code"
     const val screen_edit_beneficiary_display_text_coonfirm: String =
         "screen_edit_beneficiary_display_text_coonfirm"
+    const val screen_send_money_display_bottom_sheet_label: String =
+        "screen_send_money_display_bottom_sheet_label"
 
 
     //     Add Beneficiary
