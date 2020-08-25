@@ -36,6 +36,7 @@
     <color name="disabledLight">#235e35b1</color>
     <color name="fadedPurple">#1BC2BEFB</color>
     <color name="divider">#1b979797</color>
+    <color name="dividerNew">#468E7BB6</color>
     <color name="dialogBtnColor">#673ab7</color>
     <color name="dialogTitleColor">#de000000</color>
     <color name="disabledPurple">#297c4dff</color>

@@ -11,7 +11,7 @@
         android:id="@+id/sepretorTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
-        android:background="#468E7BB6"
+        android:background="@color/dividerNew"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
