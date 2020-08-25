@@ -93,8 +93,8 @@ class TransactionsHeaderAdapter(
                 when (it.productCode) {
                     TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
                         if (it.txnType == TxnType.DEBIT.type) {
-                            val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
-                            total -= (it.settlementAmount?.plus(totalFee) ?: 0.0)
+                            val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
+                            total -= ((it.settlementAmount ?: 0.00).plus(totalFee))
                         } else total += (it.settlementAmount ?: 0.0)
                     }
                     else -> {
