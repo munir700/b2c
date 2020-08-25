@@ -34,8 +34,8 @@
             android:id="@+id/clSerchviewContainer"
             app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/_22sdp"
             android:layout_width="0dp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content">
@@ -44,10 +44,10 @@
                 layout="@layout/layout_contact_search"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_22sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_20sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvCancel"
+                app:layout_constraintEnd_toStartOf="@+id/tvCancel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:viewModel="@{viewModel}" />
 
@@ -57,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:text="@string/common_button_cancel"
                 android:textColor="?attr/colorPrimaryAttr"
                 android:visibility="visible"

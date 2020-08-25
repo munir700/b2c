@@ -36,9 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginStart="@dimen/margin_extra_small"
+            android:layout_marginStart="@dimen/_20sdp"
             android:lineSpacingExtra="6sp"
-            android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:text="@string/screen_y2y_display_text_recent_transfer"
             android:textColor="@color/greyDark"
@@ -52,7 +51,6 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal"
             android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recent_transfer" />
