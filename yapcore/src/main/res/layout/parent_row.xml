@@ -11,7 +11,7 @@
         android:id="@+id/sepretorTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
-        android:background="@color/greyLight"
+        android:background="#468E7BB6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,10 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/margin_extra_small"
@@ -33,8 +36,7 @@
             style="@style/ARegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:padding="@dimen/_2sdp"
             android:layout_weight="6"
             android:textColor="?attr/colorPrimaryDarkAttr" />
@@ -64,6 +66,7 @@
             android:id="@+id/recycler_view_child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:listitem="@layout/child_row"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <View
