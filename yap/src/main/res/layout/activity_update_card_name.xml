@@ -45,7 +45,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Change card's name" />
+                    android:text="Add card name" />
 
             </RelativeLayout>
 
@@ -98,8 +98,8 @@
                     android:layout_marginStart="@dimen/_13sdp"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:gravity="left"
-                    android:hint="Add name"
+                    android:gravity="start"
+                    android:hint="What would you like to call this card?"
                     android:inputType="textPersonName"
                     android:maxLength="50"
                     android:paddingEnd="@dimen/margin_medium"

@@ -41,7 +41,7 @@ class RenewCardViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Reorder new card")
+        setToolBarTitle("Reorder this card")
         parentViewModel?.state?.toolbarVisibility?.set(true)
         updateCardTypeState()
     }

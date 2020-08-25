@@ -60,9 +60,9 @@ class TopUpBeneficiariesViewModel(application: Application) :
             state.loading = true
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
-                    if (state.enableAddCard.get())
-                        response.data.data?.add(TopUpCard(alias = "addCard"))
                     response.data.data?.let { topUpCards.value = it }
+                    if (state.enableAddCard.get())
+                        response.data.data?.add(TopUpCard(alias = "addCard",id=if(topUpCards.value.isNullOrEmpty())"+ Add card" else "+ Add a new card"))
                 }
 
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -80,8 +80,8 @@ class TopUpBeneficiariesViewModel(application: Application) :
             ).replace("%d", size.toString())
             when (size) {
                 0 -> {
-                    state.noOfCard.set("No cards added yet")
-                    state.message.set("Add a card to top up")
+                    state.noOfCard.set("Start by adding a card")
+                    state.message.set("No cards are connected to this account yet")
                 }
                 1 -> state.noOfCard.set(message.substring(0, message.length - 1))
                 else -> state.noOfCard.set(message)

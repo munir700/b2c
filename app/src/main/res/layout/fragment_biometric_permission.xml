@@ -54,9 +54,9 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/small"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:lineSpacingExtra="3sp"
             android:text="@{viewModel.state.subTitle}"
             android:textAlignment="center"
-            android:lineSpacingExtra="3sp"
             android:textSize="@dimen/text_size_h2"
             app:layout_constraintTop_toBottomOf="@+id/tvTouchIdPermissionTitle"
             tools:text="@string/screen_system_permission_text_sub_title" />
@@ -79,14 +79,14 @@
             android:id="@+id/tvTermsAndConditions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorPrimaryAttr"
             android:layout_marginBottom="@dimen/margin_normal"
+            android:onClick="@{(v)->viewModel.handlePressOnTermsAndConditions(v.id)}"
+            android:textColor="?attr/colorPrimaryAttr"
             android:visibility="@{viewModel.state.termsAndConditionsVisibility? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/btnTouchId"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:text="@{Strings.screen_system_permission_text_terms_and_conditions}"
-            android:onClick="@{(v)->viewModel.handlePressOnTermsAndConditions(v.id)}"
             tools:text="@string/screen_system_permission_text_terms_and_conditions" />
 
         <co.yap.widgets.CoreButton
@@ -117,11 +117,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
             android:onClick="@{(v)->viewModel.permissionNotGranted()}"
+            android:text="@{viewModel.state.denied}"
             android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:text="@{Strings.screen_system_permission_text_denied}"
             tools:text="@string/screen_system_permission_text_denied" />
 
 

@@ -49,6 +49,13 @@ class GenericOtpViewModel(application: Application) :
                 setVerificationTitle(Strings.screen_forgot_passcode_otp_display_text_heading)
                 setVerificationDescription()
             }
+            OTPActions.CHANGE_MOBILE_NO.name -> {
+                setVerificationTitle(Strings.screen_forgot_passcode_otp_display_text_heading)
+                state.verificationDescription =
+                    getString(Strings.screen_change_phone_number_display_text_text_description).format(
+                        state.mobileNumber[0]
+                    )
+            }
             OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.SWIFT.name, OTPActions.RMT.name, OTPActions.CASHPAYOUT.name, OTPActions.Y2Y.name -> {
                 state.verificationTitle =
                     state.otpDataModel?.username ?: ""

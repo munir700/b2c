@@ -16,8 +16,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
-import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -132,7 +132,7 @@ class CardAnalyticsViewModel(application: Application) :
                             state.monthlyCategoryAvgAmount?.toFormattedCurrency()
                         )
                         state.totalCategorySpent =
-                            state.currencyType + " ${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+                            state.currencyType + "${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                         parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
@@ -161,7 +161,7 @@ class CardAnalyticsViewModel(application: Application) :
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
                     state.totalMerchantSpent =
-                        state.currencyType + " ${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+                        state.currencyType + "${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
                     state.setUpStringForMerchant(
                         state.currencyType,
                         state.monthlyMerchantAvgAmount?.toFormattedCurrency()

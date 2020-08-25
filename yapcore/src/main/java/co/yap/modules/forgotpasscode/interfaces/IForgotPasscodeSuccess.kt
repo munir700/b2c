@@ -11,6 +11,7 @@ interface IForgotPasscodeSuccess {
 
     }
     interface State:IBase.State{
+        var title:String
         var subTitle:String
         var buttonTitle:String
     }
