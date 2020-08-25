@@ -7,7 +7,7 @@
     <!-- Zeplin Color palette -->
     <color name="colorPrimary">#5E35B1</color>
     <color name="colorPrimaryDark">#272262</color>
-    <color name="colorPrimaryDarkFaded">#DD272262</color>
+    <color name="colorPrimaryDarkFaded">#C8272262</color>
     <color name="colorPrimaryDarkFadedLight">#81272262</color>
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#A682FF</color>
@@ -24,6 +24,7 @@
     <color name="greySoft">#5cdae0f0</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
+    <color name="greyNormalDarkFaded">#80D8D8D8</color>
 
     <color name="error">#ff3b30</color>
     <color name="errorLightBackground">#fde9ee</color>
@@ -33,7 +34,9 @@
     <color name="transparent">#00000000</color>
     <color name="disabled">#4D7C4DFF</color>
     <color name="disabledLight">#235e35b1</color>
+    <color name="fadedPurple">#1BC2BEFB</color>
     <color name="divider">#1b979797</color>
+    <color name="dividerNew">#468E7BB6</color>
     <color name="dialogBtnColor">#673ab7</color>
     <color name="dialogTitleColor">#de000000</color>
     <color name="disabledPurple">#297c4dff</color>
