@@ -30,6 +30,5 @@
             android:layout_weight="1"
             app:defaultNavHost="true"
             app:navGraph="@navigation/spare_cards_navigation"/>
-
     </LinearLayout>
 </layout>
