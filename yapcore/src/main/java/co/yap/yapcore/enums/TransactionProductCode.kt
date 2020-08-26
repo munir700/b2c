@@ -43,9 +43,9 @@ enum class TransactionProductCode(val pCode: String) {
 }
 
 enum class TransactionStatus {
-    PENDING, IN_PROGRESS, COMPLETED, FAILED,CANCELLED, NONE
+    PENDING, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, NONE
 }
 
 enum class TransactionLabelsCode {
-    IS_TRANSACTION_FEE, IS_BANK, IS_REFUND, IS_CASH
+    IS_TRANSACTION_FEE, IS_BANK, IS_REFUND, IS_CASH, IS_INCOMING
 }

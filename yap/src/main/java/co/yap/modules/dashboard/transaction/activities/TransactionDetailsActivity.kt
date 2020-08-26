@@ -56,7 +56,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     "0.00".toFormattedAmountWithCurrency()
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    it.settlementAmount.toString().toFormattedAmountWithCurrency()
+                    (it.settlementAmount ?: "0.00").toString().toFormattedAmountWithCurrency()
                 }
                 else -> it.amount.toString().toFormattedAmountWithCurrency()
             }
@@ -99,8 +99,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
-                    it.settlementAmount?.plus(totalFee).toString()
+                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
             }
