@@ -15,7 +15,7 @@ class WaitingListViewModel(application: Application) :
     override fun onCreate() {
         state.rankNoInList?.value =
             getString(Strings.screen_waiting_list_display_text_heading).format(
-                parentViewModel?.rankNo ?: ""
+                parentViewModel?.rankNo?.value ?: ""
             )
         super.onCreate()
     }
