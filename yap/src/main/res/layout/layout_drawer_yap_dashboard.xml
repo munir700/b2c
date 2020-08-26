@@ -59,7 +59,7 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivChevron"
                         android:layout_width="@dimen/_26sdp"
                         android:layout_height="@dimen/_26sdp"
@@ -68,7 +68,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:tint="?attr/colorPrimaryDarkAttr"
+                        app:tint="?attr/colorPrimaryDarkAttr"
                         app:srcCompat="@drawable/ic_chevron_down" />
 
                     <LinearLayout
@@ -351,14 +351,14 @@
                 android:src="@drawable/ic_add_account"
                 android:visibility="gone" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSettings"
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/settings"
-                android:tint="@color/greyDark" />
+                app:tint="@color/greyDark" />
 
         </RelativeLayout>
 
