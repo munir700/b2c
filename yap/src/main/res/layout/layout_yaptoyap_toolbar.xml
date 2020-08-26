@@ -13,7 +13,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:minHeight="?android:actionBarSize"
@@ -57,7 +56,7 @@
             android:contentDescription="@string/todo"
             android:focusable="true"
             android:padding="@dimen/margin_three_dp"
-            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:visibility="@{viewModel.state.rightButtonVisibility}"

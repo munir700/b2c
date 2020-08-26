@@ -60,7 +60,7 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="#1e979797"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp" />
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"/>
     </LinearLayout>
 </layout>
