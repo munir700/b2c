@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/ivFingerprint"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/_59sdp"
+            android:layout_height="@dimen/_59sdp"
             android:layout_marginTop="@dimen/margin_xxl"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
