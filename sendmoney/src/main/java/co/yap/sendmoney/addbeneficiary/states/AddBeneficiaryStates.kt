@@ -248,6 +248,9 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
         }
 
     private fun validate() {
+        //val beneficiary_length =resources.getInteger(R.integer.unitsCount))
+        // sync it from above feild because its binding in XML
+        val beneficiaryLength = 39
         selectedBeneficiaryType?.let {
             when (valueOf(it)) {
                 RMT -> {
@@ -255,12 +258,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 )
                 }
@@ -269,12 +272,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) && !countryOfResidence.isNullOrBlank()
                 }
@@ -283,12 +286,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) && iban.isNotEmpty() &&
                                 confirmIban.isNotEmpty() &&
@@ -303,12 +306,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,$beneficiaryLength}\$",
                                     2
                                 ) && mobileNo.length > 1
                 }

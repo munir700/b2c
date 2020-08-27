@@ -227,7 +227,7 @@
                     android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:maxLength="40"
+                    android:maxLength="@integer/beneficiary_length"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
@@ -255,7 +255,7 @@
                     android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:maxLength="40"
+                    android:maxLength="@integer/beneficiary_length"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
