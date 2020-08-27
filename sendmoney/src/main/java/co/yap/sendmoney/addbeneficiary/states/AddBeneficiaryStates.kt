@@ -255,12 +255,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 )
                 }
@@ -269,12 +269,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) && !countryOfResidence.isNullOrBlank()
                 }
@@ -283,12 +283,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) && iban.isNotEmpty() &&
                                 confirmIban.isNotEmpty() &&
@@ -303,12 +303,12 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
                         StringUtils.validateRegix(nickName, "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$", 2) &&
                                 StringUtils.validateRegix(
                                     firstName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) &&
                                 StringUtils.validateRegix(
                                     lastName,
-                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,50}\$",
+                                    "^[a-zA-Z]{1}[a-zA-Z ]{1,40}\$",
                                     2
                                 ) && mobileNo.length > 1
                 }
