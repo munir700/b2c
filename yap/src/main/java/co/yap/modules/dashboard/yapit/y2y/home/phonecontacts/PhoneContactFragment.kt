@@ -19,6 +19,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 
@@ -138,10 +139,18 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun sendInvite(contact: Contact) {
-        this.fragmentManager?.let {
-            val inviteFriendBottomSheet = InviteBottomSheet(this, contact)
-            inviteFriendBottomSheet.show(it, "")
-        }
+        shareInfo(contact)
+        /*    this.fragmentManager?.let {
+                val inviteFriendBottomSheet = InviteBottomSheet(this, contact)
+                inviteFriendBottomSheet.show(it, "")
+            }*/
+    }
+
+    private fun shareInfo(contact: Contact) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext(), contact))
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     override fun onClick(viewId: Int, data: Any) {
