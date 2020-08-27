@@ -10,7 +10,7 @@ data class HomeNotification(
     @SerializedName("id")
     val id: String="",
     @SerializedName("title")
-    val title: String = "",
+    val title: String? = "",
     @SerializedName("description")
     val description: String,
     @SerializedName("action")

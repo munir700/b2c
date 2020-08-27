@@ -1,10 +1,10 @@
-package co.yap.modules.subaccounts.paysalary.profile
+package co.yap.modules.subaccounts.paysalary.profile.adapter
 
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.networking.models.ApiResponse
+import co.yap.modules.subaccounts.paysalary.profile.PaySalaryModel
 import co.yap.yapcore.BaseListItemViewModel
 
 class HHSalaryProfileTransfersItemVM : BaseListItemViewModel<PaySalaryModel>() {

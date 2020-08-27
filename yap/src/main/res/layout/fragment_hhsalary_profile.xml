@@ -84,12 +84,29 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_transfers_label" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
-                layout="@layout/refresh_recycler_view"
+            <co.yap.widgets.MultiStateView
+                android:id="@+id/multiStateView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                app:adapter="@{hhSalaryProfileVM.adapter}" />
+                app:layout_behavior="@string/scroll_behavior"
+                app:msv_animateViewChanges="true"
+                app:msv_loadingView="@layout/layout_loading_view_top">
+
+                <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_home_transaction_child" />
+            </co.yap.widgets.MultiStateView>
+            <!--            <include-->
+            <!--                layout="@layout/refresh_recycler_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:gravity="bottom"-->
+            <!--                app:adapter="@{hhSalaryProfileVM.adapter}" />-->
 
         </LinearLayout>
 

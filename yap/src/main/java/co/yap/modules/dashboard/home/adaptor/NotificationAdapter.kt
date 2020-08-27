@@ -27,9 +27,9 @@ class NotificationAdapter(
 
         holder.binding?.tvTitle?.text = notification.title
         holder.binding?.tvDescription?.text = notification.description
-        if (notification.title.isBlank()) {
-            holder.binding?.tvTitle?.visibility = View.GONE
-        } else {
+        notification.title?.let {
+            holder.binding?.tvTitle?.visibility = View.VISIBLE
+        } ?: run {
             holder.binding?.tvTitle?.visibility = View.VISIBLE
         }
     }

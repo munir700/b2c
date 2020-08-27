@@ -3,6 +3,8 @@
 
     <color name="conversation_background">#ffffff</color>
 
+    <color name="lp_colorPrimary">@color/white</color>
+
     <!-- all bubbles -->
     <color name="bubble_selected_background_color">#5597a7e3</color>
 
@@ -111,6 +113,7 @@
 
     <string name="custom_button_icon_name">t_mobile_call_icon</string>
     <string name="custom_button_icon_description">call</string>
+    <string name="lp_enter_message">Type a message…</string>
 
     <bool name="contextual_menu_on_toolbar">true</bool>
 
@@ -270,7 +273,7 @@
     <string name="lp_scroll_when_scroll_down" translatable="false">Bottom</string>
 
 
-<!--    <string name="brand_name" templateMergeStrategy="preserve" translatable="false">YAP Support</string>-->
+    <!--    <string name="brand_name" templateMergeStrategy="preserve" translatable="false">YAP Support</string>-->
 
     <!--  End of scroll behavior settings.  -->
 

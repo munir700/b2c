@@ -2,10 +2,10 @@ package co.yap.networking.transactions.household
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 
 object TransactionsHHRepository : BaseRepository(), TransactionsApi by TransactionsRepository,
     TransactionsHHApi {
@@ -18,11 +18,16 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
     const val URL_IBAN_HOUSE_HOLD_GET_LAST_NEXT_TRANSACTION =
         "transactions/api/last-next-transaction/{UUID}"
 
+    const val URL_GET_ALL_HOUSE_HOLD_PROFILE_TRANSACTIONS =
+        "/transactions/api/get-all-transactions/{{householdAccountUUID}}/"
+    const val URL_GET_HOUSE_HOLD_PROFILE_TRANSACTIONS =
+        "/transactions/api/household-account-transactions/{page_no}/{page_size}/"
+
     override suspend fun ibanSendMoney(request: IbanSendMoneyRequest?) =
-        CustomersHHRepository.executeSafely(call = { apiService.ibanSendMoney(request) })
+        executeSafely(call = { apiService.ibanSendMoney(request) })
 
     override suspend fun getLastTransaction(uuid: String?, category: String?) =
-        CustomersHHRepository.executeSafely(call = {
+        executeSafely(call = {
             apiService.getLastTransaction(
                 uuid,
                 category
@@ -30,9 +35,27 @@ object TransactionsHHRepository : BaseRepository(), TransactionsApi by Transacti
         })
 
     override suspend fun getLastNextTransaction(uuid: String?) =
-        CustomersHHRepository.executeSafely(call = {
+        executeSafely(call = {
             apiService.getLastNextTransaction(
                 uuid
             )
         })
+
+    override suspend fun getHHTransactionsByPage(
+        accountUUID: String?,
+        request: HomeTransactionsRequest?
+    ) = executeSafely(call = {
+        apiService.getHHTransactionsByPage(
+            accountUUID, request?.number,
+            request?.size,
+            request?.amountStartRange,
+            request?.amountEndRange,
+            request?.txnType,
+            request?.title
+        )
+    })
+
+    override suspend fun getAllHHProfileTransactions(accountUUID: String?) = executeSafely(call = {
+        apiService.getAllHHProfileTransactions(accountUUID)
+    })
 }
