@@ -440,6 +440,9 @@ object Strings {
     const val screen_cards_display_text_freeze_card_action: String =
         "screen_cards_display_text_freeze_card_action"
 
+    //Change Card Name Screen
+    const val screen_report_card_hint_name_edit_text: String =
+        "screen_report_card_hint_name_edit_text"
 
     const val screen_cards_display_text_lost_stolen_card: String =
         "screen_cards_display_text_lost_stolen_card"
