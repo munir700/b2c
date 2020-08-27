@@ -5,27 +5,42 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhsalaryProfileBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
-import co.yap.yapcore.BaseRVAdapter
-import co.yap.yapcore.BaseViewHolder
+import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
+import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
+import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
+import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
+import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
+import javax.inject.Inject
 
 class HHSalaryProfileFragment :
-    BaseRecyclerViewFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM, HHSalaryProfileFragment.Adapter, PaySalaryModel>() {
+    BaseNavViewModelFragment<FragmentHhsalaryProfileBinding, IHHSalaryProfile.State, HHSalaryProfileVM>(),
+    OnItemClickListener {
+    @Inject
+    lateinit var mSalarySetupAdapter: SalarySetupAdapter
+
+    @Inject
+    lateinit var salaryTransferAdapter: HHSalaryProfileTransfersAdapter
+
+    @Inject
+    lateinit var mWrappedAdapter: RecyclerView.Adapter<*>
+
+    @Inject
+    lateinit var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
 
     override fun getBindingVariable() = BR.hhSalaryProfileVM
     override fun getLayoutId() = R.layout.fragment_hhsalary_profile
@@ -33,8 +48,20 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
-        setRefreshEnabled(false)
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
+    }
+    private fun intRecyclersView() {
+        mSalarySetupAdapter.onItemClickListener = this
+        viewModel.salarySetupAdapter?.set(mSalarySetupAdapter)
+        mRecyclerViewExpandableItemManager.defaultGroupsExpandedState = true
+        mViewDataBinding.recyclerView.apply {
+            addItemDecoration(StickyHeaderItemDecoration())
+            mRecyclerViewExpandableItemManager.attachRecyclerView(this)
+            adapter = mWrappedAdapter
+            viewModel.transactionAdapter?.set(salaryTransferAdapter)
+            // pagination = viewModel.getPaginationListener()
+            setHasFixedSize(false)
+        }
     }
 
     private fun onClick(id: Int) {
@@ -106,21 +133,5 @@ class HHSalaryProfileFragment :
             }
         )
         return super.onOptionsItemSelected(item)
-    }
-
-    class Adapter(mValue: MutableList<PaySalaryModel>, navigation: NavController?) :
-        BaseRVAdapter<PaySalaryModel, HHSalaryProfileItemVM, BaseViewHolder<PaySalaryModel, HHSalaryProfileItemVM>>(
-            mValue,
-            navigation
-        ) {
-        override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
-        override fun getViewHolder(
-            view: View,
-            viewModel: HHSalaryProfileItemVM,
-            mDataBinding: ViewDataBinding, viewType: Int
-        ) = BaseViewHolder(view, viewModel, mDataBinding)
-
-        override fun getViewModel(viewType: Int) = HHSalaryProfileItemVM()
-        override fun getVariableId() = BR.hhSalaryProfileItemVM
     }
 }

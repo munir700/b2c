@@ -1,7 +1,11 @@
 package co.yap.modules.subaccounts.paysalary.profile
 
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
+import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
 import co.yap.translation.Strings
+import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
@@ -27,13 +31,24 @@ class HHSalaryProfileModule : BaseFragmentModule<HHSalaryProfileFragment>() {
     @Provides
     fun provideHHSalaryProfileTransfersAdapter() =
         HHSalaryProfileTransfersAdapter(
-            ArrayList(),
-            null
+            emptyMap()
         )
 
     @Provides
+    @FragmentScope
+    fun provideWrappedAdapter(
+        adapter: HHSalaryProfileTransfersAdapter,
+        mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager
+    ): RecyclerView.Adapter<*> = mRecyclerViewExpandableItemManager.createWrappedAdapter(adapter)
+
+    @Provides
+    @FragmentScope
+    fun provideRecyclerViewExpandableItemManager() =
+        RecyclerViewExpandableItemManager(null)
+
+    @Provides
     fun provideHHPaySalaryAdapter(fragment: HHSalaryProfileFragment) =
-        HHSalaryProfileFragment.Adapter(
+        SalarySetupAdapter(
             getNoTransactionsData(),
             null
         )
