@@ -387,6 +387,10 @@
     <string name="screen_report_card_display_button_block_alert_confirm">Confirm</string>
     <string name="screen_report_card_display_button_block_alert_cancel">Cancel</string>
 
+
+    <!-- Change Card Name Screen -->
+    <string name="screen_report_card_hint_name_edit_text">What would you like to call this card?</string>
+
     <!--    Card Blocked Screen-->
     <string name="screen_card_blocked_display_text_heading">Your card has been blocked</string>
     <string name="screen_card_blocked_display_text_subheading">Do you want to order a new card?</string>

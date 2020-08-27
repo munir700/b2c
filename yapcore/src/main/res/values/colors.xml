@@ -34,6 +34,7 @@
     <color name="transparent">#00000000</color>
     <color name="disabled">#4D7C4DFF</color>
     <color name="disabledLight">#235e35b1</color>
+    <color name="disabledDark">#AD5E35B1</color>
     <color name="fadedPurple">#1BC2BEFB</color>
     <color name="divider">#1b979797</color>
     <color name="dividerNew">#468E7BB6</color>
