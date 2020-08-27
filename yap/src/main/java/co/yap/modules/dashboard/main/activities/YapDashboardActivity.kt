@@ -190,7 +190,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
         viewModel.showUnverifedscreen.observe(this, Observer {
             if (it) {
-                //showUnverifiedPopup()
+                showUnverifiedPopup()
             }
         })
     }
