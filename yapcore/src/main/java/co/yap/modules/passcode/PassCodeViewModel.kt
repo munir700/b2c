@@ -31,6 +31,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
         state.buttonTitle = buttonTitle
     }
 
+
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -74,6 +75,10 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                 }
             }
         }
+    }
+
+    override fun setLayoutVisibility(visibility: Boolean?) {
+        state.needTermsConditions = visibility
     }
 
     override fun forgotPassCodeRequest(success: () -> Unit) {

@@ -20,6 +20,7 @@ interface IPassCode {
         fun createForgotPassCodeOtp(success: (username:String) -> Unit)
         fun isUserLoggedIn(): Boolean
         fun setTitles(title: String, buttonTitle: String)
+        fun setLayoutVisibility(visibility : Boolean?)
     }
 
     interface State : IBase.State {
@@ -30,5 +31,7 @@ interface IPassCode {
         var title: String
         var buttonTitle: String
         var forgotTextVisibility: Boolean
+        var needTermsConditions : Boolean?
+
     }
 }
