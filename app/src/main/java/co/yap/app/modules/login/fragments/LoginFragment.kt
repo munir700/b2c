@@ -59,7 +59,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-        tvSignUpPrefix.setOnClickListener { startFragment(HelpSupportFragment::class.java.name) }
     }
 
     override fun onDestroy() {
