@@ -29,6 +29,7 @@
             app:viewModel="@{viewModel}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -53,9 +54,9 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_support" />
 
@@ -104,10 +105,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
@@ -155,10 +156,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
@@ -206,10 +207,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_phone_vector" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -277,5 +278,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <co.yap.widgets.spinneradapter.searchable.SearchableSpinner
+            android:id="@+id/searchableSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:BoarderColor="@color/colorPrimary"
+            app:BordersSize="1dp"
+            app:RevealEmptyText="Touch to select"
+            app:ShowBorders="true"
+            app:SpinnerExpandHeight="250dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.help.fragments
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.Nullable
 import androidx.core.os.bundleOf
@@ -15,6 +16,9 @@ import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
+import co.yap.widgets.spinneradapter.searchable.IStatusListener
+import co.yap.widgets.spinneradapter.searchable.OnItemSelectedListener
+import co.yap.widgets.spinneradapter.searchable.SimpleListAdapter
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
@@ -22,9 +26,11 @@ import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
+import kotlinx.android.synthetic.main.fragment_help_support.*
 
 
-class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
+class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View,
+    View.OnTouchListener {
 
     lateinit var adapter: HelpSupportAdaptor
 
@@ -34,6 +40,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private val brandId = "17038977"
     private val appInstallId = MyUserManager.user?.uuid
+    private lateinit var mSimpleListAdapter: SimpleListAdapter
 
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
@@ -46,6 +53,27 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getHelpDeskPhone()
+        mSimpleListAdapter = SimpleListAdapter(requireContext(), getSpinnerList())
+        searchableSpinner?.setAdapter(mSimpleListAdapter)
+        searchableSpinner?.setOnItemSelectedListener(mOnItemSelectedListener)
+        searchableSpinner?.setStatusListener(object : IStatusListener
+        {
+            override fun spinnerIsOpening() {
+
+            }
+
+            override fun spinnerIsClosing() {
+            }
+        })
+        view.setOnTouchListener(this)
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        if (!searchableSpinner.isInsideSearchEditText(event)) {
+            searchableSpinner.hideEdit()
+            return true
+        }
+        return false
     }
 
     private fun setObservers() {
@@ -149,5 +177,51 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getBinding(): FragmentHelpSupportBinding {
         return viewDataBinding as FragmentHelpSupportBinding
+    }
+
+    /////////////////////////////////////////////////////////////////
+    private var mOnItemSelectedListener: OnItemSelectedListener = object : OnItemSelectedListener {
+        override fun onItemSelected(view: View?, position: Int, id: Long) {
+            toast("Item on position " + position + " : " + mSimpleListAdapter?.getItem(position) + " Selected")
+        }
+
+        override fun onNothingSelected() {
+            toast("Nothing Selected")
+        }
+    }
+
+    private fun getSpinnerList(): ArrayList<String> {
+        val list: ArrayList<String> = ArrayList()
+        list.add("Brigida Kurz")
+        list.add("Tracy Mckim")
+        list.add("Iesha Davids")
+        list.add("Ozella Provenza")
+        list.add("Florentina Carriere")
+        list.add("Geri Eiler")
+        list.add("Tammara Belgrave")
+        list.add("Ashton Ridinger")
+        list.add("Jodee Dawkins")
+        list.add("Florine Cruzan")
+        list.add("Latia Stead")
+        list.add("Kai Urbain")
+        list.add("Liza Chi")
+        list.add("Clayton Laprade")
+        list.add("Wilfredo Mooney")
+        list.add("Roseline Cain")
+        list.add("Chadwick Gauna")
+        list.add("Carmela Bourn")
+        list.add("Valeri Dedios")
+        list.add("Calista Mcneese")
+        list.add("Willard Cuccia")
+        list.add("Ngan Blakey")
+        list.add("Reina Medlen")
+        list.add("Fabian Steenbergen")
+        list.add("Edmond Pine")
+        list.add("Teri Quesada")
+        list.add("Vernetta Fulgham")
+        list.add("Winnifred Kiefer")
+        list.add("Chiquita Lichty")
+        list.add("Elna Stiltner")
+        return list
     }
 }

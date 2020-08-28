@@ -11,8 +11,10 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
@@ -57,6 +59,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
+        tvSignUpPrefix.setOnClickListener { startFragment(HelpSupportFragment::class.java.name) }
     }
 
     override fun onDestroy() {
