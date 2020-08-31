@@ -37,7 +37,7 @@
                 android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_small">
@@ -69,7 +69,6 @@
                         android:gravity="center"
                         android:text="@{viewModel.state.filterCount.toString()}"
                         android:textColor="@color/colorPrimary"
-                        android:tint="?attr/colorPrimaryAttr"
                         android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
                         tools:text="6" />
 
@@ -79,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
                         android:src="@drawable/ic_filter"
-                        android:tint="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
+                        android:tint="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
 
                     <TextView
                         android:id="@+id/tvFilters"
@@ -87,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Filter"
-                        android:textColor="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimaryDark}" />
+                        android:textColor="@{viewModel.state.isTxnsEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
 
                 </LinearLayout>
 
@@ -308,9 +307,10 @@
                             android:visibility="gone">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
+                                android:gravity="center"
                                 android:orientation="horizontal">
 
 
@@ -319,6 +319,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                    android:layout_marginRight="@dimen/_30sdp"
                                     android:orientation="vertical">
 
                                     <ImageView
@@ -392,8 +393,9 @@
 
                         <ImageView
                             android:id="@+id/ivBack"
-                            android:layout_width="@dimen/_23sdp"
+                            android:layout_width="@dimen/_24sdp"
                             android:layout_height="@dimen/_24sdp"
+                            android:scaleType="fitXY"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                             app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
                             app:layout_constraintStart_toStartOf="parent"
@@ -402,10 +404,10 @@
 
                         <ImageView
                             android:id="@+id/ivMenu"
-                            android:layout_width="@dimen/_23sdp"
+                            android:layout_width="@dimen/_24sdp"
                             android:layout_height="@dimen/_24sdp"
                             android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/_12sdp"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                             app:layout_constraintBottom_toBottomOf="@+id/ivBack"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -433,8 +435,9 @@
                         <include
                             android:id="@+id/cardInfoLayout"
                             layout="@layout/layout_card_info"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_43sdp"
                             android:layout_marginTop="@dimen/margin_medium_large"
                             android:layout_marginBottom="@dimen/margin_medium"
                             app:buttonVisibility="@{true}"

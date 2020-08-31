@@ -56,10 +56,10 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun notificationViews() {
-        state.icon = R.drawable.ic_notification_settings
+        state.icon = R.drawable.ic_notification
         state.title = getString(Strings.screen_notification_permission_text_title)
         state.subTitle = getString(Strings.screen_notification_permission_text_sub_title)
-        state.denied = getString(Strings.screen_system_permission_text_denied_notification)
+        state.denied = getString(Strings.screen_system_permission_text_denied)
         state.termsAndConditionsVisibility = false
         state.buttonTitle = getString(Strings.screen_notification_permission_button_title)
     }

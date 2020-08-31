@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,8 +18,11 @@ import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.Utils.getAdjustURL
+import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 
@@ -138,22 +142,30 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun sendInvite(contact: Contact) {
-        this.fragmentManager?.let {
-            val inviteFriendBottomSheet = InviteBottomSheet(this, contact)
-            inviteFriendBottomSheet.show(it, "")
-        }
+        shareInfo(contact)
+
+        /*    this.fragmentManager?.let {
+                val inviteFriendBottomSheet = InviteBottomSheet(this, contact)
+                inviteFriendBottomSheet.show(it, "")
+            }*/
+    }
+
+    private fun shareInfo(contact: Contact) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody(requireContext(), contact))
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     override fun onClick(viewId: Int, data: Any) {
-        if (data is Contact)
+      /*  if (data is Contact)
             when (viewId) {
                 R.id.tvChooseEmail -> inviteViaEmail(data)
                 R.id.tvChooseSMS -> inviteViaSms(data)
                 R.id.tvChooseWhatsapp -> inviteViaWhatsapp(data)
-            }
+            }*/
     }
-
-    private fun inviteViaWhatsapp(contact: Contact) {
+/*    private fun inviteViaWhatsapp(contact: Contact) {
         val url =
             "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
                 requireContext(),
@@ -181,7 +193,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         val it = Intent(Intent.ACTION_SENDTO, uri)
         it.putExtra("sms_body", Utils.getBody(requireContext(), contact))
         startActivity(it)
-    }
+    }*/
 
     private val observer = Observer<Int> {
         when (it) {
