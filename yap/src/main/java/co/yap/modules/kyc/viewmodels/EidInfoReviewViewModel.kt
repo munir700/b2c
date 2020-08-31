@@ -230,7 +230,9 @@ class EidInfoReviewViewModel(application: Application) :
     ) {
         parentViewModel?.identity?.let {
             if (it.expirationDate == null) {
-                clickEvent.setValue(EVENT_RESCAN)
+                state.toast = "EID Expiry date in not valid. Please rescan EID ^${AlertType.DIALOG.name}"
+                //clickEvent.setValue(EVENT_RESCAN)
+                // Auto re-scan will confuse user.
             } else {
                 launch {
                     val request = UploadDocumentsRequest(
