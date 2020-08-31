@@ -58,7 +58,9 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         webView?.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
-                progressBar.visibility = ProgressBar.GONE
+                progressBar?.let {
+                    it.visibility = ProgressBar.GONE
+                }
                 // multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
 
@@ -67,7 +69,9 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
 
             override fun onReceivedTitle(view: WebView, title: String) {
                 super.onReceivedTitle(view, title)
-                progressBar.visibility = ProgressBar.GONE
+                progressBar?.let {
+                    it.visibility = ProgressBar.GONE
+                }
                 //multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
         }
@@ -77,15 +81,21 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
 
 
     override fun onPageStarted(url: String?, favicon: Bitmap?) {
-        progressBar.visibility = ProgressBar.VISIBLE
+        progressBar?.let {
+            it.visibility = ProgressBar.VISIBLE
+        }
     }
 
     override fun onPageFinished(url: String?) {
-        progressBar.visibility = ProgressBar.GONE
+        progressBar?.let {
+            it.visibility = ProgressBar.GONE
+        }
     }
 
     override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
-        progressBar.visibility = ProgressBar.GONE
+        progressBar?.let {
+            it.visibility = ProgressBar.GONE
+        }
     }
 
     override fun onDownloadRequested(
