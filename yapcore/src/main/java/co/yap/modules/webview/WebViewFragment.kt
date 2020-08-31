@@ -233,8 +233,4 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
             grantResults
         )
     }
-
-    fun toggleProgressBarVisibility(show: Boolean){
-
-    }
 }
