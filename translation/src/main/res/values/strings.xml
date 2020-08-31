@@ -73,7 +73,7 @@
     <string name="screen_verify_phone_number_button_send">Next</string>
 
     <!-- Create passcode screen -->
-    <string name="screen_create_passcode_display_text_title">Create a new 4- to 6-digit passcode</string>
+    <string name="screen_create_passcode_display_text_title">Enter your new 4-digit passcode to \naccess your account</string>
     <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_create_passcode_button_create_passcode">Set passcode</string>
