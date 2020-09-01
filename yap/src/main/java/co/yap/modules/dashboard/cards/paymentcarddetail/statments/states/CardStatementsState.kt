@@ -25,4 +25,6 @@ class CardStatementsState : BaseState(), ICardStatments.State {
             field = value
             notifyPropertyChanged(BR.nextMonth)
         }
+
+
 }

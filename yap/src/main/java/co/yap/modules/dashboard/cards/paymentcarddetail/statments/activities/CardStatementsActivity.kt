@@ -48,7 +48,8 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
             startActivity(
                 PDFActivity.newIntent(
                     view.context,
-                    (data as CardStatement).statementURL ?: ""
+                    (data as CardStatement).statementURL ?: "",
+                    false
                 )
             )
         }

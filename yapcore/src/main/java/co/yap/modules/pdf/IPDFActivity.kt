@@ -16,5 +16,8 @@ interface IPDFActivity {
         fun downloadFile(filePath: String, success: (file: File?) -> Unit)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var hideCross :Boolean?
+
+    }
 }

@@ -223,12 +223,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:contentDescription="@string/empty_string"
                             android:orientation="vertical"
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:contentDescription="@string/empty_string" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tvAutoPayoutCaption"
@@ -253,12 +253,12 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="@dimen/_100sdp"
+                            android:contentDescription="@string/empty_string"
                             android:orientation="vertical"
                             android:src="@drawable/spending"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:contentDescription="@string/empty_string" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </LinearLayout>
                 </LinearLayout>
