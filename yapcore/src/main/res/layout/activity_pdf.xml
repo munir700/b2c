@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:src="@drawable/ic_close"
-            />
+            android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"            />
 
         <com.pdfview.PDFView
             android:id="@+id/pdfView"

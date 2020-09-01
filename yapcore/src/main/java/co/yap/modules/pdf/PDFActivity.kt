@@ -51,6 +51,11 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
     }
 
     val listener = Observer<Int> {
+        when (it) {
+            R.id.ivCancelPdf -> {
+                onBackPressed()
+            }
+        }
     }
 
     override fun onBackPressed() {
