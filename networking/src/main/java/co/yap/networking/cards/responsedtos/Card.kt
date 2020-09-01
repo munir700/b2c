@@ -12,7 +12,7 @@ data class Card(
     val uuid: String,
     var physical: Boolean,
     val active: Boolean,
-    var cardName: String,
+    var cardName: String?,
     var nameUpdated: Boolean?,
     var status: String,
     val shipmentStatus: String?,
