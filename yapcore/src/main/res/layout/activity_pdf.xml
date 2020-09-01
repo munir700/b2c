@@ -25,7 +25,7 @@
             android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
             android:layout_marginBottom="@dimen/_8sdp"
             android:src="@drawable/ic_close"
-            android:tint="@color/colorPrimaryDark"
+            app:tint="@color/colorPrimaryDark"
             android:visibility="@{viewModel.state.hideCross ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
