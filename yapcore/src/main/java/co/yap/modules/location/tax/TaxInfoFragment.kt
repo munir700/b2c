@@ -33,7 +33,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
                 if (viewModel.state.valid.get() == true) {
                     viewModel.saveInfoDetails(false) { pdf ->
                         startActivity(
-                            PDFActivity.newIntent(view.context, pdf ?: "")
+                            PDFActivity.newIntent(view.context, pdf ?: "",true)
                         )
                     }
                 }

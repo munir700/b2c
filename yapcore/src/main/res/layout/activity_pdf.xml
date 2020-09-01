@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.pdf.PDFViewModel" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,15 +23,18 @@
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:onClick="@{(v) -> viewModel.handlePressView(v.id)}"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:src="@drawable/ic_close"
+            android:tint="@color/colorPrimaryDark"
+            android:visibility="@{viewModel.state.hideCross ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/pdfView"/>
 
         <com.pdfview.PDFView
             android:id="@+id/pdfView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
