@@ -94,6 +94,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
             viewModel.transferData.value = TransferFundData()
             viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
             viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == "AED"
+            viewModel.configuredDecimal = intent.getIntExtra(Constants.CONFIGURED_DECIMAL, 0)
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -16,6 +17,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.extentions.parseToInt
 
 
 class SendMoneyHomeScreenViewModel(application: Application) :
@@ -32,6 +34,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
     override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
+    override var currencies: ArrayList<CurrencyData>? = ArrayList()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -39,6 +42,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        getAllCurrencies()
         requestAllBeneficiaries()
         isSearching.value?.let {
             if (!it)
@@ -115,5 +119,25 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         }
     }
 
+    private fun getAllCurrencies() {
+        launch {
+            when (val response =
+                repository.getAllCurrenciesConfigs()) {
+                is RetroApiResponse.Success -> {
+                    currencies = response.data.curriencies
+                }
+                is RetroApiResponse.Error -> {
 
+                }
+            }
+        }
+    }
+
+    override fun getConfiguredDecimals(currencyCode: String): Int {
+        val allowedDecimal = currencies?.firstOrNull {
+            it.currencyCode == currencyCode
+        }?.allowedDecimalsNumber
+
+        return allowedDecimal?.parseToInt() ?: 2
+    }
 }

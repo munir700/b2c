@@ -20,7 +20,6 @@ import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
-import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
@@ -29,7 +28,6 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -209,9 +207,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         Utils.hideKeyboard(getSearchView())
         launchActivity<BeneficiaryFundTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
             putExtra(Constants.BENEFICIARY, beneficiary)
+            putExtra(
+                Constants.CONFIGURED_DECIMAL,
+                viewModel.getConfiguredDecimals(beneficiary?.currency ?: "")
+            )
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
+
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {

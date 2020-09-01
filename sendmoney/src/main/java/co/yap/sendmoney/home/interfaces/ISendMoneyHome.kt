@@ -3,8 +3,10 @@ package co.yap.sendmoney.home.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
+import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
@@ -25,6 +27,9 @@ interface ISendMoneyHome {
         val onDeleteSuccess: MutableLiveData<Int>
         val recentTransferData: MutableLiveData<List<Beneficiary>>
         val adapter: ObservableField<RecentTransferAdaptor>
+        val currencies: ArrayList<CurrencyData>?
+        fun getConfiguredDecimals(currencyCode:String): Int
+
 
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)

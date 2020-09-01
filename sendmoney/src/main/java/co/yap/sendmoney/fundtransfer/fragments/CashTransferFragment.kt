@@ -3,7 +3,6 @@ package co.yap.sendmoney.fundtransfer.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -323,7 +322,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun setEditTextWatcher() {
-        etAmount.applyAmountFilters()
+        etAmount.applyAmountFilters(decimal = viewModel.parentViewModel?.configuredDecimal ?: 2)
 
         etAmount.afterTextChanged {
             viewModel.state.clearError()

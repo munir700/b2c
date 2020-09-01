@@ -73,6 +73,7 @@ object Constants {
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"
+    const val CONFIGURED_DECIMAL: String = "CONFIGURED_DECIMAL"
     const val POSITION: String = "Position"
     const val IS_NEW_BENEFICIARY: String = "IS_NEW_BENEFICIARY"
 

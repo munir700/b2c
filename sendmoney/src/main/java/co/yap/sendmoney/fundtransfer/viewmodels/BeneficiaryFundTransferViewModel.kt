@@ -30,6 +30,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var isCutOffTimeStarted: Boolean = false
     override var isSameCurrency: Boolean = false
     override var transactionWillHold: Boolean = false
+    override var configuredDecimal: Int = -1
     override fun onCreate() {
         super.onCreate()
         state.toolbarVisibility.set(true)
