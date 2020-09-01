@@ -144,18 +144,8 @@ public class PaginatedRecyclerView extends RecyclerView {
             paginatedAdapter = new PaginatedAdapter(getAdapter());
             setAdapter(paginatedAdapter);
 
-            pagination.onCompleted = new Runnable() {
-                @Override
-                public void run() {
-                    paginatedAdapter.notifyStateChanged(PaginationState.COMPLETE);
-                }
-            };
-            pagination.onError = new Runnable() {
-                @Override
-                public void run() {
-                    paginatedAdapter.notifyStateChanged(PaginationState.ERROR);
-                }
-            };
+            pagination.onCompleted = () -> paginatedAdapter.notifyStateChanged(PaginationState.COMPLETE);
+            pagination.onError = () -> paginatedAdapter.notifyStateChanged(PaginationState.ERROR);
 
             // For GridLayoutManager use separate/customisable span lookup for loading row
             if (getLayoutManager() instanceof GridLayoutManager) {

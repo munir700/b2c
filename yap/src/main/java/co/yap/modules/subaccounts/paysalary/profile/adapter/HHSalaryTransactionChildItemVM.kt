@@ -15,7 +15,7 @@ class HHSalaryTransactionChildItemVM : BaseListItemViewModel<Transaction>() {
 
     override fun getItem() = mItem
 
-    override fun layoutRes() = R.layout.item_home_transaction_child
+    override fun layoutRes() = R.layout.item_hh_profile_transaction_child
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 

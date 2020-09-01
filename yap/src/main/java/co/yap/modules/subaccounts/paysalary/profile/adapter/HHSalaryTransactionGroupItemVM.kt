@@ -15,7 +15,7 @@ class HHSalaryTransactionGroupItemVM : BaseListItemViewModel<HomeTransactionList
 
     override fun getItem() = mItem
 
-    override fun layoutRes() = R.layout.item_home_transaction_group
+    override fun layoutRes() = R.layout.item_hh_profile_transaction_group
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
 

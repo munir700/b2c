@@ -35,7 +35,8 @@ class MyCardModule : BaseFragmentModule<MyCardFragment>() {
 
     @Provides
     @FragmentScope
-    fun provideHomeTransactionAdapter() = HomeTransactionAdapter(emptyMap())
+    fun provideHomeTransactionAdapter(expandableItemManager: RecyclerViewExpandableItemManager) =
+        HomeTransactionAdapter(emptyMap(), expandableItemManager)
 
     @Provides
     @FragmentScope

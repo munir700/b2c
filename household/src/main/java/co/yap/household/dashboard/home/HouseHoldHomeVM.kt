@@ -1,9 +1,7 @@
 package co.yap.household.dashboard.home
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import co.yap.networking.cards.CardsApi
 import co.yap.networking.cards.CardsRepository
@@ -11,8 +9,10 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.widgets.Status
+import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
@@ -28,7 +28,8 @@ import javax.inject.Inject
 
 class HouseHoldHomeVM @Inject constructor(
     override var state: IHouseholdHome.State,
-    private val repository: TransactionsRepository
+    private val repository: TransactionsRepository,
+    private val expandableItemManager: RecyclerViewExpandableItemManager
 ) : DaggerBaseViewModel<IHouseholdHome.State>(), IHouseholdHome.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -36,7 +37,7 @@ class HouseHoldHomeVM @Inject constructor(
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        requestTransactions(state.transactionRequest, false)
+        //requestTransactions(state.transactionRequest, false)
         getPrimaryCard()
     }
 
@@ -56,22 +57,35 @@ class HouseHoldHomeVM @Inject constructor(
                 is RetroApiResponse.Success -> {
                     if (response.data.data.transaction.isNotEmpty()) {
                         publishState(State.success(null))
-
-                        state.transactionMap?.value =
-                            response.data.data.transaction.distinct().groupBy { t ->
-                                DateUtils.reformatStringDate(
-                                    t.creationDate,
+                        var tempMap: Map<String?, List<Transaction>>
+                        tempMap =
+                            response.data.data.transaction.sortedByDescending { t ->
+                                DateUtils.stringToDate(
+                                    t.creationDate ?: "",
                                     SERVER_DATE_FORMAT,
-                                    FORMAT_DATE_MON_YEAR, UTC
-                                )
+                                    UTC
+                                )?.time
                             }
+                                .distinct().groupBy { t ->
+                                    DateUtils.reformatStringDate(
+                                        t.creationDate,
+                                        SERVER_DATE_FORMAT,
+                                        FORMAT_DATE_MON_YEAR, UTC
+                                    )
+                                }
+                        state.transactionMap?.value =  state.transactionMap?.value?.let{
+                            tempMap.mergeReduce(other = it)
+                        }?:tempMap
+
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
+
 //                        apiResponse?.invoke(State.success(null),response.data.data)
                     } else {
 //                        if (!isLoadMore)
-                            publishState(State.empty(null))
+                        publishState(State.empty(null))
 //                        apiResponse?.invoke(State.success(null),response.data.data)
                     }
+
                     apiResponse?.invoke(stateLiveData.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
@@ -126,4 +140,30 @@ class HouseHoldHomeVM @Inject constructor(
             }
         }
     }
+
+//    private fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
+//        val result = LinkedHashMap<K, V>(this.size + other.size)
+//        result.putAll(this)
+//        other.forEach { e ->
+//            val existing = result[e.key]
+//
+//            if (existing == null) {
+//                result[e.key] = e.value
+//            }
+//            else {
+//                result[e.key] = reduce(e.value, existing)
+//            }
+//        }
+//
+//        return result
+//    }
+
+
+}
+
+fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
+    val result = LinkedHashMap<K, V>(this.size + other.size)
+    result.putAll(this)
+    other.forEach { e -> result[e.key] = result[e.key]?.let { reduce(e.value, it) } ?: e.value }
+    return result
 }

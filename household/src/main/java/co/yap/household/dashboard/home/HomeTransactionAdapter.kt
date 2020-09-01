@@ -6,10 +6,14 @@ import co.yap.household.BR
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.advrecyclerview.decoration.IStickyHeaderViewHolder
+import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.widgets.advrecyclerview.utils.AbstractExpandableItemViewHolder
 import co.yap.widgets.advrecyclerview.utils.BaseExpandableRVAdapter
 
-class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Transaction>>) :
+class HomeTransactionAdapter(
+    internal var transactionData: Map<String?, List<Transaction>>,
+    private val expandableItemManager: RecyclerViewExpandableItemManager
+) :
     BaseExpandableRVAdapter<Transaction, HomeTransactionChildItemVM, AbstractExpandableItemViewHolder<Transaction, HomeTransactionChildItemVM>
             , HomeTransactionListData, HomeTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
     init {
@@ -25,6 +29,12 @@ class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Tra
             }
         } ?: emptyMap<String?, List<Transaction>>()
         notifyDataSetChanged()
+    }
+    fun updateTransactionData(transactionData: Map<String?, List<Transaction>>?)
+    {
+        transactionData?.let {
+           // expandableItemManager.notifyGroupItemInserted()
+        }
     }
 
     override fun getChildViewHolder(
@@ -71,9 +81,9 @@ class HomeTransactionAdapter(internal var transactionData: Map<String?, List<Tra
     override fun getChildLayoutId(viewType: Int) = getChildViewModel(viewType).layoutRes()
     override fun getGroupLayoutId(viewType: Int) = getGroupViewModel(viewType).layoutRes()
     override fun getGroupViewModel(viewType: Int) = HomeTransactionGroupItemVM()
-    override fun getGroupVariableId() = BR.viewModel
+    override fun getGroupVariableId() = BR.homeTransactionGroupItemVM
     override fun getChildViewModel(viewType: Int) = HomeTransactionChildItemVM()
-    override fun getChildVariableId() = BR.viewModel
+    override fun getChildVariableId() = BR.homeTransactionChildItemVM
     override fun getGroupCount() = transactionData.size
     override fun getChildCount(groupPosition: Int) =
         transactionData[transactionData.keys.toList()[groupPosition]]?.size ?: 0

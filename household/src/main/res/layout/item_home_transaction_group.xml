@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="homeTransactionGroupItemVM"
             type="co.yap.household.dashboard.home.HomeTransactionGroupItemVM" />
 
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
@@ -25,7 +25,7 @@
             style="@style/Yap.App.Widget.TextView.Label"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@{TransactionExtentionsKt.getFormattedDate(viewModel.item.transaction[0])}"
+            android:text="@{TransactionExtentionsKt.getFormattedDate(homeTransactionGroupItemVM.item.transaction[0])}"
             tools:text="Today, Sep 03" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="@{TransactionExtentionsKt.getTotalAmount(viewModel.item.transaction)}"
+            android:text="@{TransactionExtentionsKt.getTotalAmount(homeTransactionGroupItemVM.item.transaction)}"
             tools:text="+ 667.21" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

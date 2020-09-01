@@ -4,6 +4,7 @@
     <item name="freeze_card" type="id"/>
     <item name="view_statement" type="id"/>
     <item name="report_lost_card" type="id"/>
+    <item name="forgot_pin" type="id"/>
     <item name="cancel" type="id"/>
 
 </resources>
