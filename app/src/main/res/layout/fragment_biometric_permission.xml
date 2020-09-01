@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/ivFingerprint"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/_59sdp"
+            android:layout_height="@dimen/_59sdp"
             android:layout_marginTop="@dimen/margin_xxl"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -37,30 +37,31 @@
             style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xl"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_xl"
+            android:layout_marginTop="@dimen/_37sdp"
             android:lineSpacingExtra="9sp"
             android:text="@{viewModel.state.title}"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@+id/ivFingerprint"
+            tools:layout_editor_absoluteX="57dp"
             tools:text="@string/screen_system_permission_text_title" />
+
 
         <TextView
             android:id="@+id/tvTouchIdPermissionSubTitle"
             style="@style/RegularGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/small"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:lineSpacingExtra="3sp"
             android:text="@{viewModel.state.subTitle}"
+            android:justificationMode="inter_word"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_h2"
+            android:layout_marginLeft="@dimen/_18sdp"
+            android:layout_marginRight="@dimen/_18sdp"
             app:layout_constraintTop_toBottomOf="@+id/tvTouchIdPermissionTitle"
+            tools:layout_editor_absoluteX="22dp"
             tools:text="@string/screen_system_permission_text_sub_title" />
-
 
         <TextView
             android:id="@+id/tvTermsAndConditionsTitle"
@@ -92,9 +93,11 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnTouchId"
             style="@style/RectangleBtnStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/_37sdp"
+            android:layout_marginLeft="@dimen/_37sdp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/_18sdp"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.permissionGranted()}"
             android:paddingStart="@dimen/_50sdp"

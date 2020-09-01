@@ -560,8 +560,9 @@
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">Tell your friends about YAP so you can send and receive money instantly!</string>
     <string name="screen_y2y_display_text_no_result">No results</string>
-    <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>
-    <string name="common_display_text_y2y_general_share">Hi \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%2$s</string>
+<!--    <string name="common_display_text_y2y_share">Hey! %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>-->
+    <string name="common_display_text_y2y_share">Hey! \n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>
+    <string name="common_display_text_y2y_general_share">Hey! \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%2$s</string>
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>

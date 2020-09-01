@@ -30,7 +30,6 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -206,7 +205,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun doLogout() {
-        MyUserManager.doLogout(requireContext(), true)
+        activity?.let { MyUserManager.doLogout(it, true) }
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -253,10 +252,11 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)
                     } else {
-                        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()?.let { username ->
-                            viewModel.state.username = username
-                            goToNext(viewModel.state.username)
-                        } ?: toast("Invalid user name")
+                        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
+                            ?.let { username ->
+                                viewModel.state.username = username
+                                goToNext(viewModel.state.username)
+                            } ?: toast("Invalid user name")
                     }
                 }
             }
@@ -330,7 +330,12 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     val bundle = Bundle()
                     bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
                     bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                    startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                    startActivity(
+                        OnBoardingHouseHoldActivity.getIntent(
+                            requireContext(),
+                            bundle
+                        )
+                    )
                     activity?.finish()
                 } else {
                     if (it.otpBlocked == true)
@@ -385,9 +390,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             dialer.upDatedDialerPad(viewModel.state.passcode)
         }
 
-        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()?.let { encryptedUserName ->
-            viewModel.state.username = encryptedUserName
-        }
+        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
+            ?.let { encryptedUserName ->
+                viewModel.state.username = encryptedUserName
+            }
 
         if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty()) {
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY))
