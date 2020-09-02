@@ -33,6 +33,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
         }
         itemTaxInfoBinding.spinner.setAdapter(taxModel.countries)
+        itemTaxInfoBinding.spinner.setSelectedItem(taxModel.countries.indexOf( taxModel.countries.find { it.isoCountryCode2Digit == "AE" }))
         itemTaxInfoBinding.executePendingBindings()
     }
 

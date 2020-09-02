@@ -45,6 +45,7 @@ public class CountrySpinner extends LinearLayout {
     }
     public void setAdapter(List<Country> countries) {
         this.countryAdapter = getCountryAdapter(countries);
+
             _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
