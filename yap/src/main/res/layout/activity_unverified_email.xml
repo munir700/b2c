@@ -9,7 +9,7 @@
             type="co.yap.modules.dashboard.unverifiedemail.UnverifiedEmailViewModel"/>
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -19,17 +19,20 @@
             android:id="@+id/toolbar"
              android:visibility="@{viewModel.state.tootlBarVisibility}"
              layout="@layout/layout_unverified_email_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/unverified_email_nav_host_fragment"
              app:viewModel="@{viewModel}"/>
 
         <fragment
             android:id="@+id/unverified_email_nav_host_fragment"
-            android:layout_marginTop="@dimen/margin_small"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/unverified_change_email_navigation"/>
+            app:navGraph="@navigation/unverified_change_email_navigation"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
