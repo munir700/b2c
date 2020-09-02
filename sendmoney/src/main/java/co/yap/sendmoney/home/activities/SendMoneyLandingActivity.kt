@@ -209,7 +209,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             putExtra(Constants.BENEFICIARY, beneficiary)
             putExtra(
                 Constants.CONFIGURED_DECIMAL,
-                viewModel.getConfiguredDecimals(beneficiary?.currency ?: "")
+                Utils.getConfiguredDecimals(beneficiary?.currency ?: "")
             )
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
@@ -316,13 +316,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     }
                 }
             }
-            R.id.foregroundContainer->{
+            R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (MyUserManager.user?.otpBlocked == true) {
                             showToast(Utils.getOtpBlockedMessage(this))
                         } else {
-                            startMoneyTransfer(payload.itemData as Beneficiary,payload.position)
+                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
                         }
                     }
                 }

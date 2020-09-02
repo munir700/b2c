@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
+import co.yap.app.YAPApplication
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -77,7 +78,23 @@ fun String.toFormattedCurrency(): String? {
     return try {
         if (!this.isBlank()) {
             val m = java.lang.Double.parseDouble(this)
-            val formatter = DecimalFormat("###,###,##0.00")
+            val formatter = when (YAPApplication.selectedCurrency) {
+                1 -> {
+                    DecimalFormat("###,###,##0.0")
+                }
+                2 -> {
+                    DecimalFormat("###,###,##0.00")
+                }
+                3 -> {
+                    DecimalFormat("###,###,##0.000")
+                }
+                4 -> {
+                    DecimalFormat("###,###,##0.0000")
+                }
+                else -> {
+                    DecimalFormat("###,###,##0.00")
+                }
+            }
             formatter.format(m)
         } else {
             ""

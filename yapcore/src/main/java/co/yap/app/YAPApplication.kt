@@ -1,6 +1,7 @@
 package co.yap.app
 
 import android.app.Application
+import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.config.BuildConfigManager
 
@@ -20,6 +21,8 @@ open class YAPApplication : Application() {
             totalAppliedFilter = 0
         )
 
+        val currencies: ArrayList<CurrencyData> = ArrayList()
+        var selectedCurrency: Int = 2
 
         fun clearFilters() {
             homeTransactionsRequest = HomeTransactionsRequest(

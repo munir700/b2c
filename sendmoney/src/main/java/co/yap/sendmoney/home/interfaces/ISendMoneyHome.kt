@@ -27,10 +27,6 @@ interface ISendMoneyHome {
         val onDeleteSuccess: MutableLiveData<Int>
         val recentTransferData: MutableLiveData<List<Beneficiary>>
         val adapter: ObservableField<RecentTransferAdaptor>
-        val currencies: ArrayList<CurrencyData>?
-        fun getConfiguredDecimals(currencyCode:String): Int
-
-
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries()
@@ -38,9 +34,6 @@ interface ISendMoneyHome {
         fun getState(): LiveData<PagingState>
         val searchQuery: MutableLiveData<String>
         val isSearching: MutableLiveData<Boolean>
-
-
-
     }
 
     interface View : IBase.View<ViewModel>

@@ -901,4 +901,11 @@ object Utils {
             "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
     }
 
+    fun getConfiguredDecimals(currencyCode: String): Int {
+        val allowedDecimal = YAPApplication.currencies.firstOrNull {
+            it.currencyCode == currencyCode
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt() ?: 2
+    }
+
 }
