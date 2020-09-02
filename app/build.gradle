@@ -47,7 +47,7 @@ android {
         }
 
         yapinternal {
-            versionCode 4
+            versionCode 5
             versionName "0.0.5"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
