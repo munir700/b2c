@@ -25,7 +25,7 @@
                 style="@style/Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal_large"
+                android:layout_marginTop="@dimen/_19sdp"
                 tools:text="@string/screen_change_email_display_text_heading"
                 app:text="@{Strings.screen_change_email_display_text_heading}"
                 app:layout_constraintLeft_toLeftOf="parent"

@@ -108,6 +108,12 @@
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
+    <style name="LargeLabel" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h8</item>
+        <item name="android:lineSpacingExtra">10sp</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+    </style>
+
 
     <style name="Regular" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h3</item>
