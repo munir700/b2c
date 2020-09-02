@@ -13,6 +13,7 @@
 
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,79 +22,96 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_cards_status_toolbar"
-            app:viewModel="@{viewModel}" />
+            app:viewModel="@{viewModel}"
+            />
 
-        <ImageView
-            android:id="@+id/imgCard"
-            android:layout_width="@dimen/_121sdp"
-            android:layout_height="@dimen/_190sdp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:orientation="vertical"
-            android:src="@drawable/card_spare"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/tvCardTitle"
-            style="@style/ASmall"
-            android:textSize="@dimen/_9sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/round_light_gery_background"
-            android:gravity="center"
-            android:text="@{viewModel.state.cardType}"
-            android:textColor="?attr/colorPrimaryAttr"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgCard"
-            tools:text="Primary Card" />
-
-        <TextView
-            android:id="@+id/tvCardStatus"
-            style="@style/Regular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_54sdp"
-            android:gravity="center"
-            android:text="@{viewModel.state.message}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
-
-        <LinearLayout
-            android:id="@+id/lyIndicator"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardStatus">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
 
-            <include
-                layout="@layout/widget_step_indicator_layout"
-                app:viewModel="@{viewModel}" />
-        </LinearLayout>
+            >
 
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnActivateCard"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_62sdp"
-            android:layout_marginRight="@dimen/_62sdp"
-            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lyIndicator"
-            app:text="@{Strings.screen_card_status_display_text_activate_card}"
-            tools:text="@string/screen_card_status_display_text_activate_card" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp">
+
+                <ImageView
+                    android:id="@+id/imgCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_185sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:orientation="vertical"
+                    android:src="@drawable/card_spare"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/tvCardTitle"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:background="@drawable/round_light_gery_background"
+                    android:gravity="center"
+                    android:text="@{viewModel.state.cardType}"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    android:textSize="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgCard"
+                    tools:text="Primary Card" />
+
+                <TextView
+                    android:id="@+id/tvCardStatus"
+                    style="@style/Regular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_54sdp"
+                    android:gravity="center"
+                    android:text="@{viewModel.state.message}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
+
+                <LinearLayout
+                    android:id="@+id/lyIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_28sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCardStatus">
+
+                    <include
+                        layout="@layout/widget_step_indicator_layout"
+                        app:viewModel="@{viewModel}" />
+                </LinearLayout>
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnActivateCard"
+                    style="@style/FragmentsBtnStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_62sdp"
+                    android:layout_marginTop="@dimen/_60sdp"
+                    android:layout_marginRight="@dimen/_62sdp"
+                    android:layout_marginBottom="@dimen/_150sdp"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lyIndicator"
+                    app:text="@{Strings.screen_card_status_display_text_activate_card}"
+                    tools:text="@string/screen_card_status_display_text_activate_card" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>
