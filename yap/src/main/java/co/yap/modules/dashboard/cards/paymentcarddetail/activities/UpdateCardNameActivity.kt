@@ -60,7 +60,7 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
 
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
-        etName.append(viewModel.card.cardName.trim())
+        etName.append(viewModel.card.cardName?.trim())
         etName.requestFocus()
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.card.cardType) {
