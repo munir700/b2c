@@ -35,6 +35,18 @@ android {
             }
         }
 
+        Preprod {
+            versionCode 1
+            versionName "1.0.0"
+            applicationId "com.yap.banking.preprod"
+            resValue "string", "app_name", "YAP Preprod"
+            // It binds with SHA1- SHA 256 and package bundle
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DPreprod'
+            }
+        }
+
         stg {
             versionCode 185
             versionName "0.18.5"

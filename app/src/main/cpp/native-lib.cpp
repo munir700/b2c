@@ -34,6 +34,20 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
     std::string sslHost;
 
 #ifdef LIVE
+    api_endpoint = "https://ae-prod.yap.com/";
+    adjustAppToken = "xty7lf6skgsg";
+    sslPin1 = "sha256/SK10shgwb9jAeBvxJXrkBmjL2joCFoSq2Sp1tGyOcQk=";
+    sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";
+    sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";
+    //VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=
+    sslHost = "*.yap.com";
+
+    sha1Encoded = "ODU6OUY6NjM6N0M6NjI6N0I6Qjc6N0E6MDg6RTQ6OEI6MDY6OUU6M0U6MkQ6RTU6MEQ6OEM6Mjg6MjU=";
+    md5Encoded = "MDg6NzM6ODQ6RTI6NEM6NTc6RTU6MUU6OEY6ODU6RTM6OTg6MUM6NDM6Qjg6NEE=";
+    sha256Encoded = "ODY6QTE6MzQ6NEU6RkM6OTQ6M0I6NzA6Mjk6MjE6OUU6M0I6NzA6MzM6NDI6RUM6M0M6NjI6M0E6MkI6MEU6N0M6QkM6MDc6RTU6N0Q6M0M6Mjk6RTg6MkE6Q0Y6NTM=";
+
+#endif
+#ifdef Preprod
     api_endpoint = "https://ae-preprod.yap.com/";
     adjustAppToken = "xty7lf6skgsg";
     sslPin1 = "sha256/SK10shgwb9jAeBvxJXrkBmjL2joCFoSq2Sp1tGyOcQk=";
