@@ -36,6 +36,7 @@ import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -895,10 +896,26 @@ object Utils {
         val userId = MyUserManager.user?.currentCustomer?.customerId
         val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
-        return if (YAPApplication.configManager?.isLive() == true)
-            "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-        else
-            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+        return (when (YAPApplication.configManager?.flavor) {
+            ProductFlavour.PROD.flavour -> {
+                "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.PREPROD.flavour -> {
+                "https://grwl.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.STG.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+
+            }
+            ProductFlavour.QA.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+
+            }
+            ProductFlavour.DEV.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
+        })
     }
 
 }
