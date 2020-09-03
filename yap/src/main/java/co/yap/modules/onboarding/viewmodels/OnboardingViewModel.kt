@@ -17,6 +17,8 @@ class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.
     override val state: OnboardingState = OnboardingState()
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val isPhoneNumberEntered: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var rankNo: MutableLiveData<String> = MutableLiveData("")
+    override var isWaitingList: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun handlePressOnBackButton() {
         backButtonPressEvent.value = true

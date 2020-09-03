@@ -24,7 +24,7 @@
         android:paddingTop="@dimen/margin_extra_small"
         android:paddingBottom="@dimen/margin_extra_small">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             tools:src="@drawable/ic_support"
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"

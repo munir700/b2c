@@ -27,7 +27,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     override suspend fun createOtpOnboarding(createOtpOnboardingRequest: CreateOtpOnboardingRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { API.createOtpOnboarding(createOtpOnboardingRequest) })
 
-    override suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationResponse> =
+    override suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationOnBoardingResponse> =
         executeSafely(call = { API.verifyOtpOnboarding(verifyOtpOnboardingRequest) })
 
 

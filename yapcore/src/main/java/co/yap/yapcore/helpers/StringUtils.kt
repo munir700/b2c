@@ -52,14 +52,14 @@ object StringUtils {
         return isValid
     }
 
-    fun validateRegix(value: String, expression: String): Boolean {
+    fun validateRegix(value: String, expression: String, lengthCheck: Int = 2): Boolean {
 
         var isValid = false
         val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(value)
 
         if (matcher.matches() && !value.isEmpty()) {
-            if (value.length >= 2) {
+            if (value.length >= lengthCheck) {
                 isValid = true
             }
         }

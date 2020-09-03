@@ -46,6 +46,11 @@
             android:id="@+id/action_phoneVerificationFragment_to_nameFragment"
             app:destination="@id/nameFragment"
             app:popUpTo="@id/mobileFragment" />
+        <action
+            android:id="@+id/action_phoneVerificationFragment_to_waitingListFragment"
+            app:destination="@id/waitingListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/congratulationsFragment"
@@ -87,5 +92,10 @@
         android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
         android:label="YapDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
+    <fragment
+        android:id="@+id/waitingListFragment"
+        android:name="co.yap.modules.onboarding.fragments.WaitingListFragment"
+        android:label="WaitingListFragment"
+        tools:layout="@layout/fragment_waiting_list"/>
 
 </navigation>

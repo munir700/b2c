@@ -138,16 +138,7 @@ class EmailState (application: Application) : BaseState(), IEmail.State {
         refreshField = true
         valid = true
         emailError = ""
-        setDrawabeTint()
-    }
-
-    private fun setErrorUI(): Boolean {
-        /* disable core button
-                 set error UI*/
-        valid = false
-        refreshField = false
-        emailError = context.getString(R.string.screen_phone_number_display_text_error)
-        return false
+        setDrawableTint()
     }
 
     private fun setDefaultUI() {
@@ -169,9 +160,13 @@ class EmailState (application: Application) : BaseState(), IEmail.State {
 
 
     @SuppressLint("ResourceType")
-    fun setDrawabeTint() {
-        drawbleRight = DrawableCompat.wrap(context!!.getDrawable(co.yap.yapcore.R.drawable.path))
-        if (SharedPreferenceManager(context!!).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+    fun setDrawableTint() {
+        drawbleRight = context.getDrawable(co.yap.yapcore.R.drawable.path)?.let {
+            DrawableCompat.wrap(
+                it
+            )
+        }
+        if (SharedPreferenceManager(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
             DrawableCompat.setTint(drawbleRight!!, Color.RED);
         }
     }

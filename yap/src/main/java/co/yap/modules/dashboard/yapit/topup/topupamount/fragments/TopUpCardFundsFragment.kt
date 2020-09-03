@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.topup.topupamount.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,13 +19,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
@@ -141,7 +136,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     }
 
     private val enterAmountObserver = Observer<String> {
-        parentViewModel?.updateFees(it,isTopUpFee = true)
+        parentViewModel?.updateFees(it, isTopUpFee = true)
         if (it.isNotBlank()) {
             when {
                 isMaxMinLimitReached(it) -> {
@@ -187,9 +182,9 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             Snackbar.LENGTH_INDEFINITE
         )
     }
+
     private fun setupData() {
-        getBindings().etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+        getBindings().etAmount.applyAmountFilters()
         if (context is TopUpCardActivity) {
             viewModel.state.cardNumber =
                 (context as TopUpCardActivity).cardInfo?.number.toString()

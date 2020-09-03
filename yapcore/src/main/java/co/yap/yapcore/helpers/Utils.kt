@@ -113,7 +113,7 @@ object Utils {
     fun copyToClipboard(context: Context, text: CharSequence) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("YapAccount", text)
-        clipboard.primaryClip = clip
+        clipboard.setPrimaryClip(clip)
     }
 
     @Deprecated("Please use toFormattedCurrency() extension method instead")

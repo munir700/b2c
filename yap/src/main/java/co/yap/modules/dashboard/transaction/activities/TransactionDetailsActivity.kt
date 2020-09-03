@@ -56,7 +56,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     "0.00".toFormattedAmountWithCurrency()
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    it.settlementAmount.toString().toFormattedAmountWithCurrency()
+                    (it.settlementAmount ?: "0.00").toString().toFormattedAmountWithCurrency()
                 }
                 else -> it.amount.toString().toFormattedAmountWithCurrency()
             }
@@ -99,8 +99,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = it.postedFees?.plus(it.vatAmount ?: 0.0) ?: 0.0
-                    it.settlementAmount?.plus(totalFee).toString()
+                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
             }
@@ -111,8 +111,18 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
 
         // hiding visibility on nada's request
-        getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
-        getBindings().tvTotalAmount.visibility = View.GONE
+        viewModel.transaction.get()?.let {
+            when {
+                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                    getBindings().tvTotalAmountValueCalculated.visibility = View.VISIBLE
+                    getBindings().tvTotalAmount.visibility = View.VISIBLE
+                }
+                else -> {
+                    getBindings().tvTotalAmountValueCalculated.visibility = View.GONE
+                    getBindings().tvTotalAmount.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun setAddress() {

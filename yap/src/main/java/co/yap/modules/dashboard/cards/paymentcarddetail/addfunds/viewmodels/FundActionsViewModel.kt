@@ -15,6 +15,7 @@ import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
@@ -169,10 +170,10 @@ open class FundActionsViewModel(application: Application) :
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
                     val fundsType: String = when (productCode) {
-                        Constants.SUPP_CARD -> {
+                        TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> {
                             "+"
                         }
-                        co.yap.modules.others.helper.Constants.REMOVE_FUNDS_PRODUCT_CODE -> {
+                        TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> {
                             "-"
                         }
                         else -> {

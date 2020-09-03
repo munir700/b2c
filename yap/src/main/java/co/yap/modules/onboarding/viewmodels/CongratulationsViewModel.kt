@@ -8,6 +8,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.managers.MyUserManager
 
 class CongratulationsViewModel(application: Application) :
@@ -27,9 +28,8 @@ class CongratulationsViewModel(application: Application) :
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel?.onboardingData?.firstName
         parentViewModel?.onboardingData?.ibanNumber?.let {
-            state.ibanNumber = maskIbanNumber(it.trim())
+            state.ibanNumber = it.maskIbanNumber()
         }
-        // state.ibanNumber = maskIbanNumber(parentViewModel?.onboardingData.ibanNumber?.trim())
     }
 
     override fun onResume() {
@@ -40,19 +40,5 @@ class CongratulationsViewModel(application: Application) :
 
     override fun handlePressOnCompleteVerification(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    private fun maskIbanNumber(unmaskedIban: String): String {
-
-
-        return if (unmaskedIban.length >= 8) {
-            val firstPartIban: String = unmaskedIban.substring(0, 2)
-            val secondPartIban: String = unmaskedIban.substring(2, 4)
-            val thirdPartIban: String = unmaskedIban.substring(4, 7)
-            val fourthPartIban: String = unmaskedIban.substring(7, unmaskedIban.length - 6)
-            "$firstPartIban $secondPartIban $thirdPartIban $fourthPartIban******"
-        } else {
-            unmaskedIban
-        }
     }
 }

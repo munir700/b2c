@@ -12,6 +12,10 @@
         <import type="co.yap.yapcore.helpers.StringUtils" />
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.enums.PartnerBankStatus" />
+
+        <import type="android.view.View" />
     </data>
 
     <!--    <ScrollView-->
@@ -55,7 +59,7 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivChevron"
                         android:layout_width="@dimen/_26sdp"
                         android:layout_height="@dimen/_26sdp"
@@ -64,7 +68,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:tint="?attr/colorPrimaryDarkAttr"
+                        app:tint="?attr/colorPrimaryDarkAttr"
                         app:srcCompat="@drawable/ic_chevron_down" />
 
                     <LinearLayout
@@ -119,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:el_duration="300"
-                    app:el_expanded="false"
+                    app:el_expanded="true"
                     app:el_parallax="0.5">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -172,6 +176,7 @@
                             android:gravity="center"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
                             android:text="Copy"
+                            android:visibility="@{MyUserManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
                             app:btn_pressed_color="@color/disabledLight"
                             app:btn_round_radius="@dimen/_10sdp"
                             app:btn_shape_type="rectangle"
@@ -274,12 +279,12 @@
                 android:paddingBottom="@dimen/margin_small"
                 android:visibility="visible">
 
-                    <include
-                        android:visibility="gone"
-                        android:id="@+id/lyContact"
-                        layout="@layout/layout_item_icon_text"
-                        app:icon="@{@drawable/phone}"
-                        app:title='@{"Contact us"}' />
+                <include
+                    android:id="@+id/lyContact"
+                    layout="@layout/layout_item_icon_text"
+                    android:visibility="gone"
+                    app:icon="@{@drawable/phone}"
+                    app:title='@{"Contact us"}' />
 
                 <include
                     android:id="@+id/lSupport"
@@ -346,14 +351,14 @@
                 android:src="@drawable/ic_add_account"
                 android:visibility="gone" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSettings"
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/settings"
-                android:tint="@color/greyDark" />
+                app:tint="@color/greyDark" />
 
         </RelativeLayout>
 

@@ -167,7 +167,6 @@
                             android:backgroundTint="@color/greyLight"
                             android:imeOptions="actionDone"
                             android:importantForAutofill="no"
-                            android:maxLength="50"
                             android:singleLine="true"
                             android:text="@={viewModel.state.swiftCode}"
                             app:capitalise="@{true}"

@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -212,6 +213,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         )
                     }
                 }
+                cancelAllSnackBar()
             }
             R.id.llFreezeSpareCard -> {
                 viewModel.freezeUnfreezeCard()
@@ -232,6 +234,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                             ),
                             Constants.REQUEST_ADD_REMOVE_FUNDS
                         )
+                        cancelAllSnackBar()
                     } else {
                         showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
                     }
@@ -242,17 +245,21 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     CardLimitsActivity.getIntent(this, viewModel.card.value!!),
                     Constants.REQUEST_SET_LIMITS
                 )
+                cancelAllSnackBar()
             }
             R.id.rlFilter -> {
                 if (viewModel.state.isTxnsEmpty.get() == false) {
                     openTransactionFilters()
+                    cancelAllSnackBar()
                 } else {
                     if (viewModel.state.filterCount.get() ?: 0 > 0) {
                         openTransactionFilters()
+                        cancelAllSnackBar()
                     } else {
                         return@Observer
                     }
                 }
+
             }
 
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
@@ -266,7 +273,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             viewModel.EVENT_REMOVE_CARD -> {
-                MyUserManager.updateCardBalance{}
+                MyUserManager.updateCardBalance {}
                 cardRemoved = true
                 showToast("Card successfully removed!")
                 setupActionsIntent()
@@ -341,40 +348,46 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             rlSpareCardActions.visibility = View.VISIBLE
         }
-        checkFreezeUnfreezStatus()
-
-
+//        checkFreezeUnfreezStatus()
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkFreezeUnfreezStatus()
+    }
+
     private fun checkFreezeUnfreezStatus() {
         viewModel.card.value?.blocked?.let {
-            if (it) {
+            val handler = Handler()
+            handler.postDelayed({
+                if (it) {
+                    clSnackbar?.showSnackBar(
+                        msg = getString(Strings.screen_cards_display_text_freeze_card),
+                        viewBgColor = R.color.colorPrimary,
+                        colorOfMessage = R.color.white,
+                        gravity = Gravity.TOP,
+                        duration = Snackbar.LENGTH_INDEFINITE,
+                        actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
+                        clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
+                    )
+                    if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                        tvPrimaryCardStatus.text = "Unfreeze card"
+                    } else {
+                        tvSpareCardStatus.text = "Unfreeze card"
+                    }
+                } else {
+                    cancelAllSnackBar()
+                    if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                        tvPrimaryCardStatus.text = "Freeze card"
+                    } else {
+                        tvSpareCardStatus.text = "Freeze card"
+                    }
+                }
+            }, 1000)
 
-                clSnackbar?.showSnackBar(
-                    msg = getString(Strings.screen_cards_display_text_freeze_card),
-                    viewBgColor = R.color.colorPrimary,
-                    colorOfMessage = R.color.white,
-                    gravity = Gravity.TOP,
-                    duration = Snackbar.LENGTH_INDEFINITE,
-                    actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
-                    clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
-                )
-                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    tvPrimaryCardStatus.text = "Unfreeze card"
-                } else {
-                    tvSpareCardStatus.text = "Unfreeze card"
-                }
-            } else {
-                cancelAllSnackBar()
-                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    tvPrimaryCardStatus.text = "Freeze card"
-                } else {
-                    tvSpareCardStatus.text = "Freeze card"
-                }
-            }
         }
     }
 
@@ -405,21 +418,19 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     UpdateCardNameActivity.newIntent(this, viewModel.card.value!!),
                     Constants.REQUEST_CARD_NAME_UPDATED
                 )
+                cancelAllSnackBar()
             }
             Constants.EVENT_CHANGE_PIN -> {
-                if (!viewModel.card.value?.blocked!!) {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(this))
-                    } else {
-                        startActivity(
-                            ChangeCardPinActivity.newIntent(
-                                this,
-                                viewModel.card.value?.cardSerialNumber!!
-                            )
-                        )
-                    }
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(this))
                 } else {
-                    showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
+                    startActivity(
+                        ChangeCardPinActivity.newIntent(
+                            this,
+                            viewModel.card.value?.cardSerialNumber ?: ""
+                        )
+                    )
+                    cancelAllSnackBar()
                 }
             }
 
@@ -431,6 +442,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         startActivity(
                             ForgotCardPinActivity.newIntent(this, it)
                         )
+                        cancelAllSnackBar()
                     }
                 }
             }
@@ -441,6 +453,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         putExtra("card", it)
                         putExtra("isFromDrawer", false)
                     }
+                    cancelAllSnackBar()
                 }
             }
             Constants.EVENT_REPORT_CARD -> {
@@ -451,6 +464,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                             viewModel.card.value!!
                         ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
                     )
+                    cancelAllSnackBar()
                 }
             }
             Constants.EVENT_REMOVE_CARD -> {
@@ -480,7 +494,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
-                checkFreezeUnfreezStatus()
+//                checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
                     // Send Broadcast for updating transactions list in `Home Fragment`
                     val intent =
@@ -665,7 +679,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupActionsIntent() {
-
         if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated) {
             val updateCard = viewModel.card.value!!
             updateCard.cardBalance = viewModel.state.cardBalance

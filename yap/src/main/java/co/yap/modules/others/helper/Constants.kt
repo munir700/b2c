@@ -17,18 +17,14 @@ object Constants {
     const val EVENT_REMOVE_CARD: Int = 5
     const val EVENT_FORGOT_CARD_PIN: Int = 6
     const val EVENT_LOST_STOLEN_CARD: Int = 7
-    const val REMOVE_FUNDS_PRODUCT_CODE: String = "P004"
-
 
     const val REQUEST_CARD_NAME_UPDATED: Int = 55
     const val REQUEST_ADD_REMOVE_FUNDS: Int = 56
     const val REQUEST_REPORT_LOST_OR_STOLEN: Int = 57
     const val REQUEST_SET_LIMITS: Int = 58
 
-
     const val EVENT_ADD_PHOTO: Int = 6
     const val EVENT_CHOOSE_PHOTO: Int = 7
-
 
     const val EVENT_ADD_TOPUP_CARD: Int = 100
     const val EVENT_DELETE_TOPUP_CARD: Int = 101

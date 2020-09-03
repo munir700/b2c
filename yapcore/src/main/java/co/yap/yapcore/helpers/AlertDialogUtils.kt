@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -8,6 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.extentions.makeCall
+import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.managers.MyUserManager
 
 /**
  * Display AlertDialog instantly with confirm
@@ -139,6 +143,7 @@ fun Context.alert(
         show()
     }
 
+
 fun Context.showYapAlertDialog(
     title: String? = null,
     message: String?
@@ -155,6 +160,45 @@ fun Context.showYapAlertDialog(
     ok.text = "OK"
     ok.setOnClickListener {
         alertDialog?.dismiss()
+    }
+
+    builder.setView(dialogLayout)
+    builder.setCancelable(false)
+    alertDialog = builder.create()
+
+    alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    alertDialog.show()
+
+}
+
+fun Activity.showAlertDialogAndExitApp(
+    title: String? = null,
+    message: String?,
+    buttonText: String = "OK",
+    callback: () -> Unit = {},
+    closeActivity: Boolean = true,
+    isOtpBlocked: Boolean = false
+) {
+    val builder = android.app.AlertDialog.Builder(this)
+    var alertDialog: android.app.AlertDialog? = null
+    val inflater: LayoutInflater = layoutInflater
+    title?.let { builder.setTitle(title) }
+    val dialogLayout: View =
+        inflater.inflate(R.layout.alert_dialogue, null)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
+    ok.text = buttonText
+    ok.setOnClickListener {
+        alertDialog?.dismiss()
+        if (closeActivity)
+            finish()
+        callback()
+    }
+    if (isOtpBlocked) {
+        label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
+            makeCall(MyUserManager.helpPhoneNumber)
+        }))
     }
 
     builder.setView(dialogLayout)

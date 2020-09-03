@@ -30,4 +30,9 @@ data class AppSignature(
     override fun hashCode(): Int {
         return super.hashCode()
     }
+
+    fun isLiveOrStageRelease(): Boolean=
+        (buildType == "release" && flavor == "live") || (buildType == "release" && flavor == "stg")
+
+    fun isLiveRelease():Boolean =  flavor == "live"
 }

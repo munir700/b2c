@@ -23,8 +23,8 @@ android {
 
     productFlavors {
         live {
-            versionCode 11
-            versionName "1.1.1"
+            versionCode 21
+            versionName "1.2.1"
             applicationId "com.yap.banking"
             resValue "string", "app_name", "YAP"
             // It binds with SHA1- SHA 256 and package bundle
@@ -36,11 +36,38 @@ android {
             }
         }
 
+        Preprod {
+            versionCode 1
+            versionName "1.0.0"
+            applicationId "com.yap.banking.preprod"
+            resValue "string", "app_name", "YAP Preprod"
+            // It binds with SHA1- SHA 256 and package bundle
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            resValue "string", "facebook_app_id", "327560185026998"
+            resValue "string", "fb_login_protocol_scheme", "fb327560185026998"
+            externalNativeBuild.cmake {
+                cppFlags '-DPreprod'
+            }
+        }
+
         stg {
-            versionCode 168
-            versionName "0.16.8"
+            versionCode 185
+            versionName "0.18.5"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            resValue "string", "facebook_app_id", "410921516527681"
+            resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
+            externalNativeBuild.cmake {
+                cppFlags '-DSTG'
+            }
+        }
+
+        yapinternal {
+            versionCode 2
+            versionName "0.0.2"
+            applicationIdSuffix ".internal"
+            resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
@@ -76,6 +103,13 @@ android {
         }
     }
     ndkVersion '21.1.6352462'
+    sourceSets {
+        live {
+            res {
+                srcDirs 'src/live/res', 'src/live/res/'
+            }
+        }
+    }
 }
 
 dependencies {

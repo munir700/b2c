@@ -35,6 +35,32 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
+    // new implementation of calling call. Plan its implementation.
+    //    private val userManagerJob = Job()
+//    private val viewModelBGScope =
+//        BaseViewModel.CloseableCoroutineScope(userManagerJob + Dispatchers.IO)
+//
+//    fun cancelAllJobs() {
+//        viewModelBGScope.close()
+//    }
+//
+//    suspend fun getAccountInfo() {
+//        val response = viewModelBGScope.async {
+//            customerRepository.getAccountInfo()
+//        }.await()
+//        when (response) {
+//            is RetroApiResponse.Success -> {
+//                usersList = response.data.data as ArrayList
+//                user = getCurrentUser()
+//                onAccountInfoSuccess.postValue(true)
+//            }
+//
+//            is RetroApiResponse.Error -> {
+//                onAccountInfoSuccess.postValue(false)
+//            }
+//        }
+//    }
+
     fun updateCardBalance(success: () -> Unit) {
         getAccountBalanceRequest{
             success()

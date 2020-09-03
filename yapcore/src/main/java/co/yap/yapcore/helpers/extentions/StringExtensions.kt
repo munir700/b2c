@@ -9,6 +9,10 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
+import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DecimalFormat
 
@@ -88,7 +92,9 @@ fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
         if (this?.isBlank() == false) {
             val m = java.lang.Double.parseDouble(this)
             val formatter = DecimalFormat("###,###,##0.00")
-            if (!currency.isNullOrBlank()) "$currency ${formatter.format(m)}" else "AED ${formatter.format(m)}"
+            if (!currency.isNullOrBlank()) "$currency ${formatter.format(m)}" else "AED ${formatter.format(
+                m
+            )}"
         } else {
             ""
         }
@@ -97,3 +103,36 @@ fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
     }
 }
 
+fun String?.maskIbanNumber(): String {
+    return this?.trim()?.let { iban ->
+        return if (StringUtils.isValidIBAN(iban, iban.substring(0, 2))) {
+            return if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
+                Utils.formateIbanString(iban)?.let { formattedIban ->
+                    val numberToMasked =
+                        formattedIban.substring(formattedIban.length - 7, formattedIban.length)
+                    formattedIban.replace(numberToMasked, "*** ***")
+                } ?: ""
+            } else {
+                Utils.formateIbanString(iban) ?: ""
+            }
+        } else {
+            ""
+        }
+    } ?: ""
+}
+
+fun String?.maskAccountNumber(): String {
+    return this?.trim()?.let { accountNumber ->
+        return if (StringUtils.isValidAccountNumber(accountNumber)) {
+            return if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
+                val numberToMasked =
+                    accountNumber.substring(accountNumber.length - 6, accountNumber.length)
+                accountNumber.replace(numberToMasked, "******")
+            } else {
+                accountNumber
+            }
+        } else {
+            ""
+        }
+    } ?: ""
+}

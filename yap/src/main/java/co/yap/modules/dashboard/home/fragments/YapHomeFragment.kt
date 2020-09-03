@@ -58,6 +58,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -187,15 +188,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (isSuccess) {
                 checkUserStatus()
             }
-
         })
-//        getBindings().ivSearch.setOnLongClickListener {
-//            return@setOnLongClickListener activity?.let {
-//                val tour = TourSetup(it, setViewsArray())
-//                tour.startTour()
-//                true
-//            } ?: false
-//        }
+        getBindings().ivSearch.setOnLongClickListener {
+            return@setOnLongClickListener activity?.let {
+                //val tour = TourSetup(it, setViewsArray())
+                //tour.startTour()
+                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
+                true
+            } ?: false
+        }
+
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -414,7 +416,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
-        MyUserManager.updateCardBalance{}
+        MyUserManager.updateCardBalance {}
     }
 
     override fun onDestroyView() {
@@ -577,21 +579,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel.txnFilters = it
             homeTransactionsRequest.number = 0
             homeTransactionsRequest.size = YAPApplication.pageSize
-            homeTransactionsRequest.txnType = getTxnType()
+            homeTransactionsRequest.txnType = it.getTxnType()
             homeTransactionsRequest.amountStartRange = it.amountStartRange
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
         }
-    }
-
-    private fun getTxnType(): String? {
-        return if (viewModel.txnFilters.incomingTxn == false && viewModel.txnFilters.outgoingTxn == false || viewModel.txnFilters.incomingTxn == true && viewModel.txnFilters.outgoingTxn == true) {
-            null
-        } else if (viewModel.txnFilters.incomingTxn == true)
-            Constants.MANUAL_CREDIT
-        else
-            Constants.MANUAL_DEBIT
     }
 
     private fun getFilterTransactions() {

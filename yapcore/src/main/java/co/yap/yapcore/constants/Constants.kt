@@ -30,15 +30,9 @@ object Constants {
     const val THEME_YAP: String = "CORE"
     const val THEME_HOUSEHOLD: String = "HOUSEHOLD"
 
-    const val SUPP_WITHDRAW = "P006"
-
-    //This is intentional, so don't remove below line
-    const val SUPP_CARD = SUPP_WITHDRAW
-    const val ADD_FUNDS = SUPP_WITHDRAW
     const val MANUAL_DEBIT = "DEBIT"
     const val MANUAL_CREDIT = "CREDIT"
     const val FEE_TYPE_FLAT = "FLAT"
-
 
     //More Option Constants
     const val MORE_NOTIFICATION: Int = 1
@@ -50,9 +44,6 @@ object Constants {
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
-
-    //Product codes
-    const val TOP_UP_VIA_CARD: String = "P009"
 
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"

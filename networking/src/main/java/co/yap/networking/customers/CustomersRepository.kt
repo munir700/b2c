@@ -7,7 +7,6 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country

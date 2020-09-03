@@ -9,7 +9,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -28,9 +27,6 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
-        if (YAPApplication.configManager?.isLiveRelease() == true && YAPApplication.configManager?.hasValidSignature == false) {
-            showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
-        }
     }
 
     override fun onBackPressed() {

@@ -39,11 +39,11 @@ class AdjustReferrerReceiver : AppCompatActivity() {
             activityManager.getRunningTasks(Int.MAX_VALUE)
         for (task in tasks) {
             if (MainActivity::class.java.canonicalName.equals(
-                    task.baseActivity.shortClassName,
+                    task.baseActivity?.shortClassName,
                     ignoreCase = true
                 )
                 || YapDashboardActivity::class.java.canonicalName.equals(
-                    task.baseActivity.shortClassName,
+                    task.baseActivity?.shortClassName,
                     ignoreCase = true
                 )
             ) {
