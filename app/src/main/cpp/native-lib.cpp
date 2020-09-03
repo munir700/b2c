@@ -116,12 +116,12 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
         leanPlumKey = "dev_RAFVBmDKypdOr3kbd326JUoqGLr8iSvt2Lei4BK48qk";
 
     }else if (strcmp(productFlavour, "Preprod") == 0 && strcmp(buildType, "release") == 0) {
-        leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
-        leanPlumKey = "prod_MfjUF6Sh3GuNE2RtQMkXZTeCUSTS3K0v2CLeGCp0gzk";
+        leanPlumSecretKey = "app_jvEgXTi9zZUpoFck8XVxVY4zBgAEYZrPVTliIuaO0IQ";
+        leanPlumKey = "prod_EjIC6dCuGaGr36p2qRvG3GkRIhuYf9vgBEGjQ3jBqLM";
 
     } else if (strcmp(productFlavour, "Preprod") == 0 && strcmp(buildType, "debug") == 0) {
-        leanPlumSecretKey = "app_DtOp3ipxDUi9AM7Bg3jv351hZ4DVrLgC9JZX4L46lIc";
-        leanPlumKey = "dev_RAFVBmDKypdOr3kbd326JUoqGLr8iSvt2Lei4BK48qk";
+        leanPlumSecretKey = "app_jvEgXTi9zZUpoFck8XVxVY4zBgAEYZrPVTliIuaO0IQ";
+        leanPlumKey = "dev_HnmEVN0GDZbhInJjmX767e7InveRC23LkSokuLLuA3s";
 
     }else if (strcmp(productFlavour, "stg") == 0 && strcmp(buildType, "release") == 0) {
         leanPlumSecretKey = "app_OjUbwCEcWfawOQzYABPyg5R7y9sFLgFm9C1JdgIa3Qk";
