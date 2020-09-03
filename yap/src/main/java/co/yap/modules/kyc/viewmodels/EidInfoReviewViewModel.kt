@@ -17,7 +17,9 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
@@ -135,7 +137,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = if (YAPApplication.configManager?.isLiveRelease() == false) {
+            val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
                 context.dummyEID()
             } else {
                 File(result.document.files[1].croppedFile)
@@ -160,6 +162,10 @@ class EidInfoReviewViewModel(application: Application) :
                                 if (data.sex.equals("M", true)) Gender.Male else Gender.Female
                             identity.sirName = data.surname
                             identity.givenName = data.names
+                            trackEventWithAttributes(
+                                MyUserManager.user,
+                                eidExpireDate = getFormattedDate(data.expiration_date)
+                            )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
                             identity.dateOfBirth =

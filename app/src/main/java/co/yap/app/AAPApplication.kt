@@ -128,7 +128,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        if (configManager?.isLiveRelease() == true) {
+        if (configManager?.isReleaseBuild() == true) {
             Leanplum.setAppIdForProductionMode(
                 configManager?.leanPlumSecretKey,
                 configManager?.leanPlumKey

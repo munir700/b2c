@@ -49,7 +49,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 #endif
 #ifdef Preprod
     api_endpoint = "https://ae-preprod.yap.com/";
-    adjustAppToken = "xty7lf6skgsg";
+    adjustAppToken = "uv1oiis7wni8";
     sslPin1 = "sha256/SK10shgwb9jAeBvxJXrkBmjL2joCFoSq2Sp1tGyOcQk=";
     sslPin2 = "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=";
     sslPin3 = "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=";

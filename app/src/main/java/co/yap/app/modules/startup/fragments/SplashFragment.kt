@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.BuildConfig
 import co.yap.app.R
-import co.yap.app.YAPApplication
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
@@ -28,13 +27,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
-            if (it) {
-                if (YAPApplication.configManager?.isLiveRelease() == false) {
-                    moveNext()
-                } else {
-                    viewModel.getAppUpdate()
-                }
-            }
+            if (it) viewModel.getAppUpdate()
         })
 
         viewModel.appUpdate.observe(this, Observer {
