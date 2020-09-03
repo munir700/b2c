@@ -714,7 +714,7 @@
 
     <string name="screen_international_funds_transfer_display_text_title">Send money to</string>
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
-    <string name="screen_international_funds_transfer_display_text_reson">Select a reason for transfer</string>
+    <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
     <string name="screen_international_funds_transfer_input_text_note_hint">Type a note here</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
