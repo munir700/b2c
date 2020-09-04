@@ -147,8 +147,6 @@ project.ext {
             //pdfViewer
             pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
 
-            rootChecker              : 'com.scottyab:rootbeer-lib:0.0.8',
-
             // Facebook
             facebook                 :'com.facebook.android:facebook-android-sdk:[5,6)'
     ]
@@ -189,7 +187,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.adjustReferrer],
             [configuration: "implementation", dependency: libraries.expand],
             [configuration: "implementation", dependency: libraries.pdfViewer],
-            [configuration: "implementation", dependency: libraries.rootChecker],
             [configuration: "implementation", dependency: libraries.baloon],
             [configuration: "implementation", dependency: libraries.security],
             [configuration: "implementation", dependency: libraries.facebook]
