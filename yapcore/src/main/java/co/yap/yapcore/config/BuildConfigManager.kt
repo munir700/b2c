@@ -19,10 +19,10 @@ data class BuildConfigManager(
     var sslPin3: String?,
     var sslHost: String?
 ) {
-    fun isLiveRelease(): Boolean=
+    fun isLiveRelease(): Boolean =
         (buildType == "release" && flavor == "live") || (buildType == "release" && flavor == "stg")
 
-    fun isLive():Boolean =  flavor == "live"
+    fun isLive(): Boolean = flavor == "live"
 
     fun getAdjustEvent(event: AdjustEvent): String {
         return when (event) {
@@ -90,4 +90,9 @@ data class BuildConfigManager(
             else -> "null"
         }
     }
+
+    override fun toString(): String {
+        return "BuildConfigManager(md5=$md5, sha1=$sha1, sha256=$sha256, leanPlumSecretKey=$leanPlumSecretKey, leanPlumKey=$leanPlumKey, adjustToken=$adjustToken, baseUrl=$baseUrl, buildType=$buildType, flavor=$flavor, versionName=$versionName, versionCode=$versionCode, applicationId=$applicationId, hasValidSignature=$hasValidSignature, sslPin1=$sslPin1, sslPin2=$sslPin2, sslPin3=$sslPin3, sslHost=$sslHost)"
+    }
+
 }

@@ -128,7 +128,7 @@
                 android:backgroundTint="@color/greyLight"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:maxLength="50"
+                android:maxLength="@integer/beneficiary_length"
                 android:singleLine="true"
                 android:text="@={viewModel.state.firstName}"
                 app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}"
@@ -154,7 +154,7 @@
                 android:backgroundTint="@color/greyLight"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:maxLength="50"
+                android:maxLength="@integer/beneficiary_length"
                 android:singleLine="true"
                 android:text="@={viewModel.state.lastName}"
                 app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
@@ -180,7 +180,6 @@
                 android:backgroundTint="@color/greyLight"
                 android:drawableEnd="@{viewModel.parentViewModel.selectedCountry.ibanMandatory==true ? @drawable/ic_support : @drawable/drawable_transparent}"
                 android:drawableRight="@{viewModel.parentViewModel.selectedCountry.ibanMandatory==true ? @drawable/ic_support : @drawable/drawable_transparent}"
-                tools:drawableRight="@drawable/drawable_transparent"
                 android:hint="xxxxxxxxx"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
@@ -190,7 +189,8 @@
                 android:text="@={viewModel.state.iban}"
                 app:ibanMask="@{`#### #### #### #### #### #### ####`}"
                 app:isDrawableShownWhenTextIsEmpty="true"
-                app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
+                app:popupContentValue="@string/screen_add_beneficiary_display_help_content"
+                tools:drawableRight="@drawable/drawable_transparent" />
 
             <TextView
                 style="@style/Small"

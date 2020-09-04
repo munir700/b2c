@@ -80,9 +80,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (YAPApplication.configManager?.isLiveRelease() == true && YAPApplication.configManager?.hasValidSignature == false) {
-            showToast("App signature not matched" + "^" + AlertType.DIALOG_WITH_FINISH)
-        }
         setupPager()
         addObservers()
         addListeners()
@@ -200,7 +197,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
         viewModel.showUnverifedscreen.observe(this, Observer {
             if (it) {
-                //showUnverifiedPopup()
+                showUnverifiedPopup()
             }
         })
     }

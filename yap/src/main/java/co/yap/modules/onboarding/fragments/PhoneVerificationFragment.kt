@@ -22,7 +22,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
     override fun getLayoutId(): Int = R.layout.fragment_phone_verification
 
-    override val viewModel: IPhoneVerification.ViewModel
+    override val viewModel: PhoneVerificationViewModel
         get() = ViewModelProviders.of(this).get(PhoneVerificationViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,8 +37,13 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            startActivityForResult(
-                context?.let { CreatePasscodeActivity.newIntent(it,true) },
+            viewModel.parentViewModel?.isWaitingList?.value?.let { isWaitingList ->
+                if (isWaitingList) findNavController().navigate(R.id.action_phoneVerificationFragment_to_waitingListFragment) else startActivityForResult(
+                    context?.let { CreatePasscodeActivity.newIntent(it, true) },
+                    Constants.REQUEST_CODE_CREATE_PASSCODE
+                )
+            } ?: startActivityForResult(
+                context?.let { CreatePasscodeActivity.newIntent(it, true) },
                 Constants.REQUEST_CODE_CREATE_PASSCODE
             )
         })

@@ -13,6 +13,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
+import co.yap.yapcore.helpers.extentions.onClick
 import co.yap.yapcore.helpers.extentions.onLongClick
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -46,22 +47,6 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
             )
 
         }
-//        holder.itemView.setOnLongClickListener {
-//            onItemLongClickListener?.onItemLongClick(
-//                it,
-//                holder.adapterPosition,
-//                getItemId(holder.adapterPosition), datas[holder.adapterPosition]
-//            )
-//            return@setOnLongClickListener true
-//        }
-//        holder.itemView.setOnDragListener { view, dragEvent ->
-//            onItemDragListener?.onItemDrag(
-//                view,
-//                holder.adapterPosition,
-//                dragEvent, datas[holder.adapterPosition]
-//            )
-//            return@setOnDragListener true
-//        }
         return holder
     }
 

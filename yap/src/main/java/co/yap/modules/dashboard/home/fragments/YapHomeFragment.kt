@@ -59,6 +59,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
@@ -186,15 +187,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (isSuccess) {
                 checkUserStatus()
             }
-
         })
-//        getBindings().ivSearch.setOnLongClickListener {
-//            return@setOnLongClickListener activity?.let {
-//                val tour = TourSetup(it, setViewsArray())
-//                tour.startTour()
-//                true
-//            } ?: false
-//        }
+        getBindings().ivSearch.setOnLongClickListener {
+            return@setOnLongClickListener activity?.let {
+                //val tour = TourSetup(it, setViewsArray())
+                //tour.startTour()
+                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
+                true
+            } ?: false
+        }
+
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {

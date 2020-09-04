@@ -3,11 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.yapstore.YapStoreVM" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgStoreShopping"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
@@ -20,47 +28,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_shopping_store" />
 
-        <RelativeLayout
-            android:id="@+id/list_section"
+        <include
+            layout="@layout/refresh_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
+            app:adapter="@{viewModel.adapter}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading">
+            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading" />
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-
-            <!-- Your Desired landing design-->
-            <TextView
-                android:id="@+id/txt_error"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Unable to fetch data."
-                android:textColor="@color/black"
-                android:textSize="@dimen/_20sdp"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_stores"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerHeight="2dp"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
-                app:adapter="@{viewModel.mAdapter}"
-                tools:listitem="@layout/item_yap_store" />
-        </RelativeLayout>
-
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvYapStoreTitle"
             style="@style/Regular"
             android:layout_width="wrap_content"
@@ -76,7 +54,7 @@
             app:text="@{Strings.screen_yap_store_display_text_title}"
             tools:text="@string/screen_yap_store_display_text_title" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvYapStoreHeading"
             style="@style/Large"
             android:layout_width="0dp"
@@ -95,15 +73,4 @@
             tools:text="@string/screen_yap_store_display_text_heading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-        <import type="co.yap.translation.Strings" />
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel" />
-    </data>
-
-
 </layout>

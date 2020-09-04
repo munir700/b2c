@@ -80,9 +80,11 @@ open class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    parentViewModel?.onboardingData?.token = response.data.token
+                    parentViewModel?.onboardingData?.token = response.data.data?.token
                     trackEvent(SignupEvents.SIGN_UP_OTP_CORRECT.type)
                     trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
+                    parentViewModel?.isWaitingList?.value = response.data.data?.isWaiting
+                    parentViewModel?.rankNo?.value = response.data.data?.rankNo
                     nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> {

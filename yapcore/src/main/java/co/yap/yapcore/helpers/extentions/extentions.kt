@@ -28,7 +28,7 @@ import java.math.RoundingMode
 
 @Keep
 enum class ExtraType {
-    STRING, INT, BOOLEAN, DOUBLE, LONG, PARCEABLE;
+    STRING, INT, BOOLEAN, DOUBLE, LONG, PARCEABLE, SERIALIZEABLE, BUNDLE;
 }
 
 fun Intent.getValue(key: String, type: String): Any? {
@@ -47,6 +47,10 @@ fun Intent.getValue(key: String, type: String): Any? {
                     getLongExtra(key, 0)
                 ExtraType.PARCEABLE ->
                     getParcelableExtra<Parcelable>(key)
+                ExtraType.SERIALIZEABLE ->
+                    getSerializableExtra(key)
+                ExtraType.BUNDLE ->
+                    getBundleExtra(key)
             }
         } else null
     } else return null

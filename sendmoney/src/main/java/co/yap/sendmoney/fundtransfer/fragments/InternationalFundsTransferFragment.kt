@@ -1,7 +1,6 @@
 package co.yap.sendmoney.fundtransfer.fragments
 
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,7 +19,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
@@ -274,9 +272,7 @@ class InternationalFundsTransferFragment :
     }
 
     private fun setEditTextWatcher() {
-        etSenderAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-
+        etSenderAmount.applyAmountFilters()
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
             viewModel.setDestinationAmount()

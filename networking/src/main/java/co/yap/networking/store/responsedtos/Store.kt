@@ -15,7 +15,7 @@ data class Store(
     @SerializedName("urlToImage")
     var image: Int?=0,
     var storeIcon: Int?=0
-) : Parcelable
+) :ApiResponse(), Parcelable
 
 @Parcelize
 data class StoreParent(

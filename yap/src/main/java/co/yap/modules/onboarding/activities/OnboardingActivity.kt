@@ -1,7 +1,5 @@
 package co.yap.modules.onboarding.activities
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,15 +18,6 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 
-    companion object {
-        private val ACCOUNT_TYPE = "account_type"
-        fun newIntent(context: Context, accountType: AccountType): Intent {
-            val intent = Intent(context, OnboardingActivity::class.java)
-            intent.putExtra(ACCOUNT_TYPE, accountType)
-            return intent
-        }
-    }
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_onboarding_navigation
@@ -42,6 +31,7 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.onboardingData.accountType = getAccountType()
+
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
     }
 
@@ -51,7 +41,11 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     }
 
     private fun getAccountType(): AccountType {
-        return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
+        if (intent.getSerializableExtra(getString(R.string.arg_account_type)) == null) {
+            return AccountType.B2C_ACCOUNT
+        } else {
+            return intent.getSerializableExtra(getString(R.string.arg_account_type)) as AccountType
+        }
     }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }

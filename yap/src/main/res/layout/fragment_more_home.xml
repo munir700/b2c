@@ -70,11 +70,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:ellipsize="end"
+            android:lines="1"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-            tools:text="Logan Pearson" />
+            tools:text="Logan Pearson Pearson PearsonPearsonPearsonPearsonPearsonPearson" />
 
         <TextView
             android:id="@+id/tvIban"
@@ -120,30 +124,30 @@
             android:id="@+id/yapForYou"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_normal_large"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="1dp"
-            app:cardUseCompatPadding="false"
-            app:cardMaxElevation="1dp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:outlineSpotShadowColor="@color/greyDark"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="1dp"
+            app:cardMaxElevation="1dp"
+            app:cardUseCompatPadding="false"
             app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/margin_normal"
-                android:paddingBottom="@dimen/margin_normal"
                 android:background="@drawable/cornor_edges_gery"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal">
 
                 <ImageView
                     android:layout_width="@dimen/_46sdp"
                     android:layout_height="@dimen/_46sdp"
-                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_small"
                     android:src="@drawable/ic_yap_for_you" />
 

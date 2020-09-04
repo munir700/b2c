@@ -58,7 +58,7 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivChevron"
                         android:layout_width="@dimen/_26sdp"
                         android:layout_height="@dimen/_26sdp"
@@ -67,8 +67,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:tint="?attr/colorPrimaryDarkAttr"
-                        app:srcCompat="@drawable/ic_chevron_down" />
+                        app:srcCompat="@drawable/ic_chevron_down"
+                        app:tint="?attr/colorPrimaryDarkAttr" />
 
                     <LinearLayout
                         android:id="@+id/lAccountContainer"
@@ -312,7 +312,7 @@
             </LinearLayout>
 
         </LinearLayout>
-
+        <!-- Right Section -->
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="match_parent"
@@ -339,58 +339,14 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSettings"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_settings"
                 android:tint="@color/greyDark" />
         </LinearLayout>
-        <!-- Right Section -->
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_xl"
-            android:layout_weight="20"
-            android:paddingBottom="@dimen/margin_normal"
-            android:visibility="gone">
-
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="@dimen/_43sdp"
-                android:layout_height="@dimen/_43sdp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/circle_profile"
-                android:contentDescription="@string/empty_string"
-                android:gravity="center"
-                android:padding="@dimen/_3sdp"
-                app:beneficiaryPicture="@{viewModel.state.userNameImage}"
-                app:fullName="@{viewModel.state.fullName}"
-                tools:src="@color/quantum_yellow" />
-
-            <ImageView
-                android:layout_width="@dimen/_42sdp"
-                android:layout_height="@dimen/_42sdp"
-                android:layout_below="@id/imgProfile"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:src="@drawable/ic_add_account"
-                android:visibility="visible" />
-
-            <ImageView
-
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/settings"
-                android:tint="@color/greyDark" />
-
-        </RelativeLayout>
-
     </LinearLayout>
     <!--    </ScrollView>-->
 </layout>
