@@ -1136,6 +1136,8 @@ object Strings {
         "screen_international_funds_transfer_dropdown_text_reason_hint"
     const val screen_international_funds_transfer_input_text_note_hint: String =
         "screen_international_funds_transfer_input_text_note_hint"
+    const val screen_international_funds_transfer_input_text_reason: String =
+        "screen_international_funds_transfer_input_text_reason"
     const val screen_international_funds_transfer_display_text_fee: String =
         "screen_international_funds_transfer_display_text_fee"
     const val screen_international_funds_transfer_display_text_note: String =

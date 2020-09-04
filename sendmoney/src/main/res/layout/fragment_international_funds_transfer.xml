@@ -331,8 +331,8 @@
                         android:alpha=".5"
                         android:layout_toStartOf="@+id/ivSelector"
                         android:onClick="@{(v)->viewModel.handlePressOnButton(v.id)}"
-                        android:text="Reason for transfer"
-                        tools:text="Reason for transfer" />
+                        app:text="@{Strings.screen_international_funds_transfer_dropdown_text_reason_hint}"
+                        tools:text="@string/screen_international_funds_transfer_dropdown_text_reason_hint" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivSelector"
