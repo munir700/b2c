@@ -15,9 +15,9 @@
         android:background="@color/white">
 
         <ImageView
+            android:id="@+id/ivBubbles"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:layout_height="@dimen/_160sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/bg_bubbles" />
 
@@ -29,12 +29,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <!--<include-->
-                <!--android:id="@+id/toolbar"-->
-                <!--layout="@layout/view_tool_bar"-->
-                <!--app:layout_constraintBottom_toBottomOf="@+id/btnLogIn"-->
-                <!--tools:layout_editor_absoluteX="0dp"/>-->
 
                 <ImageView
                     android:id="@+id/ivYap"
@@ -51,7 +45,7 @@
                     style="@style/RegularGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                     android:layout_marginTop="20dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/screen_sign_in_display_text_heading_text"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -64,7 +58,6 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_xl"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    app:showKeyboard="false"
                     android:layout_marginBottom="@dimen/margin_small"
                     app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                     app:coreInputError="@{viewModel.state.emailError}"
@@ -72,6 +65,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSignIn"
                     app:realValue="@={viewModel.state.twoWayTextWatcher}"
                     app:resetUI="@{viewModel.state.refreshField}"
+                    app:showKeyboard="false"
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     app:view_input_type="email" />
 
@@ -102,7 +96,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
-
 
                     <TextView
                         android:id="@+id/tvSignUpPrefix"
