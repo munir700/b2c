@@ -14,7 +14,7 @@ class YoungLandingModule : BaseFragmentModule<YoungLandingFragment>() {
     @Provides
     @ViewModelInjection
     fun provideYoungLandingVM(
-        fragment: HouseHoldLandingFragment,
+        fragment: YoungLandingFragment,
         viewModelProvider: InjectionViewModelProvider<YoungLandingVM>
     ): YoungLandingVM = viewModelProvider.get(fragment, YoungLandingVM::class)
 

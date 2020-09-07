@@ -117,5 +117,4 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungLandingModule::class])
     @FragmentScope
     abstract fun youngLandingFragmentInjector(): YoungLandingFragment
-
 }
