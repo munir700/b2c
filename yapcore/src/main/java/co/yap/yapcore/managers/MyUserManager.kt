@@ -30,7 +30,6 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     override val repository: CardsRepository = CardsRepository
     private val customersRepository: CustomersApi = CustomersRepository
     private val authRepository: AuthRepository = AuthRepository
-
     var usersList: MutableLiveData<ArrayList<AccountInfo>>? = MutableLiveData()
     var user: AccountInfo? = null
         set(value) {
@@ -38,12 +37,8 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
             userLiveData.postValue(value)
         }
     var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
-
     var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
-
-    //    var users: ArrayList<AccountInfo> = ArrayList<AccountInfo>()
     var userAddress: Address? = null
-
     //    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
@@ -84,7 +79,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return usersList?.value?.firstOrNull { account -> account.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
-     fun getCurrentUser(): AccountInfo? {
+    fun getCurrentUser(): AccountInfo? {
         return (if (isExistingUser()) {
             user = getHouseholdUser()
             if (isOnBoarded()) {
@@ -216,7 +211,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return data.find { obj1 -> obj1.accountType == AccountType.B2C_HOUSEHOLD.name }
     }
 
-    @Deprecated("Not used anymore",ReplaceWith("SwitchProfileLiveData"))
+    @Deprecated("Not used anymore", ReplaceWith("SwitchProfileLiveData"))
     fun switchProfile() {
         switchProfile(user?.uuid)
     }

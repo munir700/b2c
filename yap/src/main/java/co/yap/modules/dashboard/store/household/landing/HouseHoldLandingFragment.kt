@@ -1,11 +1,6 @@
 package co.yap.modules.dashboard.store.household.landing
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R

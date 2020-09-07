@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/young_parent_side_navigation"
+    app:startDestination="@id/youngLandingFragment">
+
+    <fragment
+        android:id="@+id/youngLandingFragment"
+        android:name="co.yap.modules.dashboard.store.young.landing.YoungLandingFragment"
+        android:label="YoungLandingFragment" />
+</navigation>

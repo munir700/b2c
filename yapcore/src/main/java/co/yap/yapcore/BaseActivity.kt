@@ -1,14 +1,12 @@
 package co.yap.yapcore
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -25,7 +23,6 @@ import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
 import com.scottyab.rootbeer.RootBeer
 
@@ -102,12 +99,18 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
                     AlertType.DIALOG.name -> {
-                        showAlertDialogAndExitApp("", messages.first(), false)
+                        showAlertDialogAndExitApp("", messages.first(), closeActivity = false)
                     }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
                         messages.first(),
-                        true
+                        closeActivity = true
+                    )
+                    AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
+                        "",
+                        messages.first(),
+                        buttonText = "CLOSE",
+                        closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CLICKABLE.name -> {
                         showAlertDialogAndExitApp(
@@ -258,41 +261,5 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
-    }
-
-    private fun showAlertDialogAndExitApp(
-        title: String? = null,
-        message: String?,
-        closeActivity: Boolean = true,
-        isOtpBlocked: Boolean = false
-    ) {
-        val builder = AlertDialog.Builder(this)
-        var alertDialog: AlertDialog? = null
-        val inflater: LayoutInflater = layoutInflater
-        title?.let { builder.setTitle(title) }
-        val dialogLayout: View =
-            inflater.inflate(R.layout.alert_dialogue, null)
-        val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
-        label.text = message
-        val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
-        ok.text = "OK"
-        ok.setOnClickListener {
-            alertDialog?.dismiss()
-            if (closeActivity)
-                finish()
-        }
-        if (isOtpBlocked) {
-            label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
-                makeCall(MyUserManager.helpPhoneNumber)
-            }))
-        }
-
-        builder.setView(dialogLayout)
-        builder.setCancelable(false)
-        alertDialog = builder.create()
-
-        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        alertDialog.show()
-
     }
 }

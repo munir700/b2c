@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.coroutines.delay
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -194,13 +195,11 @@ class EmailViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
                         parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
-                        Handler().postDelayed({
-                            nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
-                        }, 400)
+                        delay(500)
                         MyUserManager.user = response.data.data[0]
-//                        MyUserManager.user?.setLiveData() // DOnt remove this line
                         state.valid = true
                         state.loading = false
+                        nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                     }
                 }
                 is RetroApiResponse.Error -> {

@@ -26,9 +26,10 @@
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivProfilePic"
-            android:layout_width="@dimen/_45sdp"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
             android:clickable="true"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/app_name"
             android:focusable="true"
             android:focusableInTouchMode="true"

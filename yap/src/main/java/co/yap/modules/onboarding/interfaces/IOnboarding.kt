@@ -15,6 +15,8 @@ interface IOnboarding {
         var onboardingData: OnboardingData
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         val isPhoneNumberEntered: MutableLiveData<Boolean>
+        var rankNo: MutableLiveData<String>
+        var isWaitingList: MutableLiveData<Boolean>
     }
 
     interface State : IBase.State {

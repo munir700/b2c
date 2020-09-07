@@ -180,15 +180,19 @@ class EidInfoReviewViewModel(application: Application) :
                         } else {
                             if (null == parentViewModel?.identity) {
                                 state.toast =
-                                    "${response.data.errors?.message
-                                        ?: " Error occurred"}^${AlertType.DIALOG_WITH_FINISH.name}"
+                                    "${
+                                        response.data.errors?.message
+                                            ?: " Error occurred"
+                                    }^${AlertType.DIALOG_WITH_FINISH.name}"
                                 parentViewModel?.paths?.forEach { filePath ->
                                     File(filePath).deleteRecursively()
                                 }
                             } else {
                                 state.toast =
-                                    "${response.data.errors?.message
-                                        ?: " Error occurred"}^${AlertType.DIALOG.name}"
+                                    "${
+                                        response.data.errors?.message
+                                            ?: " Error occurred"
+                                    }^${AlertType.DIALOG.name}"
                                 parentViewModel?.paths?.forEach { filePath ->
                                     File(filePath).deleteRecursively()
                                 }
@@ -230,71 +234,78 @@ class EidInfoReviewViewModel(application: Application) :
         success: (message: String) -> Unit
     ) {
         parentViewModel?.identity?.let {
-            launch {
-                val request = UploadDocumentsRequest(
-                    documentType = "EMIRATES_ID",
-                    firstName = state.firstName,
-                    middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                    lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                    dateExpiry = it.expirationDate,
-                    dob = it.dateOfBirth,
-                    fullName = getFullName(),
-                    gender = it.gender.mrz.toString(),
-                    nationality = it.isoCountryCode3Digit.toUpperCase(),
-                    identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
-                        .toString() else it.citizenNumber,
-                    filePaths = parentViewModel?.paths ?: arrayListOf(),
-                    countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
-                )
+            if (it.expirationDate == null) {
+                state.toast = "EID Expiry date in not valid. Please rescan EID ^${AlertType.DIALOG.name}"
+                //clickEvent.setValue(EVENT_RESCAN)
+                // Auto re-scan will confuse user.
+            } else {
+                launch {
+                    val request = UploadDocumentsRequest(
+                        documentType = "EMIRATES_ID",
+                        firstName = state.firstName,
+                        middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                        lastName = if (state.lastName.isNotBlank()) state.lastName else null,
+                        dateExpiry = it.expirationDate,
+                        dob = it.dateOfBirth,
+                        fullName = getFullName(),
+                        gender = it.gender.mrz.toString(),
+                        nationality = it.isoCountryCode3Digit.toUpperCase(),
+                        identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
+                            .toString() else it.citizenNumber,
+                        filePaths = parentViewModel?.paths ?: arrayListOf(),
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                    )
 
-                state.loading = true
-                val response = repository.uploadDocuments(request)
-                state.loading = false
+                    state.loading = true
+                    val response = repository.uploadDocuments(request)
+                    state.loading = false
 
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        when (MyUserManager.eidStatus) {
-                            EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                if (fromInformationErrorFragment) {
-                                    success.invoke("success")
-                                } else {
-                                    MyUserManager.eidStatus = EIDStatus.VALID
-                                    clickEvent.setValue(EVENT_EID_UPDATE)
+                    when (response) {
+                        is RetroApiResponse.Success -> {
+                            when (MyUserManager.eidStatus) {
+                                EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(EVENT_EID_UPDATE)
+                                    }
                                 }
-                            }
-                            EIDStatus.NOT_SET -> {
-                                if (fromInformationErrorFragment) {
-                                    success.invoke("success")
-                                } else {
-                                    MyUserManager.eidStatus = EIDStatus.VALID
-                                    clickEvent.setValue(EVENT_NEXT)
+                                EIDStatus.NOT_SET -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(EVENT_NEXT)
+                                    }
                                 }
-                            }
-                            else -> {
-                                if (fromInformationErrorFragment) {
-                                    success.invoke("success")
-                                } else {
-                                    MyUserManager.eidStatus = EIDStatus.VALID
-                                    clickEvent.setValue(EVENT_NEXT)
+                                else -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(EVENT_NEXT)
+                                    }
                                 }
                             }
                         }
-                    }
-                    is RetroApiResponse.Error -> {
-                        if (fromInformationErrorFragment) {
-                            success.invoke(response.error.message)
-                        } else {
-                            if (response.error.actualCode.equals(
-                                    EVENT_ALREADY_USED_EID.toString(),
-                                    true
-                                )
-                            ) {
-                                //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                        is RetroApiResponse.Error -> {
+                            if (fromInformationErrorFragment) {
+                                success.invoke(response.error.message)
+                            } else {
+                                if (response.error.actualCode.equals(
+                                        EVENT_ALREADY_USED_EID.toString(),
+                                        true
+                                    )
+                                ) {
+                                    //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                                }
+                                state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             }
-                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         }
                     }
                 }
+
             }
         }
     }

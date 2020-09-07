@@ -217,7 +217,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun doLogout() {
-        MyUserManager.doLogout(requireContext(), true)
+        activity?.let { MyUserManager.doLogout(it, true) }
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -268,7 +268,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
                             ?.let { username ->
                                 viewModel.state.username = username
-                                startOtpFragment(viewModel.state.username)
+                                goToNext(viewModel.state.username)
                             } ?: toast("Invalid user name")
                     }
                 }
@@ -343,6 +343,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
                             .observe(this@VerifyPasscodeFragment, switchProfileObserver)
                     }
+
                 } else {
                     if (otpBlocked == true)
                         startFragment(
@@ -350,14 +351,14 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                             clearAllPrevious = true
                         )
                     else
-                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
-                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
-                            putExtra(
-                                NAVIGATION_Graph_START_DESTINATION_ID,
-                                R.id.householdDashboardFragment
-                            )
-                        }
-                       // launchActivity<YapDashboardActivity>(clearPrevious = true)
+//                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
+//                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
+//                            putExtra(
+//                                NAVIGATION_Graph_START_DESTINATION_ID,
+//                                R.id.householdDashboardFragment
+//                            )
+//                        }
+                        launchActivity<YapDashboardActivity>(clearPrevious = true)
                 }
             }
         }
@@ -468,9 +469,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             dialer.upDatedDialerPad(viewModel.state.passcode)
         }
 
-        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()?.let { encryptedUserName ->
-            viewModel.state.username = encryptedUserName
-        }
+        viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
+            ?.let { encryptedUserName ->
+                viewModel.state.username = encryptedUserName
+            }
 
         if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty()) {
             if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY))
