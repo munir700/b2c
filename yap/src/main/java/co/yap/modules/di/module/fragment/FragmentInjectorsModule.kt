@@ -12,6 +12,8 @@ import co.yap.modules.dashboard.store.yapstore.YapStoreFragment
 import co.yap.modules.dashboard.store.yapstore.YapStoreModule
 import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
 import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
+import co.yap.modules.dashboard.store.young.landing.benefits.YoungBenefitsFragment
+import co.yap.modules.dashboard.store.young.landing.benefits.YoungBenefitsModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -117,4 +119,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungLandingModule::class])
     @FragmentScope
     abstract fun youngLandingFragmentInjector(): YoungLandingFragment
+
+    @ContributesAndroidInjector(modules = [YoungBenefitsModule::class])
+    @FragmentScope
+    abstract fun youngBenefitsFragmentInjector(): YoungBenefitsFragment
 }
