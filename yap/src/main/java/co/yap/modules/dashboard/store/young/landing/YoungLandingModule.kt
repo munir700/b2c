@@ -13,12 +13,12 @@ class YoungLandingModule : BaseFragmentModule<YoungLandingFragment>() {
 
     @Provides
     @ViewModelInjection
-    fun provideHouseHoldLandingVM(
+    fun provideYoungLandingVM(
         fragment: HouseHoldLandingFragment,
         viewModelProvider: InjectionViewModelProvider<YoungLandingVM>
     ): YoungLandingVM = viewModelProvider.get(fragment, YoungLandingVM::class)
 
     @Provides
     @FragmentScope
-    fun provideHouseholdHomeState(): IYoungLanding.State = YoungLandingState()
+    fun provideYoungLandingState(): IYoungLanding.State = YoungLandingState()
 }

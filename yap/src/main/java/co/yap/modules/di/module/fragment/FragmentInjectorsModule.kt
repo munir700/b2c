@@ -10,6 +10,8 @@ import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragment
 import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameModule
 import co.yap.modules.dashboard.store.yapstore.YapStoreFragment
 import co.yap.modules.dashboard.store.yapstore.YapStoreModule
+import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
+import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -111,5 +113,9 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YapStoreModule::class])
     @FragmentScope
     abstract fun yapStoreFragmentInjector(): YapStoreFragment
+
+    @ContributesAndroidInjector(modules = [YoungLandingModule::class])
+    @FragmentScope
+    abstract fun youngLandingFragmentInjector(): YoungLandingFragment
 
 }
