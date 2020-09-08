@@ -12,16 +12,10 @@ class YapStoreItemVM : BaseListItemViewModel<Store>() {
     override fun setItem(item: Store, position: Int) {
         mItem = item
     }
-
     override fun getItem() = mItem
-
-
     override fun layoutRes() = R.layout.item_yap_store
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
     }
-
     override fun onItemClick(view: View, data: Any, pos: Int) {
     }
 }

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    >
     <data>
-
         <variable
             name="youngBenefitsVM"
             type="co.yap.modules.dashboard.store.young.landing.benefits.YoungBenefitsVM" />
@@ -15,24 +13,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
                 <include
                     android:id="@+id/clCardscontainer"
                     layout="@layout/layout_young_cards"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_170sdp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                     />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvYoungCardTitle"
@@ -70,21 +63,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvYoungCardAmount" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <include
                     android:id="@+id/rvBenefitPoints"
-                    recycleViewAdapter="@{youngBenefitsVM.benefitsAdapter}"
+                    layout="@layout/refresh_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_23sdp"
                     android:layout_marginTop="@dimen/_30sdp"
                     android:layout_marginEnd="@dimen/_23sdp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@+id/tvYoungNote"
-                    tools:itemCount="7"
-                    tools:listitem="@layout/item_benefits" />
+                    app:layout_constraintBottom_toTopOf="@+id/cbSelectPlan"
+                    app:layout_constraintTop_toBottomOf="@+id/tvYoungNote" />
 
                 <co.yap.widgets.CoreButton
+                    android:id="@+id/cbSelectPlan"
                     style="@style/FragmentsBtnStyle"
+                    enableCoreButton="true"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_marginStart="@dimen/_62sdp"
@@ -92,11 +85,9 @@
                     android:layout_marginEnd="@dimen/_62sdp"
                     android:layout_marginBottom="@dimen/_30sdp"
                     android:text="@string/screen_benefits_plan_button_label"
-                    enableCoreButton="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvBenefitPoints" />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
