@@ -2,15 +2,22 @@ package co.yap.modules.webview
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.DialogInterface.OnKeyListener
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.widgets.AdvancedWebView
 import co.yap.yapcore.BR
@@ -18,12 +25,16 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
+import co.yap.yapcore.helpers.extentions.isWhatsAppInstalled
+import co.yap.yapcore.helpers.extentions.makeCall
+import co.yap.yapcore.helpers.extentions.openUrl
+import co.yap.yapcore.helpers.extentions.openWhatsApp
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_webview.*
 
 
 class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebViewFragment.View,
-    AdvancedWebView.Listener {
+    AdvancedWebView.Listener, View.OnKeyListener {
     override fun getBindingVariable() = BR.webViewFragmentViewModel
 
     override fun getLayoutId() = R.layout.fragment_webview
@@ -42,12 +53,32 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
             title = it.getString(TOOLBAR_TITLE, "")
         }
         initAdvanceWebView()
+        setObservers()
 //        initWebView()
 //        setWebClient()
 
 //        loadUrl(pageUrl ?: "")
     }
 
+    fun setObservers() {
+        viewModel.clickEvent.observe(this, observer)
+    }
+
+    private val observer = Observer<Int> {
+        when (it) {
+            R.id.tbBtnBack -> {
+
+                if (webView.canGoBack()) {
+                    webView.goBack()
+                }
+                else
+                {
+                    activity?.finish()
+                }
+            }
+
+        }
+    }
 
     private fun initAdvanceWebView() {
         webView?.setListener(activity, this)
@@ -55,14 +86,25 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         webView?.setMixedContentAllowed(true)
         webView?.setCookiesEnabled(true)
         webView?.setThirdPartyCookiesEnabled(true)
+        webView?.setOnKeyListener(this)
+
+
+
+
+
+
         webView?.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 progressBar?.let {
                     it.visibility = ProgressBar.GONE
                 }
+
+
                 // multiStateView.viewState = MultiStateView.ViewState.CONTENT
+
             }
+
 
         }
         webView?.webChromeClient = object : WebChromeClient() {
@@ -74,6 +116,7 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
                 }
                 //multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
+
         }
         webView?.addHttpHeader("X-Requested-With", "")
         webView?.loadUrl(pageUrl ?: "")
@@ -121,6 +164,16 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        if (request!!.url.toString().startsWith("tel:")) {
+            callPhoneNumber(request.url.toString())
+            return true
+        } else {
+            if (request.url.toString().startsWith("mailto")) {
+                sendEmail(request.url.toString())
+                return true
+            }
+
+        }
         return false
     }
     //    @SuppressLint("SetJavaScriptEnabled")
@@ -167,6 +220,7 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     override fun onResume() {
         super.onResume()
         webView?.onResume()
+
         // ...
     }
 
@@ -233,4 +287,36 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
             grantResults
         )
     }
+
+    private fun callPhoneNumber(url: String) {
+
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
+        startActivity(intent)
+
+
+    }
+
+    private fun sendEmail(url: String) {
+
+        val mail = url.replaceFirst("mailto:", "")
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.type = "text/plain"
+        intent.data = Uri.parse("mailto:$mail")
+        intent.putExtra(Intent.EXTRA_EMAIL, mail)
+
+        startActivity(Intent.createChooser(intent, "Send Email"))
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+            && event!!.action == MotionEvent.ACTION_UP
+            && webView.canGoBack()
+        ) {
+            webView.goBack()
+            return true
+        }
+        return false
+    }
+
+
 }
