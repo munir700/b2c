@@ -17,6 +17,10 @@ class YoungBenefitsFragment :
         }
     }
 
+    override fun getToolBarTitle(): String? {
+        return "Get YAP Young"
+    }
+
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetHouseHoldAccount -> {

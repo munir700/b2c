@@ -1200,5 +1200,10 @@
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+
+    <!-- Young Benefits Screen -->
+    <string name="screen_benefits_plan_button_label">Select Plan</string>
+    <string name="screen_benefits_card_text_label">Young Card</string>
+    <string name="screen_benefits_young_text_note_label">Help your child earn and manage money and give them a personalized card</string>
 </resources>
 

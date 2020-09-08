@@ -1876,4 +1876,10 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+
+    // Young Benefits Screen
+    const val screen_benefits_young_text_note_label: String =
+        "screen_benefits_young_text_note_label"
+
 }
