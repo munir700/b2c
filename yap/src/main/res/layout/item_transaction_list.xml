@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 android:background="@drawable/bg_round_purple_enabled"
-                tools:src="@drawable/ic_grey_minus_transactions" />
+                tools:src="@drawable/ic_transfer" />
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivIncoming"

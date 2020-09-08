@@ -57,7 +57,7 @@ fun Transaction?.getTransactionIcon(): Int {
                 else -> {
                     when {
                         TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
-                            if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_grey_minus_transactions else R.drawable.ic_grey_plus_transactions
+                           R.drawable.ic_transfer
                         }
                         TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode -> {
                             R.drawable.ic_rounded_plus

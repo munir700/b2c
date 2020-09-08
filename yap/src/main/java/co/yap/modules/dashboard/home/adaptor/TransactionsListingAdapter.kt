@@ -95,9 +95,6 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                                 R.drawable.ic_rounded_plus -> {
                                     itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
                                 }
-                                R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
-                                    itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
-                                }
                             }
                         } else
                             setInitialsAsTxnImage(transaction, itemTransactionListBinding)
