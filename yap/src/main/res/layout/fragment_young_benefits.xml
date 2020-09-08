@@ -66,6 +66,7 @@
                 <include
                     android:id="@+id/rvBenefitPoints"
                     layout="@layout/refresh_recycler_view"
+                    app:adapter="@{youngBenefitsVM.adapter}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_23sdp"

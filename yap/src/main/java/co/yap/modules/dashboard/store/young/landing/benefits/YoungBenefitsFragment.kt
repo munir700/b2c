@@ -15,10 +15,7 @@ class YoungBenefitsFragment :
     BaseRecyclerViewFragment<FragmentYoungBenefitsBinding, IYoungBenefits.State, YoungBenefitsVM, YoungBenefitsAdapter, YoungBenefitsModel>() {
     override fun getBindingVariable() = BR.youngBenefitsVM
     override fun getLayoutId() = R.layout.fragment_young_benefits
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
+ 
     private fun onClick(it: Int?) {
     }
     override fun onItemClick(view: View, data: Any, pos: Int) {
