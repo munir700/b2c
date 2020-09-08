@@ -44,6 +44,7 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = "" // for runtime hanlding
     override var errorTitle: String = ""
     override var errorBody: String = ""
+    val eidLength = 15
 
     override fun onCreate() {
         super.onCreate()
@@ -174,16 +175,17 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                             result.identity = identity
-
                             parentViewModel?.identity = identity
-
                             populateState(parentViewModel?.identity)
+                            if (parentViewModel?.identity?.citizenNumber?.length != eidLength) {
+                                clickEvent.setValue(EVENT_RESCAN)
+                            }
                         } else {
                             if (null == parentViewModel?.identity) {
                                 state.toast =
                                     "${
-                                        response.data.errors?.message
-                                            ?: " Error occurred"
+                                    response.data.errors?.message
+                                        ?: " Error occurred"
                                     }^${AlertType.DIALOG_WITH_FINISH.name}"
                                 parentViewModel?.paths?.forEach { filePath ->
                                     File(filePath).deleteRecursively()
@@ -191,8 +193,8 @@ class EidInfoReviewViewModel(application: Application) :
                             } else {
                                 state.toast =
                                     "${
-                                        response.data.errors?.message
-                                            ?: " Error occurred"
+                                    response.data.errors?.message
+                                        ?: " Error occurred"
                                     }^${AlertType.DIALOG.name}"
                                 parentViewModel?.paths?.forEach { filePath ->
                                     File(filePath).deleteRecursively()
@@ -236,7 +238,8 @@ class EidInfoReviewViewModel(application: Application) :
     ) {
         parentViewModel?.identity?.let {
             if (it.expirationDate == null) {
-                state.toast = "EID Expiry date in not valid. Please rescan EID ^${AlertType.DIALOG.name}"
+                state.toast =
+                    "EID Expiry date in not valid. Please rescan EID ^${AlertType.DIALOG.name}"
                 //clickEvent.setValue(EVENT_RESCAN)
                 // Auto re-scan will confuse user.
             } else {
@@ -397,15 +400,30 @@ class EidInfoReviewViewModel(application: Application) :
                 getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
                     parentViewModel?.name?.value
                 )
+
             val builder = StringBuilder()
-            builder.append(it.subSequence(0..2))
-            builder.append("-")
-            builder.append(it.subSequence(3..6))
-            builder.append("-")
-            builder.append(it.subSequence(7..13))
-            builder.append("-")
-            builder.append(it.subSequence(14..14))
+            if (hasValidPart(it, 0, 2)) {
+                builder.append(it.subSequence(0..2))
+                builder.append("-")
+            }
+            if (hasValidPart(it, 3, 6)) {
+                builder.append(it.subSequence(3..6))
+                builder.append("-")
+            }
+            if (hasValidPart(it, 7, 13)) {
+                builder.append(it.subSequence(7..13))
+                builder.append("-")
+            }
+            if (hasValidPart(it, 14, 14))
+                builder.append(it.subSequence(14..14))
             return@let builder.toString()
         } ?: ""
     }
+
+    private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {
+        return value?.let {
+            return (end in start..it.length)
+        } ?: false
+    }
+
 }
