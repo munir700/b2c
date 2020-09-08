@@ -20,5 +20,5 @@ data class UserAttributes(
     val biometric_login_enabled: String = "biometric_login_enabled",
     val eid_expired: String = "eid_expired",
     val account_active: String = "account_active",
-    val eid_expiry_date: String = "eid_expiry_date"
+    val eid_expiry_date: String =  "eid_expiry_date"
 )
