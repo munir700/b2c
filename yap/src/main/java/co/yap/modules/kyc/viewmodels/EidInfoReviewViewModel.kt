@@ -270,6 +270,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     } else {
                                         MyUserManager.eidStatus = EIDStatus.VALID
                                         clickEvent.setValue(EVENT_EID_UPDATE)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
                                 EIDStatus.NOT_SET -> {
@@ -278,6 +279,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     } else {
                                         MyUserManager.eidStatus = EIDStatus.VALID
                                         clickEvent.setValue(EVENT_NEXT)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
                                 else -> {
@@ -286,6 +288,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     } else {
                                         MyUserManager.eidStatus = EIDStatus.VALID
                                         clickEvent.setValue(EVENT_NEXT)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
                             }

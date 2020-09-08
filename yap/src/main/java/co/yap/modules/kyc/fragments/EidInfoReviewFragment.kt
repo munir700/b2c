@@ -83,21 +83,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
                 viewModel.EVENT_RESCAN -> openCardScanner()
-                viewModel.EVENT_NEXT -> {
-                    MyUserManager.getAccountInfo()
-                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        }
-
-                    })
-                }
-
                 viewModel.EVENT_ALREADY_USED_EID -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
@@ -120,6 +105,20 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_FINISH -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
+                }
+                viewModel.EVENT_NEXT -> {
+                    MyUserManager.getAccountInfo()
+                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+                        if (isSuccess) {
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                        } else {
+                            showToast("Accounts info failed")
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                        }
+
+                    })
                 }
                 viewModel.EVENT_EID_UPDATE -> {
                     MyUserManager.getAccountInfo()
