@@ -27,7 +27,7 @@ fun Transaction?.getTransactionTitle(): String {
                 transaction.maskedCardNo?.let {
                     String.format(
                         "%s %s",
-                        "Top-Up by",
+                        "Money added via",
                         "*" + it.substring(it.length - 4, it.length)
                     )
                 }
@@ -60,7 +60,7 @@ fun Transaction?.getTransactionIcon(): Int {
                            R.drawable.ic_transfer
                         }
                         TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode -> {
-                            R.drawable.ic_rounded_plus
+                            R.drawable.ic_plus_transactions
                         }
                         else -> -1
                     }

@@ -91,11 +91,6 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                     } else {
                         if (txnIconResId != -1) {
                             itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                            when (txnIconResId) {
-                                R.drawable.ic_rounded_plus -> {
-                                    itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
-                                }
-                            }
                         } else
                             setInitialsAsTxnImage(transaction, itemTransactionListBinding)
 
