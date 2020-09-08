@@ -2,13 +2,10 @@ package co.yap.modules.webview
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.DialogInterface
-import android.content.DialogInterface.OnKeyListener
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -25,10 +22,6 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants.PAGE_URL
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
-import co.yap.yapcore.helpers.extentions.isWhatsAppInstalled
-import co.yap.yapcore.helpers.extentions.makeCall
-import co.yap.yapcore.helpers.extentions.openUrl
-import co.yap.yapcore.helpers.extentions.openWhatsApp
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_webview.*
 
@@ -45,7 +38,6 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     override val viewModel: IWebViewFragment.ViewModel
         get() = ViewModelProviders.of(this).get(WebViewFragmentViewModel::class.java)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
@@ -54,29 +46,27 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         }
         initAdvanceWebView()
         setObservers()
-//        initWebView()
-//        setWebClient()
-
-//        loadUrl(pageUrl ?: "")
     }
 
     fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
     }
 
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObserver(observer)
+        super.onDestroyView()
+
+    }
+
     private val observer = Observer<Int> {
         when (it) {
             R.id.tbBtnBack -> {
-
                 if (webView.canGoBack()) {
                     webView.goBack()
-                }
-                else
-                {
+                } else {
                     activity?.finish()
                 }
             }
-
         }
     }
 
@@ -87,25 +77,12 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         webView?.setCookiesEnabled(true)
         webView?.setThirdPartyCookiesEnabled(true)
         webView?.setOnKeyListener(this)
-
-
-
-
-
-
         webView?.webViewClient = object : WebViewClient() {
-
             override fun onPageFinished(view: WebView, url: String) {
                 progressBar?.let {
                     it.visibility = ProgressBar.GONE
                 }
-
-
-                // multiStateView.viewState = MultiStateView.ViewState.CONTENT
-
             }
-
-
         }
         webView?.webChromeClient = object : WebChromeClient() {
 
@@ -114,7 +91,6 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
                 progressBar?.let {
                     it.visibility = ProgressBar.GONE
                 }
-                //multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
 
         }
@@ -150,97 +126,45 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         userAgent: String?
     ) {
         checkPermission(url, suggestedFilename)
-//        // some file is available for download
-//        // either handle the download yourself or use the code below
-//        if (AdvancedWebView.handleDownload(requireContext(), url, suggestedFilename)) {
-//            // download successfully handled
-//        } else {
-//            // download couldn't be handled because user has disabled download manager app on the device
-//            // TODO show some notice to the user
-//        }
     }
 
     override fun onExternalPageRequest(url: String?) {
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        if (request!!.url.toString().startsWith("tel:")) {
-            callPhoneNumber(request.url.toString())
+        if (request?.url.toString().startsWith("tel:")) {
+            callPhoneNumber(request?.url.toString())
             return true
         } else {
-            if (request.url.toString().startsWith("mailto")) {
-                sendEmail(request.url.toString())
+            if (request?.url.toString().startsWith("mailto")) {
+                sendEmail(request?.url.toString())
                 return true
             }
 
         }
         return false
     }
-    //    @SuppressLint("SetJavaScriptEnabled")
-//    private fun initWebView() {
-//        webView.settings.javaScriptEnabled = true
-//        webView.settings.loadWithOverviewMode = true
-//        webView.settings.useWideViewPort = true
-//        webView.settings.domStorageEnabled = true
-//        webView.webViewClient = object : WebViewClient() {
-//            override
-//            fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-////                val serverCertificate: SslCertificate = error?.certificate!!
-//                handler?.proceed()
-//            }
-//
-//        }
-//    }
-//
-//    private fun setWebClient() {
-//        webView.webChromeClient = object : WebChromeClient() {
-//            override fun onProgressChanged(
-//                view: WebView,
-//                newProgress: Int
-//            ) {
-//                super.onProgressChanged(view, newProgress)
-//                progressBar.progress = newProgress
-//                if (newProgress < 100 && progressBar.visibility == ProgressBar.GONE) {
-//                    progressBar.visibility = ProgressBar.VISIBLE
-//                }
-//                if (newProgress == 100) {
-//                    progressBar.visibility = ProgressBar.GONE
-//                }
-//            }
-//        }
-//
-//    }
-
-//    private fun loadUrl(pageUrl: String) {
-//        webView.loadUrl(pageUrl)
-//    }
-
 
     @SuppressLint("NewApi")
     override fun onResume() {
         super.onResume()
         webView?.onResume()
-
-        // ...
     }
 
     @SuppressLint("NewApi")
     override fun onPause() {
         webView?.onPause()
-        // ...
         super.onPause()
     }
 
     override fun onDestroy() {
         webView?.onDestroy()
-        // ...
         super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         webView?.onActivityResult(requestCode, resultCode, intent)
-        // ...
     }
 
     private fun checkPermission(url: String?, suggestedFilename: String?) {
@@ -253,11 +177,8 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
             override fun onPermissionGranted() {
                 if (url != null && suggestedFilename != null)
                     if (AdvancedWebView.handleDownload(requireContext(), url, suggestedFilename)) {
-                        // download successfully handled
                     } else {
                         showToast("Unable to download file")
-                        // download couldn't be handled because user has disabled download manager app on the device
-                        // TODO show some notice to the user
                     }
             }
 
@@ -289,27 +210,22 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
     }
 
     private fun callPhoneNumber(url: String) {
-
         val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
         startActivity(intent)
-
-
     }
 
     private fun sendEmail(url: String) {
-
         val mail = url.replaceFirst("mailto:", "")
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.type = "text/plain"
         intent.data = Uri.parse("mailto:$mail")
         intent.putExtra(Intent.EXTRA_EMAIL, mail)
-
         startActivity(Intent.createChooser(intent, "Send Email"))
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && event!!.action == MotionEvent.ACTION_UP
+            && event?.action == MotionEvent.ACTION_UP
             && webView.canGoBack()
         ) {
             webView.goBack()
@@ -317,6 +233,4 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         }
         return false
     }
-
-
 }
