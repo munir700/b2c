@@ -11,7 +11,6 @@ import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import androidx.lifecycle.Observer
-
 class YoungBenefitsFragment :
     BaseRecyclerViewFragment<FragmentYoungBenefitsBinding, IYoungBenefits.State, YoungBenefitsVM, YoungBenefitsAdapter, YoungBenefitsModel>() {
     override fun getBindingVariable() = BR.youngBenefitsVM
