@@ -12,6 +12,8 @@ data class UserAttributes(
     val youngUser: String = "youngUser",
     val b2bUser: String = "b2bUser",
     val country: String = "country",
+    val emailVerified: String = "emailVerified",
+    val phoneNumberVerified: String = "phoneNumberVerified",
     val city: String = "city",
     val uuid: String = "uuid",
     val customerId: String = "customerId",

@@ -19,6 +19,8 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 
@@ -240,7 +242,8 @@ class YapHomeViewModel(application: Application) :
         if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
         ) {
-            trackEventWithAttributes(MyUserManager.user,eidExpire = true)
+            trackEvent(KYCEvents.EID_EXPIRE.type)
+            trackEventWithAttributes(MyUserManager.user, eidExpire = true)
         }
         val list = ArrayList<HomeNotification>()
         if (accountInfo.otpBlocked == true) {
