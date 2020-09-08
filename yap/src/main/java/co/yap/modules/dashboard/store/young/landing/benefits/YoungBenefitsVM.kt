@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.young.landing.benefits
 
 import android.os.Bundle
+import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.modules.dashboard.store.young.landing.IYoungLanding
 import co.yap.modules.dashboard.store.young.landing.benefits.adapter.YoungBenefitsAdapter
@@ -12,12 +13,9 @@ import javax.inject.Inject
 class YoungBenefitsVM @Inject constructor(override val state: IYoungBenefits.State) :
     DaggerBaseViewModel<IYoungBenefits.State>(), IYoungBenefits.ViewModel {
     override val clickEvent = SingleClickEvent()
-
-
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
     fun getBenefitList(): ArrayList<YoungBenefitsModel> {
         var benefits: ArrayList<YoungBenefitsModel> = ArrayList()
         benefits.add(YoungBenefitsModel("Send pocket money to their account"))
@@ -25,11 +23,8 @@ class YoungBenefitsVM @Inject constructor(override val state: IYoungBenefits.Sta
         benefits.add(YoungBenefitsModel("Set mission to your child to earn money"))
         benefits.add(YoungBenefitsModel("Create saving goals"))
         return benefits
-
     }
-
     override val benefitsAdapter: YoungBenefitsAdapter = YoungBenefitsAdapter(getBenefitList())
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 

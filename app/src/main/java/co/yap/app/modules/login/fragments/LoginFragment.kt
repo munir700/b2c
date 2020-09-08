@@ -67,7 +67,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
         tvSignUpPrefix.setOnClickListener {
-            requireContext().getJsonDataFromAsset("hh_user_existing.json")?.let {
+         /*   requireContext().getJsonDataFromAsset("hh_user_existing.json")?.let {
                 val user = GsonProvider.fromJson(
                     it, AccountInfoResponse::class.java
                 )
@@ -81,7 +81,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                         R.id.HHOnBoardingWelcomeFragment
                     )
                 }
-            }
+            }*/
+            startFragment(YoungBenefitsFragment::class.java.name)
         }
     }
 

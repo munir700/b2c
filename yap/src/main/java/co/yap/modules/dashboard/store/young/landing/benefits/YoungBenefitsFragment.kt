@@ -12,14 +12,9 @@ class YoungBenefitsFragment :
     override fun getLayoutId() = R.layout.fragment_young_benefits
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        setupToolbar(toolbar = mViewDataBinding.toolbar, setActionBar = true) {
-            finishActivity()
-        }
+
     }
 
-    override fun getToolBarTitle(): String? {
-        return "Get YAP Young"
-    }
 
     private fun onClick(id: Int) {
         when (id) {
