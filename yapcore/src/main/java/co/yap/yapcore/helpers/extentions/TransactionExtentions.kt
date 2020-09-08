@@ -107,14 +107,13 @@ fun Transaction?.getTransactionTypeIcon(): Int {
         if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
         return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
             R.drawable.ic_time
-        else if (productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
-            android.R.color.transparent
-        } else (when (txnType) {
+        else (when (txnType) {
             TxnType.DEBIT.type -> {
-                R.drawable.ic_outgoing_transaction
-            }
-            TxnType.CREDIT.type -> {
-                android.R.color.transparent
+                when {
+                    transaction.getLabelValues() == TransactionLabelsCode.IS_BANK -> R.drawable.ic_outgoing_transaction
+                    productCode == TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_outgoing_transaction_y2y
+                    else -> android.R.color.transparent
+                }
             }
             else -> android.R.color.transparent
         })
