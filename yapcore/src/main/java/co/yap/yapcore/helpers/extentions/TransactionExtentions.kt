@@ -44,7 +44,7 @@ fun Transaction?.getTransactionTitle(): String {
 fun Transaction?.getTransactionIcon(): Int {
     return this?.let { transaction ->
         return when (transaction.status) {
-            TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation
+            TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation_primary
             TransactionStatus.FAILED.name -> {
                 R.drawable.ic_reverted
             }
@@ -53,13 +53,13 @@ fun Transaction?.getTransactionIcon(): Int {
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
                 TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
                 TransactionLabelsCode.IS_REFUND -> R.drawable.ic_refund
-                TransactionLabelsCode.IS_INCOMING -> R.drawable.ic_rounded_plus
+                TransactionLabelsCode.IS_INCOMING -> R.drawable.ic_plus_transactions
                 else -> {
                     when {
                         TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
-                           R.drawable.ic_transfer
+                            R.drawable.ic_transfer
                         }
-                        TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode -> {
+                        TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode || TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == transaction.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == transaction.productCode -> {
                             R.drawable.ic_plus_transactions
                         }
                         else -> -1
@@ -278,7 +278,7 @@ fun Transaction?.getLabelValues(): TransactionLabelsCode? {
             TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {
                 TransactionLabelsCode.IS_REFUND
             }
-            TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode -> {
+            TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode -> {
                 TransactionLabelsCode.IS_INCOMING
             }
             else -> null

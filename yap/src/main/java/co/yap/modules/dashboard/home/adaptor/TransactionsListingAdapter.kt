@@ -81,25 +81,21 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             val categoryTitle: String =
                 transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
-
-                if (transaction.isTransactionCancelled()) {
-                    itemTransactionListBinding.ivTransaction.alpha = 0.4f
-                    itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
+                    setY2YUserImage(transaction, itemTransactionListBinding)
                 } else {
-                    if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
-                        setY2YUserImage(transaction, itemTransactionListBinding)
+                    if (txnIconResId != -1) {
+                        itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
+                        if (transaction.isTransactionCancelled())
+                            itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
                     } else {
-                        if (txnIconResId != -1) {
-                            itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                        } else
-                            setInitialsAsTxnImage(transaction, itemTransactionListBinding)
-
-                        itemTransactionListBinding.ivTransaction.alpha = 1.0f
-                        ImageViewCompat.setImageTintList(
-                            itemTransactionListBinding.ivTransaction,
-                            ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-                        )
+                        setInitialsAsTxnImage(transaction, itemTransactionListBinding)
                     }
+
+                    ImageViewCompat.setImageTintList(
+                        itemTransactionListBinding.ivTransaction,
+                        ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
+                    )
                 }
             }
 
@@ -156,15 +152,10 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             )
             itemTransactionListBinding.tvTransactionAmount.setTextColor(
                 context.getColors(
-                    if (isTxnCancelled) {
-                        R.color.greyNormalDark
-                    } else {
                         if (transaction.txnType == TxnType.CREDIT.type)
                             R.color.colorSecondaryGreen
                         else
                             R.color.colorPrimaryDark
-
-                    }
                 )
             )
             itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))

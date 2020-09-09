@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 android:background="@drawable/bg_round_purple_enabled"
-                tools:src="@drawable/ic_transfer" />
+                tools:src="@drawable/ic_exclamation_test" />
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivIncoming"
@@ -35,7 +35,6 @@
                 android:layout_height="@dimen/_18sdp"
                 android:layout_gravity="bottom|end"
                 android:visibility="visible"
-                android:elevation="1.5dp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 tools:src="@drawable/ic_outgoing_transaction"
                 />
@@ -111,15 +110,5 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2"
             tools:text="Note goes here Only show first line " />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/flImageLayout"
-            app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
