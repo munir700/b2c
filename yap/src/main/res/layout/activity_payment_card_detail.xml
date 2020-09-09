@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:gravity="center"
+                    android:gravity="end"
                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                     android:visibility="visible">
 
@@ -72,7 +72,7 @@
                         android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
                         tools:text="6" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivFilters"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
