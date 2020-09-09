@@ -43,8 +43,8 @@
                     style="@style/Yap.App.Widget.ToolBar"
                     android:background="@drawable/bg_grey_gradient"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:navigationIcon="@drawable/ic_close_white"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:navigationIcon="@drawable/ic_close_white">
 
                 </androidx.appcompat.widget.Toolbar>
 

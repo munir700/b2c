@@ -2,18 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <import type="co.yap.translation.Strings" />
+
         <import type="co.yap.yapcore.helpers.DateUtils" />
+
         <import type="android.view.View" />
+
         <import type="co.yap.translation.Translator" />
-        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
-        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
         <variable
             name="confirmationSuccessViewModel"
             type="co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessVM" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,59 +35,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/imgProfile"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgSmiley"
                 style="@style/Yap.App.Widget.ImageView.Circle"
+                android:src="@drawable/ic_young_smile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_store_b2c"
-                app:srcCompat="@drawable/ic_store_b2c"
-                />
+                app:srcCompat="@drawable/ic_young_smile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Yap.App.Widget.TextView.FullName"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="dfdlsfslfl"
+                android:text="@string/screen_yap_young_label_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                tools:text="@string/first_name" />
+                app:layout_constraintTop_toBottomOf="@+id/imgSmiley"
+                app:text="@{Strings.screen_yap_young_label_text}"
+                tools:text="@string/screen_yap_young_label_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView2"
             style="@style/Yap.App.Widget.TextView.Small.GrayDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/screen_young_payment_confirmation_note_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/includeImageView"
-            app:text="@{confirmationSuccessViewModel.state.schedulePayment.isRecurring?Strings.screen_household_recurring_payment_text:(paymentConfirmationVM.state.schedulePayment.nextProcessingDate.empty?Strings.screen_household_normal_payment_success_text:Strings.screen_household_future_payment_text)}"
-            tools:text="@string/screen_household_recurring_payment_text" />
+            app:text="@{Strings.screen_young_payment_confirmation_note_text}"
+            tools:text="@string/screen_young_payment_confirmation_note_text" />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"
             style="@style/Yap.App.Widget.TextView.Currency"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="@{confirmationSuccessViewModel.state.schedulePayment.amount}"
+            android:text="720.00"
             android:textSize="@dimen/text_size_h5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
             tools:text="2234544.44" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="@{ SpannableStringCreatorKt.getText(context.resources, confirmationSuccessViewModel.getString(Strings.screen_household_recurring_payment_date_text),SpannableKt.color(@color/colorPrimaryDark,confirmationSuccessViewModel.state.schedulePayment.nextProcessingDate))}"
-            android:textSize="@dimen/text_size_h3"
-            android:visibility="@{confirmationSuccessViewModel.state.schedulePayment.isRecurring || !confirmationSuccessViewModel.state.schedulePayment.nextProcessingDate.empty?View.VISIBLE:View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currencyTextView"
-            tools:text="starting on Sep 12, 2019" />
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -93,65 +88,26 @@
             android:tint="@color/colorDarkAqua"
             app:civ_border_color="@color/colorDarkAqua"
             app:civ_border_width="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/li"
+            app:layout_constraintBottom_toTopOf="@+id/tvGuide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currencyTextView"
             app:srcCompat="@drawable/ic_checkmark" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/li"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal_large"
-            android:background="@drawable/card_border_container"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_medium_large"
-            android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_medium_large"
-            android:visibility="@{confirmationSuccessViewModel.state.schedulePayment.isRecurring ?View.GONE:View.VISIBLE , default = gone}"
-            app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_household_normal_payment_recurring_text,paymentConfirmationVM.state.subAccount.firstName)}"
-                app:layout_constraintTop_toBottomOf="@+id/include2"
-                tools:text="You will be notified before each payment in the case you require a fund top up. You can manage your recurring payments in the Cards section." />
-
-            <co.yap.widgets.CoreButton
-                android:id="@+id/btnSetUpNow"
-                style="@style/RectangleBtnSmallStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:minHeight="@dimen/_22sdp"
-                android:paddingStart="@dimen/margin_normal_large"
-                android:paddingEnd="@dimen/margin_normal_large"
-                app:enableCoreButton="@{true}"
-                app:text="@{Strings.screen_household_normal_payment_set_up_recurring_text}"
-                tools:text="Setup Now" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvGuide"
             style="@style/Yap.App.Widget.TextView.Small.GrayDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{confirmationSuccessViewModel.state.schedulePayment.isRecurring?View.VISIBLE:View.GONE , default = visible}"
+            android:gravity="center"
+            android:justificationMode="inter_word"
             app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
-            app:text="@{Strings.screen_household_recurring_payment_guide_text}"
-            tools:text="@string/screen_household_recurring_payment_guide_text"
+            app:text="@{Strings.screen_young_recurring_payment_guide_text}"
+            tools:text="@string/screen_young_recurring_payment_guide_text"
             tools:visibility="visible" />
 
 
@@ -169,8 +125,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_meeting_confirmation_button_go_to_dashboard}"
-            tools:text="@string/common_button_next" />
+            app:text="@{Strings.screen_young_payment_confirmation_core_button_text}"
+            tools:text="@string/screen_young_payment_confirmation_core_button_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

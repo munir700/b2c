@@ -2,16 +2,24 @@ package co.yap.modules.subaccounts.confirmation.confirmationsuccess
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
 class ConfirmationSuccessVM @Inject constructor(override val state: IConfirmationSuccess.State) :
-    DaggerBaseViewModel<IConfirmationSuccess.State>(), IConfirmationSuccess.ViewModel{
-    override val clickEvent: SingleClickEvent= SingleClickEvent()
+    DaggerBaseViewModel<IConfirmationSuccess.State>(), IConfirmationSuccess.ViewModel {
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnClick(id: Int) {
         clickEvent.postValue(id)
+    }
+
+    override fun fetchExtras(extras: Bundle?) {
+        super.fetchExtras(extras)
+        extras?.let {
+            state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
+        }
     }
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {

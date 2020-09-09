@@ -7,7 +7,7 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 class ConfirmationSuccessFragment :
     BaseNavViewModelFragment<FragmentConfirmationSuccessBinding, IConfirmationSuccess.State, ConfirmationSuccessVM>() {
+
     override fun getBindingVariable() = BR.confirmationSuccessViewModel
     override fun getLayoutId() = R.layout.fragment_confirmation_success
-
 }
