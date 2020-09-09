@@ -24,6 +24,10 @@ class YoungContactDetailsVM @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun verifyMobileNumber(apiResponse: ((Boolean?) -> Unit?)?) {
+        TODO("Not yet implemented")
+    }
+
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         TODO("Not yet implemented")
     }

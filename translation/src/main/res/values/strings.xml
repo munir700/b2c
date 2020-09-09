@@ -1212,5 +1212,10 @@
     <string name="screen_yap_young_label_text">YAP Young</string>
     <string name="screen_young_payment_confirmation_core_button_text">Get Started</string>
 
+    <!--    Young contact details screen-->
+    <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>
+    <string name="screen_young_contact_details_title_text">Tell us how to contact %1s</string>
+
+
 </resources>
 
