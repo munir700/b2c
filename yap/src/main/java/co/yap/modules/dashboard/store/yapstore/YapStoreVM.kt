@@ -11,9 +11,7 @@ class YapStoreVM @Inject constructor(override var state: IYapStore.State
 ) : BaseRecyclerAdapterVM<Store , IYapStore.State>(), IYapStore.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
-
     override val clickEvent=SingleClickEvent()
-
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
