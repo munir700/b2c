@@ -15,7 +15,9 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dummyEID
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -177,9 +179,6 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = identity
                             parentViewModel?.identity = identity
                             populateState(parentViewModel?.identity)
-                            if (parentViewModel?.identity?.citizenNumber?.length != eidLength) {
-                                clickEvent.setValue(EVENT_RESCAN)
-                            }
                         } else {
                             if (null == parentViewModel?.identity) {
                                 state.toast =
@@ -238,10 +237,7 @@ class EidInfoReviewViewModel(application: Application) :
     ) {
         parentViewModel?.identity?.let {
             if (it.expirationDate == null) {
-                state.toast =
-                    "EID Expiry date in not valid. Please rescan EID ^${AlertType.DIALOG.name}"
-                //clickEvent.setValue(EVENT_RESCAN)
-                // Auto re-scan will confuse user.
+                clickEvent.setValue(EVENT_EID_EXPIRY_DATE_ISSUE)
             } else {
                 launch {
                     val request = UploadDocumentsRequest(
@@ -380,7 +376,12 @@ class EidInfoReviewViewModel(application: Application) :
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
             state.genderValid = true
-            state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
+            if (parentViewModel?.identity?.citizenNumber?.length != eidLength && !Utils.isValidEID(parentViewModel?.identity?.citizenNumber)
+            ) {
+                clickEvent.setValue(EVENT_CITIZEN_NUMBER_ISSUE)
+            } else {
+                state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
+            }
             state.gender = it.gender.run {
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)

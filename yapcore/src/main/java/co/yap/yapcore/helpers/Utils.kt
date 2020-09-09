@@ -275,24 +275,14 @@ object Utils {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches())
     }
 
-    private fun isValidEmail(email: String): Boolean {
-        var inputStr: CharSequence = ""
-        var isValid = false
-        val expression =
-            //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9]{2,61}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
-        // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-        inputStr = email
-        val pattern = Pattern.compile(expression)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
+    fun isValidEID(citizenNumber: String?): Boolean {
+        return citizenNumber?.let {
+            val expression = "^[0-9]{3}-[0-9]{4}-[0-9]{7}-[0-9]{1}$"
+            val pattern = Pattern.compile(expression)
+            val matcher = pattern.matcher(citizenNumber)
+            return matcher.matches()
+        } ?: false
     }
-
 
     fun setSpan(
         startIndex: Int,

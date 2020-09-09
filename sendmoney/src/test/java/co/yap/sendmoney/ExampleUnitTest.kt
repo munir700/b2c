@@ -1,6 +1,7 @@
 package co.yap.sendmoney
 
 import co.yap.translation.Strings
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.roundVal
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -26,11 +27,22 @@ class ExampleUnitTest {
 
     @Test
     fun abc() {
-        assertEquals("123-4567-8901234-5", getFormattedCitizenNumber("1234567890123456"))
+        //'/^784-[0-9]{4}-[0-9]{7}-[0-9]{1}$/';
+        assertEquals("123-4567-8901234-5", getFormattedCitizenNumber("123456789012345"))
+        assertEquals("123-4567-8901234-5", getFormattedCitizenNumber("123456789012345"))
+    }
+
+    @Test
+    fun isValidEID() {
+        val citizenNo = "684-4567-8901234-5"
+        val valid = Utils.isValidEID(citizenNo)
+        assertEquals(true, valid)
     }
 
     private fun getFormattedCitizenNumber(citizenNo: String?): String {
         return citizenNo?.let {
+
+            val valid = Utils.isValidEID(citizenNo)
             val builder = StringBuilder()
             if (hasValidPart(it, 0, 2)) {
                 builder.append(it.subSequence(0..2))

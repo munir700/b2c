@@ -22,6 +22,7 @@ import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -134,8 +135,23 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                     })
                 }
+                viewModel.EVENT_CITIZEN_NUMBER_ISSUE -> invalidCitizenNumber("Invalid citizen number. Please rescan EID")
+                viewModel.EVENT_EID_EXPIRY_DATE_ISSUE -> invalidCitizenNumber("EID Expiry date in not valid. Please rescan EID")
             }
         })
+    }
+
+    private fun invalidCitizenNumber(title: String) {
+        activity?.let {
+            it.showAlertDialogAndExitApp(
+                message = title,
+                callback = {
+                    openCardScanner()
+                })
+            viewModel.parentViewModel?.paths?.forEach { filePath ->
+                File(filePath).deleteRecursively()
+            }
+        }
     }
 
     private fun manageFocus(
