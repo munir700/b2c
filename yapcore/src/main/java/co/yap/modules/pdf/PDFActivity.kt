@@ -18,9 +18,11 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
 
     companion object {
         private const val URL = "URL"
-        fun newIntent(context: Context, url: String): Intent {
+        private const val CROSS_VISIBILITY = "CROSS_VISIBILITY"
+        fun newIntent(context: Context, url: String, bool : Boolean): Intent {
             val intent = Intent(context, PDFActivity::class.java)
             intent.putExtra(URL, url)
+            intent.putExtra(CROSS_VISIBILITY, bool)
             return intent
         }
     }
@@ -39,6 +41,8 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
     }
 
     private fun setupData() {
+        val visibility = intent?.getValue(CROSS_VISIBILITY, ExtraType.BOOLEAN.name) as? Boolean
+        viewModel.state.hideCross = visibility
         val url = intent?.getValue(URL, ExtraType.STRING.name) as? String
         url?.let {
             viewModel.downloadFile(it) { file ->
@@ -51,6 +55,11 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
     }
 
     val listener = Observer<Int> {
+        when (it) {
+            R.id.ivCancelPdf -> {
+                onBackPressed()
+            }
+        }
     }
 
     override fun onBackPressed() {

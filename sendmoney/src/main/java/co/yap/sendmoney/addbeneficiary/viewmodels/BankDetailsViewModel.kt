@@ -101,7 +101,8 @@ class BankDetailsViewModel(application: Application) :
                     }
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.isRmt.set(false)
-                        state.buttonText = getString(Strings.screen_bank_details_button_confirm)
+//                        state.buttonText = getString(Strings.screen_bank_details_button_confirm)
+                        state.buttonText = getString(Strings.screen_add_beneficiary_button_next)
                         state.hideSwiftSection = true
 //                        state.valid = true  // don't remember why we set valid = true
                     }

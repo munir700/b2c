@@ -40,6 +40,8 @@
     <dimen name="margin_xxl">@dimen/_56sdp</dimen>
     <dimen name="margin_btn_side_paddings">@dimen/_50sdp</dimen>
     <dimen name="margin_btn_side_paddings_xl">@dimen/_60sdp</dimen>
+    <dimen name="margin_btn_side_xxl">@dimen/_70sdp</dimen>
+    <dimen name="margin_xxxl">@dimen/_80sdp</dimen>
     <dimen name="margin_heading_to_field">@dimen/_50sdp</dimen>
 
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>

@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/screen_add_spare_card_display_text_card_fee"
+                android:layout_marginBottom="@dimen/_4sdp"
                 app:text="@{Strings.screen_add_spare_card_display_text_card_fee}"
 
                 />
@@ -43,7 +44,7 @@
                 android:id="@+id/tvPrice"
                 style="@style/Large"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:layout_weight="1"
                 android:gravity="top|center"

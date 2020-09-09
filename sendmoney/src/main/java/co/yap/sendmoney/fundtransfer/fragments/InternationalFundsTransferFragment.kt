@@ -151,8 +151,8 @@ class InternationalFundsTransferFragment :
                     inviteFriendBottomSheet?.dismiss()
                     viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
                     viewModel.updateFees()
-                    getBindings().tvSelectReason.text =
-                        viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    getBindings().tvSelectReason.text = viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    getBindings().tvSelectReason.alpha = 1.0f
                 }
 
             }, purposeCategories)
