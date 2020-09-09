@@ -14,14 +14,6 @@ class ConfirmationSuccessVM @Inject constructor(override val state: IConfirmatio
     override fun handlePressOnClick(id: Int) {
         clickEvent.postValue(id)
     }
-
-    override fun fetchExtras(extras: Bundle?) {
-        super.fetchExtras(extras)
-        extras?.let {
-            state.schedulePayment.value = it.getParcelable(SchedulePayment::class.simpleName)
-        }
-    }
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 }
