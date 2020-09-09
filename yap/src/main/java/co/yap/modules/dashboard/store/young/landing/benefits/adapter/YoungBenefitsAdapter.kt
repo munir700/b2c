@@ -24,6 +24,6 @@ class YoungBenefitsAdapter(
     ) = BaseViewHolder(view, viewModel, mDataBinding)
 
     override fun getViewModel(viewType: Int) = YoungBenefitsItemVM()
-    override fun getVariableId() = BR.youngBenefitsItemViewModel
+    override fun getVariableId() = BR.viewModel
 }
 

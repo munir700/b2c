@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="youngBenefitsVM"
             type="co.yap.modules.dashboard.store.young.landing.benefits.YoungBenefitsVM" />
@@ -10,86 +11,80 @@
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/Yap.App.Layout.LinearLayout.Vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.core.widget.NestedScrollView
+
+        <include
+            android:id="@+id/clCardscontainer"
+            layout="@layout/layout_young_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_170sdp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvYoungCardTitle"
+            style="@style/NormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_15sdp"
+
+            android:text="@string/screen_benefits_card_text_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clCardscontainer" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvYoungCardAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="AED 59.99/month"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvYoungCardTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvYoungNote"
+            style="@style/ASmall"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <include
-                    android:id="@+id/clCardscontainer"
-                    layout="@layout/layout_young_cards"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_170sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_26sdp"
+            android:gravity="center"
+            android:text="@string/screen_benefits_young_text_note_label"
+            android:textColor="@color/colorPrimaryDarkHouseHold"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvYoungCardAmount" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvYoungCardTitle"
-                    style="@style/NormalText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:text="@string/screen_benefits_card_text_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clCardscontainer" />
+        <include
+            layout="@layout/refresh_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_weight="1"
+            app:adapter="@{youngBenefitsVM.adapter}" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvYoungCardAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="AED 59.99/month"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvYoungCardTitle" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvYoungNote"
-                    style="@style/ASmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_26sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_26sdp"
-                    android:gravity="center"
-                    android:text="@string/screen_benefits_young_text_note_label"
-                    android:textColor="@color/colorPrimaryDarkHouseHold"
-                    android:textSize="@dimen/_12sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvYoungCardAmount" />
-
-                <include
-                    android:id="@+id/rvBenefitPoints"
-                    layout="@layout/refresh_recycler_view"
-                    app:adapter="@{youngBenefitsVM.adapter}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_23sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:layout_marginEnd="@dimen/_23sdp"
-                    app:layout_constraintBottom_toTopOf="@+id/cbSelectPlan"
-                    app:layout_constraintTop_toBottomOf="@+id/tvYoungNote" />
-
-                <co.yap.widgets.CoreButton
-                    android:id="@+id/cbSelectPlan"
-                    style="@style/FragmentsBtnStyle"
-                    enableCoreButton="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_marginStart="@dimen/_62sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:layout_marginEnd="@dimen/_62sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:text="@string/screen_benefits_plan_button_label"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <co.yap.widgets.CoreButton
+            android:id="@+id/cbSelectPlan"
+            style="@style/FragmentsBtnStyle"
+            enableCoreButton="true"
+            android:onClick="@{(v) -> youngBenefitsVM.handlePressOnView(v.id)}"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_62sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_62sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:text="@string/screen_benefits_plan_button_label" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
