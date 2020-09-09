@@ -14,7 +14,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        
         android:background="@color/white">
 
         <ScrollView
@@ -27,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgStoreCover"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_180sdp"
@@ -180,6 +179,7 @@
                                 android:layout_height="@dimen/_190sdp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginRight="@dimen/margin_medium"
+                                android:layout_marginEnd="@dimen/margin_medium"
                                 android:orientation="vertical"
                                 android:src="@drawable/household_card"
                                 app:layout_constraintEnd_toEndOf="parent"

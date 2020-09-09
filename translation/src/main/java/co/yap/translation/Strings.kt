@@ -1876,4 +1876,24 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+
+    //    Yap Young Strings start
+    const val screen_yap_young_landing_display_text_title: String =
+        "screen_yap_young_landing_display_text_title"
+    const val screen_yap_young_landing_display_text_description: String =
+        "screen_yap_young_landing_display_text_description"
+    const val screen_yap_young_landing_display_text_heading: String =
+        "screen_yap_young_landing_display_text_heading"
+    const val screen_yap_young_landing_display_text_sub_heading: String =
+        "screen_yap_young_landing_display_text_sub_heading"
+    const val screen_yap_young_landing_subscription_selection_display_text: String =
+        "screen_yap_young_landing_subscription_selection_display_text"
+    const val screen_yap_young_landing_spending_selection_display_text: String =
+        "screen_yap_young_landing_spending_selection_display_text"
+    const val screen_yap_young_landing_saving_goals_selection_display_text: String =
+        "screen_yap_young_landing_saving_goals_selection_display_text"
+    const val screen_yap_young_landing_assign_missions_selection_display_text: String =
+        "screen_yap_young_landing_assign_missions_selection_display_text"
+//    Yap Young Strings End
 }
