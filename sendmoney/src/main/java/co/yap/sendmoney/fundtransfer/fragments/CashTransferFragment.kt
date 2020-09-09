@@ -112,6 +112,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.updateFees()
                     getBindings().tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    getBindings().tvSelectReason.alpha = 1.0f
                     checkOnTextChangeValidation()
                 }
 
