@@ -1895,5 +1895,9 @@ object Strings {
         "screen_yap_young_landing_saving_goals_selection_display_text"
     const val screen_yap_young_landing_assign_missions_selection_display_text: String =
         "screen_yap_young_landing_assign_missions_selection_display_text"
+    const val screen_yap_young_onboarding_landing_button_text: String =
+        "screen_yap_young_onboarding_landing_button_text"
+    const val screen_yap_young_payment_selection_display_text: String =
+        "screen_yap_young_payment_selection_display_text"
 //    Yap Young Strings End
 }

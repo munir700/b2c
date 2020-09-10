@@ -5,13 +5,14 @@
     <data>
 
         <variable
-            name="youngLandingVM"
+            name="viewModel"
             type="co.yap.modules.dashboard.store.young.landing.YoungLandingVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
 
     <FrameLayout
+        android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -19,7 +20,9 @@
         <ScrollView
             android:id="@+id/svContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -49,8 +52,10 @@
 
                 <co.yap.widgets.SquareImageView
                     android:id="@+id/imgSmiley"
+                    android:layout_marginTop="@dimen/margin_medium_large"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:contentDescription="@string/empty_string"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
@@ -61,6 +66,8 @@
                     style="@style/ATitle2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="start"
                     android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_title"
                     android:textSize="@dimen/text_size_h4"
@@ -75,6 +82,8 @@
                     style="@style/ASmallGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="start"
                     android:lineSpacingExtra="0dp"
                     android:text="@string/screen_yap_young_landing_display_text_description"
@@ -89,12 +98,18 @@
                     android:id="@+id/viewLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@color/greyLight"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreDesc" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     style="@style/Yap.App.Layout.LinearLayout.Vertical"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viewLine">
@@ -104,6 +119,7 @@
                         style="@style/Yap.App.Widget.TextView.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+
                         android:text="@string/screen_yap_young_landing_display_text_heading"
                         app:text="@{Strings.screen_yap_young_landing_display_text_heading}" />
 
@@ -120,8 +136,10 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
                         android:gravity="center"
                         android:text="@string/screen_yap_young_landing_subscription_selection_display_text"
+                        android:textColor="@color/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvContentDesc"
@@ -132,54 +150,85 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
                         android:contentDescription="@string/empty_string"
                         android:orientation="vertical"
                         android:src="@drawable/spending" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
                         android:gravity="center"
-                        android:text="@string/screen_yap_young_landing_subscription_selection_display_text"
-                        app:text="@{Strings.screen_yap_young_landing_subscription_selection_display_text}"
-                        tools:text="@string/screen_yap_young_landing_subscription_selection_display_text" />
+                        android:text="@string/screen_yap_young_landing_spending_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_yap_young_landing_spending_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_spending_selection_display_text" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
                         android:contentDescription="@string/empty_string"
                         android:orientation="vertical"
                         android:src="@drawable/spending" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
                         android:gravity="center"
-                        android:text="@string/screen_yap_young_landing_subscription_selection_display_text"
-                        app:text="@{Strings.screen_yap_young_landing_subscription_selection_display_text}"
-                        tools:text="@string/screen_yap_young_landing_subscription_selection_display_text" />
+                        android:text="@string/screen_yap_young_landing_saving_goals_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_yap_young_landing_saving_goals_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_saving_goals_selection_display_text" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
                         android:contentDescription="@string/empty_string"
                         android:orientation="vertical"
                         android:src="@drawable/spending" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
                         android:gravity="center"
-                        android:text="@string/screen_yap_young_landing_subscription_selection_display_text"
-                        app:text="@{Strings.screen_yap_young_landing_subscription_selection_display_text}"
-                        tools:text="@string/screen_yap_young_landing_subscription_selection_display_text" />
+                        android:text="@string/screen_yap_young_landing_assign_missions_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_yap_young_landing_assign_missions_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_assign_missions_selection_display_text" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
                         android:contentDescription="@string/empty_string"
                         android:orientation="vertical"
                         android:src="@drawable/spending" />
+
+                    <co.yap.widgets.CoreButton
+                        android:id="@+id/btnShare"
+                        style="@style/BoldBtnStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/margin_extra_large"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:layout_marginEnd="@dimen/margin_extra_large"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/_100sdp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        app:btn_drawable="@drawable/ic_share_small"
+                        app:btn_drawable_padding_right="1.68"
+                        app:btn_drawable_padding_top="9"
+                        app:btn_drawable_position="right"
+                        app:btn_text_size="@dimen/_11sdp"
+                        app:enableCoreButton="@{true}"
+                        app:text="@{Strings.screen_yap_house_hold_success_button_text_share}"
+                        tools:text="@string/screen_yap_house_hold_success_button_text_share" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -193,12 +242,12 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/_30sdp"
-            android:onClick="@{(v) -> youngLandingVM.handlePressOnView(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
             app:btn_enable="true"
-            app:text="@{Strings.screen_yap_house_hold_onboarding_landing_button_text}"
-            tools:text="@string/screen_yap_house_hold_onboarding_landing_button_text" />
+            app:text="@{Strings.screen_yap_young_onboarding_landing_button_text}"
+            tools:text="@string/screen_yap_young_onboarding_landing_button_text" />
 
     </FrameLayout>
 </layout>
