@@ -14,6 +14,7 @@ import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
 import co.yap.modules.dashboard.store.young.landing.benefits.YoungBenefitsFragment
+import co.yap.modules.dashboard.store.young.landing.contact.fragments.YoungContactDetailsFragment
 import co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessFragment
 import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -83,7 +84,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 //                    )
 //                }
 //            }
-            startFragment(YoungLandingFragment::class.java.name)
+            startFragment(YoungContactDetailsFragment::class.java.name)
         }
     }
 

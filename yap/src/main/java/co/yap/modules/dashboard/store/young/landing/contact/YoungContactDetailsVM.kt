@@ -11,24 +11,12 @@ import javax.inject.Inject
 
 class YoungContactDetailsVM @Inject constructor(
     override val state: IYoungContactDetails.State,
-    override var validator: Validator?, private val repository: CustomersApi
+    override var validator: Validator?
 ) : DaggerBaseViewModel<IYoungContactDetails.State>(), IYoungContactDetails.ViewModel, IValidator {
-    override val clickEvent: SingleClickEvent
-        get() = TODO("Not yet implemented")
-
+    override val clickEvent = SingleClickEvent()
     override fun handlePressOnClick(id: Int) {
-        TODO("Not yet implemented")
+        clickEvent.setValue(id)
     }
-
-    override fun verifyHouseholdEmail(apiResponse: ((Boolean) -> Unit?)?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun verifyMobileNumber(apiResponse: ((Boolean?) -> Unit?)?) {
-        TODO("Not yet implemented")
-    }
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        TODO("Not yet implemented")
     }
 }

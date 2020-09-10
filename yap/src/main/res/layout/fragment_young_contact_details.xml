@@ -30,10 +30,10 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
                 android:text="@{String.format(@string/screen_young_contact_details_title_text, yContactDetailsViewModel.state.contactName)}"
-                tools:text="@string/screen_young_contact_details_title_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/screen_young_contact_details_title_text" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvContactNote"
@@ -41,24 +41,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/_36sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
                 android:justificationMode="inter_word"
                 android:text="@{String.format(@string/screen_young_contact_details_description_text, yContactDetailsViewModel.state.contactName)}"
-                tools:text="@string/screen_young_contact_details_title_text"
                 android:textColor="@color/greyDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvContactLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/tvContactLabel"
+                tools:text="@string/screen_young_contact_details_title_text" />
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctEmailEdit"
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
                 app:layout_constraintTop_toBottomOf="@+id/tvContactNote"
                 tools:ignore="MissingConstraints">
 
@@ -69,16 +69,19 @@
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={yContactDetailsViewModel.state.email}"
                     app:validateType='@{"email"}' />
-
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctPhoneEdit"
-                app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"                android:drawablePadding="11dp"
-                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:drawablePadding="11dp"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit">
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"
@@ -91,23 +94,26 @@
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={yContactDetailsViewModel.state.phone}"
-                    app:errorEnabled = "@{true}"
+                    app:errorEnabled="@{true}"
                     app:isoCountryCode="@{yContactDetailsViewModel.state.countryCode}"
                     app:pse_setPrefixTextColor="@color/colorPrimaryDark"
                     app:pse_showHint="true" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/_79sdp"
+                android:layout_marginTop="@dimen/_150sdp"
+                android:layout_marginEnd="@dimen/_79sdp"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)-> yContactDetailsViewModel.handlePressOnClick(v.id)}"
+                android:text="@string/common_button_next"
+                app:enableCoreButton="@{yContactDetailsViewModel.validator.isValidate}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctPhoneEdit"
-                android:onClick="@{(v)-> yContactDetailsViewModel.handlePressOnClick(v.id)}"
-                android:text="@string/common_button_add"
-                app:enableCoreButton="@{yContactDetailsViewModel.validator.isValidate}"
                 app:text="@{Strings.screen_phone_number_button_send}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

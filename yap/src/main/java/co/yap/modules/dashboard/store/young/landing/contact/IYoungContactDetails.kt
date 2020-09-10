@@ -9,14 +9,12 @@ interface IYoungContactDetails {
     interface ViewModel : IBase.ViewModel<State>{
         val clickEvent: SingleClickEvent
         fun handlePressOnClick(id: Int)
-        fun verifyHouseholdEmail(apiResponse: ((Boolean) -> Unit?)?)
-        fun verifyMobileNumber(apiResponse: ((Boolean?) -> Unit?)?)
 
     }
     interface State : IBase.State {
         var email: MutableLiveData<String>
         var contactName :  MutableLiveData<String>
-        var confirmPhone: MutableLiveData<String>
+        var phone: MutableLiveData<String>
         var countryCode: MutableLiveData<String>
     }
 }
