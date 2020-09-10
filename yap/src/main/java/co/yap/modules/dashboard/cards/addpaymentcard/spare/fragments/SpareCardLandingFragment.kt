@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.SpareCardLandingViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
-import co.yap.modules.dashboard.store.young.landing.benefits.adapter.YoungBenefitsModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
@@ -25,16 +24,13 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     SpareCardsLandingAdapter.OnItemClickedListener {
 
     override fun onItemClick(benefitsModel: BenefitsModel) {
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_spare_card_landing
 
     override val viewModel: SpareCardLandingViewModel
         get() = ViewModelProviders.of(this).get(SpareCardLandingViewModel::class.java)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

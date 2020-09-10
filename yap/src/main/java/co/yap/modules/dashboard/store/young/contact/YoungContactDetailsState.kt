@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.young.landing.contact
+package co.yap.modules.dashboard.store.young.contact
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState

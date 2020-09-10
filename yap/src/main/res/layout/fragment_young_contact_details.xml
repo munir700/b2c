@@ -7,7 +7,7 @@
 
         <variable
             name="yContactDetailsViewModel"
-            type="co.yap.modules.dashboard.store.young.landing.contact.YoungContactDetailsVM" />
+            type="co.yap.modules.dashboard.store.young.contact.YoungContactDetailsVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -58,13 +58,13 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
                 app:layout_constraintTop_toBottomOf="@+id/tvContactNote"
                 tools:ignore="MissingConstraints">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     style="@style/Yap.App.Widget.TextInputEditText.Email"
-                    android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+                    android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={yContactDetailsViewModel.state.email}"

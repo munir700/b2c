@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.young.landing.benefits.adapter
+package co.yap.modules.dashboard.store.young.benefits.adapter
 
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.young.landing.benefits
+package co.yap.modules.dashboard.store.young.benefits
 
 import co.yap.yapcore.BaseState
 

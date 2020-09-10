@@ -1,6 +1,6 @@
-package co.yap.modules.dashboard.store.young.landing.contact
+package co.yap.modules.dashboard.store.young.contact
 
-import co.yap.modules.dashboard.store.young.landing.contact.fragments.YoungContactDetailsFragment
+import co.yap.modules.dashboard.store.young.contact.fragments.YoungContactDetailsFragment
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.store.young.landing.benefits.adapter.YoungBenefitsItemVM" />
+            type="co.yap.modules.dashboard.store.young.benefits.adapter.YoungBenefitsItemVM" />
 
     </data>
 

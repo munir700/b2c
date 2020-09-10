@@ -1,10 +1,10 @@
-package co.yap.modules.dashboard.store.young.landing.contact.fragments
+package co.yap.modules.dashboard.store.young.contact.fragments
 
 import co.yap.R
 import co.yap.BR
 import co.yap.databinding.FragmentYoungContactDetailsBinding
-import co.yap.modules.dashboard.store.young.landing.contact.IYoungContactDetails
-import co.yap.modules.dashboard.store.young.landing.contact.YoungContactDetailsVM
+import co.yap.modules.dashboard.store.young.contact.IYoungContactDetails
+import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsVM
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 class YoungContactDetailsFragment:
