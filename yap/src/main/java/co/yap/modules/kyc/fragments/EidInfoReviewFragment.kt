@@ -135,8 +135,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                     })
                 }
-                viewModel.EVENT_CITIZEN_NUMBER_ISSUE -> invalidCitizenNumber("Invalid citizen number. Please rescan EID")
-                viewModel.EVENT_EID_EXPIRY_DATE_ISSUE -> invalidCitizenNumber("EID Expiry date in not valid. Please rescan EID")
+                viewModel.EVENT_CITIZEN_NUMBER_ISSUE -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
+                viewModel.EVENT_EID_EXPIRY_DATE_ISSUE -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
             }
         })
     }
