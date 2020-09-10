@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="yConfirmRelationshipViewModel"
+            name="viewModel"
             type="co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipVM" />
 
         <import type="co.yap.translation.Strings" />
@@ -25,7 +25,7 @@
             android:layout_marginTop="@dimen/_27sdp"
             android:layout_marginEnd="@dimen/_25sdp"
             android:gravity="center"
-            android:text="Please confirm your relationship with Lina"
+            android:text="@{String.format(@string/screen_young_confirm_relationship_label_text, viewModel.state.childName)}"
             android:textColor="@color/colorPurpleGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/margin_medium_large"
-            android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+            android:hint="@string/screen_young_confirm_relationship_edit_label_text"
             app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
             tools:ignore="MissingConstraints">
 
@@ -45,38 +45,59 @@
                 style="@style/Yap.App.Widget.TextInputEditText.Email"
                 android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
                 android:drawableTint="@color/colorPrimary"
-                android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
+                android:hint="@string/screen_young_confirm_relationship_edit_hint_text"
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal"
-                android:text="@={yConfirmRelationshipViewModel.state.email}"
+                android:text="@={viewModel.state.email}"
                 app:validateType='@{"email"}' />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTermscondition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/ASmallGrey"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/_18sdp"
+            app:layout_constraintEnd_toStartOf="@+id/scTermscondition"
+            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
+            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
+            android:justificationMode="inter_word"
+            app:text="@{Strings.screen_young_confirm_relationship_switch_text}"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ASmallGrey"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="@dimen/_4sdp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTermscondition"
+            app:layout_constraintStart_toStartOf="@+id/tvTermscondition"
+            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"/>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:layout_width="match_parent"
+            android:id="@+id/scTermscondition"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_25sdp"
-            android:text="I confirm that I'm the parent or legal guardian of this child and agree with the terms &amp; conditions"
             app:track="@drawable/switch_track"
-            android:layout_marginEnd="@dimen/margin_medium_large"
             android:layout_marginStart="@dimen/margin_medium_large"
+            android:theme="@style/Theme.AppCompat"
             android:thumb="@drawable/switch_thumb"
             app:layout_constraintEnd_toEndOf="@+id/ctEmailEdit"
-            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
-            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
+            />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_79sdp"
+            android:layout_marginStart="@dimen/_28sdp"
             android:layout_marginTop="@dimen/_150sdp"
-            android:layout_marginEnd="@dimen/_79sdp"
+            android:layout_marginEnd="@dimen/_28sdp"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v)-> yConfirmRelationshipViewModel.handlePressOnView(v.id)}"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_next"
-            app:enableCoreButton="@{yConfirmRelationshipViewModel.validator.isValidate}"
+            app:enableCoreButton="@{viewModel.validator.isValidate}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_phone_number_button_send}" />
 

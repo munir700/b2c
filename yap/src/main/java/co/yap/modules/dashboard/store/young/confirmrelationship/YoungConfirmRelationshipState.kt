@@ -5,4 +5,5 @@ import co.yap.yapcore.BaseState
 
 class YoungConfirmRelationshipState : BaseState(), IYoungConfirmRelationship.State{
     override var email: MutableLiveData<String> = MutableLiveData()
+    override var childName: MutableLiveData<String> = MutableLiveData("Lina")
 }

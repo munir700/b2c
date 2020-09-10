@@ -7,7 +7,6 @@ import co.yap.R
 
 class YoungConfirmRelationshipFragment :
     BaseNavViewModelFragment<FragmentYoungConfirmRelationshipBinding, IYoungConfirmRelationship.State, YoungConfirmRelationshipVM>() {
-    override fun getBindingVariable() = BR.yConfirmRelationshipViewModel
+    override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_confirm_relationship
-
 }

@@ -1912,9 +1912,11 @@ object Strings {
     const val screen_yap_young_label_text: String =
         "screen_yap_young_label_text"
 
-
-
     // Young Contact Details
     const val screen_young_contact_details_description_text: String =
         "screen_young_contact_details_description_text"
+
+  // Young Confirm Relationship
+  const val screen_young_confirm_relationship_switch_text: String =
+      "screen_young_confirm_relationship_switch_text"
 }
