@@ -68,22 +68,22 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             }
         })
         tvSignUpPrefix.setOnClickListener {
-         /*   requireContext().getJsonDataFromAsset("hh_user_existing.json")?.let {
-                val user = GsonProvider.fromJson(
-                    it, AccountInfoResponse::class.java
-                )
-                MyUserManager.usersList?.value = ArrayList(user.data)
-                MyUserManager.user = MyUserManager.getCurrentUser()
-                MyUserManager.user?.notificationStatuses = AccountStatus.INVITE_ACCEPTED.name
-                launchActivity<OnBoardingHouseHoldActivity>() {
-                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
-                    putExtra(
-                        NAVIGATION_Graph_START_DESTINATION_ID,
-                        R.id.HHOnBoardingWelcomeFragment
-                    )
-                }
-            }*/
-            startFragment(ConfirmationSuccessFragment::class.java.name)
+//            requireContext().getJsonDataFromAsset("hh_user_existing.json")?.let {
+//                val user = GsonProvider.fromJson(
+//                    it, AccountInfoResponse::class.java
+//                )
+//                MyUserManager.usersList?.value = ArrayList(user.data)
+//                MyUserManager.user = MyUserManager.getCurrentUser()
+//                MyUserManager.user?.notificationStatuses = AccountStatus.INVITE_ACCEPTED.name
+//                launchActivity<OnBoardingHouseHoldActivity>() {
+//                    putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
+//                    putExtra(
+//                        NAVIGATION_Graph_START_DESTINATION_ID,
+//                        R.id.HHOnBoardingWelcomeFragment
+//                    )
+//                }
+//            }
+            startFragment(YoungLandingFragment::class.java.name)
         }
     }
 

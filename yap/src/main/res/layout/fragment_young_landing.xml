@@ -5,35 +5,37 @@
     <data>
 
         <variable
-            name="youngLandingVM"
+            name="viewModel"
             type="co.yap.modules.dashboard.store.young.landing.YoungLandingVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:background="@color/white">
 
         <ScrollView
             android:id="@+id/svContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgStoreCover"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_180sdp"
                     android:contentDescription="@string/empty_string"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_store_household"
+                    android:src="@drawable/ic_store_young"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -48,207 +50,186 @@
 
                 </androidx.appcompat.widget.Toolbar>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <co.yap.widgets.SquareImageView
                     android:id="@+id/imgSmiley"
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:contentDescription="@string/empty_string"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
-                    app:srcCompat="@drawable/ic_house_hold" />
+                    app:srcCompat="@drawable/ic_young_smile" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStoreTitle"
                     style="@style/ATitle2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_extra_small"
-                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="start"
                     android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_title"
                     android:textSize="@dimen/text_size_h4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgSmiley"
                     app:layout_constraintTop_toTopOf="@+id/imgSmiley"
-                    app:text="@{Strings.screen_yap_house_hold_onboarding_landing_display_text_title}"
-                    tools:text="@string/screen_yap_house_hold_onboarding_landing_display_text_title" />
+                    app:text="@{Strings.screen_yap_young_landing_display_text_title}"
+                    tools:text="@string/screen_yap_young_landing_display_text_title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStoreDesc"
                     style="@style/ASmallGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="start"
                     android:lineSpacingExtra="0dp"
-                    android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_description"
+                    android:text="@string/screen_yap_young_landing_display_text_description"
                     android:textAlignment="viewStart"
                     android:textSize="@dimen/text_size_c3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgSmiley"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreTitle"
-                    app:text="@{Strings.screen_yap_house_hold_onboarding_landing_display_text_description}" />
+                    app:text="@{Strings.screen_yap_young_landing_display_text_description}" />
 
                 <View
                     android:id="@+id/viewLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@color/greyLight"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreDesc" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvContentTitle"
-                    style="@style/ALarge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_large"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    style="@style/Yap.App.Layout.LinearLayout.Vertical"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:gravity="start"
-                    android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_heading"
-                    android:textAlignment="viewStart"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewLine"
-                    app:text="@{Strings.screen_yap_house_hold_onboarding_landing_display_text_heading}" />
+                    app:layout_constraintTop_toBottomOf="@+id/viewLine">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvContentDesc"
-                    style="@style/ASmallGrey"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_large"
-                    android:gravity="start"
-                    android:lineSpacingExtra="3sp"
-                    android:text="@string/screen_yap_house_hold_onboarding_landing_display_text_sub_heading"
-                    android:textAlignment="viewStart"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvContentTitle"
-                    app:text="@{Strings.screen_yap_house_hold_onboarding_landing_display_text_sub_heading}" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/tvContentDesc"
-                    tools:ignore="MissingConstraints">
-
-                    <LinearLayout
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvContentTitle"
+                        style="@style/Yap.App.Widget.TextView.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvColorSelectionCaption"
-                            style="@style/Regular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_xxl"
-                            android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_xxl"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_color"
-                            android:textColor="?attr/colorPrimaryAttr"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_color}"
-                            tools:text="@string/screen_yap_house_hold_subscription_selection_display_text_color" />
+                        android:text="@string/screen_yap_young_landing_display_text_heading"
+                        app:text="@{Strings.screen_yap_young_landing_display_text_heading}" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            app:layout_constraintTop_toBottomOf="@+id/tvColorSelectionCaption"
-                            tools:ignore="MissingConstraints">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvContentDesc"
+                        style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                        android:gravity="start"
+                        android:lineSpacingExtra="3sp"
+                        android:text="@string/screen_yap_young_landing_display_text_sub_heading"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvContentTitle"
+                        app:text="@{Strings.screen_yap_young_landing_display_text_sub_heading}" />
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/purpleCardView"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_190sdp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginRight="@dimen/margin_medium"
-                                android:orientation="vertical"
-                                android:src="@drawable/household_card"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:gravity="center"
+                        android:text="@string/screen_yap_young_landing_subscription_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvContentDesc"
+                        app:text="@{Strings.screen_yap_young_landing_subscription_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_subscription_selection_display_text" />
 
-                        </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:contentDescription="@string/empty_string"
+                        android:orientation="vertical"
+                        android:src="@drawable/spending" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvSalaryManagementCaption"
-                            style="@style/Regular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_xxl"
-                            android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_xxl"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_salary"
-                            android:textColor="?attr/colorPrimaryAttr"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_salary}"
-                            tools:text="@string/screen_yap_house_hold_subscription_selection_display_text_salary" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:gravity="center"
+                        android:text="@string/screen_yap_young_landing_spending_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_yap_young_landing_spending_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_spending_selection_display_text" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:contentDescription="@string/empty_string"
-                            android:orientation="vertical"
-                            android:src="@drawable/spending"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:contentDescription="@string/empty_string"
+                        android:orientation="vertical"
+                        android:src="@drawable/spending" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvAutoPayoutCaption"
-                            style="@style/Regular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/margin_xxl"
-                            android:layout_marginTop="@dimen/margin_large"
-                            android:layout_marginEnd="@dimen/margin_xxl"
-                            android:layout_marginBottom="@dimen/margin_large"
-                            android:fontFamily="@font/roboto_medium"
-                            android:gravity="center"
-                            android:text="@string/screen_yap_house_hold_subscription_selection_display_text_schedule"
-                            android:textColor="?attr/colorPrimaryAttr"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_schedule}"
-                            tools:text="@string/screen_yap_house_hold_subscription_selection_display_text_schedule" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:gravity="center"
+                        android:text="@string/screen_yap_young_landing_saving_goals_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_yap_young_landing_saving_goals_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_saving_goals_selection_display_text" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="@dimen/_100sdp"
-                            android:contentDescription="@string/empty_string"
-                            android:orientation="vertical"
-                            android:src="@drawable/spending"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:contentDescription="@string/empty_string"
+                        android:orientation="vertical"
+                        android:src="@drawable/spending" />
 
-                    </LinearLayout>
-                </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:gravity="center"
+                        android:text="@string/screen_yap_young_landing_assign_missions_selection_display_text"
+                        android:textColor="@color/colorPrimary"
+                        app:text="@{Strings.screen_yap_young_landing_assign_missions_selection_display_text}"
+                        tools:text="@string/screen_yap_young_landing_assign_missions_selection_display_text" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:contentDescription="@string/empty_string"
+                        android:orientation="vertical"
+                        android:src="@drawable/spending" />
+
+                    <co.yap.widgets.CoreButton
+                        android:id="@+id/btnShare"
+                        style="@style/BoldBtnStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/margin_extra_large"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:layout_marginEnd="@dimen/margin_extra_large"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/_100sdp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                        app:btn_drawable="@drawable/ic_share_small"
+                        app:btn_drawable_padding_right="1.68"
+                        app:btn_drawable_padding_top="9"
+                        app:btn_drawable_position="right"
+                        app:btn_text_size="@dimen/_11sdp"
+                        app:enableCoreButton="@{true}"
+                        app:text="@{Strings.screen_yap_house_hold_success_button_text_share}"
+                        tools:text="@string/screen_yap_house_hold_success_button_text_share" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -257,17 +238,16 @@
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/_30sdp"
-            android:onClick="@{(v) -> youngLandingVM.handlePressOnView(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
             app:btn_enable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.screen_yap_house_hold_onboarding_landing_button_text}"
-            tools:ignore="MissingConstraints"
-            tools:text="@string/screen_yap_house_hold_onboarding_landing_button_text" />
+            app:text="@{Strings.screen_yap_young_onboarding_landing_button_text}"
+            tools:text="@string/screen_yap_young_onboarding_landing_button_text" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

@@ -1878,14 +1878,31 @@ object Strings {
         "screen_waiting_list_display_dialog_button_text"
 
 
+    //    Yap Young Strings start
+    const val screen_yap_young_landing_display_text_title: String =
+        "screen_yap_young_landing_display_text_title"
+    const val screen_yap_young_landing_display_text_description: String =
+        "screen_yap_young_landing_display_text_description"
+    const val screen_yap_young_landing_display_text_heading: String =
+        "screen_yap_young_landing_display_text_heading"
+    const val screen_yap_young_landing_display_text_sub_heading: String =
+        "screen_yap_young_landing_display_text_sub_heading"
+    const val screen_yap_young_landing_subscription_selection_display_text: String =
+        "screen_yap_young_landing_subscription_selection_display_text"
+    const val screen_yap_young_landing_spending_selection_display_text: String =
+        "screen_yap_young_landing_spending_selection_display_text"
+    const val screen_yap_young_landing_saving_goals_selection_display_text: String =
+        "screen_yap_young_landing_saving_goals_selection_display_text"
+    const val screen_yap_young_landing_assign_missions_selection_display_text: String =
+        "screen_yap_young_landing_assign_missions_selection_display_text"
+    const val screen_yap_young_onboarding_landing_button_text: String =
+        "screen_yap_young_onboarding_landing_button_text"
+    const val screen_yap_young_payment_selection_display_text: String =
+        "screen_yap_young_payment_selection_display_text"
     // Young Benefits Screen
     const val screen_benefits_young_text_note_label: String =
         "screen_benefits_young_text_note_label"
-
-
-
     // Young Confirmation Screen
-
     const val screen_young_payment_confirmation_core_button_text: String =
         "screen_young_payment_confirmation_core_button_text"
     const val screen_young_recurring_payment_guide_text: String =
