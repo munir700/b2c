@@ -21,16 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-            <TextView
-                android:id="@+id/tvChangeEmailHeader"
-                style="@style/Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_change_email_display_text_heading}"
-                tools:text="@string/screen_change_email_display_text_heading" />
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/tvChangeNewEmailHeading"
@@ -40,10 +30,12 @@
                 android:layout_marginTop="@dimen/margin_extra_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:hint="@string/screen_change_email_display_text_email_title"
+                android:textColorHint="@color/colorPrimaryDark"
                 app:hintTextAppearance="@style/ASmallGrey"
                 app:hintTextColorSelected="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvChangeEmailHeader"
+                app:layout_constraintTop_toTopOf="parent"
+
                 tools:hint="@string/screen_change_email_display_text_email_title">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -72,6 +64,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:hint="@string/screen_change_email_display_text_confirm_email_title"
+                android:textColorHint="@color/colorPrimaryDark"
                 app:hintTextAppearance="@style/ASmallGrey"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvChangeNewEmailHeading">
