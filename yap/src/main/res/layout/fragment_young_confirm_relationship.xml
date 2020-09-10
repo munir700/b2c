@@ -43,23 +43,28 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 style="@style/Yap.App.Widget.TextInputEditText.Email"
+                android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
+                android:drawableTint="@color/colorPrimary"
                 android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal"
-                android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
-                android:drawableTint="@color/colorPrimary"
                 android:text="@={yConfirmRelationshipViewModel.state.email}"
                 app:validateType='@{"email"}' />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
-            app:layout_constraintEnd_toEndOf="@+id/ctEmailEdit"
-            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
             android:layout_marginTop="@dimen/_25sdp"
-            android:text="fmlefrmefm"
-            />
+            android:text="I confirm that I'm the parent or legal guardian of this child and agree with the terms &amp; conditions"
+            app:track="@drawable/switch_track"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:thumb="@drawable/switch_thumb"
+            app:layout_constraintEnd_toEndOf="@+id/ctEmailEdit"
+            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
+            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit" />
+
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             style="@style/FragmentsBtnStyle"
