@@ -1,26 +1,21 @@
-package co.yap.modules.dashboard.store.young.landing
+package co.yap.modules.dashboard.store.young.paymentselection
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentYoungLandingBinding
+import co.yap.databinding.FragmentYoungPaymentSelectionBinding
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
-class YoungLandingFragment :
-    BaseNavViewModelFragment<FragmentYoungLandingBinding, IYoungLanding.State, YoungLandingVM>() {
+class YoungPaymentSelectionFragment :
+    BaseNavViewModelFragment<FragmentYoungPaymentSelectionBinding, IYoungPaymentSelection.State, YoungPaymentSelectionVM>() {
     override fun getBindingVariable() = BR.viewModel
-    override fun getLayoutId() = R.layout.fragment_young_landing
+    override fun getLayoutId() = R.layout.fragment_young_payment_selection
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        setupToolbar(toolbar = mViewDataBinding.toolbar, setActionBar = true) {
-            finishActivity()
-        }
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
-
-    override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
 
     override fun toolBarVisibility() = false
     private fun onClick(id: Int) {

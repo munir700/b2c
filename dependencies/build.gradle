@@ -35,6 +35,7 @@ project.ext {
     libraries = [
             // Android
             sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
+            ssp                      : 'com.intuit.ssp:ssp-android:1.0.6',
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinreflect            : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
@@ -161,6 +162,7 @@ project.ext {
     // Common dependencies which need to be added in all modules
     commonDependencies = [
             [configuration: "implementation", dependency: libraries.sdp],
+            [configuration: "implementation", dependency: libraries.ssp],
             [configuration: "implementation", dependency: libraries.kotlinStdlib],
             [configuration: "implementation", dependency: libraries.kotlinreflect],
             // [configuration: "kapt", dependency: libraries.databindingCompiler],
