@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <variable
+            name="confirmationSuccessViewModel"
+            type="co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_large">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/includeImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgSmiley"
+                style="@style/Yap.App.Widget.ImageView.Circle"
+                android:src="@drawable/ic_young_smile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_young_smile" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.FullName"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/screen_yap_young_label_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgSmiley"
+                app:text="@{Strings.screen_yap_young_label_text}"
+                tools:text="@string/screen_yap_young_label_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView2"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/screen_young_payment_confirmation_note_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/includeImageView"
+            app:text="@{Strings.screen_young_payment_confirmation_note_text}"
+            tools:text="@string/screen_young_payment_confirmation_note_text" />
+
+        <co.yap.widgets.libcurrencyview.CurrencyTextView
+            android:id="@+id/currencyTextView"
+            style="@style/Yap.App.Widget.TextView.Currency"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="720.00"
+            android:textSize="@dimen/text_size_h5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
+            tools:text="2234544.44" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView2"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:tint="@color/colorDarkAqua"
+            app:civ_border_color="@color/colorDarkAqua"
+            app:civ_border_width="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvGuide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currencyTextView"
+            app:srcCompat="@drawable/ic_checkmark" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvGuide"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:justificationMode="inter_word"
+            app:layout_constraintBottom_toTopOf="@+id/btnGoToDashboard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
+            app:text="@{Strings.screen_young_recurring_payment_guide_text}"
+            tools:text="@string/screen_young_recurring_payment_guide_text"
+            tools:visibility="visible" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnGoToDashboard"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xl"
+            android:layout_marginRight="@dimen/margin_xl"
+            android:onClick="@{(v)-> confirmationSuccessViewModel.handlePressOnClick(v.id)}"
+            android:paddingStart="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_large"
+            app:enableCoreButton="@{true}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_young_payment_confirmation_core_button_text}"
+            tools:text="@string/screen_young_payment_confirmation_core_button_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

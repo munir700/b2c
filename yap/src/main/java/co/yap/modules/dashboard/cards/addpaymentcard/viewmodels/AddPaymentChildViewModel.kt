@@ -18,10 +18,8 @@ abstract class AddPaymentChildViewModel<S : IBase.State>(application: Applicatio
         val GONE: Int = 0x00000008
         if (visibility) {
             parentViewModel?.state?.tootlBarVisibility = VISIBLE
-
         } else {
             parentViewModel?.state?.tootlBarVisibility = GONE
-
         }
     }
 }

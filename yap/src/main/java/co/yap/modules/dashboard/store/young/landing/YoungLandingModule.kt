@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.store.young.landing
 
-import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingFragment
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
