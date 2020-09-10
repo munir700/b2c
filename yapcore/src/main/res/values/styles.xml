@@ -590,4 +590,11 @@
         <item name="android:paddingStart">@dimen/margin_normal_large</item>
         <item name="android:paddingEnd">@dimen/margin_normal_large</item>
     </style>
+
+    <style name="LabelTextStyl" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPlaceHolderGrey</item>
+    </style>
 </resources>

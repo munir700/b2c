@@ -31,7 +31,7 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:hint="@string/screen_change_email_display_text_email_title"
                 android:textColorHint="@color/colorPrimaryDark"
-                app:hintTextAppearance="@style/ASmallGrey"
+                app:hintTextAppearance="@style/LabelTextStyl"
                 app:hintTextColorSelected="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -65,7 +65,7 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:hint="@string/screen_change_email_display_text_confirm_email_title"
                 android:textColorHint="@color/colorPrimaryDark"
-                app:hintTextAppearance="@style/ASmallGrey"
+                app:hintTextAppearance="@style/LabelTextStyl"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvChangeNewEmailHeading">
 

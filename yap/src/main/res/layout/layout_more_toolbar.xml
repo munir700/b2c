@@ -31,7 +31,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back_arrow_left" />
 
 
         <TextView
