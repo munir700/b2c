@@ -1882,4 +1882,16 @@ object Strings {
     const val screen_benefits_young_text_note_label: String =
         "screen_benefits_young_text_note_label"
 
+
+
+    // Young Confirmation Screen
+
+    const val screen_young_payment_confirmation_core_button_text: String =
+        "screen_young_payment_confirmation_core_button_text"
+    const val screen_young_recurring_payment_guide_text: String =
+        "screen_young_recurring_payment_guide_text"
+    const val screen_young_payment_confirmation_note_text: String =
+        "screen_young_payment_confirmation_note_text"
+    const val screen_yap_young_label_text: String =
+        "screen_yap_young_label_text"
 }
