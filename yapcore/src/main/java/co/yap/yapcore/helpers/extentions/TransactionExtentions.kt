@@ -8,7 +8,6 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
-import java.text.SimpleDateFormat
 import java.util.*
 
 fun Transaction?.getTransactionTitle(): String {
@@ -62,6 +61,13 @@ fun Transaction?.getTransactionIcon(): Int {
                         TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode || TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == transaction.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == transaction.productCode -> {
                             R.drawable.ic_plus_transactions
                         }
+                        TransactionProductCode.ATM_WITHDRAWL.pCode== transaction.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode== transaction.productCode->{
+                            R.drawable.ic_cash_out_trasaction
+                        }
+                        TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
+                            getMerchantCategoryIcon()
+                        }
+
                         else -> -1
                     }
                 }
@@ -70,30 +76,42 @@ fun Transaction?.getTransactionIcon(): Int {
     } ?: 0
 }
 
+fun Transaction?.getTransactionStatus(): String {
+    this?.let { txn ->
+        return (when (txn.status) {
+            TransactionStatus.CANCELLED.name -> "Rejected transaction"
+            TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
+                if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
+            }
+            else -> ""
+        })
+    } ?: return ""
+}
+
 fun Transaction?.getTransactionTypeTitle(): String {
     this?.let { txn ->
-        if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer rejected"
         return when {
+            txn.status == TransactionStatus.FAILED.name -> "Reverted"
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_REFUND -> "Refund"
-            txn.getLabelValues() == TransactionLabelsCode.IS_INCOMING -> "Incoming transfer"
-            TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
-            TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top-Up"
+            txn.getLabelValues() == TransactionLabelsCode.IS_INCOMING -> "Inward Bank Transfer"
+            TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
+            TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
                 if (txn.category.equals("REVERSAL", true)) "Reversal" else "Deposit"
             }
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> {
-                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Cash"
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Withdraw money"
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                "Added to Virtual Card"
+                "Money moved"
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                "Withdrawn from Virtual Card"
+                "Money moved"
             }
             else -> return (when (txn.productCode) {
                 TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode -> {
-                    "Transfer"
+                    "Send money"
                 }
                 else ->
                     "Transaction"
@@ -105,7 +123,7 @@ fun Transaction?.getTransactionTypeTitle(): String {
 fun Transaction?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
         if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
-        return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
+        return if (isTransactionInProgress())
             R.drawable.ic_time
         else (when (txnType) {
             TxnType.DEBIT.type -> {
@@ -251,18 +269,6 @@ fun Transaction?.getCurrency(): String {
     } ?: return "AED"
 }
 
-fun Transaction?.getAmount(): String? {
-    this?.let { transaction ->
-        return (when (transaction.productCode) {
-            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                (transaction.amount?.div(transaction.fxRate.parseToDouble())).toString()
-                    .toFormattedCurrency()
-            }
-            else -> transaction.totalAmount.toString().toFormattedCurrency()
-        })
-    } ?: return "0.0"
-}
-
 fun Transaction?.getLabelValues(): TransactionLabelsCode? {
     this?.productCode?.let { productCode ->
         return (when (productCode) {
@@ -272,7 +278,7 @@ fun Transaction?.getLabelValues(): TransactionLabelsCode? {
             TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                 TransactionLabelsCode.IS_BANK
             }
-            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_ADVANCE.pCode -> {
+            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.CASH_ADVANCE.pCode -> {
                 TransactionLabelsCode.IS_CASH
             }
             TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {
@@ -283,32 +289,6 @@ fun Transaction?.getLabelValues(): TransactionLabelsCode? {
             }
             else -> null
         })
-    } ?: return null
-}
-
-fun Transaction?.getFormattedDate2(): String? {
-    this?.creationDate?.let {
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        sdf.timeZone = TimeZone.getTimeZone("UTC")
-        val convertedDate = sdf.parse(creationDate)
-
-        val smsTime: Calendar = Calendar.getInstance()
-        smsTime.timeZone = TimeZone.getDefault()
-        smsTime.timeInMillis = convertedDate.time
-
-        val now: Calendar = Calendar.getInstance()
-        val timeFormatString = "MMMM dd"
-        val dateTimeFormatString = "EEEE, MMMM d"
-        val HOURS = 60 * 60 * 60.toLong()
-        return if (now.get(Calendar.DATE) === smsTime.get(Calendar.DATE)) {
-            "Today, " + DateFormat.format(timeFormatString, smsTime)
-        } else if (now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1) {
-            "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
-        } else if (now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR)) {
-            DateFormat.format(dateTimeFormatString, smsTime).toString()
-        } else {
-            DateFormat.format(timeFormatString, smsTime).toString()
-        }
     } ?: return null
 }
 
@@ -362,5 +342,9 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
 
 fun Transaction?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
+}
+
+fun Transaction?.isTransactionInProgress(): Boolean {
+    return (TransactionStatus.PENDING.name == this?.status || TransactionStatus.IN_PROGRESS.name == this?.status && this?.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
 }
 

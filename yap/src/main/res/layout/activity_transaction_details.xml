@@ -13,6 +13,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
 
         <import type="co.yap.yapcore.enums.TxnType" />
 
@@ -97,7 +98,7 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
                     android:maxLines="1"
-                    android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? @color/colorPrimaryDark : @color/greyDark}"
+                    android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) ||viewModel.transaction.status.equals(TransactionStatus.FAILED.name) || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"

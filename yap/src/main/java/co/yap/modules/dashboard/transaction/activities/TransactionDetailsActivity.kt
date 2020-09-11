@@ -43,7 +43,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTransactionImage()
         setTransactionTitle()
         setCardMaskNo()
-        setAddress()
+        setSubTitle()
         setTotalAmount()
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
@@ -52,6 +52,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setAmount() {
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
+
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedAmountWithCurrency()
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedAmountWithCurrency()
                 }
@@ -67,9 +69,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTxnFailedReason() {
         val msg = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> {
-                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.greyNormalDark))
-                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.greyNormalDark))
+                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name ||  it.isTransactionInProgress() -> {
+                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
+                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     it.cancelReason
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
@@ -125,18 +127,19 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    private fun setAddress() {
+    private fun setSubTitle() {
         val location = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> "Transfer rejected"
+                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
+                it.status == TransactionStatus.FAILED.name -> "Transaction Reverted"
+                it.isTransactionInProgress() -> "Transfer Pending"
                 it.productCode == TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
                 else -> it.cardAcceptorLocation ?: ""
             }
         }
         if (location.isNullOrBlank()) {
-            getBindings().tvAddress.visibility = View.GONE
+            getBindings().tvAddress.text = viewModel.transaction.get()?.getTransactionTypeTitle()
         } else {
-            getBindings().tvAddress.visibility = View.VISIBLE
             getBindings().tvAddress.text = location
         }
     }
@@ -235,7 +238,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionCancelled()) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 

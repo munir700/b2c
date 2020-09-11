@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
@@ -47,7 +48,9 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                         "null"
                     )
                 ) View.GONE else View.VISIBLE
-
+            itemTransactionListBinding.tvTransactionStatus.text = transaction.getTransactionStatus()
+            itemTransactionListBinding.tvTransactionStatus.visibility =
+                if (transaction.getTransactionStatus().isEmpty()) View.GONE else View.VISIBLE
             itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
             itemTransactionListBinding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
 
@@ -67,10 +70,13 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             }
 
             itemTransactionListBinding.tvTransactionAmount.text =
-                String.format(
-                    "%s %s", txnAmountPreFix,
-                    if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString().toFormattedCurrency() else transaction.totalAmount.toString().toFormattedCurrency()
-                )
+                if (transaction.isTransactionInProgress()) "0.00" else
+                    String.format(
+                        "%s %s", txnAmountPreFix,
+                        if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString()
+                            .toFormattedCurrency() else transaction.totalAmount.toString()
+                            .toFormattedCurrency()
+                    )
             setContentDataColor(transaction, itemTransactionListBinding)
         }
 
@@ -152,17 +158,17 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             )
             itemTransactionListBinding.tvTransactionAmount.setTextColor(
                 context.getColors(
-                        if (transaction.txnType == TxnType.CREDIT.type)
-                            R.color.colorSecondaryGreen
-                        else
-                            R.color.colorPrimaryDark
+                    if (transaction.txnType == TxnType.CREDIT.type && !transaction.isTransactionInProgress() && transaction.status != TransactionStatus.FAILED.name)
+                        R.color.colorSecondaryGreen
+                    else
+                        R.color.colorPrimaryDark
                 )
             )
             itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))
 
             //strike-thru textview
             itemTransactionListBinding.tvTransactionAmount.paintFlags =
-                if (transaction.isTransactionCancelled()) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 }
