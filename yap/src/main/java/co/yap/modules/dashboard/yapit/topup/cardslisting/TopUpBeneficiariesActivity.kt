@@ -325,8 +325,10 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     private fun getUrl(): String? {
         return when (YAPApplication.configManager?.flavor ?: "") {
             "live" -> {
+                "https://ae-prod-hci.yap.com/admin-web/HostedSessionIntegration.html"
+            }
+            "Preprod" -> {
                 "https://ae-preprod-hci.yap.com/admin-web/HostedSessionIntegration.html"
-                // Prod "https://ae-preprod.yap.com/admin-web/HostedSessionIntegration.html"
             }
             "dev" -> {
                 "https://dev-hci.yap.co/admin-web/HostedSessionIntegration.html"

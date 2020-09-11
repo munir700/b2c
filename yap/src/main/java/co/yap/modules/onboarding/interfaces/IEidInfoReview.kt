@@ -59,6 +59,12 @@ interface IEidInfoReview {
         val EVENT_EID_UPDATE: Int
             get() = 9
 
+        val EVENT_CITIZEN_NUMBER_ISSUE: Int
+            get() = 10
+
+        val EVENT_EID_EXPIRY_DATE_ISSUE: Int
+            get() = 11
+
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()
         fun handlePressOnConfirmBtn()
