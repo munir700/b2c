@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsVM" />
+
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+   android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/margin_extra_large"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        app:adapter="@{viewModel.adapter}" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvHouseHoldText"
+        style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/margin_normal_large"
+        android:visibility="@{MyUserManager.INSTANCE.existingUser?View.GONE:View.VISIBLE}"
+        app:text="@{Strings.screen_house_hold_card_color_selection_display_text}"
+        tools:text="@string/screen_house_hold_card_color_selection_display_text" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/margin_large"
+        app:tabGravity="center"
+        app:tabIndicator="@null"
+        app:tabPaddingEnd="6dp"
+        app:tabPaddingStart="6dp"
+        app:tabRippleColor="@color/white">
+
+    </com.google.android.material.tabs.TabLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

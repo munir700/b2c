@@ -17,8 +17,6 @@ interface IYoungCardEditDetails {
         fun handlePressOnClick(id: Int)
         fun getCardsDesignListRequest(accountType: String,apiResponse: ((MutableList<HouseHoldCardsDesign>?) -> Unit?)?)
         fun orderHouseHoldPhysicalCardRequest(address: Address, apiResponse: ((Boolean) -> Unit?)?)
-        fun requestGetAddressForPhysicalCard(apiResponse: ((Boolean) -> Unit?)?)
-        fun signupToFss(request: SignUpFss?, apiResponse: ((Boolean) -> Unit?)?)
     }
 
     interface State : IBase.State {
