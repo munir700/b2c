@@ -51,41 +51,47 @@
                 android:text="@={viewModel.state.email}"
                 app:validateType='@{"email"}' />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTermscondition"
+            style="@style/ASmallGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/ASmallGrey"
             android:layout_marginTop="@dimen/_23sdp"
             android:layout_marginEnd="@dimen/_18sdp"
-            app:layout_constraintEnd_toStartOf="@+id/scTermscondition"
-            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
-            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
             android:justificationMode="inter_word"
-            app:text="@{Strings.screen_young_confirm_relationship_switch_text}"/>
+            app:layout_constraintEnd_toStartOf="@+id/scTermscondition"
+            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
+            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
+            app:text="@{Strings.screen_young_confirm_relationship_switch_text}" />
+
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ASmallGrey"
-            android:textColor="@color/colorPrimary"
             android:paddingTop="@dimen/_4sdp"
-            app:layout_constraintTop_toBottomOf="@+id/tvTermscondition"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/tvTermscondition"
-            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvTermscondition"
+            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/scTermscondition"
+            style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_25sdp"
-            app:track="@drawable/switch_track"
+            android:layout_gravity="end"
             android:layout_marginStart="@dimen/margin_medium_large"
-            android:theme="@style/Theme.AppCompat"
-            android:thumb="@drawable/switch_thumb"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:gravity="end"
+            android:paddingStart="0dp"
+            android:paddingEnd="-2dp"
+            android:theme="@style/CustomSwitch"
             app:layout_constraintEnd_toEndOf="@+id/ctEmailEdit"
             app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
-            />
 
+            />
+        
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             style="@style/FragmentsBtnStyle"
