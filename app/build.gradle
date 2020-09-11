@@ -37,8 +37,8 @@ android {
         }
 
         Preprod {
-            versionCode 4
-            versionName "1.0.4"
+            versionCode 5
+            versionName "1.0.5"
             applicationId "com.yap.banking.preprod"
             resValue "string", "app_name", "YAP Preprod"
             // It binds with SHA1- SHA 256 and package bundle
@@ -64,8 +64,8 @@ android {
         }
 
         yapinternal {
-            versionCode 8
-            versionName "0.0.8"
+            versionCode 9
+            versionName "0.0.9"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
