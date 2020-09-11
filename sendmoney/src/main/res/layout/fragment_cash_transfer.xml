@@ -15,6 +15,7 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.app.YAPApplication" />
 
     </data>
 
@@ -87,41 +88,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvIban"
                 tools:text="AED" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/etAmountLayout"
-                android:layout_width="@dimen/_170sdp"
-                android:layout_height="@dimen/_50sdp"
+            <!--app:decimals="@{YAPApplication.selectedCurrency}"-->
+            <co.yap.widgets.currency.CoreEditText
+                android:id="@+id/etAmount"
+                style="@style/ATitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
-                android:background="@{viewModel.state.amountBackground}"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
+                android:text="@={viewModel.state.amount}"
+                app:decimals="3"
+                app:hint="@{Strings.common_amount_hint}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-                tools:background="@drawable/bg_funds">
-
-                <EditText
-                    android:id="@+id/etAmount"
-                    style="@style/ATitle2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:imeOptions="actionDone"
-                    android:importantForAutofill="no"
-                    android:inputType="numberDecimal"
-                    android:labelFor="@+id/etAmount"
-                    android:maxLength="@integer/unitsCount"
-                    android:maxLines="1"
-                    android:text="@={viewModel.state.amount}"
-                    app:hint="@{Strings.common_amount_hint}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="1500000.00" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                app:units="@integer/unitsCount"
+                tools:text="1234567891" />
 
             <TextView
                 android:id="@+id/tvFee"
@@ -134,7 +115,7 @@
                 android:gravity="center"
                 android:text="@{viewModel.state.feeAmountSpannableString}"
                 android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
+                app:layout_constraintTop_toBottomOf="@+id/etAmount"
                 tools:text="An AED 50.00 fee will be charged to your YAP account for this transfer" />
 
             <TextView

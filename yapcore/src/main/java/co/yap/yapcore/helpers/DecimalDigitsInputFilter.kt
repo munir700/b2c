@@ -5,7 +5,7 @@ import android.text.Spanned
 import java.util.regex.Pattern
 
 class DecimalDigitsInputFilter(aiMinorUnits: Int) : InputFilter {
-   private var moPattern: Pattern = Pattern.compile("[0-9]*+((\\.[0-9]{0," + aiMinorUnits + "})?)||(\\.)?")
+   private var moPattern: Pattern = Pattern.compile("[0-9]*+((\\.[0-9]{0,$aiMinorUnits})?)||(\\.)?")
 
 
     override fun filter(

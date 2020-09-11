@@ -318,12 +318,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             null,
             navOptions
         )
-
     }
 
     private fun setEditTextWatcher() {
-        etAmount.applyAmountFilters(decimal = viewModel.parentViewModel?.configuredDecimal ?: 2)
-
         etAmount.afterTextChanged {
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {

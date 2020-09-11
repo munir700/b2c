@@ -78,23 +78,7 @@ fun String.toFormattedCurrency(): String? {
     return try {
         if (!this.isBlank()) {
             val m = java.lang.Double.parseDouble(this)
-            val formatter = when (YAPApplication.selectedCurrency) {
-                1 -> {
-                    DecimalFormat("###,###,##0.0")
-                }
-                2 -> {
-                    DecimalFormat("###,###,##0.00")
-                }
-                3 -> {
-                    DecimalFormat("###,###,##0.000")
-                }
-                4 -> {
-                    DecimalFormat("###,###,##0.0000")
-                }
-                else -> {
-                    DecimalFormat("###,###,##0.00")
-                }
-            }
+            val formatter = getDecimalFormat(YAPApplication.selectedCurrency)
             formatter.format(m)
         } else {
             ""
@@ -104,11 +88,31 @@ fun String.toFormattedCurrency(): String? {
     }
 }
 
+private fun getDecimalFormat(selectedCurrencyDecimal: Int): DecimalFormat {
+    return when (selectedCurrencyDecimal) {
+        1 -> {
+            DecimalFormat("###,###,##0.0")
+        }
+        2 -> {
+            DecimalFormat("###,###,##0.00")
+        }
+        3 -> {
+            DecimalFormat("###,###,##0.000")
+        }
+        4 -> {
+            DecimalFormat("###,###,##0.0000")
+        }
+        else -> {
+            DecimalFormat("###,###,##0.00")
+        }
+    }
+}
+
 fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
     return try {
         if (this?.isBlank() == false) {
             val m = java.lang.Double.parseDouble(this)
-            val formatter = DecimalFormat("###,###,##0.00")
+            val formatter = getDecimalFormat(YAPApplication.selectedCurrency)
             if (!currency.isNullOrBlank()) "$currency ${formatter.format(m)}" else "AED ${formatter.format(
                 m
             )}"

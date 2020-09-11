@@ -534,4 +534,23 @@
             <flag name="to_left" value="2" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CoreEditText">
+        <attr name="android:inputType" />
+        <attr name="android:padding" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="ce_setBackgroundColor" format="color" />
+        <attr name="ce_borderView" format="boolean" />
+        <attr name="units" format="integer" />
+        <attr name="decimals" format="integer" />
+        <attr name="ce_compoundDrawableWidth" format="dimension" />
+        <attr name="ce_compoundDrawableHeight" format="dimension" />
+        <attr name="ce_space" format="dimension" />
+        <attr name="ce_custom_width" format="dimension" />
+        <attr name="ce_custom_height" format="dimension" />
+    </declare-styleable>
+
 </resources>
