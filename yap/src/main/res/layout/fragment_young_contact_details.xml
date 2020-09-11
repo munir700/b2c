@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="yContactDetailsViewModel"
+            name="viewModel"
             type="co.yap.modules.dashboard.store.young.contact.YoungContactDetailsVM" />
 
         <import type="co.yap.translation.Strings" />
@@ -29,7 +29,7 @@
                 android:layout_marginTop="@dimen/_36sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@{String.format(@string/screen_young_contact_details_title_text, yContactDetailsViewModel.state.contactName)}"
+                android:text="@{String.format(@string/screen_young_contact_details_title_text, viewModel.state.contactName)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -45,7 +45,7 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
                 android:justificationMode="inter_word"
-                android:text="@{String.format(@string/screen_young_contact_details_description_text, yContactDetailsViewModel.state.contactName)}"
+                android:text="@{String.format(@string/screen_young_contact_details_description_text, viewModel.state.contactName)}"
                 android:textColor="@color/greyDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+                app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email}"
                 app:layout_constraintTop_toBottomOf="@+id/tvContactNote"
                 tools:ignore="MissingConstraints">
 
@@ -67,7 +67,7 @@
                     android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
-                    android:text="@={yContactDetailsViewModel.state.email}"
+                    android:text="@={viewModel.state.email}"
                     app:validateType='@{"email"}' />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:drawablePadding="11dp"
-                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
+                app:hint="@{Strings.screen_yap_house_hold_user_info_contact_display_text_mobile}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit">
@@ -93,9 +93,9 @@
                     android:maxLength="9"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
-                    android:text="@={yContactDetailsViewModel.state.phone}"
+                    android:text="@={viewModel.state.phone}"
                     app:errorEnabled="@{true}"
-                    app:isoCountryCode="@{yContactDetailsViewModel.state.countryCode}"
+                    app:isoCountryCode="@{viewModel.state.countryCode}"
                     app:pse_setPrefixTextColor="@color/colorPrimaryDark"
                     app:pse_showHint="true" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -109,13 +109,11 @@
                 android:layout_marginTop="@dimen/_150sdp"
                 android:layout_marginEnd="@dimen/_79sdp"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v)-> yContactDetailsViewModel.handlePressOnClick(v.id)}"
-                android:text="@string/common_button_next"
-                app:enableCoreButton="@{yContactDetailsViewModel.validator.isValidate}"
+                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctPhoneEdit"
-                app:text="@{Strings.screen_phone_number_button_send}" />
+                app:text="@{Strings.common_button_next}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 </layout>
