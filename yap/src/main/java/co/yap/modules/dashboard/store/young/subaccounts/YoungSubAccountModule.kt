@@ -13,17 +13,17 @@ class YoungSubAccountModule: BaseFragmentModule<YoungSubAccountsFragment>() {
 
     @Provides
     @ViewModelInjection
-    fun provideSubAccountCardVM(
+    fun provideSubAccountVM(
         fragment: YoungSubAccountsFragment,
         viewModelProvider: InjectionViewModelProvider<YoungSubAccountsVM>
     ): YoungSubAccountsVM = viewModelProvider.get(fragment, YoungSubAccountsVM::class)
 
     @Provides
     @FragmentScope
-    fun provideSubAccountCardState(): IYoungSubAccounts.State = YoungSubAccountState()
+    fun provideSubAccountState(): IYoungSubAccounts.State = YoungSubAccountState()
 
     @Provides
-    fun provideSubAccountCardAdapter(fragment: SubAccountCardFragment) =
+    fun provideSubAccountAdapter(fragment: YoungSubAccountsFragment) =
         SubAccountAdapter(
             ArrayList(),
             null

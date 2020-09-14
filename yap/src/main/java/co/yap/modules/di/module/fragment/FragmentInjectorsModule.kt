@@ -22,6 +22,8 @@ import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionModule
+import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountModule
+import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -153,4 +155,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungCardEditDetailsModule::class])
     @FragmentScope
     abstract fun youngCardEditDetailsInjector(): YoungCardEditDetailsFragment
+
+    @ContributesAndroidInjector(modules = [YoungSubAccountModule::class])
+    @FragmentScope
+    abstract fun youngSubAccountInjector(): YoungSubAccountsFragment
 }

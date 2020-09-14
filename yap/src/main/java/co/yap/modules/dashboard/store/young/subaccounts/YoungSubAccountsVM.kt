@@ -7,6 +7,5 @@ import javax.inject.Inject
 class YoungSubAccountsVM @Inject constructor(override val state: IYoungSubAccounts.State) :
     BaseRecyclerAdapterVM<SubAccount, IYoungSubAccounts.State>(), IYoungSubAccounts.ViewModel {
     override fun getSubAccount() {
-        TODO("Not yet implemented")
     }
 }
