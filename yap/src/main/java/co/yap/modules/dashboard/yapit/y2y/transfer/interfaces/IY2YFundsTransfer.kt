@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.y2y.transfer.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.databinding.ObservableInt
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
@@ -39,5 +40,6 @@ class IY2YFundsTransfer {
         var noteValue: String
         var imageUrl: String
         var transferFee: CharSequence?
+        var allowedDecimals: ObservableInt
     }
 }

@@ -13,6 +13,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.TextViewCompat
 import co.yap.app.YAPApplication
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
@@ -21,19 +22,26 @@ import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
 
-
 class CoreEditText : AppCompatEditText {
 
     private var mBackgroundColor: Int = 0
-
-    //private var decimals: Int = YAPApplication.selectedCurrency
-    private var units: Int = 10
     private var mCornerRadius: Float = dpToFloat(context, 10f)
     private var mStrokeWidth = dpToFloat(context, 0f)
-
     private var customWidth: Int = 0
     private var customHeight: Int = 0
 
+    var decimals: Int? = YAPApplication.selectedCurrency
+        set(value) {
+            field = value
+            filters = arrayOf(InputFilter.LengthFilter(units ?: 0), DecimalDigitsInputFilter(value))
+        }
+
+    var units: Int? = resources.getInteger(R.integer.unitsCount)
+        set(value) {
+            field = value
+            filters =
+                arrayOf(InputFilter.LengthFilter(value ?: 0), DecimalDigitsInputFilter(decimals))
+        }
 
     constructor(context: Context) : super(context) {
         init(context, null)
@@ -59,8 +67,6 @@ class CoreEditText : AppCompatEditText {
                 R.styleable.CoreEditText_ce_setBackgroundColor,
                 context.getColors(R.color.greySoft)
             )
-        units = a.getInt(R.styleable.CoreEditText_units, 2)
-        //decimals = a.getInt(R.styleable.CoreEditText_decimals, YAPApplication.selectedCurrency)
         customWidth = a.getDimension(
             R.styleable.CoreEditText_ce_custom_width, context.dip2px(
                 0
@@ -78,23 +84,24 @@ class CoreEditText : AppCompatEditText {
         gravity = Gravity.CENTER
         @RequiresApi(Build.VERSION_CODES.O)
         importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(
+            this,
+            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
+        )
         inputType =
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
         setSingleLine()
         maxLines = 1
         isFocusableInTouchMode = true
-        filters =
-            arrayOf(
-                InputFilter.LengthFilter(units),
-                DecimalDigitsInputFilter(YAPApplication.selectedCurrency)
-            )
+
         a.recycle()
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        //setEditTextDimension()
+        setEditTextDimension()
     }
+
 
     private fun setEditTextDimension() {
         val dimensions = Utils.getDimensionsByPercentage(context, 50, 8)

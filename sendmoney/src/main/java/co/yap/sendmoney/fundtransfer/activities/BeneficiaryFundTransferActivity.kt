@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.app.YAPApplication
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -94,7 +95,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
             viewModel.transferData.value = TransferFundData()
             viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
             viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == "AED"
-            viewModel.configuredDecimal = intent.getIntExtra(Constants.CONFIGURED_DECIMAL, 0)
+            viewModel.configuredDecimal = intent.getIntExtra(Constants.CONFIGURED_DECIMAL, YAPApplication.selectedCurrency)
         }
     }
 

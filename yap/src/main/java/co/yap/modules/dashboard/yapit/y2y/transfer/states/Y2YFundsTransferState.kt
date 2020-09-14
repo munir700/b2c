@@ -4,13 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableInt
 import co.yap.BR
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
-import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
@@ -111,4 +109,6 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
+    override var allowedDecimals: ObservableInt = ObservableInt(YAPApplication.selectedCurrency)
+
 }

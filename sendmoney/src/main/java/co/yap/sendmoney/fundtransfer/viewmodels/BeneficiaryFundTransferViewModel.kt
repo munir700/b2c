@@ -2,6 +2,7 @@ package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.YAPApplication
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -25,12 +26,13 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
     override var transferData: MutableLiveData<TransferFundData> = MutableLiveData()
-    override var transactionThreshold: MutableLiveData<TransactionThresholdModel> = MutableLiveData()
+    override var transactionThreshold: MutableLiveData<TransactionThresholdModel> =
+        MutableLiveData()
     override var selectedPop: PurposeOfPayment? = null
     override var isCutOffTimeStarted: Boolean = false
     override var isSameCurrency: Boolean = false
     override var transactionWillHold: Boolean = false
-    override var configuredDecimal: Int = -1
+    override var configuredDecimal: Int = YAPApplication.selectedCurrency
     override fun onCreate() {
         super.onCreate()
         state.toolbarVisibility.set(true)
