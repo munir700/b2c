@@ -15,10 +15,13 @@ interface IYoungCardEditDetails {
         val adapter: ObservableField<YoungCardEditAdapter>?
         val clickEvent: SingleClickEvent
         fun handlePressOnClick(id: Int)
+
     }
 
     interface State : IBase.State {
         var designCode: MutableLiveData<String>?
         var cardDesigns: MutableLiveData<MutableList<HouseHoldCardsDesign>>?
+        var cardName: MutableLiveData<String>
+
     }
 }

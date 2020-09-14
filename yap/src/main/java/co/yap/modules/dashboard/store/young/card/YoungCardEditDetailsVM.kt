@@ -5,6 +5,8 @@ import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import javax.inject.Inject
 
 class YoungCardEditDetailsVM @Inject constructor(

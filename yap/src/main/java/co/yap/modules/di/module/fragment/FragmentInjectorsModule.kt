@@ -14,6 +14,8 @@ import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
 import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsModule
+import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsFragment
+import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsModule
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
@@ -147,4 +149,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungConfirmRelationshipModule::class])
     @FragmentScope
     abstract fun youngConfirmRelationshipInjector(): YoungConfirmRelationshipFragment
+
+    @ContributesAndroidInjector(modules = [YoungCardEditDetailsModule::class])
+    @FragmentScope
+    abstract fun youngCardEditDetailsInjector(): YoungCardEditDetailsFragment
 }
