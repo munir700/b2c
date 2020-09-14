@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
-import co.yap.modules.dashboard.store.young.landing.benefits.adapter.YoungBenefitsModel
 import kotlinx.android.synthetic.main.item_benefits.view.*
 
 class SpareCardsLandingAdapter(

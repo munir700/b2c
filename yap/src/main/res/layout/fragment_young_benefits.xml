@@ -6,7 +6,7 @@
 
         <variable
             name="youngBenefitsVM"
-            type="co.yap.modules.dashboard.store.young.landing.benefits.YoungBenefitsVM" />
+            type="co.yap.modules.dashboard.store.young.benefits.YoungBenefitsVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>

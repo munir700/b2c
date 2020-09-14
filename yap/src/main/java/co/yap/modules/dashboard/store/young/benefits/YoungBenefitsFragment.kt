@@ -1,12 +1,12 @@
-package co.yap.modules.dashboard.store.young.landing.benefits
+package co.yap.modules.dashboard.store.young.benefits
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungBenefitsBinding
-import co.yap.modules.dashboard.store.young.landing.benefits.adapter.YoungBenefitsAdapter
-import co.yap.modules.dashboard.store.young.landing.benefits.adapter.YoungBenefitsModel
+import co.yap.modules.dashboard.store.young.benefits.adapter.YoungBenefitsAdapter
+import co.yap.modules.dashboard.store.young.benefits.adapter.YoungBenefitsModel
 import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 
 class YoungBenefitsFragment :

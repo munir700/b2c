@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.young.landing.benefits.adapter
+package co.yap.modules.dashboard.store.young.benefits.adapter
 
 import android.os.Bundle
 import android.view.View
