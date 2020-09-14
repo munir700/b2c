@@ -12,11 +12,6 @@
             type="co.yap.modules.onboarding.viewmodels.WaitingListViewModel" />
     </data>
 
-    <!-- <ScrollView
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:fillViewport="true">
- -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -81,5 +76,4 @@
             app:text="@{Strings.screen_waiting_list_display_button_text}"
             tools:text="Add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <!-- </ScrollView>-->
 </layout>
