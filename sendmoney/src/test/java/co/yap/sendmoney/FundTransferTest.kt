@@ -1,6 +1,5 @@
 package co.yap.sendmoney
 
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency2
 import org.junit.Assert
 import org.junit.Test
 

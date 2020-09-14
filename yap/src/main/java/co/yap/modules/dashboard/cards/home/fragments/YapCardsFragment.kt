@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -37,9 +36,9 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-    val EVENT_CARD_ADDED: Int get() = 12
-    var selectedCardPosition: Int = 0
+    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    private val EVENT_CARD_ADDED: Int get() = 12
+    private var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
     override fun getBindingVariable(): Int = BR.viewModel

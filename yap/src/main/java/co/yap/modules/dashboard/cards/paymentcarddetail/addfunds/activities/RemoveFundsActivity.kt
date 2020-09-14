@@ -24,7 +24,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.applyAmountFilters
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.spannables.color
@@ -93,7 +92,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setEditTextWatcher() {
-        getBinding().etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()
@@ -181,11 +179,11 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-        getBinding().etAmountLayout.background =
-            this.resources.getDrawable(
-                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-                null
-            )
+//        getBinding().etAmount.background =
+//            this.resources.getDrawable(
+//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
+//                null
+//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }

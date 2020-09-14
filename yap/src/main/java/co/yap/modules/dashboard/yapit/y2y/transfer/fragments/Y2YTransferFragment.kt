@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -86,7 +85,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun setEditTextWatcher() {
-        etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
@@ -215,8 +213,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " +
                     viewModel.state.availableBalance?.toFormattedCurrency()
-
-        etAmount.applyAmountFilters()
     }
 
     private fun isDailyLimitReached(): Boolean {

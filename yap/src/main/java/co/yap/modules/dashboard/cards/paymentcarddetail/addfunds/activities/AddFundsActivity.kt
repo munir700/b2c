@@ -93,7 +93,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setEditTextWatcher() {
-        getBinding().etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()
@@ -259,11 +258,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-        getBinding().etAmountLayout.background =
-            this.resources.getDrawable(
-                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-                null
-            )
+//        getBinding().etAmountLayout.background =
+//            this.resources.getDrawable(
+//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
+//                null
+//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
