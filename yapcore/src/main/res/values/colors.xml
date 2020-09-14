@@ -142,4 +142,8 @@
     <color name="colorControlActivated">#dae0f0</color>
     <color name="colorControlHighlight">#dae0f0</color>
 
+
+    <!--    Young Theme Color-->
+    <color name="colorPurpleGrey">#9790B7</color>
+
 </resources>

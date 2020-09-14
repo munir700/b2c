@@ -14,7 +14,7 @@
         <import type="co.yap.translation.Translator" />
 
         <variable
-            name="confirmationSuccessViewModel"
+            name="viewModel"
             type="co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessVM" />
     </data>
 
@@ -61,7 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="@string/screen_young_payment_confirmation_note_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/includeImageView"
@@ -114,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xl"
             android:layout_marginRight="@dimen/margin_xl"
-            android:onClick="@{(v)-> confirmationSuccessViewModel.handlePressOnClick(v.id)}"
+            android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
             android:paddingStart="@dimen/margin_large"
             android:paddingEnd="@dimen/margin_large"
             app:enableCoreButton="@{true}"
