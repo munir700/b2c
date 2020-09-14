@@ -1,5 +1,7 @@
 package co.yap.modules.subaccounts.account.dashboard
 
+import co.yap.modules.dashboard.store.young.subaccounts.IYoungSubAccounts
+import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountState
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
@@ -20,7 +22,7 @@ class SubAccountDashBoardModule : BaseFragmentModule<SubAccountDashBoardFragment
 
     @Provides
     @FragmentScope
-    fun provideSubAccountDashBoardState(): ISubAccountDashBoard.State = SubAccountDashBoardState()
+    fun provideSubAccountDashBoardState(): IYoungSubAccounts.State = YoungSubAccountState()
 
     @Provides
     fun provideSubAccountDashBoardPagerAdapter(
