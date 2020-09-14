@@ -165,7 +165,6 @@
                     android:maxLength="100"
                     android:drawablePadding="@dimen/margin_extra_small"
                     app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
-
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                     android:text="@={viewModel.state.addressTitle}"
                     android:textColor="@color/colorPrimaryDark"
