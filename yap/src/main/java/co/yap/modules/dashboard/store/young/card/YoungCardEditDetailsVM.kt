@@ -13,7 +13,6 @@ class YoungCardEditDetailsVM @Inject constructor(
     override val state: IYoungCardEditDetails.State
 ) : DaggerBaseViewModel<IYoungCardEditDetails.State>(), IYoungCardEditDetails.ViewModel {
     override val adapter: ObservableField<YoungCardEditAdapter>? = ObservableField()
-
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnClick(id: Int) {

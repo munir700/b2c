@@ -5,37 +5,34 @@ import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
+import co.yap.BR
+import co.yap.R
+import co.yap.databinding.ItemCardEditBinding
+import co.yap.yapcore.helpers.extentions.dimen
+
 
 class YoungCardEditAdapter(mValue: MutableList<YoungCardsDesign>, navigation: NavController?) :
     BaseRVAdapter<YoungCardsDesign, YoungCardItemVM, YoungCardEditAdapter.ViewHolder>(
         mValue,
         navigation
     ) {
-
-
-    override fun getLayoutId(viewType: Int): Int {
-        TODO("Not yet implemented")
-    }
-
+    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun getViewHolder(
         view: View,
         viewModel: YoungCardItemVM,
         mDataBinding: ViewDataBinding,
         viewType: Int
-    ): ViewHolder {
-        TODO("Not yet implemented")
-    }
-
-    override fun getViewModel(viewType: Int): YoungCardItemVM {
-        TODO("Not yet implemented")
-    }
-
-    override fun getVariableId(): Int {
-        TODO("Not yet implemented")
-    }
-
+    ) = ViewHolder(view, viewModel, mDataBinding)
+    override fun getViewModel(viewType: Int) = YoungCardItemVM()
+    override fun getVariableId() = BR.viewModel
     class ViewHolder(view: View, viewModel: YoungCardItemVM, mDataBinding: ViewDataBinding) :
         BaseViewHolder<YoungCardsDesign, YoungCardItemVM>(view, viewModel, mDataBinding) {
-
+        init {
+            val binding = mDataBinding as ItemCardEditBinding
+            val params = binding.ivCard.layoutParams
+            params.width = binding.ivCard.context.dimen(R.dimen._204sdp)
+            params.height = binding.ivCard.context.dimen(R.dimen._216sdp)
+            binding.ivCard.layoutParams = params
+        }
     }
 }

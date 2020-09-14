@@ -20,7 +20,9 @@
    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2">
+    android:layout_marginStart="@dimen/margin_medium_large"
+    android:layout_marginEnd="@dimen/margin_medium_large"
+    android:weightSum="1.2">
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
@@ -36,8 +38,8 @@
         style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/margin_normal_large"
-        app:text="@{Strings.screen_house_hold_card_color_selection_display_text}"
-        tools:text="@string/screen_house_hold_card_color_selection_display_text" />
+        android:text="@{String.format(@string/screen_young_card_color_selection_display_text, viewModel.state.childName)}"
+       />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -55,22 +57,20 @@
     <co.yap.widgets.CollapsedColoredHintTextInputLayout
         android:id="@+id/ctcCardEdit"
         style="@style/Yap.App.Widget.TextInputLayout"
-        android:layout_marginStart="@dimen/margin_medium_large"
         android:layout_marginTop="@dimen/_50sdp"
-        android:layout_marginEnd="@dimen/margin_medium_large"
-        android:hint="@string/screen_young_confirm_relationship_edit_label_text"
+        android:hint="@{String.format(@string/screen_young_card_color_selection_edit_text_label, viewModel.state.childName)}"
         app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etCardName"
             style="@style/Yap.App.Widget.TextInputEditText.Email"
-            android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
-            android:drawableTint="@color/colorPrimary"
             android:hint="@string/screen_young_confirm_relationship_edit_hint_text"
             android:paddingTop="@dimen/margin_normal"
             android:paddingBottom="@dimen/margin_normal"
-            android:text="@={viewModel.state.cardName}"
+            app:hint="@{Strings.screen_young_card_color_selection_edit_text_hint}"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             />
     </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
@@ -79,9 +79,9 @@
         style="@style/FragmentsBtnStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_70sdp"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:layout_marginEnd="@dimen/_70sdp"
+        android:layout_marginStart="@dimen/_55sdp"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:layout_marginEnd="@dimen/_55sdp"
         android:layout_marginBottom="@dimen/margin_medium_large"
         android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
         android:text="@string/common_button_next"

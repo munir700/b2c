@@ -1916,7 +1916,16 @@ object Strings {
     const val screen_young_contact_details_description_text: String =
         "screen_young_contact_details_description_text"
 
+  // Young Card Edit Details
+  const val screen_young_card_color_selection_display_text: String =
+      "screen_young_card_color_selection_display_text"
+    const val screen_young_card_color_selection_edit_text_hint: String =
+      "screen_young_card_color_selection_edit_text_hint"
+    const val screen_young_card_color_selection_edit_text_label: String =
+      "screen_young_card_color_selection_edit_text_label"
+
   // Young Confirm Relationship
   const val screen_young_confirm_relationship_switch_text: String =
       "screen_young_confirm_relationship_switch_text"
+
 }

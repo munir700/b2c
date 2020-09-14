@@ -1229,11 +1229,14 @@
     <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>
     <string name="screen_young_contact_details_title_text">Tell us how to contact %1s</string>
 
+    <!-- Young Card Edit Details -->
+    <string name="screen_young_card_color_selection_display_text">Help %1s pick a card</string>
+    <string name="screen_young_card_color_selection_edit_text_label">Name on %1s\'s card</string>
+    <string name="screen_young_card_color_selection_edit_text_hint">Card\'s name</string>
+
     <!-- Young confirm relationship screen -->
     <string name="screen_young_confirm_relationship_switch_text">I confirm that I\'m the parent or legal guardian of this child and agree with the \nTerms &amp; Conditions</string>
     <string name="screen_young_confirm_relationship_edit_hint_text">Select</string>
     <string name="screen_young_confirm_relationship_edit_label_text">Relationship</string>
     <string name="screen_young_confirm_relationship_label_text">Please confirm your relationship with %1s</string>
-
-
 </resources>

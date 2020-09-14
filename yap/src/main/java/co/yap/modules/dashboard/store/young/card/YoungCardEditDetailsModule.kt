@@ -19,4 +19,11 @@ class YoungCardEditDetailsModule  : BaseFragmentModule<YoungCardEditDetailsFragm
     @Provides
     @FragmentScope
     fun provideCardEditDetailsState(): IYoungCardEditDetails.State = YoungCardEditDetailsState()
+
+    @Provides
+    fun provideCardEditDetailsAdapter() =
+        YoungCardEditAdapter(
+            mutableListOf(),
+            null
+        )
 }
