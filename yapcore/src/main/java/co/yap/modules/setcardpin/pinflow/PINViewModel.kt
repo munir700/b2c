@@ -20,7 +20,7 @@ class PINViewModel(application: Application) :
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     override var mobileNumber: String = ""
     override fun setChangeCardPinFragmentData() {
-        state.titleSetPin = getString(Strings.screen_current_card_pin_display_text_heading)
+        state.titleSetPin = getString(Strings.screen_current_card_pin_display_text_heading_pin)
         state.buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
     }
 

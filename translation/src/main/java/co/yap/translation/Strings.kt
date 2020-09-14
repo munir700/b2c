@@ -198,6 +198,8 @@ object Strings {
         "screen_verify_passcode_button_verify"
     const val screen_verify_passcode_text_forgot_password: String =
         "screen_verify_passcode_text_forgot_password"
+    const val screen_verify_passcode_text_forgot_password_pin:String =
+        "screen_verify_passcode_text_forgot_password_pin"
 
     //Otp screen
     const val screen_verify_phone_number_display_text_resend_otp_success: String =
@@ -648,6 +650,8 @@ object Strings {
         "screen_current_card_pin_display_text_heading"
     const val screen_current_card_pin_display_button_next: String =
         "screen_current_card_pin_display_button_next"
+    const val screen_current_card_pin_display_text_heading_pin:String=
+        "screen_current_card_pin_display_text_heading_pin"
 
     //  Enter new pin screen
     const val screen_create_card_pin_display_text_heading: String =
