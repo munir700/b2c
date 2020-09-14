@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.store.young.contact.fragments
+package co.yap.modules.dashboard.store.young.contact
 
 import co.yap.R
 import co.yap.BR

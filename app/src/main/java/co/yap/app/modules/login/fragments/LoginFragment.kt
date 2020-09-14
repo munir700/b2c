@@ -12,7 +12,6 @@ import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
-import co.yap.modules.dashboard.store.young.contact.fragments.YoungContactDetailsFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragment
