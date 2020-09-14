@@ -10,6 +10,6 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 class YoungContactDetailsFragment:
     BaseNavViewModelFragment<FragmentYoungContactDetailsBinding, IYoungContactDetails.State, YoungContactDetailsVM>() {
 
-    override fun getBindingVariable()= BR.yContactDetailsViewModel
+    override fun getBindingVariable()= BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_contact_details
 }

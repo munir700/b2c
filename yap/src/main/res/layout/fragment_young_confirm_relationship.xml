@@ -9,7 +9,14 @@
             name="viewModel"
             type="co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipVM" />
 
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,10 +95,8 @@
             android:paddingEnd="-2dp"
             android:theme="@style/CustomSwitch"
             app:layout_constraintEnd_toEndOf="@+id/ctEmailEdit"
-            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
+            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit" />
 
-            />
-        
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             style="@style/FragmentsBtnStyle"
