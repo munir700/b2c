@@ -23,8 +23,10 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -118,35 +120,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is MoreOption) {
-                when (data.id) {
-                    Constants.MORE_NOTIFICATION -> {
-                        //openNotifications()
-                        Utils.showComingSoon(requireContext())
-                    }
-                    Constants.MORE_LOCATE_ATM -> {
-                        startFragment(CdmMapFragment::class.java.name)
-                        //openMaps()
-                    }
-                    Constants.MORE_INVITE_FRIEND -> {
-                        startFragment(
-                            InviteFriendFragment::class.java.name, false,
-                            bundleOf(
-
-                            )
-                        )
-
-                    }
-                    Constants.MORE_HELP_SUPPORT -> {
-                        startActivity(
-                            FragmentPresenterActivity.getIntent(
-                                requireContext(),
-                                Constants.MODE_HELP_SUPPORT, null
-                            )
-                        )
-                    }
-                }
-            }
+            if (data is MoreOption)
+                viewModel.clickEvent.setValue(data.id)
         }
     }
 
@@ -189,6 +164,26 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 } else {
                     showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                 }
+            }
+            Constants.MORE_NOTIFICATION -> {
+                Utils.showComingSoon(requireContext())
+            }
+            Constants.MORE_LOCATE_ATM -> {
+                startFragment(CdmMapFragment::class.java.name)
+            }
+            Constants.MORE_INVITE_FRIEND -> {
+                startFragment(
+                    InviteFriendFragment::class.java.name, false,
+                    bundleOf()
+                )
+            }
+            Constants.MORE_HELP_SUPPORT -> {
+                startActivity(
+                    FragmentPresenterActivity.getIntent(
+                        requireContext(),
+                        Constants.MODE_HELP_SUPPORT, null
+                    )
+                )
             }
         }
     }
