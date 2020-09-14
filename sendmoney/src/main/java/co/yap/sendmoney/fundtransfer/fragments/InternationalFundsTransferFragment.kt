@@ -272,9 +272,6 @@ class InternationalFundsTransferFragment :
     }
 
     private fun setEditTextWatcher() {
-        etSenderAmount.applyAmountFilters(
-            decimal = viewModel.parentViewModel?.configuredDecimal ?: 2
-        )
         etSenderAmount.afterTextChanged {
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
