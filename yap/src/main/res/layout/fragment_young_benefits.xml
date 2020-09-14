@@ -32,12 +32,9 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvYoungCardTitle"
-                style="@style/NormalText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Yap.App.Widget.TextView.Normal"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_15sdp"
-
                 android:text="@string/screen_benefits_card_text_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

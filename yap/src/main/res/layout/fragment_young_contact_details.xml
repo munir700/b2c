@@ -14,13 +14,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/margin_medium_large"
+        android:paddingEnd="@dimen/margin_medium_large">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -54,11 +54,11 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     style="@style/Yap.App.Widget.TextInputEditText.Email"
                     android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
+                    android:imeOptions="actionNext"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.email}"
-                    app:validateType='@{"email"}'
-                    android:imeOptions="actionNext"/>
+                    app:validateType='@{"email"}' />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
