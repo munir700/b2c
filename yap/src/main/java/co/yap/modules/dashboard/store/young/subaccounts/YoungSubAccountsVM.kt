@@ -1,11 +1,22 @@
 package co.yap.modules.dashboard.store.young.subaccounts
 
-import co.yap.networking.customers.household.responsedtos.SubAccount
-import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
+import android.os.Bundle
+import androidx.databinding.ObservableField
+import androidx.navigation.NavController
+import co.yap.modules.dashboard.cards.analytics.fragments.CardAnalyticsFragment
+import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
+import co.yap.yapcore.adpters.SectionsPagerAdapter
+import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
-class YoungSubAccountsVM @Inject constructor(override val state: IYoungSubAccounts.State) :
-    BaseRecyclerAdapterVM<SubAccount, IYoungSubAccounts.State>(), IYoungSubAccounts.ViewModel {
-    override fun getSubAccount() {
+class YoungSubAccountsVM @Inject constructor(override var state: IYoungSubAccounts.State) :
+    DaggerBaseViewModel<IYoungSubAccounts.State>(), IYoungSubAccounts.ViewModel{
+
+    val adapter = ObservableField<SectionsPagerAdapter>()
+
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+        adapter.get()?.addFragmentInfo<SubAccountCardFragment>("Transfers")
+        adapter.get()?.addFragmentInfo<CardAnalyticsFragment>("Analytics")
     }
+
 }

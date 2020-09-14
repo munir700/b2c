@@ -8,36 +8,64 @@
             name="viewModel"
             type="co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsVM" />
 
-        <variable
-            name="adapter"
-            type="co.yap.yapcore.BaseRVAdapter" />
     </data>
 
-    <co.yap.widgets.YapSwipeRefreshLayout
-        android:id="@+id/refreshLayout"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/scroll_behavior">
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:cardUseCompatPadding="true"
+            android:elevation="@dimen/_8sdp"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_12sdp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivNotificationIcon"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvNotifDescription"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivNotificationIcon"
+                    android:text="srfjrekgjregjeiog ejrieorjeirjejfeirojfi 3jfejfekjfqekfjqerfjiqfjoejf "
 
-        <co.yap.widgets.MultiStateView
-            android:id="@+id/multiStateView"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            style="@style/Yap.App.Widget.RoundedTabLayout"
+            app:setupWithViewPager="@{pager}"
+            app:tabPaddingStart="@dimen/_10sdp"
+            app:tabPaddingEnd="@dimen/_10sdp"
+           />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:msv_animateViewChanges="false"
-            app:msv_emptyView="@layout/layout_empty_view_no_results"
-            app:msv_errorView="@layout/layout_error_view"
-            app:msv_loadingView="@layout/layout_loading_view"
-            app:msv_viewState="content">
+            app:adapter="@{viewModel.adapter}" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                app:adapter="@{adapter}"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2" />
-        </co.yap.widgets.MultiStateView>
-    </co.yap.widgets.YapSwipeRefreshLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
