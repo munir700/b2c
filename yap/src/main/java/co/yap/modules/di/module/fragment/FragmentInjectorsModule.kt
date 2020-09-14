@@ -19,7 +19,7 @@ import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsModule
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
-import co.yap.modules.dashboard.store.young.contact.fragments.YoungContactDetailsFragment
+import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
