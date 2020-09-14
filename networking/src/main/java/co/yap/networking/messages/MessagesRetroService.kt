@@ -12,10 +12,9 @@ interface MessagesRetroService {
     @POST(MessagesRepository.URL_CREATE_OTP_ONBOARDING)
     suspend fun createOtpOnboarding(@Body createOtpOnboardingRequest: CreateOtpOnboardingRequest): Response<ApiResponse>
 
-    // use the following response to enable the white listing feature-> "OtpValidationOnBoardingResponse"
     // Verify otp for mobile number
     @PUT(MessagesRepository.URL_VERIFY_OTP_ONBOARDING)
-    suspend fun verifyOtpOnboarding(@Body verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): Response<OtpValidationResponse>
+    suspend fun verifyOtpOnboarding(@Body verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): Response<OtpValidationOnBoardingResponse>
 
     // Create otp request
     @POST(MessagesRepository.URL_CREATE_OTP_GENERIC)

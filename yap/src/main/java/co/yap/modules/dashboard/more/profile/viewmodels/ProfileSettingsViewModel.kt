@@ -18,6 +18,10 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.sizeInMb
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.getFormattedDate
+import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import id.zelory.compressor.Compressor
@@ -150,6 +154,11 @@ class ProfileSettingsViewModel(application: Application) :
                     val data = response.data
                     data.data?.dateExpiry?.let {
                         getExpiryDate(it)
+                        trackEvent(KYCEvents.EID_EXPIRE_DATE.type)
+                        trackEventWithAttributes(
+                            MyUserManager.user,
+                            eidExpireDate = getFormattedDate(it)
+                        )
                     }
                     state.loading = false
                 }

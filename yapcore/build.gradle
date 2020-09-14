@@ -16,7 +16,3 @@ dependencies {
         add(it.configuration, it.dependency)
     }
 }
-
-repositories {
-    mavenCentral()
-}

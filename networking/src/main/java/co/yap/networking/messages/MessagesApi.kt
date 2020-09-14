@@ -11,7 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 interface MessagesApi {
 
     suspend fun createOtpOnboarding(createOtpOnboardingRequest: CreateOtpOnboardingRequest): RetroApiResponse<ApiResponse>
-    suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationResponse>
+    suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationOnBoardingResponse>
     suspend fun createOtpGeneric(createOtpGenericRequest: CreateOtpGenericRequest): RetroApiResponse<ApiResponse>
     suspend fun createOtpGenericWithPhone(
         phone: String,

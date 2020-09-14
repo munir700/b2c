@@ -534,4 +534,10 @@
             <flag name="to_left" value="2" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CollapsedColoredHintTextInputLayout">
+        <attr name="hintTextColorNormal" format="color" />
+        <attr name="hintTextColorSelected" format="color" />
+        <attr name="android:drawablePadding" format="dimension|reference" />
+    </declare-styleable>
 </resources>

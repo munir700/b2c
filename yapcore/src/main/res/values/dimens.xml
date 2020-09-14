@@ -9,6 +9,7 @@
     <dimen name="text_size_h5">@dimen/_19sdp</dimen>
     <dimen name="text_size_h6">@dimen/_22sdp</dimen>
     <dimen name="text_size_h7">@dimen/_26sdp</dimen>
+    <dimen name="text_size_h8">@dimen/_18sdp</dimen>
 
     <!-- Content -->
     <dimen name="text_size_c1">@dimen/_9sdp</dimen>
