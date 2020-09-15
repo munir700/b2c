@@ -8,11 +8,12 @@ import co.yap.yapcore.BaseViewHolder
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ItemCardEditBinding
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.helpers.extentions.dimen
 
 
-class YoungCardEditAdapter(mValue: MutableList<YoungCardsDesign>, navigation: NavController?) :
-    BaseRVAdapter<YoungCardsDesign, YoungCardItemVM, YoungCardEditAdapter.ViewHolder>(
+class YoungCardEditAdapter(mValue: MutableList<HouseHoldCardsDesign>, navigation: NavController?) :
+    BaseRVAdapter<HouseHoldCardsDesign, YoungCardItemVM, YoungCardEditAdapter.ViewHolder>(
         mValue,
         navigation
     ) {
@@ -26,7 +27,7 @@ class YoungCardEditAdapter(mValue: MutableList<YoungCardsDesign>, navigation: Na
     override fun getViewModel(viewType: Int) = YoungCardItemVM()
     override fun getVariableId() = BR.viewModel
     class ViewHolder(view: View, viewModel: YoungCardItemVM, mDataBinding: ViewDataBinding) :
-        BaseViewHolder<YoungCardsDesign, YoungCardItemVM>(view, viewModel, mDataBinding) {
+        BaseViewHolder<HouseHoldCardsDesign, YoungCardItemVM>(view, viewModel, mDataBinding) {
         init {
             val binding = mDataBinding as ItemCardEditBinding
             val params = binding.ivCard.layoutParams

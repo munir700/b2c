@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.yapcore.BaseListItemViewModel
 
-class YoungCardItemVM : BaseListItemViewModel<YoungCardsDesign>() {
+class YoungCardItemVM : BaseListItemViewModel<HouseHoldCardsDesign>() {
 
-    private lateinit var mItem: YoungCardsDesign
+    private lateinit var mItem: HouseHoldCardsDesign
 
-    override fun setItem(item: YoungCardsDesign, position: Int) {
+    override fun setItem(item: HouseHoldCardsDesign, position: Int) {
         mItem = item
     }
 
