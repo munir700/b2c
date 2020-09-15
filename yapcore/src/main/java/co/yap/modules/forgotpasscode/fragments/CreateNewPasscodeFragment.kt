@@ -44,7 +44,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                        ), showToolBar = true
+                        ), showToolBar = false
                     )
                 }
                 R.id.btnAction -> {
