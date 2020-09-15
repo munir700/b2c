@@ -6,6 +6,7 @@ import co.yap.yapcore.dagger.di.InjectionViewModelProvider
 import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
+import co.yap.yapcore.enums.YAPThemes
 import dagger.Module
 import dagger.Provides
 
@@ -31,7 +32,7 @@ class YapStoreModule : BaseFragmentModule<YapStoreFragment>() {
         val list = mutableListOf<Store>()
         list.add(
             Store(
-                1,
+                R.id.youngStore,
                 "YAP Young",
                 "Open a bank account for your children and help empower them financially.",
                 R.drawable.ic_store_young, R.drawable.ic_young_smile
@@ -39,7 +40,7 @@ class YapStoreModule : BaseFragmentModule<YapStoreFragment>() {
         )
         list.add(
             Store(
-                2,
+                R.id.houseHoldStore,
                 "YAP Household",
                 "Manage your household salaries digitally.",
                 R.drawable.ic_store_household, R.drawable.ic_young_household

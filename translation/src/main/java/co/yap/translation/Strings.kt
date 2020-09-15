@@ -1902,9 +1902,9 @@ object Strings {
     // Young Benefits Screen
     const val screen_benefits_young_text_note_label: String =
         "screen_benefits_young_text_note_label"
+    const val screen_yap_young_payment_selection_display_text_title: String =
+        "screen_yap_young_payment_selection_display_text_title"
     // Young Confirmation Screen
-    const val screen_young_payment_confirmation_core_button_text: String =
-        "screen_young_payment_confirmation_core_button_text"
     const val screen_young_recurring_payment_guide_text: String =
         "screen_young_recurring_payment_guide_text"
     const val screen_young_payment_confirmation_note_text: String =

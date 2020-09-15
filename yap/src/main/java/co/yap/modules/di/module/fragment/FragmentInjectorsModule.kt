@@ -10,28 +10,24 @@ import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameFragment
 import co.yap.modules.dashboard.store.household.userinfo.HHAddUserNameModule
 import co.yap.modules.dashboard.store.yapstore.YapStoreFragment
 import co.yap.modules.dashboard.store.yapstore.YapStoreModule
-import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
-import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsModule
-import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsFragment
-import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsModule
+import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationModule
+import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipModule
-import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
+import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
+import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
+import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionModule
-import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountModule
-import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardModule
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationModule
-import co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessFragment
-import co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessModule
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryModule
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
@@ -140,9 +136,9 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun youngBenefitsFragmentInjector(): YoungBenefitsFragment
 
-    @ContributesAndroidInjector(modules = [ConfirmationSuccessModule::class])
+    @ContributesAndroidInjector(modules = [YoungPaymentConfirmationModule::class])
     @FragmentScope
-    abstract fun youngConfirmationSuccessInjector(): ConfirmationSuccessFragment
+    abstract fun youngConfirmationSuccessInjector(): YoungPaymentConfirmationFragment
 
     @ContributesAndroidInjector(modules = [YoungContactDetailsModule::class])
     @FragmentScope
@@ -151,12 +147,4 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungConfirmRelationshipModule::class])
     @FragmentScope
     abstract fun youngConfirmRelationshipInjector(): YoungConfirmRelationshipFragment
-
-    @ContributesAndroidInjector(modules = [YoungCardEditDetailsModule::class])
-    @FragmentScope
-    abstract fun youngCardEditDetailsInjector(): YoungCardEditDetailsFragment
-
-    @ContributesAndroidInjector(modules = [YoungSubAccountModule::class])
-    @FragmentScope
-    abstract fun youngSubAccountInjector(): YoungSubAccountsFragment
 }

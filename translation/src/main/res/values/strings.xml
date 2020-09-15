@@ -1213,6 +1213,7 @@
     <string name="screen_yap_young_landing_assign_missions_selection_display_text">Assign missions and allow them to learn about earning hard earned dirhams! Afterall, money doesn\'t grow on trees</string>
     <string name="screen_yap_young_landing_display_text_sub_heading">Having a hard time teaching good money habits to your child? With YAP Young, you can find a simple and effective way to send money and stay informed on your child\'s spending. Assign earning missions, set saving goals and so much more! Let your child\'s first banking experience be one they\'ll love.</string>
     <string name="screen_yap_young_payment_selection_display_text">Choose between a monthly subscription or save by getting for a yearly plan</string>
+    <string name="screen_yap_young_payment_selection_display_text_title">Select a payment plan</string>
 
     <!-- Young Benefits Screen -->
     <string name="screen_benefits_plan_button_label">Select Plan</string>
@@ -1223,7 +1224,6 @@
     <string name="screen_young_recurring_payment_guide_text">We will notify you before each payment in case you require a fund top up on your account for recurring payments</string>
     <string name="screen_young_payment_confirmation_note_text">You are now subscribed to a YAP Young card for one child paid on a yearly basis</string>
     <string name="screen_yap_young_label_text">YAP Young</string>
-    <string name="screen_young_payment_confirmation_core_button_text">Get Started</string>
 
     <!--    Young contact details screen-->
     <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>

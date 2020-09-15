@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="young" type="id"/>
+    <item name="houseHold" type="id"/>
+    <item name="core" type="id"/>
+    <item name="houseHoldStore" type="id"/>
+    <item name="youngStore" type="id"/>
+</resources>

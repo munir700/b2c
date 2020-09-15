@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungLandingBinding
+import co.yap.modules.dashboard.store.household.landing.HouseHoldLandingFragmentDirections
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 class YoungLandingFragment :
@@ -19,13 +20,12 @@ class YoungLandingFragment :
         }
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
-
     override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
-
     override fun toolBarVisibility() = false
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnGetHouseHoldAccount -> {
+                navigate(YoungLandingFragmentDirections.actionYoungLandingFragmentToYoungBenefitsFragment())
             }
         }
     }

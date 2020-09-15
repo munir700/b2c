@@ -1,14 +1,13 @@
-package co.yap.modules.subaccounts.confirmation.confirmationsuccess
+package co.yap.modules.dashboard.store.young.confirmation
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
-class ConfirmationSuccessVM @Inject constructor(override val state: IConfirmationSuccess.State) :
-    DaggerBaseViewModel<IConfirmationSuccess.State>(), IConfirmationSuccess.ViewModel {
+class YoungPaymentConfirmationVM @Inject constructor(override val state: IYoungPaymentConfirmation.State) :
+    DaggerBaseViewModel<IYoungPaymentConfirmation.State>(), IYoungPaymentConfirmation.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnClick(id: Int) {

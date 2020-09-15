@@ -25,7 +25,6 @@ class HouseHoldLandingFragment :
     }
 
     override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
-
     override fun toolBarVisibility() = false
     private fun onClick(id: Int) {
         when (id) {

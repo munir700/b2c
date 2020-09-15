@@ -31,16 +31,14 @@ class YapStoreFragment :
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
         if (data is Store) {
-            if (data.name == "YAP Household") {
-                viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                        view,
-                        data,
-                        pos
-                    )
+            viewModel.clickEvent.setPayload(
+                SingleClickEvent.AdaptorPayLoadHolder(
+                    view,
+                    data,
+                    pos
                 )
-                viewModel.clickEvent.setValue(view.id)
-            }
+            )
+            viewModel.clickEvent.setValue(view.id)
         }
     }
 
@@ -48,21 +46,43 @@ class YapStoreFragment :
         when (id) {
             R.id.cvStore -> {
                 viewModel.clickEvent.getPayload()?.let {
-                    var navGraphId = 0
-                    var startDescription = 0
-                    MyUserManager.user?.let {
-                        if (it.noOfSubAccounts == null || it.noOfSubAccounts == 0) {
-                            navGraphId = R.navigation.add_house_hold_user_navigation
-                            startDescription = R.id.houseHoldLandingFragment
-                        } else {
-                            navGraphId = R.navigation.iban_subaccount_navigation
-                            startDescription = R.id.subAccountDashBoardFragment
+                    if (it.itemData is Store) {
+                        when ((it.itemData as Store).id) {
+                            R.id.youngStore -> {
+                                launchActivity<NavHostPresenterActivity> {
+                                    putExtra(
+                                        NAVIGATION_Graph_ID,
+                                        R.navigation.young_parent_side_navigation
+                                    )
+                                    putExtra(
+                                        NAVIGATION_Graph_START_DESTINATION_ID,
+                                        R.id.youngLandingFragment
+                                    )
+                                }
+                            }
+                            R.id.houseHoldStore -> {
+                                var navGraphId = 0
+                                var startDescription = 0
+                                MyUserManager.user?.let {
+                                    if (it.noOfSubAccounts == null || it.noOfSubAccounts == 0) {
+                                        navGraphId = R.navigation.add_house_hold_user_navigation
+                                        startDescription = R.id.houseHoldLandingFragment
+                                    } else {
+                                        navGraphId = R.navigation.iban_subaccount_navigation
+                                        startDescription = R.id.subAccountDashBoardFragment
+                                    }
+                                }
+                                launchActivity<NavHostPresenterActivity> {
+                                    putExtra(NAVIGATION_Graph_ID, navGraphId)
+                                    putExtra(
+                                        NAVIGATION_Graph_START_DESTINATION_ID,
+                                        startDescription
+                                    )
+                                }
+                            }
                         }
                     }
-                    launchActivity<NavHostPresenterActivity> {
-                        putExtra(NAVIGATION_Graph_ID, navGraphId)
-                        putExtra(NAVIGATION_Graph_START_DESTINATION_ID, startDescription)
-                    }
+
                     viewModel.clickEvent.setPayload(null)
                 }
                 viewModel.clickEvent.setPayload(null)
