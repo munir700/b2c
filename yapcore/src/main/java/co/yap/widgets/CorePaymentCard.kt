@@ -26,9 +26,9 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private var cardSizeType: Int = 2
 
-    private var CARD_SIZE_TYPE_SMALL: Int = 0
-    private var CARD_SIZE_TYPE_MEDIUM: Int = 1
-    private var CARD_SIZE_TYPE_LARGE: Int = 2
+    private var cardSizeTypeSmall: Int = 0
+    private var cardSizeTypeMedium: Int = 1
+    private var cardSizeTypeLarge: Int = 2
 
     var view: View = LayoutInflater.from(context)
         .inflate(R.layout.core_payment_card, this, true)
@@ -38,7 +38,7 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CorePaymentCard, 0, 0)
             cardSizeType = typedArray.getInt(
                 R.styleable.CorePaymentCard_card_size_type,
-                CARD_SIZE_TYPE_LARGE
+                cardSizeTypeLarge
             )
             ivCardType.setImageDrawable(typedArray.getDrawable(R.styleable.CorePaymentCard_card_type))
             setCardSizeTypeDimensions()
@@ -49,7 +49,7 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
     fun setCardSizeTypeDimensions() {
 
         when (cardSizeType) {
-            CARD_SIZE_TYPE_SMALL -> {
+            cardSizeTypeSmall -> {
 
                 tvBankName.textSize = 5f
                 tvCardNumber.textSize = 7f
@@ -73,7 +73,7 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
 
-            CARD_SIZE_TYPE_MEDIUM -> {
+            cardSizeTypeMedium -> {
 //                ivChip         tvBankName       tvCardNumber        ivCardType                   tvCardExpiry
 //medium           15/15           6sp             8SP                 5.9/16                       6SP
 
