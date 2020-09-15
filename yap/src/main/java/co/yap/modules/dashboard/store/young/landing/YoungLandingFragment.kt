@@ -20,6 +20,7 @@ class YoungLandingFragment :
         }
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
+
     override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
     override fun toolBarVisibility() = false
     private fun onClick(id: Int) {
@@ -29,7 +30,6 @@ class YoungLandingFragment :
             }
         }
     }
-
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()

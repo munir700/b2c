@@ -36,7 +36,11 @@
         android:id="@+id/youngContactDetailsFragment"
         android:name="co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment"
         android:label="YoungContactDetailsFragment"
-        tools:layout="@layout/fragment_young_contact_details" />
+        tools:layout="@layout/fragment_young_contact_details" >
+        <action
+            android:id="@+id/action_youngContactDetailsFragment_to_youngCardSuccessFragment2"
+            app:destination="@id/youngCardSuccessFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/youngPaymentSelectionFragment"
         android:name="co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment"
@@ -49,11 +53,19 @@
     <fragment
         android:id="@+id/youngPaymentConfirmationFragment"
         android:name="co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment"
-        android:label="YoungPaymentConfirmationFragment"
         tools:layout="@layout/fragment_young_payment_confirmation">
-        <action
+
+        android:label="YoungPaymentConfirmationFragment"        <action
             android:id="@+id/action_youngPaymentConfirmationFragment_to_youngConfirmRelationshipFragment"
             app:destination="@id/youngConfirmRelationshipFragment" />
+        <action
+            android:id="@+id/action_youngPaymentConfirmationFragment_to_youngContactDetailsFragment"
+            app:destination="@id/youngContactDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/youngCardSuccessFragment2"
+        android:name="co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment"
+        android:label="YoungCardSuccessFragment" />
+
 
 </navigation>
