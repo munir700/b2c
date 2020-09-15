@@ -54,7 +54,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
-            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
         }
 
 

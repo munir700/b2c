@@ -3,8 +3,6 @@ package co.yap.modules.setcardpin.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.R
@@ -13,7 +11,6 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -21,7 +18,6 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
     var card: Card? = null
-    var preventTakeDeviceScreenShot: MutableLiveData<Boolean> = MutableLiveData()
 
     companion object {
         private const val CARD = "card"
@@ -39,9 +35,6 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_card_pin_welcome)
         setupData()
-        preventTakeDeviceScreenShot.observe(this, Observer {
-            preventTakeScreenShot(it)
-        })
     }
 
     override fun onBackPressed() {
@@ -57,10 +50,5 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
             showToast("Invalid card Serial number")
             finish()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        preventTakeDeviceScreenShot.removeObservers(this)
     }
 }

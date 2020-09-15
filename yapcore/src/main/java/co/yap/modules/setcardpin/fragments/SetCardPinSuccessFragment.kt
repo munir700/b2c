@@ -25,9 +25,6 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity is SetCardPinWelcomeActivity) {
-            (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = false
-        }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 /*    R.id.btnTopUp -> activity?.finish()*/

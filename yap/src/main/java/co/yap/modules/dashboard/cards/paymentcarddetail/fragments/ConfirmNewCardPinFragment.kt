@@ -43,14 +43,6 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
         loadData()
-        // loadData()
-        if (activity is ChangeCardPinActivity) {
-            (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
-        }
-        if (activity is ForgotCardPinActivity) {
-            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
-        } else
-            loadData()
     }
 
     override fun setObservers() {
