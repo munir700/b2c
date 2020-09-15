@@ -1,9 +1,9 @@
-package co.yap.modules.subaccounts.confirmation.confirmationsuccess
+package co.yap.modules.dashboard.store.young.confirmation
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IConfirmationSuccess {
+interface IYoungPaymentConfirmation {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {

@@ -219,7 +219,8 @@
                 android:gravity="center"
                 android:minWidth="@dimen/_140sdp"
                 android:minHeight="@dimen/_52sdp"
-                android:text="323232.99"
+                android:text="@{viewModel.state.amount??`0.00`}"
+                app:ctv_decimalTextSize = "@dimen/text_size_h3"
                 android:textSize="@dimen/text_size_h3"
                 app:ctv_currencySymbol=" " />
 
@@ -246,6 +247,7 @@
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                app:enableCoreButton="@{viewModel.state.selectedPlanPosition>-1}"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_yap_house_hold_display_button_confirm}"

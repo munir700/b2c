@@ -12,6 +12,8 @@ import co.yap.modules.dashboard.store.yapstore.YapStoreFragment
 import co.yap.modules.dashboard.store.yapstore.YapStoreModule
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsModule
+import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationModule
+import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
@@ -26,8 +28,6 @@ import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardModule
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationFragment
 import co.yap.modules.subaccounts.confirmation.PaymentConfirmationModule
-import co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessFragment
-import co.yap.modules.subaccounts.confirmation.confirmationsuccess.ConfirmationSuccessModule
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryFragment
 import co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryModule
 import co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountFragment
@@ -136,9 +136,9 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun youngBenefitsFragmentInjector(): YoungBenefitsFragment
 
-    @ContributesAndroidInjector(modules = [ConfirmationSuccessModule::class])
+    @ContributesAndroidInjector(modules = [YoungPaymentConfirmationModule::class])
     @FragmentScope
-    abstract fun youngConfirmationSuccessInjector(): ConfirmationSuccessFragment
+    abstract fun youngConfirmationSuccessInjector(): YoungPaymentConfirmationFragment
 
     @ContributesAndroidInjector(modules = [YoungContactDetailsModule::class])
     @FragmentScope

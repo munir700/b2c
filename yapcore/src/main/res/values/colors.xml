@@ -133,17 +133,11 @@
     <color name="colorSearchViewHouseHold">#fb867a</color>
     <color name="colorSearchViewHintHouseHold">#fcb9b2</color>
     <color name="disabledLightHouseHold">#ffe9e7</color>
-
     <!--    Young Theme Color-->
     <color name="colorPurpleGrey">#9790B7</color>
-
     <!--    EditTheme Color-->
     <color name="colorControlNormal">#dae0f0</color>
     <color name="colorControlActivated">#dae0f0</color>
     <color name="colorControlHighlight">#dae0f0</color>
-
-
-    <!--    Young Theme Color-->
-    <color name="colorPurpleGrey">#9790B7</color>
 
 </resources>

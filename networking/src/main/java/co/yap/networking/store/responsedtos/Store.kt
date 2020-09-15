@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Store(
-    var id: Int?=0,
+    var id: Int=0,
     @SerializedName("title")
     var name: String?=null,
     @SerializedName("description")
