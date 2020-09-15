@@ -33,7 +33,6 @@
                 android:background="@android:color/transparent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <TextView
                 android:id="@+id/tvAvailableBalance"
                 style="@style/ALarge"

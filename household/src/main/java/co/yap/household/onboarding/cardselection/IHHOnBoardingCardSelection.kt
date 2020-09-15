@@ -11,7 +11,6 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IHHOnBoardingCardSelection {
     interface View : IBase.View<ViewModel> {
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
