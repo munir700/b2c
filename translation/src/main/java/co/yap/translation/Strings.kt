@@ -1659,4 +1659,8 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+    //yap home fragment screen
+    const val screen_fragment_yap_home_add_money: String =
+        "screen_fragment_yap_home_add_money"
 }
