@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                  android:gravity="center"
+                android:layout_marginTop="@dimen/margin_three_dp"
                 android:text="@={viewModel.state.fullName}" />
 
 
@@ -186,6 +187,7 @@
                         android:paddingBottom="@dimen/small"
                         android:ellipsize="end"
                         android:maxLines="3"
+                        android:layout_marginTop="@dimen/margin_three_dp"
                         android:text="@={viewModel.state.address}"
                         tools:text="dasd dasdjkasdha kjhasdhh asd jlkasd kljad as, Ajman  " />
 
