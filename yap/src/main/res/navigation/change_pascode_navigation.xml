@@ -9,7 +9,7 @@
         android:id="@+id/currentPasscodeFragment"
         android:name="co.yap.modules.dashboard.more.changepasscode.fragments.CurrentPasscodeFragment"
         android:label="CurrentPasscodeFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_pass_code">
         <action
             android:id="@+id/action_currentPasscodeFragment_to_updateNewPasscodeFragment"
             app:destination="@id/updateNewPasscodeFragment"
@@ -38,7 +38,7 @@
         android:id="@+id/updateNewPasscodeFragment"
         android:name="co.yap.modules.dashboard.more.changepasscode.fragments.UpdateNewPasscodeFragment"
         android:label="UpdateNewPasscodeFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_pass_code">
         <action
             android:id="@+id/action_updateNewPasscodeFragment_to_updateConfirmPasscodeFragment"
             app:destination="@id/updateConfirmPasscodeFragment"
@@ -65,7 +65,7 @@
         android:id="@+id/updateConfirmPasscodeFragment"
         android:name="co.yap.modules.dashboard.more.changepasscode.fragments.UpdateConfirmPasscodeFragment"
         android:label="UpdateConfirmPasscodeFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_pass_code">
         <argument
             android:name="oldPinCode"
             android:defaultValue=" "
