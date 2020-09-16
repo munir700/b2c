@@ -75,7 +75,7 @@ project.ext {
             vectordrawable           : 'androidx.vectordrawable:vectordrawable:1.1.0-beta02',
             biometric                : 'androidx.biometric:biometric:1.0.1',
             viewpager2               : 'androidx.viewpager2:viewpager2:1.0.0-beta03',
-            security                 : 'androidx.security:security-crypto:1.0.0-rc02',
+            security                 : 'androidx.security:security-crypto:1.0.0-rc03',
 
             // Navigation
             navigationFragmentKtx    : "androidx.navigation:navigation-fragment-ktx:$navigationVersion",

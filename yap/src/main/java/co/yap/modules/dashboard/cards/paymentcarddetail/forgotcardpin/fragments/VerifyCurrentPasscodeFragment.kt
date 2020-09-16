@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.passcode.IPassCode
 import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
@@ -34,8 +33,6 @@ class VerifyCurrentPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>()
         viewModel.state.forgotTextVisibility = false
         getBinding().dialer.hideFingerprintView()
         getBinding().dialer.upDatedDialerPad(viewModel.state.passCode)
-        if (activity is ForgotCardPinActivity)
-            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
     }
 
     fun setObservers() {
