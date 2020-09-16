@@ -518,15 +518,15 @@
 
     <!--    Email Verified Popup Screen-->
     <!-- <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>-->
-    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, what are you waiting for?</string>
+    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified this email yet:</string>
     <!--    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into your email and click the verification link to get access to your YAP Account.</string>-->
-    <string name="screen_email_verified_popup_display_text_sub_title">Looks like you haven\'t verified %1$s yet. Do it now to unlock the full YAP experience!</string>
+    <string name="screen_email_verified_popup_display_text_sub_title">Having trouble finding your email? Don’t worry, you can request for a new one! \n\n Verifying your email helps us stay in touch and send you important updates.</string>
     <!--    <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>-->
-    <string name="screen_email_verified_popup_display_text_click_here">If you\'re having trouble with this email, click here to </string>
+    <string name="screen_email_verified_popup_display_text_click_here">if you\'d like to change your email address</string>
     <!--    <string name="screen_email_verified_popup_button_title_click_here">click here.</string>-->
-    <string name="screen_email_verified_popup_button_title_click_here">change your email address.</string>
-    <string name="screen_email_verified_popup_button_Take_me">Take me to my mail</string>
-    <string name="screen_email_verified_popup_button_do_it">I\'ll do it later</string>
+    <string name="screen_email_verified_popup_button_title_click_here">Click here</string>
+    <string name="screen_email_verified_popup_button_Take_me">Open Mail App</string>
+    <string name="screen_email_verified_popup_button_do_it">Send me a new email</string>
 
     <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>

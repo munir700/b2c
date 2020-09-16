@@ -102,7 +102,7 @@ android {
             }
         }
     }
-    ndkVersion '21.1.6352462'
+    ndkVersion '21.3.6528147'
     sourceSets {
         live {
             res {
