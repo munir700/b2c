@@ -94,6 +94,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:background="@drawable/round_purple_background"
                 android:gravity="center"
+                android:tag="status"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_c3"
