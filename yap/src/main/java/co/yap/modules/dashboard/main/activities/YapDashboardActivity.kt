@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -211,7 +212,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
-        val tvEmail = dialog.findViewById<TextView>(R.id.tvUserGuide)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
@@ -219,13 +220,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
 
         MyUserManager.user?.currentCustomer?.email?.let {
-            tvEmail.text =
-                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
-                    if (it.isBlank())
-                        "" else it
-                )
+            tvEmail.text = it
         }
-        //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {
@@ -241,28 +237,31 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             getString(Strings.screen_email_verified_popup_display_text_click_here).plus("")
         val clickValue =
             getString(Strings.screen_email_verified_popup_button_title_click_here)
-        val spanStr = SpannableStringBuilder("$newValue $clickValue")
+        val spanStr = SpannableStringBuilder("$clickValue $newValue")
 
-        spanStr.setSpan(
-            fcs,
-            (newValue.length + 1),
-            (newValue.length + 1) + clickValue.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
         spanStr.setSpan(
             myClickableSpan,
-            (newValue.length + 1),
-            (newValue.length + 1) + clickValue.length,
+            0,
+            (clickValue.length + 1),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spanStr.setSpan(
+            fcs,
+            0,
+            clickValue.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        tvTroubleDescription.text = spanStr
         tvTroubleDescription.movementMethod = LinkMovementMethod.getInstance()
+        tvTroubleDescription.text = spanStr
 
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_APP_EMAIL)
             startActivity(Intent.createChooser(intent, "Choose"))
+        }
+        dialog.findViewById<AppCompatImageView>(R.id.ivClose).setOnClickListener {
+            dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()

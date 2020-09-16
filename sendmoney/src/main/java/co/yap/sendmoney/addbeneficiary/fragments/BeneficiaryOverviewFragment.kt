@@ -116,7 +116,6 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
                     } else {
                         ConfirmAddBeneficiary(activity!!)
-
                     }
             }
         })
@@ -128,7 +127,7 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
         return false
     }
 
-    fun ConfirmAddBeneficiary(context: Context) {
+    private fun ConfirmAddBeneficiary(context: Context) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(
                 Translator.getString(
@@ -163,7 +162,7 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
                     super.onBackPressed() // finish this nav graph or all screens till here and start the required screen
 
                 })
-
+            .setCancelable(false)
             .show()
     }
 

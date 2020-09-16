@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -30,12 +29,10 @@ class ChangeCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setChangeCardPinFragmentData()
+        viewModel.state.forgotTextVisibility=true
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
-        if (activity is ChangeCardPinActivity) {
-            (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
-        }
     }
 
     override fun setObservers() {
