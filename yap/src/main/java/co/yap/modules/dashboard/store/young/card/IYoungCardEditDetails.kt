@@ -22,6 +22,8 @@ interface IYoungCardEditDetails {
         var cardDesigns: MutableLiveData<MutableList<HouseHoldCardsDesign>>?
         var cardName: MutableLiveData<String>
         var childName :  MutableLiveData<String>
+        var isWaitingList: MutableLiveData<Boolean>
+
 
 
     }

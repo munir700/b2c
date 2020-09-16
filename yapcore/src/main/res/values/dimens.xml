@@ -32,6 +32,7 @@
     <dimen name="margin_normal">@dimen/_12sdp</dimen>
     <dimen name="margin_normal_large">@dimen/_14sdp</dimen>
     <dimen name="margin_medium">@dimen/_16sdp</dimen>
+    <dimen name="margin_medium_small">@dimen/_18sdp</dimen>
     <dimen name="margin_medium_large">@dimen/_20sdp</dimen>
     <dimen name="margin_large">@dimen/_24sdp</dimen>
     <dimen name="margin_extra_large">@dimen/_32sdp</dimen>

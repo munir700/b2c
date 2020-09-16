@@ -22,9 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/margin_medium">
-
-
+        android:paddingStart="@dimen/margin_medium_small"
+        android:paddingBottom="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium_small"
+        >
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgSmiley"
             style="@style/Yap.App.Widget.ImageView.Circle"
@@ -40,6 +41,7 @@
             style="@style/Yap.App.Widget.TextView.FullName"
             android:layout_marginTop="@dimen/margin_medium"
             android:text="@string/screen_yap_young_label_text"
+            android:paddingTop="@dimen/margin_extra_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgSmiley"
@@ -56,7 +58,8 @@
             android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
             app:text="@{Strings.screen_young_payment_confirmation_note_text}"
-            tools:text="@string/screen_young_payment_confirmation_note_text" />
+            tools:text="@string/screen_young_payment_confirmation_note_text"
+           />
 
         <co.yap.widgets.libcurrencyview.CurrencyTextView
             android:id="@+id/currencyTextView"
@@ -67,18 +70,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
-            tools:text="2234544.44" />
+            tools:text="2234544.44"
+            android:padding="@dimen/margin_extra_small"/>
 
         <co.yap.widgets.SquareImageView
             android:id="@+id/appCompatImageView2"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
             android:tint="@color/colorDarkAqua"
             app:civ_border_color="@color/colorDarkAqua"
             app:civ_border_width="1dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_checkmark" />
 
@@ -88,21 +92,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:justificationMode="inter_word"
             app:layout_constraintBottom_toTopOf="@+id/btnGetStarted"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
             app:text="@{Strings.screen_young_recurring_payment_guide_text}"
             tools:layout_editor_absoluteX="21dp"
             tools:text="@string/screen_young_recurring_payment_guide_text"
             tools:visibility="visible" />
-
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGetStarted"
             style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xl"
-            android:layout_marginRight="@dimen/margin_xl"
+            android:layout_marginLeft="@dimen/margin_btn_side_paddings"
+            android:layout_marginRight="@dimen/margin_btn_side_paddings"
             android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
             android:paddingStart="@dimen/margin_large"
             android:paddingEnd="@dimen/margin_large"
@@ -118,7 +120,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.48" />
+            app:layout_constraintGuide_begin="418dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

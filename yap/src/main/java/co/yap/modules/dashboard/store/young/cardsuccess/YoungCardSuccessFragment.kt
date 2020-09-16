@@ -1,15 +1,8 @@
 package co.yap.modules.dashboard.store.young.cardsuccess
 
-
-import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.R
 import co.yap.BR
 import co.yap.databinding.FragmentCardSuccessBinding
-import co.yap.modules.dashboard.store.young.benefits.adapter.YoungBenefitsAdapter
-import co.yap.modules.dashboard.store.young.benefits.adapter.YoungBenefitsModel
-import co.yap.modules.dashboard.store.young.landing.YoungLandingFragmentDirections
-import co.yap.yapcore.dagger.base.BaseRecyclerViewFragment
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 
 class YoungCardSuccessFragment:

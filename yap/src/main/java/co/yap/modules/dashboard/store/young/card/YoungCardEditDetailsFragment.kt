@@ -14,6 +14,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_young_card_edit_details.*
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import co.yap.modules.dashboard.store.young.landing.YoungLandingFragmentDirections
+import co.yap.modules.onboarding.activities.CreatePasscodeActivity
+import co.yap.modules.onboarding.constants.Constants
+import co.yap.yapcore.helpers.extentions.launchActivity
 import javax.inject.Inject
 
 class YoungCardEditDetailsFragment:
@@ -33,6 +38,8 @@ class YoungCardEditDetailsFragment:
         viewModel.adapter?.set(adapter)
         viewPager?.adapter = adapter
         setupPager()
+        viewModel.clickEvent.observe(this, Observer { onClick(it) })
+
     }
 
     private fun setupPager() {
@@ -82,4 +89,19 @@ class YoungCardEditDetailsFragment:
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
         }    }
+    private fun onClick(id: Int) {
+        when (id) {
+            R.id.btnNext -> {
+                viewModel.state?.isWaitingList?.value?.let { isWaitingList ->
+                    if (isWaitingList) launchActivity<CreatePasscodeActivity> {  }else startActivityForResult(
+                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
+                        Constants.REQUEST_CODE_CREATE_PASSCODE
+                    )
+                } ?: startActivityForResult(
+                    context?.let { CreatePasscodeActivity.newIntent(it, true) },
+                    Constants.REQUEST_CODE_CREATE_PASSCODE
+                )
+            }
+        }
+    }
 }

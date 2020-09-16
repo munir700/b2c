@@ -22,7 +22,7 @@ class YoungContactDetailsFragment:
     private fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungCardSuccessFragment2())
+                navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungCardEditDetailsFragment())
             }
         }
     }

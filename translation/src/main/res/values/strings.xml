@@ -1235,7 +1235,7 @@
     <string name="screen_young_card_color_selection_edit_text_hint">Card\'s name</string>
 
     <!-- Young confirm relationship screen -->
-    <string name="screen_young_confirm_relationship_switch_text">I confirm that I\'m the parent or legal guardian of this child and agree with the \nTerms &amp; Conditions</string>
+    <string name="screen_young_confirm_relationship_switch_text">I confirm that I\'m the parent or legal guardian of this child and agree with the</string>
     <string name="screen_young_confirm_relationship_edit_hint_text">Select</string>
     <string name="screen_young_confirm_relationship_edit_label_text">Relationship</string>
     <string name="screen_young_confirm_relationship_label_text">Please confirm your relationship with %1s</string>

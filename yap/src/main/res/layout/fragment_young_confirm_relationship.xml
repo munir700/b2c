@@ -55,8 +55,10 @@
                 android:hint="@string/screen_young_confirm_relationship_edit_hint_text"
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal"
-                android:text="@={viewModel.state.email}"
-                app:validateType='@{"email"}' />
+                android:text="@={viewModel.state.realtion}"
+                android:imeOptions="actionDone"
+                app:validateEmpty = '@{false}'
+                />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -70,7 +72,8 @@
             app:layout_constraintEnd_toStartOf="@+id/scTermscondition"
             app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
             app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
-            app:text="@{Strings.screen_young_confirm_relationship_switch_text}" />
+            app:text="@{Strings.screen_young_confirm_relationship_switch_text}"
+            />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/ASmallGrey"
@@ -80,7 +83,8 @@
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/tvTermscondition"
             app:layout_constraintTop_toBottomOf="@+id/tvTermscondition"
-            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}" />
+            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
+            />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/scTermscondition"
