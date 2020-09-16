@@ -235,7 +235,7 @@ class AddBeneficiaryInternationlTransferFragment :
                             }
                         }
                     }
-                })
+                },false)
         }
     }
 
