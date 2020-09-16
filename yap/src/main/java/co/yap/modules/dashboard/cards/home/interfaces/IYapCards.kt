@@ -21,6 +21,8 @@ interface IYapCards {
         fun updateCardCount(id: Int)
         fun getPrimaryCard(cards: ArrayList<Card>?):Card?
         fun getDebitCard()
+        fun unFreezeCard(cardSerialNumber:String)
+        val EVENT_FREEZE_UNFREEZE_CARD: Int get() = 1
     }
 
     interface View : IBase.View<ViewModel>
