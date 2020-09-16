@@ -16,13 +16,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5">
 
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:cardBackgroundColor="@{viewModel.cardInfo.color}"
