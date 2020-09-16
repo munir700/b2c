@@ -1,11 +1,13 @@
 package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -13,6 +15,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.managers.MyUserManager
 
@@ -120,5 +123,27 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             productCode = "CD",
             pinCreated = true
         )
+    }
+
+
+    override fun unFreezeCard(cardSerialNumber: String) {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.freezeUnfreezeCard(CardLimitConfigRequest(cardSerialNumber))) {
+                is RetroApiResponse.Success -> {
+                    Handler().postDelayed({
+                        state.loading = false
+                        clickEvent.setValue(EVENT_FREEZE_UNFREEZE_CARD)
+                    }, 400)
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+
+        }
     }
 }

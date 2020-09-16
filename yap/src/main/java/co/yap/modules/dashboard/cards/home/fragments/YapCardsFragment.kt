@@ -105,15 +105,25 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                        view,
-                        data,
-                        pos
-                    )
-                )
-                viewModel.clickEvent.setValue(view.id)
+                if (data is Card?)
+                    if (view.tag != null && view.tag.equals("status")) {
+                        if (data.status.equals("BLOCKED")) {
+                            selectedCardPosition = pos
+                            viewModel.unFreezeCard(data.cardSerialNumber)
+                        }
+                    } else {
+
+                        viewModel.clickEvent.setPayload(
+                            SingleClickEvent.AdaptorPayLoadHolder(
+                                view,
+                                data,
+                                pos
+                            )
+                        )
+                        viewModel.clickEvent.setValue(view.id)
+                    }
             }
+
         })
     }
 
@@ -180,6 +190,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             }
                         }
                     }
+                }
+                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
+                    var card: Card = adapter.getDataForPosition(selectedCardPosition)
+                    card.status = "ACTIVE"
+                    card.blocked = false
+                    viewModel.cards.value?.set(selectedCardPosition, card)
+                    adapter.setItemAt(selectedCardPosition, card)
                 }
             }
         } else {
