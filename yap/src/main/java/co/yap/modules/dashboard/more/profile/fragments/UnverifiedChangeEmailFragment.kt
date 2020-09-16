@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailViewModel
+import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.translation.Strings
 
 class UnverifiedChangeEmailFragment : ChangeEmailFragment() {
     override val viewModel: IChangeEmail.ViewModel
@@ -13,7 +15,9 @@ class UnverifiedChangeEmailFragment : ChangeEmailFragment() {
 
 
     override fun setObservers() {
-
+        if (context is UnVerifiedEmailActivity)
+            (context as UnVerifiedEmailActivity).viewModel.state.tootlBarTitle =
+                getString(Strings.screen_change_email_display_text_heading)
         viewModel.success.observe(this, Observer {
             if (it) {
                 val action =
