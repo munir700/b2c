@@ -29,6 +29,7 @@ class ChangeCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setChangeCardPinFragmentData()
+        viewModel.state.forgotTextVisibility=true
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)

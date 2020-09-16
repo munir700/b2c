@@ -125,6 +125,7 @@
     <string name="screen_verify_passcode_button_sign_in">Sign in</string>
     <string name="screen_verify_passcode_button_verify">Verify</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot passcode?</string>
+    <string name="screen_verify_passcode_text_forgot_password_pin">Forgot Pin</string>
 
     <!-- Otp screen -->
     <string name="screen_verify_phone_number_display_text_resend_otp_success">New OTP has been generated successfully</string>
@@ -399,7 +400,8 @@
     <string name="screen_card_blocked_button_order_later">Order later</string>
 
     <!--    Enter current pin screen-->
-    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN</string>
+    <string name="screen_current_card_pin_display_text_heading">Enter your current PIN</string>
+    <string name="screen_current_card_pin_display_text_heading_pin">Enter your 4-digit PIN code</string>
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
