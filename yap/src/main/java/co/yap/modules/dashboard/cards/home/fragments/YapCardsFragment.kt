@@ -105,15 +105,27 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                        view,
-                        data,
-                        pos
-                    )
-                )
-                viewModel.clickEvent.setValue(view.id)
+                if (data is Card)
+                    if (data.status == CardStatus.BLOCKED.name) {
+                        viewModel.unFreezeCard(data.cardSerialNumber) {
+                            viewModel.getUpdatedCard(pos) {
+                                it?.let {
+                                    adapter.setItemAt(pos, it)
+                                }
+                            }
+                        }
+                    } else {
+                        viewModel.clickEvent.setPayload(
+                            SingleClickEvent.AdaptorPayLoadHolder(
+                                view,
+                                data,
+                                pos
+                            )
+                        )
+                        viewModel.clickEvent.setValue(view.id)
+                    }
             }
+
         })
     }
 
@@ -181,6 +193,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                     }
                 }
+//                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
+//                    var card: Card = adapter.getDataForPosition(selectedCardPosition)
+//                    card.status = "ACTIVE"
+//                    card.blocked = false
+//                    viewModel.cards.value?.set(selectedCardPosition, card)
+//                    adapter.setItemAt(selectedCardPosition, card)
+//                }
             }
         } else {
             if (it == R.id.tbBtnAddCard) {
