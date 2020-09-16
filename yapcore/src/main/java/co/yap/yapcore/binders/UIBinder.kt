@@ -12,6 +12,7 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -25,6 +26,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
@@ -852,6 +854,24 @@ object UIBinder {
     @BindingAdapter("ibanMask")
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
+    }
+    @JvmStatic
+    @BindingAdapter("spanColor")
+    fun spanColor(view: AppCompatTextView, currency: String) {
+        val splitStringArray: List<String> = currency.split(" ")
+        val spannable: Spannable =
+            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
+
+        spannable.setSpan(
+            ForegroundColorSpan(
+                view.context.getColor(R.color.greyDark)
+            ),
+            0,
+            splitStringArray[0].length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        view.setText(spannable)
     }
 
 }

@@ -1,8 +1,11 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -17,6 +20,8 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.currencyPicker.activity.ActivityMultiCurrencyPickerDialog
+import co.yap.sendmoney.currencyPicker.model.MultiCurrencyWallet
 import co.yap.sendmoney.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
@@ -26,17 +31,18 @@ import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.widgets.popmenu.PopupMenuItem
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.CURRENCYWALLET
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class AddBeneficiaryInternationlTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -44,7 +50,6 @@ class AddBeneficiaryInternationlTransferFragment :
     private var currencyPopMenu: PopupMenu? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
-
     override val viewModel: AddBeneficiaryViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
@@ -107,6 +112,7 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun initComponents() {
+
         val currencies = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
         currencyPopMenu =
             requireContext().getCurrencyPopMenu(
@@ -144,7 +150,20 @@ class AddBeneficiaryInternationlTransferFragment :
             }
 
             R.id.tvChangeCurrency -> {
-                currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency, 0, 30)
+                /*   currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency, 0, 30)
+*/
+                val bundle = Bundle()
+                bundle.putBoolean(ActivityMultiCurrencyPickerDialog.IS_DIALOG_POP_UP, true)
+                bundle.putParcelableArrayList(
+                    ActivityMultiCurrencyPickerDialog.LIST_OF_CURRENCIES,
+                    ArrayList<Parcelable>(getMultiCurrencyWalletList())
+                )
+                startActivityForResult(
+                    ActivityMultiCurrencyPickerDialog.getIntent(
+                        requireContext(),
+                        bundle
+                    ), RequestCodes.REQUEST_FOR_CURRENCY_SELECTED
+                )
 
             }
         }
@@ -175,6 +194,7 @@ class AddBeneficiaryInternationlTransferFragment :
             }
         }
     }
+
     private val popupItemClickListener =
         OnMenuItemClickListener<PopupMenuItem?> { position, _ ->
             val currencyItem =
@@ -207,7 +227,8 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun addBeneficiaryDialog() {
         context?.let { it ->
-            Utils.confirmationDialog(it,
+            Utils.confirmationDialog(
+                it,
                 Translator.getString(
                     it,
                     R.string.screen_add_beneficiary_detail_display_text_alert_title
@@ -235,7 +256,8 @@ class AddBeneficiaryInternationlTransferFragment :
                             }
                         }
                     }
-                },false)
+                }, false
+            )
         }
     }
 
@@ -272,6 +294,68 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun getBinding(): FragmentAddBeneficiaryInternationalBankTransferBinding {
         return (viewDataBinding as FragmentAddBeneficiaryInternationalBankTransferBinding)
+    }
+
+    fun getMultiCurrencyWalletList(): ArrayList<MultiCurrencyWallet> {
+        val countryList = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
+
+        val currencyWalletArray: ArrayList<MultiCurrencyWallet> = ArrayList()
+
+        for ((index, country) in countryList!!.withIndex()) {
+            currencyWalletArray.add(
+                MultiCurrencyWallet(
+                    country.code.toString().getCountryTwoDigitCodeFromThreeDigitCode(),
+                    country.code.toString(),
+                    country.name.toString(),
+                    index
+
+
+                )
+            )
+
+        }
+        return currencyWalletArray
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_FOR_CURRENCY_SELECTED) {
+                val multiCurrencyWallet =
+                    data?.getValue(CURRENCYWALLET, ExtraType.PARCEABLE.name) as? MultiCurrencyWallet
+                updateStates(multiCurrencyWallet!!.position)
+            }
+        }
+    }
+
+    fun updateStates(position: Int) {
+        val currencyItem =
+            viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies?.get(position)
+        if (currencyItem != null) {
+            currencyPopMenu?.selectedPosition = position
+            viewModel.state.currency = currencyItem.code ?: ""
+            viewModel.parentViewModel?.selectedCountry?.value?.setCurrency(currencyItem)
+            viewModel.parentViewModel?.selectedCountry?.value?.let { country ->
+                if (country.isoCountryCode2Digit == "AE") {
+                    viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                        SendMoneyBeneficiaryType.DOMESTIC.name
+                } else {
+                    country.getCurrency()?.rmtCountry?.let { isRmt ->
+                        if (isRmt) {
+                            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                SendMoneyBeneficiaryType.RMT.name
+                            viewModel.state.transferType = "Bank Transfer"
+                        } else {
+                            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                SendMoneyBeneficiaryType.SWIFT.name
+                            viewModel.state.transferType = "Bank Transfer"
+                        }
+                    }
+
+                }
+            }
+        }
+
     }
 
 }
