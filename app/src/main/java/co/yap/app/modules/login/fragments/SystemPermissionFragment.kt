@@ -89,7 +89,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
-                    ), showToolBar = true
+                    ), showToolBar = false
                 )
             }
         }

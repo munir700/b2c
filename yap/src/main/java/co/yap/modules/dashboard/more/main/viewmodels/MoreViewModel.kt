@@ -13,7 +13,6 @@ class MoreViewModel(application: Application) :
     IMore.ViewModel {
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override var preventTakeDeviceScreenShot: MutableLiveData<Boolean> = MutableLiveData(false)
     override var BadgeVisibility: Boolean=false
     override val badgeButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation? =

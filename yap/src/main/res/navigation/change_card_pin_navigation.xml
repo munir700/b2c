@@ -9,7 +9,7 @@
         android:id="@+id/changeCardPinFragment"
         android:name="co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ChangeCardPinFragment"
         android:label="ChangeCardPinFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_pin">
         <action
             android:id="@+id/action_changeCardPinFragment_to_setNewCardPinFragment"
             app:destination="@id/setNewCardPinFragment"
@@ -20,7 +20,7 @@
         android:id="@+id/setNewCardPinFragment"
         android:name="co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SetNewCardPinFragment"
         android:label="SetNewCardPinFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_pin">
         <argument
             android:name="flowType"
             android:defaultValue=" "
@@ -39,7 +39,7 @@
         android:id="@+id/confirmNewCardPinFragment"
         android:name="co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment"
         android:label="ConfirmNewCardPinFragment"
-        tools:layout="@layout/fragment_set_card_pin">
+        tools:layout="@layout/fragment_pin">
         <argument
             android:name="flowType"
             android:defaultValue=" "

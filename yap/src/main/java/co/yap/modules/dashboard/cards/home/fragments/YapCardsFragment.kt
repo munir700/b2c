@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -305,22 +304,27 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openStatusScreen(view: View, pos: Int) {
-        startActivityForResult(
-            FragmentPresenterActivity.getIntent(
-                requireContext(),
-                Constants.MODE_STATUS_SCREEN,
-                getCard(pos)
-            ), Constants.EVENT_CREATE_CARD_PIN
-        )
+        context?.let { context ->
+            startActivityForResult(
+                FragmentPresenterActivity.getIntent(
+                    context = context,
+                    type = Constants.MODE_STATUS_SCREEN,
+                    payLoad = getCard(pos)
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
     }
 
     private fun openSetPinScreen(card: Card) {
-        startActivityForResult(
-            SetCardPinWelcomeActivity.newIntent(
-                requireContext(),
-                card
-            ), Constants.EVENT_CREATE_CARD_PIN
-        )
+        context?.let { context ->
+            startActivityForResult(
+                SetCardPinWelcomeActivity.newIntent(
+                    context = context,
+                    card = card,
+                    skipWelcomeScreen = true
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
     }
 
     private fun startReorderCardFlow(card: Card?) {
