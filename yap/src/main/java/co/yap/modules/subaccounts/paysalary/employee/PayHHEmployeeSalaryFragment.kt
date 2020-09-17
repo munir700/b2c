@@ -23,12 +23,7 @@ class PayHHEmployeeSalaryFragment :
         state.subAccount.value?.getFullName() ?: ""
     )
 
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
-
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnPayNow -> {
                 arguments?.putParcelable(
@@ -79,10 +74,5 @@ class PayHHEmployeeSalaryFragment :
             viewModel.getSchedulePayment(it.accountUuid)
             viewModel.getLastTransaction(it.accountUuid)
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

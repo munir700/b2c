@@ -133,7 +133,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/common_button_add"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:text="@{Strings.common_button_add}" />
@@ -142,7 +142,7 @@
                 android:id="@+id/tvBack"
                 style="@style/Yap.App.Widget.TextView"
                 android:layout_gravity="center_horizontal"
-                android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 android:padding="@dimen/margin_extra_small"
                 android:text="@string/screen_yap_house_hold_user_info_contact_back_to_house_hold_text"
                 android:textColor="@color/colorPrimary"

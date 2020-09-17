@@ -3,7 +3,6 @@ package co.yap.modules.subaccounts.paysalary.subscription
 import android.content.Context
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
@@ -84,27 +83,7 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
         }
     }
 
-    override fun cancelSubscription() {
-        launch {
-            state.loading = true
-            when (val response =
-                customersRepository.cancelHouseHoldSubscription(
-                    state.subAccount.value?.accountUuid
-                )) {
-                is RetroApiResponse.Success -> {
-                    trackEvent(HHUserActivityEvents.HH_SUBS_CANCEL.type)
-                    getSubscriptionData()
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                }
-            }
-            state.loading = false
-        }
-    }
-
-    override fun handlePressOnClick(context: Context) {
+    override fun cancelSubscription(context: Context) {
         context.confirm(
             title = getString(Strings.screen_household_cancel_subscription_cancel_title),
             message = getString(Strings.screen_household_cancel_subscription_cancel_message),
@@ -112,8 +91,26 @@ class SubscriptionVM @Inject constructor(override val state: ISubscription.State
             negativeButton = getString(Strings.screen_household_cancel_subscription_no_button),
             cancelable = false
         ) {
-            cancelSubscription()
+            launch {
+                state.loading = true
+                when (val response =
+                    customersRepository.cancelHouseHoldSubscription(
+                        state.subAccount.value?.accountUuid
+                    )) {
+                    is RetroApiResponse.Success -> {
+                        trackEvent(HHUserActivityEvents.HH_SUBS_CANCEL.type)
+                        getSubscriptionData()
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                    }
+                }
+                state.loading = false
+            }
         }
     }
 
+    override fun handleOnClick(id: Int) {
+    }
 }

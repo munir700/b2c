@@ -4,26 +4,17 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
-import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
-import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.household.TransactionsHHRepository
-import co.yap.widgets.State
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmployeeSalary.State) :
     DaggerBaseViewModel<IPayHHEmployeeSalary.State>(), IPayHHEmployeeSalary.ViewModel {
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
     override var transactionsHHRepository: TransactionsHHApi = TransactionsHHRepository
-    override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         state.subAccount.value?.let {
             getSchedulePayment(it.accountUuid)
@@ -31,14 +22,14 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
         }
     }
 
+    override fun handleOnClick(id: Int) {
+    }
+
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
     }
 
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.postValue(id)
-    }
 //TODO parallel Api Call mechnisam need complete
 //    fun parallelRequest(
 //        successHandler: (MutableList<ApiResponse?>?) -> Unit,
@@ -85,7 +76,7 @@ class PayHHEmployeeSalaryVM @Inject constructor(override val state: IPayHHEmploy
                         state.recurringTransaction?.value =
                             it.find { s -> s.isRecurring == true && s.recurringInterval?.isNotEmpty()!! }
                         state.futureTransaction?.value =
-                            it.find { s -> s.isRecurring == false && s.recurringInterval?.isEmpty()?:false }
+                            it.find { s -> s.isRecurring == false && s.recurringInterval?.isEmpty() ?: false }
                     }
                 }
                 is RetroApiResponse.Error -> {

@@ -16,8 +16,6 @@ interface IFuturePayment {
         fun createSchedulePayment(uuid: String?, schedulePayment: SchedulePayment?)
         fun cancelSchedulePayment(scheduledPaymentUuid: String?)
         fun updateSchedulePayment(scheduledPaymentUuid: String?, request: SchedulePayment)
-        fun handlePressOnClick(id: Int)
-        val clickEvent: SingleClickEvent
         val GO_TO_CONFIRMATION: Int get() = 3
     }
 

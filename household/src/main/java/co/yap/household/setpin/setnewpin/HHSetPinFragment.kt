@@ -2,7 +2,6 @@ package co.yap.household.setpin.setnewpin
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
@@ -13,20 +12,20 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import kotlinx.android.synthetic.main.include_layout_number_keyboard.*
 
 class HHSetPinFragment :
-    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(), NumberKeyboard.NumberKeyboardListener {
+    BaseNavViewModelFragment<FragmentHhSetPinBinding, IHHSetPin.State, HHSetPinVM>(),
+    NumberKeyboard.NumberKeyboardListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_hh_set_pin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
         dialer.setListener(this)
         dialer.setInputView(tvInputField)
         dialer.setPassCodeView(passCodeView)
     }
 
-    var clickEvent = Observer<Int> {
-        when (it) {
+    override fun onClick(id: Int) {
+        when (id) {
             R.id.btnAction -> {
                 val action =
                     HHSetPinFragmentDirections.actionSetCardPinFragment2ToConfirmCardPinFragment2(
@@ -48,11 +47,6 @@ class HHSetPinFragment :
                 dialer.reset()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.clickEvent.removeObservers(this)
     }
 
     override fun onNumberClicked(number: Int, numbers: String) {

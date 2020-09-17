@@ -4,9 +4,12 @@ import android.app.Fragment
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
+import co.yap.yapcore.dagger.base.interfaces.CanHandleOnClick
+import co.yap.yapcore.dagger.base.interfaces.OnClickHandler
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
@@ -24,7 +27,7 @@ import javax.inject.Inject
 
 abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingActivity<VM>(), HasFragmentInjector, HasSupportFragmentInjector,
-    Injectable, CanFetchExtras {
+    Injectable, CanFetchExtras, CanHandleOnClick {
 
     lateinit var mViewDataBinding: VB
         private set
@@ -64,6 +67,9 @@ abstract class BaseViewModelActivity<VB : ViewDataBinding, S : IBase.State, VM :
         init(savedInstanceState)
         postInit()
         mViewDataBinding.executePendingBindings()
+        if (viewModel is OnClickHandler) {
+            viewModel.clickEvent?.observe(this, Observer { onClick(it) })
+        }
         postExecutePendingBindings(savedInstanceState)
         viewModel.onCreate(intent.extras)
     }

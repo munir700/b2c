@@ -13,9 +13,7 @@ interface IHouseHoldConfirmPayment {
 
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        var clickEvent: SingleClickEvent
         var repository: CustomersApi
-        fun handlePressOnView(id: Int)
         fun addHouseholdUser(apiResponse: ((Boolean?) -> Unit?)?)
     }
 

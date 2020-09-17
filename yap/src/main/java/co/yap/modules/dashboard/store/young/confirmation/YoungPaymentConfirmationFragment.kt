@@ -1,13 +1,10 @@
 package co.yap.modules.dashboard.store.young.confirmation
 
 import android.os.Bundle
-import android.os.Handler
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungPaymentConfirmationBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.modules.kyc.enums.KYCAction
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
@@ -27,10 +24,9 @@ class YoungPaymentConfirmationFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
                 launchActivityForResult<DocumentsDashboardActivity>(
@@ -45,7 +41,7 @@ class YoungPaymentConfirmationFragment :
                             val status = it.getStringExtra("status")
                             if (it.getBooleanExtra(Constants.result, false)) {
                                 trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID.type)
-                              //  Handler().post { launchAddressSelection(true) }
+                                //  Handler().post { launchAddressSelection(true) }
                                 return@let
                             } else if (it.getBooleanExtra(Constants.skipped, false)) {
                                 trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
@@ -61,10 +57,5 @@ class YoungPaymentConfirmationFragment :
                 //navigate(YoungPaymentConfirmationFragmentDirections.actionYoungPaymentConfirmationFragmentToYoungConfirmRelationshipFragment())
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

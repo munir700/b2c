@@ -15,8 +15,6 @@ interface IHHAddUserContact {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         fun verifyMobileNumber(apiResponse: ((Boolean?) -> Unit?)?)
     }
 

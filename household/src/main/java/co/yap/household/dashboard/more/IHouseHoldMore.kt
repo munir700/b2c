@@ -8,8 +8,6 @@ import co.yap.yapcore.SingleClickEvent
 interface IHouseHoldMore {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State>{
-        fun handlePressOnView(id: Int)
-        var clickEvent: SingleClickEvent
     }
     interface State : IBase.State
 }

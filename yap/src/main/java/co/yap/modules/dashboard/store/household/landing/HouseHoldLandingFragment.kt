@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.store.household.landing
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHouseHoldLandingBinding
@@ -21,12 +20,11 @@ class HouseHoldLandingFragment :
         setupToolbar(toolbar = mViewDataBinding.toolbar, setActionBar = true) {
             finishActivity()
         }
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
     override fun toolBarVisibility() = false
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetHouseHoldAccount -> {
                 trackEvent(HHSubscriptionEvents.HH_START_SUBSCRIPTION.type)
@@ -34,10 +32,5 @@ class HouseHoldLandingFragment :
                 navigate(HouseHoldLandingFragmentDirections.actionHouseHoldLandingFragmentToSubscriptionSelectionFragment())
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

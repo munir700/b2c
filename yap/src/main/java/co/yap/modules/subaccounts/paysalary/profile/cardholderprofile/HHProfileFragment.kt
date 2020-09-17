@@ -33,6 +33,9 @@ class HHProfileFragment :
         inflater.inflate(R.menu.menu_options, menu)
     }
 
+    override fun onClick(id: Int) {
+    }
+
     fun handleState(state: State?) {
         when (state?.status) {
             Status.LOADING -> multiStateView?.viewState = MultiStateView.ViewState.LOADING

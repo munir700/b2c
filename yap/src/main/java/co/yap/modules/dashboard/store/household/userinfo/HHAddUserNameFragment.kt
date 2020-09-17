@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.store.household.userinfo
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhAddUserNameBinding
@@ -20,12 +19,8 @@ class HHAddUserNameFragment :
     BaseNavViewModelFragment<FragmentHhAddUserNameBinding, IHHAddUserName.State, HHAddUserNameVM>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hh_add_user_name
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
                 trackEvent(HHSubscriptionEvents.HH_PLAN_NAME.type)
@@ -48,9 +43,4 @@ class HHAddUserNameFragment :
 
     override fun getToolBarTitle() =
         getString(Strings.screen_yap_house_hold_user_info_display_text_title)
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
-    }
 }

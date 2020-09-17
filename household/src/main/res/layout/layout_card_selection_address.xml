@@ -83,7 +83,7 @@
                     style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
                     android:layout_gravity="center_vertical"
                     android:gravity="start"
-                    android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     android:padding="@dimen/margin_small"
                     android:textColor="@color/colorPrimaryHouseHold"
                     android:textSize="@dimen/text_size_c3"
@@ -98,7 +98,7 @@
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/white"
                     app:btn_enable="true"
-                    android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                     app:btn_has_bold_text="false"
                     app:text="@{Strings.screen_house_hold_card_color_selection_button_text_confirm_location}"
                     tools:text="@string/screen_house_hold_card_color_selection_button_text_confirm_location" />

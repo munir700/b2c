@@ -11,9 +11,7 @@ class YoungPaymentSelectionVM @Inject constructor(override val state: IYoungPaym
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
     }
-    override val clickEvent = SingleClickEvent()
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 }

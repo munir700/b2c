@@ -130,7 +130,7 @@
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_xxl"
-                android:onClick="@{(v)-> futurePaymentVM.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> futurePaymentVM.handlePressOnView(v.id)}"
                 app:btn_enable="true"
                 app:enableCoreButton="@{futurePaymentVM.validator.isValidate}"
                 app:text="@{Strings.screen_household_future_payment_screen_button_text}"

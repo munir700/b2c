@@ -19,10 +19,9 @@ class HHIbanSendMoneyConfirmationFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.tvDoItLater -> navigateForward(
                 HHIbanSendMoneyConfirmationFragmentDirections.toSubAccountDashBoardFragment(),

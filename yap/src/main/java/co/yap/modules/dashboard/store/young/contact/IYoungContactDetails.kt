@@ -7,9 +7,6 @@ import co.yap.yapcore.SingleClickEvent
 interface IYoungContactDetails {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State>{
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
-
     }
     interface State : IBase.State {
         var email: MutableLiveData<String>

@@ -11,9 +11,6 @@ class HouseHoldLandingVM @Inject constructor(override val state: IHouseHoldLandi
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override val clickEvent = SingleClickEvent()
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 }

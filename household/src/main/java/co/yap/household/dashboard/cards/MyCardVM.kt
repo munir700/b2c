@@ -37,7 +37,6 @@ class MyCardVM @Inject constructor(
     private val repository: TransactionsRepository
 ) : DaggerBaseViewModel<IMyCard.State>(), IMyCard.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
@@ -174,8 +173,8 @@ class MyCardVM @Inject constructor(
         }
     }
 
-    override fun handlePressOnButtonClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
+
     }
 
     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {

@@ -22,12 +22,11 @@ class HHOnBoardingPassCodeFragment :
     override fun setDisplayHomeAsUpEnabled() = false
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
         dialer.setNumberKeyboardListener(this)
         dialer.hideFingerprintView()
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnCreatePasscode -> {
                 viewModel.createPassCodeRequest {
@@ -49,11 +48,6 @@ class HHOnBoardingPassCodeFragment :
                 )
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 
     override fun onNumberClicked(number: Int, text: String) {

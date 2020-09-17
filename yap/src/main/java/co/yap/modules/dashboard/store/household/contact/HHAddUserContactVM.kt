@@ -23,7 +23,6 @@ class HHAddUserContactVM @Inject constructor(
     override var validator: Validator?
 ) :
     DaggerBaseViewModel<IHHAddUserContact.State>(), IHHAddUserContact.ViewModel, IValidator {
-    override val clickEvent = SingleClickEvent()
     private val repository: CustomersApi = CustomersRepository
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
@@ -35,8 +34,7 @@ class HHAddUserContactVM @Inject constructor(
         }
     }
 
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.postValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun verifyMobileNumber(apiResponse: ((Boolean?) -> Unit?)?) {

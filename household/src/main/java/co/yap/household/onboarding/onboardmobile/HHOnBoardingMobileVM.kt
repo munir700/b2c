@@ -20,7 +20,6 @@ class HHOnBoardingMobileVM @Inject constructor(
     override val state: IHHOnBoardingMobile.State,
     override var validator: Validator?, private val repository: CustomersApi
 ) : DaggerBaseViewModel<IHHOnBoardingMobile.State>(), IHHOnBoardingMobile.ViewModel, IValidator {
-    override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
@@ -28,8 +27,7 @@ class HHOnBoardingMobileVM @Inject constructor(
         super.fetchExtras(extras)
     }
 
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun verifyHouseholdParentMobile(apiResponse: ((String?) -> Unit?)?) {

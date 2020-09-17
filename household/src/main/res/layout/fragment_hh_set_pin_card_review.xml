@@ -78,7 +78,7 @@
             android:layout_marginLeft="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginRight="@dimen/margin_extra_large"
-            android:onClick="@{(v)->viewModel.handleClick(v.id)}"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             app:btn_enable="true"
             app:text="@{Strings.screen_household_set_card_pin_review_button_text}"
             tools:text="Confirm" />

@@ -102,7 +102,7 @@
             style="@style/Yap.App.Widget.FloatingActionButton.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> hhIbanSendMoneyConfirmationVM.handlePressOnClick(v.id)}"
+            android:onClick="@{(v) -> hhIbanSendMoneyConfirmationVM.handlePressOnView(v.id)}"
             android:padding="@dimen/margin_extra_small"
             android:text="@string/screen_iban_send_money_confirmation_display_text_do_it_later"
             app:layout_constraintBottom_toBottomOf="parent"

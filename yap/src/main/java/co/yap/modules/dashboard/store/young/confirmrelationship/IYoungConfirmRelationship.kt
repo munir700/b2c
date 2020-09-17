@@ -10,8 +10,6 @@ interface IYoungConfirmRelationship {
         var childName :  MutableLiveData<String>
     }
     interface ViewModel : IBase.ViewModel<State>{
-        val clickEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
     }
     interface View : IBase.View<ViewModel>
 }

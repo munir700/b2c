@@ -7,9 +7,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
+import co.yap.yapcore.dagger.base.interfaces.CanHandleOnClick
+import co.yap.yapcore.dagger.base.interfaces.OnClickHandler
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.dagger.di.ViewModelInjectionField
 import co.yap.yapcore.dagger.di.components.Injectable
@@ -29,7 +32,7 @@ import kotlin.properties.Delegates
 abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM : DaggerBaseViewModel<S>> :
     BaseBindingFragment<VM>(),
     HasSupportFragmentInjector,
-    Injectable {
+    Injectable, CanHandleOnClick {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
@@ -69,8 +72,10 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
         viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
         if (viewModel is IValidator) {
-           // if ((viewModel as IValidator).validator?.targetViewBinding == null)
-                (viewModel as IValidator).validator?.targetViewBinding = mViewDataBinding
+            (viewModel as IValidator).validator?.targetViewBinding = mViewDataBinding
+        }
+        if (viewModel is OnClickHandler) {
+            viewModel.clickEvent?.observe(this, Observer { onClick(it) })
         }
         postExecutePendingBindings(savedInstanceState)
         viewModel.onCreate(arguments)
@@ -88,6 +93,8 @@ abstract class BaseViewModelFragment<VB : ViewDataBinding, S : IBase.State, VM :
     }
 
     override fun onDestroyView() {
+        if (viewModel is OnClickHandler)
+            viewModel.clickEvent?.removeObservers(this)
         unregisterStateListeners()
 //        view?.hideKeyboard()
 //        hideKeyboard()

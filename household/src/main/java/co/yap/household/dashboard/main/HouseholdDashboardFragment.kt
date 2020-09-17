@@ -64,7 +64,6 @@ class HouseholdDashboardFragment :
         profilePictureAdapter.onItemClickListener = onItemClickListener
         setBackButtonDispatcher()
         setHasOptionsMenu(true)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
         actionMenu = actionMenuBuilder.attachTo(mViewDataBinding.ivYapItAction)
             .setAlphaOverlay(mViewDataBinding.flAlphaOverlay)
             .setTxtYapIt(mViewDataBinding.txtYapIt).build()
@@ -101,7 +100,7 @@ class HouseholdDashboardFragment :
         })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.lyHeader_section -> expandableLayout.toggle(true)
             else -> {

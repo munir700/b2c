@@ -107,7 +107,10 @@ class FuturePaymentVM @Inject constructor(override val state: IFuturePayment.Sta
         }
     }
 
-    override fun handlePressOnClick(id: Int) {
+    override fun handlePressOnView(id: Int) {
+        handleOnClick(id)
+    }
+    override fun handleOnClick(id: Int) {
         when (id) {
             R.id.tvCancel -> {
                 clickEvent.postValue(id)

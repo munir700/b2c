@@ -74,7 +74,7 @@
             style="@style/RectangleBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium"
             app:btn_enable="true"

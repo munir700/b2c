@@ -83,7 +83,7 @@
         android:layout_marginTop="@dimen/_70sdp"
         android:layout_marginEnd="@dimen/_55sdp"
         android:layout_marginBottom="@dimen/margin_medium_large"
-        android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+        android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
         android:text="@string/common_button_next"
         enableCoreButton="true"
         app:layout_constraintBottom_toBottomOf="parent"

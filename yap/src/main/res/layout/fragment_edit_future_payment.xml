@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
-            android:onClick="@{(v)->futurePaymentVM.handlePressOnClick(v.id)}"
+            android:onClick="@{(v)->futurePaymentVM.handlePressOnView(v.id)}"
             app:btn_enable="true"
             app:enableCoreButton="@{futurePaymentVM.validator.isValidate}"
             app:layout_constraintBottom_toTopOf="@+id/tvCancel"
@@ -151,7 +151,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCancel"
             style="@style/Yap.App.Widget.TextView"
-            android:onClick="@{(v)->futurePaymentVM.handlePressOnClick(v.id)}"
+            android:onClick="@{(v)->futurePaymentVM.handlePressOnView(v.id)}"
             android:text="@string/screen_household_employee_salary_delete_recurring_text"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"

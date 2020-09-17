@@ -11,8 +11,6 @@ interface IHHAddUserSuccess {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var clickEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

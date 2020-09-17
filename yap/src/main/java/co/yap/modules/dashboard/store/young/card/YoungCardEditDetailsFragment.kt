@@ -3,8 +3,9 @@ package co.yap.modules.dashboard.store.young.card
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
-import co.yap.R
+import androidx.lifecycle.Observer
 import co.yap.BR
+import co.yap.R
 import co.yap.databinding.FragmentYoungCardEditDetailsBinding
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
@@ -13,7 +14,6 @@ import co.yap.yapcore.helpers.extentions.dimen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_young_card_edit_details.*
-import androidx.lifecycle.Observer
 import javax.inject.Inject
 
 class YoungCardEditDetailsFragment:
@@ -33,6 +33,9 @@ class YoungCardEditDetailsFragment:
         viewModel.adapter?.set(adapter)
         viewPager?.adapter = adapter
         setupPager()
+    }
+
+    override fun onClick(id: Int) {
     }
 
     private fun setupPager() {

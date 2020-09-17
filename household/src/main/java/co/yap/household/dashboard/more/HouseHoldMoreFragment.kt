@@ -47,7 +47,6 @@ class HouseHoldMoreFragment :
                 dimen(co.yap.R.dimen.margin_normal_large), 2, true
             )
         )
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     private val onItemClickListener = object : OnItemClickListener {
@@ -66,7 +65,7 @@ class HouseHoldMoreFragment :
         }
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.imgSettings -> launchActivity<MoreActivity>()
             R.id.tvLogOut -> {
@@ -83,11 +82,6 @@ class HouseHoldMoreFragment :
                     negativeCallback = {})
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 
     class Adapter(mValue: MutableList<MoreOption>, navigation: NavController?) :

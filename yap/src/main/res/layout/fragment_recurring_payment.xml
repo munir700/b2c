@@ -176,7 +176,7 @@
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/margin_xxl"
-            android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             app:btn_enable="true"
             app:enableCoreButton="@{viewModel.validator.isValidate &amp;&amp; viewModel.state.recurringInterval.length()>1}"
             app:layout_constraintBottom_toTopOf="@+id/tvCancel"
@@ -191,7 +191,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCancel"
             style="@style/Yap.App.Widget.TextView"
-            android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+            android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_household_employee_salary_delete_recurring_text"
             android:textColor="@color/colorPrimary"
             android:visibility="@{viewModel.state.recurringTransaction!=null &amp;&amp; !viewModel.state.recurringTransaction.nextProcessingDate.empty? View.VISIBLE:View.GONE}"
