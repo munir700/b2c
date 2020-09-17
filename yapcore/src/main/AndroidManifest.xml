@@ -20,6 +20,10 @@
             android:name="co.yap.modules.frame.FrameActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="co.yap.modules.frame.FrameDialogActivity"
+            android:configChanges="screenSize|keyboard"
+            android:theme="@style/myDialog" />
+        <activity
             android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
             android:screenOrientation="portrait" />
         <activity

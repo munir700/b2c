@@ -7,12 +7,11 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.sendmoney.R
 import co.yap.sendmoney.BR
-import co.yap.sendmoney.currencyPicker.viewmodel.CurrencyPickerViewModel
+import co.yap.sendmoney.R
 import co.yap.sendmoney.currencyPicker.interfaces.ICurrencyPicker
 import co.yap.sendmoney.currencyPicker.model.MultiCurrencyWallet
-import co.yap.sendmoney.currencyPicker.activity.ActivityMultiCurrencyPickerDialog
+import co.yap.sendmoney.currencyPicker.viewmodel.CurrencyPickerViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -20,6 +19,12 @@ import kotlinx.android.synthetic.main.fragment_currency_picker.*
 
 class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     ICurrencyPicker.View {
+
+    companion object {
+        val IS_DIALOG_POP_UP = "IS_DIALOG_POP_UP"
+        val LIST_OF_CURRENCIES = "LIST_OF_CURRENCIES"
+    }
+
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_currency_picker
 
@@ -29,12 +34,12 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { bundle ->
-            bundle.getBoolean(ActivityMultiCurrencyPickerDialog.IS_DIALOG_POP_UP).let {
+            bundle.getBoolean(IS_DIALOG_POP_UP).let {
                 viewModel.state.currencyDialogChecker.set(it)
 
             }
-            bundle.getParcelableArrayList<MultiCurrencyWallet>(ActivityMultiCurrencyPickerDialog.LIST_OF_CURRENCIES)?.let {
-              viewModel.availableCurrenciesList=it
+            bundle.getParcelableArrayList<MultiCurrencyWallet>(LIST_OF_CURRENCIES)?.let {
+                viewModel.availableCurrenciesList = it
 
             }
         }
@@ -102,8 +107,8 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
             }
         })
     }
-    private fun setSearchViewDialog()
-    {
+
+    private fun setSearchViewDialog() {
         svBeneficiary.isIconified = false
         svBeneficiary.clearFocus()
         svBeneficiary.setIconifiedByDefault(false)

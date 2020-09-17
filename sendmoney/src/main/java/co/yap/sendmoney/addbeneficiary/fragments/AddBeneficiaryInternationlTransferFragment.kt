@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -20,7 +19,7 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
-import co.yap.sendmoney.currencyPicker.activity.ActivityMultiCurrencyPickerDialog
+import co.yap.sendmoney.currencyPicker.fragment.CurrencyPickerFragment
 import co.yap.sendmoney.currencyPicker.model.MultiCurrencyWallet
 import co.yap.sendmoney.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
@@ -40,8 +39,6 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AddBeneficiaryInternationlTransferFragment :
@@ -150,25 +147,34 @@ class AddBeneficiaryInternationlTransferFragment :
             }
 
             R.id.tvChangeCurrency -> {
-                /*   currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency, 0, 30)
-*/
-                val bundle = Bundle()
-                bundle.putBoolean(ActivityMultiCurrencyPickerDialog.IS_DIALOG_POP_UP, true)
-                bundle.putParcelableArrayList(
-                    ActivityMultiCurrencyPickerDialog.LIST_OF_CURRENCIES,
-                    ArrayList<Parcelable>(getMultiCurrencyWalletList())
-                )
-                startActivityForResult(
-                    ActivityMultiCurrencyPickerDialog.getIntent(
-                        requireContext(),
-                        bundle
-                    ), RequestCodes.REQUEST_FOR_CURRENCY_SELECTED
-                )
-
+                startFragmentDialogForResult<CurrencyPickerFragment>(
+                    CurrencyPickerFragment::class.java.name,
+                    bundleOf(
+                        OtpDataModel::class.java.name to OtpDataModel(
+                            OTPActions.CHANGE_EMAIL.name,
+                            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                                requireContext()
+                            )
+                                ?: ""
+                        ),
+                        CurrencyPickerFragment.IS_DIALOG_POP_UP to true,
+                        CurrencyPickerFragment.LIST_OF_CURRENCIES to ArrayList<Parcelable>(
+                            getMultiCurrencyWalletList()
+                        )
+                    )
+                ) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        (data?.getValue(
+                            CURRENCYWALLET,
+                            ExtraType.PARCEABLE.name
+                        ) as? MultiCurrencyWallet)?.let { multiCurrencyWallet ->
+                            updateStates(multiCurrencyWallet.position)
+                        }
+                    }
+                }
             }
         }
     }
-
 
     private val otpCreateObserver = Observer<Boolean> {
         if (it) {
@@ -308,24 +314,11 @@ class AddBeneficiaryInternationlTransferFragment :
                     country.code.toString(),
                     country.name.toString(),
                     index
-
-
                 )
             )
 
         }
         return currencyWalletArray
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RequestCodes.REQUEST_FOR_CURRENCY_SELECTED) {
-                val multiCurrencyWallet =
-                    data?.getValue(CURRENCYWALLET, ExtraType.PARCEABLE.name) as? MultiCurrencyWallet
-                updateStates(multiCurrencyWallet!!.position)
-            }
-        }
     }
 
     fun updateStates(position: Int) {
