@@ -81,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_small"
+                app:onCheckedChangeListener = "@{viewModel.onCheckedChangeListener}"
                 android:visibility="@{viewModel.state.plansList.size()>0?View.VISIBLE:View.GONE}"
                 android:weightSum="2">
 

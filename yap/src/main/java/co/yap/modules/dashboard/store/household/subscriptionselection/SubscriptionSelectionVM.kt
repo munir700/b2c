@@ -1,13 +1,16 @@
 package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
+import co.yap.R
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
+import co.yap.widgets.radiocus.PresetRadioGroup
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.PackageType
@@ -22,19 +25,19 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
     private var monthlyFee: Double? = 0.0
     private var yearlyFee: Double? = 0.0
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        fetchHouseholdPackagesFee()
+        fetchSubscriptionsFee()
     }
 
     override fun handleOnClick(id: Int) {
     }
 
-    override fun fetchHouseholdPackagesFee() {
+    override fun fetchSubscriptionsFee() {
         launch {
             val monthly = viewModelBGScope.async(Dispatchers.IO) {
-                repository.getHousholdFeePackage(PackageType.MONTHLY.type)
+                repository.getPrepaidUserSubscriptionsPlans("household", PackageType.MONTHLY.type)
             }
             val yearly = viewModelBGScope.async(Dispatchers.IO) {
-                repository.getHousholdFeePackage(PackageType.YEARLY.type)
+                repository.getPrepaidUserSubscriptionsPlans("household", PackageType.YEARLY.type)
             }
             state.loading = true
             handlePackageFeeResponse(monthly.await(), yearly.await())
@@ -105,4 +108,15 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
         }
         return discountPercent
     }
+    override var onCheckedChangeListener: PresetRadioGroup.OnCheckedChangeListener? =
+        object : PresetRadioGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(
+                radioGroup: View?,
+                radioButton: View?,
+                isChecked: Boolean,
+                checkedId: Int
+            ) {
+                state.selectedPlanPosition.value = if (checkedId == R.id.monthlyIndicator) 0 else 1
+            }
+        }
 }

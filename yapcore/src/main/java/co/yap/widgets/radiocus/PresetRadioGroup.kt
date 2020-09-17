@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
-import co.yap.widgets.MultiStateView
+import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import com.jaygoo.widget.OnRangeChangedListener
@@ -313,7 +313,7 @@ class PresetRadioGroup @JvmOverloads constructor(
         }
     }
 
-    private class SavedState : BaseSavedState {
+    class SavedState : BaseSavedState {
 
         var mCheckedId: Int = View.NO_ID
 
@@ -338,6 +338,15 @@ class PresetRadioGroup @JvmOverloads constructor(
                 override fun newArray(size: Int): Array<SavedState?> {
                     return arrayOfNulls(size)
                 }
+            }
+
+            @JvmStatic
+            @BindingAdapter("onCheckedChangeListener", requireAll = true)
+            fun setOnCheckedChangeListener(
+                view: PresetRadioGroup,
+                onCheckedChangeListener: OnCheckedChangeListener
+            ) {
+                view.onCheckedChangeListener = onCheckedChangeListener
             }
         }
     }

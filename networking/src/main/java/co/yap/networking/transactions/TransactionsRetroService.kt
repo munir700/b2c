@@ -182,7 +182,7 @@ interface TransactionsRetroService {
 
     //    House Hold API calls
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
-    suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<RemittanceFeeResponse>
+    suspend fun getPrepaidUserSubscriptionsPlans(@Path("productPlan") productPlan: String,@Path("feeFrequency") feeFrequency: String): Response<RemittanceFeeResponse>
 
     //    House Hold Pay Salary Now
     @POST(TransactionsRepository.URL_HOUSEHOLD_PAY_SALARY_NOW)

@@ -20,7 +20,6 @@ class PaymentConfirmationFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     override fun onClick(id: Int) {
