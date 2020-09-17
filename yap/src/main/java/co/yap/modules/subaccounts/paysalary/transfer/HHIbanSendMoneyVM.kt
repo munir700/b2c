@@ -30,8 +30,7 @@ class HHIbanSendMoneyVM @Inject constructor(
     override var transactionsRepository: TransactionsHHApi = TransactionsHHRepository
     override val clickEvent: SingleClickEvent=SingleClickEvent()
 
-    override fun handlePressOnClick(id: Int) {
-       clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {

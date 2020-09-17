@@ -27,12 +27,11 @@ class HouseHoldConfirmPaymentVM @Inject constructor(override var state: IHouseHo
     DaggerBaseViewModel<IHouseHoldConfirmPayment.State>(), IHouseHoldConfirmPayment.ViewModel {
 
     override var repository: CustomersApi = CustomersRepository
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+    }
+
+    override fun handleOnClick(id: Int) {
     }
 
     override fun fetchExtras(extras: Bundle?) {

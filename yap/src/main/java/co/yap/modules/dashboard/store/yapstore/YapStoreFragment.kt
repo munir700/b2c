@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.store.yapstore
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
@@ -26,26 +25,25 @@ class YapStoreFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setRefreshEnabled(false)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
         if (data is Store) {
-            viewModel.clickEvent.setPayload(
+            viewModel.clickEvent?.setPayload(
                 SingleClickEvent.AdaptorPayLoadHolder(
                     view,
                     data,
                     pos
                 )
             )
-            viewModel.clickEvent.setValue(view.id)
+            viewModel.clickEvent?.setValue(view.id)
         }
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.cvStore -> {
-                viewModel.clickEvent.getPayload()?.let {
+                viewModel.clickEvent?.getPayload()?.let {
                     if (it.itemData is Store) {
                         when ((it.itemData as Store).id) {
                             R.id.youngStore -> {
@@ -83,16 +81,11 @@ class YapStoreFragment :
                         }
                     }
 
-                    viewModel.clickEvent.setPayload(null)
+                    viewModel.clickEvent?.setPayload(null)
                 }
-                viewModel.clickEvent.setPayload(null)
+                viewModel.clickEvent?.setPayload(null)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 
     class Adapter(mValue: MutableList<Store>, navigation: NavController?) :

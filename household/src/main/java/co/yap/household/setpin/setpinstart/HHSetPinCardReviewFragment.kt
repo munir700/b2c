@@ -1,7 +1,6 @@
 package co.yap.household.setpin.setpinstart
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import co.yap.household.BR
 import co.yap.household.R
@@ -19,10 +18,9 @@ class HHSetPinCardReviewFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
 //        viewModel.getCard()
-        viewModel.clickEvent.observe(this, observer)
     }
 
-    var observer = Observer<Int> {
+    override fun onClick(id: Int) {
         val action =
             HHSetPinCardReviewFragmentDirections.actionHHSetPinCardReviewFragmentToSetCardPinFragment2(
                 SetPinDataModel(
@@ -34,10 +32,5 @@ class HHSetPinCardReviewFragment :
                 )
             )
         findNavController().navigate(action)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.clickEvent.removeObservers(this)
     }
 }

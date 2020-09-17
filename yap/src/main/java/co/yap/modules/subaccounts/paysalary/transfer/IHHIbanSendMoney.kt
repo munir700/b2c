@@ -16,8 +16,6 @@ interface IHHIbanSendMoney {
         var transactionsRepository: TransactionsHHApi
         fun onAmountChange(amount: CharSequence, start: Int, before: Int, count: Int)
         fun ibanSendMoney(request: IbanSendMoneyRequest, apiResponse: ((Boolean) -> Unit?)?)
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
     }
 
     interface State : IBase.State {

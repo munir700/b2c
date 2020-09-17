@@ -11,8 +11,6 @@ class IYoungPaymentSelection {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

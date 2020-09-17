@@ -50,6 +50,9 @@ class SubAccountCardFragment :
         initDragDropAdapter()
     }
 
+    override fun onClick(id: Int) {
+    }
+
     override fun handleState(state: State?) {
         super.handleState(state)
         recyclerView?.adapter = mWrappedAdapter

@@ -9,4 +9,6 @@ class HouseHoldExpenseVM @Inject constructor(
     override var state: IHouseHoldExpense.State
 ) : DaggerBaseViewModel<IHouseHoldExpense.State>(), IHouseHoldExpense.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {}
+    override fun handleOnClick(id: Int) {
+    }
 }

@@ -20,6 +20,7 @@ class YoungSubAccountsFragment:
         viewModel.adapter.set(adapter)
     }
 
+    override fun onClick(id: Int) {
 
-
+    }
 }

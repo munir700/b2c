@@ -19,8 +19,6 @@ interface ISubscriptionSelection {
 
     interface ViewModel : IBase.ViewModel<State> {
         val repository: TransactionsApi
-        val clickEvent: SingleClickEvent
-        fun handlePressOnButton(id: Int)
         fun fetchHouseholdPackagesFee()
     }
 

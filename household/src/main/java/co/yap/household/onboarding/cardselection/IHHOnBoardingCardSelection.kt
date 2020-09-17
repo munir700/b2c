@@ -14,8 +14,6 @@ interface IHHOnBoardingCardSelection {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         val adapter: ObservableField<CardSelectionAdapter>?
         fun getCardsDesignListRequest(accountType: String,apiResponse: ((MutableList<HouseHoldCardsDesign>?) -> Unit?)?)
         fun orderHouseHoldPhysicalCardRequest(address: Address,apiResponse: ((Boolean) -> Unit?)?)

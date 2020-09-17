@@ -13,14 +13,9 @@ class HHOnBoardingInvalidEidVM @Inject constructor(
     private val repository: MessagesApi
 ) :
     DaggerBaseViewModel<IHHOnBoardingInvalidEid.State>(), IHHOnBoardingInvalidEid.ViewModel {
-    override val clickEvent = SingleClickEvent()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getHelpDeskPhone()
-    }
-
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
     }
 
     override fun getHelpDeskPhone() {
@@ -30,7 +25,6 @@ class HHOnBoardingInvalidEidVM @Inject constructor(
                 repository.getHelpDeskContact()) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
-
                 }
                 is RetroApiResponse.Success -> {
                     state.loading = false
@@ -38,5 +32,8 @@ class HHOnBoardingInvalidEidVM @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun handleOnClick(id: Int) {
     }
 }

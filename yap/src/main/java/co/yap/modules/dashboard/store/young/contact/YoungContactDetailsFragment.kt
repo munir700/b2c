@@ -12,4 +12,7 @@ class YoungContactDetailsFragment:
 
     override fun getBindingVariable()= BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_contact_details
+    override fun onClick(id: Int) {
+
+    }
 }

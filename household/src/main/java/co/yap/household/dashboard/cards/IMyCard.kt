@@ -16,10 +16,8 @@ interface IMyCard {
     interface ViewModel : IBase.ViewModel<State> {
         val EVENT_FREEZE_UNFREEZE_CARD: Int get() = 1
         val EVENT_CARD_DETAILS: Int get() = 2
-        val clickEvent: SingleClickEvent
         fun freezeUnfreezeCard(success: () -> Unit)
         fun getCardDetails(success: () -> Unit)
-        fun handlePressOnButtonClick(id: Int)
         fun getPrimaryCard(success: () -> Unit)
         fun requestTransactions(
             transactionRequest: HomeTransactionsRequest?,

@@ -30,10 +30,9 @@ class HHIbanSendMoneyFragment :
             viewModel.state.txnCategory.value = array[position]
             cbOutTransFilter?.visibility = if (isChecked && position == 0) VISIBLE else GONE
         }
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnConfirm -> {
                 val request = IbanSendMoneyRequest(
@@ -51,7 +50,6 @@ class HHIbanSendMoneyFragment :
                         )
                 }
             }
-
         }
     }
 

@@ -98,7 +98,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:enabled="false"
                 android:gravity="center"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@{viewModel.state.lastTransaction.amount??`0.00`}" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -134,7 +134,7 @@
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="@dimen/margin_xxl"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="Confirm"
                 app:btn_enable="true"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"

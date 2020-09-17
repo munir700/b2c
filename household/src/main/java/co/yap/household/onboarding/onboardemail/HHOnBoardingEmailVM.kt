@@ -22,14 +22,7 @@ class HHOnBoardingEmailVM @Inject constructor(
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override fun fetchExtras(extras: Bundle?) {
-        super.fetchExtras(extras)
-    }
-
-    override val clickEvent = SingleClickEvent()
-
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun verifyHouseholdEmail(apiResponse: ((Boolean) -> Unit?)?) {

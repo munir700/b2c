@@ -19,7 +19,6 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
     IRepositoryHolder<CardsRepository> {
 
     override var mobileNumber: String = ""
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var errorEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CardsRepository = CardsRepository
 
@@ -29,17 +28,20 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
         }
     }
 
-    override fun handleButtonPress(id: Int) {
+    override fun handlePressOnView(id: Int) {
+        handleOnClick(id)
+    }
+    override fun handleOnClick(id: Int) {
         val validateAgg = Utils.validateAggressively(context, state.pinCode.value.toString())
         if (validateAgg.isEmpty()) {
-            clickEvent.setValue(id)
+            clickEvent?.setValue(id)
         } else {
             state.dialerError.value = validateAgg
         }
     }
 
     override fun setPinRequest() {
-        clickEvent.call()
+        clickEvent?.call()
     }
 
     override fun setCardPin() {
@@ -62,11 +64,11 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
                     }else{
                         trackEvent(HHUserOnboardingEvents.HH_USER_ACCOUNT_ACTIVE.type)
                     }
-                    clickEvent.setValue(eventSuccess)
+                    clickEvent?.setValue(eventSuccess)
                 }
                 is RetroApiResponse.Error -> {
                     state.dialerError.value = response.error.message
-                    clickEvent.setValue(eventFailure)
+                    clickEvent?.setValue(eventFailure)
                 }
             }
             state.loading = false

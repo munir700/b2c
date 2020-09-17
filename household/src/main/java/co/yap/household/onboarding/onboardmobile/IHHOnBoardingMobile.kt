@@ -8,8 +8,6 @@ interface IHHOnBoardingMobile {
     interface View : IBase.View<ViewModel> {
     }
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         fun verifyHouseholdParentMobile(apiResponse: ((String?) -> Unit?)?)
     }
     interface State : IBase.State {

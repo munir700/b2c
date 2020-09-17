@@ -99,7 +99,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_home_transaction_child" />
+                    tools:listitem="@layout/item_hh_profile_transaction_child" />
             </co.yap.widgets.MultiStateView>
             <!--            <include-->
             <!--                layout="@layout/refresh_recycler_view"-->
@@ -176,7 +176,7 @@
                         <co.yap.widgets.CoreCircularImageView
                             android:id="@+id/ivUserImage"
                             style="@style/Yap.App.Widget.ImageView.Circle"
-                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnView(v.id)}"
                             android:src="@drawable/ic_travel"
                             app:colorType="@{`Beneficiary`}"
                             app:fullName="@{hhSalaryProfileVM.state.subAccount.fullName}"
@@ -190,7 +190,7 @@
                             android:id="@+id/ivSalary"
                             style="@style/Yap.App.Widget.FloatingActionButton.Circle"
                             android:layout_marginStart="@dimen/margin_extra_large"
-                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnView(v.id)}"
                             app:layout_constraintEnd_toStartOf="@+id/ivExpenses"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread"
@@ -210,7 +210,7 @@
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/ivExpenses"
                             style="@style/Yap.App.Widget.FloatingActionButton.Circle"
-                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnView(v.id)}"
                             app:layout_constraintEnd_toStartOf="@+id/ivTransfer"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread"
@@ -231,7 +231,7 @@
                             android:id="@+id/ivTransfer"
                             style="@style/Yap.App.Widget.FloatingActionButton.Circle"
                             android:layout_marginEnd="@dimen/margin_extra_large"
-                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnClick(v.id)}"
+                            android:onClick="@{(v)->hhSalaryProfileVM.handlePressOnView(v.id)}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread"

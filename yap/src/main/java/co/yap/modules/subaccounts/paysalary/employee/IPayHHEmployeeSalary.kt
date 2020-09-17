@@ -16,8 +16,6 @@ interface IPayHHEmployeeSalary {
     interface ViewModel : IBase.ViewModel<State> {
         var customersHHRepository: CustomerHHApi
         var transactionsHHRepository: TransactionsHHApi
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         fun getLastTransaction(uuid: String?)
         fun getSchedulePayment(uuid: String?)
     }

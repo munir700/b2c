@@ -17,4 +17,7 @@ class SubAccountDashBoardVM @Inject constructor(override var state: ISubAccountD
         adapter.get()?.addFragmentInfo<CardAnalyticsFragment>("Analytics")
     }
 
+    override fun handleOnClick(id: Int) {
+
+    }
 }

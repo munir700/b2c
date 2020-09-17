@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.networking.customers.household.CustomerHHApi
-import co.yap.networking.customers.household.CustomersHHRepository
-import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SalaryTransaction
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.PaySalaryNowRequest
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -25,11 +21,12 @@ import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import javax.inject.Inject
 
-class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAmount.State,
-                                              override var validator: Validator?) :
+class EnterSalaryAmountVM @Inject constructor(
+    override var state: IEnterSalaryAmount.State,
+    override var validator: Validator?
+) :
     DaggerBaseViewModel<IEnterSalaryAmount.State>(), IEnterSalaryAmount.ViewModel, IValidator {
     private val repository: TransactionsApi = TransactionsRepository
-    override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
@@ -47,7 +44,7 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
             when (val response = repository.paySalaryNow(request)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    clickEvent.postValue(GO_TO_CONFIRMATION)
+                    clickEvent?.postValue(GO_TO_CONFIRMATION)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -71,7 +68,11 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
         }
     }
 
-    override fun handlePressOnClick(id: Int) {
+    override fun handlePressOnView(id: Int) {
+        handleOnClick(id)
+    }
+
+    override fun handleOnClick(id: Int) {
         when (id) {
             R.id.tvLastUsedAmount -> {
                 state.amount.value = state.lastTransaction?.value?.amount
@@ -86,7 +87,7 @@ class EnterSalaryAmountVM @Inject constructor(override var state: IEnterSalaryAm
                         )
                     )
                 } else {
-                    clickEvent.postValue(GO_TO_RECURING)
+                    clickEvent?.postValue(GO_TO_RECURING)
                 }
             }
         }

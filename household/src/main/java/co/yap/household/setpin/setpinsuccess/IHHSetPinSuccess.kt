@@ -7,8 +7,6 @@ interface IHHSetPinSuccess {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        var clickEvent: SingleClickEvent
-        fun handleButtonPress(id: Int)
     }
 
     interface State : IBase.State

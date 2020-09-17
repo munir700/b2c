@@ -4,14 +4,12 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
 class HHIbanSendMoneyConfirmationVM @Inject constructor(override val state: IHHIbanSendMoneyConfirmation.State) :
     DaggerBaseViewModel<IHHIbanSendMoneyConfirmation.State>(),
     IHHIbanSendMoneyConfirmation.ViewModel {
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
@@ -23,7 +21,6 @@ class HHIbanSendMoneyConfirmationVM @Inject constructor(override val state: IHHI
         }
     }
 
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 }

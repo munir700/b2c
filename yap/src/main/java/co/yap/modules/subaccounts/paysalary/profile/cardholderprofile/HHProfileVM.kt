@@ -20,6 +20,8 @@ class HHProfileVM @Inject constructor(override val state: IHHProfile.State) :
         }
     }
 
+    override fun handleOnClick(id: Int) {
+    }
 
     fun getHouseholdUser(account: SubAccount?) {
         launch {

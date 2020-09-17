@@ -23,7 +23,7 @@ class PaymentConfirmationFragment :
         viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnGoToDashboard -> navigateForwardWithAnimation(
                 PaymentConfirmationFragmentDirections.actionPaymentConfirmationFragmentToSubAccountDashBoardFragment()
@@ -33,10 +33,5 @@ class PaymentConfirmationFragment :
                 arguments
             )
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.clickEvent.removeObservers(this)
     }
 }

@@ -1,7 +1,5 @@
 package co.yap.modules.subaccounts.paysalary.future.edit
 
-import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentEditFuturePaymentBinding
@@ -20,12 +18,7 @@ class EditFuturePaymentFragment :
     override fun getToolBarTitle() =
         getString(Strings.screen_household_future_payment_screen_tool_bar_text)
 
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
-
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
                 arguments?.putParcelable(
@@ -54,10 +47,5 @@ class EditFuturePaymentFragment :
                 data = arguments
             )
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

@@ -8,7 +8,6 @@ import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.PackageType
@@ -20,15 +19,13 @@ import javax.inject.Inject
 class SubscriptionSelectionVM @Inject constructor(override var state: ISubscriptionSelection.State) :
     DaggerBaseViewModel<ISubscriptionSelection.State>(), ISubscriptionSelection.ViewModel {
     override val repository: TransactionsApi = TransactionsRepository
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     private var monthlyFee: Double? = 0.0
     private var yearlyFee: Double? = 0.0
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         fetchHouseholdPackagesFee()
     }
 
-    override fun handlePressOnButton(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun fetchHouseholdPackagesFee() {

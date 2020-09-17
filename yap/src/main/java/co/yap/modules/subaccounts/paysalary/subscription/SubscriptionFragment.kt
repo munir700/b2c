@@ -44,4 +44,8 @@ class SubscriptionFragment :
         }
 
     }
+
+    override fun onClick(id: Int) {
+
+    }
 }

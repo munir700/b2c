@@ -13,10 +13,8 @@ import co.yap.yapcore.SingleClickEvent
 interface IHouseholdHome {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnView(id: Int)
         fun getPrimaryCard()
         fun getPaginationListener(): PaginatedRecyclerView.Pagination?
-        var clickEvent: SingleClickEvent
         fun requestTransactions(
             transactionRequest: HomeTransactionsRequest?,
             isLoadMore: Boolean = false,

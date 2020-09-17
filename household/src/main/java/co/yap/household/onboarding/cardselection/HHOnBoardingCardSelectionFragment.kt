@@ -42,7 +42,6 @@ class HHOnBoardingCardSelectionFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         // setBackButtonDispatcher()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
         viewModel.adapter?.set(adapter)
         viewPager?.adapter = adapter
         setupPager()
@@ -83,7 +82,7 @@ class HHOnBoardingCardSelectionFragment :
         }
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnCompleteSetup -> {
                 viewModel.signupToFss(

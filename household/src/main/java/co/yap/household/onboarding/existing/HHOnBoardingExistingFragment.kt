@@ -16,12 +16,8 @@ class HHOnBoardingExistingFragment :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hhon_boarding_existing
     override fun toolBarVisibility() = false
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnAccepted -> viewModel.subAccountInvitationStatus((AccountStatus.INVITE_ACCEPTED.name.toCamelCase())) {
                 it?.let {
@@ -37,10 +33,5 @@ class HHOnBoardingExistingFragment :
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

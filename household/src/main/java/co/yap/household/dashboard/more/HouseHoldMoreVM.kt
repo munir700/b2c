@@ -10,11 +10,10 @@ import javax.inject.Inject
 
 class HouseHoldMoreVM @Inject constructor(override val state: IHouseHoldMore.State) :
     BaseRecyclerAdapterVM<MoreOption, IHouseHoldMore.State>(), IHouseHoldMore.ViewModel {
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+    override fun handleOnClick(id: Int) {
+
     }
 }

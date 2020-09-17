@@ -10,4 +10,6 @@ class NavHostPresenterVM @Inject constructor(override val state: NavHostPresente
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
 
     }
+    override fun handleOnClick(id: Int) {
+    }
 }

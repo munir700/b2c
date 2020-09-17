@@ -22,7 +22,8 @@ class PaymentConfirmationVM @Inject constructor(override val state: IPaymentConf
         }
 
     }
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.postValue(id)
+
+    override fun handleOnClick(id: Int) {
+
     }
 }

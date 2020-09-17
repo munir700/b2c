@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/common_button_add"
                 android:visibility="@{MyUserManager.INSTANCE.existingUser?View.GONE:View.VISIBLE}"
                 app:enableCoreButton="@{viewModel.state.cardDesigns.empty?false:true}"

@@ -21,10 +21,9 @@ class FuturePaymentFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             viewModel.GO_TO_CONFIRMATION -> {
                 arguments?.putParcelable(
@@ -43,10 +42,5 @@ class FuturePaymentFragment :
                 data = arguments
             )
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

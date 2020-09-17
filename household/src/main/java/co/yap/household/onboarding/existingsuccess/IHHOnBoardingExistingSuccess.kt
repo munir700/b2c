@@ -8,8 +8,6 @@ interface IHHOnBoardingExistingSuccess {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
     }
 
     interface State : IBase.State {

@@ -32,13 +32,12 @@ class HHOnBoardingSuccessFragment :
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
         rootContainer.children.forEach { it.alpha = 0f }
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 500)
         trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_SIGNUP.type)
         trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_SIGN_UP.type)
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnCompleteVerification ->
                 navigateForwardWithAnimation(
@@ -108,10 +107,5 @@ class HHOnBoardingSuccessFragment :
             duration = 500
             startDelay = 1000
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

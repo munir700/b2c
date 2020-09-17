@@ -55,7 +55,6 @@ class HouseholdHomeFragment :
         GetAccountBalanceLiveData.get()
             .observe(this, Observer { state.availableBalance?.value = it?.availableBalance })
         intRecyclersView()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     private fun intRecyclersView() {
@@ -103,7 +102,7 @@ class HouseholdHomeFragment :
         }
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.tvFilters -> {
                 launchActivityForResult<TransactionFiltersActivity>(init = {

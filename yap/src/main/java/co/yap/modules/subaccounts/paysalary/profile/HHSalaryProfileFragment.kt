@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
@@ -48,8 +47,8 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
+
     private fun intRecyclersView() {
         mSalarySetupAdapter.onItemClickListener = this
         viewModel.salarySetupAdapter?.set(mSalarySetupAdapter)
@@ -64,7 +63,7 @@ class HHSalaryProfileFragment :
         }
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.ivSalary -> navigateForwardWithAnimation(
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToPayHHEmployeeSalaryFragment(),
@@ -94,11 +93,6 @@ class HHSalaryProfileFragment :
                 arguments
             )
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 
     override fun getToolBarTitle() = state.subAccount.value?.getFullName()

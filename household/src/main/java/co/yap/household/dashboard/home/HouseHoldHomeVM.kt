@@ -32,17 +32,12 @@ class HouseHoldHomeVM @Inject constructor(
     private val expandableItemManager: RecyclerViewExpandableItemManager
 ) : DaggerBaseViewModel<IHouseholdHome.State>(), IHouseholdHome.ViewModel {
     private val cardsRepository: CardsApi = CardsRepository
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionAdapter: ObservableField<HomeTransactionAdapter>? = ObservableField()
     override var notificationAdapter = ObservableField<HHNotificationAdapter>()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         //requestTransactions(state.transactionRequest, false)
         getPrimaryCard()
-    }
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
     }
 
     override fun requestTransactions(
@@ -141,7 +136,9 @@ class HouseHoldHomeVM @Inject constructor(
         }
     }
 
-//    private fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
+    override fun handleOnClick(id: Int) {
+    }
+    //    private fun <K, V> Map<K, V>.mergeReduce(other: Map<K, V>, reduce: (V, V) -> V = { a, b -> b }): Map<K, V> {
 //        val result = LinkedHashMap<K, V>(this.size + other.size)
 //        result.putAll(this)
 //        other.forEach { e ->

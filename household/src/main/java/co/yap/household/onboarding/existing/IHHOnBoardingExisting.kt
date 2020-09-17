@@ -8,8 +8,6 @@ interface IHHOnBoardingExisting {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         fun subAccountInvitationStatus(
             notificationStatus: String,
             apiResponse: ((String?) -> Unit?)?
