@@ -14,6 +14,6 @@ class YoungCardSuccessFragment:
 
     override fun toolBarVisibility() = true
     override fun getToolBarTitle(): String? {
-        return "Great !!"
+        return resources.getString(R.string.screen_email_verification_display_text_title)
     }
 }

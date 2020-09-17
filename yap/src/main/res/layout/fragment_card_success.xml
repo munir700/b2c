@@ -18,8 +18,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/_25sdp"
-            android:paddingEnd="@dimen/_25sdp">
+            android:paddingStart="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_large">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvOnWayNote"
@@ -35,7 +35,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivYoungCard"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_210sdp"
+                android:layout_height="@dimen/card_height"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:src="@drawable/card_spare"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
                     style="@style/Yap.App.Widget.TextView.Small.GrayDark"
                     android:layout_width="match_parent"
                     android:layout_gravity="top"
-                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/margin_field_to_field"
                     android:drawableStart="@drawable/ic_checked_icon"
                     android:drawablePadding="@dimen/margin_medium"
                     android:gravity="center_vertical"
@@ -96,18 +96,18 @@
                 <co.yap.widgets.CoreButton
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="@dimen/_140sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginLeft="@dimen/_45sdp"
-                    android:layout_marginTop="@dimen/_23sdp"
-                    android:layout_marginRight="@dimen/_38sdp"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:paddingEnd="@dimen/_20sdp"
+                    android:layout_height="@dimen/margin_large"
+                    android:layout_marginLeft="@dimen/margin_xl"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_extra_large2"
+                    android:paddingStart="@dimen/margin_medium_large"
+                    android:paddingEnd="@dimen/margin_medium_large"
                     android:text="Download Link"
                     app:btn_drawable="@drawable/ic_share_white"
                     app:btn_drawable_padding_left="10"
                     app:btn_drawable_padding_top="8"
                     app:btn_drawable_position="right"
-                    app:btn_text_size="@dimen/_10ssp"
+                    app:btn_text_size="@dimen/text_size_h1"
                     app:enableCoreButton="@{true}" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -117,7 +117,7 @@
                 enableCoreButton="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginTop="@dimen/btn_top_margin"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:text="Send money to Lina"
                 app:enableCoreButton="@{true}"
