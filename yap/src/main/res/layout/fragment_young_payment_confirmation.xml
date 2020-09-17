@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_btn_side_paddings"
             android:layout_marginRight="@dimen/margin_btn_side_paddings"
-            android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
             android:paddingStart="@dimen/margin_large"
             android:paddingEnd="@dimen/margin_large"
             app:enableCoreButton="@{true}"

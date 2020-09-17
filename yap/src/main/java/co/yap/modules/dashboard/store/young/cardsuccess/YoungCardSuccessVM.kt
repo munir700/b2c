@@ -8,13 +8,12 @@ import javax.inject.Inject
 
 class YoungCardSuccessVM  @Inject constructor(override var state: IYoungCardSuccess.State) :
     DaggerBaseViewModel< IYoungCardSuccess.State>(), IYoungCardSuccess.ViewModel{
-    override val clickEvent = SingleClickEvent()
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+
+    }
+
+    override fun handleOnClick(id: Int) {
 
     }
 }

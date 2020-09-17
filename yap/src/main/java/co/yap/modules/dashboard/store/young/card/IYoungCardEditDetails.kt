@@ -12,8 +12,6 @@ interface IYoungCardEditDetails {
 
     interface ViewModel : IBase.ViewModel<State> {
         val adapter: ObservableField<YoungCardEditAdapter>?
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
 
     }
 

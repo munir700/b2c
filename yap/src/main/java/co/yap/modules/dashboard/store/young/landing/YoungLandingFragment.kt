@@ -12,26 +12,22 @@ class YoungLandingFragment :
     BaseNavViewModelFragment<FragmentYoungLandingBinding, IYoungLanding.State, YoungLandingVM>() {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_landing
+    override fun onClick(id: Int) {
+        when (id) {
+            R.id.btnGetHouseHoldAccount -> {
+                navigate(YoungLandingFragmentDirections.actionYoungLandingFragmentToYoungBenefitsFragment())
+            }
+        }    }
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setupToolbar(toolbar = mViewDataBinding.toolbar, setActionBar = true) {
             finishActivity()
         }
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     override fun setHomeAsUpIndicator() = R.drawable.ic_close_white
     override fun toolBarVisibility() = false
-    private fun onClick(id: Int) {
-        when (id) {
-            R.id.btnGetHouseHoldAccount -> {
-                navigate(YoungLandingFragmentDirections.actionYoungLandingFragmentToYoungBenefitsFragment())
-            }
-        }
-    }
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
-    }
+
+
 }

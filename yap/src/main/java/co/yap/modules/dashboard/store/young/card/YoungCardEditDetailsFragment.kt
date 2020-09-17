@@ -29,6 +29,22 @@ class YoungCardEditDetailsFragment:
     private var tabViews = ArrayList<CircleView>()
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_card_edit_details
+    override fun onClick(id: Int) {
+        when (id) {
+            R.id.btnNext -> {
+                viewModel.state?.isWaitingList?.value?.let { isWaitingList ->
+                    if (isWaitingList) launchActivity<CreatePasscodeActivity> {  }else startActivityForResult(
+                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
+                        Constants.REQUEST_CODE_CREATE_PASSCODE
+                    )
+                } ?: startActivityForResult(
+                    context?.let { CreatePasscodeActivity.newIntent(it, true) },
+                    Constants.REQUEST_CODE_CREATE_PASSCODE
+                )
+            }
+        }
+    }
+
     override fun onTabReselected(tab: TabLayout.Tab?) {
         TODO("Not yet implemented")
     }
@@ -38,7 +54,6 @@ class YoungCardEditDetailsFragment:
         viewModel.adapter?.set(adapter)
         viewPager?.adapter = adapter
         setupPager()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
 
     }
 
@@ -89,19 +104,5 @@ class YoungCardEditDetailsFragment:
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
         }    }
-    private fun onClick(id: Int) {
-        when (id) {
-            R.id.btnNext -> {
-                viewModel.state?.isWaitingList?.value?.let { isWaitingList ->
-                    if (isWaitingList) launchActivity<CreatePasscodeActivity> {  }else startActivityForResult(
-                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                        Constants.REQUEST_CODE_CREATE_PASSCODE
-                    )
-                } ?: startActivityForResult(
-                    context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                    Constants.REQUEST_CODE_CREATE_PASSCODE
-                )
-            }
-        }
-    }
+
 }

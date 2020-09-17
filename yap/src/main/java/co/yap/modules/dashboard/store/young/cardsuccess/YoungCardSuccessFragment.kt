@@ -9,6 +9,9 @@ class YoungCardSuccessFragment:
     BaseNavViewModelFragment<FragmentCardSuccessBinding, IYoungCardSuccess.State, YoungCardSuccessVM>() {
     override fun getBindingVariable()= BR.viewModel
     override fun getLayoutId()= R.layout.fragment_card_success
+    override fun onClick(id: Int) {
+    }
+
     override fun toolBarVisibility() = true
     override fun getToolBarTitle(): String? {
         return "Great !!"
