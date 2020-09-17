@@ -730,7 +730,7 @@
 
     <!-- International Funds Transfer -->
 
-    <string name="screen_international_funds_transfer_display_text_title">Send money to</string>
+    <string name="screen_international_funds_transfer_display_text_title">Send money to </string>
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
@@ -1239,4 +1239,12 @@
     <string name="screen_young_confirm_relationship_edit_hint_text">Select</string>
     <string name="screen_young_confirm_relationship_edit_label_text">Relationship</string>
     <string name="screen_young_confirm_relationship_label_text">Please confirm your relationship with %1s</string>
+
+    <!-- Young Card Success screen -->
+    <string name="screen_young_card_success_dashboard_btn_label">Go to Young dashboard</string>
+    <string name="screen_young_card_success_download_btn_text">Download Link</string>
+    <string name="screen_young_card_success_qr_note_text">The QR code can be found on your YAP Young dashboard and YAP Young profile page.</string>
+    <string name="screen_young_card_success_signin_note_text">Upon sign in, %1s will be asked to scan a QR code on your app to continue activation.</string>
+    <string name="screen_young_card_success_young_card_label">Yap Young card</string>
+    <string name="screen_young_card_success_young_card_on_way_label">%1s\'s card is on its way</string>
 </resources>

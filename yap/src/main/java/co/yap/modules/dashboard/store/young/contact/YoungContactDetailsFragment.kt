@@ -15,15 +15,14 @@ class YoungContactDetailsFragment:
 
     override fun getBindingVariable()= BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_contact_details
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
                 navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungCardEditDetailsFragment())
             }
-        }
+        }    }
+    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
+        super.postExecutePendingBindings(savedInstanceState)
     }
+
 }
