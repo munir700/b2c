@@ -126,16 +126,19 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvGotoDashboard"
                 style="@style/Yap.App.Widget.TextView.FullName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:gravity="center_horizontal"
-                android:paddingTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_extra_small"
                 android:paddingEnd="@dimen/margin_extra_small"
                 app:text="@{Strings.screen_young_card_success_dashboard_btn_label}"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnNext" />
+                app:layout_constraintTop_toBottomOf="@+id/btnNext"
+                app:layout_constraintStart_toStartOf="@+id/btnNext"
+                app:layout_constraintEnd_toEndOf="@+id/btnNext"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
