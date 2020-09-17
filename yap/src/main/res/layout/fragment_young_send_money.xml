@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyVM" />
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+        <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+ android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/margin_medium"
+    android:paddingEnd="@dimen/margin_medium">
+    <co.yap.widgets.CoreCircularImageView
+        android:id="@+id/ivUserImage"
+        style="@style/Yap.App.Widget.ImageView.Circle"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_store_b2b"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEnterAmount"
+        style="@style/Yap.App.Widget.TextView.Small.BlueDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Something Here"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_extra_large"/>
+
+    <co.yap.widgets.TextViewRichDrawable
+        android:id="@+id/tvBenefit"
+        style="@style/Yap.App.Widget.TextView.Large"
+        android:layout_width="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="32dp"
+        android:drawableStart="@drawable/ic_uae_flag"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:text="AED"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEnterAmount" />
+
+    <co.yap.widgets.EasyMoneyEditText
+        android:id="@+id/etLastUsedAmount"
+        style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:enabled="true"
+        android:gravity="center"
+        android:minWidth="@dimen/_140sdp"
+        android:onTextChanged="@{viewModel.onAmountChange}"
+        android:text="@={viewModel.state.amount}"
+        android:textAlignment="center"
+        app:amount_drawable="@drawable/bg_funds"
+        app:errorEnabled="@{true}"
+        app:forceKeyboard="@{true}"
+        app:layout_constraintTop_toBottomOf="@+id/tvEnterAmount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+        <requestFocus />
+    </co.yap.widgets.EasyMoneyEditText>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAvailableBalance"
+        style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_medium_large"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/etLastUsedAmount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance??`0.00`,``)))}"
+        tools:text="Your available balance is " />
+    <co.yap.widgets.CoreButton
+        android:id="@+id/btnConfirm"
+        style="@style/FragmentsBtnStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_xxl"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_xxl"
+        android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+        app:btn_enable="true"
+        app:enableCoreButton="@{viewModel.validator.isValidate}"
+        app:text="@{Strings.screen_household_future_payment_screen_button_text}"
+        tools:text="Confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_medium"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
