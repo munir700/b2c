@@ -6,8 +6,7 @@ import co.yap.yapcore.BaseState
 
 class CurrencyPickerState : BaseState(),
     ICurrencyPicker.State {
-    override var hintText: ObservableField<String> = ObservableField()
-    override var currencyDialogChecker: ObservableField<Boolean> = ObservableField()
+     override var currencyDialogChecker: ObservableField<Boolean> = ObservableField()
 
 
 }

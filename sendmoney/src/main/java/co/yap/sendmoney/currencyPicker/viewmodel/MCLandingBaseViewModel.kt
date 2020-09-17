@@ -8,10 +8,4 @@ import co.yap.yapcore.IBase
 abstract class MCLandingBaseViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
     var parentViewModel: IMCLanding.ViewModel? = null
-
-    fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.title?.set(title)
-    }
-
-
 }

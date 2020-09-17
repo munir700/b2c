@@ -7,7 +7,7 @@ interface IMultiCurrencyPickerDialog {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        val shardPrefs: SharedPreferenceManager
+
     }
 
     interface State : IBase.State

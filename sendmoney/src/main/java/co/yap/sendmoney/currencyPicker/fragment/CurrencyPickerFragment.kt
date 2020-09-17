@@ -46,8 +46,6 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
         setListeners()
         setSearchView()
         setSearchViewDialog()
-
-
     }
 
     private fun setListeners() {

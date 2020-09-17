@@ -88,10 +88,4 @@ class CurrencyPickerViewModel(application: Application) :
 
     }*/
 
-    override fun deleteWalletRequest(id: Int) {
-    }
-
-    override fun editWallet() {
-
-    }
 }

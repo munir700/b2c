@@ -20,12 +20,9 @@ interface ICurrencyPicker {
         var availableCurrenciesList: MutableList<MultiCurrencyWallet>
         var searchQuery: MutableLiveData<String>
         fun handlePressOnView(id: Int)
-        fun deleteWalletRequest(id: Int)
-        fun editWallet()
     }
 
     interface State : IBase.State{
-       var hintText: ObservableField<String>
-        var currencyDialogChecker:ObservableField<Boolean>
+          var currencyDialogChecker:ObservableField<Boolean>
     }
 }

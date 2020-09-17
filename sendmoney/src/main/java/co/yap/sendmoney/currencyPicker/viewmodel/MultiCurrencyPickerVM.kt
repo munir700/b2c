@@ -9,6 +9,5 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 class MultiCurrencyPickerVM (application: Application) : BaseViewModel<IMultiCurrencyPickerDialog.State>(application),
     IMultiCurrencyPickerDialog.ViewModel {
       override val state: IMultiCurrencyPickerDialog.State = MainStateCurrencyPickerDialog()
-    override val shardPrefs: SharedPreferenceManager =
-        SharedPreferenceManager.getInstance(application)
+
 }
