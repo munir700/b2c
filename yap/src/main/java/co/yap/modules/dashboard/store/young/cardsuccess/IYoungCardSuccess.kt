@@ -6,8 +6,7 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IYoungCardSuccess {
     interface View : IBase.View<ViewModel>
-    interface ViewModel : IBase.ViewModel<State>{
-    }
+    interface ViewModel : IBase.ViewModel<State>
     interface State : IBase.State{
         var childName : MutableLiveData<String>
     }

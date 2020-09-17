@@ -11,7 +11,6 @@ class YoungCardSuccessFragment:
     override fun getLayoutId()= R.layout.fragment_card_success
     override fun onClick(id: Int) {
     }
-
     override fun toolBarVisibility() = true
     override fun getToolBarTitle(): String? {
         return resources.getString(R.string.screen_email_verification_display_text_title)

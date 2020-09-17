@@ -8,12 +8,8 @@ import javax.inject.Inject
 
 class YoungCardSuccessVM  @Inject constructor(override var state: IYoungCardSuccess.State) :
     DaggerBaseViewModel< IYoungCardSuccess.State>(), IYoungCardSuccess.ViewModel{
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
     }
-
     override fun handleOnClick(id: Int) {
-
     }
 }

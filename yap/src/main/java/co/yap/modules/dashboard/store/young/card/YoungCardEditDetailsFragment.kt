@@ -21,7 +21,7 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.helpers.extentions.launchActivity
 import javax.inject.Inject
 
-class YoungCardEditDetailsFragment:
+class YoungCardEditDetailsFragment :
     BaseNavViewModelFragment<FragmentYoungCardEditDetailsBinding, IYoungCardEditDetails.State, YoungCardEditDetailsVM>(),
     TabLayout.OnTabSelectedListener {
     @Inject
@@ -80,7 +80,6 @@ class YoungCardEditDetailsFragment:
                             this@YoungCardEditDetailsFragment.adapter.getData()[0].designCode
                         tab.customView = view
                     }).attach()
-
             })
         }
     }
@@ -89,7 +88,8 @@ class YoungCardEditDetailsFragment:
         tab?.let {
             tabViews[it.position].borderWidth = 0f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
-        }    }
+        }
+    }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.let {
@@ -97,6 +97,6 @@ class YoungCardEditDetailsFragment:
                 adapter.getData()[it.position].designCode// (tab.tag as HouseHoldCardsDesign).designCode
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
-        }    }
-
+        }
+    }
 }

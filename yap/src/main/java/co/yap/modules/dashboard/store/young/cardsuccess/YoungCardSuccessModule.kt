@@ -17,7 +17,6 @@ class YoungCardSuccessModule : BaseFragmentModule<YoungCardSuccessFragment>(){
         fragment: YoungCardSuccessFragment,
         viewModelProvider: InjectionViewModelProvider<YoungCardSuccessVM>
     ): YoungCardSuccessVM = viewModelProvider.get(fragment, YoungCardSuccessVM::class)
-
     @Provides
     @FragmentScope
     fun provideCardSuccessState(): IYoungCardSuccess.State = YoungCardSuccessState()
