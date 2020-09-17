@@ -46,15 +46,16 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (MyUserManager.user?.notificationStatuses) {
-            AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
-                skipLocationSelectionFragment()
+        if (viewModel.parentViewModel?.isOnBoarding == false) {
+            when (MyUserManager.user?.notificationStatuses) {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                    skipLocationSelectionFragment()
+                }
+                else -> setObservers()
             }
-            else -> {
-                setObservers()
-            }
+        } else {
+            setObservers()
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
