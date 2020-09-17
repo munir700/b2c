@@ -33,15 +33,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivYoungCard"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/card_height"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:src="@drawable/card_spare"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote"
+                android:visibility="gone"/>
+            <co.yap.widgets.AspectRatioImageView
+                android:id="@+id/ivYoungCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:src="@drawable/card_spare"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote"
+                app:aspectRatio="1.2"
+                app:aspectRatioEnabled="true"
+                />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvYoungCardLabel"
                 style="@style/Yap.App.Widget.TextView.Small.GrayDark"
