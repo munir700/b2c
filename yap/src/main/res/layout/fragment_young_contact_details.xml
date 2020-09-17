@@ -94,7 +94,7 @@
                 android:layout_marginTop="@dimen/_120sdp"
                 android:layout_marginEnd="@dimen/_59sdp"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:text="@{Strings.common_button_next}" />
         </androidx.appcompat.widget.LinearLayoutCompat>

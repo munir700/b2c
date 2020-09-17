@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.store.household.success
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhAddUserSuccessBinding
@@ -23,11 +22,10 @@ class HHAddUserSuccessFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
-        viewModel.clickEvent.observe(this, onClick)
     }
 
-    private val onClick = Observer<Int> {
-        when (it) {
+    override fun onClick(id: Int) {
+        when (id) {
             R.id.btnShare -> {
                 trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SHARE.type)
                 trackEvent(HHSubscriptionEvents.HH_SHARE.type)
@@ -47,10 +45,5 @@ class HHAddUserSuccessFragment :
             }
 
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.clickEvent.removeObservers(this)
     }
 }

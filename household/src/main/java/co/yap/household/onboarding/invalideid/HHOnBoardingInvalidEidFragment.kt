@@ -20,10 +20,9 @@ class HHOnBoardingInvalidEidFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setBackButtonDispatcher()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnLogout -> confirm(message = getString(R.string.screen_profile_settings_logout_display_text_alert_message),
                 title = getString(R.string.screen_profile_settings_logout_display_text_alert_title),

@@ -10,12 +10,8 @@ class HHOnBoardingExistingSuccessVM @Inject constructor(override val state: IHHO
     DaggerBaseViewModel<IHHOnBoardingExistingSuccess.State>(),
     IHHOnBoardingExistingSuccess.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-
     }
 
-    override val clickEvent = SingleClickEvent()
-
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 }

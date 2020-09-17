@@ -2,7 +2,6 @@ package co.yap.modules.subaccounts.account.card
 
 import android.os.Bundle
 import androidx.navigation.NavController
-import co.yap.networking.customers.household.CustomerHHApi
 import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.customers.household.responsedtos.SubAccounts
@@ -25,7 +24,8 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
     private fun getEmptyAccount(): MutableList<SubAccount>? {
         val accounts =
             SubAccounts()
-        accounts.account?.add(0,
+        accounts.account?.add(
+            0,
             SubAccount(
                 accountType = AccountType.B2C_ACCOUNT.name
             )
@@ -40,6 +40,8 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
         return accounts.account
     }
 
+    override fun handleOnClick(id: Int) {
+    }
 
     override fun getSubAccount() {
         launch {
@@ -47,7 +49,8 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
             when (val response = repository.getSubAccounts()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        it.add(0,
+                        it.add(
+                            0,
                             SubAccount(
                                 accountType = AccountType.B2C_ACCOUNT.name
                             )

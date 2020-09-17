@@ -25,15 +25,14 @@ class HouseHoldConfirmPaymentFragment :
     private var householdPlanPopMenu: PopupMenu? = null
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, onClick)
         initComponents()
         GetAccountBalanceLiveData.get().observe(this, Observer {
             state.availableBalance?.value = it?.availableBalance
         })
     }
 
-    private val onClick = Observer<Int> {
-        when (it) {
+    override fun onClick(id: Int) {
+        when (id) {
             R.id.tvChangePlan -> {
                 householdPlanPopMenu?.showAsAnchorRightBottom(tvChangePlan, 0, 30)
             }
@@ -75,11 +74,6 @@ class HouseHoldConfirmPaymentFragment :
             householdPlanPopMenu?.selectedPosition = position
             state.selectedPlan?.value = state.plansList?.value?.get(position)
         }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.clickEvent.removeObservers(this)
-    }
 
     override fun onBackPressed(): Boolean = false
 }

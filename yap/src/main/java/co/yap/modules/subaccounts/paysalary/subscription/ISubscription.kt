@@ -11,11 +11,10 @@ interface ISubscription {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnClick(context: Context)
+        fun cancelSubscription(context: Context)
         var customersRepository: CustomersHHRepository
         fun getSubscriptionData()
         fun setUpSubscription()
-        fun cancelSubscription()
         fun reActivateSubscription()
     }
 

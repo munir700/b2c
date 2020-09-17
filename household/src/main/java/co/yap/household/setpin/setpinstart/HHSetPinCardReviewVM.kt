@@ -1,21 +1,16 @@
 package co.yap.household.setpin.setpinstart
 
 import android.os.Bundle
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
-import co.yap.yapcore.enums.CardType
 import javax.inject.Inject
 
 class HHSetPinCardReviewVM @Inject constructor(override val state: IHHSetPinCardReview.State) :
     DaggerBaseViewModel<IHHSetPinCardReview.State>(), IHHSetPinCardReview.ViewModel,
     IRepositoryHolder<CardsRepository> {
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CardsRepository = CardsRepository
 
 
@@ -26,8 +21,7 @@ class HHSetPinCardReviewVM @Inject constructor(override val state: IHHSetPinCard
 
     }
 
-    override fun handleClick(id: Int) {
-        clickEvent.call()
+    override fun handleOnClick(id: Int) {
     }
 
     override fun getCard() {

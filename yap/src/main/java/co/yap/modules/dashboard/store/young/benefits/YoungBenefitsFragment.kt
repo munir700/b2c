@@ -30,7 +30,6 @@ class YoungBenefitsFragment :
         }
         super.postExecutePendingBindings(savedInstanceState)
         setRefreshEnabled(false)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
     override fun getItemDecoration(): RecyclerView.ItemDecoration {
@@ -39,16 +38,11 @@ class YoungBenefitsFragment :
         return SpacesItemDecoration(marginLeft, marginLeft, marginTop, marginTop, true)
     }
 
-    private fun onClick(it: Int) {
-        when (it) {
+    override fun onClick(id: Int) {
+        when (id) {
             R.id.cbSelectPlan -> {
                 navigate(YoungBenefitsFragmentDirections.actionYoungBenefitsFragmentToYoungPaymentSelectionFragment())
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

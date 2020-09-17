@@ -75,7 +75,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:onClick="@{(v)-> viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_yap_house_hold_user_info_button_next"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:text="@{Strings.screen_yap_house_hold_user_info_button_next}" />

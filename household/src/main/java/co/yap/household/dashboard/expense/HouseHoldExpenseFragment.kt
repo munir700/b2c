@@ -17,5 +17,6 @@ class HouseHoldExpenseFragment :
         setHasOptionsMenu(true)
     }
     override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
-
+    override fun onClick(id: Int) {
+    }
 }

@@ -16,12 +16,8 @@ class HHOnBoardingExistingSuccessFragment :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_hhon_boarding_existing_success
     override fun toolBarVisibility() = false
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnCompleteVerification -> navigateForwardWithAnimation(
                 HHOnBoardingExistingSuccessFragmentDirections.toHHOnBoardingMobileFragment(),
@@ -30,10 +26,5 @@ class HHOnBoardingExistingSuccessFragment :
             )
             R.id.tvSkip -> launchActivity<YapDashboardActivity>(clearPrevious = true) { }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

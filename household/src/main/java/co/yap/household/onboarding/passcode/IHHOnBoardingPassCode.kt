@@ -9,8 +9,6 @@ interface IHHOnBoardingPassCode {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         fun createPassCodeRequest(apiResponse: ((Boolean?) -> Unit?)?)
     }
 

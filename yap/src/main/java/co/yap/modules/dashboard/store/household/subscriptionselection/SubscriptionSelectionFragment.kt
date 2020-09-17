@@ -6,7 +6,6 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.R
@@ -54,7 +53,6 @@ class SubscriptionSelectionFragment :
         super.postExecutePendingBindings(savedInstanceState)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
         selectorGroup?.onCheckedChangeListener = object : PresetRadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(
                 radioGroup: View?,
@@ -67,7 +65,7 @@ class SubscriptionSelectionFragment :
         }
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
                 if (!state.plansList.value.isNullOrEmpty()) {
@@ -84,11 +82,6 @@ class SubscriptionSelectionFragment :
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 
     class Adapter(mValue: ArrayList<WelcomeContent>, navigation: NavController?) :

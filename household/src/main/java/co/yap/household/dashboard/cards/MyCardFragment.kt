@@ -47,7 +47,6 @@ class MyCardFragment :
         setupToolbar(mViewDataBinding.toolbar, R.menu.menu_hh_options)
         intRecyclersView()
 //        setHasOptionsMenu(true)
-        viewModel.clickEvent.observe(this, clickObserver)
         viewModel.getPrimaryCard() {
             setHasOptionsMenu(true)
         }
@@ -71,8 +70,8 @@ class MyCardFragment :
         }
     }
 
-    private val clickObserver = Observer<Int> {
-        when (it) {
+    override fun onClick(id: Int) {
+        when (id) {
             R.id.btnCardDetails -> {
                 viewModel.getCardDetails() {
                     requireContext().showCardDetailsPopup(

@@ -20,8 +20,6 @@ interface IHHSalaryProfile {
         var transactionsHHRepository: TransactionsHHApi
         val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>?
         val salarySetupAdapter: ObservableField<SalarySetupAdapter>?
-        var clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
         fun getLastNextTransaction(uuid: String?)
         fun getAllHHProfileTransactions(accountUUID: String?)
         fun getHHTransactionsByPage(accountUUID: String?, request: HomeTransactionsRequest?)

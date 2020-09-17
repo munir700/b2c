@@ -16,11 +16,9 @@ interface IHHSetPin {
             get() = 0
 
         var mobileNumber: String
-        var clickEvent: SingleClickEvent
         var errorEvent: SingleClickEvent
         fun setPinRequest()
         fun setCardPin()
-        fun handleButtonPress(id: Int)
     }
 
     interface State : IBase.State {

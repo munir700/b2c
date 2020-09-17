@@ -20,10 +20,7 @@ class HHOnBoardingPassCodeVM @Inject constructor(
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
-
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun createPassCodeRequest(apiResponse: ((Boolean?) -> Unit?)?) {

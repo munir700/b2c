@@ -10,8 +10,6 @@ class IHHAddUserName {
         var lastName:MutableLiveData<String>
     }
     interface ViewModel : IBase.ViewModel<State>{
-        val clickEvent: SingleClickEvent
-        fun handlePressOnClick(id: Int)
     }
     interface View : IBase.View<ViewModel>
 }

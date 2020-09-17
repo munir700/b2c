@@ -13,13 +13,11 @@ import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.household.TransactionsHHRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.widgets.State
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.BaseRecyclerAdapterVM
 import javax.inject.Inject
 
 class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile.State) :
     BaseRecyclerAdapterVM<PaySalaryModel, IHHSalaryProfile.State>(), IHHSalaryProfile.ViewModel {
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var customersHHRepository: CustomerHHApi = CustomersHHRepository
     override var transactionsHHRepository: TransactionsHHApi = TransactionsHHRepository
     override val transactionAdapter: ObservableField<HHSalaryProfileTransfersAdapter>? =
@@ -31,14 +29,13 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
         getAllHHProfileTransactions(state.subAccount.value?.accountUuid)
     }
 
+    override fun handleOnClick(id: Int) {
+    }
+
     override fun fetchExtras(extras: Bundle?) {
         super.fetchExtras(extras)
         extras?.let { state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName) }
 
-    }
-
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
     }
 
     override fun getLastNextTransaction(uuid: String?) {

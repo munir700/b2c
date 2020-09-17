@@ -76,7 +76,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_small"
-            android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium"
             android:text="@string/common_button_logout"

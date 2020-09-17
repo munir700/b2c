@@ -89,12 +89,7 @@ class OnBoardingHouseHoldActivity :
     override fun getLayoutId() = R.layout.activity_onboarding_houe_hold
     override fun getBindingVariable() = BR.viewModel
 
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
-
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.ivBack -> onBackPressed()
         }
@@ -125,10 +120,6 @@ class OnBoardingHouseHoldActivity :
         }
     }
 
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
-    }
 
     private fun toolbarAnimation(): AnimatorSet {
         val windowSize = Rect()

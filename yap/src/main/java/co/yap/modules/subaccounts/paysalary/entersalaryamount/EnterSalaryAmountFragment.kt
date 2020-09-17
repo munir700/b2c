@@ -24,10 +24,9 @@ class EnterSalaryAmountFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         GetAccountBalanceLiveData.get().observe(this, Observer {})
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         arguments?.putParcelable(
             SchedulePayment::class.simpleName,
             SchedulePayment(
@@ -51,10 +50,5 @@ class EnterSalaryAmountFragment :
                 )
             }
         }
-    }
-
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
     }
 }

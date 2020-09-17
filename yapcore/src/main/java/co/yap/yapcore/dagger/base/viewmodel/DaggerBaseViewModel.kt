@@ -1,27 +1,26 @@
 package co.yap.yapcore.dagger.base.viewmodel
 
+
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.annotation.CallSuper
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
 import co.yap.translation.Translator
 import co.yap.widgets.State
 import co.yap.yapcore.IBase
-import co.yap.yapcore.helpers.validation.Validator
-import co.yap.yapcore.interfaces.CoroutineViewModel
-
-
-import kotlinx.coroutines.*
-import java.io.Closeable
-import kotlin.coroutines.CoroutineContext
+import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.dagger.base.interfaces.OnClickHandler
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 /**
  * Created by Muhammad Irfan Arshad
  *
  */
 abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel(),
-    IBase.ViewModel<S> {
+    IBase.ViewModel<S>, OnClickHandler {
     var stateLiveData: MutableLiveData<State> = MutableLiveData()
     override fun onCleared() {
         cancelAllJobs()
@@ -91,6 +90,22 @@ abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel
     override fun getString(resourceId: Int) = ""
 
     override fun getString(resourceId: String) = Translator.getString(context, resourceId)
+    override val clickEvent: SingleClickEvent? = SingleClickEvent()
+
+    /**
+     * override this method when there is  no need to use its super implementation.
+     * recommended to not override this method. use @see <handleOnClick> must override
+     */
+    override fun handlePressOnView(id: Int) {
+        clickEvent?.setValue(id)
+        handleOnClick(id)
+    }
+
+    /**
+     * Override this method in your [ViewModel]
+     * you can manage your owen onclick logic by overriding this method
+     */
+    protected abstract fun handleOnClick(id: Int)
 }
 
 

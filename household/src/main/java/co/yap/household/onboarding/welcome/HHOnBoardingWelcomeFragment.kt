@@ -14,12 +14,8 @@ class HHOnBoardingWelcomeFragment :
     override fun getLayoutId() = R.layout.fragment_hhon_boarding_welcome
     override fun toolBarVisibility() = false
     override fun setDisplayHomeAsUpEnabled() = true
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
                 arguments?.putInt(Constants.INDEX, 20)
@@ -30,10 +26,5 @@ class HHOnBoardingWelcomeFragment :
                 )
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

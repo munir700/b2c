@@ -35,7 +35,7 @@
                     android:layout_height="@dimen/_26sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnClick(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:srcCompat="@drawable/ic_back" />
 
                 <co.yap.widgets.AnimatingProgressBar

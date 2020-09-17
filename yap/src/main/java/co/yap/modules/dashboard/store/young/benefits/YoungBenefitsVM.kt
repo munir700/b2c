@@ -9,12 +9,12 @@ import javax.inject.Inject
 
 class
 YoungBenefitsVM @Inject constructor(override var state: IYoungBenefits.State) :
-    BaseRecyclerAdapterVM<YoungBenefitsModel,IYoungBenefits.State>(), IYoungBenefits.ViewModel {
-    override val clickEvent = SingleClickEvent()
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
+    BaseRecyclerAdapterVM<YoungBenefitsModel, IYoungBenefits.State>(), IYoungBenefits.ViewModel {
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
+    }
+
+    override fun handleOnClick(id: Int) {
+
     }
 }

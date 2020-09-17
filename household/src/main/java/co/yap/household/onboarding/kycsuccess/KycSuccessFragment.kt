@@ -40,4 +40,7 @@ class KycSuccessFragment :
             }
         }
     }
+
+    override fun onClick(id: Int) {
+    }
 }

@@ -15,12 +15,6 @@ class HHOnBoardingExistingVM @Inject constructor(
 ) : DaggerBaseViewModel<IHHOnBoardingExisting.State>(), IHHOnBoardingExisting.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
-
-    override val clickEvent = SingleClickEvent()
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
-    }
-
     override fun subAccountInvitationStatus(
         notificationStatus: String,
         apiResponse: ((String?) -> Unit?)?
@@ -42,6 +36,8 @@ class HHOnBoardingExistingVM @Inject constructor(
                 }
             }
         }
+    }
 
+    override fun handleOnClick(id: Int) {
     }
 }

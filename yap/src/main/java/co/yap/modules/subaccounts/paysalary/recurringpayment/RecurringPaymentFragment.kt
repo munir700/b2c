@@ -19,12 +19,8 @@ class RecurringPaymentFragment :
     override fun getLayoutId(): Int = R.layout.fragment_recurring_payment
 
     override fun getToolBarTitle() = getString(Strings.screen_household_recurring_payment_title)
-    override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
-        super.postExecutePendingBindings(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
-    }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         state.schedulePayment.value?.nextProcessingDate = state.date.value
         arguments?.putParcelable(
             SchedulePayment::class.java.simpleName,
@@ -53,10 +49,5 @@ class RecurringPaymentFragment :
                 data = arguments
             )
         }
-    }
-
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
     }
 }

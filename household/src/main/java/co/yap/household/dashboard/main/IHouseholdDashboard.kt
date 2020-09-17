@@ -9,8 +9,6 @@ import co.yap.yapcore.adpters.SectionsPagerAdapter
 interface IHouseholdDashboard {
     interface View : IBase.View<ViewModel> {}
     interface ViewModel : IBase.ViewModel<State> {
-        var clickEvent: SingleClickEvent
-        fun handlePressOnView(id: Int)
         val adapter: ObservableField<SectionsPagerAdapter>
         val profilePictureAdapter: ObservableField<ProfilePictureAdapter>
     }

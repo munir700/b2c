@@ -22,7 +22,6 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
     private val repository: CardsApi, private val customerRepository: CustomerHHApi
 ) :
     DaggerBaseViewModel<IHHOnBoardingCardSelection.State>(), IHHOnBoardingCardSelection.ViewModel {
-    override val clickEvent = SingleClickEvent()
     override val adapter: ObservableField<CardSelectionAdapter>? = ObservableField()
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
@@ -39,8 +38,7 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
         }
     }
 
-    override fun handlePressOnClick(id: Int) {
-        clickEvent.setValue(id)
+    override fun handleOnClick(id: Int) {
     }
 
     override fun getCardsDesignListRequest(

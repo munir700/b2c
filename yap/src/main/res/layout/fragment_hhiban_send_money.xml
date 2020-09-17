@@ -123,7 +123,7 @@
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="@dimen/margin_xxl"
-                android:onClick="@{(v)->viewModel.handlePressOnClick(v.id)}"
+                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

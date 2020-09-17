@@ -11,7 +11,6 @@ import co.yap.networking.customers.household.CustomersHHRepository
 import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
@@ -36,7 +35,6 @@ class RecurringPaymentVM @Inject constructor(
     private val repository: CustomerHHApi = CustomersHHRepository
     private val calendar = Calendar.getInstance()
     override var fragmentManager: FragmentManager? = null
-    override val clickEvent = SingleClickEvent()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         state.amount.value = state.recurringTransaction?.value?.amount?.apply {
             // validator?.validate()
@@ -99,7 +97,7 @@ class RecurringPaymentVM @Inject constructor(
                 schedulePayment
             )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.postValue(GO_TO_CONFIRMATION)
+                    clickEvent?.postValue(GO_TO_CONFIRMATION)
                 }
                 is RetroApiResponse.Error -> {
                 }
@@ -107,10 +105,14 @@ class RecurringPaymentVM @Inject constructor(
         }
     }
 
-    override fun handlePressOnClick(id: Int) {
+    override fun handlePressOnView(id: Int) {
+        handleOnClick(id)
+    }
+
+    override fun handleOnClick(id: Int) {
         when (id) {
             R.id.tvCancel -> {
-                clickEvent.postValue(id)
+                clickEvent?.postValue(id)
             }
             else -> {
                 val time =
@@ -143,8 +145,7 @@ class RecurringPaymentVM @Inject constructor(
                 scheduledPaymentUuid
             )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.postValue(EVENT_GO_BACK)
-
+                    clickEvent?.postValue(EVENT_GO_BACK)
                 }
                 is RetroApiResponse.Error -> {
                 }
@@ -158,7 +159,7 @@ class RecurringPaymentVM @Inject constructor(
                 scheduledPaymentUuid, state.schedulePayment.value
             )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.postValue(GO_TO_CONFIRMATION)
+                    clickEvent?.postValue(GO_TO_CONFIRMATION)
                 }
                 is RetroApiResponse.Error -> {
                 }

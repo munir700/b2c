@@ -2,14 +2,12 @@ package co.yap.household.onboarding.onboardmobile
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import co.yap.household.BR
 import co.yap.household.R
 import co.yap.household.databinding.FragmentHhonboardingMobileBinding
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_hhonboarding_mobile.*
 
@@ -25,19 +23,18 @@ class HHOnBoardingMobileFragment :
         dialer.showDialerPassCodeView = false
         dialer.setInPutEditText(etPhoneNumber)
         dialer.hideFingerprintView()
-        viewModel.clickEvent.observe(this, Observer { onClick(it) })
     }
 
-    private fun onClick(id: Int) {
+    override fun onClick(id: Int) {
         when (id) {
             R.id.btnConfirm -> viewModel.verifyHouseholdParentMobile {
                 it?.let {
-                        arguments?.putInt(Constants.INDEX, 50)
-                        navigateForwardWithAnimation(
-                            HHOnBoardingMobileFragmentDirections.toHHOnBoardingPassCodeFragment(),
-                            arguments,
-                            null
-                        )
+                    arguments?.putInt(Constants.INDEX, 50)
+                    navigateForwardWithAnimation(
+                        HHOnBoardingMobileFragmentDirections.toHHOnBoardingPassCodeFragment(),
+                        arguments,
+                        null
+                    )
                 }
             }
             R.id.tvTermsAndConditions -> {
@@ -48,10 +45,5 @@ class HHOnBoardingMobileFragment :
                 )
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }

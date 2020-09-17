@@ -18,4 +18,7 @@ class KycSuccessVM @Inject constructor(override var state :IKycSuccess.State,pri
             state.address?.value = extras.getParcelable(Constants.ADDRESS)
         }
     }
+
+    override fun handleOnClick(id: Int) {
+    }
 }
