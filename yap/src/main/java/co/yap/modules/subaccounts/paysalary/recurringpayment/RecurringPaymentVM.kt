@@ -14,6 +14,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
+import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_SHORT_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.dateToString
 import co.yap.yapcore.helpers.DateUtils.stringToDate
@@ -42,7 +43,7 @@ class RecurringPaymentVM @Inject constructor(
         state.recurringTransaction?.value?.nextProcessingDate?.apply {
             stringToDate(this, SERVER_DATE_FORMAT)?.run {
                 calendar.time = this
-                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+                state.date.value = dateToString(calendar.time, FORMAT_DATE_SHORT_MON_YEAR)
             }
         }
     }
@@ -52,7 +53,6 @@ class RecurringPaymentVM @Inject constructor(
         extras?.let {
             state.subAccount.value = it.getParcelable(SubAccount::class.java.simpleName)
             state.recurringTransaction?.value = it.getParcelable(SchedulePayment::class.simpleName)
-
         }
     }
 
@@ -62,7 +62,7 @@ class RecurringPaymentVM @Inject constructor(
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                state.date.value = dateToString(calendar.time, FORMAT_DATE_MON_YEAR)
+                state.date.value = dateToString(calendar.time, FORMAT_DATE_SHORT_MON_YEAR)
             }, calendar)
         dpd.minDate = Calendar.getInstance()
         dpd.version = DatePickerDialog.Version.VERSION_2

@@ -16,6 +16,7 @@ object DateUtils {
     const val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
     const val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
+    const val FORMAT_DATE_SHORT_MON_YEAR = "MMM dd, yyyy"//2015-11-28 10:17:18
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "hh:mm a"
     const val FORMAT_TIME = "hh:mm"

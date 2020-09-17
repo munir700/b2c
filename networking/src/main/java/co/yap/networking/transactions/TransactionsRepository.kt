@@ -72,7 +72,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
 
     // Household
-    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
+    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{productPlan}/{feeFrequency}"
     const val URL_HOUSEHOLD_PAY_SALARY_NOW = "/transactions/api/y2y-household"
     const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
     const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS = "/transactions/api/account-statements/{householdAccountUUID}"
@@ -235,8 +235,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
 
     //House Hold Api Calls start here
-    override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<RemittanceFeeResponse> =
-        executeSafely(call = { api.getHousholdFeePackage(packageType) })
+    override suspend fun getPrepaidUserSubscriptionsPlans(productPlan: String, feeFrequency:String): RetroApiResponse<RemittanceFeeResponse> =
+        executeSafely(call = { api.getPrepaidUserSubscriptionsPlans(productPlan,feeFrequency) })
 
     //    House Hold Pay Salary Now
     override suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse> =

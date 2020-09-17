@@ -53,16 +53,16 @@ class SubscriptionSelectionFragment :
         super.postExecutePendingBindings(savedInstanceState)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
-        selectorGroup?.onCheckedChangeListener = object : PresetRadioGroup.OnCheckedChangeListener {
-            override fun onCheckedChanged(
-                radioGroup: View?,
-                radioButton: View?,
-                isChecked: Boolean,
-                checkedId: Int
-            ) {
-                state.selectedPlanPosition.value = if (checkedId == R.id.monthlyIndicator) 0 else 1
-            }
-        }
+//        selectorGroup?.onCheckedChangeListener = object : PresetRadioGroup.OnCheckedChangeListener {
+//            override fun onCheckedChanged(
+//                radioGroup: View?,
+//                radioButton: View?,
+//                isChecked: Boolean,
+//                checkedId: Int
+//            ) {
+//                state.selectedPlanPosition.value = if (checkedId == R.id.monthlyIndicator) 0 else 1
+//            }
+//        }
     }
 
     override fun onClick(id: Int) {
