@@ -3,6 +3,7 @@ package co.yap.widgets.spinneradapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.ListAdapter
 
 internal object Util {
 

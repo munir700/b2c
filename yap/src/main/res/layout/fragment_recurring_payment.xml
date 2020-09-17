@@ -113,7 +113,7 @@
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:gravity="center"
-            android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
+            android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_SHORT_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
             android:onClick="@{(v)->viewModel.datePicker()}"
             android:text="@{viewModel.state.date}"
             app:layout_constraintEnd_toEndOf="parent"

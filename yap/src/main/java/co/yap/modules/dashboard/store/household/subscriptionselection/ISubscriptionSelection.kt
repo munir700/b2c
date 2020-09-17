@@ -5,6 +5,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.networking.transactions.TransactionsApi
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.widgets.radiocus.PresetRadioGroup
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,7 +20,8 @@ interface ISubscriptionSelection {
 
     interface ViewModel : IBase.ViewModel<State> {
         val repository: TransactionsApi
-        fun fetchHouseholdPackagesFee()
+        fun fetchSubscriptionsFee()
+        var onCheckedChangeListener: PresetRadioGroup.OnCheckedChangeListener?
     }
 
     interface View : IBase.View<ViewModel>

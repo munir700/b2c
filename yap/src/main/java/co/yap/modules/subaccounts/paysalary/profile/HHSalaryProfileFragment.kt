@@ -12,6 +12,7 @@ import co.yap.databinding.FragmentHhsalaryProfileBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.subaccounts.paysalary.profile.adapter.HHSalaryProfileTransfersAdapter
 import co.yap.modules.subaccounts.paysalary.profile.adapter.SalarySetupAdapter
+import co.yap.widgets.SpacesItemDecoration
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.constants.Constants
@@ -24,6 +25,7 @@ import com.arthurivanets.bottomsheets.ktx.actionPickerConfig
 import com.arthurivanets.bottomsheets.ktx.showActionPickerBottomSheet
 import com.arthurivanets.bottomsheets.sheets.listeners.OnItemSelectedListener
 import com.arthurivanets.bottomsheets.sheets.model.Option
+import kotlinx.android.synthetic.main.fragment_hhsalary_profile.*
 import javax.inject.Inject
 
 class HHSalaryProfileFragment :
@@ -47,6 +49,8 @@ class HHSalaryProfileFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
+        recyclerView.adapter = mSalarySetupAdapter
+        recyclerView.addItemDecoration(SpacesItemDecoration(dimen(co.yap.yapcore.R.dimen.margin_normal), true))
     }
 
     private fun intRecyclersView() {
