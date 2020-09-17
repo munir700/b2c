@@ -32,12 +32,7 @@ class YoungCardEditDetailsFragment:
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                viewModel.state?.isWaitingList?.value?.let { isWaitingList ->
-                    if (isWaitingList) launchActivity<CreatePasscodeActivity> {  }else startActivityForResult(
-                        context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                        Constants.REQUEST_CODE_CREATE_PASSCODE
-                    )
-                } ?: startActivityForResult(
+                startActivityForResult(
                     context?.let { CreatePasscodeActivity.newIntent(it, true) },
                     Constants.REQUEST_CODE_CREATE_PASSCODE
                 )
@@ -46,7 +41,6 @@ class YoungCardEditDetailsFragment:
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
-        TODO("Not yet implemented")
     }
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {

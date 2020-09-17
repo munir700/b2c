@@ -123,7 +123,6 @@
                 app:enableCoreButton="@{true}"
                 app:layout_constraintTop_toBottomOf="@+id/llPointContainer"
                 />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvGotoDashboard"
                 style="@style/Yap.App.Widget.TextView.FullName"
