@@ -9,7 +9,6 @@ class YoungLandingVM @Inject constructor(override val state: IYoungLanding.State
     DaggerBaseViewModel<IYoungLanding.State>(), IYoungLanding.ViewModel {
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
-
     override fun handleOnClick(id: Int) {
     }
 }
