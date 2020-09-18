@@ -101,6 +101,11 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     }
 
+    override fun onDestroy() {
+        removeObservers()
+        super.onDestroy()
+    }
+
     private fun setupRecycleView() {
         adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
         getBinding().recyclerOptions.adapter = adapter
@@ -114,8 +119,12 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         adapter.setItemListener(listener)
     }
 
-    private fun setObservers() {
+    override fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
+    }
+
+    override fun removeObservers() {
+        viewModel.clickEvent.removeObservers(this)
     }
 
     private val listener = object : OnItemClickListener {

@@ -21,5 +21,8 @@ interface IMoreHome {
 
     interface View : IBase.View<ViewModel>{
         fun getBinding(): FragmentMoreHomeBinding
+        fun setObservers()
+        fun removeObservers()
+
     }
 }
