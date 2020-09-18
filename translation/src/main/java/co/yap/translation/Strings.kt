@@ -1928,4 +1928,18 @@ object Strings {
   const val screen_young_confirm_relationship_switch_text: String =
       "screen_young_confirm_relationship_switch_text"
 
+  // Young Card Success
+  const val screen_young_card_success_dashboard_btn_label: String =
+      "screen_young_card_success_dashboard_btn_label"
+  const val screen_young_card_success_download_btn_text: String =
+      "screen_young_card_success_download_btn_text"
+  const val screen_young_card_success_qr_note_text: String =
+      "screen_young_card_success_qr_note_text"
+  const val screen_young_card_success_signin_note_text: String =
+      "screen_young_card_success_signin_note_text"
+  const val screen_young_card_success_young_card_label: String =
+      "screen_young_card_success_young_card_label"
+  const val screen_young_card_success_young_card_on_way_label: String =
+      "screen_young_card_success_young_card_on_way_label"
+
 }

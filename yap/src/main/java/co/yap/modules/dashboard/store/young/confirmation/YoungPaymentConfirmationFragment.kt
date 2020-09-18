@@ -44,7 +44,8 @@ class YoungPaymentConfirmationFragment :
                                 //  Handler().post { launchAddressSelection(true) }
                                 return@let
                             } else if (it.getBooleanExtra(Constants.skipped, false)) {
-                                trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
+//                                navigate(YoungPaymentConfirmationFragmentDirections.actionYoungPaymentConfirmationFragmentToYoungContactDetailsFragment())
+                               trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
                                 //if (status == KYCAction.ACTION_EID_FAILED.name)
 //                                    navigateForward(
 //                                        HHOnBoardingCardSelectionFragmentDirections.toHHOnBoardingInvalidEidFragment(),
@@ -54,7 +55,6 @@ class YoungPaymentConfirmationFragment :
                         }
 
                     })
-                //navigate(YoungPaymentConfirmationFragmentDirections.actionYoungPaymentConfirmationFragmentToYoungConfirmRelationshipFragment())
             }
         }
     }

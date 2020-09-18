@@ -258,7 +258,6 @@ fun Fragment.startFragment(
     } else {
         startActivity(intent)
     }
-
     if (clearAllPrevious) {
         requireActivity().finish()
     }

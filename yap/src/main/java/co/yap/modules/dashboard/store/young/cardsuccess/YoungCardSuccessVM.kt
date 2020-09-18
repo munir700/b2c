@@ -1,12 +1,13 @@
-package co.yap.modules.dashboard.store.young.landing
+package co.yap.modules.dashboard.store.young.cardsuccess
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import javax.inject.Inject
 
-class YoungLandingVM @Inject constructor(override val state: IYoungLanding.State) :
-    DaggerBaseViewModel<IYoungLanding.State>(), IYoungLanding.ViewModel {
+class YoungCardSuccessVM  @Inject constructor(override var state: IYoungCardSuccess.State) :
+    DaggerBaseViewModel< IYoungCardSuccess.State>(), IYoungCardSuccess.ViewModel{
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
     override fun handleOnClick(id: Int) {

@@ -32,17 +32,21 @@
     <dimen name="margin_normal">@dimen/_12sdp</dimen>
     <dimen name="margin_normal_large">@dimen/_14sdp</dimen>
     <dimen name="margin_medium">@dimen/_16sdp</dimen>
+    <dimen name="margin_medium_small">@dimen/_18sdp</dimen>
     <dimen name="margin_medium_large">@dimen/_20sdp</dimen>
     <dimen name="margin_large">@dimen/_24sdp</dimen>
     <dimen name="margin_extra_large">@dimen/_32sdp</dimen>
+    <dimen name="margin_extra_large2">@dimen/_38sdp</dimen>
     <dimen name="margin_xl">@dimen/_44sdp</dimen>
     <dimen name="margin_xxl">@dimen/_56sdp</dimen>
     <dimen name="margin_btn_side_paddings">@dimen/_50sdp</dimen>
     <dimen name="margin_btn_side_paddings_xl">@dimen/_60sdp</dimen>
     <dimen name="margin_heading_to_field">@dimen/_50sdp</dimen>
+    <dimen name="margin_field_to_field">@dimen/_40sdp</dimen>
 
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>
     <dimen name="btn_content_margin">@dimen/_15sdp</dimen>
+    <dimen name="btn_top_margin">@dimen/_70sdp</dimen>
     <dimen name="nav_drawer_width">@dimen/_300sdp</dimen>
     <dimen name="btn_distance">@dimen/_480sdp</dimen>
 
@@ -81,6 +85,9 @@
     <integer name="note_max_length">150</integer>
 <!--Arc Menu-->
     <dimen name="action_menu_radius">90dp</dimen>
+
+    <!--    Young Screen Dimen -->
+    <dimen name="card_height">@dimen/_210sdp</dimen>
 
     <!--    Snack Bar Textview padding -->
     <dimen name="design_snackbar_padding_vertical" tools:override="true">8dp</dimen>
