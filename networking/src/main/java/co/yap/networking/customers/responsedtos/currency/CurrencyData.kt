@@ -10,15 +10,12 @@ data class CurrencyData(
     var currencyCode: String? = null,
     @SerializedName("name")
     var name: String? = null,
-    @SerializedName("symbol")
-    var symbol: String? = null,
     @SerializedName("isoNum")
     var isoNum: String? = null,
     @SerializedName("active")
-    var active: String? = null,
+    var active: Boolean? = false,
     @SerializedName("allowedDecimalsNumber")
-    var allowedDecimalsNumber: String? = "4",
+    var allowedDecimalsNumber: String? = "2",
     @SerializedName("default")
     var default: String? = null
-
 ) : ApiResponse()
