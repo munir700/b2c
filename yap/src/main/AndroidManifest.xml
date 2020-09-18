@@ -126,7 +126,6 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity"
-            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
         <activity

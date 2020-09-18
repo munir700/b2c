@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,8 +9,13 @@
             type="String" />
 
         <variable
+            name="isActive"
+            type="Boolean" />
+
+        <variable
             name="title"
             type="String" />
+
         <variable
             name="pinCode"
             type="String" />
@@ -61,7 +65,7 @@
                 android:background="@{errorBackground}"
                 android:drawableEnd="@{errorIconDrawable}"
                 android:singleLine="true"
-               android:text="@={pinCode}"
+                android:text="@={pinCode}"
                 android:theme="@style/Theme.EditText.Primary"
                 app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewPinHeading" />
 
@@ -74,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_three_dp"
             android:text="@={errorMessage}"
             android:textColor="@color/greyDark"
             android:gravity="center"
