@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="co.yap.R" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.ChangePinViewModel" />
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        style="@style/Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:gravity="center"
+        android:text="@string/screen_change_card_pin_text_heading"
+        android:lineSpacingExtra="0dp"
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+       />
+
+    <include
+        android:id="@+id/currentPinLayout"
+        layout="@layout/layout_change_pin"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_width="match_parent"
+        app:pinCode="@={viewModel.state.oldPin}"
+        app:errorBackground="@{viewModel.state.pinFieldBackground}"
+        app:errorIconDrawable="@{viewModel.state.pinFieldErrorIcon}"
+        app:errorMessage="@{viewModel.state.errorMessageForPrevious}"
+        app:title='@{"Enter your current PIN code"}'
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <include
+        android:id="@+id/newPinLayout"
+        layout="@layout/layout_change_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title='@{"Enter your new PIN code"}'
+        app:pinCode="@={viewModel.state.newPin}"
+        app:errorBackground="@{viewModel.state.pinFieldBackgroundForNew}"
+        app:errorIconDrawable="@{viewModel.state.pinFieldErrorIconForNew}"
+        app:errorMessage="@{viewModel.state.errorMessageForNewPin}"
+        android:layout_marginTop="@dimen/margin_medium"
+          app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentPinLayout" />
+
+
+    <include
+        android:id="@+id/confirmPinLayout"
+        layout="@layout/layout_change_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorBackground="@{viewModel.state.pinFieldBackgroundForConfirmNew}"
+        app:errorIconDrawable="@{viewModel.state.pinFieldErrorIconConfirmNew}"
+        app:errorMessage="@{viewModel.state.errorMessageForNewConfiem}"
+        app:title='@{"Enter it one more time"}'
+        app:pinCode="@={viewModel.state.confirmNewPin}"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPinLayout" />
+
+
+    <co.yap.widgets.CoreButton
+        android:id="@+id/btnAction"
+        style="@style/RectangleBtnStyle"
+        android:layout_width="@dimen/_172sdp"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_marginBottom="@dimen/margin_normal_large"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_size_h4"
+        android:onClick="@{v -> viewModel.handlePressView(v.getId())}"
+        app:enableCoreButton="@{viewModel.state.isButtonEnabled()}"
+        app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingConstraints"
+        android:text="@string/screen_change_card_pin_button_text" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvForgotPasscode"
+        style="@style/Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal_large"
+        android:textColor="?attr/colorPrimaryAttr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="@{v -> viewModel.handlePressView(v.getId())}"
+        app:text="@{Strings.screen_verify_passcode_text_forgot_password_pin}"
+        tools:text="@string/screen_verify_passcode_text_forgot_password_pin" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

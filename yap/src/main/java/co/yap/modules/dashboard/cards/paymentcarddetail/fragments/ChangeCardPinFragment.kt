@@ -39,12 +39,12 @@ class ChangeCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    val action =
+                   /* val action =
                         ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(
                             "",
                             viewModel.state.pincode
                         )
-                    findNavController().navigate(action)
+                    findNavController().navigate(action)*/
                 }
             }
         })
