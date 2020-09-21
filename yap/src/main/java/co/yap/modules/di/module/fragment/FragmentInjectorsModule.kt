@@ -20,10 +20,14 @@ import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRela
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
+import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeFragment
+import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeModule
 import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
 import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionModule
+import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment
+import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -51,8 +55,6 @@ import co.yap.modules.subaccounts.paysalary.transfer.HHIbanSendMoneyModule
 import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationFragment
 import co.yap.modules.subaccounts.paysalary.transfer.confirmation.HHIbanSendMoneyConfirmationModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
-import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeFragment
-import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -159,4 +161,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungChildKycHomeModule::class])
     @FragmentScope
     abstract fun youngChildKycHomeFragmentInjector(): YoungChildKycHomeFragment
+
+    @ContributesAndroidInjector(modules = [YoungSendMoneyModule::class])
+    @FragmentScope
+    abstract fun youngSendMoneyInjector(): YoungSendMoneyFragment
 }
