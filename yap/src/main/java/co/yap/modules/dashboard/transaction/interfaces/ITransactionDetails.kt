@@ -23,6 +23,6 @@ interface ITransactionDetails {
         var categoryTitle: ObservableField<String>
         var categoryIcon: ObservableField<Int>
         var transactionTitle: ObservableField<String>
-        var transactionDate: String?
+        var transactionNoteDate: String?
     }
 }

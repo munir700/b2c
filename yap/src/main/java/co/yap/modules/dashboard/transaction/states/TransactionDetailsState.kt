@@ -20,10 +20,10 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
         }
 
     @get:Bindable
-    override var transactionDate: String? = ""
+    override var transactionNoteDate: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.transactionDate)
+            notifyPropertyChanged(BR.transactionNoteDate)
         }
 
     override var txnNoteValue: ObservableField<String> = ObservableField()

@@ -361,7 +361,7 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
     })
 }
 
-fun Transaction?.getFormattedUpdateNoteDateTime(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
+fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return ( DateUtils.reformatStringDate(
         this?.updatedDate ?: "",
         DateUtils.SERVER_DATE_FORMAT,

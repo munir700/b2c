@@ -247,7 +247,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
-                viewModel.state.transactionDate =
+                viewModel.state.transactionNoteDate =
                     DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
         }
