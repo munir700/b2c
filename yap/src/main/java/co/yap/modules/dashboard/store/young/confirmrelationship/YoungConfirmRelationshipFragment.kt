@@ -10,6 +10,5 @@ class YoungConfirmRelationshipFragment :
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_confirm_relationship
     override fun onClick(id: Int) {
-
     }
 }
