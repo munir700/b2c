@@ -26,7 +26,6 @@ class YoungSendMoneyVM @Inject constructor(override val state : IYoungSendMoney.
             cancelAllSnackBar()
         }
     }
-
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
 

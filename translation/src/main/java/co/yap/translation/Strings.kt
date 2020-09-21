@@ -1942,4 +1942,8 @@ object Strings {
   const val screen_young_card_success_young_card_on_way_label: String =
       "screen_young_card_success_young_card_on_way_label"
 
+    //Young Send Money
+  const val screen_young_send_money_amount_label_text: String =
+      "screen_young_send_money_amount_label_text"
+
 }
