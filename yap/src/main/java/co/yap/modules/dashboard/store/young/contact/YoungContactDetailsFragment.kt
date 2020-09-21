@@ -18,7 +18,7 @@ class YoungContactDetailsFragment:
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungCardEditDetailsFragment())
+                //navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungCardEditDetailsFragment())
             }
         }    }
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {

@@ -96,7 +96,6 @@
     </style>
 
 
-
     <style name="Yap.App.Widget.TextInputEditText.EasyMoney" parent="Yap.App.Widget.TextInputEditText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
@@ -237,7 +236,6 @@
     </style>
 
 
-
     <style name="Yap.App.Widget.Button.Action" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -330,6 +328,15 @@
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
         <item name="android:elevation">@dimen/margin_zero_dp</item>
+    </style>
+
+    <style name="Yap.App.Widget.MatchSpinnerStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:divider">@color/greyLight</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="Yap.App.Widget.MatchSpinnerTheme" parent="CoreAppTheme">
+        <item name="android:dropDownListViewStyle">@style/Yap.App.Widget.MatchSpinnerStyle</item>
     </style>
 </resources>
 

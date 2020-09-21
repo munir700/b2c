@@ -14,12 +14,14 @@ import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsModule
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessModule
-import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationModule
 import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment
+import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationModule
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipModule
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsModule
+import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeFragment
+import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeModule
 import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
 import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
@@ -155,6 +157,10 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungCardSuccessModule::class])
     @FragmentScope
     abstract fun youngCardSuccessInjector(): YoungCardSuccessFragment
+
+    @ContributesAndroidInjector(modules = [YoungChildKycHomeModule::class])
+    @FragmentScope
+    abstract fun youngChildKycHomeFragmentInjector(): YoungChildKycHomeFragment
 
     @ContributesAndroidInjector(modules = [YoungSendMoneyModule::class])
     @FragmentScope
