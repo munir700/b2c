@@ -41,7 +41,7 @@ class YoungBenefitsFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.cbSelectPlan -> {
-                navigate(YoungBenefitsFragmentDirections.actionYoungBenefitsFragmentToYoungPaymentSelectionFragment())
+                navigate(YoungBenefitsFragmentDirections.actionYoungBenefitsFragmentToYoungChildKycHomeFragment())
             }
         }
     }

@@ -39,12 +39,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <co.yap.widgets.CollapsedColoredHintTextInputLayout
-            android:id="@+id/ctEmailEdit"
+
             style="@style/Yap.App.Widget.TextInputLayout"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:hint="@string/screen_young_confirm_relationship_edit_label_text"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
             tools:ignore="MissingConstraints">
 
@@ -53,13 +54,36 @@
                 android:drawableEnd="@drawable/ccp_ic_arrow_drop_down"
                 android:drawableTint="@color/colorPrimary"
                 android:hint="@string/screen_young_confirm_relationship_edit_hint_text"
+                android:imeOptions="actionDone"
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal"
                 android:text="@={viewModel.state.realtion}"
-                android:imeOptions="actionDone"
-                app:validateEmpty = '@{false}'
-                />
+                app:validateEmpty='@{false}' />
         </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+        <co.yap.widgets.MaterialSpinner
+            android:id="@+id/msRelationShip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/screen_house_hold_iban_send_money_type_array"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
+            app:ms_alignLabels="false"
+            app:ms_arrowColor="@color/greyLight"
+            app:ms_arrowSize="16dp"
+            android:dropDownVerticalOffset="50dp"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="true"
+            app:ms_floatingLabelColor="@color/colorPrimaryDark"
+            app:ms_floatingLabelText="RelationShip"
+            app:ms_hint="Select"
+            android:gravity="center"
+            android:foregroundGravity="center"
+            app:ms_hintColor="@color/greyLight"
+            app:ms_hintTextSize="@dimen/text_size_h2"
+            app:ms_multiline="false"
+            app:ms_thickness="0.2dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTermscondition"
@@ -70,10 +94,9 @@
             android:layout_marginEnd="@dimen/_18sdp"
             android:justificationMode="inter_word"
             app:layout_constraintEnd_toStartOf="@+id/scTermscondition"
-            app:layout_constraintStart_toStartOf="@+id/ctEmailEdit"
-            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit"
-            app:text="@{Strings.screen_young_confirm_relationship_switch_text}"
-            />
+            app:layout_constraintStart_toStartOf="@+id/msRelationShip"
+            app:layout_constraintTop_toBottomOf="@+id/msRelationShip"
+            app:text="@{Strings.screen_young_confirm_relationship_switch_text}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/ASmallGrey"
@@ -83,8 +106,7 @@
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/tvTermscondition"
             app:layout_constraintTop_toBottomOf="@+id/tvTermscondition"
-            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
-            />
+            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/scTermscondition"
@@ -98,8 +120,8 @@
             android:paddingStart="0dp"
             android:paddingEnd="-2dp"
             android:theme="@style/CustomSwitch"
-            app:layout_constraintEnd_toEndOf="@+id/ctEmailEdit"
-            app:layout_constraintTop_toBottomOf="@+id/ctEmailEdit" />
+            app:layout_constraintEnd_toEndOf="@+id/msRelationShip"
+            app:layout_constraintTop_toBottomOf="@+id/msRelationShip" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"

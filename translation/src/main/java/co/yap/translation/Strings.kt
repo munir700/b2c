@@ -1899,11 +1899,13 @@ object Strings {
         "screen_yap_young_onboarding_landing_button_text"
     const val screen_yap_young_payment_selection_display_text: String =
         "screen_yap_young_payment_selection_display_text"
+
     // Young Benefits Screen
     const val screen_benefits_young_text_note_label: String =
         "screen_benefits_young_text_note_label"
     const val screen_yap_young_payment_selection_display_text_title: String =
         "screen_yap_young_payment_selection_display_text_title"
+
     // Young Confirmation Screen
     const val screen_young_recurring_payment_guide_text: String =
         "screen_young_recurring_payment_guide_text"
@@ -1916,30 +1918,36 @@ object Strings {
     const val screen_young_contact_details_description_text: String =
         "screen_young_contact_details_description_text"
 
-  // Young Card Edit Details
-  const val screen_young_card_color_selection_display_text: String =
-      "screen_young_card_color_selection_display_text"
+    // Young Card Edit Details
+    const val screen_young_card_color_selection_display_text: String =
+        "screen_young_card_color_selection_display_text"
     const val screen_young_card_color_selection_edit_text_hint: String =
-      "screen_young_card_color_selection_edit_text_hint"
+        "screen_young_card_color_selection_edit_text_hint"
     const val screen_young_card_color_selection_edit_text_label: String =
-      "screen_young_card_color_selection_edit_text_label"
+        "screen_young_card_color_selection_edit_text_label"
 
-  // Young Confirm Relationship
-  const val screen_young_confirm_relationship_switch_text: String =
-      "screen_young_confirm_relationship_switch_text"
+    // Young Confirm Relationship
+    const val screen_young_confirm_relationship_switch_text: String =
+        "screen_young_confirm_relationship_switch_text"
 
-  // Young Card Success
-  const val screen_young_card_success_dashboard_btn_label: String =
-      "screen_young_card_success_dashboard_btn_label"
-  const val screen_young_card_success_download_btn_text: String =
-      "screen_young_card_success_download_btn_text"
-  const val screen_young_card_success_qr_note_text: String =
-      "screen_young_card_success_qr_note_text"
-  const val screen_young_card_success_signin_note_text: String =
-      "screen_young_card_success_signin_note_text"
-  const val screen_young_card_success_young_card_label: String =
-      "screen_young_card_success_young_card_label"
-  const val screen_young_card_success_young_card_on_way_label: String =
-      "screen_young_card_success_young_card_on_way_label"
+    // Young Card Success
+    const val screen_young_card_success_dashboard_btn_label: String =
+        "screen_young_card_success_dashboard_btn_label"
+    const val screen_young_card_success_download_btn_text: String =
+        "screen_young_card_success_download_btn_text"
+    const val screen_young_card_success_qr_note_text: String =
+        "screen_young_card_success_qr_note_text"
+    const val screen_young_card_success_signin_note_text: String =
+        "screen_young_card_success_signin_note_text"
+    const val screen_young_card_success_young_card_label: String =
+        "screen_young_card_success_young_card_label"
+    const val screen_young_card_success_young_card_on_way_label: String =
+        "screen_young_card_success_young_card_on_way_label"
+    const val screen_young_kyc_verify_your_child_emirates_id_text: String =
+        "screen_young_kyc_verify_your_child_emirates_id_text"
+    const val screen_young_kyc_child_doesnt_have_emirates_id_text: String =
+        "screen_young_kyc_child_doesnt_have_emirates_id_text"
+    const val screen_young_kyc_tab_to_scan_child_emirates_id_text: String =
+        "screen_young_kyc_tab_to_scan_child_emirates_id_text"
 
 }
