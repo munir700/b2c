@@ -11,6 +11,7 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -19,6 +20,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_log_in
+
+    private val sharedPreferenceManager: SharedPreferenceManager by lazy {
+        SharedPreferenceManager.getInstance(requireContext())
+    }
 
     override val viewModel: LoginViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
@@ -47,6 +52,14 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         ) {
             etEmailField.requestKeyboard()
         }
+        if (sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, false)) {
+            etEmailField.editText.append(sharedPreferenceManager.getDecryptedUserName() ?: "")
+            viewModel.state.isRemember.set(true)
+        } else {
+            etEmailField.editText.setText("")
+            viewModel.state.isRemember.set(false)
+        }
+
 
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
@@ -72,6 +85,14 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signInButtonObserver = Observer<Boolean> {
+        viewModel.state.isRemember.get()?.let { isRemember ->
+            sharedPreferenceManager.save(KEY_IS_REMEMBER, isRemember)
+            navigateToPassCode()
+        } ?: navigateToPassCode()
+
+    }
+
+    private fun navigateToPassCode() {
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(
                 viewModel.state.twoWayTextWatcher,

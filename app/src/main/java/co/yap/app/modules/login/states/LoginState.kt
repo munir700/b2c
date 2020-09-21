@@ -2,6 +2,7 @@ package co.yap.app.modules.login.states
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.app.modules.login.interfaces.ILogin
@@ -28,7 +29,7 @@ class LoginState : BaseState(), ILogin.State {
 
 
     fun validate(): Boolean {
-        return (email.length > 5 && emailError.value?.isEmpty()?:false)
+        return (email.length > 5 && emailError.value?.isEmpty() ?: false)
     }
 
     @get:Bindable
@@ -58,7 +59,7 @@ class LoginState : BaseState(), ILogin.State {
             field = value
             notifyPropertyChanged(BR.refreshField)
         }
-
+    override var isRemember: ObservableField<Boolean> = ObservableField()
 
     private fun setTwoWayTextWatcher() {
 
