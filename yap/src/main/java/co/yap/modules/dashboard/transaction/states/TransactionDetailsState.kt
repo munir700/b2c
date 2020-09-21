@@ -19,9 +19,18 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
             field = ObservableField(value)
         }
 
+    @get:Bindable
+    override var transactionNoteDate: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionNoteDate)
+        }
+
     override var txnNoteValue: ObservableField<String> = ObservableField()
     override var isTransferTxn: ObservableField<Boolean> = ObservableField(false)
     override var categoryTitle: ObservableField<String> = ObservableField("")
     override var categoryIcon: ObservableField<Int> = ObservableField()
     override var transactionTitle: ObservableField<String> = ObservableField()
+
+
 }
