@@ -1075,10 +1075,7 @@
     <string name="screen_household_cancel_subscription_plan_type_title">Plan type</string>
     <string name="screen_household_cancel_subscription_cost_title">Cost</string>
     <string name="screen_household_reactivate_subscription_title">Reactivate subscription</string>
-
-
     <!--   HouseHold Recurring Payment Screen-->
-
     <string name="screen_household_recurring_payment_title">Set up a recurring payment</string>
     <string name="screen_household_amount_to_transfer_title">Amount to transfer</string>
     <string name="screen_household_currency_title">AED</string>
@@ -1088,18 +1085,15 @@
     <string name="screen_household_weekly_title">Weekly</string>
     <string name="screen_household_monthly_title">Monthly</string>
     <string name="screen_household_button_text">Confirm</string>
-
     <!--    House hold set pin card preview screen-->
     <string name="screen_household_set_card_pin_review_heading">Hope you like your new card!</string>
     <string name="screen_household_set_card_pin_review_sub_heading">Set a PIN code to start using it</string>
     <string name="screen_household_set_card_pin_review_date">Expiry date: %1$s</string>
     <string name="screen_household_set_card_pin_review_button_text">Confirm</string>
-
     <!--    House hold set pin success screen-->
     <string name="screen_household_set_pin_success_heading_text">PIN code saved!</string>
     <string name="screen_household_set_pin_success_sub_heading_text">Always remember this code and don\'t share it with anyone</string>
     <string name="screen_household_set_pin_success_button_text">Go to dashboard</string>
-
     <!--    House hold set pin screen-->
     <string name="screen_household_set_pin_text_title">Create a 4-digit PIN code to access your new card</string>
     <string name="screen_household_set_pin_terms_and_conditions_text_heading">By entering a passcode you agree to our</string>
@@ -1111,7 +1105,6 @@
     <string name="screen_otp_blocked_display_text_details">Some app features have been temporarily blocked for your security. This is because you made too many incorrect OTP attempts.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
     <string name="screen_blocked_otp_display_text_message">This feature has been blocked due to too many OTP attempts. Use our live chat or call us on %1s to get access.</string>
     <string name="screen_popup_activation_pending_display_text_message">Account activation pending</string>
-
     <!--    House hold payment confirmation screen-->
     <string name="screen_household_payment_confirmation_tool_bar_text">Payment confirmation</string>
     <string name="screen_household_normal_payment_success_text">Salary has been transferred successfully</string>
@@ -1123,8 +1116,7 @@
     <string name="screen_household_recurring_payment_text">You have a set a monthly recurring payment of</string>
     <string name="screen_household_future_payment_text">You have a set a future payment of</string>
     <string name="screen_household_recurring_payment_date_text">starting on %1s</string>
-
-    <!--    Pay house hold employee salary-->
+    ¿    <!--    Pay house hold employee salary-->
     <string name="screen_household_employee_salary_schedule_once_heading_text">Schedule once</string>
     <string name="screen_household_employee_salary_future_payment_text">Set up a single payment for a future date</string>
     <string name="screen_household_employee_salary_recurring_heading_text">Make recurring</string>
@@ -1137,7 +1129,6 @@
     <string name="screen_household_employee_salary_next_payment_secondary_text">AED  %1s scheduled for %2s</string>
     <string name="screen_household_employee_salary_recurrent_auto_payment_secondary_text">AED %1s until %2s</string>
     <string name="screen_household_employee_salary_last_salary_transfer_text">Last salary transfer</string>
-
     <!--Household  Pay Salary Screen-->
     <string name="screen_household_pay_salary_screen_display_text_title">Pay salary to %1s</string>
     <string name="screen_household_pay_salary_screen_enter_transfer_amount_title">Enter transfer amount</string>
@@ -1145,14 +1136,12 @@
     <string name="screen_household_pay_salary_screen_last_salary_text">Use last transfer payment amount</string>
     <string name="screen_household_pay_salary_screen_recurring_salary_text">Set this salary transfer up as a recurring payment</string>
     <string name="screen_household_pay_salary_screen_button_text">Confirm</string>
-
     <!--    Future payment screen-->
     <string name="screen_household_future_payment_screen_tool_bar_text">Set up a future payment</string>
     <string name="screen_household_future_payment_screen_amount_title_text">Enter transfer amount and date</string>
     <string name="screen_household_future_payment_screen_available_balance_text">Your available balance is AED %1s</string>
     <string name="screen_household_future_payment_screen_end_date_heading_text">Enter date of transfer</string>
     <string name="screen_household_future_payment_screen_button_text">Confirm</string>
-
     <!-- Household My Card Screen -->
     <string name="screen_household_my_card_screen_card_balance_text">Card balance</string>
     <string name="screen_household_my_card_screen_card_details_text">Card details</string>
@@ -1162,10 +1151,8 @@
     <string name="screen_household_my_card_screen_menu_view_statement_text">View statement</string>
     <string name="screen_household_my_card_screen_menu_report_lost_card_text">Report lost or stolen card</string>
     <string name="screen_household_my_card_screen_menu_cancel_text">Cancel</string>
-
     <!-- Household Home Screen -->
     <string name="screen_household_home_activate_now_text">Activate now</string>
-
     <!-- Notifications -->
     <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
     <string name="screen_home_complete_verification_title">Complete Verification</string>
@@ -1174,7 +1161,6 @@
     <string name="screen_home_set_pin_desc">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.</string>
     <string name="screen_home_renewed_id_title">Renewed ID</string>
     <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
-
     <string name="screen_add_beneficiary_detail_display_button_block_alert_no_household">No, send it later</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_yes_household">Yes, send it now</string>
     <!--  Place of birth selection screen -->
@@ -1182,7 +1168,6 @@
     <string name="screen_place_of_birth_display_text_description">Just a few more details about you, as per \nyour passport.</string>
     <string name="screen_place_of_birth_display_text_select_country">Select country</string>
     <string name="screen_place_of_birth_display_text_city_of_birth">City of birth</string>
-
     <!--  Tax info screen -->
     <string name="screen_tax_info_display_text_heading">Tax Information</string>
     <string name="screen_tax_info_display_text_desc">Please let us know if you have any tax committments</string>
@@ -1200,9 +1185,7 @@
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
-
     <!--    Yap Young string starts-->
-
     <string name="screen_yap_young_onboarding_landing_button_text">Get YAP Young</string>
     <string name="screen_yap_young_landing_display_text_title">YAP Young</string>
     <string name="screen_yap_young_landing_display_text_description">Set your kids up with their own bank account and teach them to be good with money</string>
@@ -1214,35 +1197,32 @@
     <string name="screen_yap_young_landing_display_text_sub_heading">Having a hard time teaching good money habits to your child? With YAP Young, you can find a simple and effective way to send money and stay informed on your child\'s spending. Assign earning missions, set saving goals and so much more! Let your child\'s first banking experience be one they\'ll love.</string>
     <string name="screen_yap_young_payment_selection_display_text">Choose between a monthly subscription or save by getting for a yearly plan</string>
     <string name="screen_yap_young_payment_selection_display_text_title">Select a payment plan</string>
-
     <!-- Young Benefits Screen -->
     <string name="screen_benefits_plan_button_label">Select Plan</string>
     <string name="screen_benefits_card_text_label">Young Card</string>
     <string name="screen_benefits_young_text_note_label">Help your child earn and manage money and give them a personalized card</string>
-
     <!--    Young payment confirmation Success screen-->
     <string name="screen_young_recurring_payment_guide_text">We will notify you before each payment in case you require a fund top up on your account for recurring payments</string>
     <string name="screen_young_payment_confirmation_note_text">You are now subscribed to a YAP Young card for one child paid on a yearly basis</string>
     <string name="screen_yap_young_label_text">YAP Young</string>
-
     <!--    Young contact details screen-->
     <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>
     <string name="screen_young_contact_details_title_text">Tell us how to contact %1s</string>
-
     <!-- Young Card Edit Details -->
     <string name="screen_young_card_color_selection_display_text">Help %1s pick a card</string>
     <string name="screen_young_card_color_selection_edit_text_label">Name on %1s\'s card</string>
     <string name="screen_young_card_color_selection_edit_text_hint">Card\'s name</string>
-
     <!-- Young confirm relationship screen -->
     <string name="screen_young_confirm_relationship_switch_text">I confirm that I\'m the parent or legal guardian of this child and agree with the</string>
     <string name="screen_young_confirm_relationship_edit_hint_text">Select</string>
     <string name="screen_young_confirm_relationship_edit_label_text">Relationship</string>
     <string name="screen_young_confirm_relationship_label_text">Please confirm your relationship with %1s</string>
-
+    <string-array name="screen_young_confirm_relationship_type_array">
+        <item>Parent</item>
+        <item>Legal guardian</item>
+    </string-array>
     <!-- Young Send Money screen -->
     <string name="screen_young_send_money_amount_label_text">Enter amount</string>
-
     <!-- Young Card Success screen -->
     <string name="screen_young_card_success_dashboard_btn_label">Go to Young dashboard</string>
     <string name="screen_young_card_success_download_btn_text">Download Link</string>
