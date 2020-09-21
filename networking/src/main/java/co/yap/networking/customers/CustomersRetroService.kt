@@ -221,4 +221,6 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
 
+    @POST(CustomersRepository.URL_RESEND_EMAIL)
+    suspend fun resendVerificationEmail(): Response<ApiResponse>
 }
