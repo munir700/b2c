@@ -855,4 +855,19 @@ object UIBinder {
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
+    @JvmStatic
+    @BindingAdapter("textColorChangePin")
+    fun textColorChangePin(view: TextInputLayout, pin: String?) {
+
+        when {
+            pin?.length!! >0 -> {
+                view.hintTextColor=view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.hintTextColor=view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
+        }
+
+
+    }
 }

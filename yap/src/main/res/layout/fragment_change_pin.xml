@@ -102,14 +102,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPinLayout"
-            app:layout_constraintVertical_bias="0.84000003" />
+            app:layout_constraintVertical_bias="0.82" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvForgotPasscode"
             style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small"
+            android:layout_marginTop="@dimen/margin_small"
             android:onClick="@{v -> viewModel.handlePressView(v.getId())}"
             android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintLeft_toLeftOf="parent"
