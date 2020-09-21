@@ -12,6 +12,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.getCategoryIcon
 import co.yap.yapcore.helpers.extentions.getCategoryTitle
 import co.yap.yapcore.helpers.extentions.getFormattedTime
+import co.yap.yapcore.helpers.extentions.getFormattedUpdateNoteDateTime
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -40,6 +41,7 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
             setToolbarTitle()
+            setTransactionEditDateTime()
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
@@ -49,6 +51,11 @@ class TransactionDetailsViewModel(application: Application) :
 
     private fun setToolbarTitle() {
         state.toolBarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
+    }
+
+    private fun setTransactionEditDateTime() {
+        state.transactionDate = transaction.get().getFormattedUpdateNoteDateTime(FORMAT_LONG_OUTPUT)
+
     }
 
     private fun setSenderOrReceiver(transaction: Transaction) {
