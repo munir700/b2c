@@ -25,15 +25,7 @@ class TransactionDetailsViewModel(application: Application) :
         setStatesData()
     }
 
-    override fun handlePressOnBackButton(id: Int) {
-        clickEvent.postValue(id)
-    }
-
     override fun handlePressOnEditNoteClickEvent(id: Int) {
-        clickEvent.postValue(id)
-    }
-
-    override fun handlePressOnShareButton(id: Int) {
         clickEvent.postValue(id)
     }
 
