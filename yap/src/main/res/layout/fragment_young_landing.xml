@@ -52,15 +52,14 @@
 
                 <co.yap.widgets.SquareImageView
                     android:id="@+id/imgSmiley"
-                    android:layout_marginTop="@dimen/margin_medium_large"
                     android:layout_width="@dimen/margin_btn_side_paddings"
                     android:layout_height="@dimen/margin_btn_side_paddings"
                     android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium_large"
                     android:contentDescription="@string/empty_string"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
-                    app:srcCompat="@drawable/ic_young_smile"
-                    />
+                    app:srcCompat="@drawable/ic_young_smile" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStoreTitle"
@@ -121,8 +120,8 @@
                         style="@style/Yap.App.Widget.TextView.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_h5"
                         android:text="@string/screen_yap_young_landing_display_text_heading"
+                        android:textSize="@dimen/text_size_h5"
                         app:text="@{Strings.screen_yap_young_landing_display_text_heading}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -205,13 +204,13 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="@string/screen_yap_young_landing_assign_missions_selection_display_text"
                         android:textColor="@color/colorPrimary"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:fontFamily="@font/roboto_medium"
                         app:text="@{Strings.screen_yap_young_landing_assign_missions_selection_display_text}"
                         tools:text="@string/screen_yap_young_landing_assign_missions_selection_display_text" />
 
@@ -247,7 +246,6 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGetHouseHoldAccount"
             style="@style/FragmentsBtnStyle"
@@ -263,6 +261,5 @@
             app:btn_enable="true"
             app:text="@{Strings.screen_yap_young_onboarding_landing_button_text}"
             tools:text="@string/screen_yap_young_onboarding_landing_button_text" />
-
     </FrameLayout>
 </layout>
