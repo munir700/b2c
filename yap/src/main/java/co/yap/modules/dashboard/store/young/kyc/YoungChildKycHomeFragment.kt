@@ -4,6 +4,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungChildKycHomeBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
@@ -15,7 +16,9 @@ class YoungChildKycHomeFragment :
     override fun getBindingVariable() = BR.viewModel
 
     override fun getLayoutId() = R.layout.fragment_young_child_kyc_home
-
+    override fun toolBarVisibility() = true
+    override fun getToolBarTitle() =
+        getString(Strings.screen_young_kyc_toolbar_title_text)
     override fun onClick(id: Int) {
         when (id) {
             R.id.cvCard -> {
