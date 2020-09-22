@@ -15,8 +15,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/margin_medium_large"
-        android:paddingEnd="@dimen/margin_medium_large">
+        android:paddingStart="@dimen/margin_normal"
+        android:paddingEnd="@dimen/margin_normal">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -28,8 +28,9 @@
                 style="@style/Yap.App.Widget.TextView.Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_36sdp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
+                android:textSize="@dimen/text_size_h5"
                 android:text="@{String.format(@string/screen_young_contact_details_title_text, viewModel.state.contactName)}"
                 tools:text="@string/screen_young_contact_details_title_text" />
 
@@ -40,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_extra_small"
                 android:justificationMode="inter_word"
                 android:text="@{String.format(@string/screen_young_contact_details_description_text, viewModel.state.contactName)}"
                 android:textColor="@color/greyDark"
@@ -90,9 +92,9 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_59sdp"
+                android:layout_marginStart="@dimen/margin_btn_side_paddings"
                 android:layout_marginTop="@dimen/_120sdp"
-                android:layout_marginEnd="@dimen/_59sdp"
+                android:layout_marginEnd="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 app:enableCoreButton="@{viewModel.validator.isValidate}"

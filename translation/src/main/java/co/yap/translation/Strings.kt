@@ -1917,6 +1917,8 @@ object Strings {
     // Young Contact Details
     const val screen_young_contact_details_description_text: String =
         "screen_young_contact_details_description_text"
+    const val screen_young_contact_details_toolbar_text: String =
+        "screen_young_contact_details_toolbar_text"
 
     // Young Card Edit Details
     const val screen_young_card_color_selection_display_text: String =
