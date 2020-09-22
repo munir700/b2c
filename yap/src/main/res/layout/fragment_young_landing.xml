@@ -53,13 +53,14 @@
                 <co.yap.widgets.SquareImageView
                     android:id="@+id/imgSmiley"
                     android:layout_marginTop="@dimen/margin_medium_large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/margin_btn_side_paddings"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:contentDescription="@string/empty_string"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
-                    app:srcCompat="@drawable/ic_young_smile" />
+                    app:srcCompat="@drawable/ic_young_smile"
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvStoreTitle"
@@ -88,7 +89,7 @@
                     android:lineSpacingExtra="0dp"
                     android:text="@string/screen_yap_young_landing_display_text_description"
                     android:textAlignment="viewStart"
-                    android:textSize="@dimen/text_size_c3"
+                    android:textSize="@dimen/text_size_c2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgSmiley"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreTitle"
@@ -99,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@color/greyLight"
                     app:layout_constraintTop_toBottomOf="@+id/tvStoreDesc" />
@@ -108,9 +109,10 @@
                     style="@style/Yap.App.Layout.LinearLayout.Vertical"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="@dimen/margin_medium"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viewLine">
 
@@ -119,13 +121,14 @@
                         style="@style/Yap.App.Widget.TextView.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:textSize="@dimen/text_size_h6"
                         android:text="@string/screen_yap_young_landing_display_text_heading"
                         app:text="@{Strings.screen_yap_young_landing_display_text_heading}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvContentDesc"
                         style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                        android:layout_marginTop="@dimen/margin_normal_large"
                         android:gravity="start"
                         android:lineSpacingExtra="3sp"
                         android:text="@string/screen_yap_young_landing_display_text_sub_heading"
@@ -136,7 +139,10 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_xl"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="@string/screen_yap_young_landing_subscription_selection_display_text"
                         android:textColor="@color/colorPrimary"
@@ -157,7 +163,10 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="@string/screen_yap_young_landing_spending_selection_display_text"
                         android:textColor="@color/colorPrimary"
@@ -175,7 +184,10 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Yap.App.Widget.TextView.Normal"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="@string/screen_yap_young_landing_saving_goals_selection_display_text"
                         android:textColor="@color/colorPrimary"
@@ -197,6 +209,9 @@
                         android:gravity="center"
                         android:text="@string/screen_yap_young_landing_assign_missions_selection_display_text"
                         android:textColor="@color/colorPrimary"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:fontFamily="@font/roboto_medium"
                         app:text="@{Strings.screen_yap_young_landing_assign_missions_selection_display_text}"
                         tools:text="@string/screen_yap_young_landing_assign_missions_selection_display_text" />
 
@@ -218,8 +233,8 @@
                         android:layout_marginStart="@dimen/margin_extra_large"
                         android:layout_marginTop="@dimen/margin_medium_large"
                         android:layout_marginEnd="@dimen/margin_extra_large"
+                        android:layout_marginBottom="@dimen/padding_onboarding_image"
                         android:gravity="center"
-                        android:layout_marginBottom="@dimen/_100sdp"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         app:btn_drawable="@drawable/ic_share_small"
                         app:btn_drawable_padding_right="1.68"
@@ -241,7 +256,7 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/margin_normal_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
