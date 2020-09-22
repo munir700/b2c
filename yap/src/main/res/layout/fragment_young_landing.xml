@@ -232,7 +232,7 @@
                         android:layout_marginStart="@dimen/margin_extra_large"
                         android:layout_marginTop="@dimen/margin_medium_large"
                         android:layout_marginEnd="@dimen/margin_extra_large"
-                        android:layout_marginBottom="@dimen/padding_onboarding_image"
+                        android:layout_marginBottom="@dimen/btn_bottom_margin"
                         android:gravity="center"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         app:btn_drawable="@drawable/ic_share_small"

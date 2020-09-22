@@ -46,6 +46,7 @@
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>
     <dimen name="btn_content_margin">@dimen/_15sdp</dimen>
     <dimen name="btn_top_margin">@dimen/_70sdp</dimen>
+    <dimen name="btn_bottom_margin">@dimen/_100sdp</dimen>
     <dimen name="nav_drawer_width">@dimen/_300sdp</dimen>
     <dimen name="btn_distance">@dimen/_480sdp</dimen>
 
