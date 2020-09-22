@@ -272,7 +272,7 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
 
     private void initDimensions() {
 
-        underlineTopSpacing = getResources().getDimensionPixelSize(R.dimen.margin_normal);
+        underlineTopSpacing = getResources().getDimensionPixelSize(R.dimen.margin_small);
         underlineBottomSpacing = getResources().getDimensionPixelSize(R.dimen.margin_extra_small);
         floatingLabelTopSpacing = getResources().getDimensionPixelSize(R.dimen.margin_extra_small);
         floatingLabelBottomSpacing = getResources().getDimensionPixelSize(R.dimen.margin_extra_small);
