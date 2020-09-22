@@ -1929,6 +1929,8 @@ object Strings {
     // Young Confirm Relationship
     const val screen_young_confirm_relationship_switch_text: String =
         "screen_young_confirm_relationship_switch_text"
+    const val screen_young_confirm_relationship_toolbar_text: String =
+        "screen_young_confirm_relationship_toolbar_text"
 
     // Young Card Success
     const val screen_young_card_success_dashboard_btn_label: String =

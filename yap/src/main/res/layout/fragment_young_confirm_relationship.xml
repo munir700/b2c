@@ -22,17 +22,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/margin_medium_large"
-        android:paddingEnd="@dimen/margin_medium_large"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_large"
         >
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvConfirmRelation"
-            style="@style/Yap.App.Widget.TextView.Medium"
+            style="@style/Yap.App.Widget.TextView.Normal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="@dimen/margin_extra_small"
             android:text="@{String.format(@string/screen_young_confirm_relationship_label_text, viewModel.state.childName)}"
             android:textColor="@color/colorPurpleGrey"
             app:layout_constraintEnd_toEndOf="parent"
