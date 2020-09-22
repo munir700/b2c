@@ -153,7 +153,7 @@
                     tools:ignore="MissingConstraints"
                     tools:text="@string/screen_meeting_location_input_text_address_title" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/etAddressField"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
@@ -163,7 +163,9 @@
                     android:background="@android:color/transparent"
                     android:inputType="textPersonName"
                     android:maxLength="100"
-                    android:drawablePadding="@dimen/margin_extra_small"
+                     android:drawablePadding="@dimen/margin_extra_small"
+                    app:placesAdaptor="@{viewModel.placesAdapter}"
+                    app:selectedListener="@{viewModel.autoCompleteListener}"
                     app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                     android:text="@={viewModel.state.addressTitle}"

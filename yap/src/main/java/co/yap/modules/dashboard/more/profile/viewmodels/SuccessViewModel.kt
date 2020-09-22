@@ -1,10 +1,17 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
+import android.util.Log
+import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.states.SuccessState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import com.facebook.FacebookSdk
+import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.*
 
 class SuccessViewModel(application: Application) :
     BaseViewModel<ISuccess.State>(application), ISuccess.ViewModel {
@@ -13,5 +20,38 @@ class SuccessViewModel(application: Application) :
 
     override fun handlePressOnDoneButton() {
         buttonClickEvent.call()
+    }
+
+    override fun placesApiCall(photoPlacedId: String) {
+        Places.initialize(
+            FacebookSdk.getApplicationContext(),
+            getString(R.string.google_maps_key)
+        )
+        val placesClient: PlacesClient = Places.createClient(context)
+        val placeId = photoPlacedId
+        val fields = listOf(Place.Field.PHOTO_METADATAS)
+        val placeRequest = FetchPlaceRequest.newInstance(placeId, fields)
+        placesClient.fetchPlace(placeRequest)
+            .addOnSuccessListener { response: FetchPlaceResponse ->
+                val place = response.place
+                val metada = place.photoMetadatas
+                if (metada == null || metada.isEmpty()) {
+                     return@addOnSuccessListener
+                }
+                val photoMetadata = metada.first()
+                val attributions = photoMetadata?.attributions
+                val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                    .setMaxWidth(R.dimen._480sdp) // Optional.
+                    .setMaxHeight(R.dimen._280sdp) // Optional.
+                    .build()
+                placesClient.fetchPhoto(photoRequest)
+                    .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                        val bitmap = fetchPhotoResponse.bitmap
+                        state.placeBitmap = bitmap
+                    }.addOnFailureListener { exception: Exception ->
+                        if (exception is ApiException) {
+                        }
+                    }
+            }
     }
 }

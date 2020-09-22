@@ -23,4 +23,9 @@
     <string name="scroll_behavior" translatable="false">@string/appbar_scrolling_view_behavior</string>
     <string name="fb_login_protocol_scheme" templateMergeStrategy="preserve" translatable="false" />
     <string name="facebook_app_id" templateMergeStrategy="preserve" translatable="false" />
+    <string name="error_processing_places_api">dsd</string>
+    <string name="error_connecting_to_places_api">dsdsd</string>
+    <string name="error_lib_not_initialized">sdasd</string>
+    <string name="error_cannot_process_json_results">sdsd</string>
+
 </resources>
