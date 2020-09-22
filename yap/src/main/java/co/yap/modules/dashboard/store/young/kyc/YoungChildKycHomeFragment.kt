@@ -6,7 +6,7 @@ import co.yap.databinding.FragmentYoungChildKycHomeBinding
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.managers.MyUserManager
 
 class YoungChildKycHomeFragment :
@@ -19,13 +19,26 @@ class YoungChildKycHomeFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.cvCard -> {
-                launchActivity<DocumentsDashboardActivity> {
-                    putExtra(
-                        Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
-                    )
-                    putExtra(Constants.data, true)
-                }
+                launchActivityForResult<DocumentsDashboardActivity>(
+                    init = {
+                        putExtra(
+                            Constants.name,
+                            MyUserManager.user?.currentCustomer?.firstName.toString()
+                        )
+                        putExtra(Constants.data, true)
+                    }, completionHandler = { resultCode, data ->
+                        data?.let {
+                            val status = it.getStringExtra("status")
+                            if (it.getBooleanExtra(Constants.result, false)) {
+                                navigate(YoungChildKycHomeFragmentDirections.actionYoungChildKycHomeFragmentToYoungConfirmRelationshipFragment())
+                                //Handler().post { launchAddressSelection(true) }
+                                return@let
+                            } else if (it.getBooleanExtra(Constants.skipped, false)) {
+                                navigate(YoungChildKycHomeFragmentDirections.actionYoungChildKycHomeFragmentToYoungConfirmRelationshipFragment())
+                            }
+                        }
+
+                    })
             }
         }
     }

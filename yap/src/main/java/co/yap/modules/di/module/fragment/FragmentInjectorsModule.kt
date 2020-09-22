@@ -28,6 +28,8 @@ import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelecti
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionModule
 import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment
 import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyModule
+import co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment
+import co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessModule
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -165,4 +167,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungSendMoneyModule::class])
     @FragmentScope
     abstract fun youngSendMoneyInjector(): YoungSendMoneyFragment
+
+    @ContributesAndroidInjector(modules = [YoungSendMoneySuccessModule::class])
+    @FragmentScope
+    abstract fun youngSendMoneySuccessFragmentInjector(): YoungSendMoneySuccessFragment
 }
