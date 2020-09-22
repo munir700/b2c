@@ -121,7 +121,7 @@
                         style="@style/Yap.App.Widget.TextView.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_h6"
+                        android:textSize="@dimen/text_size_h5"
                         android:text="@string/screen_yap_young_landing_display_text_heading"
                         app:text="@{Strings.screen_yap_young_landing_display_text_heading}" />
 
