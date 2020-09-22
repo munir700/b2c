@@ -59,11 +59,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
             etEmailField.editText.setText("")
             viewModel.state.isRemember.set(false)
         }
-
-
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
-
         viewModel.state.emailError.observe(this, Observer {
             if (!it.isNullOrBlank()) {
                 etEmailField.settingUIForError(it)
