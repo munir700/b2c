@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import co.yap.R
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 

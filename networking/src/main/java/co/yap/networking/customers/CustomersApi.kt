@@ -6,9 +6,12 @@ import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesR
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.HomeNotification
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 
@@ -45,9 +48,7 @@ interface CustomersApi {
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
 
-
-/*  send money */
-
+    /*  send money */
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
@@ -66,23 +67,25 @@ interface CustomersApi {
     suspend fun verifyHouseholdMobile(verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyHouseholdParentMobile(
         mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
-    ): RetroApiResponse<ApiResponse>
+    ): RetroApiResponse<ValidateParentMobileResponse>
 
-    suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
-    suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
-    suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
+    suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest?): RetroApiResponse<HouseholdOnBoardingResponse>
+    suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ValidateParentMobileResponse>
+    suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ValidateParentMobileResponse>
     suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
     suspend fun getCountryTransactionLimits(
         countryCode: String,
         currencyCode: String
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
+    suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse>
+
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
+
     /*
     * fun that comes from admin repo to be replaced
     * */
     suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
-
     suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
     suspend fun validateCurrentPasscode(verifyPasscodeRequest: VerifyPasscodeRequest): RetroApiResponse<OtpValidationResponse>
     suspend fun changePasscode(changePasscodeRequest: ChangePasscodeRequest): RetroApiResponse<ApiResponse>
@@ -91,5 +94,5 @@ interface CustomersApi {
     suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse>
     suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
-
+    suspend fun getSubscriptionsNotifications(): RetroApiResponse<BaseListResponse<HomeNotification>>
 }

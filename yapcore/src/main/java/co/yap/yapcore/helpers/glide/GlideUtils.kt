@@ -19,12 +19,13 @@ import java.io.File
 
 val BASE_IMAGES_URL = ""//BuildConfig.BASE_IMAGES_URL
 
-fun setImage(imageView: ImageView, url: String) {
+fun setRoundedImage(imageView: ImageView, url: String,radius:Int) {
 
     val mUrl = getUrl(url)
     val fallbackDrawables = getFallbackDrawables(imageView.context)
     val index = Math.abs(mUrl.hashCode() % fallbackDrawables.size)
     Glide.with(imageView).load(mUrl).error(fallbackDrawables[index])
+        .apply(RequestOptions.bitmapTransform(RoundedCorners(radius)))
         .placeholder(fallbackDrawables[index]).into(imageView)
 }
 
@@ -62,17 +63,17 @@ fun setImage(context: Context, imageView: ImageView, uri: Uri) {
         .placeholder(fallbackDrawables[index]).centerCrop().into(imageView)
 }
 
-fun setImageNew(context: Context, imageView: ImageView, url: String) {
+fun setRoundedImage(imageView: AppCompatImageView, url: String) {
 
     val mUrl = getUrl(url)
     val fallbackDrawables = getFallbackDrawables(imageView.context)
-    val requestManager = Glide.with(context)
+    val requestManager = Glide.with(imageView)
     val requestBuilder = requestManager.load(getUrl(url))
-    val requestOptions = RequestOptions()
+    var requestOptions = RequestOptions()
     // Set place holder image resource id.
     val index = Math.abs(mUrl.hashCode() % fallbackDrawables.size)
     requestOptions.placeholder(fallbackDrawables[index])
-
+    requestOptions = requestOptions.transforms(CenterCrop(), RoundedCorners(16))
     requestOptions.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
     /* Set load image error place holder resource id. When image can not be loaded show this image.*/
     requestOptions.error(fallbackDrawables[index])
@@ -108,7 +109,7 @@ fun setCircleCropImage(imageView: ImageView, url: String, fallback: Int) {
 
 fun setCircleCropImage(imageView: ImageView, url: String, fallback: Drawable) {
 
-    if (url.isNullOrEmpty()) {
+    if (url.isBlank()) {
         imageView.setImageDrawable(fallback)
     } else {
         val mUrl = getUrl(url)

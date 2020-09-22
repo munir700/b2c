@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="profilePictureItemVM"
+            type="co.yap.modules.sidemenu.ProfilePictureItemVM" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+
+        <import type="co.yap.yapcore.enums.AccountType" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_small">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:clickable="true"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/app_name"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:colorType="@{`Beneficiary`}"
+            app:fullName="@{profilePictureItemVM.item.currentCustomer.fullName}"
+            app:imageUrl="@{profilePictureItemVM.item.currentCustomer.picture}"
+            tools:src="@drawable/ic_statement" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/AppFontRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lineSpacingExtra="2sp"
+            android:maxLines="2"
+            android:textColor="@color/greyDark"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="normal"
+            app:text="@{AccountType.valueOf(profilePictureItemVM.item.accountType)==AccountType.B2C_HOUSEHOLD?Strings.screen_yap_house_hold_onboarding_landing_display_text_title:Strings.screen_home_button_personal_text}"
+            tools:text="Household" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

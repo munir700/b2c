@@ -16,9 +16,9 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.IAccountSelection
 import co.yap.app.modules.startup.viewmodels.AccountSelectionViewModel
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.widgets.video.ExoPlayerCallBack
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.enums.AccountType
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.exoplayer2.Player
@@ -180,6 +180,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(runnable)
+        andExoPlayerView?.stopPlayer()
         animatorSet?.cancel()
         animatorSet = null
         captionsIndex = -1

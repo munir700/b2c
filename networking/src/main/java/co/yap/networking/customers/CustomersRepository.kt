@@ -11,10 +11,12 @@ import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -89,10 +91,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADD_HOUSEHOLD_EMAIL = "customers/api/on-board/household-email"
     const val URL_CREATE_HOUSEHOLD_PASSCODE = "customers/api/on-board/household-passcode"
     const val URL_SANCTIONED_COUNTRIES = "customers/api/countries/sanctioned"
+    const val URL_SUB_ACCOUNT_INVITATION = "customers/api/accept-reject-subaccountinvitation/"
     const val URL_BIRTH_INFO = "customers/api/customer-birth-info"
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
+    const val URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS =
+        "/transactions/api/household/get-subscriptions-notifications"
+    //.................... End region of old projects apis................................................
 
     /*
    * Url's that comes from admin repo
@@ -228,7 +234,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getRecentY2YBeneficiaries() =
         executeSafely(call = { api.getRecentY2YBeneficiaries() })
 
-    /*  send money */
+/*  send money */
 
     override suspend fun getRecentBeneficiaries() =
         executeSafely(call = { api.getRecentBeneficiaries() })
@@ -276,7 +282,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun verifyHouseholdParentMobile(
         mobileNumber: String?, verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
-    ): RetroApiResponse<ApiResponse> =
+    ): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = {
             api.verifyHouseholdParentMobile(
                 mobileNumber,
@@ -284,13 +290,13 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             )
         })
 
-    override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse> =
+    override suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest?): RetroApiResponse<HouseholdOnBoardingResponse> =
         executeSafely(call = { api.onboardHouseholdUser(householdOnboardRequest) })
 
-    override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = { api.addHouseholdEmail(addHouseholdEmailRequest) })
 
-    override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
     override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =
@@ -320,6 +326,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun appUpdate(): RetroApiResponse<AppUpdateResponse> =
         executeSafely(call = { api.appUpdate() })
 
+    override suspend fun getSubAccountInviteStatus(notificationStatus: String): RetroApiResponse<SubAccountInvitationResponse> =
+        executeSafely(call = { api.subAccountInvitation(notificationStatus) })
+
     override suspend fun saveReferalInvitation(saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.saveReferalInvitation(saveReferalRequest) })
 
@@ -335,4 +344,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
+    override suspend fun getSubscriptionsNotifications() =
+        TransactionsRepository.executeSafely(call = { api.getSubscriptionsNotifications() })
 }

@@ -24,16 +24,13 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     SpareCardsLandingAdapter.OnItemClickedListener {
 
     override fun onItemClick(benefitsModel: BenefitsModel) {
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_spare_card_landing
 
     override val viewModel: SpareCardLandingViewModel
         get() = ViewModelProviders.of(this).get(SpareCardLandingViewModel::class.java)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +41,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         super.onViewCreated(view, savedInstanceState)
 
         addBenefitRecyclerView()
-        context?.let { SharedPreferenceManager(it).removeValue(KEY_AVAILABLE_BALANCE) }
+        context?.let { SharedPreferenceManager.getInstance(it).removeValue(KEY_AVAILABLE_BALANCE) }
 
         activity?.let {
             ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)

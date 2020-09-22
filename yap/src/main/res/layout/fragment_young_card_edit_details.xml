@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsVM" />
+
+    </data>
+<androidx.appcompat.widget.LinearLayoutCompat
+   android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginStart="@dimen/margin_medium_large"
+    android:layout_marginEnd="@dimen/margin_medium_large"
+    android:weightSum="1.2">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/margin_extra_large"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        app:adapter="@{viewModel.adapter}" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvYoungCardText"
+        style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/margin_normal_large"
+        android:text="@{String.format(@string/screen_young_card_color_selection_display_text, viewModel.state.childName)}"
+       />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/margin_large"
+        app:tabGravity="center"
+        app:tabIndicator="@null"
+        app:tabPaddingEnd="6dp"
+        app:tabPaddingStart="6dp"
+        app:tabRippleColor="@color/white">
+
+    </com.google.android.material.tabs.TabLayout>
+    <co.yap.widgets.CollapsedColoredHintTextInputLayout
+        android:id="@+id/ctcCardEdit"
+        style="@style/Yap.App.Widget.TextInputLayout"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:hint="@{String.format(@string/screen_young_card_color_selection_edit_text_label, viewModel.state.childName)}"
+        app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etCardName"
+            style="@style/Yap.App.Widget.TextInputEditText.Email"
+            android:hint="@string/screen_young_confirm_relationship_edit_hint_text"
+            android:paddingTop="@dimen/margin_normal"
+            android:paddingBottom="@dimen/margin_normal"
+            app:hint="@{Strings.screen_young_card_color_selection_edit_text_hint}"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            />
+    </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+    <co.yap.widgets.CoreButton
+        android:id="@+id/btnNext"
+        style="@style/FragmentsBtnStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_55sdp"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:layout_marginEnd="@dimen/_55sdp"
+        android:layout_marginBottom="@dimen/margin_medium_large"
+        android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+        android:text="@string/common_button_next"
+        enableCoreButton="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:text="@{Strings.screen_phone_number_button_send}" />
+</androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

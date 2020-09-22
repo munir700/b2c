@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ItemEmptyBinding
 import co.yap.databinding.ItemTransactionListHeaderBinding
 import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.databinding.ItemEmptyBinding
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -123,3 +123,6 @@ class TransactionsHeaderAdapter(
         }
     }
 }
+
+
+

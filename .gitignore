@@ -6,6 +6,7 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
+/.idea/misc.xml
 /.idea/*
 /.idea/codeStyles/*
 /sendmoney/build/*
@@ -15,6 +16,7 @@
 /coachmark/build
 /household/build
 /splitbill/build
+/multicurrency/build
 /send_money/*
 /coachmark/*
 /profile/*

@@ -17,6 +17,10 @@ import co.yap.sendmoney.databinding.FragmentTransferSuccessBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.ThemeColorUtils
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.leanplum.HHTransactionsEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 
 class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuccess.ViewModel>(),
@@ -75,18 +79,23 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER_INTL.type)
                                 setDataForRmt()
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER_INTL.type)
                                 setDataForSwift()
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_CASH_TRANSFER.type)
                                 setDataForCashPayout()
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER_DOMESTIC.type)
                                 setDataForDomestic()
                             }
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                trackEvent(HHTransactionsEvents.HH_USER_BANK_TRANSFER.type)
                                 setDataForUAEFTS()
                             }
                             else -> {
@@ -217,6 +226,11 @@ class TransferSuccessFragment : BeneficiaryFundTransferBaseFragment<ITransferSuc
 
     private fun getBindings(): FragmentTransferSuccessBinding {
         return viewDataBinding as FragmentTransferSuccessBinding
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let { Utils.setStatusBarColor(it, ThemeColorUtils.colorStatusBarSuccessAttribute(requireContext())) }
     }
 
 }

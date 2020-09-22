@@ -1,0 +1,92 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.invalideid.HHOnBoardingInvalidEidVM" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/Yap.App.Layout.LinearLayout.Vertical"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightPinkBackground"
+        android:padding="@dimen/margin_medium_large">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEID_NotAcceptTitle"
+            style="@style/Yap.App.Widget.TextView.Title"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/screen_title_oops"
+            android:textColor="@color/textDarkColor"
+            app:text="@{Strings.screen_title_oops}"
+            tools:text="@string/screen_title_oops" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEID_NotAcceptMessage"
+            style="@style/Yap.App.Widget.TextView.Title"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_btn_side_paddings_xl"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/_10sdp"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_house_hold_existing_yap_message, viewModel.mUserLiveData.currentCustomer.fullName)}"
+            android:textColor="@color/textDarkColor"
+            tools:text="@string/screen_house_hold_existing_yap_message" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEID_NotAcceptSubTitle"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:gravity="center"
+            android:text="@string/screen_title_mistake_please_call"
+            android:textColor="@color/kyc_success_text_color_light_gray"
+            app:text="@{Strings.screen_title_mistake_please_call}"
+            tools:text="@string/screen_title_mistake_please_call" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEID_NotAcceptNumber"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_gravity="center_horizontal"
+            android:autoLink="phone"
+            android:gravity="center"
+            android:padding="@dimen/margin_small"
+            android:text="@{`+971`+ viewModel.state.contactPhone}"
+            android:textColorLink="@color/colorPrimary"
+            tools:text="+971 600551214" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnLogout"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:text="@string/common_button_logout"
+            app:btn_enable="true"
+            app:btn_pressed_color="@color/white"
+            app:btn_text_color="@color/colorPrimaryDark"
+            app:btn_unpressed_color="@color/white"
+            app:text="@{Strings.common_button_logout}"
+            tools:text="@string/screen_profile_settings_display_text_logout" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

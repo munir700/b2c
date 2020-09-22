@@ -5,6 +5,7 @@ import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
+import retrofit2.http.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -27,11 +28,15 @@ interface AuthRetroService {
     @POST(AuthRepository.URL_LOGOUT)
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
 
+    // Switch Profile
+    @FormUrlEncoded
+    @POST(AuthRepository.URL_SWITCH_PROFILE)
+    suspend fun switchProfile(@Field("account_uuid") uuid: String): Response<LoginResponse>
+
     //getJwtToken
     suspend fun getJwtToken(): String?
 
     //setJwtToken
     suspend fun setJwtToken(token: String?)
-
 
 }

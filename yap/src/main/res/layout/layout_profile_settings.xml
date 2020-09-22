@@ -48,13 +48,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_profile"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    app:srcCompat="@drawable/ic_profile"
+                    android:src="@drawable/ic_profile" />
 
                 <TextView
                     android:id="@+id/tvPersonalDetailCaption"
@@ -80,8 +77,8 @@
                         android:layout_height="@dimen/_14sdp"
                         android:layout_gravity="center_vertical|center"
                         android:src="@drawable/ic_exclamation"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:tint="@color/colorPrimaryDark"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
                 </FrameLayout>
@@ -124,8 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -162,13 +159,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_normal"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    app:srcCompat="@drawable/ic_key"
+                    tools:src="@drawable/ic_key" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_key"
+                    android:visibility="gone"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -203,13 +208,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_notification_settings"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:src="@drawable/ic_notification_settings" />
 
                 <TextView
                     style="@style/ASmall"
@@ -316,13 +317,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_file"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:src="@drawable/ic_file" />
 
                 <TextView
                     style="@style/ASmall"
@@ -354,13 +351,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_instagram"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:src="@drawable/ic_instagram" />
 
                 <TextView
                     style="@style/ASmall"
@@ -392,13 +385,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_twitter"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:src="@drawable/ic_twitter" />
 
                 <TextView
                     style="@style/ASmall"
@@ -430,13 +419,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_facebook"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    style="@style/Yap.App.Widget.FloatingActionButton"
+                    android:src="@drawable/ic_facebook" />
 
                 <TextView
                     style="@style/ASmall"

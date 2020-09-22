@@ -17,6 +17,8 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.leanplum.HHTransactionsEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.MyUserManager
 
 class AddBeneficiaryViewModel(application: Application) :
@@ -150,6 +152,7 @@ class AddBeneficiaryViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         beneficiary = response.data.data
+                        trackEvent(HHTransactionsEvents.HH_USER_ADD_BENEFICIARY_SUCCESSFULLY_CASH.type)  // TODO need to differentiate for YAP and Household
                         addBeneficiarySuccess.value = true
                     }
 
@@ -170,12 +173,33 @@ class AddBeneficiaryViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         beneficiary = response.data.data
+                        trackEvent(it)
                         addBeneficiarySuccess.value = true
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Dealing domestic beneficiaries
+     *
+     */
+
+    private fun trackEvent(beneficiary: Beneficiary?){
+        beneficiary?.beneficiaryType?.let { beneficiaryType ->
+            if (beneficiaryType.isNotEmpty()) {
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                    SendMoneyBeneficiaryType.DOMESTIC -> {
+                        trackEvent(HHTransactionsEvents.HH_USER_ADD_BENEFICIARY_SUCCESSFULLY_DOMESTIC.type)  // TODO need to differentiate for YAP and Household
+                    }
+                    SendMoneyBeneficiaryType.UAEFTS -> {
+                        trackEvent(HHTransactionsEvents.HH_USER_ADD_BENEFICIARY_SUCCESSFULLY_BANK.type)  // TODO need to differentiate for YAP and Household
                     }
                 }
             }

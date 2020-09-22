@@ -44,7 +44,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
         setObservers()
         viewModel.firstDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
+            view.hideKeyboard()
             getBindings().etAmount.setText("")
             getBindings().etAmount.append(viewModel.state.denominationAmount)
             val position = getBindings().etAmount.length()
@@ -52,7 +52,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             getBindings().etAmount.clearFocus()
         })
         viewModel.secondDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
+            view.hideKeyboard()
             getBindings().etAmount.setText("")
             getBindings().etAmount.append(viewModel.state.denominationAmount)
             val position = getBindings().etAmount.length()
@@ -60,7 +60,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             getBindings().etAmount.clearFocus()
         })
         viewModel.thirdDenominationClickEvent.observe(this, Observer {
-            Utils.hideKeyboard(view)
+            view.hideKeyboard()
             getBindings().etAmount.setText("")
             getBindings().etAmount.append(viewModel.state.denominationAmount)
             val position = getBindings().etAmount.length()

@@ -22,5 +22,11 @@ data class UserAttributes(
     val biometric_login_enabled: String = "biometric_login_enabled",
     val eid_expired: String = "eid_expired",
     val account_active: String = "account_active",
-    val eid_expiry_date: String =  "eid_expiry_date"
+    val eid_expiry_date: String = "eid_expiry_date",
+    val isMainUser: String = "Household_MainUser",
+    val isAccountActive: String = "account_active_HouseholdUser",
+    val accountActiveMonthly: String = "account_active_HouseholdUser_monthly",
+    val account_cancel_timestamp: String = "account cancel timestamp",
+    val expense_pots: String = "expense_pots",
+    val card_color: String = "card_color"
 )

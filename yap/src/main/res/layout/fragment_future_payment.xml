@@ -1,0 +1,140 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="futurePaymentVM"
+            type="co.yap.modules.subaccounts.paysalary.future.FuturePaymentVM" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+        <import type="java.util.Calendar" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margin_medium_large"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_medium_large"
+            android:paddingBottom="@dimen/margin_large">
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivUserImage"
+                style="@style/Yap.App.Widget.ImageView.Circle"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_store_b2b"
+                app:colorType="@{`Beneficiary`}"
+                app:fullName="@{futurePaymentVM.state.subAccount.fullName}"
+                app:imageUrl="@{futurePaymentVM.state.subAccount.profilePictureUrl ?? ` `}"
+                app:position="@{0}" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFullName"
+                style="@style/Yap.App.Widget.TextView.FullName"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:gravity="center_horizontal"
+                app:text="@{Strings.screen_household_future_payment_screen_amount_title_text}"
+                tools:text="@string/screen_household_future_payment_screen_amount_title_text" />
+
+            <TextView
+                android:id="@+id/tvCurrency"
+                style="@style/Yap.App.Widget.TextView.Label"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:text="AED"
+                tools:text="AED" />
+
+            <co.yap.widgets.EasyMoneyEditText
+                android:id="@+id/etLastUsedAmount"
+                style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
+                android:layout_marginTop="@dimen/margin_small"
+                android:enabled="true"
+                android:gravity="center"
+                android:minWidth="@dimen/_140sdp"
+                android:onTextChanged="@{futurePaymentVM.onAmountChange}"
+                android:text="@={futurePaymentVM.state.amount}"
+                android:textAlignment="center"
+                app:amount_drawable="@drawable/bg_funds"
+                app:errorEnabled="@{true}"
+                app:forceKeyboard="@{true}"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+
+                <requestFocus />
+            </co.yap.widgets.EasyMoneyEditText>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="@{ SpannableStringCreatorKt.getText(context.resources, futurePaymentVM.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance??`0.00`,``)))}"
+                tools:text="Your available balance is " />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.FullName"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_large"
+                app:text="@{Strings.screen_household_future_payment_screen_end_date_heading_text}"
+                tools:text="Enter date of transfer" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDate"
+                style="@style/Yap.App.Widget.TextView.Date.Rounded"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:gravity="center"
+                app:validateMinLength="@{2}"
+                android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
+                android:onClick="@{(v)->futurePaymentVM.datePicker(v)}"
+                android:text="@{futurePaymentVM.state.date}"
+                tools:text="Sep 17, 2019" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnConfirm"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:onClick="@{(v)-> futurePaymentVM.handlePressOnView(v.id)}"
+                app:btn_enable="true"
+                app:enableCoreButton="@{futurePaymentVM.validator.isValidate}"
+                app:text="@{Strings.screen_household_future_payment_screen_button_text}"
+                tools:text="Add" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>

@@ -33,7 +33,7 @@ fun Context.openUrl(url: String, newTask: Boolean = false): Boolean {
  * Opens the share context menu
  * @return A boolean representing if the action was successful or not
  */
-fun Context.share(text: String, subject: String = ""): Boolean {
+fun Context.share(text: String, subject: String = "Share"): Boolean {
     val intent = Intent()
     intent.type = "text/plain"
     intent.putExtra(Intent.EXTRA_SUBJECT, subject)

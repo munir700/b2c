@@ -23,8 +23,6 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     MainChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -36,9 +34,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
         PhoneVerificationSignInState(application)
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val customersRepository: CustomersRepository = CustomersRepository;
-    private val messagesRepository: MessagesRepository = MessagesRepository
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
-
     override fun onCreate() {
         super.onCreate()
         state.valid = false
@@ -67,7 +62,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         if (tokens.size > 1)
                             repository.setJwtToken(tokens.last())
                     }
-                    val sharedPreferenceManager = SharedPreferenceManager(context)
+                    val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
                     sharedPreferenceManager.save(
                         KEY_IS_USER_LOGGED_IN,
                         true
@@ -114,7 +109,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     }
 
     override fun postDemographicData() {
-        val sharedPreferenceManager = SharedPreferenceManager(context)
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
         val deviceId: String? =
             sharedPreferenceManager.getValueString(KEY_APP_UUID)
         launch {
@@ -137,26 +132,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                }
-            }
-        }
-    }
-
-    override fun getAccountInfo() {
-        launch {
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()) {
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        trackEventWithAttributes(
-                            MyUserManager.user
-                        )
-                    }
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
                 }
             }
         }

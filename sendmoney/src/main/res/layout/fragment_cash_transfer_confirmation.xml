@@ -25,8 +25,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-
             android:orientation="vertical">
 
             <co.yap.widgets.CoreCircularImageView
@@ -114,7 +112,9 @@
                 app:layout_constraintBottom_toTopOf="@+id/tvCutOffTime"
                 app:layout_constraintTop_toBottomOf="@+id/tvTransferFee"
                 android:layout_marginTop="@dimen/margin_large"
-                app:srcCompat="@drawable/ic_access_alarm" />
+                app:srcCompat="@drawable/ic_access_alarm"
+                android:tint="?attr/colorPrimaryAttr"
+                />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCutOffTime"
@@ -169,6 +169,5 @@
                 tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/screen_crash_transfer_success_button_text_back" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 </layout>

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.statments.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces.ICardStatments
 import co.yap.networking.transactions.responsedtos.CardStatement
@@ -25,4 +26,5 @@ class CardStatementsState : BaseState(), ICardStatments.State {
             field = value
             notifyPropertyChanged(BR.nextMonth)
         }
+    override var householdAccountUUID:String? = null
 }

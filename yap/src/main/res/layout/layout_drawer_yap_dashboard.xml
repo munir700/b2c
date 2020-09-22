@@ -27,7 +27,6 @@
         android:layout_height="match_parent"
         android:elevation="4dp"
         android:orientation="horizontal"
-        android:weightSum="100"
         app:elevation="4dp">
 
         <!-- Left Section -->
@@ -35,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_xl"
-            android:layout_weight="80"
+            android:layout_weight="1"
             android:elevation="4dp"
             android:orientation="vertical"
             android:paddingStart="@dimen/margin_large"
@@ -68,8 +67,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        app:tint="?attr/colorPrimaryDarkAttr"
-                        app:srcCompat="@drawable/ic_chevron_down" />
+                        app:srcCompat="@drawable/ic_chevron_down"
+                        app:tint="?attr/colorPrimaryDarkAttr" />
 
                     <LinearLayout
                         android:id="@+id/lAccountContainer"
@@ -313,55 +312,41 @@
             </LinearLayout>
 
         </LinearLayout>
-
+        <!-- Right Section -->
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="match_parent"
             android:background="@color/greyLight" />
 
-        <!-- Right Section -->
-        <RelativeLayout
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_xl"
-            android:layout_weight="20"
-            android:paddingBottom="@dimen/margin_normal">
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small">
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="@dimen/_43sdp"
-                android:layout_height="@dimen/_43sdp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/circle_profile"
-                android:contentDescription="@string/empty_string"
-                android:gravity="center"
-                android:padding="@dimen/_3sdp"
-                app:beneficiaryPicture="@{viewModel.state.userNameImage}"
-                app:fullName="@{viewModel.state.fullName}"
-                tools:src="@color/quantum_yellow" />
-
-            <ImageView
-                android:layout_width="@dimen/_42sdp"
-                android:layout_height="@dimen/_42sdp"
-                android:layout_below="@id/imgProfile"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:src="@drawable/ic_add_account"
-                android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:adapter="@{viewModel.profilePictureAdapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_dashboard_menu_profile_pic" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSettings"
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/settings"
-                app:tint="@color/greyDark" />
-
-        </RelativeLayout>
-
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:contentDescription="@string/empty_string"
+                android:src="@drawable/ic_settings"
+                android:tint="@color/greyDark" />
+        </LinearLayout>
     </LinearLayout>
     <!--    </ScrollView>-->
 </layout>

@@ -10,7 +10,7 @@ import co.yap.yapcore.managers.MyUserManager
 class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailViewModel(application) {
     override val success: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
-    override val sharedPreferenceManager = SharedPreferenceManager(context)
+    override val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
 
     override fun onHandlePressOnNextButton() {
         if (state.newEmailValidation() && state.confirmEmailValidation()) {

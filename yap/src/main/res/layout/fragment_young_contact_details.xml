@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.contact.YoungContactDetailsVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/margin_medium_large"
+        android:paddingEnd="@dimen/margin_medium_large">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvContactLabel"
+                style="@style/Yap.App.Widget.TextView.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_36sdp"
+                android:gravity="center"
+                android:text="@{String.format(@string/screen_young_contact_details_title_text, viewModel.state.contactName)}"
+                tools:text="@string/screen_young_contact_details_title_text" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvContactNote"
+                style="@style/Yap.App.Widget.TextView.Normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center"
+                android:justificationMode="inter_word"
+                android:text="@{String.format(@string/screen_young_contact_details_description_text, viewModel.state.contactName)}"
+                android:textColor="@color/greyDark"
+                tools:text="@string/screen_young_contact_details_title_text" />
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/ctEmailEdit"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/_50sdp"
+                app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email}">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Yap.App.Widget.TextInputEditText.Email"
+                    android:hint="@string/screen_yap_house_hold_user_info_display_text_email_hint"
+                    android:imeOptions="actionNext"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.email}"
+                    app:validateType='@{"email"}' />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/ctPhoneEdit"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:drawablePadding="@dimen/_10sdp"
+                app:hint="@{Strings.screen_yap_house_hold_user_info_contact_display_text_mobile}">
+
+                <co.yap.widgets.PrefixSuffixEditText
+                    android:id="@+id/etPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
+                    android:gravity="start"
+                    android:hint="551234567"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="9"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.phone}"
+                    app:errorEnabled="@{true}"
+                    app:isoCountryCode="@{viewModel.state.countryCode}"
+                    app:pse_setPrefixTextColor="@color/colorPrimaryDark"
+                    app:pse_showHint="true" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_59sdp"
+                android:layout_marginTop="@dimen/_120sdp"
+                android:layout_marginEnd="@dimen/_59sdp"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
+                app:text="@{Strings.common_button_next}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>

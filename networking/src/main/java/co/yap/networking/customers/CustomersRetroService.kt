@@ -8,8 +8,12 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesRe
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
+import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.transactions.TransactionsRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -174,16 +178,16 @@ interface CustomersRetroService {
     suspend fun verifyHouseholdParentMobile(
         @Query("mobileNo") mobileNumber: String?,
         @Body verifyHouseholdMobileRequest: VerifyHouseholdMobileRequest
-    ): Response<ApiResponse>
+    ): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_HOUSEHOLD_USER_ONBOARD)
-    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest): Response<HouseholdOnBoardingResponse>
+    suspend fun onboardHouseholdUser(@Body householdOnboardRequest: HouseholdOnboardRequest?): Response<HouseholdOnBoardingResponse>
 
     @POST(CustomersRepository.URL_ADD_HOUSEHOLD_EMAIL)
-    suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ApiResponse>
+    suspend fun addHouseholdEmail(@Body addHouseholdEmailRequest: AddHouseholdEmailRequest): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_CREATE_HOUSEHOLD_PASSCODE)
-    suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ApiResponse>
+    suspend fun createHouseholdPasscode(@Body createPassCodeRequest: CreatePassCodeRequest): Response<ValidateParentMobileResponse>
 
     @POST(CustomersRepository.URL_SAVE_REFERAL_INVITATION)
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): Response<ApiResponse>
@@ -195,7 +199,6 @@ interface CustomersRetroService {
     //Forgot passcode request
     @PUT(CustomersRepository.URL_FORGOT_PASSCODE)
     suspend fun forgotPasscode(@Body forgotPasscodeRequest: ForgotPasscodeRequest): Response<ApiResponse>
-
 
     //validate current passcode
     @POST(CustomersRepository.URL_VALIDATE_CURRENT_PASSCODE)
@@ -209,6 +212,10 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_APP_VERSION)
     suspend fun appUpdate(): Response<AppUpdateResponse>
 
+    //  Sub Account Invitation
+    @POST(CustomersRepository.URL_SUB_ACCOUNT_INVITATION + "{notificationStatus}")
+    suspend fun subAccountInvitation(@Path("notificationStatus") notificationStatus: String): Response<SubAccountInvitationResponse>
+
     @GET(CustomersRepository.URL_CITIES)
     suspend fun getCities(): Response<CitiesModel>
 
@@ -220,5 +227,6 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
-
+    @GET(CustomersRepository.URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS)
+    suspend fun getSubscriptionsNotifications(): Response<BaseListResponse<HomeNotification>>
 }

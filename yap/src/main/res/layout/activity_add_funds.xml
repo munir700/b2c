@@ -12,8 +12,6 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
-
-
     </data>
 
 

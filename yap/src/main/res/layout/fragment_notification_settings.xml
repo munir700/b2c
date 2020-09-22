@@ -43,7 +43,6 @@
                 app:text="@{Strings.screen_notification_settings_display_text_in_app_notifications}"
                 tools:text="@string/screen_notification_settings_display_text_in_app_notifications" />
 
-
             <Switch
                 android:id="@+id/swWithdrawal"
                 style="@style/ASmallGrey"

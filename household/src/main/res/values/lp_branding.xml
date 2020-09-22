@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lp_colorPrimaryDark">@color/colorPrimaryHouseHold</color>
+    <color name="lp_colorPrimary">@color/colorPrimaryHouseHold</color>
+
+    <dimen name="brand_bubble_stroke_width">0dp</dimen>
+    <color name="brand_bubble_stroke_color">@color/transparent</color>
+    <color name="brand_bubble_message_text_color">#1A1E23</color>
+    <color name="brand_bubble_message_link_text_color">#1A1E23</color>
+    <color name="brand_bubble_timestamp_text_color">@color/greyDark</color>
+    <color name="brand_bubble_background_color">#DCDCDC</color>
+    <color name="brand_logo_background_color">@color/transparent</color>
+
+    <!-- agent bubble-->
+    <dimen name="agent_bubble_stroke_width">0dp</dimen>
+    <color name="agent_bubble_stroke_color">@color/lp_blue</color>
+    <color name="agent_bubble_message_text_color">#1A1E23</color>
+    <color name="agent_bubble_message_link_text_color">#1A1E23</color>
+    <color name="agent_bubble_timestamp_text_color">@color/greyDark</color>
+    <color name="agent_bubble_background_color">#DCDCDC</color>
+    <color name="agent_avatar_background_color">@color/white</color>
+    <color name="agent_avatar_icon_color">@android:color/white</color>
+    <bool name="show_agent_typing_in_message_bubble">true</bool>
+
+    <!--consumer bubble-->
+    <dimen name="consumer_bubble_stroke_width">0dp</dimen>
+    <color name="consumer_bubble_stroke_color">@color/transparent</color>-->
+    <color name="consumer_bubble_message_text_color">@android:color/white</color>
+    <color name="consumer_bubble_message_link_text_color">@color/white</color>
+    <color name="consumer_bubble_timestamp_text_color">@color/greyDark</color>
+    <color name="consumer_bubble_background_color">@color/colorPrimaryHouseHold</color>
+    <color name="consumer_bubble_state_text_color">@color/greyDark</color>
+
+    <!-- unread messages bubble-->
+    <color name="unread_indicator_bubble_text_color">@color/colorPrimaryHouseHold</color>
+    <color name="unread_indicator_bubble_background_color">@color/greyDark</color>
+    <bool name="unread_indicator_bubble_enable">true</bool>
+
+    <!-- Brand/Agent name header properties-->
+    <color name="lp_brand_header_text_color">@android:color/white</color>
+    <!-- system bubble-->
+    <color name="system_bubble_text_color">@color/greyDark</color>
+
+    <color name="lp_textColorSecondary">@color/white</color>
+
+
+
+    <!--Photo sharing-->
+    <bool name="enable_photo_sharing">true</bool>
+    <bool name="upload_photo_using_service">true</bool>
+    <integer name="max_number_stored_images">10</integer>
+    <integer name="max_number_stored_documents">10</integer>
+    <integer name="full_image_compression_rate">70</integer>
+    <integer name="thumbnail_longer_dimension_resize">100</integer>
+    <integer name="full_image_longer_dimension_resize">800</integer>
+    <integer name="max_image_size_kb">3000</integer>
+    <color name="attachment_menu_item_background_color">@color/colorPrimaryHouseHold</color>
+    <color name="lp_attachment_menu_item_icon_color">@color/white</color>
+    <color name="lp_attachment_menu_item_text_color">@color/colorPrimaryDarkHouseHold</color>
+    <color name="lp_attachment_menu_background_color">@color/white</color>
+    <bool name="use_send_image_button">true</bool>
+</resources>

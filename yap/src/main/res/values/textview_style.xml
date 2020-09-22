@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Yap.App.Widget.TextView" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Small" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Normal" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Medium" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Large" parent="TextAppearance.AppCompat.Large">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.SubTitle" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Normal.GrayDark" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Date.Rounded" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="hintTextColor">@color/greyDark</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minWidth">@dimen/_140sdp</item>
+        <item name="android:paddingTop">@dimen/margin_normal_large</item>
+        <item name="android:paddingBottom">@dimen/margin_normal_large</item>
+        <item name="android:background">@drawable/bg_funds</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Small.GrayDark" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+
+    </style> 
+    <style name="Yap.App.Widget.TextView.Small.BlueDark" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.FullName" parent="Yap.App.Widget.TextView">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.FullName.Bold" parent="Yap.App.Widget.TextView.FullName">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="font">@font/roboto_bold</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Currency" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="ctv_nullToZero">true</item>
+        <item name="ctv_decimalTextSize">@dimen/text_size_h2</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Label" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.Label.Medium" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+    <style name="Yap.App.Widget.ForgotPasscode" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+    <style name="Yap.App.Widget.Transaction_Name" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:textColor">@color/colorMidnightExpress</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="singleLine">true</item>
+        <item name="android:maxLength">15</item>
+
+    </style>
+
+    <style name="Yap.App.Widget.TermsAndConditions" parent="Yap.App.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+    </style>
+
+    <style name="Yap.App.Widget.TextView.PinCode.Error" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:foregroundGravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:layout_marginTop">@dimen/margin_medium</item>
+        <item name="android:layout_marginBottom">@dimen/margin_medium</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+    <style name="Yap.App.Widget.FloatingActionButton.Text" parent="Yap.App.Widget.TextView.Label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorPrimaryAttr</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+    </style>
+</resources>

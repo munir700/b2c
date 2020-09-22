@@ -2,9 +2,10 @@ package co.yap.modules.dashboard.main.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AccountType
 
 
 interface IYapDashboard {
@@ -25,6 +26,7 @@ interface IYapDashboard {
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
+        val profilePictureAdapter: ObservableField<ProfilePictureAdapter>?
         val showUnverifedscreen: MutableLiveData<Boolean>
     }
 

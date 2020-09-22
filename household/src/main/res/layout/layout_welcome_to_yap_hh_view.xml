@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Yap.App.Layout.LinearLayout.Horizontal"
+    android:padding="@dimen/margin_medium">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ivYapIt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/colorPrimaryHouseHold"
+        android:tint="@color/white"
+        app:backgroundTint="@color/colorPrimaryHouseHold"
+        app:elevation="0dp"
+        app:fabCustomSize="@dimen/_38sdp"
+        app:fabSize="normal"
+        app:maxImageSize="@dimen/_14sdp"
+        app:srcCompat="@drawable/ic_yap_it" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/clData"
+        style="@style/Yap.App.Layout.LinearLayout.Vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_weight="1">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvWelcomeToYap"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to YAP" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Widget.AppCompat.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take the tour to get started"
+            android:textColor="@color/colorPrimaryHouseHold" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

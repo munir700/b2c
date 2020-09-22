@@ -1,40 +1,58 @@
 package co.yap.app
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import co.yap.app.di.component.AppComponent
+import co.yap.app.di.component.AppInjector
 import co.yap.app.modules.login.activities.VerifyPassCodePresenterActivity
-import co.yap.household.onboard.otherscreens.InvalidEIDActivity
+import co.yap.household.app.HouseHoldApplication
 import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.others.helper.Constants.START_REQUEST_CODE
 import co.yap.networking.AppData
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.yapcore.constants.Constants.EXTRA
+import co.yap.yapcore.constants.Constants.KEY_APP_UUID
+import co.yap.yapcore.constants.Constants.THEME_YAP
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.enums.YAPThemes
 import co.yap.security.AppSignature
 import co.yap.security.SecurityHelper
 import co.yap.security.SignatureValidator
 import co.yap.yapcore.config.BuildConfigManager
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.Constants.EXTRA
-import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.longToast
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
-class AAPApplication : ChatApplication(), NavigatorProvider {
+class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInjector {
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var sAppComponent: AppComponent
+    lateinit var originalSign:AppSignature
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -51,8 +69,9 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     override fun onCreate() {
         super.onCreate()
+        sAppComponent = AppInjector.init(this)
         initFireBase()
-        val originalSign =
+         originalSign =
             signatureKeysFromJNI(
                 AppSignature::class.java.canonicalName?.replace(".", "/") ?: "",
                 BuildConfig.FLAVOR,
@@ -91,8 +110,11 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     private fun initAllModules() {
         initNetworkLayer()
+//        switchTheme(YAPThemes.HOUSEHOLD())
+        switchTheme(YAPThemes.CORE())
         setAppUniqueId(this)
         inItLeanPlum()
+        LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
     }
@@ -151,12 +173,11 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
 
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
-        val sharedPrefs = SharedPreferenceManager(context)
-        sharedPrefs.setThemeValue(Constants.THEME_YAP)
-        uuid = sharedPrefs.getValueString(KEY_APP_UUID)
+        SharedPreferenceManager.getInstance(context).setThemeValue(THEME_YAP)
+        uuid = SharedPreferenceManager.getInstance(context).getValueString(KEY_APP_UUID)
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            sharedPrefs.save(KEY_APP_UUID, uuid)
+            SharedPreferenceManager.getInstance(context).save(KEY_APP_UUID, uuid)
         }
     }
 
@@ -168,13 +189,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
     override fun provideNavigator(): ActivityNavigator {
         return object : ActivityNavigator {
             override fun startEIDNotAcceptedActivity(activity: FragmentActivity) {
-
-                activity.startActivity(
-                    Intent(
-                        activity,
-                        InvalidEIDActivity::class.java
-                    )
-                )
+//                activity.startFragment<InvalidEIDFragment>(InvalidEIDFragment::class.java.name)
             }
 
             override fun startVerifyPassCodePresenterActivity(
@@ -182,6 +197,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
                 completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
             ) {
                 try {
+                    activity.launchActivity<VerifyPassCodePresenterActivity>()
                     val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
                     intent.putExtra(EXTRA, bundle)
                     (activity as AppCompatActivity).startForResult(intent) { result ->
@@ -199,10 +215,28 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
                         )
                     }
                 }
+            }
 
+            override fun startHouseHoldModule(activity: FragmentActivity) {
+                activity.launchActivity<NavHostPresenterActivity>() {
+                    putExtra(NAVIGATION_Graph_ID, co.yap.app.R.navigation.hh_main_nav_graph)
+                }
             }
         }
+
     }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return if (!this::sAppComponent.isInitialized) {
+            sAppComponent = AppInjector.init(this)
+            sAppComponent
+        } else {
+            sAppComponent
+        }
+
+    }
+
+    override fun activityInjector() = activityInjector
 
     private fun getAppDataForNetwork(configManager: BuildConfigManager?): AppData {
         return AppData(

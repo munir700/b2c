@@ -1,0 +1,75 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.onboardemail.HHOnBoardingEmailVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
+            android:padding="@dimen/margin_large">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.Medium"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="@string/screen_new_user_email_display_text_title" />
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_email">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Yap.App.Widget.TextInputEditText.Email"
+                    android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+                    android:text="@={viewModel.state.email}"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    app:validateType='@{"email"}' />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSuccess"
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_h3"
+                android:text="@string/screen_new_user_email_display_text_email_caption"
+                android:textColor="?attr/colorPrimaryAttr"
+                android:lineSpacingExtra="5sp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/etEmail"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:text="@string/common_button_add"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
+                app:text="@{Strings.common_button_add}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>

@@ -18,35 +18,40 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:padding="@dimen/margin_medium">
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:background="?attr/colorSendMoneyToolBarAttr"
+        android:gravity="bottom"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium"
+        android:paddingBottom="@dimen/small">
 
         <ImageView
             android:id="@+id/tbBtnBack"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_alignParentStart="true"
+            android:layout_gravity="bottom"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:tint="?attr/colorPrimaryAttr"
+            android:src="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_close"
-            />
+            app:tint="?attr/colorIconsTintAttr" />
 
         <TextView
             android:id="@+id/tvTitle"
             style="@style/Regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_horizontal"
+            android:layout_alignTop="@+id/tbBtnAddBeneficiary"
+            android:layout_alignBottom="@+id/tbBtnAddBeneficiary"
             android:layout_toStartOf="@+id/tbBtnAddBeneficiary"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
+            android:textColor="?attr/colorTextAttr"
             app:text="@{Strings.screen_send_money_display_text_title}"
             tools:text="@string/send_money" />
 
@@ -55,13 +60,15 @@
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{v->viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_add_sign" />
+            app:srcCompat="@drawable/ic_add_sign"
+            app:tint="?attr/colorIconsTintAttr" />
 
     </RelativeLayout>
 </layout>

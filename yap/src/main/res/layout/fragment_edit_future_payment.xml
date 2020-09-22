@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="futurePaymentVM"
+            type="co.yap.modules.subaccounts.paysalary.future.FuturePaymentVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="android.view.View" />
+
+        <import type="java.util.Calendar" />
+
+        <import type="co.yap.yapcore.enums.PackageType" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="co.yap.translation.Translator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium">
+
+        <include
+            android:id="@+id/include1"
+            layout="@layout/layout_textview_image_vertical"
+            app:imageUrl="@{futurePaymentVM.state.subAccount.profilePictureUrl ?? ` `}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{futurePaymentVM.state.subAccount.fullName}" />
+
+        <include
+            android:id="@+id/include4"
+            layout="@layout/layout_last_recurring_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:amount="@{@string/screen_send_money_display_text_edit}"
+            app:date="@{futurePaymentVM.state.futureTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,futurePaymentVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(futurePaymentVM.state.futureTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):``}"
+            app:lable="@{@string/screen_household_employee_salary_edit_recurring_heading_text}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include1"
+            app:subLabelTextColor="@{futurePaymentVM.state.futureTransaction!=null?@color/colorPrimary:@color/colorPrimaryDark}" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/transferAmount"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/transferAmount">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:textColor="?attr/colorPrimaryDarkAttr"
+                app:text="@{Strings.screen_household_amount_to_transfer_title}"
+                tools:text="@string/screen_household_amount_to_transfer_title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                app:text="@{Strings.screen_household_currency_title}"
+                tools:text="@string/screen_household_currency_title" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <co.yap.widgets.EasyMoneyEditText
+            android:id="@+id/transferAmount"
+            style="@style/Yap.App.Widget.TextInputEditText.EasyMoney"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:onTextChanged="@{futurePaymentVM.onAmountChange}"
+            android:text="@={futurePaymentVM.state.amount}"
+            app:editable="@{true}"
+            app:errorEnabled="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toBottomOf="@+id/include4"
+            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+
+            <requestFocus />
+        </co.yap.widgets.EasyMoneyEditText>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartDateHeading"
+            style="@style/Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+            app:layout_constraintEnd_toStartOf="@+id/guideLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvDate"
+            app:text="@{Strings.screen_household_date_of_transfer}"
+            tools:text="Date of transfer " />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            style="@style/Yap.App.Widget.TextView.Date.Rounded"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:gravity="center"
+            android:hint="@{DateUtils.INSTANCE.datetoString(Calendar.getInstance().time ,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR ,DateUtils.INSTANCE.GMT)}"
+            android:onClick="@{(v)->futurePaymentVM.datePicker(v)}"
+            android:text="@{futurePaymentVM.state.date}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideLine"
+            app:layout_constraintTop_toBottomOf="@+id/transferAmount"
+            app:validateMinLength="@{2}"
+            tools:text="Sep 17, 2019" />
+
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:onClick="@{(v)->futurePaymentVM.handlePressOnView(v.id)}"
+            app:btn_enable="true"
+            app:enableCoreButton="@{futurePaymentVM.validator.isValidate}"
+            app:layout_constraintBottom_toTopOf="@+id/tvCancel"
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate"
+            app:layout_constraintVertical_bias="0.85"
+            app:text="@{Strings.screen_household_button_text}"
+            tools:text="Confirm" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCancel"
+            style="@style/Yap.App.Widget.TextView"
+            android:onClick="@{(v)->futurePaymentVM.handlePressOnView(v.id)}"
+            android:text="@string/screen_household_employee_salary_delete_recurring_text"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_household_employee_salary_delete_recurring_text}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -46,18 +46,18 @@ class BeneficiaryAccountDetailsFragment :
                 Constants.IS_IBAN_NEEDED,
                 if (viewModel.parentViewModel?.selectedCountry?.value?.ibanMandatory == true) "Yes" else "No"
             )
-            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+            bundle.putParcelable(Beneficiary::class.java.name, it)
             bundle.putParcelable(
                 Country::class.java.name,
                 viewModel.parentViewModel?.selectedResidenceCountry
             )
 
-            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
-                putExtra(Constants.EXTRA, bundle)
-            }
+            launchActivity<EditBeneficiaryActivity>(
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                bundle
+            )
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {

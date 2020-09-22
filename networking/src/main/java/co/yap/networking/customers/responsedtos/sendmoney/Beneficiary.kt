@@ -1,6 +1,7 @@
 package co.yap.networking.customers.responsedtos.sendmoney
 
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -58,6 +59,6 @@ data class Beneficiary(
     var countryOfResidence: String? = null,
     @SerializedName("countryOfResidenceName")
     var countryOfResidenceName: String? = null
-) : Parcelable {
+) : ApiResponse(), Parcelable {
     fun fullName() = "$firstName $lastName"
 }

@@ -385,7 +385,7 @@ class CoreInputField @JvmOverloads constructor(
     fun requestKeyboard() {
         editText.requestFocus()
         (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-            InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+            InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY
         )
     }
 }

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipVM" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/margin_medium_large"
+        android:paddingEnd="@dimen/margin_medium_large"
+        android:paddingTop="@dimen/margin_large"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvConfirmRelation"
+            style="@style/Yap.App.Widget.TextView.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{String.format(@string/screen_young_confirm_relationship_label_text, viewModel.state.childName)}"
+            android:textColor="@color/colorPurpleGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+        />
+
+        <co.yap.widgets.MaterialSpinner
+            android:id="@+id/msRelationShip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dropDownVerticalOffset="50dp"
+            android:entries="@array/screen_young_confirm_relationship_type_array"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:theme="@style/Yap.App.Widget.MatchSpinnerTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
+            android:layout_marginTop="@dimen/margin_btn_side_paddings"
+            app:ms_alignLabels="false"
+            app:ms_arrowColor="@color/greyLight"
+            app:ms_arrowSize="16dp"
+            app:ms_enableErrorLabel="false"
+            app:ms_enableFloatingLabel="true"
+            app:ms_floatingLabelColor="@color/colorPrimaryDark"
+            app:ms_floatingLabelText="RelationShip"
+            app:ms_hint="Select"
+            app:ms_hintColor="@color/greyLight"
+            app:ms_hintTextSize="@dimen/text_size_h2"
+            app:ms_multiline="false"
+            app:ms_thickness="0.2dp"
+            app:ms_baseColor="@color/greyLight"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTermscondition"
+            style="@style/ASmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_content_margin"
+            android:layout_marginEnd="@dimen/_18sdp"
+            android:justificationMode="inter_word"
+            app:layout_constraintEnd_toStartOf="@+id/scTermscondition"
+            app:layout_constraintStart_toStartOf="@+id/msRelationShip"
+            app:layout_constraintTop_toBottomOf="@+id/msRelationShip"
+            app:text="@{Strings.screen_young_confirm_relationship_switch_text}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_4sdp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/tvTermscondition"
+            app:layout_constraintTop_toBottomOf="@+id/tvTermscondition"
+            app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/scTermscondition"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/text_content_margin"
+            android:gravity="end"
+            android:paddingStart="0dp"
+            android:paddingEnd="-2dp"
+            android:theme="@style/CustomSwitch"
+            app:layout_constraintEnd_toEndOf="@+id/msRelationShip"
+            app:layout_constraintTop_toBottomOf="@+id/msRelationShip" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_btn_side_paddings"
+            android:layout_marginEnd="@dimen/margin_btn_side_paddings"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+            android:text="@string/common_button_next"
+            app:enableCoreButton="@{viewModel.validator.isValidate}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:text="@{Strings.screen_phone_number_button_send}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

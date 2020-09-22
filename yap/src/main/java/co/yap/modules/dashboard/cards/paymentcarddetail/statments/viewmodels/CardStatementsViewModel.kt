@@ -21,7 +21,7 @@ class CardStatementsViewModel(application: Application) :
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: CardStatementsState = CardStatementsState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override lateinit var card: Card
+    override var card: Card?=null
     override val adapter: ObservableField<CardStatementsAdaptor> = ObservableField()
     private val currentCalendar = Calendar.getInstance()
     private val creationCalender = Calendar.getInstance()
@@ -57,6 +57,26 @@ class CardStatementsViewModel(application: Application) :
             state.loading = true
             when (val response =
                 transactionRepository.getCardStatements(serialNumber)) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let { it ->
+                        state.statementList = it
+                        filerDataByYear(state.year.get())
+                    }
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
+
+    override fun getHouseHoldAccountStatements(householdAccountUUID: String?) {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.getHouseHoldAccountStatements(householdAccountUUID)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
                         state.statementList = it

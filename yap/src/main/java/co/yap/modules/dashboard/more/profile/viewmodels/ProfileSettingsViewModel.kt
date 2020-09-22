@@ -13,7 +13,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -37,10 +36,9 @@ class ProfileSettingsViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
-    override var EVENT_LOGOUT_SUCCESS: Int = 101
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
-    private val sharedPreferenceManager = SharedPreferenceManager(application)
+    private val sharedPreferenceManager = SharedPreferenceManager.getInstance(application)
     var pandemicValidation: Boolean = false
 
     override val state: ProfileStates =
@@ -70,24 +68,7 @@ class ProfileSettingsViewModel(application: Application) :
                 state.nameInitialsVisibility = GONE
             }
         }
-    }
-
-    override fun logout() {
-        val deviceId: String? =
-            sharedPreferenceManager.getValueString(KEY_APP_UUID)
-        launch {
-            state.loading = true
-            when (val response = authRepository.logout(deviceId.toString())) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
-                    state.loading = true
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-        }
+        isFirstTimeUiCreate = false
     }
 
     override fun requestUploadProfilePicture(actualFile: File) {
@@ -145,7 +126,9 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun requestProfileDocumentsInformation() {
         launch {
-            state.loading = true
+            //  if (isFirstTimeUiCreate)
+            if (parentViewModel?.document == null)
+                state.loading = true
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
                 is RetroApiResponse.Success -> {
                     parentViewModel?.document =

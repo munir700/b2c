@@ -9,18 +9,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.sendmoney.helper.SendMoneyUtils
 import co.yap.translation.Strings
-import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -48,7 +47,7 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private val otpCreateObserver = Observer<Boolean> {
         if (it) {
-           startOtpFragment()
+            startOtpFragment()
         }
     }
 
@@ -76,23 +75,22 @@ class AddBeneficiaryForDomesticTransferFragment :
             }
         }
     }
+
     private fun addBeneficiarySuccessDialog() {
         context?.let { it ->
-            Utils.confirmationDialog(it,
-                Translator.getString(
-                    it,
-                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+            SendMoneyUtils.confirmationDialog(
+                it,
+                getString(
+                    Strings.screen_add_beneficiary_detail_display_text_alert_title
                 ),
-                Translator.getString(
-                    it,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
-                ), Translator.getString(
-                    it,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
-                ), Translator.getString(
-                    it,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+
+                getString(
+                    Strings.screen_add_beneficiary_detail_display_button_block_alert_description
                 ),
+                getString(Strings.screen_add_beneficiary_detail_display_button_block_alert_yes_household)
+                ,
+                getString(Strings.screen_add_beneficiary_detail_display_button_block_alert_no_household)
+                ,
                 object : OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
@@ -108,9 +106,12 @@ class AddBeneficiaryForDomesticTransferFragment :
                             }
                         }
                     }
-                })
+                }, true
+
+            )
         }
     }
+
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let {

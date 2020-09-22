@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.help.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Nullable
@@ -16,7 +17,11 @@ import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.spannables.bold
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.size
 import co.yap.yapcore.managers.MyUserManager
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
@@ -75,8 +80,15 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 }
             }
             R.id.lyCall -> {
-                requireContext().makeCall(viewModel.state.contactPhone.get())
+                viewModel.state.contactPhone.get()?.let { num ->
+                    confirm(message = bold(num),
+                        positiveButton = "Call",
+                        negativeButton = "Cancel",
+                        callback = { requireContext().makeCall(num) },
+                        negativeCallback = {})
+                }
             }
+
             R.id.tbBtnBack -> {
                 activity?.finish()
             }

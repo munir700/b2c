@@ -339,6 +339,9 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             "stg" -> {
                 "https://stg-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
+            "hh" -> {
+                "https://dev-hci.yap.co/admin-web/HostedSessionIntegration.html"
+            }
             else -> null
         }
     }

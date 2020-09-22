@@ -16,6 +16,8 @@ import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.leanplum.HHTransactionsEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
@@ -63,9 +65,9 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.confirmButton ->
+                R.id.confirmButton ->{
                     ConfirmAddBeneficiary(this.activity!!)
-
+                }
             }
         })
     }

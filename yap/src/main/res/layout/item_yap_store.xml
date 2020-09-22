@@ -7,20 +7,17 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.store.viewmodels.YapStoreItemViewModel" />
+            type="co.yap.modules.dashboard.store.yapstore.YapStoreItemVM" />
 
         <import type="co.yap.translation.Strings" />
     </data>
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvStore"
         style="@style/CardViewLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart= "@dimen/margin_normal_large"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_normal_large"
-        android:layout_marginBottom="@dimen/margin_normal"
         android:background="@color/white"
         android:gravity="center_vertical">
 
@@ -30,7 +27,7 @@
             android:paddingBottom="@dimen/margin_medium">
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/labelCardType"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_18sdp"
@@ -41,12 +38,14 @@
                 android:gravity="center"
                 android:text="Coming soon"
                 android:elevation="4dp"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 app:btn_unpressed_color="@color/disabledLight"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgStoreCover"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150sdp"
@@ -55,10 +54,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:src="@{viewModel.storeData.image}"
+                app:src="@{viewModel.item.image}"
                 tools:srcCompat="@drawable/ic_store_b2b" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgStoreType"
                 android:layout_width="@dimen/_48sdp"
                 android:layout_height="@dimen/_48sdp"
@@ -68,7 +67,7 @@
                 android:contentDescription="@string/empty_string"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
-                app:src="@{viewModel.storeData.storeIcon}"
+                app:src="@{viewModel.item.storeIcon}"
                 tools:srcCompat="@drawable/ic_young_smile" />
             <!--            app:src="@{viewModel.storeData.storeIcon}"-->
             <TextView
@@ -79,19 +78,19 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:singleLine="true"
-                android:text="@{viewModel.storeData.name}"
+                android:text="@{viewModel.item.name}"
                 app:layout_constraintEnd_toEndOf="@+id/imgStoreCover"
                 app:layout_constraintStart_toEndOf="@+id/imgStoreType"
                 app:layout_constraintTop_toTopOf="@+id/imgStoreType"
                 tools:text="@string/screen_yap_store_display_text_heading" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvStoreDesc"
                 style="@style/AMicroGrey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_17sdp"
-                android:text="@{viewModel.storeData.desc}"
+                android:text="@{viewModel.item.desc}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvStoreName"
                 app:layout_constraintTop_toBottomOf="@+id/tvStoreName"

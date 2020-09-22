@@ -1,6 +1,7 @@
 package co.yap.translation
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 
 object Translator {
 
@@ -22,8 +23,8 @@ object Translator {
         return getString(context, stringResourceId)
     }
 
-    fun getString(context: Context, keyID: String, value: String): String {
-        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
-        return context.resources.getString(stringResourceId, value)
-    }
+//    fun getString(context: Context, keyID: String, value: String): String {
+//        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
+//        return context.resources.getString(stringResourceId, value)
+//    }
 }

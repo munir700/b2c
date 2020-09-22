@@ -4,10 +4,10 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
-import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.notification.HomeNotification
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -37,13 +37,15 @@ interface IYapHome {
         fun requestAccountTransactions()
         fun getNotifications(
             accountInfo: AccountInfo,
-            paymentCard: Card
-        ): ArrayList<HomeNotification>
+            paymentCard: Card,apiResponse: (( Boolean) -> Unit?)?
+        )
+        fun getFailedTransactionAndSubNotifications(apiResponse: (( Boolean) -> Unit?)?)
     }
 
     interface State : IBase.State {
         var availableBalance: String
         var filterCount: ObservableField<Int>
         var isTransEmpty:ObservableField<Boolean>
+        var notificationList:MutableLiveData<MutableList<HomeNotification>>
     }
 }

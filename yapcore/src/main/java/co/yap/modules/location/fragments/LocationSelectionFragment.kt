@@ -27,6 +27,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -34,7 +35,6 @@ import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.ezaka.customer.app.utils.hideKeyboard
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.layout_google_maps.*

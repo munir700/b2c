@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/young_parent_side_navigation"
+    app:startDestination="@id/youngLandingFragment">
+
+    <fragment
+        android:id="@+id/youngLandingFragment"
+        android:name="co.yap.modules.dashboard.store.young.landing.YoungLandingFragment"
+        android:label="YoungLandingFragment"
+        tools:layout="@layout/fragment_young_landing">
+        <action
+            android:id="@+id/action_youngLandingFragment_to_youngBenefitsFragment"
+            app:destination="@id/youngBenefitsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngBenefitsFragment"
+        android:name="co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment"
+        android:label="YoungBenefitsFragment"
+        tools:layout="@layout/fragment_young_benefits">
+        <action
+            android:id="@+id/action_youngBenefitsFragment_to_youngChildKycHomeFragment"
+            app:destination="@id/youngChildKycHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngConfirmRelationshipFragment"
+        android:name="co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment"
+        android:label="YoungConfirmRelationshipFragment"
+        tools:layout="@layout/fragment_young_confirm_relationship">
+        <action
+            android:id="@+id/action_youngConfirmRelationshipFragment_to_youngContactDetailsFragment"
+            app:destination="@id/youngContactDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngContactDetailsFragment"
+        android:name="co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment"
+        android:label="YoungContactDetailsFragment"
+        tools:layout="@layout/fragment_young_contact_details">
+        <action
+            android:id="@+id/action_youngContactDetailsFragment_to_youngPaymentSelectionFragment"
+            app:destination="@id/youngPaymentSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngPaymentSelectionFragment"
+        android:name="co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment"
+        android:label="YoungPaymentSelectionFragment"
+        tools:layout="@layout/fragment_young_payment_selection">
+        <action
+            android:id="@+id/action_youngPaymentSelectionFragment_to_youngPaymentConfirmationFragment"
+            app:destination="@id/youngPaymentConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngPaymentConfirmationFragment"
+        android:name="co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment"
+        android:label="YoungPaymentConfirmationFragment"
+        tools:layout="@layout/fragment_young_payment_confirmation">
+        <action
+            android:id="@+id/action_youngPaymentConfirmationFragment_to_youngCardEditDetailsFragment"
+            app:destination="@id/youngCardEditDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngCardSuccessFragment2"
+        android:name="co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment"
+        android:label="YoungCardSuccessFragment"
+        tools:layout="@layout/fragment_card_success">
+        <action
+            android:id="@+id/action_youngCardSuccessFragment2_to_youngSendMoneyFragment"
+            app:destination="@id/youngSendMoneyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngCardEditDetailsFragment"
+        android:name="co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsFragment"
+        android:label="YoungCardEditDetailsFragment"
+        tools:layout="@layout/fragment_young_card_edit_details">
+        <action
+            android:id="@+id/action_youngCardEditDetailsFragment_to_youngCardSuccessFragment2"
+            app:destination="@id/youngCardSuccessFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngChildKycHomeFragment"
+        android:name="co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeFragment"
+        android:label="YoungChildKycHomeFragment"
+        tools:layout="@layout/fragment_young_child_kyc_home">
+        <action
+            android:id="@+id/action_youngChildKycHomeFragment_to_youngConfirmRelationshipFragment"
+            app:destination="@id/youngConfirmRelationshipFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngSendMoneyFragment"
+        android:name="co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment"
+        android:label="YoungSendMoneyFragment"
+        tools:layout="@layout/fragment_young_send_money" >
+        <action
+            android:id="@+id/action_youngSendMoneyFragment_to_youngSendMoneySuccessFragment"
+            app:destination="@id/youngSendMoneySuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngSendMoneySuccessFragment"
+        android:name="co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment"
+        android:label="YoungSendMoneySuccessFragment"
+        tools:layout="@layout/fragment_young_send_money_success" />
+</navigation>

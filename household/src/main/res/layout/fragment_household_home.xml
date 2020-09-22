@@ -7,133 +7,99 @@
 
         <variable
             name="viewModel"
-            type="co.yap.household.dashboard.home.viewmodels.HouseholdHomeViewModel" />
+            type="co.yap.household.dashboard.home.HouseHoldHomeVM" />
 
         <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="cardBalance"
+            type="co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData.Companion" />
+
+        <import type="android.view.View" />
     </data>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/cl_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".dashboard.home.HouseholdHomeFragment"
+            android:fitsSystemWindows="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryHouseHold">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clHeaderContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?attr/colordisabledTick"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/toolbar_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="noScroll">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/margin_normal"
+                        app:layout_collapseMode="pin">
+
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            style="@style/Yap.App.Widget.ToolBar"
+                            android:background="@color/colorPrimaryHouseHold"
+                            app:layout_collapseMode="pin"
+                            app:navigationIcon="@drawable/ic_search_white">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/toolbarTitle"
+                                style="@style/Yap.App.Widget.TextView.Label"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_rounded_cornor_currency"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/margin_extra_small"
+                                android:paddingEnd="@dimen/margin_extra_small"
+                                android:text="@string/screen_household_home_display_text_total_balance"
+                                android:textColor="@color/white"
+                                app:text="@{Strings.screen_household_home_display_text_total_balance}" />
+                        </androidx.appcompat.widget.Toolbar>
+
+                        <co.yap.widgets.libcurrencyview.CurrencyTextView
+                            android:id="@+id/currencyTextView"
+                            style="@style/Yap.App.Widget.TextView.Currency"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@{viewModel.state.availableBalance??`0.00`}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_h7"
+                            app:ctv_currencySymbol=" "
+                            app:ctv_decimalTextSize="@dimen/text_size_h3"
+                            tools:text="0.00" />
+
+                        <com.yarolegovich.discretescrollview.DiscreteScrollView
+                            android:id="@+id/rvNotificationList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:adapter="@{viewModel.notificationAdapter}"
+                            app:dsv_orientation="horizontal"
+                            app:itemTransformer="@{0.8f}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/toolbar"
+                            app:scrollEnable="@{true}"
+                            app:scrollTo="@{0}"
+                            app:slideOnFling="@{false}"
+                            app:transitionTime="@{100}"
+                            tools:listitem="@layout/item_hh_notification"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
             <include
-                android:id="@+id/toolbar"
-                layout="@layout/layout_household_home_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/lyInclude"
+                layout="@layout/content_fragment_house_hold_home"
                 app:viewModel="@{viewModel}" />
-
-            <com.yarolegovich.discretescrollview.DiscreteScrollView
-                android:id="@+id/rvNotificationList"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:dsv_orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clTransactionHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            android:layout_marginBottom="@dimen/margin_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clHeaderContainer">
-
-            <TextView
-                android:id="@+id/tvTransactionTitle"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_household_home_display_text_transactions_heading_title}"
-                tools:text="@string/screen_household_home_display_text_transactions_heading_title" />
-
-            <!--                <TextView-->
-            <!--                    android:id="@+id/tvFilterCount"-->
-            <!--                    style="@style/ASmall"-->
-            <!--                    android:layout_width="@dimen/_22sdp"-->
-            <!--                    android:layout_height="@dimen/_22sdp"-->
-            <!--                    android:layout_marginEnd="5dp"-->
-            <!--                    android:background="@drawable/bg_round_purple"-->
-            <!--                    android:gravity="center"-->
-            <!--                    android:text="@{viewModel.state.filterCount.toString()}"-->
-            <!--                    android:textColor="@color/colorPrimary"-->
-            <!--                    android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"-->
-            <!--                    tools:text="6" />-->
-
-            <ImageView
-                android:id="@+id/ivFilters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
-                android:contentDescription="@string/empty_string"
-                android:src="@drawable/ic_filter"
-                app:layout_constraintBottom_toBottomOf="@id/tvTransactionTitle"
-                app:layout_constraintEnd_toStartOf="@id/tvFilters"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionTitle" />
-
-            <TextView
-                android:id="@+id/tvFilters"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/tvTransactionTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionTitle"
-                app:text="@{Strings.screen_household_home_display_text_transactions_filers_title}"
-                tools:text="@string/screen_household_home_display_text_transactions_filers_title" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/divider"
-            app:layout_constraintTop_toBottomOf="@id/clTransactionHeader" />
-        <co.yap.widgets.MultiStateView
-            android:layout_marginTop="@dimen/small"
-            android:id="@+id/multiStateView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:msv_animateViewChanges="true"
-            app:msv_emptyView="@layout/layout_home_no_transaction"
-            app:msv_loadingView="@layout/layout_loading_view">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </co.yap.widgets.MultiStateView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

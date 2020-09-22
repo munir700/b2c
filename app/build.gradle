@@ -101,6 +101,26 @@ android {
                 cppFlags '-DDEV'
             }
         }
+        hh {
+            versionCode 6
+            versionName "0.0.6"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "YAP HH"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DHH'
+            }
+        }
+        hh_qa {
+            versionCode 5
+            versionName "0.0.5"
+            applicationIdSuffix ".qa"
+            resValue "string", "app_name", "YAP HH QA"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            externalNativeBuild.cmake {
+                cppFlags '-DHHQA'
+            }
+        }
     }
     ndkVersion '21.1.6352462'
     sourceSets {

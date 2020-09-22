@@ -118,7 +118,9 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             customerId = "1100000000071",
             accountNumber = "1199999000000071",
             productCode = "CD",
-            pinCreated = true
+            pinCreated = true,
+            frontImage = "",
+            backImage = ""
         )
     }
 }

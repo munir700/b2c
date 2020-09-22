@@ -40,7 +40,6 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
     private val authRepository: AuthRepository = AuthRepository
 
@@ -158,25 +157,6 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
-    override fun getAccountInfo() {
-        launch {
-            when (val response = customersRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    if (!response.data.data.isNullOrEmpty()) {
-                        MyUserManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
-                        trackEventWithAttributes(MyUserManager.user)
-                        state.loading = false
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.loading = false
-                }
-            }
-        }
-    }
-
     override fun createOtp() {
         launch {
             when (val response =
@@ -226,7 +206,7 @@ class VerifyPasscodeViewModel(application: Application) :
 
     fun logout(success: () -> Unit) {
         val deviceId: String? =
-            SharedPreferenceManager(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
+            SharedPreferenceManager.getInstance(context).getValueString(co.yap.yapcore.constants.Constants.KEY_APP_UUID)
         launch {
             state.loading = true
             when (repository.logout(deviceId.toString())) {

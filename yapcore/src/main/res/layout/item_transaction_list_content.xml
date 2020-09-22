@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.yapcore.transactions.viewmodels.ItemTransactionContentViewModel" />
+
+        <import type="co.yap.yapcore.enums.TxnType" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lyTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium_large"
+        android:layout_marginEnd="@dimen/margin_medium_large"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivTransaction"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:contentDescription="@string/empty_string"
+            tools:src="@drawable/ic_plus_transactions"
+            android:background="@drawable/bg_round_purple_enabled"
+            app:fullName="@{viewModel.itemViewModel.title.toString()}"
+            app:imageUrl="@{viewModel.itemViewModel.txnType.equals(TxnType.DEBIT.type) ? viewModel.itemViewModel.receiverProfilePictureUrl  : viewModel.itemViewModel.senderProfilePictureUrl}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:resId="@{viewModel.txnImageResId == null?  -1 : viewModel.txnImageResId}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivIncoming"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="@dimen/small"
+            android:visibility="visible"
+            app:src="@{viewModel.txnTxnStatusResId == -1? android.R.color.transparent : viewModel.txnTxnStatusResId}"
+            app:srcCompat="@drawable/ic_transaction_pending"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="37dp" />
+
+        <TextView
+            android:id="@+id/tvTransactionName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:singleLine="true"
+            android:text="@{viewModel.itemViewModel.title.toString()}"
+            app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/ivTransaction"
+            app:layout_constraintTop_toTopOf="@+id/ivTransaction"
+            tools:text="Amazon" />
+
+        <TextView
+            android:id="@+id/tvTransactionTimeAndCategory"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:text="@{viewModel.itemViewModel.category}"
+            android:textColor="@color/greyNormalDark"
+            app:layout_constraintLeft_toLeftOf="@+id/tvTransactionName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
+            tools:text="18:25" />
+
+
+        <TextView
+            android:id="@+id/tvTransactionAmount"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTransactionName"
+            tools:text="- 21.00" />
+
+        <TextView
+            android:id="@+id/tvCurrency"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.itemViewModel.currency}"
+            android:textColor="@color/greyNormalDark"
+            app:layout_constraintRight_toRightOf="@+id/tvTransactionAmount"
+            app:layout_constraintTop_toTopOf="@+id/tvTransactionTimeAndCategory"
+            tools:text="AED" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:background="@color/divider"
+            app:layout_constraintLeft_toLeftOf="@+id/tvTransactionTimeAndCategory"
+            app:layout_constraintRight_toRightOf="@+id/tvCurrency"
+            app:layout_constraintTop_toBottomOf="@+id/ivTransaction" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

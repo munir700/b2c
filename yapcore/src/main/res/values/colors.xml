@@ -92,6 +92,7 @@
     <color name="colorLightPinkBackground">#FFE3E0</color>
 
     <color name="colorAccentHouseHold">#fc6253</color>
+    <color name="colorAccentLightHouseHold">#fee3e0</color>
 
     <!--    d32f2f-->
     <color name="colorPrimaryHouseHold">#fc6253</color>
@@ -105,17 +106,17 @@
     <color name="colordisabledTickHouseHold">#FC6253</color>
     <color name="seekbarProgresskHouseHold">#FFE3E0</color>
     <color name="colorSnackBarBackGround">#fff4f3</color>
-
     <color name="colorPrimaryDarkIconsHouseHold">#fafafa</color>
+    <color name="colorLightPink">#FEF1EF</color>
+    <color name="colorLightPinkBankTransfer">#FFF8F7</color>
+    <color name="colorDarkPinkBankTransfer">#FFE0DD</color>
 
     <color name="grey88848d">#c9c8d8</color>
-
 
     <color name="colorBlue">#478df4</color>
     <color name="lightYellow">#40f57f17</color>
     <color name="lightAqua">#4000b9ae</color>
     <color name="lightPink">#40f44774</color>
-
     <color name="colorFaded">#9A98B6</color>
 
     <!-- colors for achievements-->
@@ -127,6 +128,18 @@
     <color name="colorDarkPeach">#F57F17</color>
 
     <color name="colorCoachMarkOverlay">#4D272262</color>
-
+    <color name="colorSendMoneyToolBar">#00000000</color>
+    <color name="colorSendMoneyToolBarHouseHold">#fc6253</color>
+    <color name="colorSearchViewHouseHold">#fb867a</color>
+    <color name="colorSearchViewHintHouseHold">#fcb9b2</color>
+    <color name="disabledLightHouseHold">#ffe9e7</color>
+    <!--    Young Theme Color-->
+    <color name="colorPurpleGrey">#9790B7</color>
+    <color name="colorPurpleGreyLight">#FFAEB0CD</color>
+    <color name="colorGreyLight">#FFF1EDFF</color>
+    <!--    EditTheme Color-->
+    <color name="colorControlNormal">#dae0f0</color>
+    <color name="colorControlActivated">#dae0f0</color>
+    <color name="colorControlHighlight">#dae0f0</color>
 
 </resources>

@@ -9,9 +9,9 @@ import co.yap.yapcore.constants.Constants.KEY_PASSCODE
 import co.yap.yapcore.constants.Constants.KEY_THEME
 import co.yap.yapcore.constants.Constants.KEY_USERNAME
 import com.google.gson.Gson
-import java.lang.Exception
+import javax.inject.Inject
 
-class SharedPreferenceManager(val context: Context) {
+class SharedPreferenceManager @Inject constructor(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
     private val inviterAdjustId = "inviterAdjustId"
@@ -65,7 +65,7 @@ class SharedPreferenceManager(val context: Context) {
                 editor.remove(entry)
             }
             editor.apply()
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
     }

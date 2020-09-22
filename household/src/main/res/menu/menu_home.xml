@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/open_drawer"
+        android:icon="@drawable/ic_hamburger_white"
+        android:iconTint="@color/white"
+        android:title="@string/screen_house_hold_dashboard_bottom_bar_home_text"
+        app:showAsAction="always" />
+</menu>

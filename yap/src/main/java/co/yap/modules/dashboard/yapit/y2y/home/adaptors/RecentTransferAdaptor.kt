@@ -15,14 +15,14 @@ class RecentTransferAdaptor(mValue: MutableList<Beneficiary>, navigation: NavCon
         mValue,
         navigation
     ) {
-    override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
+    override fun getLayoutId(viewType: Int) = getViewModel(viewType).layoutRes()
     override fun getViewHolder(
         view: View,
         viewModel: RecentTransferItemVM,
         mDataBinding: ViewDataBinding, viewType: Int
     ) = ViewHolder(view, viewModel, mDataBinding)
 
-    override fun getViewModel() = RecentTransferItemVM()
+    override fun getViewModel(viewType: Int) = RecentTransferItemVM()
     override fun getVariableId() = BR.recentTransferItemVM
 
     class ViewHolder(view: View, viewModel: RecentTransferItemVM, mDataBinding: ViewDataBinding) :

@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#-keep class co.yap.modules.onboarding.enums.AccountType.** { *; }
+#-keep class co.yap.yapcore.enums.AccountType.** { *; }
 #-keep class co.yap.networking.** { *; }
 
 #If your project is obfuscated with DexGuard you may need to add the following line to the DexGuard configuration:
@@ -192,6 +192,9 @@
 -keep class com.crashlytics.** { *; }
 -keep class com.crashlytics.android.**
 -keepattributes SourceFile, LineNumberTable, *Annotation*
+
+-keepclassmembers class com.google.android.material.textfield.TextInputLayout {
+    private void collapseHint;
 -keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
   <fields>;
 }

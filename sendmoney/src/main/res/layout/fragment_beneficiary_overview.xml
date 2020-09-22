@@ -10,7 +10,6 @@
         <variable
             name="viewModel"
             type="co.yap.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel" />
-
     </data>
 
     <ScrollView
@@ -89,18 +88,7 @@
                                 android:text="@{viewModel.state.country}"
                                 tools:text="united kingdom" />
 
-
                         </LinearLayout>
-
-                        <!--                        <TextView-->
-                        <!--                            style="@style/Small"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="@dimen/margin_medium"-->
-                        <!--                            android:gravity="center_vertical"-->
-                        <!--                            android:text="@{viewModel.state.country}"-->
-                        <!--                            tools:text="united kingdom" />-->
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -138,8 +126,6 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:background="@color/divider" />
-
-
                 <!--
                     this wil be the common screen in all three case
                      only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
@@ -164,7 +150,6 @@
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    //add field in state to change the icon of currency type
 
                     <TextView
                         android:id="@+id/labelCardType"
@@ -172,9 +157,11 @@
                         android:layout_height="@dimen/_18sdp"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:background="@drawable/round_light_gery_background"
+                        android:backgroundTint="?attr/colorEditBeneficiaryLabelBgAttr"
+                        android:backgroundTintMode="screen"
                         android:gravity="center"
                         android:text="@{viewModel.state.currency}"
-                        android:textColor="?attr/colorPrimaryAttr"
+                        android:textColor="?attr/colorEditBeneficiaryLabelTextAttr"
                         android:textSize="@dimen/_9sdp"
                         app:btn_unpressed_color="@color/disabledLight"
                         tools:text="$ CAD" />
@@ -310,18 +297,6 @@
                     app:textColor="@{viewModel.state.mobile.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
 
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etPhoneNumber"-->
-                <!--                    style="@style/Regular"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:backgroundTint="@color/greyLight"-->
-                <!--                    android:imeOptions="actionNext"-->
-                <!--                    android:importantForAutofill="no"-->
-                <!--                    android:text="@={viewModel.state.phoneNumber}"-->
-                <!--                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />-->
-
-
                 <!--
                    Decision is yet to be taken about this phoen field whether to phone picker or not
                    -->
@@ -401,7 +376,8 @@
                         android:layout_height="@dimen/_42sdp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/_2sdp"
-                        android:background="@drawable/bg_round_purple">
+                        android:background="@drawable/bg_round_purple"
+                        >
 
                         <!--                        <ImageView-->
                         <!--                            android:layout_width="wrap_content"-->

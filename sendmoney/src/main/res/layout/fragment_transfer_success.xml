@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:background="@color/colorWhite"
+            android:background="?attr/colorBackgroundPrimarySoftAttr"
             android:orientation="vertical">
 
             <TextView
@@ -192,6 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium_large"
+                android:tint="?attr/colorPrimaryAttr"
                 android:visibility="@{viewModel.parentViewModel.transferData.cutOffTimeMsg==null || viewModel.parentViewModel.transferData.cutOffTimeMsg.isEmpty()? View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,7 +223,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:background="@drawable/card_border_selector"
+                android:background="@drawable/card_border_selector_success"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
                 app:layout_constraintBottom_toTopOf="@+id/confirmButton"
@@ -277,6 +278,9 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                 android:text="@{viewModel.state.buttonTitle}"
                 app:btn_enable="true"
+                app:btn_pressed_color="?attr/colorButtonPressedAttr"
+                app:btn_text_color="?attr/colorCoreButtonTextAttr"
+                app:btn_unpressed_color="?attr/colorButtonUnPressedAttr"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"

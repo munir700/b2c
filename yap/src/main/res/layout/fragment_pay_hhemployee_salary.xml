@@ -1,0 +1,106 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="payHHEmployeeSalaryVM"
+            type="co.yap.modules.subaccounts.paysalary.employee.PayHHEmployeeSalaryVM" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
+
+        <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
+
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="java.util.Calendar" />
+
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
+        android:paddingBottom="@dimen/margin_large">
+
+        <include
+            android:id="@+id/include2"
+            layout="@layout/layout_textview_image_vertical"
+            app:imageUrl="@{payHHEmployeeSalaryVM.state.subAccount.profilePictureUrl ?? ` `}"
+            app:name="@{payHHEmployeeSalaryVM.state.subAccount.fullName}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView2"
+            style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="XXXX XXXX XXXX 6583"
+            tools:ignore="HardcodedText" />
+        <!--        android:text="@{SpannableStringCreatorKt.getText(context.resources,SpannableKt.color(@color/colorPrimaryDark,Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_next_payment_secondary_text,payHHEmployeeSalaryVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.futureTransaction.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default))))}"-->
+        <include
+            android:id="@+id/include4"
+            layout="@layout/layout_recent_transfer_pay_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:visibility="@{payHHEmployeeSalaryVM.state.lastTransaction!=null? View.VISIBLE:View.GONE}"
+            app:amount="@{payHHEmployeeSalaryVM.state.lastTransaction.amount}"
+            app:date="@{DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.lastTransaction.transferDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)}"
+            app:lable="@{@string/screen_household_employee_salary_last_salary_transfer_text}" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnPayNow"
+            style="@style/RectangleBtnSmallStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:minHeight="@dimen/_22sdp"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnView(v.id)}"
+            android:paddingStart="@dimen/margin_normal_large"
+            android:paddingEnd="@dimen/margin_normal_large"
+            app:enableCoreButton="@{true}"
+            app:text="@{Strings.screen_household_employee_salary_pay_now_button_text}"
+            tools:ignore="HardcodedText" />
+
+        <include
+            android:id="@+id/llScheduleOnce"
+            layout="@layout/layout_schedule_pay_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnView(v.id)}"
+            app:lable="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?@string/screen_household_employee_salary_next_payment_text:@string/screen_household_employee_salary_schedule_once_heading_text}"
+            app:subLabel="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_next_payment_secondary_text,payHHEmployeeSalaryVM.state.futureTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.futureTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):@string/screen_household_employee_salary_future_payment_text}"
+            app:subLabelTextColor="@{payHHEmployeeSalaryVM.state.futureTransaction!=null?@color/colorPrimary:@color/colorPrimaryDark}" />
+
+        <include
+            android:id="@+id/llMakeRecurring"
+            layout="@layout/layout_schedule_pay_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:onClick="@{(v) -> payHHEmployeeSalaryVM.handlePressOnView(v.id)}"
+            app:lable="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?@string/screen_household_employee_salary_recurrent_auto_payment_primary_text:@string/screen_household_employee_salary_recurring_heading_text}"
+            app:subLabel="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?Translator.INSTANCE.getString(context, Strings.screen_household_employee_salary_recurrent_auto_payment_secondary_text,payHHEmployeeSalaryVM.state.recurringTransaction.amount , DateUtils.INSTANCE.reformatStringDate(payHHEmployeeSalaryVM.state.recurringTransaction.nextProcessingDate,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.FORMAT_DATE_MON_YEAR,DateUtils.INSTANCE.GMT , DateUtils.INSTANCE.TIME_ZONE_Default)):@string/screen_household_employee_salary_recurring_text}"
+            app:subLabelTextColor="@{payHHEmployeeSalaryVM.state.recurringTransaction!=null?@color/colorPrimary:@color/colorPrimaryDark}" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

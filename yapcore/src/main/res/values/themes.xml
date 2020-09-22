@@ -4,12 +4,11 @@
     <style name="CoreAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#5E35B1</item>
         <item name="colorPrimaryDark">#272262</item>
-        <item name="colorAccent">#4d4d4d</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
         <item name="colorPrimaryAttr">@color/colorPrimary</item>
         <item name="colorPrimaryDarkAttr">@color/colorPrimaryDark</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccent</item>
-
         <item name="colorPrimaryAccentWarmAttr">@color/colorAccent</item>
         <item name="colorPrimaryWarmAttr">@color/colorPrimaryWarm</item>
         <item name="colorPrimaryLightAttr">@color/colorPrimaryLight</item>
@@ -20,24 +19,50 @@
         <item name="colorPressedBtnStateAttr">@color/colorPressedBtnState</item>
         <item name="colordisabledTick">@color/disabledTickColor</item>
         <item name="colorSeekBar">@color/seekbarProgress</item>
-
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
-
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
         <item name="actionBarSize">@dimen/toolbar_height</item>
+        <item name="colorSendMoneyToolBarAttr">@color/transparent</item>
+        <item name="colorTextAttr">@color/textDarkColor</item>
+        <item name="colorIconsTintAttr">@color/colorPrimary</item>
+        <item name="colorBackgroundPrimarySoftAttr">@color/white</item>
+        <item name="colorButtonBgPrimaryAttr">@color/colorPrimary</item>
+        <item name="colorButtonTextAttr">@color/white</item>
+        <item name="colorPrimAttr">@color/purple</item>
+        <item name="colorDisabledLightAttr">@color/disabledLight</item>
+        <item name="colorSecondaryAttr">@color/purple</item>
+        <item name="colorDisabledLightSecondaryAttr">@color/disabledLight</item>
+        <item name="colorBackgroundSuccessAttr">@color/white</item>
+        <item name="colorStatusBarSuccessAttr">@color/transparent</item>
+        <item name="colorToolbarTextAttr">@color/colorPrimaryDark</item>
+        <item name="cardSuccessBorderWidth">1dp</item>
+        <item name="colorSearchViewEditTexAttr">@color/colorPrimaryDark</item>
+        <item name="colorSearchViewHintAttr">@color/greyDark</item>
+        <item name="colorSwipeToDeleteAttr">@color/colorSecondaryMagenta</item>
+        <item name="colorSwipeToEditAttr">@color/colorPrimary</item>
+        <item name="colorLightBankTransferAttr">@color/greySoftSelected</item>
+        <item name="colorDarkBankTransferAttr">@color/disabledPurple</item>
+        <item name="colorEditBeneficiaryLabelBgAttr">@color/disabledLight</item>
+        <item name="colorEditBeneficiaryLabelTextAttr">@color/colorPrimary</item>
+        <item name="colorCircularTextAttr">@color/purple</item>
+        <item name="colorCircularBgAttr">@color/disabledLight</item>
+        <item name="colorYapItBgAttr">@color/white</item>
+        <item name="colorButtonPressedAttr">@color/colorPressedBtnState</item>
+        <item name="colorButtonUnPressedAttr">@color/colorPrimary</item>
+        <item name="colorCoreButtonTextAttr">@color/white</item>
+        <item name="colorProfileSettingIconBgTint">@color/transparent</item>
+        <item name="colorHelpSupportIconBgTint">#eae3ff</item>
 
     </style>
 
     <style name="AppThemeHouseHold" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#fc6253</item>
-        <item name="colorPrimaryDark">@color/textDarkColor</item>
+        <item name="colorPrimaryDark">#C94E42</item>
         <item name="colorAccent">#fc6253</item>
 
         <item name="colorPrimaryAttr">@color/colorPrimaryHouseHold</item>
         <item name="colorPrimaryDarkAttr">@color/textDarkColor</item>
         <item name="colorPrimaryAccentAttr">@color/colorAccentHouseHold</item>
-
-
         <item name="colorPrimaryAccentWarmAttr">@color/colorAccentHouseHold</item>
         <item name="colorPrimaryWarmAttr">@color/colorPrimaryHouseHold</item>
         <item name="colorPrimaryLightAttr">@color/colorDisabledBtnHouseHold</item>
@@ -51,7 +76,36 @@
         <item name="actionBarSize">@dimen/toolbar_height</item>
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
-
+        <item name="colorSendMoneyToolBarAttr">@color/colorSendMoneyToolBarHouseHold</item>
+        <item name="colorTextAttr">@color/white</item>
+        <item name="colorIconsTintAttr">@color/white</item>
+        <item name="colorSearchViewEditTexAttr">@color/white</item>
+        <item name="colorSearchViewHintAttr">@color/white</item>
+        <item name="colorBackgroundPrimarySoftAttr">@color/colorLightPinkBackground</item>
+        <item name="colorButtonBgPrimaryAttr">@color/white</item>
+        <item name="colorButtonTextAttr">@color/textDarkColor</item>
+        <item name="colorPrimAttr">@color/colorDarkPink</item>
+        <item name="colorDisabledLightAttr">@color/lightPink</item>
+        <item name="colorSecondaryAttr">@color/colorSecondaryBlue</item>
+        <item name="colorDisabledLightSecondaryAttr">@color/bg_round_light_secondary_blue</item>
+        <item name="colorBackgroundSuccessAttr">@color/colorLightPink</item>
+        <item name="colorStatusBarSuccessAttr">@color/colorLightPinkBackground</item>
+        <item name="colorToolbarTextAttr">@color/white</item>
+        <item name="colorSwipeToDeleteAttr">@color/colorPrimaryDarkHouseHold</item>
+        <item name="colorSwipeToEditAttr">@color/colorPrimaryHouseHold</item>
+        <item name="colorLightBankTransferAttr">@color/colorLightPinkBankTransfer</item>
+        <item name="colorDarkBankTransferAttr">@color/colorDarkPinkBankTransfer</item>
+        <item name="cardSuccessBorderWidth">0dp</item>
+        <item name="colorEditBeneficiaryLabelBgAttr">@color/disabledLightHouseHold</item>
+        <item name="colorEditBeneficiaryLabelTextAttr">@color/colorPrimaryDarkHouseHold</item>
+        <item name="colorCircularTextAttr">@color/colorSecondaryMagenta</item>
+        <item name="colorCircularBgAttr">@color/bg_round_light_secondary_magenta</item>
+        <item name="colorYapItBgAttr">@color/colorPrimaryHouseHold</item>
+        <item name="colorButtonPressedAttr">@color/white</item>
+        <item name="colorButtonUnPressedAttr">@color/white</item>
+        <item name="colorCoreButtonTextAttr">@color/colorPrimaryDark</item>
+        <item name="colorProfileSettingIconBgTint">@color/colorPrimaryHouseHold</item>
+        <item name="colorHelpSupportIconBgTint">@color/colorPrimaryHouseHold</item>
 
     </style>
 
@@ -69,7 +123,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
     <style name="Widget.Button.Primary" parent="Widget.AppCompat.Button">
         <item name="colorButtonNormal">?attr/colorPrimaryAttr</item>
         <item name="android:textColor">@color/white</item>
@@ -79,14 +132,11 @@
         <item name="android:background">?attr/colorPrimaryWarmAttr</item>
     </style>
 
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">?attr/colorPrimary</item>
         <item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
         <item name="colorAccent">?attr/colorAccent</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
-
-
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -107,5 +157,27 @@
         <item name="android:drawableTint">?attr/colorPrimary</item>
 
     </style>
+
+    <style name="Yap.App.Widget.ToolBar.ThemeOverlay.White" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <style name="CustomLightTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:statusBarColor">@color/colorSearchViewHintHouseHold</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#007AFF</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#00f</item>
+    </style>
+
 
 </resources>

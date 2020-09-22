@@ -70,8 +70,13 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/cut-off-time-configuration"
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
+
     // Household
-    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
+    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{productPlan}/{feeFrequency}"
+    const val URL_HOUSEHOLD_PAY_SALARY_NOW = "/transactions/api/y2y-household"
+    const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
+    const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS = "/transactions/api/account-statements/{householdAccountUUID}"
+
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -126,15 +131,15 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
         executeSafely(call = { api.addEditNote(addEditNoteRequest) })
 
-    override suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse> =
+    override suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse> =
         executeSafely(call = {
             api.getAccountTransactions(
-                homeTransactionsRequest.number,
-                homeTransactionsRequest.size,
-                homeTransactionsRequest.amountStartRange,
-                homeTransactionsRequest.amountEndRange,
-                homeTransactionsRequest.txnType,
-                homeTransactionsRequest.title
+                homeTransactionsRequest?.number,
+                homeTransactionsRequest?.size,
+                homeTransactionsRequest?.amountStartRange,
+                homeTransactionsRequest?.amountEndRange,
+                homeTransactionsRequest?.txnType,
+                homeTransactionsRequest?.title
             )
         })
 
@@ -190,23 +195,20 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
 
-    override suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.cashPayoutTransferRequest(sendMoneyTransferRequest) })
 
-    override suspend fun domesticTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun domesticTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.domesticTransferRequest(sendMoneyTransferRequest) })
 
-    override suspend fun uaeftsTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun uaeftsTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.uaeftsTransferRequest(sendMoneyTransferRequest) })
 
-    override suspend fun rmtTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun rmtTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.rmtTransferRequest(sendMoneyTransferRequest) })
 
     override suspend fun swiftTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.swiftTransferRequest(sendMoneyTransferRequest) })
-
-    override suspend fun getHousholdFeePackage(packageType: String): RetroApiResponse<RemittanceFeeResponse> =
-        executeSafely(call = { api.getHousholdFeePackage(packageType) })
 
     override suspend fun getTransactionThresholds(): RetroApiResponse<TransactionThresholdResponseDTO> =
         executeSafely(call = { api.getTransactionThresholds() })
@@ -232,4 +234,17 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
 
+    //House Hold Api Calls start here
+    override suspend fun getPrepaidUserSubscriptionsPlans(productPlan: String, feeFrequency:String): RetroApiResponse<RemittanceFeeResponse> =
+        executeSafely(call = { api.getPrepaidUserSubscriptionsPlans(productPlan,feeFrequency) })
+
+    //    House Hold Pay Salary Now
+    override suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.paySalaryNow(request) })
+
+    override suspend fun getFailedTransactions() =
+        executeSafely(call = { api.getFailedTransactions() })
+
+    override suspend fun getHouseHoldAccountStatements(householdAccountUUID: String?): RetroApiResponse<CardStatementsResponse> =
+        executeSafely(call = { api.getHouseHoldAccountStatements(householdAccountUUID) })
 }

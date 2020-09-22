@@ -18,6 +18,8 @@ import android.widget.TextView;
 import co.yap.yapcore.R;
 import co.yap.yapcore.helpers.Utils;
 
+import static co.yap.yapcore.helpers.extentions.KeyboardUtils.hideKeyboard;
+
 public class CoreSearchView extends RelativeLayout implements TextWatcher, TextView.OnEditorActionListener {
 
     private EditText mEtSearch;
@@ -119,9 +121,9 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
     private void AddListeners() {
 
-
         registerTextChangeListener();
         mEtSearch.setOnEditorActionListener(this);
+
     }
 
 
@@ -178,7 +180,7 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
             } else {
                 IsSearching = false;
             }
-            Utils.INSTANCE.hideKeyboard(v);
+            hideKeyboard(v);
             return true;
         }
         return false;

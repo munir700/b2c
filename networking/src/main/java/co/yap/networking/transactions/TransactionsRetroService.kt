@@ -1,6 +1,8 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
+import co.yap.networking.notification.HomeNotification
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.achievement.AchievementsResponseDTO
@@ -104,15 +106,24 @@ interface TransactionsRetroService {
 
     // Card top up transaction request
     @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
-    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId: String, @Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
+    suspend fun cardTopUpTransactionRequest(
+        @Path("order-id") orderId: String,
+        @Body topUpTransactionRequest: TopUpTransactionRequest
+    ): Response<ApiResponse>
 
     //Get analytics by merchant name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_MERCHANT_NAME)
-    suspend fun getAnalyticsByMerchantName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByMerchantName(
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?
+    ): Response<AnalyticsResponseDTO>
 
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
-    suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByCategoryName(
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?
+    ): Response<AnalyticsResponseDTO>
 
     //Cash payout transfer request
     @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
@@ -120,7 +131,10 @@ interface TransactionsRetroService {
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest?): Response<RemittanceFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(
+        @Path("product-code") productCode: String?,
+        @Body mRemittanceFeeRequest: RemittanceFeeRequest?
+    ): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
@@ -128,7 +142,10 @@ interface TransactionsRetroService {
 
     //Get transaction international purpose reasons.
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
-    suspend fun getInternationalRXRateList(@Path("product-code") productCode: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
+    suspend fun getInternationalRXRateList(
+        @Path("product-code") productCode: String?,
+        @Body mRxListRequest: RxListRequest
+    ): Response<FxRateResponse>
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
@@ -146,9 +163,6 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_SWIFT_TRANSFER)
     suspend fun swiftTransferRequest(@Body sendMoneyTransferRequest: SendMoneyTransferRequest): Response<SendMoneyTransactionResponseDTO>
 
-    @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
-    suspend fun getHousholdFeePackage(@Path("pkg-type") packageType: String): Response<RemittanceFeeResponse>
-
     @GET(TransactionsRepository.URL_GET_TRANSACTION_THRESHOLDS)
     suspend fun getTransactionThresholds(): Response<TransactionThresholdResponseDTO>
 
@@ -163,7 +177,22 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_ACHIEVEMENTS)
     suspend fun getAchievements(): Response<AchievementsResponseDTO>
 
-
     @GET(TransactionsRepository.URL_GET_PURPOSE_OF_PAYMENT)
     suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
+
+    //    House Hold API calls
+    @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
+    suspend fun getPrepaidUserSubscriptionsPlans(@Path("productPlan") productPlan: String,@Path("feeFrequency") feeFrequency: String): Response<RemittanceFeeResponse>
+
+    //    House Hold Pay Salary Now
+    @POST(TransactionsRepository.URL_HOUSEHOLD_PAY_SALARY_NOW)
+    suspend fun paySalaryNow(@Body request: PaySalaryNowRequest): Response<ApiResponse>
+
+    @GET(TransactionsRepository.URL_GET_FAILED_TRANSACTIONS)
+    suspend fun getFailedTransactions(): Response<BaseListResponse<HomeNotification>>
+
+    // Get House Hold  Statements
+    @GET(TransactionsRepository.URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS)
+    suspend fun getHouseHoldAccountStatements(@Path("householdAccountUUID") householdAccountUUID: String?): Response<CardStatementsResponse>
+
 }

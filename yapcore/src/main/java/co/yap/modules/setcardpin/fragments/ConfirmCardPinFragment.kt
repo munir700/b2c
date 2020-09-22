@@ -18,6 +18,7 @@ import co.yap.yapcore.databinding.FragmentPinBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_EVENT_FORMAT
+import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
@@ -91,9 +92,8 @@ open class ConfirmCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.
     }
 
     private fun setDebitCardData() {
-        MyUserManager.getAccountInfo()
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
-            if (it) {
+        GetAccountInfoLiveData.get().observe(this, Observer {
+            if (it!= null) {
                 if (MyUserManager.user?.notificationStatuses == AccountStatus.CARD_ACTIVATED.name) {
                     trackEvent(KYCEvents.CARD_ACTIVE.type)
                     trackEventInFragments(

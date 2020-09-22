@@ -4,42 +4,14 @@
     package="co.yap.household">
 
     <application
-        tools:remove="android:debuggable"
         android:allowBackup="false"
-        tools:replace="android:allowBackup"
-        android:supportsRtl="false">
-
+        android:supportsRtl="false"
+        tools:remove="android:debuggable"
+        tools:replace="android:allowBackup">
         <activity
-            android:name=".onboard.onboarding.main.OnBoardingHouseHoldActivity"
-            android:label="@string/app_name"
+            android:name=".onboarding.main.OnBoardingHouseHoldActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeHouseHold.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
-            <nav-graph android:value="@navigation/hh_sub_account_onboarding_navigation" />
-        </activity>
-
-        <activity
-            android:name=".onboard.cardselection.HouseHoldCardsSelectionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeHouseHold.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="co.yap.household.onboard.otherscreens.KycSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".dashboard.main.activities.HouseholdDashboardActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".onboard.otherscreens.InvalidEIDActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".onboard.otherscreens.HouseHoldSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".onboard.otherscreens.ExistingHouseholdActivity"
-            android:screenOrientation="portrait" />
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

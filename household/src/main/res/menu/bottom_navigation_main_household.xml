@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/yapHome"
+        android:id="@+id/item_Home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/screen_house_hold_dashboard_bottom_bar_home_text" />
     <item
-        android:id="@+id/yapStore"
-        android:icon="@drawable/ic_cards"
-        android:title="My card" />
-
+        android:id="@+id/item_expenses"
+        android:icon="@drawable/ic_expense"
+        android:title="@string/screen_house_hold_dashboard_bottom_bar_expenses_text" />
     <item
         android:id="@+id/yapIt"
         android:enabled="false"
         android:title="" />
-
     <item
-        android:id="@+id/yapCards"
-        android:icon="@drawable/ic_expense"
-        android:title="Expenses" />
+        android:id="@+id/item_my_card"
+        android:icon="@drawable/ic_cards"
+        android:title="@string/screen_house_hold_dashboard_bottom_bar_my_card_text" />
     <item
-        android:id="@+id/yapMore"
+        android:id="@+id/item_more"
         android:icon="@drawable/ic_more"
-        android:title="More" />
+        android:title="@string/screen_house_hold_dashboard_bottom_bar_more_text" />
 
 </menu>

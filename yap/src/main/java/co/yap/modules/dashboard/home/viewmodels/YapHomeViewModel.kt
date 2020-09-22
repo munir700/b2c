@@ -5,14 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.TransactionsRepository.getFailedTransactions
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -237,15 +239,17 @@ class YapHomeViewModel(application: Application) :
 
     override fun getNotifications(
         accountInfo: AccountInfo,
-        paymentCard: Card
-    ): ArrayList<HomeNotification> {
+        paymentCard: Card, apiResponse: ((Boolean) -> Unit?)?
+    ) {
+
+        val list: MutableList<HomeNotification> = mutableListOf()
+
         if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
         ) {
             trackEvent(KYCEvents.EID_EXPIRE.type)
             trackEventWithAttributes(MyUserManager.user, eidExpire = true)
         }
-        val list = ArrayList<HomeNotification>()
         if (accountInfo.otpBlocked == true) {
             list.add(
                 HomeNotification(
@@ -295,12 +299,34 @@ class YapHomeViewModel(application: Application) :
             )
 
         }
-
-        return list
+        state.notificationList.value?.addAll(list)
+        apiResponse?.invoke(true)
     }
 
     private fun shouldShowSetPin(paymentCard: Card): Boolean {
         return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+    }
+
+    override fun getFailedTransactionAndSubNotifications(apiResponse: ((Boolean) -> Unit?)?) {
+        launch {
+            val list: MutableList<HomeNotification> = mutableListOf()
+            when (val response = getFailedTransactions()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        if (it.size > 0) {
+                            list.addAll(it)
+                            state.notificationList.value = list
+                            apiResponse?.invoke(true)
+                        }
+                    }
+
+                }
+                is RetroApiResponse.Error -> {
+                    apiResponse?.invoke(false)
+
+                }
+            }
+        }
     }
 }
 

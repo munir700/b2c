@@ -28,7 +28,7 @@
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_navigation_main" />
 
-            <co.yap.yapcore.helpers.CustomViewPager
+            <co.yap.widgets.viewpager.CustomViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,17 +55,20 @@
                 app:cardUseCompatPadding="false"
                 app:contentPadding="0dp"
                 android:layout_margin="@dimen/_3sdp"
+                android:clickable="false"
                 app:cardBackgroundColor="@color/transparent"
                 android:background="@color/transparent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/ivYapIt"
+                    android:id="@+id/ivYapItAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     app:backgroundTint="@color/white"
                     app:elevation="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:srcCompat="@drawable/ic_yap_it" />
             </androidx.cardview.widget.CardView>
 

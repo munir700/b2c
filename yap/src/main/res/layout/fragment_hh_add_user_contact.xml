@@ -1,0 +1,156 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.household.contact.HHAddUserContactVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeadingMobile"
+                style="@style/Yap.App.Widget.TextView.Medium"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/_4sdp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_user_info_contact_display_text_heading,viewModel.state.request.firstName)}"
+                tools:text="@string/screen_yap_house_hold_user_info_contact_display_text_heading" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvErrorCard"
+                style="@style/Yap.App.Layout.CardView"
+                android:visibility="@{viewModel.state.isMobileVerified?View.GONE:View.VISIBLE}"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/margin_small">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    style="@style/Yap.App.Layout.LinearLayout.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/flag_ae" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        style="@style/Yap.App.Layout.LinearLayout.Vertical"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_small">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvSorry"
+                            style="@style/Yap.App.Widget.TextView.Normal"
+                            android:text="Sorry"
+                            android:textColor="@color/colorPrimaryDark" />
+
+                        <co.yap.widgets.TextViewRichDrawable
+                            style="@style/Yap.App.Widget.TextView.Label"
+                            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_yap_house_hold_user_info_mobile_no_exit_error_msg,viewModel.state.countryCode+viewModel.state.phone)}"
+                            tools:text="@string/screen_yap_house_hold_user_info_mobile_no_exit_error_msg" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:drawablePadding="11dp"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
+
+                <co.yap.widgets.PrefixSuffixEditText
+                    android:id="@+id/etPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
+                    android:gravity="start"
+                    android:hint="551234567"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:maxLength="9"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.phone}"
+                    app:errorEnabled = "@{true}"
+                    app:isoCountryCode="@{viewModel.state.countryCode}"
+                    app:pse_setPrefixTextColor="@color/colorPrimaryDark"
+                    app:pse_showHint="true" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:drawablePadding="11dp"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">
+
+                <co.yap.widgets.PrefixSuffixEditText
+                    android:id="@+id/etConfirmPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
+                    android:hint="551234567"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="9"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:text="@={viewModel.state.confirmPhone}"
+                    app:pse_setPrefixTextColor="@color/colorPrimaryDark"
+                    app:pse_showHint="true"
+                    app:validateMobile="@{etPhoneNumber}"
+                    app:validateMobileMessage="@{@string/error_message_not_equal_phone}" />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:text="@string/common_button_add"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
+                app:text="@{Strings.common_button_add}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBack"
+                style="@style/Yap.App.Widget.TextView"
+                android:layout_gravity="center_horizontal"
+                android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                android:padding="@dimen/margin_extra_small"
+                android:text="@string/screen_yap_house_hold_user_info_contact_back_to_house_hold_text"
+                android:textColor="@color/colorPrimary"
+                android:visibility="@{viewModel.state.isMobileVerified?View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:text="@{Strings.screen_yap_house_hold_user_info_contact_back_to_house_hold_text}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</layout>

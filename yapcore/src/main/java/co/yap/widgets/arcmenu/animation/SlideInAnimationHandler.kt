@@ -115,7 +115,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                     ((menu!!.subActionItems.size - 1) * 100).toLong()
                 //animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
             }
-            if (i == 1) {
+            if (i == 0) {
                 lastAnimation = animation
             }
             animation.start()
@@ -141,7 +141,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
         }
 
         override fun onAnimationEnd(animation: Animator) {
-
+            menu!!.mainActionView.isClickable = true
             restoreSubActionViewAfterAnimation(subActionItem, actionType)
 
         }

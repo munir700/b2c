@@ -2,8 +2,10 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.*
+import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.customers.responsedtos.HouseHoldCardsDesignResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface CardsApi {
@@ -31,7 +33,7 @@ interface CardsApi {
         address: Address
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
+    suspend fun getUserAddressRequest(): RetroApiResponse<GetPhysicalAddress>
     suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO>
     suspend fun freezeUnfreezeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun getCardDetails(cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO>
@@ -55,5 +57,5 @@ interface CardsApi {
 
     suspend fun getHouseHoldCardsDesign(
         accountType: String
-    ): RetroApiResponse<HouseHoldCardsDesignResponse>
+    ): RetroApiResponse<BaseListResponse<HouseHoldCardsDesign>>
 }

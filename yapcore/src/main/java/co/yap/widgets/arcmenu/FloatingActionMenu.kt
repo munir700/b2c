@@ -309,7 +309,7 @@ class FloatingActionMenu
         isOpen = false
 
         if (stateChangeListener != null) {
-            stateChangeListener!!.onMenuClosed(this, view.id)
+            stateChangeListener?.onMenuClosed(this, view.id)
         }
     }
 

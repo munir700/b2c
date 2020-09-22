@@ -24,6 +24,9 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     override val viewModel: SplashViewModel
         get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
 
+    override fun performDataBinding(savedInstanceState: Bundle?) {
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {

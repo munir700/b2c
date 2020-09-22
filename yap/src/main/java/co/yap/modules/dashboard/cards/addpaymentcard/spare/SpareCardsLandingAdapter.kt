@@ -41,6 +41,5 @@ class SpareCardsLandingAdapter(
 
     interface OnItemClickedListener {
         fun onItemClick(benefitsModel: BenefitsModel)
-
     }
 }

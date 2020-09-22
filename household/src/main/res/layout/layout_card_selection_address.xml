@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.household.onboarding.cardselection.HHOnBoardingCardSelectionVM" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/Yap.App.Layout.LinearLayout.Vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHouseHoldText"
+            style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/screen_add_spare_card_display_text_address_confirmation"
+            app:text="@{Strings.screen_add_spare_card_display_text_address_confirmation}"
+            tools:text="@string/screen_add_spare_card_display_text_address_confirmation" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical.White"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:background="@drawable/card_border_container"
+            android:padding="@dimen/margin_normal_large">
+
+            <androidx.appcompat.widget.LinearLayoutCompat style="@style/Yap.App.Layout.LinearLayout.Horizontal.match_parent">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/appCompatImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:backgroundTint="@color/colorPrimaryHouseHold"
+                    android:elevation="@dimen/margin_zero_dp"
+                    android:tint="@color/white"
+                    app:elevation="@dimen/margin_zero_dp"
+                    app:fabCustomSize="@dimen/_32sdp"
+                    app:fabSize="normal"
+                    app:maxImageSize="@dimen/_18sdp"
+                    app:srcCompat="@drawable/ic_pin_card_location_white" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llAddPhysicalCard"
+                    style="@style/Yap.App.Layout.LinearLayout.Vertical"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Yap.App.Widget.TextView.Normal"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.address.address1}"
+                        android:textSize="@dimen/text_size_h2" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.address.address2}"
+                        android:textSize="@dimen/text_size_h2" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                style="@style/Yap.App.Layout.LinearLayout.Vertical"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvChangeLocation"
+                    style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/margin_small"
+                    android:textColor="@color/colorPrimaryHouseHold"
+                    android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_add_spare_card_button_change_location}"
+                    tools:text="@string/screen_add_spare_card_button_change_location" />
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnConfirmLocation"
+                    style="@style/confirmLocationBtnStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/white"
+                    app:btn_enable="true"
+                    android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                    app:btn_has_bold_text="false"
+                    app:text="@{Strings.screen_house_hold_card_color_selection_button_text_confirm_location}"
+                    tools:text="@string/screen_house_hold_card_color_selection_button_text_confirm_location" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

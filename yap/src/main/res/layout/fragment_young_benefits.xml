@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="youngBenefitsVM"
+            type="co.yap.modules.dashboard.store.young.benefits.YoungBenefitsVM" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Yap.App.Layout.LinearLayout.Vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium">
+
+            <include
+                android:id="@+id/clCardscontainer"
+                layout="@layout/layout_young_cards"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_170sdp"
+                android:layout_gravity="center_horizontal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvYoungCardTitle"
+                style="@style/Yap.App.Widget.TextView.Normal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/screen_benefits_card_text_label" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvYoungCardAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="AED 59.99/month" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvYoungNote"
+                style="@style/Yap.App.Widget.TextView.Normal"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@string/screen_benefits_young_text_note_label"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <include
+                layout="@layout/refresh_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:adapter="@{youngBenefitsVM.adapter}" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/cbSelectPlan"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xl"
+                android:layout_marginRight="@dimen/margin_xl"
+                android:onClick="@{(v) -> youngBenefitsVM.handlePressOnView(v.id)}"
+                android:text="@string/screen_benefits_plan_button_label"
+                app:enableCoreButton="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include1" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>

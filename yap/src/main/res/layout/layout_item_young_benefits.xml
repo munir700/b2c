@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.benefits.adapter.YoungBenefitsItemVM" />
+
+    </data>
+
+    <co.yap.widgets.TextViewRichDrawable
+        android:id="@+id/tvBenefit"
+        style="@style/Yap.App.Widget.TextView.Normal"
+        android:layout_gravity="top"
+        android:layout_width="match_parent"
+        android:drawableStart="@drawable/ic_checked_icon"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:text="Choose a virtual or physical card"
+        android:textColor="@color/colorPrimary"
+        />
+
+</layout>
