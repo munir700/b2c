@@ -1,0 +1,10 @@
+package co.yap.yapcore.enums
+
+enum class ProductFlavour(val flavour: String) {
+    PROD("live"),
+    PREPROD("Preprod"),
+    STG("stg"),
+    QA("qa"),
+    DEV("dev")
+
+}

@@ -60,7 +60,7 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                     startFragment<WebViewFragment>(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
-                        ), showToolBar = true
+                        ), showToolBar = false
                     )
                 }
                 R.id.btnAction -> {

@@ -12,6 +12,8 @@ data class UserAttributes(
     val youngUser: String = "youngUser",
     val b2bUser: String = "b2bUser",
     val country: String = "country",
+    val emailVerified: String = "emailVerified",
+    val phoneNumberVerified: String = "phoneNumberVerified",
     val city: String = "city",
     val uuid: String = "uuid",
     val customerId: String = "customerId",
@@ -24,9 +26,7 @@ data class UserAttributes(
     val isMainUser: String = "Household_MainUser",
     val isAccountActive: String = "account_active_HouseholdUser",
     val accountActiveMonthly: String = "account_active_HouseholdUser_monthly",
-    val emailVerified: String = "Household_user_email_verified",
-    val phoneNumberVerified: String = "phoneNumberVerifiedHHuser",
     val account_cancel_timestamp: String = "account cancel timestamp",
     val expense_pots: String = "expense_pots",
     val card_color: String = "card_color"
-    )
+)
