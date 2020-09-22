@@ -42,7 +42,6 @@
             android:paddingStart="@dimen/_28sdp"
             app:layout_constraintEnd_toStartOf="@id/ivShareButton"
             android:paddingEnd="@dimen/_28sdp"
-            android:text="@{viewModel.state.toolBarTitle}"
             tools:text="Jan 29, 2019・10:35am"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

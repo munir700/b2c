@@ -48,7 +48,7 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     private fun setToolbarTitle() {
-        state.toolBarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
+        state.toolbarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
     }
 
     private fun setSenderOrReceiver(transaction: Transaction) {
