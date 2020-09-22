@@ -75,7 +75,9 @@ object Utils {
 
     fun createProgressDialog(context: Context): Dialog {
         var customTheme = android.R.style.Theme_Light
-        if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
+        if (SharedPreferenceManager.getInstance(context).getThemeValue()
+                .equals(Constants.THEME_HOUSEHOLD)
+        ) {
             customTheme = R.style.CustomLightTheme
         }
         val dialog = Dialog(context, customTheme)
@@ -963,6 +965,12 @@ object Utils {
 
             }
             ProductFlavour.DEV.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.HH.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.HH_QA.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")

@@ -39,6 +39,10 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
             }
             ProductFlavour.DEV.flavour -> {
             }
+            ProductFlavour.HH.flavour -> {
+            }
+            ProductFlavour.HH_QA.flavour -> {
+            }
             else -> throw IllegalStateException("Invalid build flavour found ${configurations.flavor}")
         }
 

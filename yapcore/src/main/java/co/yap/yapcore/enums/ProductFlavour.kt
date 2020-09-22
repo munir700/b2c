@@ -5,6 +5,8 @@ enum class ProductFlavour(val flavour: String) {
     PREPROD("Preprod"),
     STG("stg"),
     QA("qa"),
-    DEV("dev")
+    DEV("dev"),
+    HH("hh"),
+    HH_QA("hh_qa")
 
 }
