@@ -32,7 +32,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 app:adapter="@{adapter}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+              />
         </co.yap.widgets.MultiStateView>
     </co.yap.widgets.YapSwipeRefreshLayout>
 </layout>
