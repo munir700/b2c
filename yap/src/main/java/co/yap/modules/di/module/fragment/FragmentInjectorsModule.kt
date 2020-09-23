@@ -12,6 +12,8 @@ import co.yap.modules.dashboard.store.yapstore.YapStoreFragment
 import co.yap.modules.dashboard.store.yapstore.YapStoreModule
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsModule
+import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsFragment
+import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsModule
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessModule
 import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment
@@ -30,6 +32,8 @@ import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment
 import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyModule
 import co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment
 import co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessModule
+import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountModule
+import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardFragment
 import co.yap.modules.subaccounts.account.card.SubAccountCardModule
 import co.yap.modules.subaccounts.account.dashboard.SubAccountDashBoardFragment
@@ -156,6 +160,10 @@ abstract class FragmentInjectorsModule {
     @FragmentScope
     abstract fun youngConfirmRelationshipInjector(): YoungConfirmRelationshipFragment
 
+    @ContributesAndroidInjector(modules = [YoungCardEditDetailsModule::class])
+    @FragmentScope
+    abstract fun youngCardEditDetailsInjector(): YoungCardEditDetailsFragment
+
     @ContributesAndroidInjector(modules = [YoungCardSuccessModule::class])
     @FragmentScope
     abstract fun youngCardSuccessInjector(): YoungCardSuccessFragment
@@ -171,4 +179,7 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungSendMoneySuccessModule::class])
     @FragmentScope
     abstract fun youngSendMoneySuccessFragmentInjector(): YoungSendMoneySuccessFragment
+    @ContributesAndroidInjector(modules = [YoungSubAccountModule::class])
+    @FragmentScope
+    abstract fun youngSubAccountFragmentInjector(): YoungSubAccountsFragment
 }

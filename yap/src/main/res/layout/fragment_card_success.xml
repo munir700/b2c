@@ -9,6 +9,8 @@
             type="co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessVM" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
     </data>
 
     <ScrollView
@@ -28,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:paddingTop="@dimen/margin_extra_small"
-                android:text="@{String.format(@string/screen_young_card_success_young_card_on_way_label, viewModel.state.childName)}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_card_success_young_card_on_way_label,  viewModel.state.childName)}"
                 android:textColor="@color/colorPurpleGreyLight"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,22 +39,23 @@
                 android:layout_height="@dimen/card_height"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:src="@drawable/card_spare"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote" />
+
             <co.yap.widgets.AspectRatioImageView
                 android:id="@+id/ivYoungCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:src="@drawable/card_spare"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote"
                 app:aspectRatio="1.2"
                 app:aspectRatioEnabled="true"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOnWayNote" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvYoungCardLabel"
                 style="@style/Yap.App.Widget.TextView.Small.GrayDark"
@@ -60,11 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center_horizontal"
-                app:text="@{Strings.screen_young_card_success_young_card_label}"
                 android:textColor="@color/colorPurpleGreyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivYoungCard" />
+                app:layout_constraintTop_toBottomOf="@+id/ivYoungCard"
+                app:text="@{Strings.screen_young_card_success_young_card_label}" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/llPointContainer"
@@ -88,7 +91,7 @@
                     android:drawablePadding="@dimen/margin_medium"
                     android:gravity="center_vertical"
                     android:justificationMode="inter_word"
-                    android:text="@{String.format(@string/screen_young_card_success_signin_note_text, viewModel.state.childName)}"
+                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_card_success_signin_note_text,  viewModel.state.childName)}"
                     android:textColor="@color/colorPrimary" />
 
                 <co.yap.widgets.TextViewRichDrawable
@@ -101,8 +104,8 @@
                     android:drawablePadding="@dimen/margin_medium"
                     android:gravity="center_vertical"
                     android:justificationMode="inter_word"
-                    app:text="@{Strings.screen_young_card_success_qr_note_text}"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_young_card_success_qr_note_text}" />
 
                 <co.yap.widgets.CoreButton
                     style="@style/FragmentsBtnStyle"
@@ -113,13 +116,13 @@
                     android:layout_marginEnd="@dimen/margin_extra_large2"
                     android:paddingStart="@dimen/margin_medium_large"
                     android:paddingEnd="@dimen/margin_medium_large"
-                    app:text="@{Strings.screen_young_card_success_download_btn_text}"
                     app:btn_drawable="@drawable/ic_share_white"
                     app:btn_drawable_padding_left="10"
                     app:btn_drawable_padding_top="8"
                     app:btn_drawable_position="right"
                     app:btn_text_size="@dimen/text_size_h1"
-                    app:enableCoreButton="@{true}" />
+                    app:enableCoreButton="@{true}"
+                    app:text="@{Strings.screen_young_card_success_download_btn_text}" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <co.yap.widgets.CoreButton
@@ -128,28 +131,28 @@
                 enableCoreButton="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/btn_top_margin"
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:text="@{String.format(@string/screen_international_funds_transfer_display_text_title, viewModel.state.childName)}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_success_confirm_btn_text,viewModel.state.childName)}"
                 app:enableCoreButton="@{true}"
-                app:layout_constraintTop_toBottomOf="@+id/llPointContainer"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/llPointContainer" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvGotoDashboard"
                 style="@style/Yap.App.Widget.TextView.FullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_medium_large"
                 android:paddingTop="@dimen/margin_extra_small"
                 android:paddingEnd="@dimen/margin_extra_small"
-                app:text="@{Strings.screen_young_card_success_dashboard_btn_label}"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnNext"
+                app:layout_constraintEnd_toEndOf="@+id/btnNext"
                 app:layout_constraintStart_toStartOf="@+id/btnNext"
-                app:layout_constraintEnd_toEndOf="@+id/btnNext"/>
+                app:layout_constraintTop_toBottomOf="@+id/btnNext"
+                app:text="@{Strings.screen_young_card_success_dashboard_btn_label}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

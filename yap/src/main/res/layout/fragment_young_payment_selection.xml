@@ -190,13 +190,14 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAccDeduct"
-                style="@style/Yap.App.Widget.TextView.Normal"
+                style="@style/Yap.App.Widget.TextView.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 app:text="@{Strings.screen_yap_house_hold_confirm_payment_display_text_account_deducted}"
-                tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_account_deducted" />
+                tools:text="@string/screen_yap_house_hold_confirm_payment_display_text_account_deducted"
+                android:textColor="@color/colorPrimaryDark"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCurrency"

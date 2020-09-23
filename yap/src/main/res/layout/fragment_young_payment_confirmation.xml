@@ -112,8 +112,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:text="@{Strings.screen_welcome_button_get_started}"
-            tools:text="@string/screen_welcome_button_get_started" />
+            app:text="@{Strings.screen_yap_young_btn_text}"
+            tools:text="@string/screen_yap_young_btn_text" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

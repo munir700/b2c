@@ -20,10 +20,8 @@ class YoungCardItemVM : BaseListItemViewModel<HouseHoldCardsDesign>() {
     override fun layoutRes()= R.layout.item_card_edit
 
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
-        TODO("Not yet implemented")
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        TODO("Not yet implemented")
     }
 }

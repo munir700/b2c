@@ -1913,10 +1913,14 @@ object Strings {
         "screen_young_payment_confirmation_note_text"
     const val screen_yap_young_label_text: String =
         "screen_yap_young_label_text"
+    const val screen_yap_young_btn_text: String =
+        "screen_yap_young_btn_text"
 
     // Young Contact Details
     const val screen_young_contact_details_description_text: String =
         "screen_young_contact_details_description_text"
+    const val screen_young_contact_details_toolbar_text: String =
+        "screen_young_contact_details_toolbar_text"
 
     // Young Card Edit Details
     const val screen_young_card_color_selection_display_text: String =
@@ -1929,6 +1933,8 @@ object Strings {
     // Young Confirm Relationship
     const val screen_young_confirm_relationship_switch_text: String =
         "screen_young_confirm_relationship_switch_text"
+    const val screen_young_confirm_relationship_toolbar_text: String =
+        "screen_young_confirm_relationship_toolbar_text"
 
     // Young Card Success
     const val screen_young_card_success_dashboard_btn_label: String =
@@ -1949,6 +1955,10 @@ object Strings {
         "screen_young_kyc_child_doesnt_have_emirates_id_text"
     const val screen_young_kyc_tab_to_scan_child_emirates_id_text: String =
         "screen_young_kyc_tab_to_scan_child_emirates_id_text"
+    const val screen_young_kyc_toolbar_title_text: String =
+        "screen_young_kyc_toolbar_title_text"
+    const val screen_young_send_money_success_confirm_btn_text: String =
+        "screen_young_send_money_success_confirm_btn_text"
 
     //Young Send Money
     const val screen_young_send_money_amount_label_text: String =
@@ -1957,5 +1967,10 @@ object Strings {
         "screen_young_send_money_success_message_text"
     const val screen_young_send_money_success_btn_message_text: String =
         "screen_young_send_money_success_btn_message_text"
-
+    const val screen_young_send_money_tour_description_text: String =
+        "screen_young_send_money_tour_description_text"
+    const val screen_young_send_money_tour_label: String =
+        "screen_young_send_money_tour_label"
+    const val screen_young_send_money_btn_label: String =
+        "screen_young_send_money_btn_label"
 }

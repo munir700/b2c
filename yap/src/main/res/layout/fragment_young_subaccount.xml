@@ -14,45 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-<!--        ToDo Notification Card-->
-        <androidx.cardview.widget.CardView
+        <ViewStub
+            android:id="@+id/viewStub"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
-            app:cardCornerRadius="@dimen/_7sdp"
-            app:cardElevation="@dimen/_8sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_26sdp"
-            android:visibility="gone">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="@dimen/_12sdp"
-                android:paddingBottom="@dimen/_12sdp">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivNotificationIcon"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    android:layout_marginEnd="@dimen/_12sdp"
-                    />
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvNotifDescription"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ivNotificationIcon"
-                    android:text="srfjrekgjregjeiog ejrieorjeirjejfeirojfi 3jfejfekjfqekfjqerfjiqfjoejf "
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
+            android:layout="@layout/layout_young_subacount_tour_card"
+            android:layout_height="wrap_content"
+            />
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_gravity="center_horizontal"
@@ -67,7 +34,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:adapter="@{viewModel.adapter}" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
