@@ -71,7 +71,6 @@
                 android:paddingEnd="@dimen/margin_medium"
                 app:btn_text_size="@dimen/text_size_h1"
                 app:enableCoreButton="@{true}"
-
                 android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_btn_label)}"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotifDescription"
                 app:layout_constraintStart_toStartOf="@+id/tvNotifDescription"/>
