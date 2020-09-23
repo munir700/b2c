@@ -87,7 +87,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     )
                 }
             }*/
-          startFragment(YoungCardEditDetailsFragment::class.java.name)
+          startFragment(YoungCardSuccessFragment::class.java.name)
         }
     }
 
