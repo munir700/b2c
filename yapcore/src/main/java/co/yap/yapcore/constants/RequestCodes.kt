@@ -16,4 +16,5 @@ object RequestCodes {
     const val REQUEST_MEETING_CONFIRMED = 10012
     const val REQUEST_LOCATION_FOR_KYC = 10013
     const val REQUEST_FOR_SET_PIN = 10014
+    const val REQUEST_FOR_CURRENCY_SELECTED=10015
 }

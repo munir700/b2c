@@ -34,7 +34,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -83,7 +82,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
                         ) { resultCode, data ->
                             if (resultCode == Activity.RESULT_OK) {
-                                preventTakeScreenShot(false)
                                 findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                             }
                         }

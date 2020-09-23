@@ -494,9 +494,10 @@
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
     <!--    Change Phone Number Screen-->
-    <string name="screen_change_phone_number_display_text_heading">Change mobile number</string>
-    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new number</string>
+    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
     <string name="screen_change_phone_number_display_text_text_description">We\'ve sent a code to\n %1$s</string>
+    <string name="screen_change_phone_number_display_text_country_code">+971</string>
 
     <!--    Current passcode screen-->
     <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
@@ -506,7 +507,6 @@
 
     <!--    Update confirm passcode screen-->
     <string name="screen_confirm_passcode_display_text_heading">Re-enter your new \npasscode</string>
-
 
     <!--    Change Email Address Success Screen-->
     <string name="screen_email_address_success_display_text_heading">Success!</string>
@@ -1003,7 +1003,7 @@
     <string name="screen_invite_friend_display_text_referal_reward">Sharing is sweet, and it’s even better when you do it with friends. Send this special link to your special people so they change the way they bank too!</string>
     <string name="screen_invite_friend_display_text_referal_code">Share your referral link</string>
     <string name="screen_invite_friend_button_share">Share</string>
-    <string name="screen_invite_friend_display_text_share_url">Hi,\nI’ve just started using YAP and loving it so far, I thought you’d like to try it out for yourself. It’s not available for the public yet but I’ve saved you a special invite.\n\nDownload YAP here:\n\n%1s</string>
+    <string name="screen_invite_friend_display_text_share_url">Hi,\nI just started using YAP and it’s great if you’re looking for a cool new banking app that helps manage money better. I’ve saved you a link so you can try it for yourself.\n\nDownload YAP here:\n\n%1s</string>
 
     <!--  OTP Blocked New screen -->
     <string name="screen_otp_blocked_display_text_heading">We thought you should know, %1s!</string>
@@ -1036,8 +1036,10 @@
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
 
-    <!-- Change Card Pin screen-->
+    <!--  Yap home fragment screen-->
+    <string name="screen_fragment_yap_home_add_money">Add money</string>
 
+    <!-- Change Card Pin screen-->
     <string name="screen_change_card_pin_text_heading">Change PIN</string>
     <string name="screen_change_card_pin_button_text">Create new PIN</string>
     <string name="screen_change_card_pin_previous_pin_text_heading">Enter your current PIN code</string>

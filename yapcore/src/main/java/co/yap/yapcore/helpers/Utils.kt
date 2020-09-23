@@ -51,6 +51,13 @@ import java.util.regex.Pattern
 @SuppressLint("StaticFieldLeak")
 object Utils {
 
+    fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
+        val dimensions = IntArray(2)
+        dimensions[0] = getDimensionInPercent(context, true, width)
+        dimensions[1] = getDimensionInPercent(context, false, height)
+        return dimensions
+    }
+
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)

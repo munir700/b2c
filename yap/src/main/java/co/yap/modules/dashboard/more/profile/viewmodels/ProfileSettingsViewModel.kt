@@ -2,8 +2,10 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import co.yap.BuildConfig.VERSION_NAME
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
@@ -13,6 +15,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
@@ -31,7 +34,6 @@ import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-
 class ProfileSettingsViewModel(application: Application) :
     MoreBaseViewModel<IProfile.State>(application), IProfile.ViewModel,
     IRepositoryHolder<CustomersRepository> {
@@ -89,6 +91,8 @@ class ProfileSettingsViewModel(application: Application) :
             }
         }
     }
+
+
 
     override fun requestUploadProfilePicture(actualFile: File) {
         launch {
@@ -212,4 +216,6 @@ class ProfileSettingsViewModel(application: Application) :
         // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
         return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
+
+
 }
