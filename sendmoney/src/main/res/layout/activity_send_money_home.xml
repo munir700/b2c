@@ -9,6 +9,9 @@
         <variable
             name="viewModel"
             type="co.yap.sendmoney.viewmodels.SendMoneyViewModel" />
+
+        <import type="co.yap.sendmoney.R" />
+
     </data>
 
     <LinearLayout
@@ -18,10 +21,25 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <!--                <include-->
+        <!--                    android:id="@+id/toolbar"-->
+        <!--                    layout="@layout/layout_send_money_home_toolbar"-->
+        <!--                    app:viewModel="@{viewModel}" />-->
+
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_send_money_home_toolbar"
-             app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{viewModel.state.leftIcon}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{viewModel.state.rightIcon}"
+            app:titleString="@{viewModel.state.toolbarTitle}"
+            app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
 
         <fragment
             android:id="@+id/send_money_nav_host_fragment"
