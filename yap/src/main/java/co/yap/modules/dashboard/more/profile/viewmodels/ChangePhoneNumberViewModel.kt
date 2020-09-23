@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.more.profile.states.ChangePhoneNumberState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class ChangePhoneNumberViewModel(application: Application) :
@@ -86,6 +87,6 @@ class ChangePhoneNumberViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("")
+        setToolBarTitle(getString(Strings.screen_change_phone_number_display_text_heading))
     }
 }

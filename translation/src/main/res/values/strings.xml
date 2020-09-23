@@ -494,9 +494,10 @@
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
     <!--    Change Phone Number Screen-->
-    <string name="screen_change_phone_number_display_text_heading">Change mobile number</string>
-    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new number</string>
+    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
     <string name="screen_change_phone_number_display_text_text_description">We\'ve sent a code to\n %1$s</string>
+    <string name="screen_change_phone_number_display_text_country_code">+971</string>
 
     <!--    Current passcode screen-->
     <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
