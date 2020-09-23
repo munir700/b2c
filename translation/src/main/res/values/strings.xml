@@ -562,7 +562,7 @@
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">Tell your friends about YAP so you can send and receive money instantly!</string>
     <string name="screen_y2y_display_text_no_result">No results</string>
-<!--    <string name="common_display_text_y2y_share">Hey! %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>-->
+    <!--    <string name="common_display_text_y2y_share">Hey! %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>-->
     <string name="common_display_text_y2y_share">Hey! \n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>
     <string name="common_display_text_y2y_general_share">Hey! \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%2$s</string>
 
@@ -1035,6 +1035,16 @@
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+
+    <!-- Change Card Pin screen-->
+
+    <string name="screen_change_card_pin_text_heading">Change PIN</string>
+    <string name="screen_change_card_pin_button_text">Create new PIN</string>
+    <string name="screen_change_card_pin_previous_pin_text_heading">Enter your current PIN code</string>
+    <string name="screen_change_card_pin_new_pin_text_heading">Enter your new PIN code</string>
+    <string name="screen_change_card_pin_confirm_new_pin_text_heading">Enter it one more time</string>
+    <string name="screen_change_card_pin_codes_unmatch_error">That doesn\'t match the previously entered PIN</string>
+    <string name="screen_change_card_pin_old_pin_error_message">That doesn\'t look right.Please try again</string>
 
 </resources>
 
