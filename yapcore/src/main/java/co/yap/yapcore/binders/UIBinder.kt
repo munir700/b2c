@@ -29,6 +29,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
+import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
@@ -85,6 +87,25 @@ object UIBinder {
         spinner.adapter = dataAdapter
     }
 
+    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
+    @JvmStatic
+    fun setPlacesAdapter(
+        autoCompleteTextView: AutoCompleteTextView,
+        placesAdapter: PlacesAutoCompleteAdapter,
+         listener: OnItemClickListener?
+    ) {
+        autoCompleteTextView.setAdapter(placesAdapter)
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val place: Place = parent.getItemAtPosition(position) as Place
+                       view?.let { listener?.onItemClick(view, place.id, position) }
+
+                autoCompleteTextView.setText(place.mainText)
+            }
+
+
+    }
+
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
@@ -96,6 +117,7 @@ object UIBinder {
 
         }
     }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {

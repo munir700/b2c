@@ -26,6 +26,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -39,6 +40,7 @@ import co.yap.yapcore.managers.MyUserManager
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
 
+    private var photoPlacesId: String = " "
     private var changeAddress: Boolean = false
     private lateinit var mNavigator: ActivityNavigator
 
@@ -151,7 +153,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 val action =
                     PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
                         getString(R.string.screen_address_success_display_text_sub_heading_update),
-                        " "
+                        " ", placesPhotoId = photoPlacesId
                     )
                 findNavController().navigate(action)
             }
@@ -214,9 +216,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             val action =
                 PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
                     getString(R.string.screen_address_success_display_text_sub_heading_update),
-                    " "
+                    " ", placesPhotoId = photoPlacesId
                 )
             findNavController().navigate(action)
+
         }
     }
 
@@ -225,8 +228,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
-
-                    val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    val isUpdatedAddress = data?.getBooleanExtra(ADDRESS_SUCCESS, false)
+                    photoPlacesId = data?.getStringExtra(Constants.PLACES_PHOTO_ID).toString()
                     if (isUpdatedAddress == true) {
                         val address: Address? = data.getParcelableExtra(ADDRESS)
                         address?.let {
@@ -279,6 +282,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     private fun handleLocationRequestResult(data: Intent?) {
         data?.let {
             val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+            photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID)
             if (result) {
                 val address = it.getParcelableExtra<Address>(ADDRESS)
                 MyUserManager.userAddress = address

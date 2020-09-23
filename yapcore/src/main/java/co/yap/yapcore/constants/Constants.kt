@@ -100,6 +100,8 @@ object Constants {
     //Location Selection
     const val ADDRESS = "address"
     const val ADDRESS_SUCCESS = "address_success"
+    const val PLACES_PHOTO_ID = "places_photo_id"
+
     // Events for ViewState
 
     const val EVENT_LOADING: Int = 1111
