@@ -26,12 +26,21 @@ class ProfileStates : BaseState(), IProfile.State {
             notifyPropertyChanged(BR.fullName)
 
         }
+
     @get:Bindable
     override var imageUri: Uri = Uri.EMPTY
         set(value) {
             field = value
             notifyPropertyChanged(BR.imageUri)
         }
+
+    @get:Bindable
+    override var buildVersionDetail: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.buildVersionDetail)
+        }
+
     @get:Bindable
     override var profilePictureUrl: String = ""
         set(value) {
@@ -47,6 +56,7 @@ class ProfileStates : BaseState(), IProfile.State {
 
             }
         }
+
 
     override var isShowErrorIcon: ObservableField<Boolean> = ObservableField(false)
 }
