@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmatio
 import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRelationshipFragment
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
+import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment
 import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment
 import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -87,7 +88,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     )
                 }
             }*/
-          startFragment(YoungCardSuccessFragment::class.java.name)
+          startFragment(YoungSubAccountsFragment::class.java.name)
         }
     }
 

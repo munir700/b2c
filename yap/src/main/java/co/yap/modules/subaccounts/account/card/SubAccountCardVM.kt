@@ -37,6 +37,12 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                 cardStatus = "Add new card"
             )
         )
+        accounts.account?.add(
+            2,
+            SubAccount(
+                accountType = AccountType.B2C_ACCOUNT.name
+            )
+        )
         return accounts.account
     }
 
@@ -59,6 +65,12 @@ class SubAccountCardVM @Inject constructor(override val state: ISubAccountCard.S
                             SubAccount(
                                 accountType = null,
                                 cardStatus = "Add new card"
+                            )
+                        )
+                        it.add(
+                            2,
+                            SubAccount(
+                                accountType = AccountType.B2C_ACCOUNT.name
                             )
                         )
                         setData(it)

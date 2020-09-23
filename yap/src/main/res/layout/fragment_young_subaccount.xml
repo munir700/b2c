@@ -17,17 +17,17 @@
 <!--        ToDo Notification Card-->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/_7sdp"
             app:cardElevation="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_26sdp"
-            android:visibility="gone">
+            android:visibility="gone"
+         >
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="@dimen/_12sdp"
+                android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/_12sdp">
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivNotificationIcon"
@@ -38,6 +38,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_12sdp"
+                    app:srcCompat="@drawable/ic_uae_flag"
                     />
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="0dp"
@@ -50,6 +51,18 @@
                     app:layout_constraintStart_toEndOf="@+id/ivNotificationIcon"
                     android:text="srfjrekgjregjeiog ejrieorjeirjejfeirojfi 3jfejfekjfqekfjqerfjiqfjoejf "
                     />
+        <co.yap.widgets.CoreButton
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            app:btn_text_size="@dimen/text_size_h1"
+            app:enableCoreButton="@{true}"
+            android:text="Take the tour"
+            app:layout_constraintTop_toBottomOf="@+id/tvNotifDescription"
+            app:layout_constraintStart_toStartOf="@+id/tvNotifDescription"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -67,7 +80,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:adapter="@{viewModel.adapter}" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

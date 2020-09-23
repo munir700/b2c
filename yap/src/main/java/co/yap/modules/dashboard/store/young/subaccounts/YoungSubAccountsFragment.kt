@@ -8,7 +8,7 @@ import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import javax.inject.Inject
 
-class YoungSubAccountsFragment:
+class YoungSubAccountsFragment :
     BaseNavViewModelFragment<FragmentYoungSubaccountBinding, IYoungSubAccounts.State, YoungSubAccountsVM>() {
     @Inject
     lateinit var adapter: SectionsPagerAdapter
@@ -21,6 +21,5 @@ class YoungSubAccountsFragment:
     }
 
     override fun onClick(id: Int) {
-
     }
 }
