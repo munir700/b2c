@@ -12,6 +12,8 @@ import co.yap.modules.dashboard.store.yapstore.YapStoreFragment
 import co.yap.modules.dashboard.store.yapstore.YapStoreModule
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsFragment
 import co.yap.modules.dashboard.store.young.benefits.YoungBenefitsModule
+import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsFragment
+import co.yap.modules.dashboard.store.young.card.YoungCardEditDetailsModule
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessModule
 import co.yap.modules.dashboard.store.young.confirmation.YoungPaymentConfirmationFragment
@@ -155,6 +157,10 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungConfirmRelationshipModule::class])
     @FragmentScope
     abstract fun youngConfirmRelationshipInjector(): YoungConfirmRelationshipFragment
+
+    @ContributesAndroidInjector(modules = [YoungCardEditDetailsModule::class])
+    @FragmentScope
+    abstract fun youngCardEditDetailsInjector(): YoungCardEditDetailsFragment
 
     @ContributesAndroidInjector(modules = [YoungCardSuccessModule::class])
     @FragmentScope

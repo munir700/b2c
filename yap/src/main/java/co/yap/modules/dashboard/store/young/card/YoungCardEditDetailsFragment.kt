@@ -69,7 +69,7 @@ class YoungCardEditDetailsFragment :
                             dimen(R.dimen._24sdp)
                         )
                         try {
-                            view.circleColor = Color.parseColor(it[position].designColorCode)
+                         view.circleColor = Color.parseColor(it[position].designColorCode)
                             //tab.tag = it[position]
                         } catch (e: Exception) {
                         }
