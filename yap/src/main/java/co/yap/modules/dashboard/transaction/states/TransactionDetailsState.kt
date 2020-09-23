@@ -8,15 +8,12 @@ import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
 
+    override var spentVisibility: ObservableField<Boolean> = ObservableField(false)
     @get:Bindable
-    override var toolBarTitle: String? = ""
+    override var transactionNoteDate: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.toolBarTitle)
-        }
-    override var spentVisibility: ObservableField<Boolean> = ObservableField(false)
-        set(value) {
-            field = ObservableField(value)
+            notifyPropertyChanged(BR.transactionNoteDate)
         }
 
     override var txnNoteValue: ObservableField<String> = ObservableField()
@@ -24,4 +21,6 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var categoryTitle: ObservableField<String> = ObservableField("")
     override var categoryIcon: ObservableField<Int> = ObservableField()
     override var transactionTitle: ObservableField<String> = ObservableField()
+
+
 }

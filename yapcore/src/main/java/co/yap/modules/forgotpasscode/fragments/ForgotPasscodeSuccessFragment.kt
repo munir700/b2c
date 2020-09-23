@@ -6,7 +6,6 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
-import co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
 import co.yap.yapcore.BR
@@ -15,7 +14,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 
 
 class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess.ViewModel>() {
@@ -54,11 +52,6 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
         super.onViewCreated(view, savedInstanceState)
         if (args.navigationType==Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE){
             viewModel.state.buttonTitle="Done"
-        }
-        if (activity is ForgotPasscodeActivity){
-            (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = false
-        } else {
-            preventTakeScreenShot(false)
         }
     }
 

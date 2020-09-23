@@ -17,6 +17,7 @@ interface IBase {
     interface ViewModel<S : State> : ILifecycle {
         val state: S
         val context: Context
+        val toolBarClickEvent: SingleClickEvent
         fun getString(resourceId: Int): String
         fun getString(resourceId: String): String
     }

@@ -740,7 +740,6 @@ object Utils {
             "XXXX XXXX XXXX $cardNumber"
         else
             "XXXX XXXX XXXX XXXX"
-
     }
 
     fun confirmationDialog(
@@ -749,7 +748,8 @@ object Utils {
         message: String,
         positiveButton: String,
         negitiveButton: String,
-        itemClick: OnItemClickListener
+        itemClick: OnItemClickListener,
+        isCancelable: Boolean = true
     ) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(title).setMessage(message)
@@ -763,6 +763,7 @@ object Utils {
             ) { _, _ ->
                 itemClick.onItemClick(View(context), false, 0)
             }
+            .setCancelable(isCancelable)
             .show()
     }
 

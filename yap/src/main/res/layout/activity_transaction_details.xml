@@ -22,6 +22,8 @@
 
         <import type="co.yap.yapcore.helpers.Utils" />
 
+        <import type="co.yap.R" />
+
 
         <import type="android.view.View" />
     </data>
@@ -35,10 +37,19 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <include
+            <co.yap.widgets.CoreToolbar
                 android:id="@+id/toolbar"
-                layout="@layout/layout_transaction_details_toolbar"
-                app:viewModel="@{viewModel}" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+                app:leftIconVisibility="@{true}"
+                app:onClick="@{viewModel::onToolBarClick}"
+                app:rightIcon="@{R.drawable.ic_share}"
+                app:rightIconVisibility="@{false}"
+                app:titleString="@{viewModel.state.toolbarTitle}" />
 
             <ImageView
                 android:id="@+id/ivMap"
@@ -207,7 +218,7 @@
                     style="@style/Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
+                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : viewModel.state.transactionNoteDate}"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
