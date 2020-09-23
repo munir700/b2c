@@ -12,7 +12,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -32,7 +31,6 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenShot(true)
         viewModel.clickEvent.observe(this, clickEvent)
     }
 

@@ -6,7 +6,6 @@ import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.TypedValue
 import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
@@ -22,7 +21,6 @@ class CollapsedColoredHintTextInputLayout : TextInputLayout {
     private var hintTextColorSelected = 0
     private var bounds: Rect? = null
     private var recalculateMethod: Method? = null
-    private var setCollapsedBounds: Method? = null
     private var collapsingTextHelper: Any? = null
     private var drawablePadding: Int = -1
 

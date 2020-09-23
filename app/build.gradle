@@ -64,8 +64,8 @@ android {
         }
 
         yapinternal {
-            versionCode 10
-            versionName "0.1.0"
+            versionCode 13
+            versionName "0.1.3"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -102,7 +102,7 @@ android {
             }
         }
     }
-    ndkVersion '21.1.6352462'
+    ndkVersion '21.3.6528147'
     sourceSets {
         live {
             res {

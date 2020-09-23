@@ -26,6 +26,7 @@ interface IYapDashboard {
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
         val showUnverifedscreen: MutableLiveData<Boolean>
+        fun resendVerificationEmail()
     }
 
     interface View : IBase.View<ViewModel> {

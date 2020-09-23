@@ -58,7 +58,6 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -212,12 +211,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     viewModel.clickEvent.setPayload(null)
                 }
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    startActivityForResult(
-                        SetCardPinWelcomeActivity.newIntent(
-                            requireContext(),
-                            MyUserManager.getPrimaryCard()
-                        ), RequestCodes.REQUEST_FOR_SET_PIN
-                    )
+                    MyUserManager.getPrimaryCard()?.let { card ->
+                        startActivityForResult(
+                            SetCardPinWelcomeActivity.newIntent(
+                                requireContext(),
+                                card
+                            ), RequestCodes.REQUEST_FOR_SET_PIN
+                        )
+                    } ?: showToast("Debit card not found.")
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
                     startActivityForResult(
