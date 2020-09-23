@@ -35,6 +35,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
 import com.crashlytics.android.Crashlytics
+import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
@@ -115,6 +116,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
         inItLeanPlum()
         LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
+        initFacebook()
     }
 
     private fun initNetworkLayer() {
@@ -150,7 +152,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
         //Parser.parseVariables(this)
         LeanplumActivityHelper.enableLifecycleCallbacks(this)
 
-        if (configManager?.isLiveRelease() == true) {
+        if (configManager?.isReleaseBuild() == true) {
             Leanplum.setAppIdForProductionMode(
                 configManager?.leanPlumSecretKey,
                 configManager?.leanPlumKey
@@ -163,6 +165,10 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
         }
         Leanplum.setIsTestModeEnabled(false)
         Leanplum.start(this)
+    }
+
+    private fun initFacebook(){
+        AppEventsLogger.activateApp(this)
     }
 
     private fun setAppUniqueId(context: Context) {

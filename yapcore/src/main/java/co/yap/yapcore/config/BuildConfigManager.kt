@@ -1,6 +1,7 @@
 package co.yap.yapcore.config
 
 import co.yap.yapcore.adjust.AdjustEvent
+import co.yap.yapcore.enums.ProductFlavour
 
 data class BuildConfigManager(
     var md5: String?, var sha1: String?, var sha256: String?,
@@ -19,75 +20,82 @@ data class BuildConfigManager(
     var sslPin3: String?,
     var sslHost: String?
 ) {
-    fun isLiveRelease(): Boolean =
-        (buildType == "release" && flavor == "live") || (buildType == "release" && flavor == "stg")
 
-    fun isLive(): Boolean = flavor == "live"
-
+    fun isReleaseBuild(): Boolean = buildType == "release"
     fun getAdjustEvent(event: AdjustEvent): String {
         return when (event) {
             AdjustEvent.KYC_END -> {
                 when (flavor) {
-                    "live" -> "8r4o52"
+                    ProductFlavour.PROD.flavour -> "8r4o52"
+                    ProductFlavour.PREPROD.flavour -> "pzpv1p"
                     else -> "9um5u9"
                 }
             }
 
             AdjustEvent.KYC_START -> {
                 when (flavor) {
-                    "live" -> "kelb07"
+                    ProductFlavour.PROD.flavour -> "kelb07"
+                    ProductFlavour.PREPROD.flavour -> "wbhghc"
                     else -> "mdcyli"
                 }
             }
             AdjustEvent.SET_PIN_END -> {
                 when (flavor) {
-                    "live" -> "7vzpfo"
+                    ProductFlavour.PROD.flavour -> "7vzpfo"
+                    ProductFlavour.PREPROD.flavour -> "9mispm"
                     else -> "cs2msk"
                 }
             }
             AdjustEvent.SET_PIN_START -> {
                 when (flavor) {
-                    "live" -> "i3m1cv"
+                    ProductFlavour.PROD.flavour -> "i3m1cv"
+                    ProductFlavour.PREPROD.flavour -> "pv9nj3"
                     else -> "smn577"
                 }
             }
             AdjustEvent.SIGN_UP_MOBILE_NUMBER_VERIFIED -> {
                 when (flavor) {
-                    "live" -> "kx5hl6"
+                    ProductFlavour.PROD.flavour -> "kx5hl6"
+                    ProductFlavour.PREPROD.flavour -> "sgxm0z"
                     else -> "6zou42"
                 }
             }
             AdjustEvent.SIGN_UP_END -> {
                 when (flavor) {
-                    "live" -> "skzf2k"
+                    ProductFlavour.PROD.flavour -> "skzf2k"
+                    ProductFlavour.PREPROD.flavour -> "r5ix0l"
                     else -> "4c9qmq"
                 }
             }
             AdjustEvent.SIGN_UP_START -> {
                 when (flavor) {
-                    "live" -> "w6rmpa"
+                    ProductFlavour.PROD.flavour -> "w6rmpa"
+                    ProductFlavour.PREPROD.flavour -> "p8ytou"
                     else -> "73mcc8"
+
                 }
             }
             AdjustEvent.TOP_UP_END -> {
                 when (flavor) {
-                    "live" -> "6yum4e"
+                    ProductFlavour.PROD.flavour -> "6yum4e"
+                    ProductFlavour.PREPROD.flavour -> "grwcy8"
                     else -> "jw0tz5"
                 }
             }
             AdjustEvent.TOP_UP_START -> {
                 when (flavor) {
-                    "live" -> "vquxsb"
+                    ProductFlavour.PROD.flavour -> "vquxsb"
+                    ProductFlavour.PREPROD.flavour -> "erscd5"
                     else -> "cadxmk"
                 }
             }
             AdjustEvent.INVITER -> {
                 when (flavor) {
-                    "live" -> "efnby4"
+                    ProductFlavour.PROD.flavour -> "efnby4"
+                    ProductFlavour.PREPROD.flavour -> "oo9yjy"
                     else -> "sgy2ni"
                 }
             }
-            else -> "null"
         }
     }
 

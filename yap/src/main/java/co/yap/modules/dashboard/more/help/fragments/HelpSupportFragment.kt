@@ -143,7 +143,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             fragmentName = WebViewFragment::class.java.name,
             bundle = bundleOf(
                 Constants.PAGE_URL to url
-            ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = true
+            ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = false
         )
     }
 

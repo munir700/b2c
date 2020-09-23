@@ -131,6 +131,8 @@ private fun trackAttributes(
         info[UserAttributes().youngUser] = false
         info[UserAttributes().b2bUser] = false
         info[UserAttributes().country] = "United Arab Emirates"
+        info[UserAttributes().emailVerified] = it.currentCustomer.isEmailVerified ?: false
+        info[UserAttributes().phoneNumberVerified] = it.currentCustomer.isMobileNoVerified ?: false
         info[UserAttributes().city] = city ?: "UNKNOWN"
         info[UserAttributes().signup_timestamp] = getFormattedDate(it.creationDate)
         info[UserAttributes().biometric_login_enabled] =

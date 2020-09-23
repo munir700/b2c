@@ -22,6 +22,7 @@ import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
@@ -83,21 +84,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
                 viewModel.EVENT_RESCAN -> openCardScanner()
-                viewModel.EVENT_NEXT -> {
-                    MyUserManager.getAccountInfo()
-                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-                        if (isSuccess) {
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        } else {
-                            showToast("Accounts info failed")
-                            viewModel.parentViewModel?.finishKyc?.value =
-                                DocumentsResponse(true)
-                        }
-
-                    })
-                }
-
                 viewModel.EVENT_ALREADY_USED_EID -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
@@ -121,6 +107,20 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
+                viewModel.EVENT_NEXT -> {
+                    MyUserManager.getAccountInfo()
+                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+                        if (isSuccess) {
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                        } else {
+                            showToast("Accounts info failed")
+                            viewModel.parentViewModel?.finishKyc?.value =
+                                DocumentsResponse(true)
+                        }
+
+                    })
+                }
                 viewModel.EVENT_EID_UPDATE -> {
                     MyUserManager.getAccountInfo()
                     MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
@@ -135,8 +135,23 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                     })
                 }
+                viewModel.EVENT_CITIZEN_NUMBER_ISSUE -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
+                viewModel.EVENT_EID_EXPIRY_DATE_ISSUE -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
             }
         })
+    }
+
+    private fun invalidCitizenNumber(title: String) {
+        activity?.let {
+            it.showAlertDialogAndExitApp(
+                message = title,
+                callback = {
+                    openCardScanner()
+                })
+            viewModel.parentViewModel?.paths?.forEach { filePath ->
+                File(filePath).deleteRecursively()
+            }
+        }
     }
 
     private fun manageFocus(

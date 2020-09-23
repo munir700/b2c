@@ -19,6 +19,7 @@ enum class AdjustEvents(val type: String) {
     TOP_UP_END(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.TOP_UP_END) ?: ""),
     TOP_UP_START(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.TOP_UP_START) ?: ""),
     INVITER(YAPApplication.configManager?.getAdjustEvent(AdjustEvent.INVITER) ?: ""),
+    //    TODO move into configManager.getAdjustEvent
     HOUSE_HOLD_MAIN_USER_SUBSCRIPTION("pcqzve"),
     HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM("8d6ih4"),
     HOUSE_HOLD_MAIN_PLAN_NAME("cbdm7f"),

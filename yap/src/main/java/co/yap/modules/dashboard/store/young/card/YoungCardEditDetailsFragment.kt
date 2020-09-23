@@ -3,22 +3,19 @@ package co.yap.modules.dashboard.store.young.card
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
-import co.yap.R
+import androidx.lifecycle.Observer
 import co.yap.BR
+import co.yap.R
 import co.yap.databinding.FragmentYoungCardEditDetailsBinding
+import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_young_card_edit_details.*
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import co.yap.modules.dashboard.store.young.landing.YoungLandingFragmentDirections
-import co.yap.modules.onboarding.activities.CreatePasscodeActivity
-import co.yap.modules.onboarding.constants.Constants
-import co.yap.yapcore.helpers.extentions.launchActivity
 import javax.inject.Inject
 
 class YoungCardEditDetailsFragment :
@@ -32,10 +29,13 @@ class YoungCardEditDetailsFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                startActivityForResult(
-                    context?.let { CreatePasscodeActivity.newIntent(it, true) },
-                    Constants.REQUEST_CODE_CREATE_PASSCODE
-                )
+                launchActivityForResult<CreatePasscodeActivity>(init = {
+                    putExtra("isSettingPin", false)
+
+                }, completionHandler = { resultCode, data ->
+
+                })
+
             }
         }
     }
