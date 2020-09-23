@@ -54,7 +54,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
-            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
         }
 
 
@@ -254,7 +253,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
-                        ), showToolBar = true
+                        ), showToolBar = false
                     )
                 }
 

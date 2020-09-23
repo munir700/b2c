@@ -99,7 +99,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
                     (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
@@ -155,7 +155,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.ivClose -> finish()
             R.id.clNote, R.id.clEditIcon ->
                 if (viewModel.state.txnNoteValue.get().isNullOrBlank()) {
                     openNoteScreen()
@@ -254,5 +253,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+        }
     }
 }

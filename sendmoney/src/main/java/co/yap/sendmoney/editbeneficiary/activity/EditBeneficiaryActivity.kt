@@ -206,7 +206,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             }
                         }
                     }
-                })
+                },isCancelable = false)
         }
     }
 
