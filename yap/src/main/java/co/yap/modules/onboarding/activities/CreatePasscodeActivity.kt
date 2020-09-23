@@ -19,7 +19,6 @@ import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 
 
@@ -70,8 +69,6 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                 }
             }
         })
-        preventTakeScreenShot(true)
-
     }
 
     private fun setIntentResults() {
