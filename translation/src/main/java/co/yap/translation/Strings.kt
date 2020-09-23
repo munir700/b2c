@@ -849,6 +849,8 @@ object Strings {
         "screen_change_phone_number_display_text_text_field_title"
     const val screen_change_phone_number_display_text_text_description: String =
         "screen_change_phone_number_display_text_text_description"
+    const val screen_change_phone_number_display_text_country_code:String=
+        "screen_change_phone_number_display_text_country_code"
 
 
     //    Current passcode screen
