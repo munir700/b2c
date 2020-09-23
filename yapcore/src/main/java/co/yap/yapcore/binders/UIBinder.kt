@@ -2,7 +2,6 @@ package co.yap.yapcore.binders
 
 
 import android.annotation.SuppressLint
-import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -28,13 +27,15 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
-import co.yap.widgets.*
+import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
+import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
@@ -95,7 +96,6 @@ object UIBinder {
 
         }
     }
-
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
