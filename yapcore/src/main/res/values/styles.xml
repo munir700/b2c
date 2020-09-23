@@ -108,6 +108,12 @@
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
     </style>
 
+    <style name="LargeLabel" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h8</item>
+        <item name="android:lineSpacingExtra">10sp</item>
+        <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
+    </style>
+
 
     <style name="Regular" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h3</item>
@@ -583,5 +589,20 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingStart">@dimen/margin_normal_large</item>
         <item name="android:paddingEnd">@dimen/margin_normal_large</item>
+    </style>
+
+    <style name="LabelTextStyl" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/colorPlaceHolderGrey</item>
+    </style>
+
+    <style name="AppSearchViewPlane" parent="Widget.AppCompat.SearchView">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:editTextColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:textStyle">normal</item>
+        <item name="closeIcon">@android:color/transparent</item>
+
     </style>
 </resources>

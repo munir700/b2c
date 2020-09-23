@@ -15,9 +15,13 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dummyEID
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
+import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.MyUserManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
@@ -42,6 +46,7 @@ class EidInfoReviewViewModel(application: Application) :
     override var sanctionedNationality: String = "" // for runtime hanlding
     override var errorTitle: String = ""
     override var errorBody: String = ""
+    val eidLength = 15
 
     override fun onCreate() {
         super.onCreate()
@@ -135,7 +140,7 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = if (YAPApplication.configManager?.isLiveRelease() == false) {
+            val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
                 context.dummyEID()
             } else {
                 File(result.document.files[1].croppedFile)
@@ -160,6 +165,10 @@ class EidInfoReviewViewModel(application: Application) :
                                 if (data.sex.equals("M", true)) Gender.Male else Gender.Female
                             identity.sirName = data.surname
                             identity.givenName = data.names
+                            trackEventWithAttributes(
+                                MyUserManager.user,
+                                eidExpireDate = getFormattedDate(data.expiration_date)
+                            )
                             identity.expirationDate =
                                 DateUtils.stringToDate(data.expiration_date, "yyMMdd")
                             identity.dateOfBirth =
@@ -168,22 +177,24 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.isoCountryCode2Digit = data.isoCountryCode2Digit
                             identity.isoCountryCode3Digit = data.isoCountryCode3Digit
                             result.identity = identity
-
                             parentViewModel?.identity = identity
-
                             populateState(parentViewModel?.identity)
                         } else {
                             if (null == parentViewModel?.identity) {
                                 state.toast =
-                                    "${response.data.errors?.message
-                                        ?: " Error occurred"}^${AlertType.DIALOG_WITH_FINISH.name}"
+                                    "${
+                                    response.data.errors?.message
+                                        ?: " Error occurred"
+                                    }^${AlertType.DIALOG_WITH_FINISH.name}"
                                 parentViewModel?.paths?.forEach { filePath ->
                                     File(filePath).deleteRecursively()
                                 }
                             } else {
                                 state.toast =
-                                    "${response.data.errors?.message
-                                        ?: " Error occurred"}^${AlertType.DIALOG.name}"
+                                    "${
+                                    response.data.errors?.message
+                                        ?: " Error occurred"
+                                    }^${AlertType.DIALOG.name}"
                                 parentViewModel?.paths?.forEach { filePath ->
                                     File(filePath).deleteRecursively()
                                 }
@@ -225,71 +236,79 @@ class EidInfoReviewViewModel(application: Application) :
         success: (message: String) -> Unit
     ) {
         parentViewModel?.identity?.let {
-            launch {
-                val request = UploadDocumentsRequest(
-                    documentType = "EMIRATES_ID",
-                    firstName = state.firstName,
-                    middleName = if (state.middleName.isNotBlank()) state.middleName else null,
-                    lastName = if (state.lastName.isNotBlank()) state.lastName else null,
-                    dateExpiry = it.expirationDate,
-                    dob = it.dateOfBirth,
-                    fullName = getFullName(),
-                    gender = it.gender.mrz.toString(),
-                    nationality = it.isoCountryCode3Digit.toUpperCase(),
-                    identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
-                        .toString() else it.citizenNumber,
-                    filePaths = parentViewModel?.paths ?: arrayListOf(),
-                    countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
-                )
+            if (it.expirationDate == null) {
+                clickEvent.setValue(EVENT_EID_EXPIRY_DATE_ISSUE)
+            } else {
+                launch {
+                    val request = UploadDocumentsRequest(
+                        documentType = "EMIRATES_ID",
+                        firstName = state.firstName,
+                        middleName = if (state.middleName.isNotBlank()) state.middleName else null,
+                        lastName = if (state.lastName.isNotBlank()) state.lastName else null,
+                        dateExpiry = it.expirationDate,
+                        dob = it.dateOfBirth,
+                        fullName = getFullName(),
+                        gender = it.gender.mrz.toString(),
+                        nationality = it.isoCountryCode3Digit.toUpperCase(),
+                        identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
+                            .toString() else it.citizenNumber,
+                        filePaths = parentViewModel?.paths ?: arrayListOf(),
+                        countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
+                    )
 
-                state.loading = true
-                val response = repository.uploadDocuments(request)
-                state.loading = false
+                    state.loading = true
+                    val response = repository.uploadDocuments(request)
+                    state.loading = false
 
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        when (MyUserManager.eidStatus) {
-                            EIDStatus.EXPIRED, EIDStatus.VALID -> {
-                                if (fromInformationErrorFragment) {
-                                    success.invoke("success")
-                                } else {
-                                    MyUserManager.eidStatus = EIDStatus.VALID
-                                    clickEvent.setValue(EVENT_EID_UPDATE)
+                    when (response) {
+                        is RetroApiResponse.Success -> {
+                            when (MyUserManager.eidStatus) {
+                                EIDStatus.EXPIRED, EIDStatus.VALID -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(EVENT_EID_UPDATE)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                    }
                                 }
-                            }
-                            EIDStatus.NOT_SET -> {
-                                if (fromInformationErrorFragment) {
-                                    success.invoke("success")
-                                } else {
-                                    MyUserManager.eidStatus = EIDStatus.VALID
-                                    clickEvent.setValue(EVENT_NEXT)
+                                EIDStatus.NOT_SET -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(EVENT_NEXT)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                    }
                                 }
-                            }
-                            else -> {
-                                if (fromInformationErrorFragment) {
-                                    success.invoke("success")
-                                } else {
-                                    MyUserManager.eidStatus = EIDStatus.VALID
-                                    clickEvent.setValue(EVENT_NEXT)
+                                else -> {
+                                    if (fromInformationErrorFragment) {
+                                        success.invoke("success")
+                                    } else {
+                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(EVENT_NEXT)
+                                        trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
+                                    }
                                 }
                             }
                         }
-                    }
-                    is RetroApiResponse.Error -> {
-                        if (fromInformationErrorFragment) {
-                            success.invoke(response.error.message)
-                        } else {
-                            if (response.error.actualCode.equals(
-                                    EVENT_ALREADY_USED_EID.toString(),
-                                    true
-                                )
-                            ) {
-                                //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                        is RetroApiResponse.Error -> {
+                            if (fromInformationErrorFragment) {
+                                success.invoke(response.error.message)
+                            } else {
+                                if (response.error.actualCode.equals(
+                                        EVENT_ALREADY_USED_EID.toString(),
+                                        true
+                                    )
+                                ) {
+                                    //clickEvent.setValue(EVENT_ALREADY_USED_EID)
+                                }
+                                state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                             }
-                            state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         }
                     }
                 }
+
             }
         }
     }
@@ -357,7 +376,12 @@ class EidInfoReviewViewModel(application: Application) :
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
             state.genderValid = true
-            state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
+            if (parentViewModel?.identity?.citizenNumber?.length != eidLength && !Utils.isValidEID(parentViewModel?.identity?.citizenNumber)
+            ) {
+                clickEvent.setValue(EVENT_CITIZEN_NUMBER_ISSUE)
+            } else {
+                state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
+            }
             state.gender = it.gender.run {
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
@@ -377,15 +401,30 @@ class EidInfoReviewViewModel(application: Application) :
                 getString(Strings.screen_b2c_eid_info_review_display_text_edit_sub_title).format(
                     parentViewModel?.name?.value
                 )
+
             val builder = StringBuilder()
-            builder.append(it.subSequence(0..2))
-            builder.append("-")
-            builder.append(it.subSequence(3..6))
-            builder.append("-")
-            builder.append(it.subSequence(7..13))
-            builder.append("-")
-            builder.append(it.subSequence(14..14))
+            if (hasValidPart(it, 0, 2)) {
+                builder.append(it.subSequence(0..2))
+                builder.append("-")
+            }
+            if (hasValidPart(it, 3, 6)) {
+                builder.append(it.subSequence(3..6))
+                builder.append("-")
+            }
+            if (hasValidPart(it, 7, 13)) {
+                builder.append(it.subSequence(7..13))
+                builder.append("-")
+            }
+            if (hasValidPart(it, 14, 14))
+                builder.append(it.subSequence(14..14))
             return@let builder.toString()
         } ?: ""
     }
+
+    private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {
+        return value?.let {
+            return (end in start..it.length)
+        } ?: false
+    }
+
 }

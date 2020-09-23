@@ -51,8 +51,8 @@
                 style="@style/ARegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:gravity="center"
+                 android:gravity="center"
+                android:layout_marginTop="@dimen/margin_three_dp"
                 android:text="@={viewModel.state.fullName}" />
 
 
@@ -85,7 +85,6 @@
                     style="@style/ARegular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_weight=".7"
                     android:text="@={viewModel.state.phoneNumber}" />
 
@@ -94,9 +93,7 @@
                     style="@style/ARegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
-
                     android:onClick="@{(v)-> viewModel.handlePressOnEditPhone(v.id)}"
                     android:padding="@dimen/margin_extra_small"
                     android:text="@string/screen_personal_detail_display_text_edit"
@@ -134,7 +131,6 @@
                     style="@style/ARegular"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_weight=".7"
                     android:text="@={viewModel.state.email}" />
 
@@ -143,8 +139,7 @@
                     style="@style/ARegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:gravity="center"
+                     android:gravity="center"
                     android:onClick="@{(v)-> viewModel.handlePressOnEditEmail(v.id)}"
                     android:padding="@dimen/margin_extra_small"
                     android:text="@string/screen_personal_detail_display_text_edit"
@@ -188,11 +183,11 @@
                         style="@style/ARegular"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
                         android:layout_weight="0.7"
                         android:paddingBottom="@dimen/small"
                         android:ellipsize="end"
                         android:maxLines="3"
+                        android:layout_marginTop="@dimen/margin_three_dp"
                         android:text="@={viewModel.state.address}"
                         tools:text="dasd dasdjkasdha kjhasdhh asd jlkasd kljad as, Ajman  " />
 
@@ -201,8 +196,8 @@
                         style="@style/ARegular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
+                        android:layout_gravity="bottom"
                         android:onClick="@{(v)-> viewModel.handlePressOnEditAddress(v.id)}"
                         android:padding="@dimen/margin_extra_small"
                         android:text="@string/screen_personal_detail_display_text_edit"
@@ -298,6 +293,7 @@
                     android:layout_height="@dimen/_32sdp"
                     android:foregroundGravity="center_vertical"
                     android:paddingRight="@dimen/_2sdp"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.813"

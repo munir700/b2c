@@ -28,7 +28,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
         executeSafely(call = { API.createOtpOnboarding(createOtpOnboardingRequest) })
 
     // use the following response to enable the white listing feature-> "OtpValidationOnBoardingResponse"
-    override suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationResponse> =
+    override suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<OtpValidationOnBoardingResponse> =
         executeSafely(call = { API.verifyOtpOnboarding(verifyOtpOnboardingRequest) })
 
 

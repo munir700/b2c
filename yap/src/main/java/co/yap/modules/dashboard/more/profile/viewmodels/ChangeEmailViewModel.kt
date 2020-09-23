@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.more.profile.states.ChangeEmailState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -70,6 +71,6 @@ open class ChangeEmailViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("")
+        setToolBarTitle(getString(Strings.screen_change_email_display_text_heading))
     }
 }
