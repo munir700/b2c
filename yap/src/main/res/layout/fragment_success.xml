@@ -81,6 +81,7 @@
                     app:bitmap="@{viewModel.state.placeBitmap}"
                     android:layout_width="match_parent"
                     android:scaleType="fitXY"
+                    android:src="@drawable/location_place_holder"
                     android:layout_height="match_parent" />
                 </androidx.cardview.widget.CardView>
 
