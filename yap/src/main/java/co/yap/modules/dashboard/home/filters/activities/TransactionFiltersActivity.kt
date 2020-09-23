@@ -112,7 +112,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
                 override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
             })
-
         } catch (ex: Exception) {
             showToast("Max and Min range error")
             ex.printStackTrace()

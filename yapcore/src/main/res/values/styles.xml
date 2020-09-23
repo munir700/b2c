@@ -597,10 +597,32 @@
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPlaceHolderGrey</item>
     </style>
+
     <style name="LabelTextStylInActive" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="ChipsThemeInActive" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+        <item name="android:checkable">true</item>
+        <item name="checkedIcon">@null</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+          <item name="rippleColor">@color/greyLight</item>
+
+    </style>
+    <style name="ChipsThemeActive" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+        <item name="android:checkable">true</item>
+        <item name="checkedIcon">@null</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:textColor">@color/greyLight</item>
+         <item name="rippleColor">@color/greyLight</item>
+
     </style>
 </resources>

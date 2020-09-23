@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.home.filters.viewmodels
 
 import android.app.Application
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
 import co.yap.modules.dashboard.home.filters.states.TransactionFiltersState
@@ -11,7 +13,7 @@ import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.isNetworkAvailable
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.jaygoo.widget.RangeSeekBar
 
 class TransactionFiltersViewModel(application: Application) :
@@ -55,6 +57,12 @@ class TransactionFiltersViewModel(application: Application) :
             Utils.getFormattedCurrencyWithoutDecimal(seekBar.leftSeekBar.progress.toString())
         state.rangeStartValue.set(startRangeValue)
         state.rangeEndValue.set(endRangeValues)
+    }
+
+    val chipGroupItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            Log.d("oops", " " + data + " " + pos)
+        }
     }
 
 }

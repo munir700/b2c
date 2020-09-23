@@ -38,8 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/vLine">
 
             <TextView
@@ -152,8 +152,8 @@
                 android:id="@+id/rsbAmount"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_50sdp"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTransEndRange"
                 app:rsb_max="20000"
                 app:rsb_min="0"
@@ -177,6 +177,93 @@
                 android:background="@color/greyLight"
                 app:layout_constraintTop_toBottomOf="@id/rsbAmount" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvCategoriesTitle"
+            style="@style/ARegularGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rangeSections"
+            app:text="@{Strings.screen_transaction_filter_display_text_categories}"
+            tools:text="@string/screen_transaction_filter_display_text_categories" />
+
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvCategoriesTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategoriesTitle">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:selectedListener="@{viewModel.chipGroupItemClickListener}"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice1"
+                    style="@style/ChipsThemeInActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Food and Drink"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice2"
+                    style="@style/ChipsThemeInActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Shopping"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice3"
+                    style="@style/ChipsThemeInActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Travel"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice4"
+                    style="@style/ChipsThemeInActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Payment"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice5"
+                    style="@style/ChipsThemeInActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Other"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
         <View
             android:id="@+id/vButtonsLine"
