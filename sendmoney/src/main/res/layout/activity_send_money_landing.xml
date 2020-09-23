@@ -12,6 +12,9 @@
             type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.sendmoney.R" />
+
     </data>
 
     <LinearLayout
@@ -19,26 +22,36 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
         android:orientation="vertical">
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
-            layout="@layout/layout_send_beneficiaries_toolbar"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{true}"
+            app:titleTranslator="@{Strings.screen_send_money_display_text_title}" />
+
 
         <include
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
             android:id="@+id/layoutNoContacts"
             layout="@layout/layout_no_contacts"
-            app:viewModel="@{viewModel}"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
             android:visibility="@{viewModel.state.isNoBeneficiary()?View.VISIBLE:View.GONE}"
+            app:viewModel="@{viewModel}"
             tools:visibility="gone" />
 
         <include
-            tools:visibility="visible"
             android:id="@+id/layoutBeneficiaries"
             layout="@layout/layout_beneficiaries"
-            app:viewModel="@{viewModel}" />
+            app:viewModel="@{viewModel}"
+            tools:visibility="visible" />
 
     </LinearLayout>
 </layout>
