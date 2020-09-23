@@ -15,8 +15,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/margin_normal"
-        android:paddingEnd="@dimen/margin_normal">
+        android:paddingStart="@dimen/margin_normal_large"
+        android:paddingEnd="@dimen/margin_normal_large">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 style="@style/Yap.App.Widget.TextView.Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_h5"
                 android:text="@{String.format(@string/screen_young_contact_details_title_text, viewModel.state.contactName)}"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:gravity="center"
-                android:paddingHorizontal="@dimen/margin_extra_small"
+                android:paddingHorizontal="@dimen/margin_normal"
                 android:justificationMode="inter_word"
                 android:text="@{String.format(@string/screen_young_contact_details_description_text, viewModel.state.contactName)}"
                 android:textColor="@color/greyDark"
@@ -51,7 +51,9 @@
                 android:id="@+id/ctEmailEdit"
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginTop="@dimen/_50sdp"
-                app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email}">
+                android:hint="@string/screen_yap_house_hold_user_info_display_text_email"
+                app:hintTextColorNormal="@color/greyDark"
+                app:hintTextColorSelected="@color/colorPressedBtnState">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     style="@style/Yap.App.Widget.TextInputEditText.Email"
@@ -68,7 +70,9 @@
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:drawablePadding="@dimen/_10sdp"
-                app:hint="@{Strings.screen_yap_house_hold_user_info_contact_display_text_mobile}">
+                app:hintTextColorNormal="@color/greyDark"
+                app:hintTextColorSelected="@color/colorPressedBtnState"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"
@@ -84,7 +88,8 @@
                     app:errorEnabled="@{true}"
                     app:isoCountryCode="@{viewModel.state.countryCode}"
                     app:pse_setPrefixTextColor="@color/colorPrimaryDark"
-                    app:pse_showHint="true" />
+                    app:pse_showHint="true"
+                    />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CoreButton
