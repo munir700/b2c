@@ -361,6 +361,14 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
     })
 }
 
+fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
+    return ( DateUtils.reformatStringDate(
+        this?.updatedDate ?: "",
+        DateUtils.SERVER_DATE_FORMAT,
+        outputFormat
+    ))
+}
+
 fun Transaction?.isTransactionCancelled(): Boolean {
     return this?.status == TransactionStatus.CANCELLED.name
 }

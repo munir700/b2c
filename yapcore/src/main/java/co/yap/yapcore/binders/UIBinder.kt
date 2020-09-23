@@ -2,7 +2,6 @@ package co.yap.yapcore.binders
 
 
 import android.annotation.SuppressLint
-import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,6 +11,7 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -25,14 +25,17 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
-import co.yap.widgets.*
+import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
+import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
@@ -93,7 +96,6 @@ object UIBinder {
 
         }
     }
-
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
@@ -852,6 +854,24 @@ object UIBinder {
     @BindingAdapter("ibanMask")
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
+    }
+    @JvmStatic
+    @BindingAdapter("spanColor")
+    fun spanColor(view: AppCompatTextView, currency: String) {
+        val splitStringArray: List<String> = currency.split(" ")
+        val spannable: Spannable =
+            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
+
+        spannable.setSpan(
+            ForegroundColorSpan(
+                view.context.getColor(R.color.greyDark)
+            ),
+            0,
+            splitStringArray[0].length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        view.setText(spannable)
     }
 
 }

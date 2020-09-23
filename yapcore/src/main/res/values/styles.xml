@@ -597,4 +597,12 @@
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/colorPlaceHolderGrey</item>
     </style>
+
+    <style name="AppSearchViewPlane" parent="Widget.AppCompat.SearchView">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:editTextColor">?attr/colorPrimaryDarkAttr</item>
+        <item name="android:textStyle">normal</item>
+        <item name="closeIcon">@android:color/transparent</item>
+
+    </style>
 </resources>

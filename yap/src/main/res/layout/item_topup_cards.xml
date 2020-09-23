@@ -16,8 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:alpha="0.5">
 
         <co.yap.widgets.CorePaymentCard
@@ -32,7 +32,6 @@
             app:cardType="@{viewModel.cardInfo.logo}"
             app:card_size_type="large"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,8 +41,8 @@
             android:layout_height="@dimen/_30sdp"
             android:layout_margin="@dimen/_5sdp"
             android:contentDescription="@string/empty_string"
-            android:padding="@dimen/_5sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+            android:padding="@dimen/_5sdp"
             android:src="@drawable/ic_status_expired"
             app:cardStatus="@{viewModel.cardInfo}"
             app:layout_constraintEnd_toEndOf="parent"

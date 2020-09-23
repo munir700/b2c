@@ -102,6 +102,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_VALIDATE_CURRENT_PASSCODE = "/customers/api/user/verify-passcode"
     const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
+    const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
@@ -335,4 +336,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
+    override suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.resendVerificationEmail() })
 }
