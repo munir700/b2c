@@ -70,6 +70,15 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
             invalidate()
 
         }
+
+    var titleVisibility: Boolean? = null
+        set(value) {
+            field = value
+            toolbarTitle.visibility =
+                if (titleVisibility == true) View.VISIBLE else View.INVISIBLE
+            invalidate()
+
+        }
     var rightIconVisibility: Boolean? = null
         set(value) {
             field = value
