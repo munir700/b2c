@@ -20,6 +20,7 @@ class YoungPaymentConfirmationFragment :
     override fun getLayoutId() = R.layout.fragment_young_payment_confirmation
     override fun getToolBarTitle() =
         getString(Strings.screen_household_payment_confirmation_tool_bar_text)
+    override fun toolBarVisibility() = true
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
@@ -45,7 +46,7 @@ class YoungPaymentConfirmationFragment :
                                 return@let
                             } else if (it.getBooleanExtra(Constants.skipped, false)) {
 //                                navigate(YoungPaymentConfirmationFragmentDirections.actionYoungPaymentConfirmationFragmentToYoungContactDetailsFragment())
-                               trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
+                                trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EID_DECLINED.type)
                                 //if (status == KYCAction.ACTION_EID_FAILED.name)
 //                                    navigateForward(
 //                                        HHOnBoardingCardSelectionFragmentDirections.toHHOnBoardingInvalidEidFragment(),

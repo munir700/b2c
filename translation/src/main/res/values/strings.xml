@@ -1205,6 +1205,7 @@
     <string name="screen_young_recurring_payment_guide_text">We will notify you before each payment in case you require a fund top up on your account for recurring payments</string>
     <string name="screen_young_payment_confirmation_note_text">You are now subscribed to a YAP Young card for one child paid on a yearly basis</string>
     <string name="screen_yap_young_label_text">YAP Young</string>
+    <string name="screen_yap_young_btn_text">Select card</string>
     <!--    Young contact details screen-->
     <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>
     <string name="screen_young_contact_details_title_text">Tell us how to contact %1s</string>
