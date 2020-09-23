@@ -22,7 +22,6 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 
-
 class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
     IPassCode.View {
 
@@ -61,7 +60,7 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                     startFragment<WebViewFragment>(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             co.yap.yapcore.constants.Constants.PAGE_URL to URL_TERMS_CONDITION
-                        ), showToolBar = true
+                        ), showToolBar = false
                     )
                 }
                 R.id.btnAction -> {

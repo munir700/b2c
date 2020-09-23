@@ -59,6 +59,8 @@ import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import com.facebook.appevents.AppEventsConstants
+import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -86,6 +88,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         setupMultiAccountSideMenu()
         mNavigator = (this.applicationContext as NavigatorProvider).provideNavigator()
         setupYapButton()
+        logEvent()
+    }
+
+    private fun logEvent() {
+        val logger: AppEventsLogger = AppEventsLogger.newLogger(this)
+        logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP)
     }
 
     private fun setupYapButton() {

@@ -19,12 +19,9 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.hideKeyboard
-import co.yap.yapcore.helpers.extentions.makeCall
-import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
-import com.scottyab.rootbeer.RootBeer
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -81,17 +78,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (!BuildConfig.DEBUG) {
-            if (RootBeer(context).isRootedWithBusyBoxCheck) {
-                showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
-            }
-        }
-    }
-
     fun hideKeyboard() = this.currentFocus?.hideKeyboard()
-
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
             val messages = msg.split("^")
@@ -148,7 +135,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             Snackbar.LENGTH_INDEFINITE
         )
             .setAction(
-                // TODO: Use strings for these
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
             .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
@@ -158,7 +144,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun showInternetConnectedSnackBar() {
         val snackbarConnected = setSnackBar(
             this,
-            // TODO: Use strings for these
             "Internet connected.",
             Snackbar.LENGTH_SHORT
         )

@@ -1,10 +1,3 @@
-//apply plugin: 'com.android.library'
-//apply from: '../shared/build.gradle'
-
-android {
-
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
