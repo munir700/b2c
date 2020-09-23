@@ -4,14 +4,8 @@ import android.os.Bundle
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungPaymentConfirmationBinding
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
-import co.yap.yapcore.helpers.extentions.launchActivityForResult
-import co.yap.yapcore.leanplum.HHUserOnboardingEvents
-import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
 
 class YoungPaymentConfirmationFragment :
     BaseNavViewModelFragment<FragmentYoungPaymentConfirmationBinding, IYoungPaymentConfirmation.State, YoungPaymentConfirmationVM>() {
@@ -20,6 +14,8 @@ class YoungPaymentConfirmationFragment :
     override fun getLayoutId() = R.layout.fragment_young_payment_confirmation
     override fun getToolBarTitle() =
         getString(Strings.screen_household_payment_confirmation_tool_bar_text)
+
+    override fun toolBarVisibility() = true
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)

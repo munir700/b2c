@@ -730,7 +730,7 @@
 
     <!-- International Funds Transfer -->
 
-    <string name="screen_international_funds_transfer_display_text_title">Send money to </string>
+    <string name="screen_international_funds_transfer_display_text_title">Send money to</string>
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
@@ -1205,9 +1205,11 @@
     <string name="screen_young_recurring_payment_guide_text">We will notify you before each payment in case you require a fund top up on your account for recurring payments</string>
     <string name="screen_young_payment_confirmation_note_text">You are now subscribed to a YAP Young card for one child paid on a yearly basis</string>
     <string name="screen_yap_young_label_text">YAP Young</string>
+    <string name="screen_yap_young_btn_text">Select card</string>
     <!--    Young contact details screen-->
     <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>
     <string name="screen_young_contact_details_title_text">Tell us how to contact %1s</string>
+    <string name="screen_young_contact_details_toolbar_text">%1s\'s contact details</string>
     <!-- Young Card Edit Details -->
     <string name="screen_young_card_color_selection_display_text">Help %1s pick a card</string>
     <string name="screen_young_card_color_selection_edit_text_label">Name on %1s\'s card</string>
@@ -1216,13 +1218,17 @@
     <string name="screen_young_confirm_relationship_switch_text">I confirm that I\'m the parent or legal guardian of this child and agree with the</string>
     <string name="screen_young_confirm_relationship_edit_hint_text">Select</string>
     <string name="screen_young_confirm_relationship_edit_label_text">Relationship</string>
+    <string name="screen_young_confirm_relationship_toolbar_text">Confirm your relationship</string>
     <string name="screen_young_confirm_relationship_label_text">Please confirm your relationship with %1s</string>
     <string-array name="screen_young_confirm_relationship_type_array">
         <item>Parent</item>
         <item>Legal guardian</item>
     </string-array>
-    <!-- Young Send Money screen -->
+    <!-- Young Send Money  -->
     <string name="screen_young_send_money_amount_label_text">Enter amount</string>
+    <string name="screen_young_send_money_tour_description_text">Drag and drop funds into your child\'s account, set limits, edit goals and create missions.</string>
+    <string name="screen_young_send_money_tour_label">Explore the Young Dashboard</string>
+    <string name="screen_young_send_money_btn_label">Take the tour</string>
     <!-- Young Card Success screen -->
     <string name="screen_young_card_success_dashboard_btn_label">Go to Young dashboard</string>
     <string name="screen_young_card_success_download_btn_text">Download Link</string>
@@ -1235,6 +1241,7 @@
     <!--    Young KYC-->
     <string name="screen_young_kyc_verify_your_child_emirates_id_text">Start by scanning your child\'s Emirates ID</string>
     <string name="screen_young_kyc_child_doesnt_have_emirates_id_text">My child doesn\'t have an Emirates ID</string>
-    <string name="screen_young_kyc_child_title_text">Verify your child\'s account</string>
     <string name="screen_young_kyc_tab_to_scan_child_emirates_id_text">Tap to scan</string>
+    <string name="screen_young_send_money_success_confirm_btn_text">Send money to %1s</string>
+    <string name="screen_young_kyc_toolbar_title_text">Verify your child\'s account</string>
 </resources>

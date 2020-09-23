@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsVM" />
+        <import type="co.yap.translation.Strings" />
+        <import type="co.yap.translation.Translator" />
+    </data>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_normal"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_medium">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivNotificationIcon"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:srcCompat="@drawable/ic_uae_flag"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvNotifTitle"
+                android:layout_marginStart="@dimen/_12sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivNotificationIcon"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_tour_label)}"
+                style="@style/Yap.App.Widget.TextView.Small.BlueDark"
+                android:gravity="center_vertical"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvNotifDescription"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:layout_constraintTop_toBottomOf="@+id/tvNotifTitle"
+                app:layout_constraintStart_toEndOf="@+id/ivNotificationIcon"
+                style="@style/Yap.App.Widget.TextView.Small.GrayDark"
+                android:gravity="center_vertical"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_tour_description_text)}"
+                />
+            <co.yap.widgets.CoreButton
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                app:btn_text_size="@dimen/text_size_h1"
+                app:enableCoreButton="@{true}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_btn_label)}"
+                app:layout_constraintTop_toBottomOf="@+id/tvNotifDescription"
+                app:layout_constraintStart_toStartOf="@+id/tvNotifDescription"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
+</layout>

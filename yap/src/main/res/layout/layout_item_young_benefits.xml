@@ -17,7 +17,7 @@
         android:drawableStart="@drawable/ic_checked_icon"
         android:drawablePadding="@dimen/margin_medium"
         android:gravity="center_vertical"
-        android:text="Choose a virtual or physical card"
+        android:text="@{viewModel.item.benefits}"
         android:textColor="@color/colorPrimary"
         />
 
