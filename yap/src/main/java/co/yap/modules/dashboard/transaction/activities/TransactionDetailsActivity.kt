@@ -20,6 +20,7 @@ import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -99,7 +100,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
                     (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
@@ -246,6 +247,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
+                viewModel.state.transactionNoteDate =
+                    DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
         }
 
