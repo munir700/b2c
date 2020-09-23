@@ -25,15 +25,7 @@ class TransactionDetailsViewModel(application: Application) :
         setStatesData()
     }
 
-    override fun handlePressOnBackButton(id: Int) {
-        clickEvent.postValue(id)
-    }
-
     override fun handlePressOnEditNoteClickEvent(id: Int) {
-        clickEvent.postValue(id)
-    }
-
-    override fun handlePressOnShareButton(id: Int) {
         clickEvent.postValue(id)
     }
 
@@ -48,7 +40,7 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     private fun setToolbarTitle() {
-        state.toolBarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
+        state.toolbarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
     }
 
     private fun setSenderOrReceiver(transaction: Transaction) {
