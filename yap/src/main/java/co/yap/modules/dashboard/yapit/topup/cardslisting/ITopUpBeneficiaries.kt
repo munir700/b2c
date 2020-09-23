@@ -16,6 +16,7 @@ interface ITopUpBeneficiaries {
         var rightButtonVisibility: Int
         var leftButtonVisibility: Int
         val valid :ObservableField<Boolean>
+        val responseReceived :ObservableField<Boolean>
         val enableAddCard :ObservableBoolean
         var noOfCard: ObservableField<String>
         var alias: ObservableField<String>
