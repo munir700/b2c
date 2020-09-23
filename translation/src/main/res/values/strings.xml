@@ -1224,8 +1224,11 @@
         <item>Parent</item>
         <item>Legal guardian</item>
     </string-array>
-    <!-- Young Send Money screen -->
+    <!-- Young Send Money  -->
     <string name="screen_young_send_money_amount_label_text">Enter amount</string>
+    <string name="screen_young_send_money_tour_description_text">Drag and drop funds into your child\'s account, set limits, edit goals and create missions.</string>
+    <string name="screen_young_send_money_tour_label">Explore the Young Dashboard</string>
+    <string name="screen_young_send_money_btn_label">Take the tour</string>
     <!-- Young Card Success screen -->
     <string name="screen_young_card_success_dashboard_btn_label">Go to Young dashboard</string>
     <string name="screen_young_card_success_download_btn_text">Download Link</string>

@@ -1,12 +1,14 @@
 package co.yap.modules.dashboard.store.young.subaccounts
 
 import android.os.Bundle
-import co.yap.R
 import co.yap.BR
+import co.yap.R
 import co.yap.databinding.FragmentYoungSubaccountBinding
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import kotlinx.android.synthetic.main.fragment_young_subaccount.*
 import javax.inject.Inject
+
 
 class YoungSubAccountsFragment :
     BaseNavViewModelFragment<FragmentYoungSubaccountBinding, IYoungSubAccounts.State, YoungSubAccountsVM>() {
@@ -17,9 +19,9 @@ class YoungSubAccountsFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
+        viewStub.inflate()
         viewModel.adapter.set(adapter)
     }
-
     override fun onClick(id: Int) {
     }
 }

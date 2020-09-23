@@ -1967,4 +1967,10 @@ object Strings {
         "screen_young_send_money_success_message_text"
     const val screen_young_send_money_success_btn_message_text: String =
         "screen_young_send_money_success_btn_message_text"
+    const val screen_young_send_money_tour_description_text: String =
+        "screen_young_send_money_tour_description_text"
+    const val screen_young_send_money_tour_label: String =
+        "screen_young_send_money_tour_label"
+    const val screen_young_send_money_btn_label: String =
+        "screen_young_send_money_btn_label"
 }
