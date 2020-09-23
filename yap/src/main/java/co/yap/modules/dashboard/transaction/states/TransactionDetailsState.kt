@@ -8,17 +8,7 @@ import co.yap.yapcore.BaseState
 
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
 
-    @get:Bindable
-    override var toolBarTitle: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.toolBarTitle)
-        }
     override var spentVisibility: ObservableField<Boolean> = ObservableField(false)
-        set(value) {
-            field = ObservableField(value)
-        }
-
     @get:Bindable
     override var transactionNoteDate: String? = ""
         set(value) {

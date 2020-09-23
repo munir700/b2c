@@ -13,6 +13,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,17 +22,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbarTransFilters"
-            layout="@layout/layout_transaction_filters_toolbar"
-            app:viewModel="@{viewModel}" />
-
-        <View
-            android:id="@+id/vLine"
             android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/greyLight"
-            app:layout_constraintTop_toBottomOf="@id/toolbarTransFilters" />
+            android:layout_height="wrap_content"
+            app:bottomLineVisibility="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator="@{Strings.screen_transaction_filter_display_text_title}" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +44,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/vLine">
+            app:layout_constraintTop_toBottomOf="@+id/toolbarTransFilters">
 
             <TextView
                 android:id="@+id/tvInTrans"

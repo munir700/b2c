@@ -43,7 +43,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
@@ -350,6 +349,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             val intent = Intent()
             intent.putExtra(ADDRESS, viewModel.getUserAddress())
             intent.putExtra(ADDRESS_SUCCESS, isUpdated)
+            intent.putExtra(Constants.PLACES_PHOTO_ID, viewModel.selectedPlaceId.value.toString())
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
@@ -24,6 +25,7 @@ class YapDashBoardViewModel(application: Application) :
     override val state: YapDashBoardState = YapDashBoardState()
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: MessagesRepository = MessagesRepository
+    val customerRepository: CustomersRepository = CustomersRepository
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -43,6 +45,22 @@ class YapDashBoardViewModel(application: Application) :
             delay(1500)
             showUnverifedscreen.value =
                 MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+        }
+    }
+
+    override fun resendVerificationEmail() {
+        launch {
+            state.loading = true
+            when (val response =
+                customerRepository.resendVerificationEmail()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.error = response.error.message
+                }
+            }
         }
     }
 

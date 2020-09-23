@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.net.Uri
 import androidx.databinding.ObservableField
+import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -13,6 +14,7 @@ interface IProfile {
         var profilePictureUrl: String
         var nameInitialsVisibility: Int
         var imageUri: Uri
+        var buildVersionDetail: String?
         var isShowErrorIcon: ObservableField<Boolean>
 
     }
@@ -28,5 +30,7 @@ interface IProfile {
         fun logout()
     }
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        val versionName: String? get() = "Version " + YAPApplication.configManager?.versionName + " (" + YAPApplication.configManager?.versionCode + ")"
+    }
 }

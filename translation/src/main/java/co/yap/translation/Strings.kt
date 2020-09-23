@@ -181,6 +181,7 @@ object Strings {
     const val screen_system_permission_button_touch_id: String =
         "screen_system_permission_button_touch_id"
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
+
     const val screen_system_permission_text_denied_notification: String =
         "screen_system_permission_text_denied_notification"
     const val screen_notification_permission_button_title: String =
@@ -849,6 +850,8 @@ object Strings {
         "screen_change_phone_number_display_text_text_field_title"
     const val screen_change_phone_number_display_text_text_description: String =
         "screen_change_phone_number_display_text_text_description"
+    const val screen_change_phone_number_display_text_country_code:String=
+        "screen_change_phone_number_display_text_country_code"
 
 
     //    Current passcode screen
@@ -1667,6 +1670,10 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+    //yap home fragment screen
+    const val screen_fragment_yap_home_add_money: String =
+        "screen_fragment_yap_home_add_money"
 
     //Change Card Pin screen
 

@@ -11,6 +11,7 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -24,9 +25,12 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
+import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
@@ -84,6 +88,25 @@ object UIBinder {
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = dataAdapter
+    }
+
+    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
+    @JvmStatic
+    fun setPlacesAdapter(
+        autoCompleteTextView: AutoCompleteTextView,
+        placesAdapter: PlacesAutoCompleteAdapter,
+         listener: OnItemClickListener?
+    ) {
+        autoCompleteTextView.setAdapter(placesAdapter)
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val place: Place = parent.getItemAtPosition(position) as Place
+                       view?.let { listener?.onItemClick(view, place.id, position) }
+
+                autoCompleteTextView.setText(place.mainText)
+            }
+
+
     }
 
     @BindingAdapter("tvColor")
@@ -857,6 +880,25 @@ object UIBinder {
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
+    @JvmStatic
+    @BindingAdapter("spanColor")
+    fun spanColor(view: AppCompatTextView, currency: String) {
+        val splitStringArray: List<String> = currency.split(" ")
+        val spannable: Spannable =
+            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
+
+        spannable.setSpan(
+            ForegroundColorSpan(
+                view.context.getColor(R.color.greyDark)
+            ),
+            0,
+            splitStringArray[0].length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        view.setText(spannable)
+    }
+
 
     @BindingAdapter("selectedListener")
     @JvmStatic

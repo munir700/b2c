@@ -45,10 +45,6 @@ class TransactionFiltersViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnBackButton(id: Int) {
-        clickEvent.setValue(id)
-    }
-
     override fun updateRangeValue(seekBar: RangeSeekBar) {
 
         val startRangeValue =

@@ -128,9 +128,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                     Strings.common_display_text_error_no_internet
                 )
             )
-            R.id.IvClose -> {
-                finish()
-            }
+
         }
     }
 
@@ -195,5 +193,13 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override fun onBackPressed() {
         YAPApplication.hasFilterStateChanged = false
         super.onBackPressed()
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+        }
     }
 }

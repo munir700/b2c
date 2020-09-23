@@ -12,7 +12,6 @@ interface ITransactionFilters {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        fun handlePressOnBackButton(id: Int)
         fun updateRangeValue(seekBar: RangeSeekBar)
         val transactionFilters: MutableLiveData<TransactionFilters>
         var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters>

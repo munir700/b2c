@@ -156,7 +156,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.ivClose -> finish()
             R.id.clNote, R.id.clEditIcon ->
                 if (viewModel.state.txnNoteValue.get().isNullOrBlank()) {
                     openNoteScreen()
@@ -257,5 +256,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+        }
     }
 }

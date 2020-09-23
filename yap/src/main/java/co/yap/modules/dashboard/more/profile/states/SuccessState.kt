@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.more.profile.states
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
@@ -31,6 +33,12 @@ class SuccessState : BaseState(), ISuccess.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.buttonTitle)
+        }
+    @get:Bindable
+    override var placeBitmap: Bitmap?= null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.placeBitmap)
         }
 
 }
