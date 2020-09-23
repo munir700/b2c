@@ -20,6 +20,7 @@ import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -245,6 +246,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
+                viewModel.state.transactionNoteDate =
+                    DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
         }
 
