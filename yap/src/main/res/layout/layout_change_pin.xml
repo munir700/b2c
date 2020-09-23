@@ -49,7 +49,6 @@
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:dividerPadding="@dimen/margin_medium_large"
             android:hint="@{title}"
-            app:textColorChangePin="@{pinCode}"
             app:hintTextColor="@color/colorPrimaryDark"
             app:hintTextAppearance="@style/LabelTextStyl"
             app:layout_constraintLeft_toLeftOf="parent"
