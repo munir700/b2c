@@ -46,14 +46,11 @@
             android:layout_height="wrap_content"
             android:dropDownVerticalOffset="50dp"
             android:entries="@array/screen_young_confirm_relationship_type_array"
-            android:foregroundGravity="center"
-            android:gravity="center"
-            android:theme="@style/Yap.App.Widget.MatchSpinnerTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
             android:layout_marginTop="@dimen/margin_btn_side_paddings"
-            app:ms_alignLabels="false"
+            app:ms_alignLabels="true"
             app:ms_arrowColor="@color/greyLight"
             app:ms_arrowSize="16dp"
             app:ms_enableErrorLabel="false"
@@ -63,7 +60,7 @@
             app:ms_hint="Select"
             app:ms_hintColor="@color/greyLight"
             app:ms_hintTextSize="@dimen/text_size_h2"
-            app:ms_multiline="false"
+            app:ms_multiline="true"
             app:ms_thickness="0.2dp"
             app:ms_baseColor="@color/greyLight"
             />
@@ -116,7 +113,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_next"
-            app:enableCoreButton="@{viewModel.validator.isValidate}"
+            app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_phone_number_button_send}" />
 

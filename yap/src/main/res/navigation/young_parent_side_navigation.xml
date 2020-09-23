@@ -20,8 +20,8 @@
         android:label="YoungBenefitsFragment"
         tools:layout="@layout/fragment_young_benefits">
         <action
-            android:id="@+id/action_youngBenefitsFragment_to_youngChildKycHomeFragment"
-            app:destination="@id/youngChildKycHomeFragment" />
+            android:id="@+id/action_youngBenefitsFragment_to_youngConfirmRelationshipFragment"
+            app:destination="@id/youngConfirmRelationshipFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngConfirmRelationshipFragment"
@@ -38,8 +38,8 @@
         android:label="YoungContactDetailsFragment"
         tools:layout="@layout/fragment_young_contact_details">
         <action
-            android:id="@+id/action_youngContactDetailsFragment_to_youngPaymentSelectionFragment"
-            app:destination="@id/youngPaymentSelectionFragment" />
+            android:id="@+id/action_youngContactDetailsFragment_to_youngChildKycHomeFragment"
+            app:destination="@id/youngChildKycHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngPaymentSelectionFragment"
@@ -83,8 +83,8 @@
         android:label="YoungChildKycHomeFragment"
         tools:layout="@layout/fragment_young_child_kyc_home">
         <action
-            android:id="@+id/action_youngChildKycHomeFragment_to_youngConfirmRelationshipFragment"
-            app:destination="@id/youngConfirmRelationshipFragment" />
+            android:id="@+id/action_youngChildKycHomeFragment_to_youngPaymentSelectionFragment"
+            app:destination="@id/youngPaymentSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngSendMoneyFragment"

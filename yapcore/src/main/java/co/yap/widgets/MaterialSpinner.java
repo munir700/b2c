@@ -948,10 +948,11 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
             if (getItemViewType(position) == HINT_TYPE) {
                 View view = getHintView(convertView, parent, isDropDownView);
                 if (isDropDownView) {
-                    // view.setVisibility(GONE);
+
                     LayoutParams params = view.getLayoutParams();
                     params.height = 0;
                     view.setLayoutParams(params);
+                    view.setVisibility(GONE);
                 } else view.setVisibility(VISIBLE);
 
                 return view;
@@ -969,16 +970,20 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
             final LayoutInflater inflater = LayoutInflater.from(mContext);
             final int resid = isDropDownView ? mDropDownHintView : mHintView;
             final TextView textView = (TextView) inflater.inflate(resid, parent, false);
-            textView.setText(hint);
-            textView.setTextColor(MaterialSpinner.this.isEnabled() ? hintColor : disabledColor);
-            textView.setTag(HINT_TYPE);
-            if (hintTextSize != -1)
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintTextSize);
+
             if (isDropDownView) {
+                textView.setText("");
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 0);
                 LayoutParams params = textView.getLayoutParams();
                 params.height = 0;
                 textView.setLayoutParams(params);
+            }
+            else{
+                textView.setText(hint);
+                textView.setTextColor(MaterialSpinner.this.isEnabled() ? hintColor : disabledColor);
+                textView.setTag(HINT_TYPE);
+                if (hintTextSize != -1)
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintTextSize);
             }
             return textView;
         }

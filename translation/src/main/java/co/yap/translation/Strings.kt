@@ -1949,6 +1949,8 @@ object Strings {
         "screen_young_kyc_child_doesnt_have_emirates_id_text"
     const val screen_young_kyc_tab_to_scan_child_emirates_id_text: String =
         "screen_young_kyc_tab_to_scan_child_emirates_id_text"
+    const val screen_young_kyc_child_title_text: String =
+        "screen_young_kyc_child_title_text"
 
     //Young Send Money
     const val screen_young_send_money_amount_label_text: String =

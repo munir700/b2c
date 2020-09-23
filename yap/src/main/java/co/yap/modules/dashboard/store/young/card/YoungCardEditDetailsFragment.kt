@@ -33,9 +33,7 @@ class YoungCardEditDetailsFragment :
                     putExtra("isSettingPin", false)
 
                 }, completionHandler = { resultCode, data ->
-
                 })
-
             }
         }
     }

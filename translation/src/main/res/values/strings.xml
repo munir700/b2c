@@ -1233,7 +1233,8 @@
     <string name="screen_young_send_money_success_message_text">%1s now has AED %2s to spend</string>
     <string name="screen_young_send_money_success_btn_message_text">View  %1s\'s account</string>
     <!--    Young KYC-->
-    <string name="screen_young_kyc_verify_your_child_emirates_id_text">Start by scanning your child’s Emirates ID</string>
+    <string name="screen_young_kyc_verify_your_child_emirates_id_text">Start by scanning your child\'s Emirates ID</string>
     <string name="screen_young_kyc_child_doesnt_have_emirates_id_text">My child doesn\'t have an Emirates ID</string>
-    <string name="screen_young_kyc_tab_to_scan_child_emirates_id_text">Tap to scan your child’s Emirates ID</string>
+    <string name="screen_young_kyc_child_title_text">Verify your child\'s account</string>
+    <string name="screen_young_kyc_tab_to_scan_child_emirates_id_text">Tap to scan</string>
 </resources>
