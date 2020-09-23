@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnBackPressedListener
@@ -13,6 +14,7 @@ import co.yap.yapcore.interfaces.OnBackPressedListener
 abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
     OnBackPressedListener {
     private var progress: Dialog? = null
+    open fun onToolBarClick(id: Int) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,11 +25,15 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerStateListeners()
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
     }
 
     override fun onDestroyView() {
         unregisterStateListeners()
         progress?.dismiss()
+        viewModel.toolBarClickEvent.removeObservers(this)
         super.onDestroyView()
     }
 
