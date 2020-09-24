@@ -101,12 +101,12 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                     AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
                         "",
                         messages.first(),
-                        buttonText = "CLOSE",
+                        rightButtonText = "CLOSE",
                         closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CLICKABLE.name -> {
                         showAlertDialogAndExitApp(
-                            title = "",
+                            Title = "",
                             message = messages.first(),
                             closeActivity = false,
                             isOtpBlocked = true

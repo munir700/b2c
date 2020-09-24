@@ -6,7 +6,7 @@ import co.yap.yapcore.BaseState
 
 class SendMoneyState : BaseState(), ISendMoney.State {
 
-    override var rightIcon: ObservableBoolean = ObservableBoolean(false)
-    override var leftIcon: ObservableBoolean = ObservableBoolean(false)
+    override var rightIconVisibility: ObservableBoolean = ObservableBoolean(false)
+    override var leftIconVisibility: ObservableBoolean = ObservableBoolean(false)
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean(false)
 }

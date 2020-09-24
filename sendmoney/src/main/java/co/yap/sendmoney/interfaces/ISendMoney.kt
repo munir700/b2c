@@ -10,8 +10,8 @@ import co.yap.yapcore.SingleClickEvent
 interface ISendMoney {
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
-        var rightIcon: ObservableBoolean
-        var leftIcon: ObservableBoolean
+        var rightIconVisibility: ObservableBoolean
+        var leftIconVisibility: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

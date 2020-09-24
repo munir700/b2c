@@ -29,10 +29,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:leftIconVisibility="@{viewModel.state.leftIcon}"
+            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_add_sign}"
-            app:rightIconVisibility="@{viewModel.state.rightIcon}"
+            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
             app:titleString="@{viewModel.state.toolbarTitle}"
             app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
 

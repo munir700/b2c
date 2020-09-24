@@ -172,28 +172,35 @@ fun Context.showYapAlertDialog(
 }
 
 fun Activity.showAlertDialogAndExitApp(
-    title: String? = null,
+    Title: String? = null,
     message: String?,
-    buttonText: String = "OK",
+    leftButtonText: String = "OK",
+    rightButtonText: String = "Cancel",
     callback: () -> Unit = {},
     closeActivity: Boolean = true,
-    isOtpBlocked: Boolean = false
+    isOtpBlocked: Boolean = false,
+    isTwoButton : Boolean = false
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater: LayoutInflater = layoutInflater
-    title?.let { builder.setTitle(title) }
+    Title?.let { builder.setTitle(Title) }
     val dialogLayout: View =
         inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
+    val cancel = dialogLayout.findViewById<TextView>(R.id.tvButtonCancel)
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
-    ok.text = buttonText
+    ok.text = leftButtonText
+    cancel.text = rightButtonText
     ok.setOnClickListener {
         alertDialog?.dismiss()
         if (closeActivity)
             finish()
         callback()
+    }
+    if(isTwoButton){
+        cancel.visibility = View.VISIBLE
     }
     if (isOtpBlocked) {
         label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
