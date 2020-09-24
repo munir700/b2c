@@ -15,6 +15,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -52,6 +53,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -96,6 +98,7 @@ object UIBinder {
 
         }
     }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
@@ -855,6 +858,7 @@ object UIBinder {
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
+
     @JvmStatic
     @BindingAdapter("spanColor")
     fun spanColor(view: AppCompatTextView, currency: String) {
@@ -872,6 +876,25 @@ object UIBinder {
         )
 
         view.setText(spannable)
+    }
+
+    @JvmStatic
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin","isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?,isStart :Boolean) {
+        when {
+            isStart ->
+            {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+
+            }
+            pin?.isNotEmpty()!! -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
+        }
+
     }
 
 }

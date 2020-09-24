@@ -45,7 +45,7 @@ class ChangePinViewModel(application: Application) : BaseViewModel<IChangePin.St
     private fun showErrorOldPin() {
         state.pinFieldBackground.set(
             context.resources.getDrawable(
-                co.yap.R.drawable.bg_edit_text_red_under_line,
+                co.yap.R.drawable.bg_edit_text_red_under_line_card_change_pin,
                 null
             )
         )
@@ -55,7 +55,7 @@ class ChangePinViewModel(application: Application) : BaseViewModel<IChangePin.St
     private fun hideErrorOldPin() {
         state.pinFieldBackground.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
@@ -73,19 +73,19 @@ class ChangePinViewModel(application: Application) : BaseViewModel<IChangePin.St
     {
         state.pinFieldBackground.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
         state.pinFieldBackgroundForNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
         state.pinFieldBackgroundForConfirmNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
