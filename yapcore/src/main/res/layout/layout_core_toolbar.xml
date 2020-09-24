@@ -5,6 +5,7 @@
     android:id="@+id/tbMainToolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_44sdp"
+    android:background="@color/white"
     android:contentInsetStart="0dp"
     android:contentInsetLeft="0dp"
     android:contentInsetEnd="0dp"
@@ -22,42 +23,60 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLeftIcon"
-            android:layout_width="@dimen/_32sdp"
+            android:layout_width="@dimen/_40sdp"
             android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
             android:tint="?attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRightText"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clRightContainer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/margin_small"
-            android:textColor="@color/colorPrimaryDark"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="title" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivRightIcon"
-            android:layout_width="@dimen/_32sdp"
             android:layout_height="match_parent"
-            android:paddingEnd="@dimen/margin_small"
-            android:tint="?attr/colorPrimaryDark"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRightText"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_small"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="title" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivRightIcon"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_small"
+                android:tint="?attr/colorPrimaryDark"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -67,9 +86,9 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_extra_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivRightIcon"
+            app:layout_constraintEnd_toStartOf="@id/clRightContainer"
             app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/ivRightIcon"
+            app:layout_constraintRight_toLeftOf="@id/clRightContainer"
             app:layout_constraintStart_toEndOf="@id/ivLeftIcon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="title" />
