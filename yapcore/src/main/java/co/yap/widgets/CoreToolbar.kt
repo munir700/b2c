@@ -92,7 +92,7 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
         set(value) {
             field = value
             tvRightText.visibility =
-                if (rightTitleVisibility == true) View.VISIBLE else View.INVISIBLE
+                if (rightTitleVisibility == true) View.VISIBLE else View.GONE
             invalidate()
 
         }
