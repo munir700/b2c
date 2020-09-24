@@ -856,7 +856,7 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter("textChangeIfEmpty")
+    @BindingAdapter("textColorChangeIfEmpty")
     fun textColorChangePin(view: TextView, text: String) {
         when {
             text.isEmpty() -> view.setTextColor(view.context.getColorStateList(R.color.colorPrimaryDark))
