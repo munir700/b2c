@@ -2,7 +2,6 @@ package co.yap.yapcore.binders
 
 
 import android.annotation.SuppressLint
-import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -15,7 +14,6 @@ import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -27,13 +25,15 @@ import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
-import co.yap.widgets.*
+import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
+import co.yap.widgets.MaskTextWatcher
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
@@ -41,7 +41,6 @@ import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -51,7 +50,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -96,6 +94,7 @@ object UIBinder {
 
         }
     }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
@@ -854,5 +853,15 @@ object UIBinder {
     @BindingAdapter("ibanMask")
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
+    }
+
+    @JvmStatic
+    @BindingAdapter("textChangeIfEmpty")
+    fun textColorChangePin(view: TextView, text: String) {
+        when {
+            text.isEmpty() -> view.setTextColor(view.context.getColorStateList(R.color.colorPrimaryDark))
+            else -> view.setTextColor(view.context.getColorStateList(R.color.colorPlaceHolderGrey))
+        }
+
     }
 }
