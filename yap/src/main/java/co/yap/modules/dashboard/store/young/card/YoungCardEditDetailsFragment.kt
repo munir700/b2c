@@ -8,6 +8,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungCardEditDetailsBinding
 import co.yap.modules.onboarding.activities.CreatePasscodeActivity
+import co.yap.translation.Strings
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
@@ -24,8 +25,10 @@ class YoungCardEditDetailsFragment :
     @Inject
     lateinit var adapter: YoungCardEditAdapter
     private var tabViews = ArrayList<CircleView>()
-    override fun getToolBarTitle() =
-        getString(Strings.screen_young_card_toolbar_text, viewModel.state.childName)
+    override fun getToolBarTitle() = getString(
+        Strings.screen_young_card_toolbar_text,
+        viewModel.state.childName.value ?: ""
+    )
 
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_card_edit_details
