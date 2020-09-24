@@ -1973,4 +1973,8 @@ object Strings {
         "screen_young_send_money_tour_label"
     const val screen_young_send_money_btn_label: String =
         "screen_young_send_money_btn_label"
+
+    // Young Passcode
+    const val screen_young_create_passcode_top_label: String =
+        "screen_young_create_passcode_top_label"
 }

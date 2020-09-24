@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.store.young.confirmrelationship.YoungConfirmRela
 import co.yap.modules.dashboard.store.young.kyc.YoungChildKycHomeFragment
 import co.yap.modules.dashboard.store.young.contact.YoungContactDetailsFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
+import co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment
 import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment
 import co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment
 import co.yap.networking.customers.responsedtos.AccountInfoResponse
@@ -46,8 +47,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         if (sharedPreferenceManager.getValueBoolien(
                 KEY_IS_USER_LOGGED_IN,
-                false
-            )
+                false)
         ) {
             val action =
                 LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment("")
@@ -89,7 +89,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     )
                 }
             }*/
-          startFragment(YoungCardEditDetailsFragment::class.java.name)
+          startFragment(YoungCreatePinCodeFragment::class.java.name)
         }
     }
 
