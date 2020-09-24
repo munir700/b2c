@@ -8,13 +8,6 @@ import co.yap.yapcore.BaseState
 
 class BeneficiaryFundTransferState : BaseState(), IBeneficiaryFundTransfer.State {
 
-    @get:Bindable
-    override var toolBarTitle: String? = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.toolBarTitle)
-        }
-
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean()
     override var rightIcon: ObservableBoolean = ObservableBoolean()
     override var leftIcon: ObservableBoolean = ObservableBoolean()

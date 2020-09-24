@@ -11,18 +11,14 @@ class TopUpBankDetailsState : BaseState(), ITopUpBankDetails.State {
             field = value
             notifyPropertyChanged(BR.toolBarVisibility)
         }
-    @get:Bindable
-    override var toolBarTitle: String = "My YAP account details"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.toolBarTitle)
-        }
+
     @get:Bindable
     override var pictureUrl: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.pictureUrl)
         }
+
     @get:Bindable
     override var position: Int? = 0
         set(value) {

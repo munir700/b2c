@@ -12,7 +12,6 @@ import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.SingleClickEvent
 
 
 class BeneficiaryFundTransferViewModel(application: Application) :
@@ -21,7 +20,6 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override val state: BeneficiaryFundTransferState =
         BeneficiaryFundTransferState()
     override val repository: CustomersRepository = CustomersRepository
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData()
     override var transferData: MutableLiveData<TransferFundData> = MutableLiveData()
@@ -33,13 +31,10 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.toolbarVisibility.set(true)
-        state.toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_text_header)
+        state.toolbarTitle = getString(Strings.screen_cash_pickup_funds_display_text_header)
         state.leftIcon.set(true)
         state.rightButtonText = getString(Strings.common_button_cancel)
         state.rightIcon.set(true)
     }
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.postValue(id)
-    }
 }
