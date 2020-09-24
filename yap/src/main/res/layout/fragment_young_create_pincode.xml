@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeVM" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNote"
+            style="@style/Yap.App.Widget.TextView.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="@dimen/margin_small"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_create_passcode_top_label,viewModel.state.childName)}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etPinCode"
+            style="@style/Yap.App.Widget.TextView.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center_horizontal"
+            android:text="@={viewModel.state.passCode}"
+            app:errorEnabled="@{false}"
+            android:maxLength="4"
+            app:layout_constraintTop_toBottomOf="@+id/guideDialer"
+            app:validateMaxLength="@{4}"
+            app:validateMinLength="@{4}" />
+
+        <co.yap.widgets.CoreDialerPad
+            android:id="@+id/youngDialer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            app:componentDialerError='@{viewModel.state.dialerError}'
+            app:dialer_max_length="4"
+            app:dialer_pass_code="defaultType"
+            app:layout_constraintTop_toBottomOf="@id/etPinCode" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnNext"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_btn_side_paddings"
+            android:layout_marginEnd="@dimen/margin_btn_side_paddings"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_set_card_pin_welcome_button_create_pin)}"
+            app:enableCoreButton="@{viewModel.validator.isValidate}"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideDialer"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.13" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
