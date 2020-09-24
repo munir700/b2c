@@ -74,8 +74,8 @@
         android:label="YoungCardEditDetailsFragment"
         tools:layout="@layout/fragment_young_card_edit_details">
         <action
-            android:id="@+id/action_youngCardEditDetailsFragment_to_youngCardSuccessFragment2"
-            app:destination="@id/youngCardSuccessFragment2" />
+            android:id="@+id/action_youngCardEditDetailsFragment_to_youngCreatePinCodeFragment"
+            app:destination="@id/youngCreatePinCodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngChildKycHomeFragment"
@@ -100,4 +100,13 @@
         android:name="co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment"
         android:label="YoungSendMoneySuccessFragment"
         tools:layout="@layout/fragment_young_send_money_success" />
+    <fragment
+        android:id="@+id/youngCreatePinCodeFragment"
+        android:name="co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment"
+        android:label="YoungCreatePinCodeFragment"
+        tools:layout="@layout/fragment_young_create_pincode" >
+        <action
+            android:id="@+id/action_youngCreatePinCodeFragment_to_youngCardSuccessFragment2"
+            app:destination="@id/youngCardSuccessFragment2" />
+    </fragment>
 </navigation>
