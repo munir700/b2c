@@ -13,7 +13,7 @@ const val MALFORMED_JSON_EXCEPTION_CODE = 0
 
 abstract class BaseRepository : IRepository {
 
-    val defaultErrorMessage =
+    private val defaultErrorMessage =
         "Sorry, that doesn't look right. We’re working on fixing it now. Please try again in sometime."
 
     override suspend fun <T : ApiResponse> executeSafely(call: suspend () -> Response<T>): RetroApiResponse<T> {
