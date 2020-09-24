@@ -10,8 +10,8 @@ import kotlinx.android.synthetic.main.fragment_young_create_pincode.*
 class YoungCreatePinCodeFragment :
     BaseNavViewModelFragment<FragmentYoungCreatePincodeBinding, IYoungPinCode.State, YoungCreatePinCodeVM>() {
     override fun getBindingVariable() = BR.viewModel
-
     override fun getLayoutId() = R.layout.fragment_young_create_pincode
+    override fun toolBarVisibility()=  false
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         youngDialer.hideFingerprintView()
@@ -19,6 +19,7 @@ class YoungCreatePinCodeFragment :
         youngDialer.upDatedDialerPad(viewModel.state.passCode.value.toString())
         youngDialer.setInPutEditText(etPinCode)
     }
+
     override fun onClick(id: Int) {
     }
 }
