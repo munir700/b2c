@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -32,6 +33,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
     open lateinit var context: Context
+    open fun onToolBarClick(id: Int) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(true)
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -124,6 +129,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
+
+
     override fun showInternetSnack(isVisible: Boolean) {
         if (isVisible) showNoInternetSnackBar() else showInternetConnectedSnackBar()
     }
@@ -184,6 +191,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         unregisterStateListeners()
         cancelAllSnackBar()
         progress?.dismiss()
+        viewModel.toolBarClickEvent.removeObservers(this)
         super.onDestroy()
     }
 

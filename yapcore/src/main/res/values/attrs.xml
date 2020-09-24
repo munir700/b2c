@@ -540,4 +540,7 @@
         <attr name="hintTextColorSelected" format="color" />
         <attr name="android:drawablePadding" format="dimension|reference" />
     </declare-styleable>
+
+    <declare-styleable name="CoreToolbar">
+    </declare-styleable>
 </resources>
