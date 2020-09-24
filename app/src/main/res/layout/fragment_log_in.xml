@@ -69,6 +69,19 @@
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     app:view_input_type="email" />
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swRemember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:theme="@style/CustomSwitch"
+                    android:checked="@={viewModel.state.isRemember}"
+                    android:text="Remember ID"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    app:layout_constraintTop_toBottomOf="@+id/etEmailField"
+                    />
+
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLogIn"
                     style="@style/FragmentsBtnStyle"
@@ -85,7 +98,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etEmailField"
+                    app:layout_constraintTop_toBottomOf="@+id/swRemember"
                     app:layout_constraintVertical_bias="0.949" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
