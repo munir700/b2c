@@ -29,7 +29,7 @@ object ImageBinding {
         imageUrl: String?, radius: Int
     ) {
         imageUrl?.let {
-            setRoundedImage(imageView, "https://s3-eu-west-1.amazonaws.com/dev-a-yap-documents/yap/yap_data/design_codes/77/1578898416047_800x1261.png", radius)
+            setRoundedImage(imageView, it, radius)
         }
     }
 

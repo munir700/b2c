@@ -15,23 +15,25 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/margin_normal_large"
-        android:paddingEnd="@dimen/margin_normal_large">
+        android:fillViewport="true">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_normal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvContactLabel"
-                style="@style/Yap.App.Widget.TextView.Large"
+                style="@style/Yap.App.Widget.TextView.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center"
-                android:textSize="@dimen/text_size_h5"
-                android:text="@{String.format(@string/screen_young_contact_details_title_text, viewModel.state.contactName)}"
+                android:paddingStart="@dimen/margin_extra_small"
+                android:paddingEnd="@dimen/margin_extra_small"
+                android:text="@string/screen_young_contact_details_title_text"
+                android:textColor="@color/colorPrimaryDark"
                 tools:text="@string/screen_young_contact_details_title_text" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -39,13 +41,14 @@
                 style="@style/Yap.App.Widget.TextView.Normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
-                android:paddingHorizontal="@dimen/margin_normal"
-                android:justificationMode="inter_word"
-                android:text="@{String.format(@string/screen_young_contact_details_description_text, viewModel.state.contactName)}"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                android:paddingStart="@dimen/margin_extra_small"
+                android:paddingEnd="@dimen/margin_extra_small"
+                android:text="@string/screen_young_contact_details_description_text"
                 android:textColor="@color/greyDark"
-                tools:text="@string/screen_young_contact_details_title_text" />
+                tools:text="@string/screen_young_contact_details_description_text" />
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctEmailEdit"
@@ -70,27 +73,34 @@
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:drawablePadding="@dimen/_10sdp"
+                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile"
                 app:hintTextColorNormal="@color/greyDark"
-                app:hintTextColorSelected="@color/colorPressedBtnState"
-                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
+                app:hintTextColorSelected="@color/colorPressedBtnState">
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"
                     style="@style/Yap.App.Widget.TextInputEditText.Mobile.Prefix"
-                    android:gravity="start"
-                    android:hint="551234567"
+                    android:hint="00 00000000"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="9"
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:text="@={viewModel.state.phone}"
-                    app:errorEnabled="@{true}"
+                    app:errorEnabled="@{false}"
                     app:isoCountryCode="@{viewModel.state.countryCode}"
+                    app:pse_compoundDrawableHeight="@dimen/_16sdp"
+                    app:pse_compoundDrawableWidth="@dimen/_16sdp"
+                    app:pse_setPrefix="971"
+                    app:isOptional="@{true}"
                     app:pse_setPrefixTextColor="@color/colorPrimaryDark"
-                    app:pse_showHint="true"
-                    />
+                    app:pse_showHint="true" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"

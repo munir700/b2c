@@ -28,6 +28,8 @@ import co.yap.modules.dashboard.store.young.landing.YoungLandingFragment
 import co.yap.modules.dashboard.store.young.landing.YoungLandingModule
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionFragment
 import co.yap.modules.dashboard.store.young.paymentselection.YoungPaymentSelectionModule
+import co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment
+import co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeModule
 import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyFragment
 import co.yap.modules.dashboard.store.young.sendmoney.YoungSendMoneyModule
 import co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment
@@ -179,7 +181,12 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector(modules = [YoungSendMoneySuccessModule::class])
     @FragmentScope
     abstract fun youngSendMoneySuccessFragmentInjector(): YoungSendMoneySuccessFragment
+
     @ContributesAndroidInjector(modules = [YoungSubAccountModule::class])
     @FragmentScope
     abstract fun youngSubAccountFragmentInjector(): YoungSubAccountsFragment
+
+    @ContributesAndroidInjector(modules = [YoungCreatePinCodeModule::class])
+    @FragmentScope
+    abstract fun youngCreatePinCodeFragmentInjector(): YoungCreatePinCodeFragment
 }

@@ -13,14 +13,14 @@ import co.yap.yapcore.helpers.validation.util.ViewTagHelper
 object MobileNoBinding {
     @JvmStatic
     @BindingAdapter(
-        value = ["isoCountryCode", "validateMobileMessage", "validateMobileAutoDismiss", "errorEnabled"],
+        value = ["isoCountryCode", "validateMobileMessage", "validateMobileAutoDismiss", "errorEnabled", "isOptional"],
         requireAll = false
     )
     fun bindPhone(
         view: PrefixSuffixEditText?,
         countryCode: String?,
         errorMessage: String?,
-        autoDismiss: Boolean, errorEnabled: Boolean
+        autoDismiss: Boolean, errorEnabled: Boolean, isOptional: Boolean = false
     ) {
         if (autoDismiss) {
             EditTextHandler.disableErrorOnChanged(view)
@@ -33,7 +33,7 @@ object MobileNoBinding {
         ViewTagHelper.appendValue(
             R.id.validator_rule,
             view,
-            MobileNoRule(view, countryCode?.replace("+", ""), handledErrorMessage, errorEnabled)
+            MobileNoRule(view, countryCode?.replace("+", ""), handledErrorMessage, errorEnabled,isOptional)
         )
     }
 
@@ -57,7 +57,7 @@ object MobileNoBinding {
         )
         ViewTagHelper.appendValue(
             R.id.validator_rule, view,
-            ConfirmMobileNoRule(view, comparableView, handledErrorMessage,false)
+            ConfirmMobileNoRule(view, comparableView, handledErrorMessage, false)
         )
     }
 }

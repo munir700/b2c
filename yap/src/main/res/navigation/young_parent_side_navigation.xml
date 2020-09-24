@@ -20,8 +20,8 @@
         android:label="YoungBenefitsFragment"
         tools:layout="@layout/fragment_young_benefits">
         <action
-            android:id="@+id/action_youngBenefitsFragment_to_youngChildKycHomeFragment"
-            app:destination="@id/youngChildKycHomeFragment" />
+            android:id="@+id/action_youngBenefitsFragment_to_youngConfirmRelationshipFragment"
+            app:destination="@id/youngConfirmRelationshipFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngConfirmRelationshipFragment"
@@ -38,8 +38,8 @@
         android:label="YoungContactDetailsFragment"
         tools:layout="@layout/fragment_young_contact_details">
         <action
-            android:id="@+id/action_youngContactDetailsFragment_to_youngPaymentSelectionFragment"
-            app:destination="@id/youngPaymentSelectionFragment" />
+            android:id="@+id/action_youngContactDetailsFragment_to_youngChildKycHomeFragment"
+            app:destination="@id/youngChildKycHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngPaymentSelectionFragment"
@@ -74,8 +74,8 @@
         android:label="YoungCardEditDetailsFragment"
         tools:layout="@layout/fragment_young_card_edit_details">
         <action
-            android:id="@+id/action_youngCardEditDetailsFragment_to_youngCardSuccessFragment2"
-            app:destination="@id/youngCardSuccessFragment2" />
+            android:id="@+id/action_youngCardEditDetailsFragment_to_youngCreatePinCodeFragment"
+            app:destination="@id/youngCreatePinCodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngChildKycHomeFragment"
@@ -83,8 +83,8 @@
         android:label="YoungChildKycHomeFragment"
         tools:layout="@layout/fragment_young_child_kyc_home">
         <action
-            android:id="@+id/action_youngChildKycHomeFragment_to_youngConfirmRelationshipFragment"
-            app:destination="@id/youngConfirmRelationshipFragment" />
+            android:id="@+id/action_youngChildKycHomeFragment_to_youngPaymentSelectionFragment"
+            app:destination="@id/youngPaymentSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/youngSendMoneyFragment"
@@ -99,5 +99,22 @@
         android:id="@+id/youngSendMoneySuccessFragment"
         android:name="co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment"
         android:label="YoungSendMoneySuccessFragment"
-        tools:layout="@layout/fragment_young_send_money_success" />
+        tools:layout="@layout/fragment_young_send_money_success" >
+        <action
+            android:id="@+id/action_youngSendMoneySuccessFragment_to_youngSubAccountsFragment"
+            app:destination="@id/youngSubAccountsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngCreatePinCodeFragment"
+        android:name="co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment"
+        android:label="YoungCreatePinCodeFragment"
+        tools:layout="@layout/fragment_young_create_pincode" >
+        <action
+            android:id="@+id/action_youngCreatePinCodeFragment_to_youngCardSuccessFragment2"
+            app:destination="@id/youngCardSuccessFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/youngSubAccountsFragment"
+        android:name="co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment"
+        android:label="YoungSubAccountsFragment" />
 </navigation>

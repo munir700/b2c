@@ -71,8 +71,6 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
             preventTakeScreenShot(true)
         }
     }
-
-
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
@@ -81,5 +79,4 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
     fun getBindings(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
     }
-
 }

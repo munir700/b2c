@@ -7,12 +7,11 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungCardEditDetailsBinding
-import co.yap.modules.onboarding.activities.CreatePasscodeActivity
+import co.yap.translation.Strings
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_young_card_edit_details.*
@@ -24,18 +23,17 @@ class YoungCardEditDetailsFragment :
     @Inject
     lateinit var adapter: YoungCardEditAdapter
     private var tabViews = ArrayList<CircleView>()
+    override fun getToolBarTitle() = getString(
+        Strings.screen_young_card_toolbar_text,
+        viewModel.state.childName.value ?: ""
+    )
+
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_card_edit_details
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                launchActivityForResult<CreatePasscodeActivity>(init = {
-                    putExtra("isSettingPin", false)
-
-                }, completionHandler = { resultCode, data ->
-
-                })
-
+                navigate(YoungCardEditDetailsFragmentDirections.actionYoungCardEditDetailsFragmentToYoungCreatePinCodeFragment())
             }
         }
     }
@@ -63,13 +61,13 @@ class YoungCardEditDetailsFragment :
                 TabLayoutMediator(tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                         val view =
-                            layoutInflater.inflate(R.layout.item_card_edit, null) as CircleView
+                            layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
                         view.layoutParams = ViewGroup.LayoutParams(
                             dimen(R.dimen._24sdp),
                             dimen(R.dimen._24sdp)
                         )
                         try {
-                         view.circleColor = Color.parseColor(it[position].designColorCode)
+                            view.circleColor = Color.parseColor(it[position].designColorCode)
                             //tab.tag = it[position]
                         } catch (e: Exception) {
                         }

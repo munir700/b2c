@@ -19,7 +19,7 @@ class YoungContactDetailsFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungPaymentSelectionFragment())
+                navigate(YoungContactDetailsFragmentDirections.actionYoungContactDetailsFragmentToYoungChildKycHomeFragment())
             }
         }
     }

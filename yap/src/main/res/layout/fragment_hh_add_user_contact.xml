@@ -78,7 +78,7 @@
                 style="@style/Yap.App.Widget.TextInputLayout"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:drawablePadding="11dp"
-                android:hint="@string/screen_yap_house_hold_user_info_contact_display_text_mobile">
+                android:hint="@string/screen_yap_house_hold_success_display_text_share_mobile_no">
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"

@@ -23,7 +23,6 @@ class YoungBenefitsFragment :
     override fun getToolBarTitle() =
         getString(Strings.screen_yap_young_onboarding_landing_button_text)
 
-
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         if (activity is ManageToolBarListener) {
             (activity as ManageToolBarListener).setupToolbar(activity?.findViewById(R.id.toolBar))
@@ -41,7 +40,7 @@ class YoungBenefitsFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.cbSelectPlan -> {
-                navigate(YoungBenefitsFragmentDirections.actionYoungBenefitsFragmentToYoungChildKycHomeFragment())
+                navigate(YoungBenefitsFragmentDirections.actionYoungBenefitsFragmentToYoungConfirmRelationshipFragment())
             }
         }
     }

@@ -44,7 +44,8 @@
                 style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_normal_large"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_tour_label,viewModel.state.childName)}" />
+                tools:text="@string/screen_young_card_color_selection_display_text"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_card_color_selection_display_text,viewModel.state.childName)}" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -72,6 +73,7 @@
                     style="@style/Yap.App.Widget.TextInputEditText.Email"
                     android:hint="@{Translator.INSTANCE.getString(context,Strings.screen_young_card_color_selection_edit_text_hint,viewModel.state.childName)}"
                     android:imeOptions="actionDone"
+                    app:validateType='@{"firstname"}'
                     android:paddingTop="@dimen/margin_normal"
                     android:paddingBottom="@dimen/margin_normal"
                     android:singleLine="true" />
@@ -87,6 +89,7 @@
                 android:layout_marginTop="@dimen/margin_xxl"
                 android:layout_marginEnd="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                app:enableCoreButton="@{viewModel.validator.isValidate}"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@{Translator.INSTANCE.getString(context,Strings.screen_phone_number_button_send,viewModel.state.childName)}"
                 app:layout_constraintBottom_toBottomOf="parent" />
