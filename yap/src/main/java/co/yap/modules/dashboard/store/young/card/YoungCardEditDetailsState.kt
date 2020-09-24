@@ -10,5 +10,4 @@ class YoungCardEditDetailsState : BaseState(), IYoungCardEditDetails.State {
     override var cardDesigns: MutableLiveData<MutableList<HouseHoldCardsDesign>>? = MutableLiveData()
     override var cardName: MutableLiveData<String> = MutableLiveData()
     override var childName: MutableLiveData<String> = MutableLiveData("Lina")
-    override var address: MutableLiveData<Address>? = MutableLiveData()
 }

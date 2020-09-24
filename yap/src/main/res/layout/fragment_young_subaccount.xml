@@ -14,28 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ViewStub
             android:id="@+id/viewStub"
             android:layout_width="match_parent"
-            android:layout="@layout/layout_young_subacount_tour_card"
             android:layout_height="wrap_content"
-            />
+            android:layout="@layout/layout_young_subacount_tour_card" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            android:layout_gravity="center_horizontal"
             style="@style/Yap.App.Widget.RoundedTabLayout"
-            app:setupWithViewPager="@{pager}"
-            app:tabPaddingStart="@dimen/_10sdp"
-            app:tabPaddingEnd="@dimen/_10sdp"
-           />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            app:setupWithViewPager="@{pager}" />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_extra_large"
             app:adapter="@{viewModel.adapter}" />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -17,7 +17,6 @@ interface IYoungCardEditDetails {
     }
 
     interface State : IBase.State {
-        var address: MutableLiveData<Address>?
         var designCode: MutableLiveData<String>?
         var cardDesigns: MutableLiveData<MutableList<HouseHoldCardsDesign>>?
         var cardName: MutableLiveData<String>

@@ -76,10 +76,7 @@
             app:forceKeyboard="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEnterAmount"
-            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
-
-            <requestFocus />
-        </co.yap.widgets.EasyMoneyEditText>
+            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvAvailableBalance"

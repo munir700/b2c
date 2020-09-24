@@ -8,12 +8,14 @@ import co.yap.networking.customers.responsedtos.HouseHoldCardsDesign
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.helpers.validation.IValidator
+import co.yap.yapcore.helpers.validation.Validator
 import javax.inject.Inject
 import kotlin.random.Random
 
 class YoungCardEditDetailsVM @Inject constructor(
-    override val state: IYoungCardEditDetails.State
-) : DaggerBaseViewModel<IYoungCardEditDetails.State>(), IYoungCardEditDetails.ViewModel {
+    override val state: IYoungCardEditDetails.State, override var validator: Validator?
+) : DaggerBaseViewModel<IYoungCardEditDetails.State>(), IYoungCardEditDetails.ViewModel,IValidator {
     override val adapter: ObservableField<YoungCardEditAdapter>? = ObservableField()
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         getCardsDesignListRequest(

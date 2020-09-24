@@ -133,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_success_confirm_btn_text,viewModel.state.childName)}"
                 app:enableCoreButton="@{true}"
                 app:layout_constraintTop_toBottomOf="@+id/llPointContainer" />

@@ -7,13 +7,11 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYoungCardEditDetailsBinding
-import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CircleView
 import co.yap.widgets.viewpager.SimplePageOffsetTransformer
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_young_card_edit_details.*
@@ -35,11 +33,7 @@ class YoungCardEditDetailsFragment :
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                launchActivityForResult<CreatePasscodeActivity>(init = {
-                    putExtra("isSettingPin", false)
-
-                }, completionHandler = { resultCode, data ->
-                })
+                navigate(YoungCardEditDetailsFragmentDirections.actionYoungCardEditDetailsFragmentToYoungCreatePinCodeFragment())
             }
         }
     }
