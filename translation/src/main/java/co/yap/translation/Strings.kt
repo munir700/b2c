@@ -882,6 +882,8 @@ object Strings {
         "screen_transaction_filter_display_text_incoming_transactions"
     const val screen_transaction_filter_display_text_outgoing_transactions: String =
         "screen_transaction_filter_display_text_outgoing_transactions"
+    const val screen_transaction_filter_display_text_pending_transactions:String =
+        "screen_transaction_filter_display_text_pending_transactions"
     const val screen_transaction_filter_display_text_balance: String =
         "screen_transaction_filter_display_text_balance"
     const val screen_transaction_filter_display_text_categories: String =

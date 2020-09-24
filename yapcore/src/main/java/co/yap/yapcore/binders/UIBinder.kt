@@ -903,18 +903,10 @@ object UIBinder {
     @BindingAdapter("selectedListener")
     @JvmStatic
     fun getChipSelection(chipGroup: ChipGroup, listener: OnItemClickListener?) {
-       /* val inActiveTheme = ChipDrawable.createFromAttributes(chipGroup.context, null, 0, R.style.ChipsThemeInActive)
-        val activeTheme = ChipDrawable.createFromAttributes(chipGroup.context, null, 0, R.style.ChipsThemeActive)
-     */   for (index in 0 until chipGroup.childCount) {
+          for (index in 0 until chipGroup.childCount) {
             val chip: Chip = chipGroup.getChildAt(index) as Chip
             chip.setOnCheckedChangeListener { view, isChecked ->
-               /* when(isChecked){
-                    true-> chip.setChipDrawable(activeTheme)
-                    false->chip.setChipDrawable(inActiveTheme)
-                }*/
                 listener?.onItemClick(view, isChecked, index)
-
-
             }
         }
     }
