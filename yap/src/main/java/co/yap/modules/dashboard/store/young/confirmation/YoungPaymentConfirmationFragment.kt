@@ -15,6 +15,7 @@ class YoungPaymentConfirmationFragment :
     override fun getToolBarTitle() =
         getString(Strings.screen_household_payment_confirmation_tool_bar_text)
 
+    override fun setDisplayHomeAsUpEnabled()=false
     override fun toolBarVisibility() = true
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {

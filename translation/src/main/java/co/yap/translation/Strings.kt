@@ -1929,6 +1929,8 @@ object Strings {
         "screen_young_card_color_selection_edit_text_hint"
     const val screen_young_card_color_selection_edit_text_label: String =
         "screen_young_card_color_selection_edit_text_label"
+    const val screen_young_card_toolbar_text: String =
+        "screen_young_card_toolbar_text"
 
     // Young Confirm Relationship
     const val screen_young_confirm_relationship_switch_text: String =

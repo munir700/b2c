@@ -44,7 +44,8 @@
                 style="@style/Yap.App.Widget.TextView.Normal.GrayDark"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_normal_large"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_send_money_tour_label,viewModel.state.childName)}" />
+                tools:text="@string/screen_young_card_color_selection_display_text"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_young_card_color_selection_display_text,viewModel.state.childName)}" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"

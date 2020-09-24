@@ -9,6 +9,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import javax.inject.Inject
+import kotlin.random.Random
 
 class YoungCardEditDetailsVM @Inject constructor(
     override val state: IYoungCardEditDetails.State
@@ -19,6 +20,7 @@ class YoungCardEditDetailsVM @Inject constructor(
             mUserLiveData.value?.accountType ?: AccountType.B2C_HOUSEHOLD.name
         ) {
             it?.let {
+
                 state.cardDesigns?.postValue(it)
             }
         }
@@ -31,24 +33,45 @@ class YoungCardEditDetailsVM @Inject constructor(
         accountType: String,
         apiResponse: ((MutableList<HouseHoldCardsDesign>?) -> Unit?)?
     ) {
-        launch {
-            state.loading = true
-            when (val response =
-                getHouseHoldCardsDesign(accountType = accountType)) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) return@launch
-                    response.data.data?.let {
-                        apiResponse?.invoke(it)
-                        adapter?.get()?.setData(it)
-                    }
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    apiResponse?.invoke(null)
-                    state.toast = response.error.message
-                }
-            }
-            state.loading = false
+
+        val cards: MutableList<HouseHoldCardsDesign> = mutableListOf()
+        for (x in 0 until 5) {
+            cards.add(
+                HouseHoldCardsDesign(
+                    "2019-09-19",
+                    "https://s3-eu-west-1.amazonaws.com/dev-a-yap-documents-public/1568890204540_Error_Message.png",
+                    "3567b3e6-0836-4316-84ee-0f02fa1177ca",
+                    "qq",
+                    "qq",
+                    "",
+                    "ACTIVE",
+                    String.format("#%06x", Random.nextInt(0xffffff + 1)),
+                    "cd",
+                    "aq",
+                    true
+                )
+            )
         }
+        apiResponse?.invoke(cards)
+        adapter?.get()?.setData(cards)
+//        launch {
+//            state.loading = true
+//            when (val response =
+//                getHouseHoldCardsDesign(accountType = accountType)) {
+//                is RetroApiResponse.Success -> {
+//                    if (response.data.data.isNullOrEmpty()) return@launch
+//                    response.data.data?.let {
+//                        apiResponse?.invoke(it)
+//                        adapter?.get()?.setData(it)
+//                    }
+//                }
+//                is RetroApiResponse.Error -> {
+//                    state.loading = false
+//                    apiResponse?.invoke(null)
+//                    state.toast = response.error.message
+//                }
+//            }
+//            state.loading = false
+//        }
     }
 }

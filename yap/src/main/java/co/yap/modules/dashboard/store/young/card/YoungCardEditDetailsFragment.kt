@@ -24,6 +24,9 @@ class YoungCardEditDetailsFragment :
     @Inject
     lateinit var adapter: YoungCardEditAdapter
     private var tabViews = ArrayList<CircleView>()
+    override fun getToolBarTitle() =
+        getString(Strings.screen_young_card_toolbar_text, viewModel.state.childName)
+
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_card_edit_details
     override fun onClick(id: Int) {
@@ -61,13 +64,13 @@ class YoungCardEditDetailsFragment :
                 TabLayoutMediator(tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                         val view =
-                            layoutInflater.inflate(R.layout.item_card_edit, null) as CircleView
+                            layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
                         view.layoutParams = ViewGroup.LayoutParams(
                             dimen(R.dimen._24sdp),
                             dimen(R.dimen._24sdp)
                         )
                         try {
-                         view.circleColor = Color.parseColor(it[position].designColorCode)
+                            view.circleColor = Color.parseColor(it[position].designColorCode)
                             //tab.tag = it[position]
                         } catch (e: Exception) {
                         }

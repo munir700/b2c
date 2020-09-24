@@ -10,15 +10,18 @@ interface IYoungCardEditDetails {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val adapter: ObservableField<YoungCardEditAdapter>?
-        fun getCardsDesignListRequest(accountType: String,apiResponse: ((MutableList<HouseHoldCardsDesign>?) -> Unit?)?)
+        fun getCardsDesignListRequest(
+            accountType: String,
+            apiResponse: ((MutableList<HouseHoldCardsDesign>?) -> Unit?)?
+        )
     }
-    interface State : IBase.State {
 
-        var address:MutableLiveData<Address>?
-        var designCode:MutableLiveData<String>?
-        var cardDesigns:MutableLiveData<MutableList<HouseHoldCardsDesign>>?
+    interface State : IBase.State {
+        var address: MutableLiveData<Address>?
+        var designCode: MutableLiveData<String>?
+        var cardDesigns: MutableLiveData<MutableList<HouseHoldCardsDesign>>?
         var cardName: MutableLiveData<String>
-        var childName :  MutableLiveData<String>
+        var childName: MutableLiveData<String>
     }
 }
 

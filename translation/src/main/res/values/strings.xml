@@ -897,7 +897,7 @@
     <string name="screen_yap_house_hold_user_info_mobile_no_exit_error_msg">The mobile number %1s is linked to an existing user’s Household card. Check the number and try again.</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_heading">Tell us how to contact\n%1s</string>
     <string name="screen_yap_house_hold_user_info_contact_back_to_house_hold_text">Back to Household</string>
-    <string name="screen_yap_house_hold_user_info_contact_display_text_mobile">Mobile number</string>
+    <string name="screen_yap_house_hold_user_info_contact_display_text_mobile">Mobile number (optional)</string>
     <string name="screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">Confirm mobile number</string>
     <string name="screen_yap_house_hold_user_info_contact_button_next">Add</string>
     <!-- YAP Household success screen -->
@@ -1207,11 +1207,12 @@
     <string name="screen_yap_young_label_text">YAP Young</string>
     <string name="screen_yap_young_btn_text">Select card</string>
     <!--    Young contact details screen-->
-    <string name="screen_young_contact_details_description_text">Apart from welcoming %1s, we’ll also store this as your child’s primary email to send important updates and reminders. You are copied on every email we send </string>
-    <string name="screen_young_contact_details_title_text">Tell us how to contact %1s</string>
-    <string name="screen_young_contact_details_toolbar_text">%1s\'s contact details</string>
+    <string name="screen_young_contact_details_description_text">We’ll store this as your child\'s primary email to send important updates and reminders. You are copied on every email we send </string>
+    <string name="screen_young_contact_details_title_text">Tell us how to contact your child</string>
+    <string name="screen_young_contact_details_toolbar_text">child\'s contact details</string>
     <!-- Young Card Edit Details -->
     <string name="screen_young_card_color_selection_display_text">Help %1s pick a card</string>
+    <string name="screen_young_card_toolbar_text">Personalize %1s\'s card</string>
     <string name="screen_young_card_color_selection_edit_text_label">Name on %1s\'s card</string>
     <string name="screen_young_card_color_selection_edit_text_hint">Card\'s name</string>
     <!-- Young confirm relationship screen -->

@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers.validation.rule
 
+import android.text.TextUtils
 import android.view.View
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.yapcore.R
@@ -13,7 +14,7 @@ class MobileNoRule(
     view: PrefixSuffixEditText?,
     value: String?,
     errorMessage: String?,
-    errorEnabled: Boolean
+    errorEnabled: Boolean,val isOptional: Boolean = false
 ) : Rule<PrefixSuffixEditText?, String?>(
     view,
     value,
@@ -21,7 +22,19 @@ class MobileNoRule(
     errorEnabled
 ) {
     override fun isValid(view: PrefixSuffixEditText?): Boolean {
-        return view?.visibility == View.GONE || isValidPhoneNumber(
+        if(isOptional && !view?.text.isNullOrBlank())
+        {
+            return isValidPhoneNumber(
+                view?.text.toString(),
+                getCountryCodeForRegion(value?.parseToInt()!!)
+            )
+        }
+        if(isOptional )
+        {
+            return true
+        }
+
+        return view?.visibility == View.GONE || isOptional || isValidPhoneNumber(
             view?.text.toString(),
             getCountryCodeForRegion(value?.parseToInt()!!)
         )
