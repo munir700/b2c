@@ -8,7 +8,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.MyUserManager
 
@@ -22,7 +21,7 @@ class TopUpCardSuccessViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.toolBarTitle = getString(Strings.screen_topup_success_display_text_title)
+        state.toolbarTitle = getString(Strings.screen_topup_success_display_text_title)
         state.buttonTitle =
             getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
         state.topUpSuccess =

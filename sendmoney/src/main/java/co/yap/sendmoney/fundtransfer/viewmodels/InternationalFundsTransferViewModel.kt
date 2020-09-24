@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.MyUserManager
-import java.math.RoundingMode
 import java.util.*
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -50,7 +49,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
+        parentViewModel?.state?.toolbarTitle = getString(Strings.screen_funds_toolbar_header)
         state.availableBalanceString =
             context.resources.getText(
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
@@ -219,7 +218,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        if (state.etInputAmount.toString().isEmpty()) "0.0" else state.etInputAmount.toString(),
+                                        if (state.etInputAmount.toString()
+                                                .isEmpty()
+                                        ) "0.0" else state.etInputAmount.toString(),
                                         parentViewModel?.selectedPop?.cbwsi ?: false
                                     )) {
                                     is RetroApiResponse.Success -> {

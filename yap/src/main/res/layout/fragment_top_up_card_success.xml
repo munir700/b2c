@@ -12,27 +12,27 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:animateLayoutChanges="true"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
         android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/tvToolBarHeader"
-            style="@style/Regular"
-            android:layout_width="wrap_content"
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal_large"
-            android:text="@{viewModel.state.toolBarTitle}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Top up successful" />
+            app:leftIconVisibility="@{false}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
+
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_70sdp"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_small"
             app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
             app:cardNickname="@{viewModel.state.cardInfo.alias}"
@@ -41,7 +41,7 @@
             app:card_size_type="small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvToolBarHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
         <TextView
@@ -87,8 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
-            android:text="@{viewModel.state.topUpSuccess}"
             android:lineSpacingExtra="@dimen/_1sdp"
+            android:text="@{viewModel.state.topUpSuccess}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCardNumberSuccess"
@@ -132,8 +132,8 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_marginTop="@dimen/margin_extra_large"
             android:contentDescription="@string/empty_string"
-            android:visibility="gone"
             android:src="@drawable/ic_checkmark"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvNewSpareCardBalance" />

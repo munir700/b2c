@@ -28,13 +28,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
     override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
 
     @get:Bindable
-    override var toolBarHeader: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.toolBarHeader)
-        }
-
-    @get:Bindable
     override var cardName: String = ""
         set(value) {
             field = value
