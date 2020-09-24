@@ -151,8 +151,6 @@ class CoreDialerPad @JvmOverloads constructor(
         etPassCodeText = view.findViewById(R.id.etPassCodeText)
         buttonRemove = view.findViewById(R.id.buttonRemove)
         // editText = etPassCodeText
-
-
         attrs?.let { it ->
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
             dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)

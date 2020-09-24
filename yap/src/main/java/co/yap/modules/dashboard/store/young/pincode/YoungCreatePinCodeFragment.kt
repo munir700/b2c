@@ -15,7 +15,9 @@ class YoungCreatePinCodeFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         youngDialer.hideFingerprintView()
+        youngDialer.showDialerPassCodeView = false
         youngDialer.upDatedDialerPad(viewModel.state.passCode.value.toString())
+        youngDialer.setInPutEditText(etPinCode)
     }
     override fun onClick(id: Int) {
     }
