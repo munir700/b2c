@@ -46,15 +46,16 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (MyUserManager.user?.notificationStatuses) {
-            AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
-                skipLocationSelectionFragment()
+        if (viewModel.parentViewModel?.isOnBoarding == true) {
+            when (MyUserManager.user?.notificationStatuses) {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                    skipLocationSelectionFragment()
+                }
+                else -> setObservers()
             }
-            else -> {
-                setObservers()
-            }
+        } else {
+            setObservers()
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -197,7 +198,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 startFragment(
                     fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                         Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                    ), showToolBar = true
+                    ), showToolBar = false
                 )
             }
             R.id.etAddressField -> {

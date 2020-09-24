@@ -62,13 +62,14 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnAction"
                 style="@style/RectangleBtnStyle"
-                android:layout_width="@dimen/_190sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_172sdp"
+                android:layout_height="@dimen/_48sdp"
                 android:layout_marginBottom="@dimen/margin_normal_large"
                 android:gravity="center"
                 android:onClick="@{(v)-> viewModel.handlePressOnNextButton(v.id)}"
                 android:text="@{viewModel.state.buttonTitle}"
                 android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_h4"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toTopOf="@+id/tvForgotPasscode"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -88,8 +89,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
-                tools:text="@string/screen_verify_passcode_text_forgot_password" />
+                app:text="@{Strings.screen_verify_passcode_text_forgot_password_pin}"
+                tools:text="@string/screen_verify_passcode_text_forgot_password_pin" />
 
         </LinearLayout>
     </ScrollView>

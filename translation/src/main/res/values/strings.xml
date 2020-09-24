@@ -125,6 +125,7 @@
     <string name="screen_verify_passcode_button_sign_in">Sign in</string>
     <string name="screen_verify_passcode_button_verify">Verify</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot passcode?</string>
+    <string name="screen_verify_passcode_text_forgot_password_pin">Forgot Pin</string>
 
     <!-- Otp screen -->
     <string name="screen_verify_phone_number_display_text_resend_otp_success">New OTP has been generated successfully</string>
@@ -158,7 +159,7 @@
     <string name="screen_meeting_location_button_change_location">Tap here to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
-    <string name="screen_meeting_location_input_text_landmark_title">Flat number/ Building name/ Landmark</string>
+    <string name="screen_meeting_location_input_text_landmark_title">Landmark</string>
     <string name="screen_meeting_location_input_text_landmark_hint">Enter landmark</string>
     <string name="screen_meeting_location_button_confirm_selected_location">Confirm location</string>
     <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
@@ -399,7 +400,8 @@
     <string name="screen_card_blocked_button_order_later">Order later</string>
 
     <!--    Enter current pin screen-->
-    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN</string>
+    <string name="screen_current_card_pin_display_text_heading">Enter your current PIN</string>
+    <string name="screen_current_card_pin_display_text_heading_pin">Enter your 4-digit PIN code</string>
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
@@ -492,9 +494,10 @@
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
     <!--    Change Phone Number Screen-->
-    <string name="screen_change_phone_number_display_text_heading">Change mobile number</string>
-    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new number</string>
+    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
     <string name="screen_change_phone_number_display_text_text_description">We\'ve sent a code to\n %1$s</string>
+    <string name="screen_change_phone_number_display_text_country_code">+971</string>
 
     <!--    Current passcode screen-->
     <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
@@ -518,15 +521,15 @@
 
     <!--    Email Verified Popup Screen-->
     <!-- <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>-->
-    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, what are you waiting for?</string>
+    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified this email yet:</string>
     <!--    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into your email and click the verification link to get access to your YAP Account.</string>-->
-    <string name="screen_email_verified_popup_display_text_sub_title">Looks like you haven\'t verified %1$s yet. Do it now to unlock the full YAP experience!</string>
+    <string name="screen_email_verified_popup_display_text_sub_title">Having trouble finding your email? Don’t worry, you can request for a new one! \n\n Verifying your email helps us stay in touch and send you important updates.</string>
     <!--    <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>-->
-    <string name="screen_email_verified_popup_display_text_click_here">If you\'re having trouble with this email, click here to </string>
+    <string name="screen_email_verified_popup_display_text_click_here">if you\'d like to change your email address</string>
     <!--    <string name="screen_email_verified_popup_button_title_click_here">click here.</string>-->
-    <string name="screen_email_verified_popup_button_title_click_here">change your email address.</string>
-    <string name="screen_email_verified_popup_button_Take_me">Take me to my mail</string>
-    <string name="screen_email_verified_popup_button_do_it">I\'ll do it later</string>
+    <string name="screen_email_verified_popup_button_title_click_here">Click here</string>
+    <string name="screen_email_verified_popup_button_Take_me">Open Mail App</string>
+    <string name="screen_email_verified_popup_button_do_it">Send me a new email</string>
 
     <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
@@ -560,7 +563,7 @@
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">Tell your friends about YAP so you can send and receive money instantly!</string>
     <string name="screen_y2y_display_text_no_result">No results</string>
-<!--    <string name="common_display_text_y2y_share">Hey! %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>-->
+    <!--    <string name="common_display_text_y2y_share">Hey! %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>-->
     <string name="common_display_text_y2y_share">Hey! \n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%3$s</string>
     <string name="common_display_text_y2y_general_share">Hey! \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload YAP here:\n\n%2$s</string>
 
@@ -665,9 +668,9 @@
     <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">Yes, send now</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_no">I’ll do it later</string>
 
-    <string name="screen_unverified_success_display_text_heading">Success!</string>
-    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
-    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
+    <string name="screen_unverified_success_display_text_heading">Awesome!</string>
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been updated to\n</string>
+    <string name="screen_unverified_success_display_text_description">You know the drill – verify your email so we can keep you up to date there</string>
     <string name="screen_unverified_display_button_mail">Open Mail App</string>
     <string name="screen_unverified_display_button_later">Maybe later</string>
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
@@ -1033,6 +1036,16 @@
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+
+    <!-- Change Card Pin screen-->
+
+    <string name="screen_change_card_pin_text_heading">Change PIN</string>
+    <string name="screen_change_card_pin_button_text">Create new PIN</string>
+    <string name="screen_change_card_pin_previous_pin_text_heading">Enter your current PIN code</string>
+    <string name="screen_change_card_pin_new_pin_text_heading">Enter your new PIN code</string>
+    <string name="screen_change_card_pin_confirm_new_pin_text_heading">Enter it one more time</string>
+    <string name="screen_change_card_pin_codes_unmatch_error">That doesn\'t match the previously entered PIN</string>
+    <string name="screen_change_card_pin_old_pin_error_message">That doesn\'t look right.Please try again</string>
 
 </resources>
 

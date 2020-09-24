@@ -14,6 +14,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.sendmoney.R" />
+
         <variable
             name="editBeneficiaryViewModel"
             type="co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel" />
@@ -25,45 +27,18 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:padding="@dimen/_8sdp">
-
-            <ImageView
-                android:id="@+id/tbBtnBack"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back_arrow_left"
-                tools:ignore="ContentDescription" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitle"
-                style="@style/Regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:layout_toEndOf="@id/tbBtnBack"
-                android:gravity="center"
-                android:text="@{editBeneficiaryViewModel.state.needOverView ? @string/screen_add_beneficiary_display_text_title:@string/screen_edit_beneficiary_display_text_title}"
-                app:text="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title:Strings.screen_edit_beneficiary_display_text_title}"
-                tools:text="@string/screen_edit_beneficiary_display_text_title" />
-
-        </RelativeLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{editBeneficiaryViewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -382,6 +357,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -552,11 +528,11 @@
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:digits="1234567890 "
                     android:imeOptions="actionDone"
-                    app:capitalise="@{true}"
                     android:inputType="phone"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.swiftCode}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    app:capitalise="@{true}"
                     app:editable="@{false}" />
                 <!---->
                 <TextView

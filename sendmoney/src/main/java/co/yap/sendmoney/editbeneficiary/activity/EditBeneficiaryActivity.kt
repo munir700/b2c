@@ -111,11 +111,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                R.id.tbBtnBack -> {
-                    val intent = Intent()
-                    setResult(Activity.RESULT_CANCELED, intent)
-                    finish()
-                }
                 R.id.confirmButton -> {
                     if (viewModel.state.needOverView == true) {
                         viewModel.state.beneficiary?.let { beneficiary ->
@@ -181,7 +176,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     private val onBeneficiaryCreatedSuccessObserver = Observer<Boolean> {
         if (it) {
-            Utils.confirmationDialog(this,
+            Utils.confirmationDialog(
+                this,
                 Translator.getString(
                     this,
                     R.string.screen_add_beneficiary_detail_display_text_alert_title
@@ -206,7 +202,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             }
                         }
                     }
-                })
+                }, isCancelable = false
+            )
         }
     }
 
@@ -241,5 +238,15 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     private fun getBinding(): ActivityEditBeneficiaryBinding {
         return viewDataBinding as ActivityEditBeneficiaryBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                val intent = Intent()
+                setResult(Activity.RESULT_CANCELED, intent)
+                finish()
+            }
+        }
     }
 }

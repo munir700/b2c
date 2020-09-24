@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings"
-                android:gravity="bottom"
+                android:gravity="bottom|center"
                 android:visibility="@{viewModel.state.isTxnsEmpty()?View.VISIBLE:View.GONE}"
                 app:text="@{Strings.common_display_text_nothing_to_report}"
                 tools:text="@string/common_display_text_nothing_to_report" />

@@ -8,15 +8,12 @@ import co.yap.yapcore.SingleClickEvent
 interface ITransactionDetails {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnBackButton(id: Int)
-        fun handlePressOnShareButton(id: Int)
         fun handlePressOnEditNoteClickEvent(id: Int)
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
     }
 
     interface State : IBase.State {
-        var toolBarTitle: String?
         var txnNoteValue: ObservableField<String>
         var isTransferTxn: ObservableField<Boolean>
         var spentVisibility: ObservableField<Boolean>
