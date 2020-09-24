@@ -15,7 +15,6 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -94,13 +93,13 @@ object UIBinder {
     fun setPlacesAdapter(
         autoCompleteTextView: AutoCompleteTextView,
         placesAdapter: PlacesAutoCompleteAdapter,
-         listener: OnItemClickListener?
+        listener: OnItemClickListener?
     ) {
         autoCompleteTextView.setAdapter(placesAdapter)
         autoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val place: Place = parent.getItemAtPosition(position) as Place
-                       view?.let { listener?.onItemClick(view, place.id, position) }
+                view?.let { listener?.onItemClick(view, place.id, position) }
 
                 autoCompleteTextView.setText(place.mainText)
             }
@@ -900,16 +899,16 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter(requireAll = false, value = ["textColorChangePin","isAllEmpty"])
-    fun textColorChangePin(view: TextInputLayout, pin: String?,isStart :Boolean) {
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
         when {
-            isStart ->
-            {
+            isEmpty -> {
                 view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
 
             }
             pin?.isNotEmpty()!! -> {
-                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+                view.defaultHintTextColor =
+                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
             }
             else -> {
                 view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)

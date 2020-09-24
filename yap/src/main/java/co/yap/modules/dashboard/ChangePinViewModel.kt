@@ -52,6 +52,7 @@ class ChangePinViewModel(application: Application) : BaseViewModel<IChangePin.St
         state.pinFieldErrorIcon.set(context.getDrawable(co.yap.R.drawable.ic_error))
         state.errorMessageForPrevious.set(context.getString(R.string.screen_change_card_pin_old_pin_error_message))
     }
+
     private fun hideErrorOldPin() {
         state.pinFieldBackground.set(
             context.resources.getDrawable(
@@ -69,8 +70,7 @@ class ChangePinViewModel(application: Application) : BaseViewModel<IChangePin.St
 
     }
 
-    private fun initiateFieldsWithBackgrounds()
-    {
+    private fun initiateFieldsWithBackgrounds() {
         state.pinFieldBackground.set(
             context.resources.getDrawable(
                 R.drawable.bg_edit_text_under_line_card_change_pin,
