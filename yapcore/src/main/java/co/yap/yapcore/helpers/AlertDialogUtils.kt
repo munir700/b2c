@@ -193,12 +193,16 @@ fun Activity.showAlertDialogAndExitApp(
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
     ok.text = leftButtonText
     cancel.text = rightButtonText
+    cancel.setOnClickListener{
+        alertDialog?.dismiss()
+    }
     ok.setOnClickListener {
         alertDialog?.dismiss()
         if (closeActivity)
             finish()
         callback()
     }
+
     if(isTwoButton){
         cancel.visibility = View.VISIBLE
     }

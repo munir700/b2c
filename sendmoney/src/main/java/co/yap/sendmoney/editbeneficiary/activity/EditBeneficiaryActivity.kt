@@ -31,9 +31,11 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
+import java.io.File
 
 
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
@@ -112,9 +114,14 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
                 R.id.tbBtnBack -> {
-                    val intent = Intent()
-                    setResult(Activity.RESULT_CANCELED, intent)
-                    finish()
+                    showAlertDialogAndExitApp(
+                            message = "njnkoijoijihhy7jjhuuiuiihiiiiuiuhh",
+                            callback = {
+                                cancelit()
+                            },
+                        isTwoButton = true
+                    )
+
                 }
                 R.id.confirmButton -> {
                     if (viewModel.state.needOverView == true) {
@@ -146,6 +153,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.isBeneficiaryValid.observe(this, isBeneficiaryValidObserver)
         viewModel.onBeneficiaryCreatedSuccess.observe(this, onBeneficiaryCreatedSuccessObserver)
 
+    }
+
+    private fun cancelit() {
+        val intent = Intent()
+        setResult(Activity.RESULT_CANCELED, intent)
+        finish()
     }
 
     private val isBeneficiaryValidObserver = Observer<Boolean> { isValid ->

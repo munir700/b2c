@@ -51,7 +51,6 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
         val fragment = supportFragmentManager.findFragmentById(R.id.send_money_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-
         }
     }
 
