@@ -35,6 +35,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
+            style="@style/RegularGrey"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -47,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
             android:minHeight="@dimen/_115sdp"
-            android:visibility="gone"
             app:cardCornerRadius="10dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/btnAction"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -70,11 +71,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
+                <androidx.cardview.widget.CardView
+                    android:layout_width="@dimen/_84sdp"
+                    android:layout_height="@dimen/_84sdp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="@dimen/_4sdp">
                 <ImageView
                     android:id="@+id/ivLocationPhoto"
-                    android:layout_width="@dimen/_84sdp"
-                    android:layout_height="@dimen/_84sdp" />
+                    app:bitmap="@{viewModel.state.placeBitmap}"
+                    android:layout_width="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/location_place_holder"
+                    android:layout_height="match_parent" />
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -115,7 +124,7 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
-            style="@style/RectangleBtnStyle"
+            style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxl"
@@ -124,6 +133,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
             android:text="@{viewModel.state.buttonTitle}"
+            app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"

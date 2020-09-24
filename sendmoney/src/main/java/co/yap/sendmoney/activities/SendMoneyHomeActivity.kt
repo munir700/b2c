@@ -40,15 +40,12 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, backButtonObserver)
     }
 
     override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
 
-    private val backButtonObserver = Observer<Int> { onBackPressed() }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.send_money_nav_host_fragment)
@@ -79,6 +76,12 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
                     }
                 }
             }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
         }
     }
 }

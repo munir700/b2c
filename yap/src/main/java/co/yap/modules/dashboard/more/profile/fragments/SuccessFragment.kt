@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
@@ -18,16 +19,15 @@ import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.MyUserManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.fragment_success.*
+
 
 class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     ISuccess.View {
     val args: SuccessFragmentArgs by navArgs()
     var successType: String? = null
     var addressField: String = ""
+    var photoPlacedId: String = " "
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -59,6 +59,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     private fun loadData() {
         successType = args.successType
+        photoPlacedId = args.placesPhotoId
+
         val fcs =
             ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
 
@@ -92,11 +94,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             if (!MyUserManager.userAddress?.address1.isNullOrEmpty()) {
                 tvAddressSubTitle.setText(MyUserManager.userAddress?.address1)
             }
-            Glide.with(ivLocationPhoto.context)
-                .load("")
-                .placeholder(R.drawable.location_place_holder)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(ivLocationPhoto)
+            viewModel.placesApiCall(photoPlacedId)
         } else {
             tvSuccessSubHeading.text = primaryStr
         }
@@ -105,4 +103,6 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     override fun onBackPressed(): Boolean {
         return true
     }
+
+
 }
