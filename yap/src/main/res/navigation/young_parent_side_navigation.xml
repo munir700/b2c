@@ -99,11 +99,7 @@
         android:id="@+id/youngSendMoneySuccessFragment"
         android:name="co.yap.modules.dashboard.store.young.sendmoney.success.YoungSendMoneySuccessFragment"
         android:label="YoungSendMoneySuccessFragment"
-        tools:layout="@layout/fragment_young_send_money_success" >
-        <action
-            android:id="@+id/action_youngSendMoneySuccessFragment_to_youngSubAccountsFragment"
-            app:destination="@id/youngSubAccountsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_young_send_money_success" />
     <fragment
         android:id="@+id/youngCreatePinCodeFragment"
         android:name="co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment"
@@ -113,8 +109,4 @@
             android:id="@+id/action_youngCreatePinCodeFragment_to_youngCardSuccessFragment2"
             app:destination="@id/youngCardSuccessFragment2" />
     </fragment>
-    <fragment
-        android:id="@+id/youngSubAccountsFragment"
-        android:name="co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment"
-        android:label="YoungSubAccountsFragment" />
 </navigation>

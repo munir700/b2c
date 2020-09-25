@@ -29,7 +29,6 @@ class NavHostPresenterActivity :
     ) {
 
     }
-
     override fun onClick(id: Int) {
     }
 }

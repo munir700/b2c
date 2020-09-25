@@ -219,7 +219,7 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
 
     private void initPaintObjects() {
 
-        int labelTextSize = getResources().getDimensionPixelSize(R.dimen.label_text_size);
+        int labelTextSize = getResources().getDimensionPixelSize(R.dimen.text_size_h3);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -275,7 +275,7 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
         underlineTopSpacing = getResources().getDimensionPixelSize(R.dimen.margin_small);
         underlineBottomSpacing = getResources().getDimensionPixelSize(R.dimen.margin_extra_small);
         floatingLabelTopSpacing = getResources().getDimensionPixelSize(R.dimen.margin_extra_small);
-        floatingLabelBottomSpacing = getResources().getDimensionPixelSize(R.dimen.margin_extra_small);
+        floatingLabelBottomSpacing = getResources().getDimensionPixelSize(R.dimen.margin_small);
         rightLeftSpinnerPadding = alignLabels ? getResources().getDimensionPixelSize(R.dimen.margin_small) : 0;
         floatingLabelInsideSpacing = getResources().getDimensionPixelSize(R.dimen.margin_normal);
         errorLabelSpacing = (int) getResources().getDimension(R.dimen.margin_normal);
@@ -470,7 +470,8 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
                 canvas.drawText(textToDraw, startX + rightLeftSpinnerPadding, startYFloatingLabel, textPaint);
             }
         }
-
+        if (!floatingLabelVisible)
+            showFloatingLabel();
         drawSelector(canvas, getWidth() - 50, getPaddingTop() + dpToPx(8));
 
     }
@@ -899,7 +900,6 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
             mContext = context;
         }
 
-
         @Override
         public int getViewTypeCount() {
             //Workaround waiting for a Google correction (https://code.google.com/p/android/issues/detail?id=79011)
@@ -948,7 +948,6 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
             if (getItemViewType(position) == HINT_TYPE) {
                 View view = getHintView(convertView, parent, isDropDownView);
                 if (isDropDownView) {
-
                     LayoutParams params = view.getLayoutParams();
                     params.height = 0;
                     view.setLayoutParams(params);
@@ -977,8 +976,7 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
                 LayoutParams params = textView.getLayoutParams();
                 params.height = 0;
                 textView.setLayoutParams(params);
-            }
-            else{
+            } else {
                 textView.setText(hint);
                 textView.setTextColor(MaterialSpinner.this.isEnabled() ? hintColor : disabledColor);
                 textView.setTag(HINT_TYPE);

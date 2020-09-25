@@ -18,6 +18,9 @@ class YoungConfirmRelationshipFragment :
             R.id.btnNext -> {
                 navigate(YoungConfirmRelationshipFragmentDirections.actionYoungConfirmRelationshipFragmentToYoungContactDetailsFragment())
             }
+            R.id.edit_query->{
+
+            }
         }
     }
 }

@@ -819,13 +819,9 @@ object Utils {
     }
 
     fun setStatusBarColor(activity: Activity, color: Int) {
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance(activity)
-        //  if (sharedPreferenceManager.getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
         val window: Window = activity.getWindow()
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = color
-
-        // }
     }
 
     fun validateAggressively(context: Context, pinCode: String): String {
@@ -975,5 +971,16 @@ object Utils {
             }
             else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
         })
+    }
+
+    fun setLightStatusBar(activity: Activity, color: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var flags =
+                activity.window.decorView.systemUiVisibility // get current flag
+            flags =
+                flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // add LIGHT_STATUS_BAR to flag
+            activity.window.decorView.systemUiVisibility = flags
+            activity.window.statusBarColor = color
+        }
     }
 }
