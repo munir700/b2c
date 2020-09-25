@@ -6,7 +6,6 @@ import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
@@ -15,7 +14,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.helpers.extentions.parseToInt
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.coroutines.delay
 
@@ -41,7 +39,6 @@ class YapDashBoardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         updateVersion()
-        getAllCurrencies()
         getHelpPhoneNo()
         launch {
             delay(1500)
@@ -62,6 +59,7 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        getAllCurrencies()
         populateState()
     }
 
