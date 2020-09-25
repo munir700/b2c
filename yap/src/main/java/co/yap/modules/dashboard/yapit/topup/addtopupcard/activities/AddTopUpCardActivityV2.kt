@@ -226,14 +226,17 @@ class AddTopUpCardActivityV2 : BaseBindingActivity<IAddTopUpCard.ViewModel>(), I
 
 
     fun setObservers() {
-        tbBtnBack.setOnClickListener {
-            onBackPressed()
-        }
         viewModel.isCardAdded?.observe(this, Observer {
             if (it != null)
                 showAddCardDialog(it)
         })
 
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
+        }
     }
 
     private fun setData(card: TopUpCard?) {

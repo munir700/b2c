@@ -70,10 +70,10 @@ class CashTransferViewModel(application: Application) :
         parentViewModel?.state?.rightIcon?.set(true)
         parentViewModel?.beneficiary?.value?.let { beneficiary ->
             if (beneficiary.beneficiaryType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-                parentViewModel?.state?.toolBarTitle =
+                parentViewModel?.state?.toolbarTitle =
                     getString(Strings.screen_cash_pickup_funds_display_text_header)
             } else {
-                parentViewModel?.state?.toolBarTitle =
+                parentViewModel?.state?.toolbarTitle =
                     getString(Strings.screen_funds_local_toolbar_header)
             }
         }

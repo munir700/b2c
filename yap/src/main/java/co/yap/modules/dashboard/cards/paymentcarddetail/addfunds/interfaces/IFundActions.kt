@@ -51,7 +51,6 @@ interface IFundActions {
     }
 
     interface State : IBase.State {
-        var toolBarHeader: String
         var cardInfo: ObservableField<TopUpCard>
         var cardName: String
         var cardNumber: String

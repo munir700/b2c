@@ -28,10 +28,6 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
             R.id.btnShare -> {
                 shareInfo()
             }
-            R.id.tbIvClose -> {
-                activity?.finish()
-            }
-
         }
     }
 
@@ -49,12 +45,20 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
                 "IBAN: ${MyUserManager.user?.iban}\n" +
                 "Swift/BIC: ${MyUserManager.user?.bank?.swiftCode}\n" +
                 "Account: ${MyUserManager.user?.accountNo}\n" +
-                "Bank: ${MyUserManager.user?.bank?.name}\n"+
+                "Bank: ${MyUserManager.user?.bank?.name}\n" +
                 "Address: ${MyUserManager.user?.bank?.address}\n"
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
     }
 }
