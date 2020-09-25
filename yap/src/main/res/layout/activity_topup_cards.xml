@@ -9,6 +9,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesViewModel" />
@@ -21,12 +23,19 @@
         android:animateLayoutChanges="true"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_topup_cards_toolbar"
-            app:viewModel="@{viewModel}"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="3dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{viewModel.state.enableAddCard}"
+            app:titleString='@{"Add money using a card"}' />
 
         <TextView
             android:id="@+id/txtCardsCount"

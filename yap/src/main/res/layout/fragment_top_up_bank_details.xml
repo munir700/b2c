@@ -7,6 +7,10 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsViewModel" />
@@ -18,10 +22,19 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_top_up_bank_details_toolbar"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.state.toolBarVisibility ? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightTitleVisibility="@{true}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <ScrollView
             android:id="@+id/svDetails"
