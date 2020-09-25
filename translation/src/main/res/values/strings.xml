@@ -465,7 +465,7 @@
     <string name="screen_personal_details_display_text_emirates_id_details">Your card is verified and up to date</string>
     <string name="screen_personal_details_display_text_expired_emirates_id_details">Your ID has expired. Please ensure you update your card to continue accessing YAP</string>
     <string name="screen_personal_details_display_text_required_emirates_id_details">Your EID is required.\nTap to update to ensure account continuity</string>
-    <string name="screen_personal_details_display_text_emirates_id_details_update">Your EID is valid.\nTap to update a new EID</string>
+    <string name="screen_personal_details_display_text_emirates_id_details_update">Tap to update</string>
 
     <!-- logout dialogue -->
 
