@@ -183,6 +183,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
 
             R.id.ivClose -> {
+                removeAutoCompleteFocus()
                 setAddress() // set initial address
                 if (viewModel.state.isShowLocationCard.get() == true)
                     slideDownCardAnimation()
@@ -454,16 +455,16 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
 
     private fun removeAutoCompleteFocus() {
-        etAddressField.isFocusable = false;
-        etAddressField.isFocusableInTouchMode = false;
-        etAddressField.isFocusable = false;
-        etAddressField.isFocusableInTouchMode = false;
+        etAddressField.isFocusable = false
+        etAddressField.isFocusableInTouchMode = false
+        etAddressField.isFocusable = false
+        etAddressField.isFocusableInTouchMode = false
     }
 
     private fun addAutoCompleteFocus() {
-        etAddressField.isFocusable = true;
-        etAddressField.isFocusableInTouchMode = true;
-        etAddressField.isFocusable = true;
-        etAddressField.isFocusableInTouchMode = true;
+        etAddressField.isFocusable = true
+        etAddressField.isFocusableInTouchMode = true
+        etAddressField.isFocusable = true
+        etAddressField.isFocusableInTouchMode = true
     }
 }
