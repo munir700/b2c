@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large"
             style="@style/RegularGrey"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -47,9 +47,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
-            android:minHeight="@dimen/_115sdp"
+            android:minHeight="@dimen/_95sdp"
             app:cardCornerRadius="10dp"
-            android:visibility="gone"
+app:cardElevation="@dimen/_4sdp"
             app:layout_constraintBottom_toTopOf="@+id/btnAction"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -63,9 +63,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/margin_normal_large"
-                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_normal_large"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_small"
                 android:weightSum="100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,20 +74,23 @@
                     android:layout_width="@dimen/_84sdp"
                     android:layout_height="@dimen/_84sdp"
                     app:cardElevation="0dp"
-                    app:cardCornerRadius="@dimen/_4sdp">
-                <ImageView
-                    android:id="@+id/ivLocationPhoto"
-                    app:bitmap="@{viewModel.state.placeBitmap}"
-                    android:layout_width="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/location_place_holder"
-                    android:layout_height="match_parent" />
+                    app:cardCornerRadius="@dimen/_8sdp">
+                    <ImageView
+                        android:id="@+id/ivLocationPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/margin_normal_large"
+                        android:paddingBottom="@dimen/_15sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_location_placeholder"
+                        app:bitmap="@{viewModel.state.placeBitmap}" />
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_normal"
+                    android:paddingTop="@dimen/margin_normal_large"
                     android:layout_marginBottom="@dimen/margin_extra_small"
                     android:orientation="vertical">
 
@@ -125,20 +127,18 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_175sdp"
+            android:layout_height="@dimen/_47sdp"
             android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
             android:text="@{viewModel.state.buttonTitle}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.949"
             tools:text="@string/screen_change_pin_success_display_text_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
