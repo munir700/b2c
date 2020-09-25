@@ -54,6 +54,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -92,13 +93,13 @@ object UIBinder {
     fun setPlacesAdapter(
         autoCompleteTextView: AutoCompleteTextView,
         placesAdapter: PlacesAutoCompleteAdapter,
-         listener: OnItemClickListener?
+        listener: OnItemClickListener?
     ) {
         autoCompleteTextView.setAdapter(placesAdapter)
         autoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val place: Place = parent.getItemAtPosition(position) as Place
-                       view?.let { listener?.onItemClick(view, place.id, position) }
+                view?.let { listener?.onItemClick(view, place.id, position) }
 
                 autoCompleteTextView.setText(place.mainText)
             }
@@ -877,6 +878,7 @@ object UIBinder {
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
+
     @JvmStatic
     @BindingAdapter("spanColor")
     fun spanColor(view: AppCompatTextView, currency: String) {
@@ -894,6 +896,25 @@ object UIBinder {
         )
 
         view.setText(spannable)
+    }
+
+    @JvmStatic
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
+        when {
+            isEmpty -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+
+            }
+            pin?.isNotEmpty()!! -> {
+                view.defaultHintTextColor =
+                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
+        }
+
     }
 
 }

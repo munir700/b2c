@@ -13,6 +13,10 @@
             type="Boolean" />
 
         <variable
+            name="isEmpty"
+            type="Boolean" />
+
+        <variable
             name="title"
             type="String" />
 
@@ -53,9 +57,11 @@
             android:dividerPadding="@dimen/margin_medium_large"
             android:hint="@{title}"
             app:hintTextAppearance="@style/LabelTextStyl"
-            app:hintTextColor="@color/colorPrimaryDark"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorChangePin="@{pinCode}"
+            app:isAllEmpty="@{isEmpty}"
+            >
 
             <EditText
                 android:id="@+id/etNewConfirmPin"
