@@ -125,7 +125,7 @@ object UIBinder {
                 view.setImageResource(R.drawable.ic_status_expired)
                 view.visibility = VISIBLE
             } else {
-                view.setImageResource(R.drawable.ic_card_status)
+                //view.setImageResource(R.drawable.ic_card_status)
                 view.visibility = VISIBLE
             }
         }
