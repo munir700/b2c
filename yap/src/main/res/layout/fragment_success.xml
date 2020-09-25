@@ -41,59 +41,43 @@
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
             tools:text="Your email address has been changed to newemail@website.com" />
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cvLocationCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
-            android:minHeight="@dimen/_95sdp"
             app:cardCornerRadius="10dp"
             app:cardElevation="@dimen/_4sdp"
-            app:layout_constraintBottom_toTopOf="@+id/btnAction"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSuccessSubHeading"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/tvSuccessSubHeading">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_normal_large"
-                android:paddingEnd="@dimen/margin_normal_large"
-                android:paddingBottom="@dimen/margin_small"
-                android:weightSum="100"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingEnd="@dimen/margin_normal_large">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/_84sdp"
-                    android:layout_height="@dimen/_84sdp"
-                    app:cardCornerRadius="@dimen/_8sdp"
-                    app:cardElevation="0dp">
-
-                    <ImageView
-                        android:id="@+id/ivLocationPhoto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="@dimen/margin_normal_large"
-                        android:paddingBottom="@dimen/_15sdp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_location_placeholder"
-                        app:bitmap="@{viewModel.state.placeBitmap}" />
-                </androidx.cardview.widget.CardView>
+                <co.yap.widgets.RoundedImageView
+                    android:id="@+id/placeImage"
+                    android:layout_width="@dimen/_74sdp"
+                    android:layout_height="@dimen/_74sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_location_placeholder"
+                    app:bitmap="@{viewModel.state.placeBitmap}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_normal"
-                    android:layout_marginBottom="@dimen/margin_extra_small"
+                    android:id="@+id/container"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_normal_large">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/placeImage"
+                    app:layout_constraintTop_toTopOf="@+id/placeImage">
 
                     <TextView
                         android:id="@+id/tvAddressTitle"
@@ -104,7 +88,7 @@
                         android:maxLines="2"
                         app:layout_constraintLeft_toRightOf="@+id/ivLocationPhoto"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Burj Residence Tower 1" />
+                        tools:text="Burj Residence Tower 1Burj Residence Tower 1Burj Residence Tower 1Burj Residence Tower 1 " />
 
                     <TextView
                         android:id="@+id/tvAddressSubTitle"
@@ -117,11 +101,11 @@
                         android:maxLines="4"
                         app:layout_constraintStart_toStartOf="@+id/tvAddressTitle"
                         app:layout_constraintTop_toBottomOf="@+id/tvAddressTitle"
-                        tools:text="31 J3 Opposite، # 4، Expo Center Rd, Block J 3 Phase 2 جوہر ٹاؤن، لاہور" />
+                        tools:text="31 J3 OBurj Residence Tower 1Burj Residence Tower 1Burj Residence Tower 1Burj Residence Tower 1Burj Residence Tower 1Burj Residence Tower 1pposite" />
 
 
                 </LinearLayout>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 

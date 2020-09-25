@@ -100,11 +100,9 @@ object UIBinder {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val place: Place = parent.getItemAtPosition(position) as Place
                 view?.let { listener?.onItemClick(view, place.id, position) }
-
                 autoCompleteTextView.setText(place.mainText)
+                autoCompleteTextView.setSelection(place.mainText.length)
             }
-
-
     }
 
     @BindingAdapter("tvColor")
