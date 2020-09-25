@@ -35,18 +35,16 @@ import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
-import java.io.File
 
 
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
-
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
-
+    var terminateProcess: Boolean = false
 
     override val viewModel: IEditBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
@@ -113,16 +111,16 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                R.id.tbBtnBack -> {
-                    showAlertDialogAndExitApp(
-                            message = "njnkoijoijihhy7jjhuuiuiihiiiiuiuhh",
-                            callback = {
-                                cancelit()
-                            },
-                        isTwoButton = true
-                    )
+                /*   R.id.tbBtnBack -> {
+                       showAlertDialogAndExitApp(
+                               message = "njnkoijoijihhy7jjhuuiuiihiiiiuiuhh",
+                               callback = {
+                                   finish()
+                               },
+                           isTwoButton = true
+                       )
 
-                }
+                   }*/
                 R.id.confirmButton -> {
                     if (viewModel.state.needOverView == true) {
                         viewModel.state.beneficiary?.let { beneficiary ->
@@ -219,11 +217,14 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             }
                         }
                     }
-                },isCancelable = false)
+                }, isCancelable = false
+            )
         }
     }
 
-    private fun setIntentResult(isMoneyTransfer: Boolean = false) {
+    private fun setIntentResult(
+        isMoneyTransfer: Boolean = false
+    ) {
         val intent = Intent()
         intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
@@ -251,6 +252,25 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         }
     }
 
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+            R.id.tvRightText -> {
+                showAlertDialogAndExitApp(
+                    dialogTitle = "Are you sure you want to exit?",
+                    message = "The information you have entered will be lost.",
+                    callback = {
+                     setIntentResult(true)
+                    },
+                    titleVisibility = true,
+                    isTwoButton = true
+                )
+            }
+        }
+    }
 
     private fun getBinding(): ActivityEditBeneficiaryBinding {
         return viewDataBinding as ActivityEditBeneficiaryBinding

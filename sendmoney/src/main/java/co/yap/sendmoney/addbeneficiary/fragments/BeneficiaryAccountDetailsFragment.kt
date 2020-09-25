@@ -65,8 +65,13 @@ class BeneficiaryAccountDetailsFragment :
                 RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
                     val isMoneyTransfer =
                         data?.getValue(Constants.IS_TRANSFER_MONEY, "BOOLEAN") as? Boolean
+                    val isTerminateProcess =
+                        data?.getValue(Constants.TERMINATE_ADD_BENEFICIARY, "BOOLEAN") as? Boolean
                     val beneficiary =
                         data?.getValue(Beneficiary::class.java.name, "PARCEABLE") as? Beneficiary
+                    if (isTerminateProcess==true) isTerminateProcess?.let{
+                        activity?.finish()
+                    }
                     if (isMoneyTransfer == true)
                         beneficiary?.let {
                             setIntentResult(true, it)

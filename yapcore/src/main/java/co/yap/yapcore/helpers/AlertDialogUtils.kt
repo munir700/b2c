@@ -173,13 +173,15 @@ fun Context.showYapAlertDialog(
 
 fun Activity.showAlertDialogAndExitApp(
     Title: String? = null,
+    dialogTitle: String? ="",
     message: String?,
     leftButtonText: String = "OK",
     rightButtonText: String = "Cancel",
     callback: () -> Unit = {},
+    titleVisibility: Boolean = false,
     closeActivity: Boolean = true,
     isOtpBlocked: Boolean = false,
-    isTwoButton : Boolean = false
+    isTwoButton: Boolean = false
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
@@ -189,12 +191,17 @@ fun Activity.showAlertDialogAndExitApp(
         inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
+    val dTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val cancel = dialogLayout.findViewById<TextView>(R.id.tvButtonCancel)
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
     ok.text = leftButtonText
     cancel.text = rightButtonText
-    cancel.setOnClickListener{
+    cancel.setOnClickListener {
         alertDialog?.dismiss()
+    }
+    if (titleVisibility) {
+        dTitle.text = dialogTitle
+        dTitle.visibility = View.VISIBLE
     }
     ok.setOnClickListener {
         alertDialog?.dismiss()
@@ -203,7 +210,7 @@ fun Activity.showAlertDialogAndExitApp(
         callback()
     }
 
-    if(isTwoButton){
+    if (isTwoButton) {
         cancel.visibility = View.VISIBLE
     }
     if (isOtpBlocked) {

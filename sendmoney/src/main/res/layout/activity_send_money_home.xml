@@ -34,7 +34,10 @@
             app:rightIcon="@{R.drawable.ic_add_sign}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
             app:titleString="@{viewModel.state.toolbarTitle}"
-            app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
+            app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}"
+            app:rightTitleVisibility="@{true}"
+            app:rightTitle="@{viewModel.state.rightButtonText}"
+            />
 
         <fragment
             android:id="@+id/send_money_nav_host_fragment"

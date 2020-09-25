@@ -38,7 +38,9 @@
             app:leftIconVisibility="@{true}"
             app:onClick="@{editBeneficiaryViewModel::onToolBarClick}"
             app:rightIconVisibility="@{false}"
-            app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}" />
+            app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}"
+            app:rightTitleVisibility="@{true}"
+            app:rightTitle="@{editBeneficiaryViewModel.state.rightButtonText}"/>
 
         <ScrollView
             android:layout_width="match_parent"

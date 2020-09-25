@@ -91,16 +91,16 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
                     AlertType.DIALOG.name -> {
-                        showAlertDialogAndExitApp("", messages.first(), closeActivity = false)
+                        showAlertDialogAndExitApp("", message = messages.first(), closeActivity = false)
                     }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
-                        messages.first(),
+                        message = messages.first(),
                         closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
                         "",
-                        messages.first(),
+                       message =  messages.first(),
                         rightButtonText = "CLOSE",
                         closeActivity = true
                     )
