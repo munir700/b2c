@@ -7,4 +7,5 @@
     <integer name="backgroundChild">4</integer>
     <integer name="unitsCount">10</integer>
     <integer name="beneficiary_length">39</integer>
+    <integer name="spareCardName">50</integer>
 </resources>

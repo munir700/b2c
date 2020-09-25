@@ -70,7 +70,6 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         uploadDocuments(result)
-        //uploadDocument(result)
     }
 
     private fun uploadDocuments(result: IdentityScannerResult) {
