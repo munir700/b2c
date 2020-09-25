@@ -115,6 +115,7 @@
     </fragment>
     <fragment
         android:id="@+id/youngSubAccountsFragment"
+        tools:layout="@layout/fragment_young_subaccount"
         android:name="co.yap.modules.dashboard.store.young.subaccounts.YoungSubAccountsFragment"
         android:label="YoungSubAccountsFragment" />
 </navigation>
