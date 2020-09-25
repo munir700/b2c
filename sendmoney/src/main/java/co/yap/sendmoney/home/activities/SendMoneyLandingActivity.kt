@@ -365,13 +365,18 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
                             val isMoneyTransfer =
                                 data.getValue(Constants.IS_TRANSFER_MONEY, "BOOLEAN") as? Boolean
+                            val isDismissFlow =
+                                data.getValue(
+                                    Constants.TERMINATE_ADD_BENEFICIARY,
+                                    "BOOLEAN"
+                                ) as? Boolean
                             val beneficiary =
                                 data.getValue(
                                     Beneficiary::class.java.name,
                                     "PARCEABLE"
                                 ) as? Beneficiary
-                            if (isMoneyTransfer == true)
-                                beneficiary?.let {
+                            when {
+                                isMoneyTransfer == true -> beneficiary?.let {
                                     if (MyUserManager.user?.otpBlocked == true) {
                                         showToast(Utils.getOtpBlockedMessage(this))
                                     } else {
@@ -379,8 +384,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                     }
                                     viewModel.requestAllBeneficiaries()
                                 }
-                            else
-                                viewModel.requestAllBeneficiaries()
+                                isDismissFlow == true -> { }
+                                else -> viewModel.requestAllBeneficiaries()
+                            }
                         } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
                             finish()
                         }
