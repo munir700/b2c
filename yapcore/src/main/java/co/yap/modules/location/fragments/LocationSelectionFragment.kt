@@ -179,6 +179,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
             R.id.btnLocation -> {
                 onMapClickAction()
+                removeAutoCompleteFocus()
             }
 
             R.id.ivClose -> {
@@ -297,6 +298,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         YoYo.with(Techniques.SlideInUp)
             .duration(400)
             .playOn(flAddressDetail)
+        addAutoCompleteFocus()
 
     }
 
@@ -450,4 +452,18 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         )
     }
 
+
+    private fun removeAutoCompleteFocus() {
+        etAddressField.isFocusable = false;
+        etAddressField.isFocusableInTouchMode = false;
+        etAddressField.isFocusable = false;
+        etAddressField.isFocusableInTouchMode = false;
+    }
+
+    private fun addAutoCompleteFocus() {
+        etAddressField.isFocusable = true;
+        etAddressField.isFocusableInTouchMode = true;
+        etAddressField.isFocusable = true;
+        etAddressField.isFocusableInTouchMode = true;
+    }
 }
