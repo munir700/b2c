@@ -6,6 +6,10 @@ import co.yap.R
 import co.yap.databinding.FragmentYoungSendMoneySuccessBinding
 import co.yap.translation.Strings.screen_domestic_funds_transfer_display_text_title
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
+import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
+import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
+import co.yap.yapcore.helpers.extentions.launchActivity
 
 class YoungSendMoneySuccessFragment :
     BaseNavViewModelFragment<FragmentYoungSendMoneySuccessBinding, IYoungSendMoneySuccess.State, YoungSendMoneySuccessVM>() {
@@ -22,7 +26,10 @@ class YoungSendMoneySuccessFragment :
 
     override fun onClick(id: Int) {
         when (id) {
-            R.id.btnGoToDashboard -> navigate(YoungSendMoneySuccessFragmentDirections.actionYoungSendMoneySuccessFragmentToYoungSubAccountsFragment())
+            R.id.btnGoToDashboard -> launchActivity<NavHostPresenterActivity> {
+                putExtra(NAVIGATION_Graph_ID, R.navigation.young_parent_side_sub_account_navigation)
+                putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.youngSubAccountsFragment)
+            }
         }
     }
 }
