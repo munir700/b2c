@@ -54,9 +54,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
+            android:layout_below="@+id/toolbar"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/toolbar">
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/rlCard"
@@ -67,61 +67,61 @@
                     android:id="@+id/ivCard"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_100sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:contentDescription="@string/empty_string"
-                    android:src="@drawable/card_spare" />
+                    android:src="@drawable/card_spare"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvCardType"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/ivCard"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
-                    android:text="Spare Card" />
+                    android:text="Spare Card"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivCard" />
 
                 <EditText
                     android:id="@+id/etName"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_42sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCardType"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginStart="@dimen/_13sdp"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:gravity="left"
                     android:hint="Add name"
                     android:inputType="textPersonName"
-                    android:maxLength="50"
+                    android:maxLength="@integer/spareCardName"
                     android:paddingEnd="@dimen/margin_medium"
                     android:text="@={viewModel.state.cardName}"
                     android:textColor="?attr/colorPrimaryDarkAttr"
                     android:textColorHint="@color/grey"
-                    android:textSize="@dimen/text_size_h3" />
+                    android:textSize="@dimen/text_size_h3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCardType" />
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnConfirm"
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginLeft="@dimen/margin_xxl"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginRight="@dimen/margin_xxl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
-                    app:layout_constraintTop_toBottomOf="@+id/etName"
                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                     android:text="Confirm"
                     app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etName"
                     app:layout_constraintVertical_bias="0.988"
                     app:layout_goneMarginTop="@dimen/margin_extra_large"
                     tools:layout_editor_absoluteX="34dp" />

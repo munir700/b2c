@@ -129,21 +129,6 @@ class EidInfoReviewViewModel(application: Application) :
         errorTitle = title
         errorBody = body
     }
-    //    override fun handlePressOnRescanBtn() {
-//        clickEvent.setValue(EVENT_RESCAN)
-//    }
-
-//    override fun handleUserRejection(reason: Int) {
-//        handlePressOnRescanBtn()
-//    }
-//
-//    override fun handlePressOnEdit(id: Int) {
-//        clickEvent.setValue(id)
-//    }
-
-//    override fun handleUserAcceptance(reason: Int) {
-//        clickEvent.setValue(EVENT_NEXT_WITH_ERROR)
-//    }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         uploadDocuments(result)
