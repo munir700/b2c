@@ -14,7 +14,7 @@ class YoungSendMoneyFragment :
     override fun toolBarVisibility() = true
     override fun setDisplayHomeAsUpEnabled() = true
     override fun onClick(id: Int) {
-        hideKeyboard()
+        requireContext().hideKeyboard()
         navigate(YoungSendMoneyFragmentDirections.actionYoungSendMoneyFragmentToYoungSendMoneySuccessFragment())
     }
 }

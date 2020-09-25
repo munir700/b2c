@@ -50,6 +50,7 @@ class HHSalaryProfileFragment :
         super.postExecutePendingBindings(savedInstanceState)
         setHasOptionsMenu(true)
         recyclerView.adapter = mSalarySetupAdapter
+        mSalarySetupAdapter.onItemClickListener = this
         recyclerView.addItemDecoration(SpacesItemDecoration(dimen(co.yap.yapcore.R.dimen.margin_normal), true))
     }
 

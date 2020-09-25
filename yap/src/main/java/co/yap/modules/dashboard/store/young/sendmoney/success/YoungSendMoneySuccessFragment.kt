@@ -26,10 +26,11 @@ class YoungSendMoneySuccessFragment :
 
     override fun onClick(id: Int) {
         when (id) {
-            R.id.btnGoToDashboard -> launchActivity<NavHostPresenterActivity> {
+            R.id.btnGoToDashboard -> launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
                 putExtra(NAVIGATION_Graph_ID, R.navigation.young_parent_side_sub_account_navigation)
                 putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.youngSubAccountsFragment)
             }
         }
     }
+
 }

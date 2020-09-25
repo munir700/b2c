@@ -23,6 +23,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINA
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils.setLightStatusBar
 import co.yap.yapcore.helpers.Utils.setStatusBarColor
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.confirm
@@ -41,7 +42,7 @@ class SubAccountCardFragment :
     override fun getLayoutId() = R.layout.fragment_sub_account_card
     override fun preInit() {
         super.preInit()
-        setStatusBarColor(requireActivity() , Color.WHITE )
+        setLightStatusBar(requireActivity() , Color.WHITE )
     }
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)

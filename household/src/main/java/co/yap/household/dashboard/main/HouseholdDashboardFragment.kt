@@ -167,7 +167,7 @@ class HouseholdDashboardFragment :
 
             2 -> {
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                    showToast("Not Implemented Yet! Coming Soon")
+                    showToast("Coming Soon")
                     // will perform required action here
                 } else {
                     showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
