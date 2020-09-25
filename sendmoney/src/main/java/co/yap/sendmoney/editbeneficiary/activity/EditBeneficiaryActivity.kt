@@ -111,16 +111,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                /*   R.id.tbBtnBack -> {
-                       showAlertDialogAndExitApp(
-                               message = "njnkoijoijihhy7jjhuuiuiihiiiiuiuhh",
-                               callback = {
-                                   finish()
-                               },
-                           isTwoButton = true
-                       )
-
-                   }*/
                 R.id.confirmButton -> {
                     if (viewModel.state.needOverView == true) {
                         viewModel.state.beneficiary?.let { beneficiary ->
@@ -151,12 +141,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.isBeneficiaryValid.observe(this, isBeneficiaryValidObserver)
         viewModel.onBeneficiaryCreatedSuccess.observe(this, onBeneficiaryCreatedSuccessObserver)
 
-    }
-
-    private fun cancelit() {
-        val intent = Intent()
-        setResult(Activity.RESULT_CANCELED, intent)
-        finish()
     }
 
     private val isBeneficiaryValidObserver = Observer<Boolean> { isValid ->
@@ -223,11 +207,13 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     }
 
     private fun setIntentResult(
-        isMoneyTransfer: Boolean = false
+        isMoneyTransfer: Boolean = false,
+        cancelFlow: Boolean = false
     ) {
         val intent = Intent()
         intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
+        intent.putExtra(Constants.TERMINATE_ADD_BENEFICIARY, cancelFlow)
         intent.putExtra(Beneficiary::class.java.name, viewModel.state.beneficiary)
         this.setResult(Activity.RESULT_OK, intent)
         this.finish()
@@ -238,22 +224,13 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_TRANSFER_MONEY -> {
-                    val isTransferred = data?.getBooleanExtra(
-                        Constants.MONEY_TRANSFERED,
-                        false
-                    )
-                    if (isTransferred == true) {
-                        setIntentResult()
-                    } else {
-                        setIntentResult()
-                    }
+                    setIntentResult()
                 }
             }
         }
     }
 
     override fun onToolBarClick(id: Int) {
-        super.onToolBarClick(id)
         when (id) {
             R.id.ivLeftIcon -> {
                 finish()
@@ -261,10 +238,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             R.id.tvRightText -> {
                 showAlertDialogAndExitApp(
                     dialogTitle = "Are you sure you want to exit?",
-                    message = "The information you have entered will be lost.",
+                    message = "The information you've entered will be lost.",
+                    leftButtonText = "Confirm",
                     callback = {
-                     setIntentResult(true)
+                        setIntentResult(cancelFlow = true)
                     },
+                    closeActivity = false,
                     titleVisibility = true,
                     isTwoButton = true
                 )

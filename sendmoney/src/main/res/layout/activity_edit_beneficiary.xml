@@ -39,7 +39,7 @@
             app:onClick="@{editBeneficiaryViewModel::onToolBarClick}"
             app:rightIconVisibility="@{false}"
             app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}"
-            app:rightTitleVisibility="@{true}"
+            app:rightTitleVisibility="@{editBeneficiaryViewModel.state.needOverView}"
             app:rightTitle="@{editBeneficiaryViewModel.state.rightButtonText}"/>
 
         <ScrollView

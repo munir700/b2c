@@ -69,15 +69,13 @@ class BeneficiaryAccountDetailsFragment :
                         data?.getValue(Constants.TERMINATE_ADD_BENEFICIARY, "BOOLEAN") as? Boolean
                     val beneficiary =
                         data?.getValue(Beneficiary::class.java.name, "PARCEABLE") as? Beneficiary
-                    if (isTerminateProcess==true) isTerminateProcess?.let{
-                        activity?.finish()
-                    }
-                    if (isMoneyTransfer == true)
-                        beneficiary?.let {
-                            setIntentResult(true, it)
+                    when {
+                        isTerminateProcess == true -> setIntentResult(cancelFlow = true)
+                        isMoneyTransfer == true -> beneficiary?.let {
+                            setIntentResult(true, beneficiary = it)
                         }
-                    else
-                        setIntentResult()
+                        else -> setIntentResult()
+                    }
                 }
             }
         }
@@ -85,12 +83,14 @@ class BeneficiaryAccountDetailsFragment :
 
     private fun setIntentResult(
         isMoneyTransfer: Boolean = false,
+        cancelFlow: Boolean = false,
         beneficiary: Beneficiary = Beneficiary()
     ) {
         activity?.let { it ->
             val intent = Intent()
             intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
             intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
+            intent.putExtra(Constants.TERMINATE_ADD_BENEFICIARY, cancelFlow)
             intent.putExtra(Beneficiary::class.java.name, beneficiary)
             it.setResult(Activity.RESULT_OK, intent)
             it.finish()

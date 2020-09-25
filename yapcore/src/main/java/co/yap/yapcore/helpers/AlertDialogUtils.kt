@@ -194,6 +194,7 @@ fun Activity.showAlertDialogAndExitApp(
     val dTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val cancel = dialogLayout.findViewById<TextView>(R.id.tvButtonCancel)
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
+    val btnDivider = dialogLayout.findViewById<View>(R.id.btnDivider)
     ok.text = leftButtonText
     cancel.text = rightButtonText
     cancel.setOnClickListener {
@@ -212,6 +213,7 @@ fun Activity.showAlertDialogAndExitApp(
 
     if (isTwoButton) {
         cancel.visibility = View.VISIBLE
+        btnDivider.visibility = View.VISIBLE
     }
     if (isOtpBlocked) {
         label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {

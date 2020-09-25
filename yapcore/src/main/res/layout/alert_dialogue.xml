@@ -16,6 +16,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDialogTitle"
             style="@style/RegularGrey"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="sfjiefksdlmlesef"
@@ -23,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -63,17 +64,6 @@
             app:layout_constraintTop_toBottomOf="@id/view">
 
             <TextView
-                android:id="@+id/tvButtonTitle"
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/colorPrimaryLight"
-                tools:text="OK" />
-
-            <TextView
                 android:id="@+id/tvButtonCancel"
                 style="@style/ASmall"
                 android:layout_width="0dp"
@@ -84,6 +74,26 @@
                 android:textColor="@color/colorPrimaryLight"
                 android:visibility="gone"
                 tools:text="Cancel" />
+
+            <View
+                android:id="@+id/btnDivider"
+                android:layout_width="1dp"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:background="@color/greyLight"
+                />
+
+            <TextView
+                android:id="@+id/tvButtonTitle"
+                style="@style/ASmall"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:textColor="@color/colorPrimaryLight"
+                tools:text="OK" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

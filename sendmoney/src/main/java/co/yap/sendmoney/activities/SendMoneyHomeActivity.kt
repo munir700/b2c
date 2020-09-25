@@ -79,6 +79,7 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
         showAlertDialogAndExitApp(
             dialogTitle = "Are you sure you want to exit?",
             message = "The information you have entered will be lost.",
+            leftButtonText = "Confirm",
             callback = {
                 finish()
             },
