@@ -12,7 +12,6 @@ import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionReques
 import co.yap.networking.transactions.requestdtos.CreateSessionRequest
 import co.yap.networking.transactions.requestdtos.Order
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -30,7 +29,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.cardInfo.set(item)
-        state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
+        state.toolbarTitle = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
         state.currencyType = getString(Strings.common_text_currency_type)

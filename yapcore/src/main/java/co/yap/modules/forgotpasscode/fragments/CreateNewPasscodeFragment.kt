@@ -29,7 +29,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.forgotTextVisibility = false
-        viewModel.setLayoutVisibility(true)
+        viewModel.setLayoutVisibility(false)
         viewModel.setTitles(
             title = getString(Strings.screen_create_passcode_display_text_title),
             buttonTitle = getString(Strings.screen_create_new_passcode_button_text)
