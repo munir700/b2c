@@ -1209,7 +1209,7 @@
     <!--    Young contact details screen-->
     <string name="screen_young_contact_details_description_text">We’ll store this as your child\'s primary email to send important updates and reminders. You are copied on every email we send </string>
     <string name="screen_young_contact_details_title_text">Tell us how to contact your child</string>
-    <string name="screen_young_contact_details_toolbar_text">child\'s contact details</string>
+    <string name="screen_young_contact_details_toolbar_text">Contact details</string>
     <!-- Young Card Edit Details -->
     <string name="screen_young_card_color_selection_display_text">Help %1s pick a card</string>
     <string name="screen_young_card_toolbar_text">Personalize %1s\'s card</string>
