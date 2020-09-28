@@ -10,6 +10,7 @@
         <variable
             name="cardNumber"
             type="String" />
+
         <variable
             name="cardExpiry"
             type="String" />
@@ -30,11 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <!--        implement -->
-
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/ivCustomCard"
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_70sdp"
             app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
@@ -45,7 +44,6 @@
             app:card_type="@drawable/ic_visa_card"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clRightData"

@@ -12,11 +12,12 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.getCategoryIcon
 import co.yap.yapcore.helpers.extentions.getCategoryTitle
 import co.yap.yapcore.helpers.extentions.getFormattedTime
+import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
 
 
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
-
+    val editNotePrefixText: String get() = "Note added "
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
@@ -32,6 +33,7 @@ class TransactionDetailsViewModel(application: Application) :
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
             setToolbarTitle()
+            setTransactionNoteDate()
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
@@ -41,6 +43,12 @@ class TransactionDetailsViewModel(application: Application) :
 
     private fun setToolbarTitle() {
         state.toolbarTitle = transaction.get().getFormattedTime(FORMAT_LONG_OUTPUT)
+    }
+
+    private fun setTransactionNoteDate() {
+        state.transactionNoteDate =
+            editNotePrefixText + transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT)
+
     }
 
     private fun setSenderOrReceiver(transaction: Transaction) {
