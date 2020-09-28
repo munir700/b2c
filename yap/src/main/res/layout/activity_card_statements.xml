@@ -11,6 +11,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -20,11 +22,19 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_card_statements_toolbar"
-            app:viewModel="@{viewModel}" />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator='@{Strings.screen_card_statement_display_text_title}' />
 
         <ImageView
             android:id="@+id/imgArrowleft"
@@ -96,14 +106,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:text="@{Strings.common_display_text_nothing_to_report}"
-            tools:text="@string/common_display_text_nothing_to_report"
             android:visibility="@{viewModel.state.hasRecords? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.20" />
+            app:layout_constraintVertical_bias="0.20"
+            app:text="@{Strings.common_display_text_nothing_to_report}"
+            tools:text="@string/common_display_text_nothing_to_report" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -17,6 +17,8 @@
         <import type="co.yap.modules.others.helper.Constants" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.R" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -381,70 +383,50 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:contentInsetStart="0dp"
+                    android:contentInsetLeft="0dp"
+                    android:contentInsetEnd="0dp"
+                    android:contentInsetRight="0dp"
                     android:elevation="0dp"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetStart="0dp"
                     app:layout_collapseMode="pin"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp">
+                        android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:id="@+id/ivBack"
-                            android:layout_width="@dimen/_24sdp"
-                            android:layout_height="@dimen/_24sdp"
-                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            android:scaleType="fitXY"
-                            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+                        <co.yap.widgets.CoreToolbar
+                            android:id="@+id/ctToolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_close_dark" />
-
-                        <ImageView
-                            android:id="@+id/ivMenu"
-                            android:layout_width="@dimen/_24sdp"
-                            android:layout_height="@dimen/_24sdp"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginEnd="@dimen/_12sdp"
-                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/ivBack"
-                            app:srcCompat="@drawable/ic_more" />
-
-                        <TextView
-                            android:id="@+id/tvTitle"
-                            style="@style/Regular"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="@={viewModel.state.cardName}"
-                            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
-                            app:layout_constraintLeft_toRightOf="@+id/ivBack"
-                            app:layout_constraintRight_toLeftOf="@+id/ivMenu"
-                            app:layout_constraintTop_toTopOf="@+id/ivBack"
-                            tools:text="Spare" />
+                            app:leftIcon="@{R.drawable.ic_close_dark}"
+                            app:leftIconVisibility="@{true}"
+                            app:onClick="@{viewModel::onToolBarClick}"
+                            app:rightIcon="@{R.drawable.ic_more}"
+                            app:rightIconVisibility="@{true}"
+                            app:titleString='@{viewModel.state.cardName}' />
 
                         <include
                             android:id="@+id/cardInfoLayout"
                             layout="@layout/layout_card_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_43sdp"
-                            android:layout_marginTop="@dimen/margin_medium_large"
+                            android:layout_marginStart="@dimen/_55sdp"
+                            android:layout_marginTop="@dimen/margin_small"
                             android:layout_marginBottom="@dimen/margin_medium"
                             app:buttonVisibility="@{true}"
                             app:cardName="@{viewModel.state.cardTypeText}"
                             app:cardNumber="@{viewModel.state.cardPanNumber}"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                            app:layout_constraintTop_toBottomOf="@+id/ctToolbar" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
