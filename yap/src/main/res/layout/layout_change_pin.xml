@@ -13,6 +13,10 @@
             type="Boolean" />
 
         <variable
+            name="isEmpty"
+            type="Boolean" />
+
+        <variable
             name="title"
             type="String" />
 
@@ -23,12 +27,15 @@
         <variable
             name="buttonText"
             type="String" />
+
         <variable
             name="checkCode"
             type="Boolean" />
+
         <variable
             name="errorBackground"
             type="android.graphics.drawable.Drawable" />
+
         <variable
             name="errorIconDrawable"
             type="android.graphics.drawable.Drawable" />
@@ -49,10 +56,12 @@
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:dividerPadding="@dimen/margin_medium_large"
             android:hint="@{title}"
-            app:hintTextColor="@color/colorPrimaryDark"
             app:hintTextAppearance="@style/LabelTextStyl"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorChangePin="@{pinCode}"
+            app:isAllEmpty="@{isEmpty}"
+            >
 
             <EditText
                 android:id="@+id/etNewConfirmPin"
@@ -63,10 +72,10 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="number"
-                android:maxLength="4"
-                android:singleLine="true"
                 android:letterSpacing="0.5"
+                android:maxLength="4"
                 android:paddingTop="@dimen/margin_medium"
+                android:singleLine="true"
                 android:text="@={pinCode}"
                 android:theme="@style/Theme.EditText.Primary"
                 app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewPinHeading" />
@@ -79,13 +88,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_three_dp"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:gravity="center"
             android:text="@={errorMessage}"
             android:textColor="@color/greyDark"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewPinHeading"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewPinHeading" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
