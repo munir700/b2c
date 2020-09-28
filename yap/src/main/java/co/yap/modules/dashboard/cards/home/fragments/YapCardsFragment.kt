@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -106,15 +105,27 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                        view,
-                        data,
-                        pos
-                    )
-                )
-                viewModel.clickEvent.setValue(view.id)
+                if (data is Card)
+                    if (data.status == CardStatus.BLOCKED.name) {
+                        viewModel.unFreezeCard(data.cardSerialNumber) {
+                            viewModel.getUpdatedCard(pos) {
+                                it?.let {
+                                    adapter.setItemAt(pos, it)
+                                }
+                            }
+                        }
+                    } else {
+                        viewModel.clickEvent.setPayload(
+                            SingleClickEvent.AdaptorPayLoadHolder(
+                                view,
+                                data,
+                                pos
+                            )
+                        )
+                        viewModel.clickEvent.setValue(view.id)
+                    }
             }
+
         })
     }
 
@@ -182,11 +193,23 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                     }
                 }
+//                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
+//                    var card: Card = adapter.getDataForPosition(selectedCardPosition)
+//                    card.status = "ACTIVE"
+//                    card.blocked = false
+//                    viewModel.cards.value?.set(selectedCardPosition, card)
+//                    adapter.setItemAt(selectedCardPosition, card)
+//                }
             }
         } else {
-            if (it == R.id.tbBtnAddCard) {
-                openAddCard()
-            }
+
+        }
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivRightIcon -> openAddCard()
         }
     }
 
@@ -305,22 +328,27 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openStatusScreen(view: View, pos: Int) {
-        startActivityForResult(
-            FragmentPresenterActivity.getIntent(
-                requireContext(),
-                Constants.MODE_STATUS_SCREEN,
-                getCard(pos)
-            ), Constants.EVENT_CREATE_CARD_PIN
-        )
+        context?.let { context ->
+            startActivityForResult(
+                FragmentPresenterActivity.getIntent(
+                    context = context,
+                    type = Constants.MODE_STATUS_SCREEN,
+                    payLoad = getCard(pos)
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
     }
 
     private fun openSetPinScreen(card: Card) {
-        startActivityForResult(
-            SetCardPinWelcomeActivity.newIntent(
-                requireContext(),
-                card
-            ), Constants.EVENT_CREATE_CARD_PIN
-        )
+        context?.let { context ->
+            startActivityForResult(
+                SetCardPinWelcomeActivity.newIntent(
+                    context = context,
+                    card = card,
+                    skipWelcomeScreen = true
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
     }
 
     private fun startReorderCardFlow(card: Card?) {

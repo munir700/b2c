@@ -2,13 +2,10 @@
     <string name="simple_view_behavior">co.yap.yapcore.viewbehavior.SimpleViewBehavior</string>
     <string name="animation_view_behavior">co.yap.yapcore.viewbehavior.AnimationViewBehavior</string>
 
-    //All strings are temporary
+    <!--All strings are temporary-->
     <string name="empty_string"> </string>
     <string name="err_email">Please enter you email</string>
-
     <string name="biometric_failed">Fingerprint not recognized</string>
-
-
     <string name="biometric_title">Sign in</string>
     <string name="biometric_subtitle">subtitle</string>
     <string name="biometric_description">Description</string>
@@ -24,7 +21,11 @@
     <string name="biometric_cancelled">Authentication cancelled by user</string>
     <string name="biometric_success">Login Successful</string>
     <string name="scroll_behavior" translatable="false">@string/appbar_scrolling_view_behavior</string>
+    <string name="fb_login_protocol_scheme" templateMergeStrategy="preserve" translatable="false" />
+    <string name="facebook_app_id" templateMergeStrategy="preserve" translatable="false" />
+    <string name="error_processing_places_api">Cannot process request</string>
+    <string name="error_connecting_to_places_api">Cannot process request</string>
+    <string name="error_lib_not_initialized">Cannot process request</string>
+    <string name="error_cannot_process_json_results">Cannot process request</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

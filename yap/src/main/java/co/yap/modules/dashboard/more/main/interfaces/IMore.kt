@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.more.main.interfaces
 
-import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
@@ -17,7 +16,6 @@ interface IMore {
         fun handlePressOnTickButton()
         fun handlePressOnBadge()
         val backButtonPressEvent: SingleLiveEvent<Boolean>
-        var preventTakeDeviceScreenShot: MutableLiveData<Boolean>
         var BadgeVisibility: Boolean
         val badgeButtonPressEvent: SingleLiveEvent<Boolean>
         var document: GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation?

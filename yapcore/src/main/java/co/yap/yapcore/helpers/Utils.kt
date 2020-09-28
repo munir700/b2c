@@ -36,6 +36,7 @@ import co.yap.widgets.loading.CircularProgressBar
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -49,6 +50,13 @@ import java.util.regex.Pattern
 
 @SuppressLint("StaticFieldLeak")
 object Utils {
+
+    fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
+        val dimensions = IntArray(2)
+        dimensions[0] = getDimensionInPercent(context, true, width)
+        dimensions[1] = getDimensionInPercent(context, false, height)
+        return dimensions
+    }
 
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -274,24 +282,14 @@ object Utils {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches())
     }
 
-    private fun isValidEmail(email: String): Boolean {
-        var inputStr: CharSequence = ""
-        var isValid = false
-        val expression =
-            //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9]{2,61}(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
-        // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-        inputStr = email
-        val pattern = Pattern.compile(expression)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
+    fun isValidEID(citizenNumber: String?): Boolean {
+        return citizenNumber?.let {
+            val expression = "^[0-9]{3}-[0-9]{4}-[0-9]{7}-[0-9]{1}$"
+            val pattern = Pattern.compile(expression)
+            val matcher = pattern.matcher(citizenNumber)
+            return matcher.matches()
+        } ?: false
     }
-
 
     fun setSpan(
         startIndex: Int,
@@ -742,7 +740,6 @@ object Utils {
             "XXXX XXXX XXXX $cardNumber"
         else
             "XXXX XXXX XXXX XXXX"
-
     }
 
     fun confirmationDialog(
@@ -751,7 +748,8 @@ object Utils {
         message: String,
         positiveButton: String,
         negitiveButton: String,
-        itemClick: OnItemClickListener
+        itemClick: OnItemClickListener,
+        isCancelable: Boolean = true
     ) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(title).setMessage(message)
@@ -765,6 +763,7 @@ object Utils {
             ) { _, _ ->
                 itemClick.onItemClick(View(context), false, 0)
             }
+            .setCancelable(isCancelable)
             .show()
     }
 
@@ -895,10 +894,27 @@ object Utils {
         val userId = MyUserManager.user?.currentCustomer?.customerId
         val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
-        return if (YAPApplication.configManager?.isLive() == true)
-            "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-        else
-            "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+        return (when (YAPApplication.configManager?.flavor) {
+            ProductFlavour.PROD.flavour -> {
+                "https://gqvg.adj.st?adjust_t=n44w5ee_6hpplis&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.PREPROD.flavour -> {
+                "https://grwl.adj.st?adjust_t=v3jlxlh_oo71763&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.STG.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.INTERNAL.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.QA.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            ProductFlavour.DEV.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
+            }
+            else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
+        })
     }
 
 }

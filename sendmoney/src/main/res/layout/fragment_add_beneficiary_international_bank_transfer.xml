@@ -296,7 +296,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:gravity="center"
                     android:text="@string/screen_add_beneficiary_display_text_select_residence_country"
                     android:visibility="@{viewModel.state.transferType.equals(`Cash Pickup`)? View.GONE:View.VISIBLE}"
                     app:text="@{Strings.screen_add_beneficiary_display_text_select_residence_country}"

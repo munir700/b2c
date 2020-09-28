@@ -8,13 +8,6 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseState
 
 class TopUpCardSuccessState : BaseState(), ITopUpCardSuccess.State {
-
-    @get:Bindable
-    override var toolBarTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.toolBarTitle)
-        }
     @get:Bindable
     override var buttonTitle: String = ""
         set(value) {
@@ -30,15 +23,16 @@ class TopUpCardSuccessState : BaseState(), ITopUpCardSuccess.State {
         }
 
     @get:Bindable
-    override var currencyType: String=""
+    override var currencyType: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.currencyType)
         }
+
     @get:Bindable
-    override var amount: String=""
+    override var amount: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.amount)
         }
 

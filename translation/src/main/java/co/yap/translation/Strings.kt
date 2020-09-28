@@ -181,7 +181,9 @@ object Strings {
     const val screen_system_permission_button_touch_id: String =
         "screen_system_permission_button_touch_id"
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
-    const val screen_system_permission_text_denied_notification: String = "screen_system_permission_text_denied_notification"
+
+    const val screen_system_permission_text_denied_notification: String =
+        "screen_system_permission_text_denied_notification"
     const val screen_notification_permission_button_title: String =
         "screen_notification_permission_button_title"
     const val screen_system_permission_text_sub_title: String =
@@ -198,6 +200,8 @@ object Strings {
         "screen_verify_passcode_button_verify"
     const val screen_verify_passcode_text_forgot_password: String =
         "screen_verify_passcode_text_forgot_password"
+    const val screen_verify_passcode_text_forgot_password_pin: String =
+        "screen_verify_passcode_text_forgot_password_pin"
 
     //Otp screen
     const val screen_verify_phone_number_display_text_resend_otp_success: String =
@@ -648,6 +652,8 @@ object Strings {
         "screen_current_card_pin_display_text_heading"
     const val screen_current_card_pin_display_button_next: String =
         "screen_current_card_pin_display_button_next"
+    const val screen_current_card_pin_display_text_heading_pin: String =
+        "screen_current_card_pin_display_text_heading_pin"
 
     //  Enter new pin screen
     const val screen_create_card_pin_display_text_heading: String =
@@ -844,6 +850,8 @@ object Strings {
         "screen_change_phone_number_display_text_text_field_title"
     const val screen_change_phone_number_display_text_text_description: String =
         "screen_change_phone_number_display_text_text_description"
+    const val screen_change_phone_number_display_text_country_code:String=
+        "screen_change_phone_number_display_text_country_code"
 
 
     //    Current passcode screen
@@ -1136,6 +1144,8 @@ object Strings {
         "screen_international_funds_transfer_dropdown_text_reason_hint"
     const val screen_international_funds_transfer_input_text_note_hint: String =
         "screen_international_funds_transfer_input_text_note_hint"
+    const val screen_international_funds_transfer_input_text_reason: String =
+        "screen_international_funds_transfer_input_text_reason"
     const val screen_international_funds_transfer_display_text_fee: String =
         "screen_international_funds_transfer_display_text_fee"
     const val screen_international_funds_transfer_display_text_note: String =
@@ -1657,4 +1667,24 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+    //yap home fragment screen
+    const val screen_fragment_yap_home_add_money: String =
+        "screen_fragment_yap_home_add_money"
+
+    //Change Card Pin screen
+
+    const val screen_change_card_pin_text_heading: String =
+        "screen_change_card_pin_text_heading"
+    const val screen_change_card_pin_button_text: String =
+        "screen_change_card_pin_button_text"
+    const val screen_change_card_pin_previous_pin_text_heading: String =
+        "screen_change_card_pin_previous_pin_text_heading"
+    const val screen_change_card_pin_new_pin_text_heading: String =
+        "screen_change_card_pin_new_pin_text_heading"
+    const val screen_change_card_pin_codes_unmatch_error: String =
+        "screen_change_card_pin_codes_unmatch_error"
+    const val screen_change_card_pin_old_pin_error_message: String =
+        "screen_change_card_pin_old_pin_error_message"
+
 }

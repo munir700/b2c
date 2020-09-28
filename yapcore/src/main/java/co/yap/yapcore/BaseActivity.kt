@@ -12,6 +12,8 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
+import co.yap.app.YAPApplication
+import androidx.lifecycle.Observer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -21,7 +23,6 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
-import com.scottyab.rootbeer.RootBeer
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -33,6 +34,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
     open lateinit var context: Context
+    open fun onToolBarClick(id: Int) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
+        preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
         preventTakeScreenShot(true)
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -78,13 +84,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (RootBeer(context).isRootedWithBusyBoxCheck) {
-            showAlertDialogAndExitApp(message = "This device is rooted. You can't use this app.")
-        }
-    }
-
     fun hideKeyboard() = Utils.hideKeyboard(this.currentFocus)
 
     override fun showToast(msg: String) {
@@ -94,22 +93,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
                     AlertType.DIALOG.name -> {
-                        showAlertDialogAndExitApp("", messages.first(), closeActivity = false)
+                        showAlertDialogAndExitApp("", message = messages.first(), closeActivity = false)
                     }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
-                        messages.first(),
+                        message = messages.first(),
                         closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
                         "",
-                        messages.first(),
-                        buttonText = "CLOSE",
+                       message =  messages.first(),
+                        rightButtonText = "CLOSE",
                         closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CLICKABLE.name -> {
                         showAlertDialogAndExitApp(
-                            title = "",
+                            Title = "",
                             message = messages.first(),
                             closeActivity = false,
                             isOtpBlocked = true
@@ -143,7 +142,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             Snackbar.LENGTH_INDEFINITE
         )
             .setAction(
-                // TODO: Use strings for these
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
             .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
@@ -153,7 +151,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun showInternetConnectedSnackBar() {
         val snackbarConnected = setSnackBar(
             this,
-            // TODO: Use strings for these
             "Internet connected.",
             Snackbar.LENGTH_SHORT
         )
@@ -194,6 +191,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         unregisterStateListeners()
         cancelAllSnackBar()
         progress?.dismiss()
+        viewModel.toolBarClickEvent.removeObservers(this)
         super.onDestroy()
     }
 

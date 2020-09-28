@@ -59,13 +59,6 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     val errorEvent = Observer<Int> {
         otpErrorDialog()
     }
-//TODO handle this case
-    /*   override fun loadData() {
-           *//* if (activity is BeneficiaryCashTransferActivity) {
-             (activity as BeneficiaryCashTransferActivity).viewModel.state.toolBarTitle =
-                 "Confirm transfer"
-         }*//*
-    }*/
 
     override fun setResultData() {
         val intent = Intent()

@@ -17,10 +17,11 @@ interface IYapCards {
         val clickEvent: SingleClickEvent
         val cards: MutableLiveData<ArrayList<Card>>
         fun getCards()
-        fun handlePressOnView(id: Int)
+        fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(id: Int)
-        fun getPrimaryCard(cards: ArrayList<Card>?):Card?
+        fun getPrimaryCard(cards: ArrayList<Card>?): Card?
         fun getDebitCard()
+        fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
     }
 
     interface View : IBase.View<ViewModel>

@@ -9,6 +9,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesViewModel" />
@@ -21,12 +23,19 @@
         android:animateLayoutChanges="true"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_topup_cards_toolbar"
-            app:viewModel="@{viewModel}"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="3dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{viewModel.state.enableAddCard}"
+            app:titleString='@{"Add money using a card"}' />
 
         <TextView
             android:id="@+id/txtCardsCount"
@@ -36,6 +45,7 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_marginBottom="@dimen/margin_medium"
             android:text="@{viewModel.state.noOfCard}"
+            android:textColor="?attr/colorPrimaryDarkAttr"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +60,7 @@
             android:layout_marginTop="@dimen/small"
             android:layout_marginBottom="@dimen/margin_medium"
             android:text="@{viewModel.state.message}"
-            android:visibility="visible"
+            android:visibility="@{viewModel.state.valid &amp;&amp; viewModel.state.responseReceived ? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtCardsCount"
@@ -58,44 +68,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMain"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xl"
             android:layout_marginBottom="@dimen/margin_xl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtCardsSlogan">
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- Your Desired landing design-->
-            <TextView
-                android:id="@+id/txt_error"
-                style="@style/RegularGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xl"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:gravity="center"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_y2y_display_text_no_contacts}"
-                tools:text="@string/screen_y2y_display_text_no_contacts" />
-
-            <!--     Notification Center       -->
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/rvTopUpCards"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:dsv_orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,35 +97,55 @@
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/btnSelect"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btnSelect"
+            app:layout_constraintStart_toStartOf="@+id/btnSelect"
             app:layout_constraintTop_toBottomOf="@+id/clMain"
-            app:layout_constraintVertical_bias="0.10">
+            app:layout_constraintVertical_bias="0.5">
 
             <TextView
                 android:id="@+id/txtCardName"
                 style="@style/SmallGrey"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_extra_small"
-                android:layout_weight="1"
                 android:gravity="center"
+                android:paddingStart="@dimen/_2sdp"
+                android:singleLine="true"
                 android:text="@{viewModel.state.alias}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
+                android:textStyle="bold"
                 android:visibility="visible"
                 tools:text="Citi Bank Claksjdlasjdl" />
 
-            <TextView
-                android:id="@+id/txtSecure"
-                style="@style/MicroGrey"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableStart="@drawable/ic_secured"
-                android:drawablePadding="@dimen/_minus10sdp"
                 android:gravity="center"
-                android:text="Secured by YAP"
-                android:visibility="@{viewModel.state.valid ? View.VISIBLE:View.GONE}" />
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/_15sdp"
+                android:visibility="@{viewModel.state.valid &amp;&amp; viewModel.state.responseReceived ? View.VISIBLE:View.GONE}">
+
+                <TextView
+                    android:id="@+id/symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_secured"
+                    android:drawablePadding="@dimen/_minus8sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtSecure"
+                    style="@style/SmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text="Secured by YAP"
+                    app:layout_constraintBottom_toBottomOf="@+id/symbol"
+                    app:layout_constraintStart_toEndOf="@+id/symbol"
+                    app:layout_constraintTop_toTopOf="@+id/symbol" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <co.yap.widgets.CoreButton
@@ -155,9 +159,11 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
             android:text="Select"
-            android:visibility="@{viewModel.state.valid ? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.valid &amp;&amp; viewModel.state.responseReceived ? View.VISIBLE:View.GONE}"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_goneMarginTop="@dimen/margin_extra_large" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

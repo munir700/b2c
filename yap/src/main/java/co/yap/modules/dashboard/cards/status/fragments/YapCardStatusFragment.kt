@@ -27,6 +27,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
     companion object {
         const val data = "payLoad"
+
         @JvmStatic
         fun newInstance(payLoad: Parcelable?) = YapCardStatusFragment().apply {
             arguments = Bundle().apply {
@@ -128,12 +129,14 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnActivateCard -> {
-                startActivityForResult(
-                    SetCardPinWelcomeActivity.newIntent(
-                        requireContext(),
-                        card
-                    ), Constants.EVENT_CREATE_CARD_PIN
-                )
+                card?.let { card ->
+                    startActivityForResult(
+                        SetCardPinWelcomeActivity.newIntent(
+                            requireContext(),
+                            card
+                        ), Constants.EVENT_CREATE_CARD_PIN
+                    )
+                } ?: showToast("Debit card not found.")
             }
             R.id.tbBtnBack -> {
                 val returnIntent = Intent()

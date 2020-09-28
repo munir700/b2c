@@ -8,7 +8,7 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Country(
+data class Country(
     var id: Int? = null,
     var isoCountryCode3Digit: String? = null,
     private var cashPickUpAllowed: Boolean? = false,

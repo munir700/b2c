@@ -12,6 +12,8 @@ data class UserAttributes(
     val youngUser: String = "youngUser",
     val b2bUser: String = "b2bUser",
     val country: String = "country",
+    val emailVerified: String = "emailVerified",
+    val phoneNumberVerified: String = "phoneNumberVerified",
     val city: String = "city",
     val uuid: String = "uuid",
     val customerId: String = "customerId",
@@ -20,5 +22,5 @@ data class UserAttributes(
     val biometric_login_enabled: String = "biometric_login_enabled",
     val eid_expired: String = "eid_expired",
     val account_active: String = "account_active",
-    val eid_expiry_date: String = "eid_expiry_date"
+    val eid_expiry_date: String =  "eid_expiry_date"
 )
