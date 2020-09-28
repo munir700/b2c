@@ -54,6 +54,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -882,6 +883,24 @@ object UIBinder {
         when {
             text.isEmpty() -> view.setTextColor(view.context.getColorStateList(R.color.colorPrimaryDark))
             else -> view.setTextColor(view.context.getColorStateList(R.color.colorPlaceHolderGrey))
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
+        when {
+            isEmpty -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+
+            }
+            pin?.isNotEmpty()!! -> {
+                view.defaultHintTextColor =
+                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
         }
 
     }
