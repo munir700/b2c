@@ -218,7 +218,7 @@
                     style="@style/Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
+                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : viewModel.state.transactionNoteDate}"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

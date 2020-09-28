@@ -186,21 +186,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val clickObserver = Observer<Int> {
         when (it) {
-            R.id.ivBack -> {
-                setupActionsIntent()
-                finish()
-            }
-            R.id.ivMenu -> {
-                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    primaryCardBottomSheet =
-                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
-                    primaryCardBottomSheet.show(supportFragmentManager, "")
-                } else {
-                    spareCardBottomSheet =
-                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
-                    spareCardBottomSheet.show(supportFragmentManager, "")
-                }
-            }
             R.id.llAddFunds -> {
                 if (MyUserManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
@@ -278,6 +263,26 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("Card successfully removed!")
                 setupActionsIntent()
                 finish()
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                setupActionsIntent()
+                finish()
+            }
+            R.id.ivRightIcon -> {
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    primaryCardBottomSheet =
+                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
+                    primaryCardBottomSheet.show(supportFragmentManager, "")
+                } else {
+                    spareCardBottomSheet =
+                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
+                    spareCardBottomSheet.show(supportFragmentManager, "")
+                }
             }
         }
     }

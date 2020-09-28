@@ -10,7 +10,7 @@ abstract class ReportLostOrStolenCardChildViewModels<S : IBase.State>(applicatio
     var parentViewModel: IReportStolenActivity.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.tootlBarTitle = title
+        parentViewModel?.state?.toolbarTitle = title
     }
 
     fun toggleReportCardToolBarVisibility(visibility: Boolean) {

@@ -28,6 +28,7 @@
     <!-- MARGIN -->
     <dimen name="margin_zero_dp">0dp</dimen>
     <dimen name="margin_one_dp">1dp</dimen>
+    <dimen name="margin_two_dp">2dp</dimen>
     <dimen name="margin_three_dp">@dimen/_3sdp</dimen>
     <dimen name="margin_extra_small">@dimen/_4sdp</dimen>
     <dimen name="margin_small">@dimen/_8sdp</dimen>

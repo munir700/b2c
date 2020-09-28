@@ -465,7 +465,7 @@
     <string name="screen_personal_details_display_text_emirates_id_details">Your card is verified and up to date</string>
     <string name="screen_personal_details_display_text_expired_emirates_id_details">Your ID has expired. Please ensure you update your card to continue accessing YAP</string>
     <string name="screen_personal_details_display_text_required_emirates_id_details">Your EID is required.\nTap to update to ensure account continuity</string>
-    <string name="screen_personal_details_display_text_emirates_id_details_update">Your EID is valid.\nTap to update a new EID</string>
+    <string name="screen_personal_details_display_text_emirates_id_details_update">Tap to update</string>
 
     <!-- logout dialogue -->
 
@@ -508,10 +508,9 @@
     <!--    Update confirm passcode screen-->
     <string name="screen_confirm_passcode_display_text_heading">Re-enter your new \npasscode</string>
 
-
     <!--    Change Email Address Success Screen-->
     <string name="screen_email_address_success_display_text_heading">Success!</string>
-    <string name="screen_email_address_success_display_text_title">Awesome!</string>
+    <string name="screen_email_address_success_display_text_title">Success!</string>
     <string name="screen_email_address_success_display_text_sub_heading">Your email address has been updated to \n</string>
 
     <!--    Change Phone Number Success Screen-->
@@ -1037,8 +1036,10 @@
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
 
-    <!-- Change Card Pin screen-->
+    <!--  Yap home fragment screen-->
+    <string name="screen_fragment_yap_home_add_money">Add money</string>
 
+    <!-- Change Card Pin screen-->
     <string name="screen_change_card_pin_text_heading">Change PIN</string>
     <string name="screen_change_card_pin_button_text">Create new PIN</string>
     <string name="screen_change_card_pin_previous_pin_text_heading">Enter your current PIN code</string>

@@ -40,7 +40,8 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_yap_to_yap_dashboard
-    override val viewModel: IY2Y.ViewModel get() = ViewModelProviders.of(this).get(Y2YViewModel::class.java)
+    override val viewModel: IY2Y.ViewModel
+        get() = ViewModelProviders.of(this).get(Y2YViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
@@ -51,7 +52,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-        viewModel.clickEvent.observe(this, clickEventObserver)
+//        viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.errorEvent.observe(this, errorEvent)
         main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -72,6 +73,18 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
                 onBackPressed()
             }
             R.id.tbIvGift -> {
+                Utils.shareText(this, getBody())
+            }
+        }
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+            R.id.ivRightIcon -> {
                 Utils.shareText(this, getBody())
             }
         }
@@ -106,7 +119,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.clickEvent.removeObservers(this)
+//        viewModel.clickEvent.removeObservers(this)
         viewModel.errorEvent.removeObservers(this)
     }
 

@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
+import co.yap.app.YAPApplication
 import androidx.lifecycle.Observer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -48,6 +49,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         registerStateListeners()
 
         progress = Utils.createProgressDialog(this)
+        preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
         preventTakeScreenShot(true)
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
@@ -128,8 +130,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             checkConnectivity = false
         }
     }
-
-
 
     override fun showInternetSnack(isVisible: Boolean) {
         if (isVisible) showNoInternetSnackBar() else showInternetConnectedSnackBar()
