@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/margin_extra_small"
-            android:text="@{String.format(@string/screen_young_confirm_relationship_label_text, viewModel.state.childName)}"
+            android:text="@{String.format(@string/screen_young_confirm_relationship_label_text)}"
             android:textColor="@color/colorPurpleGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1220,7 +1220,7 @@
     <string name="screen_young_confirm_relationship_edit_hint_text">Select</string>
     <string name="screen_young_confirm_relationship_edit_label_text">Relationship</string>
     <string name="screen_young_confirm_relationship_toolbar_text">Confirm your relationship</string>
-    <string name="screen_young_confirm_relationship_label_text">Please confirm your relationship with %1s</string>
+    <string name="screen_young_confirm_relationship_label_text">Please confirm relationship with your child</string>
     <string-array name="screen_young_confirm_relationship_type_array">
         <item>Parent</item>
         <item>Legal guardian</item>
