@@ -124,7 +124,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_next"
-            app:enableCoreButton="@{true}"
+            app:enableCoreButton="@{viewModel.validator.isValidate}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_phone_number_button_send}" />
 
