@@ -12,8 +12,6 @@ import co.yap.yapcore.SingleClickEvent
 interface IBeneficiaryFundTransfer {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnView(id: Int)
-        val clickEvent: SingleClickEvent
         var errorEvent: MutableLiveData<String>
         var beneficiary: MutableLiveData<Beneficiary>
         var transferData: MutableLiveData<TransferFundData>
@@ -29,7 +27,6 @@ interface IBeneficiaryFundTransfer {
         var rightIcon: ObservableBoolean
         var leftIcon: ObservableBoolean
         var rightButtonText: String?
-        var toolBarTitle: String?
         var position: Int
     }
 }

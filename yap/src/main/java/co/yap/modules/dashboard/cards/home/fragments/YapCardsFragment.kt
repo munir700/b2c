@@ -202,9 +202,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                }
             }
         } else {
-            if (it == R.id.tbBtnAddCard) {
-                openAddCard()
-            }
+
+        }
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivRightIcon -> openAddCard()
         }
     }
 

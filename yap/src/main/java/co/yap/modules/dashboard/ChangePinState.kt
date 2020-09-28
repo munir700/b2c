@@ -21,6 +21,7 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
     override var errorMessageForNewPin: ObservableField<String> = ObservableField()
     override var errorMessageForNewConfiem: ObservableField<String> = ObservableField()
     override var isButtonEnabled: ObservableField<Boolean> = ObservableField()
+    override var isAllFieldsEmpty: ObservableField<Boolean> = ObservableField(true)
 
     @get:Bindable
     override var oldPin: String = ""
@@ -30,6 +31,7 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
             if (oldPin.isNotEmpty()) {
                 hideErrorOldPin()
             }
+            checkFieldFilledValidity()
             checkButtonValidity()
         }
 
@@ -40,6 +42,9 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
             notifyPropertyChanged(BR.oldPin)
             checkButtonValidity()
             compareCodes()
+
+            checkFieldFilledValidity()
+
         }
 
     @get:Bindable
@@ -49,6 +54,8 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
             notifyPropertyChanged(BR.oldPin)
             compareCodes()
             checkButtonValidity()
+            checkFieldFilledValidity()
+
         }
 
 
@@ -64,7 +71,7 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
 
 
     private fun checkButtonValidity() {
-        if ((confirmNewPin == newPin) && newPin.isNotEmpty() && oldPin.isNotEmpty() &&newPin.length==4&&oldPin.length==4)
+        if ((confirmNewPin == newPin) && newPin.isNotEmpty() && oldPin.isNotEmpty() && newPin.length == 4 && oldPin.length == 4)
             isButtonEnabled.set(true)
         else
             isButtonEnabled.set(false)
@@ -74,14 +81,14 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
     fun hideErrorsOfNewCodes() {
         pinFieldBackgroundForNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
         pinFieldErrorIconForNew.set(null)
         pinFieldBackgroundForConfirmNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
@@ -92,7 +99,7 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
     fun showErrorOnConfirmPinField() {
         pinFieldBackgroundForConfirmNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_red_under_line,
+                R.drawable.bg_edit_text_red_under_line_card_change_pin,
                 null
             )
         )
@@ -103,11 +110,18 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
     private fun hideErrorOldPin() {
         pinFieldBackground.set(
             context.resources.getDrawable(
-                co.yap.yapcore.R.drawable.bg_edit_text_under_line,
+                co.yap.yapcore.R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
         pinFieldErrorIcon.set(null)
         errorMessageForPrevious.set("")
+    }
+
+    private fun checkFieldFilledValidity() {
+        if (oldPin.isEmpty() && newPin.isEmpty() && confirmNewPin.isEmpty())
+            isAllFieldsEmpty.set(true)
+        else
+            isAllFieldsEmpty.set(false)
     }
 }

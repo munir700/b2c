@@ -25,6 +25,8 @@ class PersonalDetailsViewModel(application: Application) :
     override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
+
+
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
 

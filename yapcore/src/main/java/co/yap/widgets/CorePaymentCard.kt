@@ -68,6 +68,11 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
                     ivChipHeight.roundToInt(),
                     ivChipWidth.roundToInt()
                 )
+                setUpImageDimensions(
+                    ivInfo,
+                    ivChipHeight.roundToInt(),
+                    ivChipWidth.roundToInt()
+                )
                 setViewMargin(
                     tvCardExpiry,
                     bottom = R.dimen._4sdp
@@ -106,11 +111,16 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
                     context.applicationContext.resources.getDimension(R.dimen._10sdp)
                 )
 
-                val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._21sdp)
+                val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._22sdp)
                 val ivChipWidth =
-                    context.applicationContext.resources.getDimension(R.dimen._21sdp)
+                    context.applicationContext.resources.getDimension(R.dimen._22sdp)
+
+                val ivInfoHeight = context.applicationContext.resources.getDimension(R.dimen._18sdp)
+                val ivInfoWidth =
+                    context.applicationContext.resources.getDimension(R.dimen._18sdp)
 
                 setUpImageDimensions(ivChip, ivChipHeight.roundToInt(), ivChipWidth.roundToInt())
+                setUpImageDimensions(ivInfo, ivInfoHeight.roundToInt(), ivInfoWidth.roundToInt())
                 setUpImageDimensions(
                     ivCardType,
                     ivChipHeight.roundToInt(),
