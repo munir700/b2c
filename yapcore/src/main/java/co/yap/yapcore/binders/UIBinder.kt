@@ -545,9 +545,14 @@ object UIBinder {
         isAccountLocked: Boolean = false
     ) {
         if (null != error && error.isNotEmpty()) {
-            view.showError(error)
-            view.settingUIForError(isScreenLocked)
-            view.setPasscodeVisiblity(isAccountLocked)
+            if (!isScreenLocked && !isAccountLocked) {
+                view.showError(error)
+            } else {
+                view.showError(error)
+                view.settingUIForError(isScreenLocked)
+                view.setPasscodeVisiblity(isAccountLocked)
+            }
+
         } else {
             view.removeError()
             view.settingUIForNormal(isScreenLocked)
