@@ -3,9 +3,12 @@ package co.yap.modules.dashboard.more.main.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.interfaces.IMore
@@ -24,10 +27,11 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     public companion object {
         // do not remove this boolean variable
         var navigationVariable: Boolean = false
+        const val intentPlaceHolderDrawer = "isDrawerNav"
 
         fun newIntent(context: Context, isDrawerNav: Boolean = false): Intent {
             val intent = Intent(context, MoreActivity::class.java)
-            intent.putExtra("isDrawerNav", isDrawerNav)
+            intent.putExtra(intentPlaceHolderDrawer, isDrawerNav)
             return intent
         }
     }
@@ -45,6 +49,7 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+        checkDrawerNavigation()
     }
 
     override fun onDestroy() {
@@ -66,26 +71,36 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         toolbar.visibility = View.VISIBLE
     }
 
-    fun getIntentData(): Boolean {
+    private fun getIntentData(): Boolean {
         if (intent != null) {
-            if (intent.hasExtra("isDrawerNav"))
-                return intent.getBooleanExtra("isDrawerNav", false)
+            if (intent.hasExtra(intentPlaceHolderDrawer))
+                return intent.getBooleanExtra(intentPlaceHolderDrawer, false)
         }
         return false
     }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
-
+        if(getIntentData()) {
+           finish()
+        }
+        else{
+            if (!BackPressImpl(fragment).onBackPressed()) {
+                super.onBackPressed()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-      viewModel.BadgeVisibility= false
+        viewModel.BadgeVisibility = false
 
     }
 
+
+  private fun checkDrawerNavigation() {
+      if (getIntentData()) {
+          findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
+        }
+  }
 }

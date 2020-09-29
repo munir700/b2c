@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.main.activities
 
 import android.Manifest
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,6 +15,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -191,7 +193,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
-                R.id.lAnalytics -> {
+                R.id.imgProfile -> {
+                    startActivity(MoreActivity.newIntent(this,true))
+                }
+                R.id.tvLogOut -> {
+                    logoutAlert()
+                }
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
                 }
             }
         })
@@ -459,5 +468,25 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
+    }
+
+    private fun logoutAlert() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
+                DialogInterface.OnClickListener { dialog, which ->
+                    viewModel.logout()
+                })
+
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null)
+            .show()
+    }
+
+    private fun doLogout() {
+        MyUserManager.doLogout(this)
+       finishAffinity()
     }
 }

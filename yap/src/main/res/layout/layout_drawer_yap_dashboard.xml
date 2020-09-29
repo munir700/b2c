@@ -16,6 +16,8 @@
         <import type="co.yap.yapcore.enums.PartnerBankStatus" />
 
         <import type="android.view.View" />
+        <import type="co.yap.translation.Strings" />
+
     </data>
 
     <!--    <ScrollView-->
@@ -118,7 +120,6 @@
                         android:text="@{viewModel.state.fullName}" />
 
                 </RelativeLayout>
-
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandableLayout"
                     android:layout_width="match_parent"
@@ -133,14 +134,25 @@
                         android:layout_marginTop="@dimen/margin_extra_small"
                         >
 
+                        <View
+                            android:id="@+id/view2"
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:layout_marginTop="@dimen/margin_extra_small"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:background="@color/greyLight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
                         <TextView
                             android:id="@+id/tvAccountHeading"
                             style="@style/AMicroGrey"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Account"
+                            android:layout_marginTop="@dimen/margin_small"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
                         <TextView
                             android:id="@+id/tvAccountNo"
@@ -176,6 +188,7 @@
                             android:layout_height="@dimen/_18sdp"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:gravity="center"
+                            android:layout_marginTop="@dimen/margin_small"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
                             android:text="Copy"
                             android:visibility="@{MyUserManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
@@ -186,7 +199,7 @@
                             app:btn_text_size="@dimen/text_size_c3"
                             app:btn_unpressed_color="@color/disabledLight"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -313,9 +326,24 @@
                     android:gravity="bottom|center"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingEnd="@dimen/_2sdp"
+                    android:visibility="gone"
                     android:paddingBottom="@dimen/margin_small"
                     android:text="@{viewModel.state.appVersion}"
                     tools:text="Version 1.0.0 (11)" />
+                <TextView
+                    android:id="@+id/tvLogOut"
+                    style="@style/ARegular"
+                    android:gravity="bottom|center"
+                    android:paddingStart="@dimen/margin_small"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
+                    android:text="@string/screen_profile_settings_display_text_logout"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    app:text="@{Strings.screen_profile_settings_display_text_logout}"/>
 
             </LinearLayout>
 
@@ -345,6 +373,7 @@
                 android:contentDescription="@string/empty_string"
                 android:gravity="center"
                 android:padding="@dimen/_3sdp"
+                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                 app:beneficiaryPicture="@{viewModel.state.userNameImage}"
                 app:fullName="@{viewModel.state.fullName}"
                 tools:src="@color/quantum_yellow" />
