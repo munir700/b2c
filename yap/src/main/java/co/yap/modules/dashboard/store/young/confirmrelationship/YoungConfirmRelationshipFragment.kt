@@ -30,7 +30,6 @@ class YoungConfirmRelationshipFragment :
                 navigate(YoungConfirmRelationshipFragmentDirections.actionYoungConfirmRelationshipFragmentToYoungContactDetailsFragment())
             }
             R.id.edit_query -> {
-
             }
         }
     }
