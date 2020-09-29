@@ -20,6 +20,5 @@ class YoungConfirmRelationshipVM @Inject constructor(
     }
 
     override fun handleOnClick(id: Int) {
-      clickEvent?.setValue(id)
     }
 }

@@ -20,8 +20,8 @@ class YoungConfirmRelationshipFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        scTermscondition.setOnCheckedChangeListener{ compoundButton: CompoundButton, b: Boolean ->
-            viewModel.state.valid.value = b
+        scTermscondition.setOnCheckedChangeListener{ compoundButton: CompoundButton, isChecked: Boolean ->
+            viewModel.state.valid.value = isChecked
         }
     }
     override fun onClick(id: Int) {
