@@ -319,6 +319,7 @@ class CoreDialerPad @JvmOverloads constructor(
     fun showError(error: String) {
         tvError.visibility = View.VISIBLE
         tvError.text = error
+        setButtonDimensions()
     }
 
     fun removeError() {

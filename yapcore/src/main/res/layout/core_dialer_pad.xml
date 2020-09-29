@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toTopOf="@+id/llPasscodeFirstRow"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,6 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:animateLayoutChanges="true"
             app:layout_constraintBottom_toTopOf="@+id/tvError"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -95,22 +98,23 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_h6"
                 app:layout_constraintTop_toBottomOf="@+id/llPasscode"
-                app:layout_constraintVertical_bias="0.186"
                 tools:layout_editor_absoluteX="0dp"
                 tools:text="6854" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tvError"
-            style="@style/Regular"
+            style="@style/Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
             android:gravity="center"
             android:lineSpacingExtra="0sp"
+            android:layout_marginTop="@dimen/_6sdp"
             android:textColor="@color/error"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llTopMain"
             tools:text="Too many attempts. For your security your your account is blocked. Please click on forgot passcode to reset your passcode" />
@@ -121,7 +125,9 @@
         android:id="@+id/llPasscodeFirstRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintBottom_toTopOf="@+id/llPasscodeSecondRow"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/clPassCodeViews">
@@ -161,8 +167,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/llPasscodeThirdRow"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
+        android:animateLayoutChanges="true"
         app:layout_constraintTop_toBottomOf="@+id/llPasscodeFirstRow">
 
         <Button
@@ -202,8 +210,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/llPasscodeFourthRow"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
+        android:animateLayoutChanges="true"
         app:layout_constraintTop_toBottomOf="@+id/llPasscodeSecondRow">
 
         <Button
@@ -245,7 +255,10 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
+        android:animateLayoutChanges="true"
         app:layout_constraintTop_toBottomOf="@+id/llPasscodeThirdRow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
         tools:layout_editor_absoluteX="0dp">
 
         <ImageButton
