@@ -146,7 +146,7 @@ abstract class BaseNavViewModelFragment<VB : ViewDataBinding, S : IBase.State, V
         exitTransition: Any? = Slide()
     ) {
         // val extras = FragmentNavigatorExtras(appBarLayout to appBarTransition)
-        exitTransition?.let { this.exitTransition = it }
+       // exitTransition?.let { this.exitTransition = it }
 //        this.enterTransition = Slide(Gravity.RIGHT)
         navigateForResult(navDirections.actionId, REQUEST_CODE_NOT_SET, args)
     }

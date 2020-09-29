@@ -17,6 +17,7 @@ import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
 import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.toast
@@ -74,7 +75,7 @@ class HHSalaryProfileFragment :
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToPayHHEmployeeSalaryFragment(),
                 arguments
             )
-            R.id.ivExpenses -> toast("Coming Soon")
+            R.id.ivExpenses -> alert("Coming Soon")
             R.id.ivUserImage -> navigateForwardWithAnimation(
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHProfileFragment(),
                 arguments
@@ -92,7 +93,7 @@ class HHSalaryProfileFragment :
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToPayHHEmployeeSalaryFragment(),
                 arguments
             )
-            1 -> toast("Coming Soon")
+            1 -> alert("Coming Soon")
             2 -> navigateForwardWithAnimation(
                 HHSalaryProfileFragmentDirections.actionHHSalaryProfileFragmentToHHIbanSendMoneyFragment(),
                 arguments

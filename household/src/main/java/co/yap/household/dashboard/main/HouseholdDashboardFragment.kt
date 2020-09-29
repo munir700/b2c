@@ -30,6 +30,7 @@ import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
@@ -167,7 +168,7 @@ class HouseholdDashboardFragment :
 
             2 -> {
                 if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                    showToast("Coming Soon")
+                    alert("Coming Soon")
                     // will perform required action here
                 } else {
                     showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")

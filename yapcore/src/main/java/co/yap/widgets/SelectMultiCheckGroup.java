@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.BindingAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -313,4 +314,9 @@ public class SelectMultiCheckGroup extends LinearLayout {
         void checked(View view, int position, boolean isChecked);
     }
 
+    @BindingAdapter("firstSingleSelectedPosition")
+    public static void setSelectMultiCheck(SelectMultiCheckGroup view, int mSelectedPosition) {
+        if (mSelectedPosition > -1)
+            view.setSeleted(mSelectedPosition);
+    }
 }
