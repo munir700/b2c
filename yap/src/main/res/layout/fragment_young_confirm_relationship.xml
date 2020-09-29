@@ -111,7 +111,6 @@
             android:paddingStart="0dp"
             android:paddingEnd="-2dp"
             android:theme="@style/CustomSwitch"
-            app:validateMobile="@{}"
             app:layout_constraintEnd_toEndOf="@+id/msRelationShip"
             app:layout_constraintTop_toBottomOf="@+id/msRelationShip" />
 
