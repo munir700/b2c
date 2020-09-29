@@ -293,9 +293,7 @@ class YapHomeViewModel(application: Application) :
                     action = NotificationAction.UPDATE_EMIRATES_ID
                 )
             )
-
         }
-
         return list
     }
 
