@@ -187,6 +187,7 @@
                         android:paddingBottom="@dimen/small"
                         android:ellipsize="end"
                         android:maxLines="3"
+                        android:layout_marginEnd="@dimen/_7sdp"
                         android:layout_marginTop="@dimen/margin_three_dp"
                         android:text="@={viewModel.state.address}"
                         tools:text="dasd dasdjkasdha kjhasdhh asd jlkasd kljad as, Ajman  " />

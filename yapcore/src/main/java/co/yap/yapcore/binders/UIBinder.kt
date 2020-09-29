@@ -88,23 +88,6 @@ object UIBinder {
         spinner.adapter = dataAdapter
     }
 
-    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
-    @JvmStatic
-    fun setPlacesAdapter(
-        autoCompleteTextView: AutoCompleteTextView,
-        placesAdapter: PlacesAutoCompleteAdapter,
-        listener: OnItemClickListener?
-    ) {
-        autoCompleteTextView.setAdapter(placesAdapter)
-        autoCompleteTextView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
-                val place: Place = parent.getItemAtPosition(position) as Place
-                view?.let { listener?.onItemClick(view, place.id, position) }
-                autoCompleteTextView.setText(place.mainText)
-                autoCompleteTextView.setSelection(place.mainText.length)
-            }
-    }
-
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
@@ -915,4 +898,29 @@ object UIBinder {
 
     }
 
+
+    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
+    @JvmStatic
+    fun setPlacesAdapter(
+        autoCompleteTextView: AutoCompleteTextView,
+        placesAdapter: PlacesAutoCompleteAdapter,
+        listener: OnItemClickListener?
+    ) {
+        autoCompleteTextView.setAdapter(placesAdapter)
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val place: Place = parent.getItemAtPosition(position) as Place
+                view?.let {
+                    listener?.onItemClick(view, place, position)
+                }
+                autoCompleteTextView.setText(place.mainText)
+                autoCompleteTextView.setSelection(place.mainText.length)
+            }
+        autoCompleteTextView.setOnClickListener {
+            autoCompleteTextView.isFocusable = true
+            autoCompleteTextView.isFocusableInTouchMode = true
+            autoCompleteTextView.isFocusable = true
+            autoCompleteTextView.isFocusableInTouchMode = true
+        }
+    }
 }

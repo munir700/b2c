@@ -20,6 +20,7 @@ import co.yap.modules.location.viewmodels.LocationSelectionViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,7 +29,8 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPhotoRequest
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FetchPlaceResponse
 import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -45,6 +47,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
     private var locationMarker: Marker? = null
     protected var permissionHelper: PermissionHelper? = null
     private var defaultPlacePhoto: Bitmap? = null
+    var isFromPlacesApi: Boolean = false
 
     override val viewModel: LocationSelectionViewModel
         get() = ViewModelProviders.of(this).get(LocationSelectionViewModel::class.java)
@@ -106,6 +109,8 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         }
         mMap?.setOnMapClickListener {
             it?.let { latLng ->
+                isFromPlacesApi = false
+                mDefaultLocation = latLng
                 createMarker(latLng)
                 loadAysnMapInfo(latLng)
             }
@@ -119,6 +124,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
             }
             populateCardState(address.await())
         }
+
     }
 
     private fun getSelectedMapLocation(location: LatLng): co.yap.networking.cards.responsedtos.Address? {
@@ -163,7 +169,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         }
     }
 
-    private fun fillAddress(
+    fun fillAddress(
         address: co.yap.networking.cards.responsedtos.Address?,
         populatePassingAddress: Boolean = false
     ) {
@@ -223,40 +229,6 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
                 Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
-        }
-    }
-
-    private fun getCurrentPlaceLikelihoods() {
-        val placeFields = listOf(
-            Place.Field.NAME, Place.Field.ADDRESS,
-            Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS
-        )
-
-        val request = FindCurrentPlaceRequest.builder(placeFields).build()
-        val placeResponse = placesClient?.findCurrentPlace(request)
-        placeResponse?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val response = task.result
-                response?.placeLikelihoods?.let {
-                    for (placeLikelihood in it.iterator()) {
-                        val currentPlace = placeLikelihood.place
-                        if (currentPlace.attributions != null) {
-                            currentPlace.attributions?.joinToString(" ")
-                        }
-                        if (currentPlace.address != null) {
-                            viewModel.state.placeSubTitle.set(currentPlace.address.toString())
-                        }
-                        viewModel.state.placeTitle.set(currentPlace.address)
-
-                        if (!currentPlace.photoMetadatas.isNullOrEmpty() && currentPlace.photoMetadatas?.size ?: 0 > 0) {
-                            attemptFetchPhoto(currentPlace)
-                        } else {
-                            viewModel.state.isShowLocationCard.set(true)
-                        }
-                        break
-                    }
-                }
-            }
         }
     }
 
@@ -330,4 +302,23 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         mFusedLocationProviderClient?.removeLocationUpdates(locationCallback)
     }
 
+    fun getLocationFromPlacesApi(
+        placeId: String
+        , success: (latlng: LatLng?) -> Unit
+    ) {
+        var latLng: LatLng? = null
+        val placeFields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+        val request = FetchPlaceRequest.newInstance(placeId, placeFields)
+        placesClient?.fetchPlace(request)
+            ?.addOnSuccessListener { response: FetchPlaceResponse ->
+                val place = response.place
+                latLng = place.latLng
+                mDefaultLocation = latLng
+                success(latLng)
+            }?.addOnFailureListener { exception: Exception ->
+                if (exception is ApiException) {
+                    success(null)
+                }
+            }
+    }
 }
