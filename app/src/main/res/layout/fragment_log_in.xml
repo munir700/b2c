@@ -7,6 +7,8 @@
         <variable
             name="viewModel"
             type="co.yap.app.modules.login.viewmodels.LoginViewModel" />
+        <import type="co.yap.translation.Strings" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
