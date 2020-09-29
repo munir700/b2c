@@ -11,6 +11,8 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.household.dashboard.home.HouseholdHomeFragment
+import co.yap.household.dashboard.main.HouseholdDashboardFragment
 import co.yap.modules.dashboard.store.young.cardsuccess.YoungCardSuccessFragment
 import co.yap.modules.dashboard.store.young.pincode.YoungCreatePinCodeFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
@@ -74,7 +76,7 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                       )
                   }
               }*/
-            startFragment(YoungCreatePinCodeFragment::class.java.name)
+            startFragment(HouseholdHomeFragment::class.java.name)
         }
     }
 
