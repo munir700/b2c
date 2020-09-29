@@ -74,8 +74,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             viewModel.state.address2 = getAddresse2()
 
             viewModel.placesApiCall(photoPlacedId) {
-                placeImage.setPadding(0, 0, 0, 0)
-                placeImage.scaleType = ImageView.ScaleType.CENTER_CROP
+                placeImage?.setPadding(0, 0, 0, 0)
+                placeImage?.scaleType = ImageView.ScaleType.CENTER_CROP
             }
         } else {
             tvSuccessSubHeading.text = primaryStr

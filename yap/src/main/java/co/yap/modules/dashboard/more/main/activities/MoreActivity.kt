@@ -3,12 +3,10 @@ package co.yap.modules.dashboard.more.main.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.interfaces.IMore
@@ -20,6 +18,9 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_add_payment_cards.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -27,11 +28,11 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     public companion object {
         // do not remove this boolean variable
         var navigationVariable: Boolean = false
-        const val intentPlaceHolderDrawer = "isDrawerNav"
+        const val intentPlaceHolderIsDrawerNav = "isDrawerNav"
 
         fun newIntent(context: Context, isDrawerNav: Boolean = false): Intent {
             val intent = Intent(context, MoreActivity::class.java)
-            intent.putExtra(intentPlaceHolderDrawer, isDrawerNav)
+            intent.putExtra(intentPlaceHolderIsDrawerNav, isDrawerNav)
             return intent
         }
     }
@@ -73,18 +74,17 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     private fun getIntentData(): Boolean {
         if (intent != null) {
-            if (intent.hasExtra(intentPlaceHolderDrawer))
-                return intent.getBooleanExtra(intentPlaceHolderDrawer, false)
+            if (intent.hasExtra(intentPlaceHolderIsDrawerNav))
+                return intent.getBooleanExtra(intentPlaceHolderIsDrawerNav, false)
         }
         return false
     }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)
-        if(getIntentData()) {
-           finish()
-        }
-        else{
+        if (getIntentData()) {
+            finish()
+        } else {
             if (!BackPressImpl(fragment).onBackPressed()) {
                 super.onBackPressed()
             }
@@ -98,9 +98,11 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     }
 
 
-  private fun checkDrawerNavigation() {
-      if (getIntentData()) {
-          findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
+    private fun checkDrawerNavigation() {
+        if (getIntentData()) {
+            viewModel.requestProfileDocumentsInformation()
+            { findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
+            }
         }
-  }
+    }
 }
