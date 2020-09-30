@@ -684,6 +684,7 @@
     <string name="screen_bank_details_display_text_swift_code">Swift code</string>
     <string name="screen_bank_details_button_find_bank">Find Bank</string>
     <string name="screen_bank_details_button_confirm">Confirm</string>
+    <string name="screen_bank_details_label_content">This is your YAP account summary. Use these details to transfer funds from another account into YAP.</string>
 
 
     <!--  Beneficiary account details screen -->
