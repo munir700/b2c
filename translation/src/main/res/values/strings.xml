@@ -60,6 +60,7 @@
     <string name="screen_sign_in_display_text_sign_up">Sign up now</string>
     <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
     <string name="screen_sign_in_display_text_error_text">That doesn\'t look right. Please try again</string>
+    <string name="screen_sign_in_label_switch_text">Remember ID</string>
 
     <!-- Phone Number Screen -->
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>

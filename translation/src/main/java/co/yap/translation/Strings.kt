@@ -89,6 +89,10 @@ object Strings {
         "screen_sign_in_display_text_sub_title"
     const val screen_sign_in_display_text_error_text: String =
         "screen_sign_in_display_text_error_text"
+    const val screen_sign_in_label_switch_text: String =
+        "screen_sign_in_label_switch_text"
+    const val screen_sign_in_display_text_sign_up_prefix: String =
+        "screen_sign_in_display_text_sign_up_prefix"
 
     //Phone Number screen
     const val screen_phone_number_display_text_title: String =
