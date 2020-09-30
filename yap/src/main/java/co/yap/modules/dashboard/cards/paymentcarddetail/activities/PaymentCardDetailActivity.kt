@@ -548,7 +548,36 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     }
                 }
             }
+            RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
 
+                val groupPosition = data.let {
+                    it!!.getIntExtra(
+                        TransactionDetailsActivity.intentSetResultPlaceHolderGroupPosition,
+                        -1
+                    )
+                }
+                val childPosition = data.let {
+                    it!!.getIntExtra(
+                        TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
+                        -1
+                    )
+                }
+                if (groupPosition != -1 && childPosition != -1) {
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                        childPosition
+                    )?.transactionNote =
+                        (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNote
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                        childPosition
+                    )?.transactionNoteDate =
+                        (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition,
+                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction[childPosition]
+                    )
+
+                }
+            }
         }
     }
 
@@ -664,11 +693,25 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Transaction) {
-                launchActivity<TransactionDetailsActivity> {
-                    putExtra("transaction", data)
-                }
+            val groupPosition = data as Int
+            val transaction: Transaction? =
+                getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(pos)
+            launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                putExtra(
+                    TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject,
+                    transaction
+                )
+                putExtra(
+                    TransactionDetailsActivity.intentSetResultPlaceHolderGroupPosition,
+                    groupPosition
+                )
+                putExtra(
+                    TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
+                    pos
+                )
+
             }
+
         }
     }
 

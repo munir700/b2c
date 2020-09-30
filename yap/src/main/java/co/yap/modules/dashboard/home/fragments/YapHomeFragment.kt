@@ -205,7 +205,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         val childPosition = it.position
                         val groupPosition = it.itemData as Int
                         val transaction: Transaction? =
-                            getRecycleViewAdaptor()?.getDataForPosition(it.itemData as Int)?.transaction?.get(
+                            getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
                                 childPosition
                             )
                         launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
@@ -614,7 +614,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition,
-                        getRecycleViewAdaptor()?.getDataForPosition(0)!!.transaction[0]
+                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(childPosition)
                     )
 
                 }
