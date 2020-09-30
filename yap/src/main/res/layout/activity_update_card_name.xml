@@ -55,9 +55,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
+            android:layout_below="@+id/toolbar"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/toolbar">
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/rlCard"
@@ -99,7 +99,8 @@
                     android:hint="@string/screen_report_card_hint_name_edit_text"
                     app:hint="@{Strings.common_amount_hint}"
                     android:inputType="textPersonName"
-                    android:maxLength="50"
+                    android:maxLength="@integer/spareCardName"
+                    android:paddingEnd="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:text="@={viewModel.state.cardName}"
@@ -124,15 +125,15 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginLeft="@dimen/_75sdp"
+                    android:layout_marginLeft="@dimen/margin_xxl"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:layout_marginRight="@dimen/_75sdp"
+                    android:layout_marginRight="@dimen/margin_xxl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
-                    app:layout_constraintTop_toBottomOf="@+id/etName"
                     android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                     android:text="Confirm"
                     app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etName"
                     app:layout_constraintVertical_bias="0.988"
                     app:layout_goneMarginTop="@dimen/margin_extra_large"
                     tools:layout_editor_absoluteX="34dp" />
