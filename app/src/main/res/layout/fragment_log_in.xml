@@ -11,134 +11,123 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.translation.Translator" />
-
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <co.yap.widgets.LockableScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/ivBubbles"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_160sdp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bg_bubbles" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBubbles"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/_160sdp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/bg_bubbles" />
 
-                <ImageView
-                    android:id="@+id/ivYap"
-                    android:layout_width="84dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="@dimen/_130sdp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_yap" />
 
-                <TextView
-                    android:id="@+id/tvSignIn"
-                    style="@style/RegularGrey"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivYap"
+                android:layout_width="84dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="-45dp"
+                app:srcCompat="@drawable/ic_yap" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSignIn"
+                style="@style/RegularGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_heading_text)}" />
+
+            <co.yap.widgets.CoreInputField
+                android:id="@+id/etEmailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_small"
+                app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
+                app:coreInputError="@{viewModel.state.emailError}"
+                app:coreInputText="@{viewModel.state.email}"
+                app:realValue="@={viewModel.state.twoWayTextWatcher}"
+                app:resetUI="@{viewModel.state.refreshField}"
+                app:showKeyboard="false"
+                app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
+                app:view_input_type="email" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swRemember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:checked="@={viewModel.state.isRemember}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_heading_text)}"
+                android:theme="@style/CustomSwitch" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnLogIn"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
+                app:enableCoreButton="@{viewModel.state.valid}" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/clSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSignUpPrefix"
+                    style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_heading_text)}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivYap" />
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
+                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_sign_up_prefix)}" />
 
-                <co.yap.widgets.CoreInputField
-                    android:id="@+id/etEmailField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_xl"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
-                    app:coreInputError="@{viewModel.state.emailError}"
-                    app:coreInputText="@{viewModel.state.email}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSignIn"
-                    app:realValue="@={viewModel.state.twoWayTextWatcher}"
-                    app:resetUI="@{viewModel.state.refreshField}"
-                    app:showKeyboard="false"
-                    app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
-                    app:view_input_type="email" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/swRemember"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSignUp"
+                    style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium_large"
-                    android:checked="@={viewModel.state.isRemember}"
-                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_label_switch_text)}"
-                    android:theme="@style/CustomSwitch"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etEmailField" />
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:maxLines="1"
+                    android:onClick="@{(v) -> viewModel.handlePressOnSignUp()}"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
+                    android:singleLine="true"
+                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_sign_up)}"
+                    android:textColor="?attr/colorPrimaryAttr" />
 
-                <co.yap.widgets.CoreButton
-                    android:id="@+id/btnLogIn"
-                    style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="@dimen/margin_xxl"
-                    android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
-                    android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
-                    app:enableCoreButton="@{viewModel.state.valid}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/clSignUp"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/swRemember"
-                    app:layout_constraintVertical_bias="0.949" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clSignUp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent">
-
-                    <TextView
-                        android:id="@+id/tvSignUpPrefix"
-                        style="@style/SmallGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_large"
-                        android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_sign_up_prefix)}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvSignUp"
-                        style="@style/SmallGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/margin_large"
-                        android:onClick="@{(v) -> viewModel.handlePressOnSignUp()}"
-                        android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_display_text_sign_up)}"
-                        android:textColor="?attr/colorPrimaryAttr"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/tvSignUpPrefix" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </co.yap.widgets.LockableScrollView>
 </layout>
