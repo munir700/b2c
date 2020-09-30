@@ -95,12 +95,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="@={viewModel.state.amount}"
-                app:decimals="@{viewModel.parentViewModel.configuredDecimal}"
                 app:hint="@{Strings.common_amount_hint}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-                app:units="@{@integer/unitsCount}"
                 tools:text="1234567891" />
 
             <TextView

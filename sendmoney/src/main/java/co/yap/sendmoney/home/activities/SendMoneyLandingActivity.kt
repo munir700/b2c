@@ -207,10 +207,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         Utils.hideKeyboard(getSearchView())
         launchActivity<BeneficiaryFundTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
             putExtra(Constants.BENEFICIARY, beneficiary)
-            putExtra(
-                Constants.CONFIGURED_DECIMAL,
-                Utils.getConfiguredDecimals(beneficiary?.currency ?: "")
-            )
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }

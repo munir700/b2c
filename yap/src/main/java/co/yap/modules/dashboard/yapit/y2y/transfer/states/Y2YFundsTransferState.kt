@@ -4,11 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableInt
 import co.yap.BR
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.managers.SessionManager
 
 class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
@@ -42,6 +40,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
     @get:Bindable
     override var minLimit: Double = 0.01
         set(value) {
@@ -62,6 +61,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.errorDescription)
         }
+
     @get:Bindable
     override var currencyType: String = ""
         set(value) {
@@ -103,12 +103,12 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
+
     @get:Bindable
     override var transferFee: CharSequence? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
-    override var allowedDecimals: ObservableInt = ObservableInt(SessionManager.getDefaultCurrencyDecimals())
 
 }

@@ -26,7 +26,6 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     private lateinit var topupCrad: TopUpCard
     private var secureId: String? = null
     private var orderId: String? = null
-    var allowedDecimals: Int = SessionManager.getDefaultCurrencyDecimals()
 
     override fun initateVM(item: TopUpCard) {
         topupCrad = item

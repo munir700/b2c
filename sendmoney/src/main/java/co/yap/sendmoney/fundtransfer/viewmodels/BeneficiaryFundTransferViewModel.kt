@@ -13,7 +13,6 @@ import co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.managers.SessionManager
 
 
 class BeneficiaryFundTransferViewModel(application: Application) :
@@ -32,7 +31,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var isCutOffTimeStarted: Boolean = false
     override var isSameCurrency: Boolean = false
     override var transactionWillHold: Boolean = false
-    override var configuredDecimal: Int = SessionManager.getDefaultCurrencyDecimals()
+    
     override fun onCreate() {
         super.onCreate()
         state.toolbarVisibility.set(true)

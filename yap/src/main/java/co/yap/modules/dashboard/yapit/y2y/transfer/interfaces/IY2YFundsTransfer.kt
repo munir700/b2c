@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.transfer.interfaces
 
 import android.graphics.drawable.Drawable
-import androidx.databinding.ObservableInt
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
@@ -18,7 +17,7 @@ class IY2YFundsTransfer {
         val clickEvent: SingleClickEvent
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var receiverUUID: String
-        val transferFundSuccess:MutableLiveData<Boolean>
+        val transferFundSuccess: MutableLiveData<Boolean>
         fun handlePressOnView(id: Int)
         fun getTransactionThresholds()
         fun proceedToTransferAmount()
@@ -26,7 +25,7 @@ class IY2YFundsTransfer {
     }
 
     interface State : IBase.State {
-        var amount:String
+        var amount: String
         var amountBackground: Drawable?
         var valid: Boolean
         var minLimit: Double
@@ -40,6 +39,5 @@ class IY2YFundsTransfer {
         var noteValue: String
         var imageUrl: String
         var transferFee: CharSequence?
-        var allowedDecimals: ObservableInt
     }
 }

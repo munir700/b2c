@@ -20,7 +20,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.managers.SessionManager
 
 class CoreEditText : AppCompatEditText {
 
@@ -30,17 +29,15 @@ class CoreEditText : AppCompatEditText {
     private var customWidth: Int = 0
     private var customHeight: Int = 0
 
-    var decimals: Int? = SessionManager.getDefaultCurrencyDecimals()
-        set(value) {
-            field = value
-            filters = arrayOf(InputFilter.LengthFilter(units ?: 0), DecimalDigitsInputFilter(value))
-        }
+    var decimals: Int = Utils.getConfiguredDecimals("AED")
+    var units: Int = resources.getInteger(R.integer.unitsCount)
 
-    var units: Int? = resources.getInteger(R.integer.unitsCount)
+    var currency: String? = "AED"
         set(value) {
             field = value
+            decimals = Utils.getConfiguredDecimals(value ?: "AED")
             filters =
-                arrayOf(InputFilter.LengthFilter(value ?: 0), DecimalDigitsInputFilter(decimals))
+                arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
         }
 
     constructor(context: Context) : super(context) {
@@ -78,7 +75,8 @@ class CoreEditText : AppCompatEditText {
             ).toFloat()
         ).toInt()
 
-
+        filters =
+            arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
         background = getShapeBackground()
         //setCursorColor(context.getColors(R.color.colorPrimary))
         gravity = Gravity.CENTER
@@ -92,8 +90,6 @@ class CoreEditText : AppCompatEditText {
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
         setSingleLine()
         maxLines = 1
-        isFocusableInTouchMode = true
-
         a.recycle()
     }
 

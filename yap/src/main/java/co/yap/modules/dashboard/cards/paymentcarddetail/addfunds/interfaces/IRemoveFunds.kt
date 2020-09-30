@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
@@ -18,7 +17,7 @@ interface IRemoveFunds {
         fun handleOnPressView(id: Int)
         fun getFundTransferDenominations()
         fun getFundTransferLimits()
-        fun removeFunds(success:()->Unit)
+        fun removeFunds(success: () -> Unit)
         val clickEvent: SingleClickEvent
         var transactionThreshold: TransactionThresholdModel?
         var errorDescription: String
@@ -38,7 +37,5 @@ interface IRemoveFunds {
         var maxLimit: Double
         var minLimit: Double
         var valid: ObservableBoolean
-        var allowedDecimals: ObservableInt
-
     }
 }
