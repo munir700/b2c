@@ -72,7 +72,7 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         toolbar.visibility = View.VISIBLE
     }
 
-    private fun getIntentData(): Boolean {
+    private fun isFromDrawer(): Boolean {
         if (intent != null) {
             if (intent.hasExtra(intentPlaceHolderIsDrawerNav))
                 return intent.getBooleanExtra(intentPlaceHolderIsDrawerNav, false)
@@ -82,7 +82,7 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)
-        if (getIntentData()) {
+        if (isFromDrawer()) {
             finish()
         } else {
             if (!BackPressImpl(fragment).onBackPressed()) {
@@ -99,7 +99,7 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
 
     private fun checkDrawerNavigation() {
-        if (getIntentData()) {
+        if (isFromDrawer()) {
             viewModel.requestProfileDocumentsInformation()
             { findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
             }
