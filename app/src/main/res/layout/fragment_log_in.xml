@@ -26,6 +26,7 @@
                 android:id="@+id/ivBubbles"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_160sdp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/bg_bubbles" />
 
 
