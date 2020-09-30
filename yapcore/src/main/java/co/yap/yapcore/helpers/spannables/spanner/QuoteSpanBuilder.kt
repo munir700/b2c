@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers.spannables.SpannableString
+package co.yap.yapcore.helpers.spannables.spanner
 
 import android.text.style.QuoteSpan
 import androidx.annotation.ColorInt

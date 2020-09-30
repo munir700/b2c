@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.content.Context
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
@@ -15,6 +16,9 @@ import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
 import co.yap.translation.Strings.common_button_cancel
 import co.yap.translation.Strings.common_button_confirm
+import co.yap.translation.Strings.screen_household_set_pin_terms_and_conditions_text
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_confirm_message_text
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_months
 import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_per_month
 import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_per_year
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
@@ -25,9 +29,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.helpers.spannables.SpannableString.Spanner
-import co.yap.yapcore.helpers.spannables.SpannableString.Spans.click
+import co.yap.yapcore.helpers.spannables.kpan.span
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -60,17 +62,34 @@ class SubscriptionSelectionFragment :
         super.postExecutePendingBindings(savedInstanceState)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
+
     }
 
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
                 if (!state.plansList.value.isNullOrEmpty()) {
-                    val msg = Spanner()
-                        .append("Click here\n", click { toast("dsadadadadsadsada") })
+                    var msg: CharSequence = getString(
+                        screen_yap_house_hold_subscription_selection_confirm_message_text,
+                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
+                    )
+                    val msg1: SpannableStringBuilder = SpannableStringBuilder(getString(
+                        screen_yap_house_hold_subscription_selection_confirm_message_text,
+                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
+                    )).append(span {
+                        span(msg)
+                        span(getString(screen_household_set_pin_terms_and_conditions_text)) {
+                            onClick = {
 
+                            }
+                            textColor = requireContext().getColor(R.color.semi_black)
+                            textDecorationLine = "underline"
+                        }
+                    })
                     confirm(
-                        message = msg,
+                        message = msg1,
                         title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
                             screen_yap_house_hold_subscription_selection_display_text_per_month
                         )}" else "${viewModel.state.annuallyFee.value} ${getString(

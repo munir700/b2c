@@ -179,7 +179,8 @@ fun Fragment.confirm(
         val alert =  create()
         setCancelable(cancelable)
         alert.show()
-        alert.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
+        val msgView = alert.findViewById<TextView>(android.R.id.message)
+        msgView?.movementMethod = LinkMovementMethod.getInstance()
         //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
 
     }

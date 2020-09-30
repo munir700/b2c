@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers.spannables.SpannableString
+package co.yap.yapcore.helpers.spannables.spanner
 
 import android.text.Layout
 import android.text.style.AlignmentSpan

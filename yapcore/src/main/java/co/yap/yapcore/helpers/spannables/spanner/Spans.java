@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers.spannables.SpannableString;
+package co.yap.yapcore.helpers.spannables.spanner;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -44,20 +44,6 @@ import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 
 import java.util.Locale;
-
-import co.yap.yapcore.helpers.spannables.SpannableString.AbsoluteSizeSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.AlignmentSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.BulletSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.ClickSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.ColorSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.ImageSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.LeadingMarginSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.LineBackgroundSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.LineHeightSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.QuoteSpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.Span;
-import co.yap.yapcore.helpers.spannables.SpannableString.SpanBuilder;
-import co.yap.yapcore.helpers.spannables.SpannableString.StyleSpanBuilder;
 
 public class Spans {
     private Spans() {
@@ -215,8 +201,8 @@ public class Spans {
      *
      * @see ImageSpan#ImageSpan(Drawable)
      */
-    public static co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan image(@NonNull final Drawable drawable) {
-        return new co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan(new SpanBuilder() {
+    public static co.yap.yapcore.helpers.spannables.spanner.ImageSpan image(@NonNull final Drawable drawable) {
+        return new co.yap.yapcore.helpers.spannables.spanner.ImageSpan(new SpanBuilder() {
             @Override
             public Object build() {
                 return new ImageSpan(drawable);
@@ -229,8 +215,8 @@ public class Spans {
      *
      * @see ImageSpan#ImageSpan(Drawable, int)
      */
-    public static co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan image(@NonNull final Drawable drawable, final int verticalAlignment) {
-        return new co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan(new SpanBuilder() {
+    public static co.yap.yapcore.helpers.spannables.spanner.ImageSpan image(@NonNull final Drawable drawable, final int verticalAlignment) {
+        return new co.yap.yapcore.helpers.spannables.spanner.ImageSpan(new SpanBuilder() {
             @Override
             public Object build() {
                 return new ImageSpan(drawable, verticalAlignment);
@@ -241,8 +227,8 @@ public class Spans {
     /**
      * @see ImageSpan#ImageSpan(Context, int, int)
      */
-    public static co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan image(final Context context, @DrawableRes final int drawableId, final int verticalAlignment) {
-        return new co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan(new SpanBuilder() {
+    public static co.yap.yapcore.helpers.spannables.spanner.ImageSpan image(final Context context, @DrawableRes final int drawableId, final int verticalAlignment) {
+        return new co.yap.yapcore.helpers.spannables.spanner.ImageSpan(new SpanBuilder() {
             @Override
             public Object build() {
                 return new ImageSpan(context, drawableId, verticalAlignment);
@@ -253,8 +239,8 @@ public class Spans {
     /**
      * @see ImageSpan#ImageSpan(Context, int)
      */
-    public static co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan image(final Context context, @DrawableRes final int drawableId) {
-        return new co.yap.yapcore.helpers.spannables.SpannableString.ImageSpan(new SpanBuilder() {
+    public static co.yap.yapcore.helpers.spannables.spanner.ImageSpan image(final Context context, @DrawableRes final int drawableId) {
+        return new co.yap.yapcore.helpers.spannables.spanner.ImageSpan(new SpanBuilder() {
             @Override
             public Object build() {
                 return new ImageSpan(context, drawableId);
