@@ -9,23 +9,23 @@
             type="co.yap.app.modules.login.viewmodels.LoginViewModel" />
     </data>
 
-    <ScrollView
+    <co.yap.widgets.LockableScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/white"
         android:fillViewport="true">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivBubbles"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_160sdp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bg_bubbles" />
 
 
@@ -35,9 +35,6 @@
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="-45dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_yap" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -47,10 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="@string/screen_sign_in_display_text_heading_text"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivYap" />
+                android:text="@string/screen_sign_in_display_text_heading_text" />
 
             <co.yap.widgets.CoreInputField
                 android:id="@+id/etEmailField"
@@ -63,7 +57,6 @@
                 app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                 app:coreInputError="@{viewModel.state.emailError}"
                 app:coreInputText="@{viewModel.state.email}"
-                app:layout_constraintTop_toBottomOf="@+id/tvSignIn"
                 app:realValue="@={viewModel.state.twoWayTextWatcher}"
                 app:resetUI="@{viewModel.state.refreshField}"
                 app:showKeyboard="false"
@@ -78,14 +71,11 @@
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:checked="@={viewModel.state.isRemember}"
                 android:text="Remember ID"
-                android:theme="@style/CustomSwitch"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEmailField" />
+                android:theme="@style/CustomSwitch" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
 
             <co.yap.widgets.CoreButton
@@ -99,32 +89,25 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
                 android:text="@string/screen_sign_in_button_sign_in"
                 app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintBottom_toTopOf="@+id/clSignUp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/swRemember"
-                app:layout_constraintVertical_bias="0.949" />
+  />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/clSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_gravity="bottom|center"
-                android:layout_marginStart="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSignUpPrefix"
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
                     android:text="@string/screen_sign_in_display_text_sign_up_prefix"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSignUp"
@@ -132,14 +115,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:maxLines="1"
                     android:onClick="@{(v) -> viewModel.handlePressOnSignUp()}"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:paddingBottom="@dimen/margin_extra_small"
+                    android:singleLine="true"
                     android:text="@string/screen_sign_in_display_text_sign_up"
                     android:textColor="?attr/colorPrimaryAttr"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/tvSignUpPrefix" />
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </ScrollView>
+    </co.yap.widgets.LockableScrollView>
 </layout>
