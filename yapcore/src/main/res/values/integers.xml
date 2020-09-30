@@ -8,4 +8,5 @@
     <integer name="unitsCount">10</integer>
     <integer name="decimalCount">2</integer>
     <integer name="beneficiary_length">39</integer>
+    <integer name="spareCardName">50</integer>
 </resources>
