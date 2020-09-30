@@ -9,7 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.State>(application),
     IBankDetail.ViewModel {
@@ -18,15 +18,15 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
     override val state: BankDetailStates = BankDetailStates()
 
     init {
-        MyUserManager.user?.accountNo?.let { state.account.set(it.maskAccountNumber()) }
-        MyUserManager.user?.bank?.address?.let { state.addresse.set(it) }
-        MyUserManager.user?.bank?.name?.let { state.bank.set(it) }
-        MyUserManager.user?.iban?.let { state.iban.set(it.maskIbanNumber()) }
-        MyUserManager.user?.bank?.swiftCode?.let { state.swift.set(it) }
+        SessionManager.user?.accountNo?.let { state.account.set(it.maskAccountNumber()) }
+        SessionManager.user?.bank?.address?.let { state.addresse.set(it) }
+        SessionManager.user?.bank?.name?.let { state.bank.set(it) }
+        SessionManager.user?.iban?.let { state.iban.set(it.maskIbanNumber()) }
+        SessionManager.user?.bank?.swiftCode?.let { state.swift.set(it) }
 
-        state.name.set(MyUserManager.user?.currentCustomer?.getFullName())
+        state.name.set(SessionManager.user?.currentCustomer?.getFullName())
         state.title.set(getString(R.string.screen_more_detail_display_text_bank_details))
-        MyUserManager.user?.currentCustomer?.getPicture()?.let {
+        SessionManager.user?.currentCustomer?.getPicture()?.let {
             state.image.set(it)
         }
         state.name.get()?.let { state.initials.set(Utils.shortName(it)) }

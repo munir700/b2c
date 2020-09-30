@@ -28,7 +28,7 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
@@ -216,7 +216,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
                 getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
                 this.color(
                     R.color.colorPrimaryDark,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
                         .toFormattedAmountWithCurrency()
                 )
             )

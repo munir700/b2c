@@ -32,7 +32,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.item_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
@@ -158,7 +158,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val recentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this@SendMoneyLandingActivity))
                 } else {
                     startMoneyTransfer(data, pos)
@@ -287,7 +287,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val clickListener = Observer<Int> {
         when (it) {
             R.id.addContactsButton -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     startActivityForResult(
@@ -297,7 +297,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
             }
             R.id.tbBtnAddBeneficiary -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     startActivityForResult(
@@ -319,7 +319,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
-                        if (MyUserManager.user?.otpBlocked == true) {
+                        if (SessionManager.user?.otpBlocked == true) {
                             showToast(Utils.getOtpBlockedMessage(this))
                         } else {
                             startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
@@ -332,7 +332,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.btnEdit -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
-                        if (MyUserManager.user?.otpBlocked == true) {
+                        if (SessionManager.user?.otpBlocked == true) {
                             showToast(Utils.getOtpBlockedMessage(this))
                         } else {
                             openEditBeneficiary(payload.itemData as Beneficiary)
@@ -344,7 +344,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.btnDelete -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
-                        if (MyUserManager.user?.otpBlocked == true) {
+                        if (SessionManager.user?.otpBlocked == true) {
                             showToast(Utils.getOtpBlockedMessage(this))
                         } else {
                             positionToDelete = payload.position
@@ -386,7 +386,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                 ) as? Beneficiary
                             if (isMoneyTransfer == true)
                                 beneficiary?.let {
-                                    if (MyUserManager.user?.otpBlocked == true) {
+                                    if (SessionManager.user?.otpBlocked == true) {
                                         showToast(Utils.getOtpBlockedMessage(this))
                                     } else {
                                         startMoneyTransfer(it, 0)

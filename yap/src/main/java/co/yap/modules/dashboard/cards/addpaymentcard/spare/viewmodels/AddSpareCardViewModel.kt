@@ -21,7 +21,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 
@@ -69,7 +69,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun requestInitialData() {
         state.avaialableCardBalance =
-            "AED ${MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}"
+            "AED ${SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}"
         if (isFromBlockCardScreen || cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             state.loading = true
             requestGetAddressForPhysicalCard()
@@ -105,7 +105,7 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-                AddVirtualSpareCardRequest(MyUserManager.user?.currentCustomer?.getFullName())
+                AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
             )) {
                 is RetroApiResponse.Success -> {
                     paymentCard = response.data.data
@@ -122,7 +122,7 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun requestAddSparePhysicalCard() {
-        address?.cardName = MyUserManager.user?.currentCustomer?.getFullName()
+        address?.cardName = SessionManager.user?.currentCustomer?.getFullName()
         address?.let {
             launch {
                 state.loading = true

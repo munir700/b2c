@@ -14,7 +14,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class RenewCardViewModel(application: Application) :
     ReorderCardBaseViewModel<IRenewCard.State>(application), IRenewCard.ViewModel,
@@ -34,7 +34,7 @@ class RenewCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.availableCardBalance.set("AED ${MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}")
+        state.availableCardBalance.set("AED ${SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}")
         requestReorderCardFee(parentViewModel?.card?.cardType)
         requestGetAddressForPhysicalCard()
     }

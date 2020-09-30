@@ -13,7 +13,6 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.managers.MyUserManager
 
 class LiteDashboardViewModel(application: Application) :
     BaseViewModel<ILiteDashboard.State>(application),
@@ -55,7 +54,6 @@ class LiteDashboardViewModel(application: Application) :
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data?.size != 0) {
-                        //MyUserManager.cardSerialNumber = response.data.data[0].cardSerialNumber
                         clickEvent.setValue(EVENT_GET_DEBIT_CARDS_SUCCESS)
                     }
                 }

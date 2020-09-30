@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransfer.State>(application),
@@ -53,7 +53,7 @@ class CashTransferViewModel(application: Application) :
             getString(Strings.screen_cash_transfer_display_text_available_balance),
             context.color(
                 R.color.colorPrimaryDark,
-                "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                "${"AED"} ${SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
             )
         )
     }

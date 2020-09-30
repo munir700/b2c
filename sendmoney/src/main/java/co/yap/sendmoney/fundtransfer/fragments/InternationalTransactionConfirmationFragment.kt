@@ -34,7 +34,7 @@ import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class InternationalTransactionConfirmationFragment :
     BeneficiaryFundTransferBaseFragment<IInternationalTransactionConfirmation.ViewModel>(),
@@ -130,7 +130,7 @@ class InternationalTransactionConfirmationFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = viewModel.parentViewModel?.transferData?.value?.otpAction,
-                    mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                    mobileNumber = SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
                     amount = viewModel.parentViewModel?.transferData?.value?.sourceAmount,
@@ -156,7 +156,7 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     viewModel.requestForTransfer()

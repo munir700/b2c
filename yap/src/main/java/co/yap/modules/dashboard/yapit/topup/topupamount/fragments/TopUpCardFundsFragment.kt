@@ -26,7 +26,7 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
@@ -194,7 +194,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
 
         viewModel.state.availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance.toString()
+            SessionManager.cardBalance.value?.availableBalance.toString()
 
         getBindings().tvAvailableBalanceGuide.text = Utils.getSppnableStringForAmount(
             requireContext(),

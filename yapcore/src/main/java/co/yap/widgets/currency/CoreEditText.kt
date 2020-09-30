@@ -14,13 +14,13 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
-import co.yap.app.YAPApplication
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
+import co.yap.yapcore.managers.SessionManager
 
 class CoreEditText : AppCompatEditText {
 
@@ -30,7 +30,7 @@ class CoreEditText : AppCompatEditText {
     private var customWidth: Int = 0
     private var customHeight: Int = 0
 
-    var decimals: Int? = YAPApplication.selectedCurrency
+    var decimals: Int? = SessionManager.getDefaultCurrencyDecimals()
         set(value) {
             field = value
             filters = arrayOf(InputFilter.LengthFilter(units ?: 0), DecimalDigitsInputFilter(value))

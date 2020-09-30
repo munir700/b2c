@@ -18,7 +18,7 @@ import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class RemoveFundsViewModel(application: Application) :
     SMFeeViewModel<IRemoveFunds.State>(application),
@@ -65,7 +65,7 @@ class RemoveFundsViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.updateCardBalance {
+                    SessionManager.updateCardBalance {
                         state.loading = false
                         success()
                     }

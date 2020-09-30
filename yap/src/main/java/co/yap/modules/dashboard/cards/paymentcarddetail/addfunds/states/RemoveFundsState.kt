@@ -5,10 +5,10 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import co.yap.BR
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IRemoveFunds
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.managers.SessionManager
 
 class RemoveFundsState : BaseState(), IRemoveFunds.State {
     override var card: ObservableField<Card> = ObservableField()
@@ -43,6 +43,6 @@ class RemoveFundsState : BaseState(), IRemoveFunds.State {
         }
 
     override var valid: ObservableBoolean = ObservableBoolean(false)
-    override var allowedDecimals: ObservableInt = ObservableInt(YAPApplication.selectedCurrency)
+    override var allowedDecimals: ObservableInt = ObservableInt(SessionManager.getDefaultCurrencyDecimals())
 
 }

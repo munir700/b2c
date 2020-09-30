@@ -13,7 +13,7 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransferS
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferSuccessViewModel
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess.ViewModel>(),
     IY2YFundsTransferSuccess.View {
@@ -27,7 +27,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MyUserManager.updateCardBalance{}
+        SessionManager.updateCardBalance{}
         viewModel.clickEvent.observe(this, Observer {
             activity?.finish()
         })

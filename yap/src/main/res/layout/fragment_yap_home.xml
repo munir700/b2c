@@ -16,15 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:fillViewport="true">
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:fillViewport="true">
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/clSnackbar"
@@ -108,10 +107,10 @@
                                 android:id="@+id/ivSearch"
                                 android:layout_width="26dp"
                                 android:layout_height="26dp"
-                                android:visibility="visible"
                                 android:layout_marginStart="@dimen/margin_small"
                                 android:layout_marginEnd="@dimen/margin_small"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                android:visibility="visible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"

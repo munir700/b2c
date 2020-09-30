@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.yapit.topup.topupamount.viewModels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.networking.customers.models.Session
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
@@ -16,7 +15,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
@@ -27,7 +26,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     private lateinit var topupCrad: TopUpCard
     private var secureId: String? = null
     private var orderId: String? = null
-    var allowedDecimals: Int = YAPApplication.selectedCurrency
+    var allowedDecimals: Int = SessionManager.getDefaultCurrencyDecimals()
 
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
@@ -42,7 +41,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
                     state.currencyType,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
                         .toFormattedCurrency()
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)

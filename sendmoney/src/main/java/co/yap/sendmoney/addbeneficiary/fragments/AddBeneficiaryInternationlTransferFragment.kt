@@ -34,7 +34,7 @@ import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
@@ -163,7 +163,7 @@ class AddBeneficiaryInternationlTransferFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             ),

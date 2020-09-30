@@ -14,7 +14,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class HouseHoldConfirmPaymentViewModel(application: Application) :
     BaseOnboardingViewModel<IHouseHoldConfirmPayment.State>(application),
@@ -52,14 +52,14 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
         val balanceString = getString(Strings.screen_topup_transfer_display_text_available_balance)
             .format(
                 state.currencyType.get().toString(),
-                MyUserManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()
+                SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()
             )
         state.availableBalance.set(
             Utils.getSppnableStringForAmount(
                 context,
                 balanceString,
                 state.currencyType.get().toString(),
-                Utils.getFormattedCurrencyWithoutComma(MyUserManager.cardBalance.value?.availableBalance.toString())
+                Utils.getFormattedCurrencyWithoutComma(SessionManager.cardBalance.value?.availableBalance.toString())
             )
         )
     }

@@ -2,7 +2,6 @@ package co.yap.sendmoney.fundtransfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.YAPApplication
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -14,6 +13,7 @@ import co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.SessionManager
 
 
 class BeneficiaryFundTransferViewModel(application: Application) :
@@ -32,7 +32,7 @@ class BeneficiaryFundTransferViewModel(application: Application) :
     override var isCutOffTimeStarted: Boolean = false
     override var isSameCurrency: Boolean = false
     override var transactionWillHold: Boolean = false
-    override var configuredDecimal: Int = YAPApplication.selectedCurrency
+    override var configuredDecimal: Int = SessionManager.getDefaultCurrencyDecimals()
     override fun onCreate() {
         super.onCreate()
         state.toolbarVisibility.set(true)

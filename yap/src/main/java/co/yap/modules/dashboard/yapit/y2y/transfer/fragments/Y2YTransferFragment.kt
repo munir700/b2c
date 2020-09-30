@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 
@@ -45,7 +45,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
+        viewModel.state.availableBalance = SessionManager.cardBalance.value?.availableBalance
         viewModel.getTransferFees(TransactionProductCode.Y2Y_TRANSFER.pCode)
         setObservers()
     }
@@ -142,7 +142,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
@@ -152,7 +152,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     when {
@@ -177,7 +177,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.Y2Y.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: "",
                     username = viewModel.state.fullName,
                     amount = viewModel.state.amount,

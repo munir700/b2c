@@ -61,7 +61,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
@@ -202,7 +202,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llAddFunds -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
@@ -223,7 +223,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.freezeUnfreezeCard()
             }
             R.id.llRemoveFunds -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     if (viewModel.card.value?.blocked == false) {
@@ -273,7 +273,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             viewModel.EVENT_REMOVE_CARD -> {
-                MyUserManager.updateCardBalance {}
+                SessionManager.updateCardBalance {}
                 cardRemoved = true
                 showToast("Card successfully removed!")
                 setupActionsIntent()
@@ -421,7 +421,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cancelAllSnackBar()
             }
             Constants.EVENT_CHANGE_PIN -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     startActivity(
@@ -435,7 +435,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     viewModel.card.value?.cardSerialNumber?.let {
@@ -571,7 +571,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun startReorderCardFlow() {
-        if (MyUserManager.user?.otpBlocked == true) {
+        if (SessionManager.user?.otpBlocked == true) {
             showToast(Utils.getOtpBlockedMessage(this))
         } else {
             viewModel.card.value?.let {

@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.RelativeSizeSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -58,18 +56,16 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
-
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -92,9 +88,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun startFlowForSetPin() {
-        if (MyUserManager.getPrimaryCard() != null) {
-            if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+        if (SessionManager.getPrimaryCard() != null) {
+            if (isShowSetPin(SessionManager.getPrimaryCard())) {
+                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
@@ -148,7 +144,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun onRefresh() {
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             viewModel.isRefreshing.value = true
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
@@ -173,7 +169,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTransactionFilters() {
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             startActivityForResult(
                 TransactionFiltersActivity.newIntent(
                     requireContext(),
@@ -184,7 +180,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+        SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
             if (isSuccess) {
                 checkUserStatus()
             }
@@ -215,7 +211,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     startActivityForResult(
                         SetCardPinWelcomeActivity.newIntent(
                             requireContext(),
-                            MyUserManager.getPrimaryCard()
+                            SessionManager.getPrimaryCard()
                         ), RequestCodes.REQUEST_FOR_SET_PIN
                     )
                 }
@@ -242,7 +238,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
                 R.id.lyAdd -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                         openTopUpScreen()
                     } else {
                         showToast("Account activation pending")
@@ -253,14 +249,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-        MyUserManager.card.observe(this, Observer { primaryCard ->
+        SessionManager.card.observe(this, Observer { primaryCard ->
             primaryCard?.let {
                 startFlowForSetPin()
                 checkUserStatus()
             }
         })
 
-        MyUserManager.cardBalance.observe(this, Observer { value ->
+        SessionManager.cardBalance.observe(this, Observer { value ->
+
             setAvailableBalance(value.availableBalance.toString())
         })
 
@@ -305,7 +302,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
                 } else {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                         showTransactionsAndGraph()
                     } else {
                         viewModel.state.isTransEmpty.set(true)
@@ -357,7 +354,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun checkUserStatus() {
-        setNotificationAdapter(MyUserManager.user, MyUserManager.card.value)
+        setNotificationAdapter(SessionManager.user, SessionManager.card.value)
     }
 
     private fun setNotificationAdapter(accountInfo: AccountInfo?, paymentCard: Card?) {
@@ -416,7 +413,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
-        MyUserManager.updateCardBalance {}
+        SessionManager.updateCardBalance {}
     }
 
     override fun onDestroyView() {
@@ -427,27 +424,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
-        MyUserManager.onAccountInfoSuccess.removeObservers(this)
+        SessionManager.onAccountInfoSuccess.removeObservers(this)
         super.onDestroy()
 
     }
 
     private fun setAvailableBalance(balance: String) {
-        try {
-            val ss1 = SpannableString(balance.toFormattedCurrency())
-            if (ss1.isNotEmpty() && ss1.contains(".")) {
-                val balanceAfterDot = ss1.split(".")
-                ss1.setSpan(
-                    RelativeSizeSpan(0.5f),
-                    balanceAfterDot[0].length,
-                    balanceAfterDot[0].length + balanceAfterDot[1].length + 1,
-                    0
-                )
-                getBindings().tvAvailableBalance.text = ss1
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
     override fun onClick(notification: HomeNotification) {
@@ -456,14 +439,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
                         Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                        SessionManager.user?.currentCustomer?.firstName.toString()
                     )
                     putExtra(Constants.data, false)
                 }
             }
 
             NotificationAction.SET_PIN -> {
-                MyUserManager.card.value?.let {
+                SessionManager.card.value?.let {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
@@ -472,13 +455,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
                         Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                        SessionManager.user?.currentCustomer?.firstName.toString()
                     )
                     putExtra(Constants.data, true)
                     putExtra(
                         "document",
                         GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                            identityNo = MyUserManager.user?.currentCustomer?.identityNo
+                            identityNo = SessionManager.user?.currentCustomer?.identityNo
                         )
                     )
                 }
@@ -519,7 +502,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
-                                address = MyUserManager.userAddress ?: Address(),
+                                address = SessionManager.userAddress ?: Address(),
                                 headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                                 subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
                                 onBoarding = true
@@ -554,7 +537,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
-                MyUserManager.getAccountInfo()
+                SessionManager.getAccountInfo()
             }
             RequestCodes.REQUEST_FOR_SET_PIN -> {
                 data?.let {

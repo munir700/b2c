@@ -19,7 +19,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
 
@@ -115,7 +115,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                     viewModel.state.valid =
-                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus
+                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
                 }
             }
         }

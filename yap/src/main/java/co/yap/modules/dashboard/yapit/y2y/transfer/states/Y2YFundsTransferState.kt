@@ -6,9 +6,9 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableInt
 import co.yap.BR
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.managers.SessionManager
 
 class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
@@ -109,6 +109,6 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             field = value
             notifyPropertyChanged(BR.transferFee)
         }
-    override var allowedDecimals: ObservableInt = ObservableInt(YAPApplication.selectedCurrency)
+    override var allowedDecimals: ObservableInt = ObservableInt(SessionManager.getDefaultCurrencyDecimals())
 
 }

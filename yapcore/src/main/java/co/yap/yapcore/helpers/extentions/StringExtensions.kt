@@ -3,17 +3,18 @@ package co.yap.yapcore.helpers.extentions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.text.SpannableString
 import android.text.TextUtils
+import android.text.style.RelativeSizeSpan
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
-import co.yap.app.YAPApplication
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.textfield.TextInputLayout
 import java.text.DecimalFormat
 
@@ -78,7 +79,7 @@ fun String.toFormattedCurrency(): String? {
     return try {
         if (!this.isBlank()) {
             val m = java.lang.Double.parseDouble(this)
-            val formatter = getDecimalFormat(YAPApplication.selectedCurrency)
+            val formatter = getDecimalFormat(SessionManager.getDefaultCurrencyDecimals())
             formatter.format(m)
         } else {
             ""
@@ -112,7 +113,7 @@ fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
     return try {
         if (this?.isBlank() == false) {
             val m = java.lang.Double.parseDouble(this)
-            val formatter = getDecimalFormat(YAPApplication.selectedCurrency)
+            val formatter = getDecimalFormat(SessionManager.getDefaultCurrencyDecimals())
             if (!currency.isNullOrBlank()) "$currency ${formatter.format(m)}" else "AED ${formatter.format(
                 m
             )}"
@@ -127,7 +128,7 @@ fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
 fun String?.maskIbanNumber(): String {
     return this?.trim()?.let { iban ->
         return if (StringUtils.isValidIBAN(iban, iban.substring(0, 2))) {
-            return if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
+            return if (PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus) {
                 Utils.formateIbanString(iban)?.let { formattedIban ->
                     val numberToMasked =
                         formattedIban.substring(formattedIban.length - 7, formattedIban.length)
@@ -145,7 +146,7 @@ fun String?.maskIbanNumber(): String {
 fun String?.maskAccountNumber(): String {
     return this?.trim()?.let { accountNumber ->
         return if (StringUtils.isValidAccountNumber(accountNumber)) {
-            return if (PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus) {
+            return if (PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus) {
                 val numberToMasked =
                     accountNumber.substring(accountNumber.length - 6, accountNumber.length)
                 accountNumber.replace(numberToMasked, "******")
@@ -156,4 +157,29 @@ fun String?.maskAccountNumber(): String {
             ""
         }
     } ?: ""
+}
+
+fun String?.getAvailableBalanceWithFormat(): SpannableString {
+    return this?.trim()?.let { balance ->
+        try {
+            SpannableString(balance.toFormattedCurrency()).let { formattedBalance ->
+                if (formattedBalance.isNotEmpty() && formattedBalance.contains(".")) {
+                    formattedBalance.split(".").let { spllitedBalance ->
+                        formattedBalance.setSpan(
+                            RelativeSizeSpan(0.5f),
+                            spllitedBalance[0].length,
+                            spllitedBalance[0].length + spllitedBalance[1].length + 1,
+                            0
+                        )
+                        return formattedBalance
+                    }
+                } else {
+                    return SpannableString("")
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return SpannableString("")
+        }
+    } ?: SpannableString("")
 }

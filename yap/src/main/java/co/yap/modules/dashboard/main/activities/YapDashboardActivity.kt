@@ -26,7 +26,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
@@ -51,7 +50,7 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
@@ -120,21 +119,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                         2 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 openTopUpScreen()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                         3 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 openSendMoneyScreen()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
@@ -160,7 +159,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupPager() {
-        MyUserManager.card = MutableLiveData()
+        SessionManager.card = MutableLiveData()
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 
@@ -215,17 +214,16 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
-                MyUserManager.user!!.currentCustomer.firstName
+                SessionManager.user!!.currentCustomer.firstName
             )
 
-        MyUserManager.user?.currentCustomer?.email?.let {
+        SessionManager.user?.currentCustomer?.email?.let {
             tvEmail.text =
                 getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
                     if (it.isBlank())
                         "" else it
                 )
         }
-        //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {
@@ -299,7 +297,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupDrawerNavigation(navController: NavController) {
-        getViewBinding().drawerNav?.setupWithNavController(navController)
+        getViewBinding().drawerNav.setupWithNavController(navController)
     }
 
     private fun setupBottomNavigation(navController: NavController) {
@@ -307,7 +305,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onBackPressed() {
-        if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
+        if (actionMenu?.isOpen == true && actionMenu?.isAnimating() == false) {
             actionMenu?.toggle(getViewBinding().ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
@@ -327,7 +325,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
-            MyUserManager.getPrimaryCard()?.let {
+            SessionManager.getPrimaryCard()?.let {
                 launchActivity<CardStatementsActivity> {
                     putExtra("card", it)
                     putExtra("isFromDrawer", true)
@@ -362,7 +360,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (item.itemId) {
                 R.id.yapHome -> {
                     getViewBinding().viewPager.setCurrentItem(0, false)
-                    MyUserManager.getAccountInfo()
+                    SessionManager.getAccountInfo()
                 }
                 R.id.yapStore -> {
                     getViewBinding().viewPager.setCurrentItem(1, false)
@@ -439,7 +437,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onResume() {
         super.onResume()
         if (bottomNav.selectedItemId == R.id.yapHome) {
-            MyUserManager.getAccountInfo()
+            SessionManager.getAccountInfo()
         }
     }
 

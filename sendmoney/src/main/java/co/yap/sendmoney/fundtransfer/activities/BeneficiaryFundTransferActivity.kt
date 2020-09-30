@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.app.YAPApplication
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -23,6 +22,7 @@ import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
@@ -95,7 +95,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
             viewModel.transferData.value = TransferFundData()
             viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
             viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == "AED"
-            viewModel.configuredDecimal = intent.getIntExtra(Constants.CONFIGURED_DECIMAL, YAPApplication.selectedCurrency)
+            viewModel.configuredDecimal = intent.getIntExtra(Constants.CONFIGURED_DECIMAL, SessionManager.getDefaultCurrencyDecimals())
         }
     }
 

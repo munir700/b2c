@@ -30,7 +30,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
@@ -106,7 +106,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     when {
@@ -185,7 +185,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getAmountWithFee())
         } else
@@ -286,7 +286,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.TOP_UP_SUPPLEMENTARY.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
                         ?: "",
                     amount = viewModel.state.amount
                 )
@@ -316,7 +316,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
                 this.color(
                     R.color.colorPrimaryDark,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
                         .toFormattedAmountWithCurrency()
                 )
             )

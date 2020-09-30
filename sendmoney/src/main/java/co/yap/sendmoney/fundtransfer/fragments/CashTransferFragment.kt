@@ -33,7 +33,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
@@ -122,7 +122,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
@@ -160,7 +160,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     viewModel.parentViewModel?.transferData?.value?.otpAction,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: "",
                     username = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                     amount = viewModel.state.amount,
@@ -202,7 +202,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance > viewModel.getTotalAmountWithFee())
         } else

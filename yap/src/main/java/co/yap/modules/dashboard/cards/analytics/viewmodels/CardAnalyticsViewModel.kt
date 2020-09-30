@@ -16,7 +16,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import java.util.*
 
@@ -39,7 +39,7 @@ class CardAnalyticsViewModel(application: Application) :
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         fetchCardCategoryAnalytics(DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
         state.nextMonth = false
-        MyUserManager.user?.creationDate?.let {
+        SessionManager.user?.creationDate?.let {
             val date =
                 DateUtils.stringToDate(
                     it,
@@ -121,7 +121,7 @@ class CardAnalyticsViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
-                MyUserManager.getCardSerialNumber(), currentMonth
+                SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
@@ -154,7 +154,7 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
-                MyUserManager.getCardSerialNumber(),
+                SessionManager.getCardSerialNumber(),
                 currentMonth
             )) {
                 is RetroApiResponse.Success -> {

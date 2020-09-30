@@ -25,7 +25,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
@@ -125,7 +125,7 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     when {
@@ -162,7 +162,7 @@ class InternationalFundsTransferFragment :
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getTotalAmountWithFee())
         } else

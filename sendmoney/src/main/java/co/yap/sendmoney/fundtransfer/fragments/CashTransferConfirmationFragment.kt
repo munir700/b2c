@@ -35,7 +35,7 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferConfirmationFragment :
     BeneficiaryFundTransferBaseFragment<ICashTransferConfirmation.ViewModel>(),
@@ -130,7 +130,7 @@ class CashTransferConfirmationFragment :
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (isOtpRequired()) {
@@ -179,7 +179,7 @@ class CashTransferConfirmationFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = getOtpAction(),
-                    mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                    mobileNumber = SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
                     amount = viewModel.parentViewModel?.transferData?.value?.transferAmount,

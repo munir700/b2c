@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.YAPApplication
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -17,7 +16,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 
 class SendMoneyHomeScreenViewModel(application: Application) :
@@ -42,7 +41,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAllBeneficiaries()
-        getAllCurrencies()
+        SessionManager.getCurrenciesFromServer { _, _ -> }
         isSearching.value?.let {
             if (!it)
                 requestRecentBeneficiaries()
@@ -113,25 +112,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                }
-            }
-        }
-    }
-
-    private fun getAllCurrencies() {
-        val repository = CustomersRepository
-        launch {
-            when (val response =
-                repository.getAllCurrenciesConfigs()) {
-                is RetroApiResponse.Success -> {
-                    response.data.curriencies?.let {
-                        YAPApplication.currencies.clear()
-                        YAPApplication.currencies.addAll(it)
-                        YAPApplication.selectedCurrency = Utils.getConfiguredDecimals("AED")
-                    }
-                }
-                is RetroApiResponse.Error -> {
-
                 }
             }
         }
