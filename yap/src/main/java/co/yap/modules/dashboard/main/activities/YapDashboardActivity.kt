@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.main.activities
 
 import android.Manifest
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,8 +15,10 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.MutableLiveData
@@ -33,6 +36,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.Car
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
@@ -48,8 +52,10 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import com.facebook.appevents.AppEventsConstants
@@ -191,7 +197,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
-                R.id.lAnalytics -> {
+                R.id.imgProfile -> {
+                    startActivity(MoreActivity.newIntent(this))
+                }
+                R.id.tvLogOut -> {
+                    logoutAlert()
+                }
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
                 }
             }
         })
@@ -324,6 +337,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
             startActivity(Intent(this, CardAnalyticsActivity::class.java))
             closeDrawer()
+        }
+        getViewBinding().includedDrawerLayout.lRefer.lnAnalytics.setOnClickListener {
+            startFragment<InviteFriendFragment>(
+                InviteFriendFragment::class.java.name, false,
+                bundleOf()
+            )
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             MyUserManager.getPrimaryCard()?.let {
@@ -460,4 +479,25 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
+
+    private fun logoutAlert() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
+                DialogInterface.OnClickListener { dialog, which ->
+                    viewModel.logout()
+                })
+
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null)
+            .show()
+    }
+
+    private fun doLogout() {
+        MyUserManager.doLogout(this)
+       finishAffinity()
+    }
+
 }

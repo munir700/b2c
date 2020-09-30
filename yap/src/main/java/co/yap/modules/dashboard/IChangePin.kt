@@ -30,7 +30,6 @@ interface IChangePin {
         var errorMessageForNewConfiem: ObservableField<String>
         var errorMessageForNewPin: ObservableField<String>
         var isButtonEnabled: ObservableField<Boolean>
-        var isAllFieldsEmpty: ObservableField<Boolean>
 
 
     }
