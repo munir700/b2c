@@ -11,7 +11,7 @@ import co.yap.yapcore.helpers.DateUtils
 import java.util.*
 
 fun Transaction?.getTransactionTitle(): String {
-    this?.let { transaction ->
+    this?.let { transaction -> // poo4 poo6
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
                 String.format(
@@ -29,11 +29,11 @@ fun Transaction?.getTransactionTitle(): String {
                         "Money added via",
                         "*" + it.substring(it.length - 4, it.length)
                     )
-                }
-                    ?: transaction.title ?: "Unknown"
+                } ?: transaction.title ?: "Unknown"
 
             }
-
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Withdraw from Virtual Card"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to Virtual Card"
 
             else -> transaction.title ?: "Unknown"
         })
@@ -235,19 +235,19 @@ fun Transaction?.getSpentLabelText(): String {
     this?.let { transaction ->
         transaction.productCode?.let { productCode ->
             return (when (productCode) {
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Moved"
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Amount"
                 else -> {
                     when (transaction.txnType) {
-                        TxnType.CREDIT.type -> "Received"
+                        TxnType.CREDIT.type -> "Amount"
                         TxnType.DEBIT.type -> {
                             when (transaction.productCode) {
                                 TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                                    "Sent"
+                                    "Amount"
                                 }
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                                    if (transaction.currency == "AED") "Sent" else "Sent in AED"
+                                    if (transaction.currency == "AED") "Amount" else "Amount"
                                 }
-                                else -> "Spent"
+                                else -> "Amount"
                             }
                         }
                         else -> ""
