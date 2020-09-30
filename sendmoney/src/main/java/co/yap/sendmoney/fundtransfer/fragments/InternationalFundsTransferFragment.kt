@@ -21,7 +21,10 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.roundVal
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -173,8 +176,8 @@ class InternationalFundsTransferFragment :
         viewModel.state.errorDescription = getString(
             if (viewModel.parentViewModel?.isSameCurrency == true) Strings.common_display_text_min_max_limit_error_transaction else Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
     }
@@ -183,7 +186,7 @@ class InternationalFundsTransferFragment :
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.etOutputAmount?.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.etOutputAmount?.toFormattedCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
@@ -205,7 +208,7 @@ class InternationalFundsTransferFragment :
                                         Strings.common_display_text_on_hold_limit_error
                                     ).format(
                                         remainingDailyLimit.roundVal().toString()
-                                            .toFormattedAmountWithCurrency()
+                                            .toFormattedCurrency()
                                     )
                                 }
 

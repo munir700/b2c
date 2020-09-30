@@ -257,7 +257,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         SessionManager.cardBalance.observe(this, Observer { value ->
-
             setAvailableBalance(value.availableBalance.toString())
         })
 

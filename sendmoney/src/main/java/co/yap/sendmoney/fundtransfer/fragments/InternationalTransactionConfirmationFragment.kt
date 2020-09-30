@@ -30,7 +30,6 @@ import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -70,7 +69,7 @@ class InternationalTransactionConfirmationFragment :
                 viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedAmountWithCurrency()
+                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency()
                         ?: ""
                 )
             )

@@ -195,7 +195,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
@@ -227,7 +227,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                                         Strings.common_display_text_on_hold_limit_error
                                     ).format(
                                         remainingDailyLimit.roundVal().toString()
-                                            .toFormattedAmountWithCurrency()
+                                            .toFormattedCurrency()
                                     )
                                 }
                             return (enteredAmount > remainingDailyLimit.roundVal())
