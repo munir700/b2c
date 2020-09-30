@@ -47,7 +47,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-        checkDrawerNavigation()
     }
 
     override fun onDestroy() {
@@ -92,12 +91,5 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     }
 
 
-    private fun checkDrawerNavigation() {
-        if (isFromDrawer()) {
-            viewModel.requestProfileDocumentsInformation()
-            {
-                findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
-            }
-        }
-    }
+
 }

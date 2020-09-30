@@ -42,35 +42,5 @@ class MoreViewModel(application: Application) :
 
     }
 
-    override fun requestProfileDocumentsInformation(success: () -> Unit) {
-        launch {
-            state.loading = true
-            when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
-                is RetroApiResponse.Success -> {
-                    parentViewModel?.document =
-                        response.data.data?.customerDocuments?.get(0)?.documentInformation
 
-                    val data = response.data
-                    data.data?.dateExpiry?.let {
-                        trackEvent(KYCEvents.EID_EXPIRE_DATE.type)
-                        trackEventWithAttributes(
-                            MyUserManager.user,
-                            eidExpireDate = getFormattedDate(it)
-                        ) }
-                    launch {
-                     delay(1000)
-                        success()
-                        state.loading = false
-                    }
-                    }
-
-                is RetroApiResponse.Error -> {
-                    if (response.error.statusCode == 400 || response.error.actualCode == "1073")
-                        MyUserManager.eidStatus =
-                            EIDStatus.NOT_SET  //set the document is required if not found
-                    state.loading = false
-                }
-            }
-        }
-    }
 }

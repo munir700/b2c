@@ -15,7 +15,6 @@ interface IMore {
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
         fun handlePressOnBadge()
-        fun requestProfileDocumentsInformation(success: () -> Unit)
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var BadgeVisibility: Boolean
         val badgeButtonPressEvent: SingleLiveEvent<Boolean>
