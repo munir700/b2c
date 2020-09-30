@@ -148,7 +148,8 @@ project.ext {
             pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
 
             // Facebook
-            facebook                 :'com.facebook.android:facebook-android-sdk:[5,6)'
+            facebook                 :'com.facebook.android:facebook-android-sdk:[5,6)',
+            tagmanager                 :'com.google.android.gms:play-services-tagmanager:11.0.4'
     ]
 
     // Test dependencies which need to be added in all modules
@@ -279,7 +280,8 @@ project.ext {
             [configuration: "api", dependency: libraries.leanplumLocation],
             [configuration: "api", dependency: libraries.messagingFcm],
             [configuration: "api", dependency: libraries.playServicesLocation],
-            [configuration: "implementation", dependency: libraries.playLibPlaces]
+            [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: libraries.tagmanager]
     ]
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
     sendmoneyDependencies = [
