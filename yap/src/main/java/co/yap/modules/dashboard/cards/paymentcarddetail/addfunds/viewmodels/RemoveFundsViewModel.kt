@@ -15,7 +15,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
@@ -49,7 +49,7 @@ class RemoveFundsViewModel(application: Application) :
                 context.color(
                     R.color.colorPrimaryDark,
                     state.card.get()?.availableBalance.toString()
-                        .toFormattedAmountWithCurrency()
+                        .toFormattedCurrency()
                 )
             )
         )

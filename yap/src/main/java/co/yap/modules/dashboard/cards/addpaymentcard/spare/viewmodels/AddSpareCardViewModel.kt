@@ -19,7 +19,6 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
@@ -60,7 +59,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.virtualCardFee =
-            parentViewModel?.virtualCardFee?.toFormattedAmountWithCurrency() ?: ""
+            parentViewModel?.virtualCardFee?.toFormattedCurrency() ?: ""
         state.physicalCardFee = parentViewModel?.physicalCardFee.toString()
         if (state.physicalCardFee == "" && state.virtualCardFee == "") {
             requestReorderCardFee("physical")
@@ -191,10 +190,10 @@ class AddSpareCardViewModel(application: Application) :
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             state.physicalCardFee =
                                 feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedAmountWithCurrency()
+                                    .toFormattedCurrency()
                         }
                     } else {
-                        state.physicalCardFee = "0.0".toFormattedAmountWithCurrency()
+                        state.physicalCardFee = "0.0".toFormattedCurrency()
                     }
                 }
                 is RetroApiResponse.Error -> {

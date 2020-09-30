@@ -77,7 +77,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             resources.getText(
                 getString(Strings.common_text_fee), this.color(
                     R.color.colorPrimaryDark,
-                    "${feeAmount?.toFormattedAmountWithCurrency()}"
+                    "${feeAmount?.toFormattedCurrency()}"
                 )
             )
         )
@@ -170,8 +170,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
     }
 
@@ -179,7 +179,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         showErrorSnackBar(viewModel.errorDescription)
     }
 
@@ -199,7 +199,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                     viewModel.errorDescription = Translator.getString(
                         this,
                         Strings.screen_add_funds_display_text_error_card_balance_limit_reached,
-                        threshold.virtualCardBalanceLimit.toString().toFormattedAmountWithCurrency()
+                        threshold.virtualCardBalanceLimit.toString().toFormattedCurrency()
                     )
                     return true
                 }
@@ -209,9 +209,9 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                         this,
                         Strings.screen_add_funds_display_text_error_card_balance_limit,
                         threshold.virtualCardBalanceLimit.toString()
-                            .toFormattedAmountWithCurrency(),
+                            .toFormattedCurrency(),
                         (threshold.virtualCardBalanceLimit?.minus(viewModel.state.card.get()?.availableBalance.parseToDouble())).toString()
-                            .toFormattedAmountWithCurrency()
+                            .toFormattedCurrency()
                     )
                     return true
                 }
@@ -234,7 +234,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
                                     remainingDailyLimit.roundVal().toString()
-                                        .toFormattedAmountWithCurrency()
+                                        .toFormattedCurrency()
                                 )
                             }
                         return enteredAmount > remainingDailyLimit.roundVal()
@@ -306,7 +306,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             resources.getText(
                 getString(Strings.screen_success_funds_transaction_display_text_top_up), this.color(
                     R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedAmountWithCurrency()
+                    viewModel.state.amount.toFormattedCurrency()
                 )
             )
         )
@@ -317,7 +317,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 this.color(
                     R.color.colorPrimaryDark,
                     SessionManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedAmountWithCurrency()
+                        .toFormattedCurrency()
                 )
             )
         )
@@ -328,7 +328,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 this.color(
                     R.color.colorPrimaryDark,
                     (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
-                        .toFormattedAmountWithCurrency()
+                        .toFormattedCurrency()
                 )
             )
         )

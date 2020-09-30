@@ -20,7 +20,6 @@ import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -349,8 +348,8 @@ class CashTransferViewModel(application: Application) :
         state.errorDescription = Translator.getString(
             context,
             Strings.common_display_text_min_max_limit_error_transaction,
-            state.minLimit.toString().toFormattedAmountWithCurrency(),
-            state.maxLimit.toString().toFormattedAmountWithCurrency()
+            state.minLimit.toString().toFormattedCurrency(),
+            state.maxLimit.toString().toFormattedCurrency()
         )
         parentViewModel?.errorEvent?.value = state.errorDescription
 

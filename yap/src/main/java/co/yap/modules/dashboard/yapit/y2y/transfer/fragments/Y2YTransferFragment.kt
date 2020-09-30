@@ -128,8 +128,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.errorDescription = Translator.getString(
             requireContext(),
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
 
@@ -139,7 +139,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
