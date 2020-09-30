@@ -16,8 +16,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
-import co.yap.yapcore.managers.SessionManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -129,10 +129,13 @@ class CardAnalyticsViewModel(application: Application) :
                             response.data.data?.monthlyAvgAmount?.toString()
                         state.setUpString(
                             state.currencyType,
-                            state.monthlyCategoryAvgAmount?.toFormattedCurrency()
+                            state.monthlyCategoryAvgAmount?.toFormattedCurrency(showCurrency = false)
                         )
-                        state.totalCategorySpent =
-                            state.currencyType + " ${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+                        state.totalCategorySpent = response.data.data?.totalTxnAmount.toString()
+                            .toFormattedCurrency(
+                                showCurrency = true,
+                                currency = state.currencyType ?: "AED"
+                            )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                         parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
@@ -160,8 +163,11 @@ class CardAnalyticsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
-                    state.totalMerchantSpent =
-                        state.currencyType + " ${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+                    state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
+                        .toFormattedCurrency(
+                            showCurrency = true,
+                            currency = state.currencyType ?: "AED"
+                        )
                     state.setUpStringForMerchant(
                         state.currencyType,
                         state.monthlyMerchantAvgAmount?.toFormattedCurrency()

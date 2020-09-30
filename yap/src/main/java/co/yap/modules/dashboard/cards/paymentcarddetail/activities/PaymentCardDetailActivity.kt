@@ -503,8 +503,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                     viewModel.card.value?.availableBalance =
                         data?.getStringExtra("newBalance").toString()
-                    viewModel.state.cardBalance =
-                        "AED " + data?.getStringExtra("newBalance").toString().toFormattedCurrency()
+                    viewModel.state.cardBalance = data?.getStringExtra("newBalance").toString()
+                        .toFormattedCurrency(true, "AED")
                     if (viewModel.card.value?.availableBalance.parseToDouble() > 0) {
                         llRemoveFunds.isEnabled = true
                         llRemoveFunds.alpha = 1f

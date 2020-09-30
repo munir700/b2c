@@ -99,7 +99,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
                     (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
@@ -108,7 +108,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedAmountWithCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = "AED"
+            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = "AED")}"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {

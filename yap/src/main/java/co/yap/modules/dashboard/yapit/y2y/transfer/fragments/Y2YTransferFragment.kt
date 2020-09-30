@@ -73,7 +73,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             resources.getText(
                 getString(Strings.common_text_fee), requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${viewModel.state.currencyType} ${feeAmount?.toFormattedCurrency()}"
+                    feeAmount?.toFormattedCurrency(
+                        showCurrency = true,
+                        currency = viewModel.state.currencyType
+                    ) ?: ""
                 )
             )
     }
@@ -211,8 +214,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         )
 
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " +
-                    viewModel.state.availableBalance?.toFormattedCurrency()
+            " " + viewModel.state.availableBalance?.toFormattedCurrency(
+                showCurrency = true,
+                currency = "AED"
+            )
     }
 
     private fun isDailyLimitReached(): Boolean {

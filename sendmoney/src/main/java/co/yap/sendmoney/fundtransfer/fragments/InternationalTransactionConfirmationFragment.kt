@@ -84,7 +84,10 @@ class InternationalTransactionConfirmationFragment :
                 )
                 , requireContext().color(
                     R.color.colorPrimaryDark,
-                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency()
+                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency(
+                        false,
+                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: "AED"
+                    )
                         ?: ""
                 ),
                 viewModel.parentViewModel?.beneficiary?.value?.firstName
@@ -111,7 +114,10 @@ class InternationalTransactionConfirmationFragment :
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency()}"
+                    viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency(
+                        showCurrency = true,
+                        currency = "AED"
+                    ) ?: ""
                 )
             )
     }

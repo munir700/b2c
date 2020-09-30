@@ -49,7 +49,10 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
             viewModel.state.availableBalanceSpanable.set(
                 getString(Strings.screen_topup_success_display_text_account_balance_title).format(
                     args.currencyType,
-                    it.availableBalance?.toFormattedCurrency()
+                    it.availableBalance?.toFormattedCurrency(
+                        showCurrency = false,
+                        currency = args.currencyType
+                    )
                 )
             )
 

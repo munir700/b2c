@@ -69,7 +69,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun requestInitialData() {
         state.avaialableCardBalance =
-            "AED ${SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}"
+            SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency(showCurrency = false)
         if (isFromBlockCardScreen || cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             state.loading = true
             requestGetAddressForPhysicalCard()

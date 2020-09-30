@@ -34,7 +34,10 @@ class RenewCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.availableCardBalance.set("AED ${SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()}")
+        state.availableCardBalance.set(
+            SessionManager.cardBalance.value?.availableBalance.toString()
+                .toFormattedCurrency(showCurrency = true, currency = "AED")
+        )
         requestReorderCardFee(parentViewModel?.card?.cardType)
         requestGetAddressForPhysicalCard()
     }
@@ -90,11 +93,13 @@ class RenewCardViewModel(application: Application) :
                             val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             fee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
+                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                    .toFormattedCurrency(showCurrency = false, currency = "AED")
                                     ?: "0.0"
                         }
                     } else {
-                        fee = "0.0".toFormattedCurrency() ?: "0.0"
+                        fee = "0.0".toFormattedCurrency(showCurrency = false, currency = "AED")
+                            ?: "0.0"
                     }
 
                     state.cardFee.set("AED $fee")
@@ -116,11 +121,12 @@ class RenewCardViewModel(application: Application) :
                             val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             fee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString().toFormattedCurrency()
+                                feeAmount?.plus(VATAmount ?: 0.0).toString()
+                                    .toFormattedCurrency(showCurrency = false, currency = "AED")
                                     ?: "0.0"
                         }
                     } else {
-                        fee = "0.0".toFormattedCurrency() ?: "0.0"
+                        fee = "0.0".toFormattedCurrency(showCurrency = false,currency = "AED") ?: "0.0"
                     }
 
                     state.cardFee.set("AED $fee")

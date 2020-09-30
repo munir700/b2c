@@ -53,7 +53,7 @@ class CashTransferViewModel(application: Application) :
             getString(Strings.screen_cash_transfer_display_text_available_balance),
             context.color(
                 R.color.colorPrimaryDark,
-                "${"AED"} ${SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
             )
         )
     }
@@ -299,7 +299,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun trxWillHold(): Boolean {
-       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
+        // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
@@ -317,7 +317,8 @@ class CashTransferViewModel(application: Application) :
                 transactionRepository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
                     currency = "AED",
-                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1).toString(),
+                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1)
+                        .toString(),
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
                         ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant
                 )) {

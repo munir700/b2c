@@ -103,7 +103,10 @@ class InternationalFundsTransferFragment :
             viewModel.state.fromFxRate =
                 "${fxRate.fromCurrencyCode} ${fxRate.fxRates?.get(0)?.rate}"
             viewModel.state.toFxRate =
-                "${fxRate.toCurrencyCode} ${fxRate.value?.amount?.toFormattedCurrency()}"
+                fxRate.value?.amount?.toFormattedCurrency(
+                    showCurrency = true,
+                    currency = fxRate.toCurrencyCode ?: "AED"
+                )
             viewModel.state.sourceCurrency.set(fxRate.fromCurrencyCode)
             viewModel.state.destinationCurrency.set(fxRate.toCurrencyCode)
             viewModel.parentViewModel?.transferData?.value?.rate = fxRate.fxRates?.get(0)?.rate
@@ -117,7 +120,9 @@ class InternationalFundsTransferFragment :
             requireContext().color(R.color.colorPrimaryDark, "AED"),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                if (feeAmount.isNullOrBlank()) "0.00" else feeAmount.toFormattedCurrency() ?: "0.00"
+                if (feeAmount.isNullOrBlank()) "0.00" else feeAmount.toFormattedCurrency(
+                    showCurrency = false
+                )
             )
         )
     }

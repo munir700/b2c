@@ -55,7 +55,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
                 )
             )
     }
@@ -218,7 +218,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        if (state.etInputAmount.toString().isEmpty()) "0.0" else state.etInputAmount.toString(),
+                                        if (state.etInputAmount.toString()
+                                                .isEmpty()
+                                        ) "0.0" else state.etInputAmount.toString(),
                                         parentViewModel?.selectedPop?.cbwsi ?: false
                                     )) {
                                     is RetroApiResponse.Success -> {

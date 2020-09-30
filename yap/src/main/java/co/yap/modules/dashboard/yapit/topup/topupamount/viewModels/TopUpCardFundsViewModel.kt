@@ -41,7 +41,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 .format(
                     state.currencyType,
                     SessionManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedCurrency()
+                        .toFormattedCurrency(showCurrency = false,currency = "AED")
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }

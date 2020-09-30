@@ -52,7 +52,8 @@ class HouseHoldConfirmPaymentViewModel(application: Application) :
         val balanceString = getString(Strings.screen_topup_transfer_display_text_available_balance)
             .format(
                 state.currencyType.get().toString(),
-                SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency()
+                SessionManager.cardBalance.value?.availableBalance.toString()
+                    .toFormattedCurrency(showCurrency = false, currency = "AED")
             )
         state.availableBalance.set(
             Utils.getSppnableStringForAmount(

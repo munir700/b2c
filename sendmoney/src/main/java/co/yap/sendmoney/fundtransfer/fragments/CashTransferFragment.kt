@@ -94,8 +94,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             requireContext().color(R.color.colorPrimaryDark, "AED"),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency()
-                    ?: "0.00"
+                if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = "AED"
+                )
             )
         )
     }

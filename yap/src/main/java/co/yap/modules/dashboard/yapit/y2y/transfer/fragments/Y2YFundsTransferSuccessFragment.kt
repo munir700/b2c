@@ -27,7 +27,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SessionManager.updateCardBalance{}
+        SessionManager.updateCardBalance {}
         viewModel.clickEvent.observe(this, Observer {
             activity?.finish()
         })
@@ -42,7 +42,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
     private fun setUpData() {
         viewModel.state.title = args.title
         viewModel.state.transferredAmount =
-            args.currencyType + " " + args.amount.toFormattedCurrency()
+            args.amount.toFormattedCurrency(showCurrency = true, currency = args.currencyType)
         viewModel.state.imageUrl = args.imagePath
 
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(

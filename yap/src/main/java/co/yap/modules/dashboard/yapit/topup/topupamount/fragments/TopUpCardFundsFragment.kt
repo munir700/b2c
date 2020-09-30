@@ -217,7 +217,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
                     .format(
-                        viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency()
+                        viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency(
+                            showCurrency = false,
+                            currency = "AED"
+                        )
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
                 requireContext(),
