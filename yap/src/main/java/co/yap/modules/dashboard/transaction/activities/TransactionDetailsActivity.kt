@@ -27,6 +27,13 @@ import co.yap.yapcore.helpers.extentions.*
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
+    companion object {
+        const val intentSetResultPlaceHolderTransactionObject = "transaction Object"
+        const val intentSetResultPlaceHolderGroupPosition = "group position"
+        const val intentSetResultPlaceHolderChildPosition = "child position"
+    }
+
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_transaction_details
@@ -37,7 +44,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
+        viewModel.transaction.set(
+            intent?.getParcelableExtra(
+                intentSetResultPlaceHolderTransactionObject
+            ) as Transaction
+        )
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -249,9 +260,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
+                viewModel.transaction.get()?.transactionNote =
+                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 viewModel.state.transactionNoteDate =
+                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
+                viewModel.transaction.get()?.transactionNoteDate =
                     DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
+
         }
 
     }
@@ -264,8 +282,33 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                finish()
+                setResult()
             }
         }
+    }
+
+    fun setResult() {
+        val intent = Intent()
+        intent.putExtra(
+            intentSetResultPlaceHolderTransactionObject,
+            viewModel.transaction.get() as Transaction
+        )
+        intent.putExtra(
+            intentSetResultPlaceHolderGroupPosition, getIntent().getIntExtra(
+                intentSetResultPlaceHolderGroupPosition, -1
+            )
+        )
+        intent.putExtra(
+            intentSetResultPlaceHolderChildPosition, getIntent().getIntExtra(
+                intentSetResultPlaceHolderChildPosition, -1
+            )
+        )
+
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        setResult()
     }
 }
