@@ -13,7 +13,10 @@ import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
-import co.yap.widgets.radiocus.PresetRadioGroup
+import co.yap.translation.Strings.common_button_cancel
+import co.yap.translation.Strings.common_button_confirm
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_per_month
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_per_year
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
@@ -21,6 +24,10 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.helpers.spannables.SpannableString.Spanner
+import co.yap.yapcore.helpers.spannables.SpannableString.Spans.click
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -59,15 +66,29 @@ class SubscriptionSelectionFragment :
         when (id) {
             R.id.btnGetStarted -> {
                 if (!state.plansList.value.isNullOrEmpty()) {
-                    trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
-                    trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
-                    trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
-                    navigateForwardWithAnimation(
-                        SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
-                        bundleOf(
-                            HouseHoldPlan::class.java.name to state.plansList.value,
-                            Constants.POSITION to state.selectedPlanPosition.value
-                        ), null
+                    val msg = Spanner()
+                        .append("Click here\n", click { toast("dsadadadadsadsada") })
+
+                    confirm(
+                        message = msg,
+                        title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
+                            screen_yap_house_hold_subscription_selection_display_text_per_month
+                        )}" else "${viewModel.state.annuallyFee.value} ${getString(
+                            screen_yap_house_hold_subscription_selection_display_text_per_year
+                        )}",
+                        positiveButton = getString(common_button_confirm),
+                        negativeButton = getString(common_button_cancel), callback = {
+                            trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
+                            trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
+                            trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
+                            navigateForwardWithAnimation(
+                                SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
+                                bundleOf(
+                                    HouseHoldPlan::class.java.name to state.plansList.value,
+                                    Constants.POSITION to state.selectedPlanPosition.value
+                                ), null
+                            )
+                        }, negativeCallback = {}
                     )
                 }
             }
