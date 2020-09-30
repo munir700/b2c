@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -55,9 +56,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     private fun setUpFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        val bundle: Bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "SOME_TEST")
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
+            param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
+            param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+        }
     }
 
 
