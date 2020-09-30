@@ -423,8 +423,8 @@
     <string name="screen_card_statement_display_text_title">Card statements</string>
 
     <!--   Yap More-->
-    <string name="screen_more_display_text_bank_details">Your bank details</string>
-    <string name="screen_more_detail_display_text_bank_details">YAP Bank details</string>
+    <string name="screen_more_display_text_bank_details">Account details</string>
+    <string name="screen_more_detail_display_text_bank_details">YAP account details</string>
 
 
     <!--   Profile Settings screen-->
