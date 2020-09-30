@@ -556,24 +556,24 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         -1
                     )
                 }
-                val childPosition = data.let {
-                    it!!.getIntExtra(
+                val childPosition = data.let {intent->
+                    intent?.getIntExtra(
                         TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
                         -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
                     getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                        childPosition
+                        childPosition?:0
                     )?.transactionNote =
                         (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNote
                     getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                        childPosition
+                        childPosition?:0
                     )?.transactionNoteDate =
                         (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition,
-                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction[childPosition]
+                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction[childPosition?:0]
                     )
 
                 }
