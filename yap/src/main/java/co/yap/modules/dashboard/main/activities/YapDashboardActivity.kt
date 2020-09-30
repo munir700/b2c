@@ -198,7 +198,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
-                    startActivity(MoreActivity.newIntent(this,true))
+                    startActivity(MoreActivity.newIntent(this))
                 }
                 R.id.tvLogOut -> {
                     logoutAlert()

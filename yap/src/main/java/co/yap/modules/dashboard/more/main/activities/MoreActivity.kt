@@ -18,9 +18,6 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_add_payment_cards.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -82,13 +79,10 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)
-        if (isFromDrawer()) {
-            finish()
-        } else {
-            if (!BackPressImpl(fragment).onBackPressed()) {
-                super.onBackPressed()
-            }
+        if (!BackPressImpl(fragment).onBackPressed()) {
+            super.onBackPressed()
         }
+
     }
 
     override fun onResume() {
@@ -101,7 +95,8 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     private fun checkDrawerNavigation() {
         if (isFromDrawer()) {
             viewModel.requestProfileDocumentsInformation()
-            { findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
+            {
+                findNavController(R.id.main_more_nav_host_fragment).navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
             }
         }
     }
