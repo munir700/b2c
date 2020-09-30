@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.store.young.confirmrelationship
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.BaseState
 
-class YoungConfirmRelationshipState : BaseState(), IYoungConfirmRelationship.State{
+class YoungConfirmRelationshipState : BaseState(), IYoungConfirmRelationship.State {
     override var realtion: MutableLiveData<String> = MutableLiveData("Parent")
-    override var childName: MutableLiveData<String> = MutableLiveData("Lina")
+    override var valid: MutableLiveData<Boolean> = MutableLiveData()
 }
