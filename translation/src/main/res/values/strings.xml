@@ -160,7 +160,7 @@
     <string name="screen_meeting_location_button_change_location">Tap here to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
-    <string name="screen_meeting_location_input_text_landmark_title">Landmark</string>
+    <string name="screen_meeting_location_input_text_landmark_title">Flat number/ Building name/ Landmark</string>
     <string name="screen_meeting_location_input_text_landmark_hint">Enter landmark</string>
     <string name="screen_meeting_location_button_confirm_selected_location">Confirm location</string>
     <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
