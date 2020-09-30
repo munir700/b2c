@@ -21,6 +21,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -32,10 +33,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
     open lateinit var context: Context
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        setUpFirebaseAnalytics()
+
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -48,6 +52,14 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(true)
     }
+
+    private fun setUpFirebaseAnalytics() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        val bundle: Bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "SOME_TEST")
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
