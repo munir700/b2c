@@ -135,9 +135,9 @@ data class Transaction(
     @SerializedName("transactionId")
     val transactionId: String? = null,
     @SerializedName("transactionNote")
-    val transactionNote: String? = null,
+    var transactionNote: String? = null,
     @SerializedName("transactionNoteDate")
-    val transactionNoteDate: String? = null,
+    var transactionNoteDate: String? = null,
     @SerializedName("txnRefNo")
     val txnRefNo: String? = null,
     @SerializedName("txnState")
@@ -147,7 +147,7 @@ data class Transaction(
     @SerializedName("updatedBy")
     val updatedBy: String? = null,
     @SerializedName("updatedDate")
-    val updatedDate: String? = null,
+    var updatedDate: String? = null,
     @SerializedName("userType1")
     val userType1: String? = null,
     @SerializedName("userType2")

@@ -202,11 +202,28 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             when (it) {
                 R.id.lyTransaction -> {
                     viewModel.clickEvent.getPayload()?.let {
-                        if (it.itemData is Transaction) {
-                            launchActivity<TransactionDetailsActivity> {
-                                putExtra("transaction", it.itemData as Transaction)
-                            }
+                        val childPosition = it.position
+                        val groupPosition = it.itemData as Int
+                        val transaction: Transaction? =
+                            getRecycleViewAdaptor()?.getDataForPosition(it.itemData as Int)?.transaction?.get(
+                                childPosition
+                            )
+                        launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                            putExtra(
+                                TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject,
+                                transaction
+                            )
+                            putExtra(
+                                TransactionDetailsActivity.intentSetResultPlaceHolderGroupPosition,
+                                groupPosition
+                            )
+                            putExtra(
+                                TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
+                                childPosition
+                            )
+
                         }
+
                     }
                     viewModel.clickEvent.setPayload(null)
                 }
@@ -570,6 +587,36 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         viewModel.getDebitCards()
                         openTopUpScreen()
                     }
+                }
+            }
+            RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
+
+                val groupPosition = data.let {
+                    it!!.getIntExtra(
+                        TransactionDetailsActivity.intentSetResultPlaceHolderGroupPosition,
+                        -1
+                    )
+                }
+                val childPosition = data.let {
+                    it!!.getIntExtra(
+                        TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
+                        -1
+                    )
+                }
+                if (groupPosition != -1 && childPosition != -1) {
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                        childPosition
+                    )?.transactionNote =
+                        (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNote
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                        childPosition
+                    )?.transactionNoteDate =
+                        (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition,
+                        getRecycleViewAdaptor()?.getDataForPosition(0)!!.transaction[0]
+                    )
+
                 }
             }
         }
