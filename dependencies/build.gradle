@@ -116,7 +116,7 @@ project.ext {
             //Firebase Crashlytics
             creshlytics              : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:9.0.0',
-            analytics                : 'com.google.firebase:firebase-analytics:17.2.0',
+            analytics                : 'com.google.firebase:firebase-analytics:17.5.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging:19.0.0',
             playServicesLocation     : 'com.google.android.gms:play-services-location:16.0.0',
 
@@ -148,8 +148,9 @@ project.ext {
             pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
 
             // Facebook
-            facebook                 :'com.facebook.android:facebook-android-sdk:[5,6)',
-            tagmanager                 :'com.google.android.gms:play-services-tagmanager:11.0.4'
+            facebook                 : 'com.facebook.android:facebook-android-sdk:[5,6)',
+            tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0'
+
     ]
 
     // Test dependencies which need to be added in all modules
@@ -280,8 +281,11 @@ project.ext {
             [configuration: "api", dependency: libraries.leanplumLocation],
             [configuration: "api", dependency: libraries.messagingFcm],
             [configuration: "api", dependency: libraries.playServicesLocation],
-            [configuration: "implementation", dependency: libraries.playLibPlaces],
-            [configuration: "implementation", dependency: libraries.tagmanager]
+            [configuration: "implementation", dependency: libraries.tagmanager],
+            [configuration: "implementation", dependency: libraries.analytics],
+
+            [configuration: "implementation", dependency: libraries.playLibPlaces]
+
     ]
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
     sendmoneyDependencies = [
