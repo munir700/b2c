@@ -12,6 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.onboarding.models.WelcomeContent
+import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
 import co.yap.translation.Strings.common_button_cancel
@@ -29,6 +30,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.spannables.kpan.span
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
@@ -69,27 +71,57 @@ class SubscriptionSelectionFragment :
         when (id) {
             R.id.btnGetStarted -> {
                 if (!state.plansList.value.isNullOrEmpty()) {
-                    var msg: CharSequence = getString(
-                        screen_yap_house_hold_subscription_selection_confirm_message_text,
-                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
-                    )
-                    val msg1: SpannableStringBuilder = SpannableStringBuilder(getString(
-                        screen_yap_house_hold_subscription_selection_confirm_message_text,
-                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
-                    )).append(span {
-                        span(msg)
+//                    var msg: CharSequence = getString(
+//                        screen_yap_house_hold_subscription_selection_confirm_message_text,
+//                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+//                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
+//                    )
+                    val msg = span {
+                        span(getString(
+                            screen_yap_house_hold_subscription_selection_confirm_message_text,
+                            state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+                            getString(screen_yap_house_hold_subscription_selection_display_text_months)
+                        )){
+                            textColor = requireContext().getColor(R.color.semi_black)
+                        }
                         span(getString(screen_household_set_pin_terms_and_conditions_text)) {
                             onClick = {
-
+                                startFragment(
+                                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                                    ), showToolBar = false
+                                )
                             }
                             textColor = requireContext().getColor(R.color.semi_black)
                             textDecorationLine = "underline"
                         }
-                    })
+                    }
+//                    SpannableStringBuilder(getString(
+//                        screen_yap_house_hold_subscription_selection_confirm_message_text,
+//                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+//                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
+//                    )).append(" ").append(span {
+//                        span(getString(
+//                            screen_yap_house_hold_subscription_selection_confirm_message_text,
+//                            state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+//                            getString(screen_yap_house_hold_subscription_selection_display_text_months)
+//                        )){
+//                            textColor = requireContext().getColor(R.color.semi_black)
+//                        }
+//                        span(getString(screen_household_set_pin_terms_and_conditions_text)) {
+//                            onClick = {
+//                                startFragment(
+//                                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+//                                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+//                                    ), showToolBar = false
+//                                )
+//                            }
+//                            textColor = requireContext().getColor(R.color.semi_black)
+//                            textDecorationLine = "underline"
+//                        }
+//                    })
                     confirm(
-                        message = msg1,
+                        message = msg,
                         title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
                             screen_yap_house_hold_subscription_selection_display_text_per_month
                         )}" else "${viewModel.state.annuallyFee.value} ${getString(
