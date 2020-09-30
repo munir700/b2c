@@ -78,7 +78,7 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     private fun handleCancel() {
         showAlertDialogAndExitApp(
             dialogTitle = "Are you sure you want to exit?",
-            message = "The information you have entered will be lost.",
+            message = "The information you've entered will be lost.",
             leftButtonText = "Confirm",
             callback = {
                 finish()
