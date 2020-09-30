@@ -69,7 +69,7 @@ data class Transaction(
     @SerializedName("merchantCategory")
     val merchantCategory: String? = null,
     @SerializedName("merchantCategoryName")
-    val merchantCategoryName: String? = null,
+    var merchantCategoryName: String? = null,
     @SerializedName("merchantCode")
     val merchantCode: String? = null,
     @SerializedName("merchantLogo")
