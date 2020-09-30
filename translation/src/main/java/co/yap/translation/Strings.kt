@@ -1094,6 +1094,7 @@ object Strings {
         "screen_bank_details_display_text_swift_code"
     const val screen_bank_details_button_find_bank: String = "screen_bank_details_button_find_bank"
     const val screen_bank_details_button_confirm: String = "screen_bank_details_button_confirm"
+    const val screen_bank_details_label_content: String = "screen_bank_details_label_content"
 
 //Beneficiary account details screen
 
