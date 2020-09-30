@@ -15,12 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_extra_small"
             app:cardCornerRadius="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,26 +44,26 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:position="@{viewModel.state.position}" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivLogo"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_29sdp"
                     android:layout_marginTop="@dimen/margin_xl"
+                    android:visibility="gone"
                     android:src="@drawable/logo"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivUserImage" />
 
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvDetailsDescription"
-                    style="@style/SmallGrey"
+                    style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_extra_large"
+                    android:layout_marginTop="@dimen/margin_extra_large"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_small"
                     android:gravity="center"
                     android:text="This is your account summary. Use these details to add money to your YAP account"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +74,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
