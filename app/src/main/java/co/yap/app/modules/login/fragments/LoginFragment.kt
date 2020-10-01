@@ -81,10 +81,10 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         KeyboardVisibilityEvent.setEventListener(requireActivity(),viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
-                clSignUp.post {
+                clSignUp?.post {
                     if (isOpen)
-                        scrollView.scrollToBottomWithoutFocusChange()
-                    clSignUp.visibility = if (isOpen) GONE else VISIBLE
+                        scrollView?.scrollToBottomWithoutFocusChange()
+                    clSignUp?.visibility = if (isOpen) GONE else VISIBLE
 //                    scrollView.isEnableScrolling = !isOpen
                 }
             }
