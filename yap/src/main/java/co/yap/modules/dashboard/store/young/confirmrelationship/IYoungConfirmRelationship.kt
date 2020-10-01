@@ -7,6 +7,8 @@ interface IYoungConfirmRelationship {
     interface State : IBase.State {
         var realtion: MutableLiveData<String>
         var valid: MutableLiveData<Boolean>
+        var switchChecked: MutableLiveData<Boolean>
+        var relationSelected: MutableLiveData<Int>
     }
     interface ViewModel : IBase.ViewModel<State>
     interface View : IBase.View<ViewModel>
