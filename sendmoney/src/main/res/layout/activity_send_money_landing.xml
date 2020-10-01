@@ -35,7 +35,8 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_add_sign}"
             app:rightIconVisibility="@{true}"
-            app:titleTranslator="@{Strings.screen_send_money_display_text_title}" />
+            app:titleTranslator="@{Strings.screen_send_money_display_text_title}"
+            />
 
 
         <include

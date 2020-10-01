@@ -23,7 +23,7 @@ class LoginViewModel(application: Application) :
 
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val state: LoginState = LoginState()
+    override val state: LoginState = LoginState(application = application)
     override val repository: AuthRepository = AuthRepository
     private val customersRepository: CustomersRepository = CustomersRepository
     override var isAccountBlocked: MutableLiveData<Boolean> = MutableLiveData(false)

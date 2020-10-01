@@ -13,6 +13,9 @@ const val MALFORMED_JSON_EXCEPTION_CODE = 0
 
 abstract class BaseRepository : IRepository {
 
+    private val defaultErrorMessage =
+        "Sorry, that doesn't look right. We’re working on fixing it now. Please try again in sometime."
+
     override suspend fun <T : ApiResponse> executeSafely(call: suspend () -> Response<T>): RetroApiResponse<T> {
         try {
             val response: Response<T> = call.invoke()
@@ -73,23 +76,23 @@ abstract class BaseRepository : IRepository {
                                     actualCode
                                 )
                             } else {
-                                ServerError(code, "Something went wrong", actualCode)
+                                ServerError(code, defaultErrorMessage, actualCode)
                             }
                         }
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error
-                        val error = obj.getString("error") ?: "Something went wrong"
+                        val error = obj.getString("error") ?: defaultErrorMessage
                         if (error.contains("unauthorized")) {
-                            return ServerError(0, "Something went wrong")
+                            return ServerError(0, defaultErrorMessage)
                         }
                         return ServerError(0, error)
                     }
                 } catch (e: JSONException) {
-                    ServerError(code, "Something went wrong")
+                    ServerError(code, defaultErrorMessage)
                 }
             }
         }
-        return ServerError(code, "Something went wrong")
+        return ServerError(code, defaultErrorMessage)
     }
 
     private fun getApiError(error: ServerError): ApiError {
@@ -101,7 +104,7 @@ abstract class BaseRepository : IRepository {
     }
 
     private fun getDefaultMessage(): String {
-        return "Something went wrong."
+        return defaultErrorMessage
     }
 
     private fun getDefaultCode(): Int {
@@ -119,8 +122,8 @@ abstract class BaseRepository : IRepository {
                 code,
                 "Looks like you're offline. Please reconnect and refresh to continue using YAP."
             )
-            is NetworkErrors.BadGateway -> ServerError(code, "Bad Gateway")
-            is NetworkErrors.NotFound -> ServerError(code, "Resource Not Found")
+            is NetworkErrors.BadGateway -> ServerError(code, defaultErrorMessage)
+            is NetworkErrors.NotFound -> ServerError(code, defaultErrorMessage)
             is NetworkErrors.Forbidden -> ServerError(
                 code,
                 "You don't have access to this information"
