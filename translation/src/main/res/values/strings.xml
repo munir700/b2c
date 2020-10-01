@@ -509,7 +509,7 @@
     <string name="screen_confirm_passcode_display_text_heading">Re-enter your new \npasscode</string>
 
     <!--    Change Email Address Success Screen-->
-    <string name="screen_email_address_success_display_text_heading">Success!</string>
+    <string name="screen_email_address_success_display_text_heading">Congratulations\, %1$s</string>
     <string name="screen_email_address_success_display_text_title">Success!</string>
     <string name="screen_email_address_success_display_text_sub_heading">Your email address has been updated to \n</string>
 

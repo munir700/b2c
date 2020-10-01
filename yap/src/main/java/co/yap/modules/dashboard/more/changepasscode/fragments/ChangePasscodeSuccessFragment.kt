@@ -8,6 +8,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.changepasscode.interfaces.IChangePassCodeSuccess
 import co.yap.modules.dashboard.more.changepasscode.viewmodels.ChangePasscodeSuccessViewModel
+import co.yap.translation.Strings
 
 class ChangePasscodeSuccessFragment :
     ChangePasscodeBaseFragment<IChangePassCodeSuccess.ViewModel>(),
@@ -28,7 +29,7 @@ class ChangePasscodeSuccessFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.topSubHeading = "Your passcode has been updated \n successfully"
-        viewModel.state.topMainHeading = "Awesome!"
+        viewModel.state.topMainHeading = resources.getString(R.string.screen_email_address_success_display_text_heading)
     }
 
     override fun onDestroy() {

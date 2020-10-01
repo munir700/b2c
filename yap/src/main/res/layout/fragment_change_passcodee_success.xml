@@ -14,17 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <ImageView
+            android:id="@+id/ivBubbles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bg_bubbles" />
         <TextView
             android:id="@+id/tvSuccessHeading"
             style="@style/ATitle3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xl"
+            android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@{viewModel.state.topMainHeading}"
+            app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
+            app:text="@{viewModel.state.topMainHeading}"
             tools:text="Success!" />
 
         <TextView
