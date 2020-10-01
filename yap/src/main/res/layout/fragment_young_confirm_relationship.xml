@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    >
     <data>
 
         <variable
@@ -124,7 +123,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_next"
-            app:enableCoreButton="@{true}"
+            app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_phone_number_button_send}" />
 
