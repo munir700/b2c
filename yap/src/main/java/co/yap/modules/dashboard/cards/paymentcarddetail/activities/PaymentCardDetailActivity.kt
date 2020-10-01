@@ -549,21 +549,21 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 val groupPosition = data.let {
                     it?.getIntExtra(
-                         TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string,
+                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                         -1
                     )
                 }
                 val childPosition = data.let {intent->
                     intent?.getIntExtra(
-                         TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string,
+                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                         -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
                     getRecycleViewAdaptor().getDataForPosition(groupPosition?:0).transaction[childPosition?:0].transactionNote =
-                        (data?.getParcelableExtra(TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string) as Transaction).transactionNote
+                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
                     getRecycleViewAdaptor().getDataForPosition(groupPosition?:0).transaction[childPosition?:0].transactionNoteDate =
-                        (data.getParcelableExtra(TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string) as Transaction).transactionNoteDate
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor().notifyItemChanged(
                         groupPosition?:0,
                         getRecycleViewAdaptor().getDataForPosition(groupPosition?:0).transaction[childPosition?:0]
@@ -691,15 +691,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(pos)
             launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
                 putExtra(
-                    TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string,
+                    ExtraKeys.TRANSACTION_OBJECT_STRING.name,
                     transaction
                 )
                 putExtra(
-                     TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string,
+                     ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                     groupPosition
                 )
                 putExtra(
-                     TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string,
+                     ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                     pos
                 )
 

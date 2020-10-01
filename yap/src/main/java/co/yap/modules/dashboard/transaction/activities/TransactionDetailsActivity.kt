@@ -21,7 +21,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.TransactionNoteKeys
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -40,7 +40,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transaction.set(
             intent?.getParcelableExtra(
-                TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string
+                ExtraKeys.TRANSACTION_OBJECT_STRING.name
             ) as Transaction
         )
         setSpentLabel()
@@ -284,17 +284,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     fun setResult() {
         val intent = Intent()
         intent.putExtra(
-            TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string,
+            ExtraKeys.TRANSACTION_OBJECT_STRING.name,
             viewModel.transaction.get() as Transaction
         )
         intent.putExtra(
-            TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string, getIntent().getIntExtra(
-                TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string, -1
+            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
+                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
             )
         )
         intent.putExtra(
-            TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string, getIntent().getIntExtra(
-                TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string, -1
+            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
+                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
             )
         )
 

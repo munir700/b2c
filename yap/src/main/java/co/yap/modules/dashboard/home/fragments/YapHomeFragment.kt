@@ -61,7 +61,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.TransactionNoteKeys
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -211,15 +211,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
                             putExtra(
-                                TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string,
+                                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
                                 transaction
                             )
                             putExtra(
-                                 TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string,
+                                 ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                                 groupPosition
                             )
                             putExtra(
-                                 TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string,
+                                 ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                                 childPosition
                             )
 
@@ -594,13 +594,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                 val groupPosition = data.let {intent->
                     intent?.getIntExtra(
-                         TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string,
+                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                         -1
                     )
                 }
                 val childPosition = data.let {intent->
                     intent?.getIntExtra(
-                         TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string,
+                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                         -1
                     )
                 }
@@ -608,11 +608,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
                         childPosition?:0
                     )?.transactionNote =
-                        (data?.getParcelableExtra(TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string) as Transaction).transactionNote
+                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
                     getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
                         childPosition?:0
                     )?.transactionNoteDate =
-                        (data.getParcelableExtra(TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string) as Transaction).transactionNoteDate
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
                         groupPosition?:0,
                         getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(childPosition?:0)
