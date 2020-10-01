@@ -191,7 +191,8 @@
             app:layout_constraintStart_toEndOf="@+id/tvClearFilters"
             app:text="@{Strings.screen_transaction_filter_button_apply_filter}"
             tools:text="@string/screen_transaction_filter_button_apply_filter"
-            app:btn_pressed_color="?attr/colorPrimaryAttr"/>
+            app:btn_pressed_color="?attr/colorPrimaryAttr"
+            />
 
         <TextView
             android:id="@+id/tvClearFilters"
