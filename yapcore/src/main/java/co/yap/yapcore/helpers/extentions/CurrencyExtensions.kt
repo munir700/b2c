@@ -8,11 +8,11 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 
-fun String.toFormattedCurrency(showCurrency: Boolean = true, currency: String = "AED"): String {
+fun String.toFormattedCurrency(showCurrency: Boolean = true, currency: String? = "AED"): String {
     return try {
         if (this.isNotBlank()) {
             val formattedAmount = getDecimalFormatUpTo(
-                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency),
+                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency?:"AED"),
                 amount = this
             )
             if (formattedAmount.isNotBlank()) {
