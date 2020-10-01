@@ -85,7 +85,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     if (isOpen)
                         scrollView?.scrollToBottomWithoutFocusChange()
                     clSignUp?.visibility = if (isOpen) GONE else VISIBLE
-//                    scrollView.isEnableScrolling = !isOpen
                 }
             }
         })
