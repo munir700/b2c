@@ -21,18 +21,12 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.TransactionNoteKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
-
-    companion object {
-        const val intentSetResultPlaceHolderTransactionObject = "transaction Object"
-        const val intentSetResultPlaceHolderGroupPosition = "group position"
-        const val intentSetResultPlaceHolderChildPosition = "child position"
-    }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -46,7 +40,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.transaction.set(
             intent?.getParcelableExtra(
-                intentSetResultPlaceHolderTransactionObject
+                TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string
             ) as Transaction
         )
         setSpentLabel()
@@ -290,17 +284,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     fun setResult() {
         val intent = Intent()
         intent.putExtra(
-            intentSetResultPlaceHolderTransactionObject,
+            TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string,
             viewModel.transaction.get() as Transaction
         )
         intent.putExtra(
-            intentSetResultPlaceHolderGroupPosition, getIntent().getIntExtra(
-                intentSetResultPlaceHolderGroupPosition, -1
+            TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string, getIntent().getIntExtra(
+                TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string, -1
             )
         )
         intent.putExtra(
-            intentSetResultPlaceHolderChildPosition, getIntent().getIntExtra(
-                intentSetResultPlaceHolderChildPosition, -1
+            TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string, getIntent().getIntExtra(
+                TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string, -1
             )
         )
 

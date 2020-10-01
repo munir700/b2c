@@ -61,6 +61,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.TransactionNoteKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -210,15 +211,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
                             putExtra(
-                                TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject,
+                                TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string,
                                 transaction
                             )
                             putExtra(
-                                TransactionDetailsActivity.intentSetResultPlaceHolderGroupPosition,
+                                 TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string,
                                 groupPosition
                             )
                             putExtra(
-                                TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
+                                 TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string,
                                 childPosition
                             )
 
@@ -591,30 +592,30 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
 
-                val groupPosition = data.let {
-                    it!!.getIntExtra(
-                        TransactionDetailsActivity.intentSetResultPlaceHolderGroupPosition,
+                val groupPosition = data.let {intent->
+                    intent?.getIntExtra(
+                         TransactionNoteKeys.TRANSACTION_OBJECT_GROUP_POSITION.string,
                         -1
                     )
                 }
-                val childPosition = data.let {
-                    it!!.getIntExtra(
-                        TransactionDetailsActivity.intentSetResultPlaceHolderChildPosition,
+                val childPosition = data.let {intent->
+                    intent?.getIntExtra(
+                         TransactionNoteKeys.TRANSACTION_OBJECT_CHILD_POSITION.string,
                         -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
-                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                        childPosition
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
+                        childPosition?:0
                     )?.transactionNote =
-                        (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNote
-                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                        childPosition
+                        (data?.getParcelableExtra(TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string) as Transaction).transactionNote
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
+                        childPosition?:0
                     )?.transactionNoteDate =
-                        (data?.getParcelableExtra(TransactionDetailsActivity.intentSetResultPlaceHolderTransactionObject) as Transaction).transactionNoteDate
+                        (data.getParcelableExtra(TransactionNoteKeys.TRANSACTION_OBJECT_STRING.string) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
-                        groupPosition,
-                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(childPosition)
+                        groupPosition?:0,
+                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(childPosition?:0)
                     )
 
                 }

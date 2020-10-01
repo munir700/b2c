@@ -890,7 +890,7 @@ object UIBinder {
                 view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
 
             }
-            pin?.isNotEmpty()!! -> {
+            pin?.isNotEmpty()?:false -> {
                 view.defaultHintTextColor =
                     view.context.getColorStateList(R.color.colorPlaceHolderGrey)
             }
