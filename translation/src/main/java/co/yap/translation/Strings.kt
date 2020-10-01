@@ -1618,4 +1618,30 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+
+    //  Status Time line
+    const val screen_time_line_display_text_status_card_on_the_way_title: String =
+        "screen_time_line_display_text_status_card_on_the_way_title"
+    const val screen_time_line_display_text_status_card_on_the_way_description: String =
+        "screen_time_line_display_text_status_card_on_the_way_description"
+    const val screen_time_line_display_text_status_card_on_the_way_action: String =
+        "screen_time_line_display_text_status_card_on_the_way_action"
+    const val screen_time_line_display_text_status_card_delivered_title: String =
+        "screen_time_line_display_text_status_card_delivered_title"
+    const val screen_time_line_display_text_status_card_delivered_description: String =
+        "screen_time_line_display_text_status_card_delivered_description"
+    const val screen_time_line_display_text_status_set_card_pin_title: String =
+        "screen_time_line_display_text_status_set_card_pin_title"
+    const val screen_time_line_display_text_status_set_card_pin_description: String =
+        "screen_time_line_display_text_status_set_card_pin_description"
+    const val screen_time_line_display_text_status_set_card_pin_action: String =
+        "screen_time_line_display_text_status_set_card_pin_action"
+    const val screen_time_line_display_text_status_card_top_up_title: String =
+        "screen_time_line_display_text_status_card_top_up_title"
+    const val screen_time_line_display_text_status_card_top_up_description: String =
+        "screen_time_line_display_text_status_card_top_up_description"
+    const val screen_time_line_display_text_status_card_top_up_action: String =
+        "screen_time_line_display_text_status_card_top_up_action"
+
 }

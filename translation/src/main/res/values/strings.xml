@@ -1015,5 +1015,22 @@
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
 
+    <!--   Status Time line  -->
+    <string name="screen_time_line_display_text_status_card_on_the_way_title">Your card is on the way</string>
+    <string name="screen_time_line_display_text_status_card_on_the_way_description">Give us up to 48 hours for it to reach you</string>
+    <string name="screen_time_line_display_text_status_card_on_the_way_action">Track your delivery</string>
+
+    <string name="screen_time_line_display_text_status_card_delivered_title">Your card is delivered</string>
+    <string name="screen_time_line_display_text_status_card_delivered_description">A biometric scan will be carried out by the agent</string>
+
+    <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_description">You’ll need this to begin using your card</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_action">Set PIN</string>
+
+    <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
+    <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
+    <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
+
+
 </resources>
 
