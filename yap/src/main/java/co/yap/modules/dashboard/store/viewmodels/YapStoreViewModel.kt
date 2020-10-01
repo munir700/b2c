@@ -32,7 +32,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
                     1,
                     "YAP Young",
                     "Open a bank account for your children and help empower them financially.",
-                    R.drawable.ic_store_young, R.drawable.ic_young_smile
+                    R.drawable.ic_store_young_new, R.drawable.ic_young_smile
                 )
             )
             list.add(
@@ -40,7 +40,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
                     2,
                     "YAP Household",
                     "Manage your household salaries digitally.",
-                    R.drawable.ic_store_household, R.drawable.ic_young_household
+                    R.drawable.ic_store_household_new, R.drawable.ic_young_household
                 )
             )
             storesLiveData.value = list
