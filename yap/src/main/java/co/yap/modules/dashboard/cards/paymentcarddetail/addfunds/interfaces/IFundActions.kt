@@ -20,7 +20,6 @@ interface IFundActions {
         val EVENT_ADD_FUNDS_SUCCESS: Int get() = 1
         val EVENT_REMOVE_FUNDS_SUCCESS: Int get() = 2
         fun buttonClickEvent(id: Int)
-        fun crossButtonClickEvent(id: Int)
         fun denominationFirstAmountClick()
         fun denominationSecondAmount()
         fun denominationThirdAmount()
