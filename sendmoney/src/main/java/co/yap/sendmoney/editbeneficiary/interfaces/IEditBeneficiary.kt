@@ -1,5 +1,6 @@
 package co.yap.sendmoney.editbeneficiary.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -42,5 +43,7 @@ interface IEditBeneficiary {
         var showIban:Boolean?
         var valid: Boolean?
         var selectedCountryOfResidence: Country?
+        var rightButtonText: ObservableField<String>
+
     }
 }

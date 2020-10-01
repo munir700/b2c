@@ -567,9 +567,14 @@ object UIBinder {
         isAccountLocked: Boolean = false
     ) {
         if (null != error && error.isNotEmpty()) {
-            view.showError(error)
-            view.settingUIForError(isScreenLocked)
-            view.setPasscodeVisiblity(isAccountLocked)
+            if (!isScreenLocked && !isAccountLocked) {
+                view.showError(error)
+            } else {
+                view.showError(error)
+                view.settingUIForError(isScreenLocked)
+                view.setPasscodeVisiblity(isAccountLocked)
+            }
+
         } else {
             view.removeError()
             view.settingUIForNormal(isScreenLocked)
@@ -878,6 +883,25 @@ object UIBinder {
     }
 
     @JvmStatic
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
+        when {
+            isEmpty -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+
+            }
+            pin?.isNotEmpty()?:false -> {
+                view.defaultHintTextColor =
+                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
+        }
+
+    }
+
+    @JvmStatic
     @BindingAdapter("spanColor")
     fun spanColor(view: AppCompatTextView, currency: String) {
         val splitStringArray: List<String> = currency.split(" ")
@@ -893,26 +917,6 @@ object UIBinder {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        view.setText(spannable)
+        view.text = spannable
     }
-
-    @JvmStatic
-    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
-    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
-        when {
-            isEmpty -> {
-                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
-
-            }
-            pin?.isNotEmpty()!! -> {
-                view.defaultHintTextColor =
-                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
-            }
-            else -> {
-                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
-            }
-        }
-
-    }
-
 }
