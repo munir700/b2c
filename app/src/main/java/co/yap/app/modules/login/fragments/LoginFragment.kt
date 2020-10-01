@@ -75,16 +75,12 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        KeyboardVisibilityEvent.setEventListener(requireActivity(), object :
+        KeyboardVisibilityEvent.setEventListener(requireActivity(),viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
-                clSignUp.post {
-                    clSignUp.visibility = if (isOpen) GONE else VISIBLE
-                    scrollView.isEnableScrolling = !isOpen
+                clSignUp?.post {
+                    clSignUp?.visibility = if (isOpen) GONE else VISIBLE
+                    scrollView?.isEnableScrolling = !isOpen
                 }
             }
         })
