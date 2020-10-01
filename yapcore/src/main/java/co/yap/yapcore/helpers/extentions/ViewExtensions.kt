@@ -19,5 +19,7 @@ fun ScrollView.scrollToBottomWithoutFocusChange() { // Kotlin extension to scrol
     val lastChild = getChildAt(childCount - 1)
     val bottom = lastChild.bottom + paddingBottom
     val delta = bottom - (scrollY + height)
-    smoothScrollBy(0, delta)
+    post{
+        smoothScrollBy(0, delta)
+    }
 }
