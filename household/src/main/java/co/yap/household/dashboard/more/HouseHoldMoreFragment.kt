@@ -41,6 +41,7 @@ class HouseHoldMoreFragment :
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         viewModel.adapter.set(adapter)
+        setHasOptionsMenu(true)
         adapter.onItemClickListener = onItemClickListener
         recyclerView.addItemDecoration(
             SpaceGridItemDecoration(

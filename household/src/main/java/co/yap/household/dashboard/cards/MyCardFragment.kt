@@ -1,8 +1,9 @@
 package co.yap.household.dashboard.cards
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.household.BR
 import co.yap.household.R
@@ -44,16 +45,22 @@ class MyCardFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_hh_options)
+        setupToolbar(mViewDataBinding.toolbar, R.menu.menu_hh_options, setActionBar = false)
         intRecyclersView()
 //        setHasOptionsMenu(true)
         viewModel.getPrimaryCard() {
-            setHasOptionsMenu(true)
+            setHasOptionsMenu(it)
         }
         viewModel.checkFreezeUnfreezeStatus()
     }
 
     override fun toolBarVisibility() = false
+    override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_hh_options, menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         showBottomSheet()
         return super.onOptionsItemSelected(item)
@@ -133,5 +140,4 @@ class MyCardFragment :
         )
     }
 
-    override fun setHomeAsUpIndicator() = R.drawable.ic_search_white
 }

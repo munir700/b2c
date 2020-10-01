@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/Yap.App.Layout.LinearLayout.Vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Yap.App.Widget.TextView.Label.Medium"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="No transaction yet"
+            android:textSize="@dimen/text_size_h3" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:srcCompat="@drawable/ic_no_transaction_household" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
