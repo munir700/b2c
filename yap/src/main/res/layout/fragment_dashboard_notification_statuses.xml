@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp">
+        <com.github.vipulasri.timelineview.TimelineView
+            android:id="@+id/timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:endLineColor="@color/grey2"
+            app:isLoadingStatus="@{viewModel.transactionData.isLoadingStatus}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:linePadding="@dimen/margin_extra_small"
+            app:lineStyle="normal"
+            app:lineWidth="3dp"
+            app:markerSize="@dimen/_16sdp"
+            app:setMarker="@{TransactionExtensionsKt.getTransactionStatusBackground(viewModel.transactionData)}"
+            app:startLineColor="@color/grey2" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOrderStatus"
+            style="@style/Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:background="@drawable/bg_rounded_rectangle_orange"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:paddingHorizontal="@dimen/margin_small"
+            android:paddingVertical="@dimen/margin_extra_small"
+            android:text='@{TransactionExtensionsKt.getTransactionStatus(viewModel.transactionData)}'
+            android:textAlignment="viewStart"
+            android:textColor="@color/greyLight"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/timeline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint='@{TransactionExtensionsKt.getTransactionStatusBackground(viewModel.transactionData)}'
+            tools:text="Available for Pickup" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBeneficiaryTime"
+            style="@style/RegularPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_one_dp"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:gravity="end"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:text="@{TransactionExtensionsKt.getFormattedStatusDate(viewModel.transactionData)}"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/tvOrderStatus"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="9:00 am" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

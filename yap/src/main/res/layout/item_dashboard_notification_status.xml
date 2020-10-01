@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.status.NotificationStatusItemViewModel" />
+    </data>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp">
+
+            <com.github.vipulasri.timelineview.TimelineView
+                android:id="@+id/timeline"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:endLineColor="@color/warning"
+                app:isLoadingStatus="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:linePadding="@dimen/margin_extra_small"
+                app:lineStyle="normal"
+                app:lineWidth="3dp"
+                app:markerSize="@dimen/_16sdp"
+                app:setMarker="@drawable/ic_bank"
+                app:startLineColor="@color/grey" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOrderStatus"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="@drawable/bg_round_corners"
+                android:includeFontPadding="false"
+                android:lines="1"
+                android:paddingHorizontal="@dimen/margin_small"
+                android:paddingVertical="@dimen/margin_extra_small"
+                android:text='abc'
+                android:textAlignment="viewStart"
+                android:textColor="@color/greyLight"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/timeline"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Available for Pickup" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBeneficiaryTime"
+                style="@style/Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_one_dp"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:gravity="end"
+                android:includeFontPadding="false"
+                android:lines="1"
+                android:text="def"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/tvOrderStatus"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="9:00 am" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="start"-->
+    <!--        android:padding="@dimen/_18sdp">-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/ivStatus"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:src="@drawable/ic_bank"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tvStatusTitle"-->
+    <!--            style="@style/Regular"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="@dimen/_36sdp"-->
+    <!--            android:gravity="start"-->
+    <!--            android:text="@string/screen_time_line_display_text_status_card_on_the_way_title"-->
+    <!--            android:textColor="@color/colorPrimaryDark"-->
+    <!--            android:textSize="@dimen/_15sdp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toEndOf="@id/ivStatus"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            app:text="@{Strings.screen_time_line_display_text_status_card_on_the_way_title}" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tvStatusDescription"-->
+    <!--            style="@style/ASmall"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="@dimen/_36sdp"-->
+    <!--            android:layout_marginTop="@dimen/small"-->
+    <!--            android:text="@string/screen_time_line_display_text_status_card_on_the_way_description"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/tvStatusTitle"-->
+    <!--            app:text="@{Strings.screen_time_line_display_text_status_card_on_the_way_description}" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tvStatusActions"-->
+    <!--            style="@style/ASmall"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="@dimen/_36sdp"-->
+    <!--            android:layout_marginTop="@dimen/small"-->
+    <!--            android:text="@string/screen_time_line_display_text_status_card_on_the_way_action"-->
+    <!--            android:textColor="@color/colorPrimary"-->
+    <!--            android:textSize="@dimen/_13sdp"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/tvStatusDescription"-->
+    <!--            app:text="@{Strings.screen_time_line_display_text_status_card_on_the_way_action}" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+</layout>

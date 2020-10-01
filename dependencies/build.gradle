@@ -149,7 +149,10 @@ project.ext {
 
             // Facebook
             facebook                 : 'com.facebook.android:facebook-android-sdk:[5,6)',
-            tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0'
+            tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0',
+
+            //timeline
+            timelineview               : 'com.github.vipulasri:timelineview:1.1.5'
 
     ]
 
@@ -226,7 +229,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.rangeSeekbar],
-            [configuration: "implementation", dependency: libraries.swipeViewActions]
+            [configuration: "implementation", dependency: libraries.swipeViewActions],
+            [configuration: "implementation", dependency: libraries.timelineview]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
