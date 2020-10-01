@@ -153,7 +153,7 @@
                 app:rsb_max="20000"
                 app:rsb_min="0"
                 app:rsb_mode="single"
-                app:rsb_progress_color="@color/colorPrimary"
+                app:rsb_progress_color="?attr/colorPrimaryAttr"
                 app:rsb_progress_default_color="?attr/colorSeekBar"
                 app:rsb_progress_height="@dimen/_4sdp"
                 app:rsb_progress_radius="@dimen/_2sdp"
@@ -190,7 +190,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvClearFilters"
             app:text="@{Strings.screen_transaction_filter_button_apply_filter}"
-            tools:text="@string/screen_transaction_filter_button_apply_filter" />
+            tools:text="@string/screen_transaction_filter_button_apply_filter"
+            app:btn_pressed_color="?attr/colorPrimaryAttr"
+            />
 
         <TextView
             android:id="@+id/tvClearFilters"
@@ -198,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimaryAttr"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="@id/btnApplyFilters"
             app:layout_constraintEnd_toStartOf="@+id/btnApplyFilters"
