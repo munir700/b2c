@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseState
 
 class ChangePassCodeSuccessState : BaseState(), IChangePassCodeSuccess.State {
     @get:Bindable
-    override var topMainHeading: String = ""
+    override var userName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.topMainHeading)
