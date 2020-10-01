@@ -6,11 +6,12 @@ import co.yap.yapcore.BaseState
 
 class HHIbanSendMoneyState : BaseState(), IHHIbanSendMoney.State {
     override var amount: MutableLiveData<String>? = MutableLiveData()
-    override var txnCategory: MutableLiveData<String> = MutableLiveData("")
+    override var selectedTxnCategoryPosition: MutableLiveData<Int> = MutableLiveData(-1)
     override var subAccount: MutableLiveData<SubAccount> = MutableLiveData()
     override var availableBalance: MutableLiveData<String>? = MutableLiveData("0.00")
         set(value) {
             field = value
             notifyChange()
         }
+    override var isRecurringPayment: MutableLiveData<Boolean>? = MutableLiveData()
 }

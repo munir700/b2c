@@ -3,6 +3,8 @@ package co.yap.modules.subaccounts.paysalary.transfer
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
+import co.yap.networking.customers.household.CustomersHHRepository
+import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.household.TransactionsHHApi
@@ -11,6 +13,7 @@ import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
@@ -18,8 +21,6 @@ import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
-import co.yap.yapcore.leanplum.HHUserActivityEvents
-import co.yap.yapcore.leanplum.trackEvent
 import javax.inject.Inject
 
 class HHIbanSendMoneyVM @Inject constructor(
@@ -28,7 +29,7 @@ class HHIbanSendMoneyVM @Inject constructor(
 ) :
     DaggerBaseViewModel<IHHIbanSendMoney.State>(), IHHIbanSendMoney.ViewModel, IValidator {
     override var transactionsRepository: TransactionsHHApi = TransactionsHHRepository
-    override val clickEvent: SingleClickEvent=SingleClickEvent()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handleOnClick(id: Int) {
     }
@@ -68,7 +69,29 @@ class HHIbanSendMoneyVM @Inject constructor(
                 }
                 is RetroApiResponse.Error -> {
                     apiResponse?.invoke(false)
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     publishState(State.empty(response.error.message))
+                }
+            }
+        }
+    }
+
+    override fun getSchedulePayment(uuid: String?, apiResponse: ((SchedulePayment?) -> Unit?)?) {
+        launch {
+            state.loading = true
+            when (val response =
+                CustomersHHRepository.getSchedulePayment(uuid, "Salary")) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    response.data.data?.let {
+                        val schedulePayment =
+                            it.find { s -> s.isRecurring == true && s.recurringInterval?.isNotEmpty()!! }
+                        apiResponse?.invoke(schedulePayment)
+                    } ?: apiResponse?.invoke(null)
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    apiResponse?.invoke(null)
                 }
             }
         }

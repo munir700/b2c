@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.*
+import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 
@@ -96,3 +97,27 @@ fun normal(s: CharSequence) =
 
 fun normal(s: SpannableString) =
     span(s, SpannableString(s))
+
+/**
+ * Helps to set clickable part in text.
+ *
+ * Don't forget to set android:textColorLink="@color/link" (click selector) and
+ * android:textColorHighlight="@color/window_background" (background color while clicks)
+ * in the TextView where you will use this.
+ */
+fun SpannableString.withClickableSpan(
+    clickablePart: String,
+    onClickListener: () -> Unit
+): SpannableString {
+    val clickableSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) = onClickListener.invoke()
+    }
+    val clickablePartStart = indexOf(clickablePart)
+    setSpan(
+        clickableSpan,
+        clickablePartStart,
+        clickablePartStart + clickablePart.length,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    return this
+}

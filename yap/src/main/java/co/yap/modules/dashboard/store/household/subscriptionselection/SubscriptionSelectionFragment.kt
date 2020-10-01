@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.store.household.subscriptionselection
 
 import android.content.Context
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
@@ -11,9 +12,16 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHouseHoldSubscriptionSelctionBinding
 import co.yap.modules.onboarding.models.WelcomeContent
+import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.household.responsedtos.HouseHoldPlan
 import co.yap.translation.Strings
-import co.yap.widgets.radiocus.PresetRadioGroup
+import co.yap.translation.Strings.common_button_cancel
+import co.yap.translation.Strings.common_button_confirm
+import co.yap.translation.Strings.screen_household_set_pin_terms_and_conditions_text
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_confirm_message_text
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_months
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_per_month
+import co.yap.translation.Strings.screen_yap_house_hold_subscription_selection_display_text_per_year
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
@@ -21,6 +29,9 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.interfaces.ManageToolBarListener
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
+import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.spannables.kpan.span
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -53,21 +64,82 @@ class SubscriptionSelectionFragment :
         super.postExecutePendingBindings(savedInstanceState)
         pagerSlider.adapter = adapter
         worm_dots_indicator?.setViewPager2(pagerSlider)
+
     }
 
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnGetStarted -> {
                 if (!state.plansList.value.isNullOrEmpty()) {
-                    trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
-                    trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
-                    trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
-                    navigateForwardWithAnimation(
-                        SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
-                        bundleOf(
-                            HouseHoldPlan::class.java.name to state.plansList.value,
-                            Constants.POSITION to state.selectedPlanPosition.value
-                        ), null
+//                    var msg: CharSequence = getString(
+//                        screen_yap_house_hold_subscription_selection_confirm_message_text,
+//                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+//                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
+//                    )
+                    val msg = span {
+                        span(getString(
+                            screen_yap_house_hold_subscription_selection_confirm_message_text,
+                            state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+                            getString(screen_yap_house_hold_subscription_selection_display_text_months)
+                        )){
+                            textColor = requireContext().getColor(R.color.semi_black)
+                        }
+                        span(getString(screen_household_set_pin_terms_and_conditions_text)) {
+                            onClick = {
+                                startFragment(
+                                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                                    ), showToolBar = false
+                                )
+                            }
+                            textColor = requireContext().getColor(R.color.semi_black)
+                            textDecorationLine = "underline"
+                        }
+                    }
+//                    SpannableStringBuilder(getString(
+//                        screen_yap_house_hold_subscription_selection_confirm_message_text,
+//                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+//                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
+//                    )).append(" ").append(span {
+//                        span(getString(
+//                            screen_yap_house_hold_subscription_selection_confirm_message_text,
+//                            state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+//                            getString(screen_yap_house_hold_subscription_selection_display_text_months)
+//                        )){
+//                            textColor = requireContext().getColor(R.color.semi_black)
+//                        }
+//                        span(getString(screen_household_set_pin_terms_and_conditions_text)) {
+//                            onClick = {
+//                                startFragment(
+//                                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+//                                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+//                                    ), showToolBar = false
+//                                )
+//                            }
+//                            textColor = requireContext().getColor(R.color.semi_black)
+//                            textDecorationLine = "underline"
+//                        }
+//                    })
+                    confirm(
+                        message = msg,
+                        title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
+                            screen_yap_house_hold_subscription_selection_display_text_per_month
+                        )}" else "${viewModel.state.annuallyFee.value} ${getString(
+                            screen_yap_house_hold_subscription_selection_display_text_per_year
+                        )}",
+                        positiveButton = getString(common_button_confirm),
+                        negativeButton = getString(common_button_cancel), callback = {
+                            trackAdjustPlatformEvent(AdjustEvents.HOUSE_HOLD_MAIN_SUB_PLAN_CONFIRM.type)
+                            trackEvent(HHUserOnboardingEvents.ONBOARDING_START_NEW_HH_USER.type)
+                            trackEvent(HHSubscriptionEvents.HH_SUB_PLANS_CONFIRM.type)
+                            navigateForwardWithAnimation(
+                                SubscriptionSelectionFragmentDirections.actionSubscriptionSelectionFragmentToHHAddUserNameFragment(),
+                                bundleOf(
+                                    HouseHoldPlan::class.java.name to state.plansList.value,
+                                    Constants.POSITION to state.selectedPlanPosition.value
+                                ), null
+                            )
+                        }, negativeCallback = {}
                     )
                 }
             }

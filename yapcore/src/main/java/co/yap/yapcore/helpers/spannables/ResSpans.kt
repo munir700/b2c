@@ -10,7 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-
+@Deprecated("For spannable use co.yap.yapcore.helpers.spannables.SpannableString.Span.kt")
 class ResSpans(val context: Context) : Iterable<Any> {
     val spans = ArrayList<Any>()
 

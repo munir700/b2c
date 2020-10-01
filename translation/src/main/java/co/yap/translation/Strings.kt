@@ -1328,6 +1328,8 @@ object Strings {
         "screen_yap_house_hold_subscription_selection_display_text_salary"
     const val screen_yap_house_hold_subscription_selection_display_text_schedule: String =
         "screen_yap_house_hold_subscription_selection_display_text_schedule"
+    const val screen_yap_house_hold_subscription_selection_confirm_message_text: String =
+        "screen_yap_house_hold_subscription_selection_confirm_message_text"
 
     //pager
 

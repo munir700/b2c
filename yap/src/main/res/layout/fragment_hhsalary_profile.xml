@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:layout_behavior="@string/scroll_behavior"
-                app:msv_animateViewChanges="true"
+                app:msv_animateViewChanges="false"
                 app:msv_loadingView="@layout/layout_loading_view_top">
 
                 <co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView

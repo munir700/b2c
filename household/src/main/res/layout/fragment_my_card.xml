@@ -22,8 +22,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/Yap.App.Widget.ToolBar"
-            android:background="@color/colorPrimaryHouseHold"
-            app:navigationIcon="@drawable/ic_search_white">
+            app:navigationIcon="@drawable/ic_search_white"
+            android:background="@color/colorPrimaryHouseHold">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/toolbarTitle"
@@ -105,8 +105,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:msv_animateViewChanges="true"
-            app:msv_emptyView="@layout/layout_welcome_to_yap_view"
-            app:msv_errorView="@layout/layout_welcome_to_yap_view"
+            app:msv_emptyView="@layout/layout_card_no_transaction"
+            app:msv_errorView="@layout/layout_card_no_transaction"
             app:msv_loadingView="@layout/layout_loading_view_top"
             app:viewState="@{viewModel.stateLiveData}">
 

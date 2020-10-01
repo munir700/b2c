@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHhibanSendMoneyBinding
+import co.yap.networking.customers.household.requestdtos.SchedulePayment
 import co.yap.networking.transactions.household.requestdtos.IbanSendMoneyRequest
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.plus
@@ -25,37 +26,42 @@ class HHIbanSendMoneyFragment :
             viewModel.state.availableBalance?.value = response?.availableBalance
         })
         selectMultiCheckGroup?.setOnItemSelectedListener { _, position, isChecked ->
-            val array =
-                resources.getStringArray(R.array.screen_house_hold_iban_send_money_type_array)
-            viewModel.state.txnCategory.value = array[position]
-            cbOutTransFilter?.visibility = if (isChecked && position == 0) VISIBLE else GONE
+            viewModel.state.selectedTxnCategoryPosition.value = position
         }
     }
 
     override fun onClick(id: Int) {
         when (id) {
             R.id.btnConfirm -> {
-                val request = IbanSendMoneyRequest(
-                    viewModel.state.amount?.value,
-                    viewModel.state.subAccount.value?.getFullName(),
-                    viewModel.state.subAccount.value?.accountUuid,
-                    "",
-                    viewModel.state.txnCategory.value, "SendMoney"
-                )
-                viewModel.ibanSendMoney(request) {
-                    if (it)
+                if (viewModel.state.isRecurringPayment?.value == true && viewModel.state.selectedTxnCategoryPosition.value == 0) {
+                    viewModel.getSchedulePayment(viewModel.state.subAccount.value?.accountUuid) {
                         navigateForward(
-                            HHIbanSendMoneyFragmentDirections.actionHHIbanSendMoneyFragmentToHHIbanSendMoneyConfirmationFragment(),
-                            arguments?.plus(bundleOf(IbanSendMoneyRequest::class.java.simpleName to request))
+                            HHIbanSendMoneyFragmentDirections.toRecurringPaymentFragment(),
+                            arguments?.plus(
+                                bundleOf(SchedulePayment::class.java.simpleName to it)
+                            )
                         )
+                    }
+                } else {
+                    val array =
+                        resources.getStringArray(R.array.screen_house_hold_iban_send_money_type_array)
+                    val request = IbanSendMoneyRequest(
+                        viewModel.state.amount?.value,
+                        viewModel.state.subAccount.value?.getFullName(),
+                        viewModel.state.subAccount.value?.accountUuid,
+                        "",
+                        array[viewModel.state.selectedTxnCategoryPosition.value ?: 0], "SendMoney"
+                    )
+                    viewModel.ibanSendMoney(request) {
+                        if (it)
+                            navigateForward(
+                                HHIbanSendMoneyFragmentDirections.actionHHIbanSendMoneyFragmentToHHIbanSendMoneyConfirmationFragment(),
+                                arguments?.plus(bundleOf(IbanSendMoneyRequest::class.java.simpleName to request))
+                            )
+                    }
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
     }
 }
 

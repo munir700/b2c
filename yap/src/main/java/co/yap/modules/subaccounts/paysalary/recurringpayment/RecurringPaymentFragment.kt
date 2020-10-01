@@ -1,7 +1,5 @@
 package co.yap.modules.subaccounts.paysalary.recurringpayment
 
-import android.os.Bundle
-import androidx.lifecycle.Observer
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentRecurringPaymentBinding

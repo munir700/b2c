@@ -10,6 +10,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <import type="co.yap.yapcore.managers.MyUserManager" />
 
         <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
@@ -60,7 +62,7 @@
                 android:gravity="center"
                 android:minWidth="@dimen/_140sdp"
                 android:onTextChanged="@{viewModel.onAmountChange}"
-               android:text="@={viewModel.state.amount}"
+                android:text="@={viewModel.state.amount}"
                 app:editable="@{true}"
                 app:errorEnabled="@{true}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +99,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:entries="@array/screen_house_hold_iban_send_money_type_array"
                 app:column="2"
-                app:firstSingleSelectedPosition="-1"
+                app:firstSingleSelectedPosition="@{viewModel.state.selectedTxnCategoryPosition}"
                 app:isSingleSelected="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -108,8 +110,9 @@
                 android:id="@+id/cbOutTransFilter"
                 style="@style/Yap.App.Widget.CheckBox"
                 android:layout_marginTop="@dimen/_18sdp"
+                android:checked="@={viewModel.state.isRecurringPayment}"
                 android:text="Set this salary transfer up as a recurring payment"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.selectedTxnCategoryPosition==0?View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectMultiCheckGroup" />
@@ -124,7 +127,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
-                app:enableCoreButton="@{viewModel.validator.isValidate}"
+                app:enableCoreButton="@{viewModel.validator.isValidate &amp;&amp; viewModel.state.selectedTxnCategoryPosition>-1}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

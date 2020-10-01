@@ -867,7 +867,8 @@
     <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly">Yearly</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_per_month">per month</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_per_year">per year</string>
-    <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 months</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 month contract</string>
+    <string name="screen_yap_house_hold_subscription_selection_confirm_message_text">The %1s plan is a %2s. By choosing this plan you agree to our </string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_saving">save %1s</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged after you have registered your Household staff.  Please ensure you have enough funds in your account for your payment(s).</string>
     <!--    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>-->
