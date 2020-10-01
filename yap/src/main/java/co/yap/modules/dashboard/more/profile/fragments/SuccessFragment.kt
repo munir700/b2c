@@ -71,7 +71,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             viewModel.state.topSubHeading = addressStr
 
             viewModel.state.address1 = MyUserManager.userAddress?.address1 ?: ""
-            viewModel.state.address2 = getAddresse2()
+            viewModel.state.address2 = MyUserManager.userAddress?.address2 ?: ""
 
             viewModel.placesApiCall(photoPlacedId) {
                 placeImage?.setPadding(0, 0, 0, 0)
@@ -85,39 +85,6 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     override fun onDestroy() {
         viewModel.buttonClickEvent.removeObservers(this)
         super.onDestroy()
-    }
-
-    private fun getAddresse2(): String {
-        return if (!MyUserManager.userAddress?.address2.isNullOrEmpty()) {
-            (MyUserManager.userAddress?.address2
-                ?: "") + if (!MyUserManager.userAddress?.city.isNullOrBlank()) {
-                if (!MyUserManager.userAddress?.country.isNullOrBlank()) {
-                    ", ${MyUserManager.userAddress?.city}" + ", ${MyUserManager.userAddress?.country}"
-                } else {
-                    ", ${MyUserManager.userAddress?.city}"
-                }
-            } else {
-                if (!MyUserManager.userAddress?.country.isNullOrBlank()) {
-                    ", ${MyUserManager.userAddress?.country}"
-                } else {
-                    ""
-                }
-            }
-        } else {
-            if (!MyUserManager.userAddress?.city.isNullOrBlank()) {
-                if (!MyUserManager.userAddress?.country.isNullOrBlank()) {
-                    ", ${MyUserManager.userAddress?.city}" + ", ${MyUserManager.userAddress?.country}"
-                } else {
-                    ", ${MyUserManager.userAddress?.city}"
-                }
-            } else {
-                if (!MyUserManager.userAddress?.country.isNullOrBlank()) {
-                    ", ${MyUserManager.userAddress?.country}"
-                } else {
-                    ""
-                }
-            }
-        }
     }
 
     override fun onBackPressed(): Boolean {
