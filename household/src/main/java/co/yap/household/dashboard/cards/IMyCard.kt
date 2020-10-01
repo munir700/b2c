@@ -18,7 +18,7 @@ interface IMyCard {
         val EVENT_CARD_DETAILS: Int get() = 2
         fun freezeUnfreezeCard(success: () -> Unit)
         fun getCardDetails(success: () -> Unit)
-        fun getPrimaryCard(success: () -> Unit)
+        fun getPrimaryCard(success: (Boolean) -> Unit)
         fun requestTransactions(
             transactionRequest: HomeTransactionsRequest?,
             isLoadMore: Boolean = false,

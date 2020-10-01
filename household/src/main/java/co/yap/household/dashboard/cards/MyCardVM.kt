@@ -85,7 +85,7 @@ class MyCardVM @Inject constructor(
         }
     }
 
-    override fun getPrimaryCard(success: () -> Unit) {
+    override fun getPrimaryCard(success: (Boolean) -> Unit) {
         launch {
             when (val response = cardsRepository.getDebitCards("")) {
                 is RetroApiResponse.Success -> {
@@ -93,14 +93,17 @@ class MyCardVM @Inject constructor(
                         if (it.isNotEmpty()) {
                             val primaryCard = getPrimaryCard(response.data.data)
                             state.card?.value = primaryCard
-                            success()
+                            success.invoke(true)
                         } else {
                             state.toast = "Primary card not found.^${AlertType.TOAST.name}"
+                            success.invoke(false)
                         }
                     }
                 }
-                is RetroApiResponse.Error ->
+                is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.TOAST.name}"
+                    success.invoke(false)
+                }
             }
         }
     }

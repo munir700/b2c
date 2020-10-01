@@ -51,12 +51,12 @@ class YoungCardEditDetailsFragment :
 
     private fun setupPager() {
         viewPager?.apply {
-            this.setPageTransformer(
-                SimplePageOffsetTransformer(
-                    resources.getDimensionPixelOffset(R.dimen._30sdp),
-                    resources.getDimensionPixelOffset(R.dimen._40sdp)
-                )
-            )
+//            this.setPageTransformer(
+//                SimplePageOffsetTransformer(
+//                    resources.getDimensionPixelOffset(R.dimen._30sdp),
+//                    resources.getDimensionPixelOffset(R.dimen._40sdp)
+//                )
+//            )
             state.cardDesigns?.observe(this@YoungCardEditDetailsFragment, Observer {
                 TabLayoutMediator(tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->

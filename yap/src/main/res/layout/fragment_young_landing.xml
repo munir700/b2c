@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.store.young.landing.YoungLandingVM" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
+
 
         <ScrollView
             android:id="@+id/svContainer"
@@ -38,16 +40,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    style="@style/Yap.App.Widget.ToolBar"
-                    android:background="@drawable/bg_grey_gradient"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:navigationIcon="@drawable/ic_close_white">
-
-                </androidx.appcompat.widget.Toolbar>
 
                 <co.yap.widgets.SquareImageView
                     android:id="@+id/imgSmiley"
@@ -245,6 +237,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGetHouseHoldAccount"
             style="@style/FragmentsBtnStyle"
@@ -260,5 +253,12 @@
             app:btn_enable="true"
             app:text="@{Strings.screen_yap_young_onboarding_landing_button_text}"
             tools:text="@string/screen_yap_young_onboarding_landing_button_text" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Yap.App.Widget.ToolBar"
+            android:background="@drawable/bg_grey_gradient"
+
+            app:navigationIcon="@drawable/ic_close_white" />
     </FrameLayout>
 </layout>

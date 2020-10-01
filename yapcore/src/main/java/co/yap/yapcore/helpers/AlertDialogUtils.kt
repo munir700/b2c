@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -175,9 +176,13 @@ fun Fragment.confirm(
             negativeButton ?: getString(android.R.string.no)
         )
         { dialog, _ -> dialog.negativeCallback() }
-        //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+        val alert =  create()
         setCancelable(cancelable)
-        show()
+        alert.show()
+        val msgView = alert.findViewById<TextView>(android.R.id.message)
+        msgView?.movementMethod = LinkMovementMethod.getInstance()
+        //setNegativeButton(negativeButton ?: getString(android.R.string.no)) { _, _ -> }
+
     }
 
 /**

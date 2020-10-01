@@ -10,7 +10,6 @@ import co.yap.networking.customers.household.responsedtos.SubAccount
 import co.yap.networking.transactions.household.TransactionsHHApi
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 
 interface IHHSalaryProfile {
     interface View : IBase.View<ViewModel>
