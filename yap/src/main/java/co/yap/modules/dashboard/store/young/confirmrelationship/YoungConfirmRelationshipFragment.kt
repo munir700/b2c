@@ -11,11 +11,10 @@ import co.yap.databinding.FragmentYoungConfirmRelationshipBinding
 import co.yap.translation.Strings
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import kotlinx.android.synthetic.main.fragment_young_confirm_relationship.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class YoungConfirmRelationshipFragment :
-    BaseNavViewModelFragment<FragmentYoungConfirmRelationshipBinding, IYoungConfirmRelationship.State, YoungConfirmRelationshipVM>(), AdapterView.OnItemSelectedListener {
+    BaseNavViewModelFragment<FragmentYoungConfirmRelationshipBinding, IYoungConfirmRelationship.State, YoungConfirmRelationshipVM>(),
+    AdapterView.OnItemSelectedListener {
     override fun getBindingVariable() = BR.viewModel
     override fun getLayoutId() = R.layout.fragment_young_confirm_relationship
     override fun toolBarVisibility() = true
@@ -28,14 +27,11 @@ class YoungConfirmRelationshipFragment :
             viewModel.state.switchChecked.value = isChecked
             viewModel.state.valid.value = isValidToMove()
         }
-       msRelationShip.onItemSelectedListener = this
-
+        msRelationShip.onItemSelectedListener = this
     }
 
-
-
     private fun isValidToMove(): Boolean? {
-        if (viewModel.state.relationSelected.value !=0 && viewModel.state.switchChecked.value == true) return true
+        if (viewModel.state.relationSelected.value != 0 && viewModel.state.switchChecked.value == true) return true
         return false
     }
 
@@ -44,8 +40,6 @@ class YoungConfirmRelationshipFragment :
             R.id.btnNext -> {
                 navigate(YoungConfirmRelationshipFragmentDirections.actionYoungConfirmRelationshipFragmentToYoungContactDetailsFragment())
             }
-            R.id.edit_query -> {
-            }
         }
     }
 
@@ -53,7 +47,7 @@ class YoungConfirmRelationshipFragment :
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-     viewModel.state.relationSelected = MutableLiveData(msRelationShip.selectedItemPosition)
+        viewModel.state.relationSelected = MutableLiveData(msRelationShip.selectedItemPosition)
         viewModel.state.valid.value = isValidToMove()
     }
 }
