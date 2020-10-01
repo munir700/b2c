@@ -8,24 +8,24 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 
-fun String.toFormattedCurrency(showCurrency: Boolean = true, currency: String? = "AED"): String {
-    return try {
-        if (this.isNotBlank()) {
-            val formattedAmount = getDecimalFormatUpTo(
-                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency?:"AED"),
-                amount = this
-            )
-            if (formattedAmount.isNotBlank()) {
-                if (showCurrency)
-                    "$currency $formattedAmount" else formattedAmount
-            } else {
+        fun String?.toFormattedCurrency(showCurrency: Boolean = true, currency: String = "AED"): String {
+            return try {
+                if (this?.isNotBlank() == true) {
+                    val formattedAmount = getDecimalFormatUpTo(
+                        selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency),
+                        amount = this
+                    )
+                    if (formattedAmount.isNotBlank()) {
+                        if (showCurrency)
+                            "$currency $formattedAmount" else formattedAmount
+                    } else {
+                        ""
+                    }
+                } else {
+                    ""
+                }
+            } catch (e: Exception) {
                 ""
-            }
-        } else {
-            ""
-        }
-    } catch (e: Exception) {
-        ""
     }
 }
 
