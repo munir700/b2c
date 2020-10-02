@@ -20,6 +20,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class CoreEditText : AppCompatEditText {
 
@@ -38,6 +39,7 @@ class CoreEditText : AppCompatEditText {
             decimals = Utils.getConfiguredDecimals(value ?: "AED")
             filters =
                 arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
+            hint = "0".toFormattedCurrency(showCurrency = false, currency = value ?: "AED")
         }
 
     constructor(context: Context) : super(context) {
@@ -77,6 +79,7 @@ class CoreEditText : AppCompatEditText {
 
         filters =
             arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
+        hint = "0".toFormattedCurrency(showCurrency = false, currency = currency ?: "AED")
         background = getShapeBackground()
         //setCursorColor(context.getColors(R.color.colorPrimary))
         gravity = Gravity.CENTER

@@ -86,11 +86,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:text="@={viewModel.enteredAmount}"
-                        app:hint="@{Strings.common_amount_hint}"
                         app:layout_constraintLeft_toLeftOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintRight_toRightOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-                        app:units="@{@integer/unitsCount}"
                         tools:text="1234567891" />
 
                     <LinearLayout
