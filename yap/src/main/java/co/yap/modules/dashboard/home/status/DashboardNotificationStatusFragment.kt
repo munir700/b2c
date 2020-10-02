@@ -15,15 +15,17 @@ import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.android.synthetic.main.fragment_dashboard_notification_statuses.*
 
 class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.ViewModel>(),
     IYapHome.View {
 
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
+
+    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -42,7 +44,9 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-        setViewsArray()
+        dashboardNotificationStatusAdapter =
+            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+        rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
 
     }
 
@@ -81,8 +85,7 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
     }
 
 
-
-    private fun setViewsArray(): ArrayList<StatusDataModel> {
+    private fun getStatusList(): ArrayList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
