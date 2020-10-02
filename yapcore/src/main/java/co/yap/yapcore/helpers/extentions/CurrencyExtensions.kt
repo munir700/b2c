@@ -8,34 +8,19 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 
-        fun String?.toFormattedCurrency(showCurrency: Boolean = true, currency: String = "AED"): String {
-            return try {
-                if (this?.isNotBlank() == true) {
-                    val formattedAmount = getDecimalFormatUpTo(
-                        selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency),
-                        amount = this
-                    )
-                    if (formattedAmount.isNotBlank()) {
-                        if (showCurrency)
-                            "$currency $formattedAmount" else formattedAmount
-                    } else {
-                        ""
-                    }
-                } else {
-                    ""
-                }
-            } catch (e: Exception) {
-                ""
-    }
-}
-
-fun String?.toFormattedAmountWithCurrency(currency: String? = null): String {
+fun String?.toFormattedCurrency(showCurrency: Boolean = true, currency: String = "AED"): String {
     return try {
-        if (this?.isBlank() == false) {
-            val m = java.lang.Double.parseDouble(this)
-            val formattedAmount =
-                getDecimalFormatUpTo(SessionManager.getDefaultCurrencyDecimals(), this)
-            if (!currency.isNullOrBlank()) "$currency $formattedAmount" else "AED $formattedAmount"
+        if (this?.isNotBlank() == true) {
+            val formattedAmount = getDecimalFormatUpTo(
+                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency),
+                amount = this
+            )
+            if (formattedAmount.isNotBlank()) {
+                if (showCurrency)
+                    "$currency $formattedAmount" else formattedAmount
+            } else {
+                ""
+            }
         } else {
             ""
         }

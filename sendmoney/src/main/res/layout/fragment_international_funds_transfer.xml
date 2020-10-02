@@ -136,11 +136,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="0dp"
-                    android:padding="0dp"
+
                     android:text="@={viewModel.state.etInputAmount}"
-                    app:currency="@{viewModel.parentViewModel.beneficiary.currency}"
-                    app:hint="@{Strings.common_amount_hint}"
-                    app:units="@{@integer/unitsCount}"
+                    app:currency="@{viewModel.parentViewModel.transferData.destinationCurrency}"
                     tools:text="1234567891" />
 
                 <TextView
@@ -176,8 +174,7 @@
                     android:focusableInTouchMode="false"
                     android:text="@{viewModel.state.etOutputAmount}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    app:currency="@{viewModel.parentViewModel.beneficiary.currency}"
-                    app:hint="@{Strings.common_amount_hint}"
+                    app:currency="@{viewModel.parentViewModel.transferData.sourceCurrency}"
                     app:units="@{50}"
                     tools:text="1234567891" />
 
