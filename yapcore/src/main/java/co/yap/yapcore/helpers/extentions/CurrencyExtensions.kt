@@ -8,12 +8,17 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 
-fun String?.toFormattedCurrency(showCurrency: Boolean = true, currency: String? = "AED"): String {
+fun String?.toFormattedCurrency(
+    showCurrency: Boolean = true,
+    currency: String? = "AED",
+    withComma: Boolean = true
+): String {
     return try {
         if (this?.isNotBlank() == true) {
             val formattedAmount = getDecimalFormatUpTo(
                 selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency ?: "AED"),
-                amount = this
+                amount = this,
+                withComma = withComma
             )
             if (formattedAmount.isNotBlank()) {
                 if (showCurrency)
@@ -29,27 +34,49 @@ fun String?.toFormattedCurrency(showCurrency: Boolean = true, currency: String? 
     }
 }
 
-private fun getDecimalFormatUpTo(selectedCurrencyDecimal: Int, amount: String): String {
+private fun getDecimalFormatUpTo(
+    selectedCurrencyDecimal: Int,
+    amount: String,
+    withComma: Boolean = true
+): String {
     return try {
         val amountInDouble = java.lang.Double.parseDouble(amount)
         return when (selectedCurrencyDecimal) {
             0 -> {
-                DecimalFormat("###,###,##0").format(amountInDouble)
+                if (withComma)
+                    DecimalFormat("###,###,##0.00").format(amountInDouble)
+                else
+                    DecimalFormat("########0.00").format(amountInDouble)
             }
             1 -> {
-                DecimalFormat("###,###,##0.0").format(amountInDouble)
+                if (withComma)
+                    DecimalFormat("###,###,##0.0").format(amountInDouble)
+                else
+                    DecimalFormat("########0.0").format(amountInDouble)
             }
             2 -> {
-                DecimalFormat("###,###,##0.00").format(amountInDouble)
+                if (withComma)
+                    DecimalFormat("###,###,##0.00").format(amountInDouble)
+                else
+                    DecimalFormat("########0.00").format(amountInDouble)
             }
             3 -> {
-                DecimalFormat("###,###,##0.000").format(amountInDouble)
+                if (withComma)
+                    DecimalFormat("###,###,##0.000").format(amountInDouble)
+                else
+                    DecimalFormat("########0.000").format(amountInDouble)
             }
             4 -> {
-                DecimalFormat("###,###,##0.0000").format(amountInDouble)
+                if (withComma)
+                    DecimalFormat("###,###,##0.0000").format(amountInDouble)
+                else
+                    DecimalFormat("########0.0000").format(amountInDouble)
             }
             else -> {
-                DecimalFormat("###,###,##0.00").format(amountInDouble)
+                if (withComma)
+                    DecimalFormat("###,###,##0.00").format(amountInDouble)
+                else
+                    DecimalFormat("########0.00").format(amountInDouble)
             }
         }
     } catch (e: Exception) {

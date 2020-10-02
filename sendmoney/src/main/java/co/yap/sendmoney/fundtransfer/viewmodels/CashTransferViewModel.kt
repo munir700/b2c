@@ -165,7 +165,7 @@ class CashTransferViewModel(application: Application) :
                 transactionRepository.cashPayoutTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId,
-                        amount = state.amount.toDouble(),
+                        amount = state.amount,
                         currency = "AED",
                         purposeCode = "8",
                         remarks = state.noteValue

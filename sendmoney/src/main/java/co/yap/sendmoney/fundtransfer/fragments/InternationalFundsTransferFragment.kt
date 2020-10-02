@@ -123,7 +123,9 @@ class InternationalFundsTransferFragment :
             requireContext().color(R.color.colorPrimaryDark, "AED"),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                if (feeAmount.isNullOrBlank()) "0.00" else feeAmount.toFormattedCurrency(
+                if (feeAmount.isNullOrBlank()) "0".toFormattedCurrency(
+                    showCurrency = false
+                )else feeAmount.toFormattedCurrency(
                     showCurrency = false
                 )
             )

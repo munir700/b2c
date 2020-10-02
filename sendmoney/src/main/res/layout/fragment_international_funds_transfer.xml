@@ -136,9 +136,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="0dp"
-
                     android:text="@={viewModel.state.etInputAmount}"
-                    app:currency="@{viewModel.parentViewModel.transferData.destinationCurrency}"
+                    app:currency="@{viewModel.state.destinationCurrency}"
                     tools:text="1234567891" />
 
                 <TextView
@@ -174,7 +173,7 @@
                     android:focusableInTouchMode="false"
                     android:text="@{viewModel.state.etOutputAmount}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    app:currency="@{viewModel.parentViewModel.transferData.sourceCurrency}"
+                    app:currency="@{viewModel.state.sourceCurrency}"
                     app:units="@{50}"
                     tools:text="1234567891" />
 
