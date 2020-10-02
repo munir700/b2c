@@ -21,7 +21,10 @@ import co.yap.yapcore.helpers.AuthUtils
 import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 object SessionManager : IRepositoryHolder<CardsRepository> {
 
@@ -37,17 +40,12 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
 
-    // new implementation of calling call. Plan its implementation.
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
-    //YAPApplication.selectedCurrency = Utils.getConfiguredDecimals("AED")
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
-        viewModelBGScope.launch {
-            val apiResponse = viewModelBGScope.async {
-                customerRepository.getAllCurrenciesConfigs()
-            }.await()
-            when (apiResponse) {
+        GlobalScope.launch(Dispatchers.IO) {
+            when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
                     currencies.postValue(apiResponse.data.curriencies)
                     response.invoke(true, apiResponse.data.curriencies ?: arrayListOf())
@@ -143,11 +141,16 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         return null
     }
 
-    private fun expireUserSession() {
+    fun expireUserSession() {
         user = null
+        cardBalance.value = CardBalance()
+        card = MutableLiveData()
+        userAddress = null
+        YAPApplication.clearFilters()
+        cancelAllJobs()
     }
 
-    fun cancelAllJobs() {
+    private fun cancelAllJobs() {
         viewModelBGScope.close()
     }
 
@@ -164,10 +167,5 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
             }
         })
-        cardBalance.value = CardBalance()
-        card = MutableLiveData()
-        userAddress = null
-        YAPApplication.clearFilters()
-        cancelAllJobs()
     }
 }

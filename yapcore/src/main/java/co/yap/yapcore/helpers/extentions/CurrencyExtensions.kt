@@ -33,6 +33,9 @@ private fun getDecimalFormatUpTo(selectedCurrencyDecimal: Int, amount: String): 
     return try {
         val amountInDouble = java.lang.Double.parseDouble(amount)
         return when (selectedCurrencyDecimal) {
+            0 -> {
+                DecimalFormat("###,###,##0").format(amountInDouble)
+            }
             1 -> {
                 DecimalFormat("###,###,##0.0").format(amountInDouble)
             }
