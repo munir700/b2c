@@ -2,8 +2,10 @@ package co.yap.app.modules.login.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.WindowManager
+import android.widget.ScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
@@ -19,6 +21,7 @@ import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
@@ -75,16 +78,13 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                 etEmailField.settingErrorColor(R.color.error)
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        KeyboardVisibilityEvent.setEventListener(requireActivity(), object :
+        KeyboardVisibilityEvent.setEventListener(requireActivity(),viewLifecycleOwner, object :
             KeyboardVisibilityEventListener {
             override fun onVisibilityChanged(isOpen: Boolean) {
-                clSignUp.post {
-                    clSignUp.visibility = if (isOpen) GONE else VISIBLE
-                    scrollView.isEnableScrolling = !isOpen
+                clSignUp?.post {
+                    if (isOpen)
+                        scrollView?.scrollToBottomWithoutFocusChange()
+                    clSignUp?.visibility = if (isOpen) GONE else VISIBLE
                 }
             }
         })
