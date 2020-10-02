@@ -200,7 +200,9 @@ class InternationalFundsTransferViewModel(application: Application) :
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
                 ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
             totalDestinationAmount?.let {
-                state.etOutputAmount = it.roundVal().toString()
+                state.etOutputAmount =
+                    it.roundVal().toString()
+                        .toFormattedCurrency(false, state.sourceCurrency.get(), false)
             }
         } else {
             state.etOutputAmount = ""

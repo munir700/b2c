@@ -918,9 +918,10 @@ object Utils {
 
     fun getConfiguredDecimals(currencyCode: String): Int {
         val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
-            it.currencyCode == currencyCode
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
         }?.allowedDecimalsNumber
-        return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
+        return if (allowedDecimal?.toInt() == 0) SessionManager.getDefaultCurrencyDecimals() else allowedDecimal?.toInt()
+            ?: SessionManager.getDefaultCurrencyDecimals()
     }
 
     fun dpToFloat(context: Context, dp: Float): Float {
