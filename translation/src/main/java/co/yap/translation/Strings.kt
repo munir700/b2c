@@ -449,6 +449,10 @@ object Strings {
         "screen_cards_display_text_freeze_card_action"
 
     //Change Card Name Screen
+    const val screen_card_name_title_change_card_name: String =
+        "screen_card_name_title_change_card_name"
+    const val screen_card_name_hint_enter_card_name: String =
+        "screen_card_name_hint_enter_card_name"
     const val screen_report_card_hint_name_edit_text: String =
         "screen_report_card_hint_name_edit_text"
 
