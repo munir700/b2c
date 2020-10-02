@@ -30,6 +30,7 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
             if (oldPin.isNotEmpty()) {
                 hideErrorOldPin()
             }
+            oldPinEmptyChecker()
             checkButtonValidity()
         }
 
@@ -40,6 +41,8 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
             notifyPropertyChanged(BR.oldPin)
             checkButtonValidity()
             compareCodes()
+            newPinEmptyChecker()
+            confirmPinEmptyChecker()
         }
 
     @get:Bindable
@@ -49,6 +52,8 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
             notifyPropertyChanged(BR.oldPin)
             compareCodes()
             checkButtonValidity()
+            confirmPinEmptyChecker()
+            newPinEmptyChecker()
         }
 
 
@@ -64,24 +69,24 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
 
 
     private fun checkButtonValidity() {
-        if ((confirmNewPin == newPin) && newPin.isNotEmpty() && oldPin.isNotEmpty() &&newPin.length==4&&oldPin.length==4)
+        if ((confirmNewPin == newPin) && newPin.isNotEmpty() && oldPin.isNotEmpty() && newPin.length == 4 && oldPin.length == 4)
             isButtonEnabled.set(true)
         else
             isButtonEnabled.set(false)
 
     }
 
-    fun hideErrorsOfNewCodes() {
+   private fun hideErrorsOfNewCodes() {
         pinFieldBackgroundForNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
         pinFieldErrorIconForNew.set(null)
         pinFieldBackgroundForConfirmNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_under_line,
+                R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
@@ -89,10 +94,10 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
         errorMessageForNewConfiem.set("")
     }
 
-    fun showErrorOnConfirmPinField() {
+   private fun showErrorOnConfirmPinField() {
         pinFieldBackgroundForConfirmNew.set(
             context.resources.getDrawable(
-                R.drawable.bg_edit_text_red_under_line,
+                R.drawable.bg_edit_text_red_under_line_card_change_pin,
                 null
             )
         )
@@ -103,11 +108,89 @@ class ChangePinState(application: Application) : BaseState(), IChangePin.State {
     private fun hideErrorOldPin() {
         pinFieldBackground.set(
             context.resources.getDrawable(
-                co.yap.yapcore.R.drawable.bg_edit_text_under_line,
+                co.yap.yapcore.R.drawable.bg_edit_text_under_line_card_change_pin,
                 null
             )
         )
         pinFieldErrorIcon.set(null)
         errorMessageForPrevious.set("")
     }
+
+    private fun confirmPinEmptyChecker()
+    {
+        if(confirmNewPin.isNotEmpty()&& errorMessageForNewConfiem.get().toString().isEmpty())
+        {
+            pinFieldBackgroundForConfirmNew.set(
+                context.resources.getDrawable(
+                    co.yap.yapcore.R.drawable.bg_edit_text_field_not_empty_card_change_pin,
+                    null
+                )
+            )
+            pinFieldErrorIconConfirmNew.set(null)
+            errorMessageForNewConfiem.set("")
+        }
+       else if(confirmNewPin.isEmpty())
+        {
+            pinFieldBackgroundForConfirmNew.set(
+                context.resources.getDrawable(
+                    R.drawable.bg_edit_text_under_line_card_change_pin,
+                    null
+                )
+            )
+            pinFieldErrorIconConfirmNew.set(null)
+        }
+    }
+
+
+    private fun newPinEmptyChecker()
+    {
+        if(newPin.isEmpty())
+        {
+            pinFieldBackgroundForNew.set(
+                context.resources.getDrawable(
+                    R.drawable.bg_edit_text_under_line_card_change_pin,
+                    null
+                )
+            )
+            pinFieldErrorIconForNew.set(null)
+        }
+       else if(newPin.isNotEmpty())
+        {
+            pinFieldBackgroundForNew.set(
+                context.resources.getDrawable(
+                    co.yap.yapcore.R.drawable.bg_edit_text_field_not_empty_card_change_pin,
+                    null
+                )
+            )
+            pinFieldErrorIconForNew.set(null)
+        }
+    }
+
+    private fun oldPinEmptyChecker()
+    {
+        if (oldPin.isNotEmpty()&& errorMessageForPrevious.get().toString().isEmpty())
+        {
+            pinFieldBackground.set(
+                context.resources.getDrawable(
+                    co.yap.yapcore.R.drawable.bg_edit_text_field_not_empty_card_change_pin,
+                    null
+                )
+            )
+            pinFieldErrorIcon.set(null)
+            errorMessageForPrevious.set("")
+        }
+
+
+       else if(oldPin.isEmpty())
+        {
+            pinFieldBackground.set(
+                context.resources.getDrawable(
+                    R.drawable.bg_edit_text_under_line_card_change_pin,
+                    null
+                )
+            )
+            pinFieldErrorIcon.set(null)
+        }
+    }
+
 }

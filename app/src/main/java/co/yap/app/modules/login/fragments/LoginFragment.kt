@@ -2,19 +2,28 @@ package co.yap.app.modules.login.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.WindowManager
+import android.widget.ScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
+import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
 import kotlinx.android.synthetic.main.fragment_log_in.*
+
 
 class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
 
@@ -54,19 +63,29 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         }
         if (sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, false)) {
             etEmailField.editText.append(sharedPreferenceManager.getDecryptedUserName() ?: "")
-            viewModel.state.isRemember.set(true)
+            getBindings().swRemember.isChecked = true
         } else {
             etEmailField.editText.setText("")
             viewModel.state.isRemember.set(false)
         }
-
-
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
         viewModel.state.emailError.observe(this, Observer {
             if (!it.isNullOrBlank()) {
                 etEmailField.settingUIForError(it)
                 etEmailField.settingErrorColor(R.color.error)
+            }
+        })
+        KeyboardVisibilityEvent.setEventListener(requireActivity(),viewLifecycleOwner, object :
+            KeyboardVisibilityEventListener {
+            override fun onVisibilityChanged(isOpen: Boolean) {
+                clSignUp?.post {
+                    if (isOpen)
+                        scrollView?.scrollToBottomWithoutFocusChange()
+                    clSignUp?.visibility = if (isOpen) GONE else VISIBLE
+                }
             }
         })
     }
@@ -116,4 +135,6 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     private val signUpButtonObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
     }
+
+    private fun getBindings(): FragmentLogInBinding = viewDataBinding as FragmentLogInBinding
 }

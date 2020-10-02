@@ -10,7 +10,7 @@ abstract class Y2YBaseViewModel<S : IBase.State>(application: Application) :
     var parentViewModel: IY2Y.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.tootlBarTitle = title
+        parentViewModel?.state?.toolbarTitle = title
     }
 
     fun toggleToolBarVisibility(visibility: Boolean) {
@@ -24,27 +24,13 @@ abstract class Y2YBaseViewModel<S : IBase.State>(application: Application) :
 
         }
     }
-    fun setRightButtonVisibility(visibility: Boolean){
-        val VISIBLE: Int = 0x00000000
-        val GONE: Int = 0x00000008
-        if (visibility) {
-            parentViewModel?.state?.rightButtonVisibility = VISIBLE
 
-        } else {
-            parentViewModel?.state?.rightButtonVisibility = GONE
-
-        }
+    fun setRightButtonVisibility(visibility: Boolean) {
+        parentViewModel?.state?.rightButtonVisibility = visibility
     }
-    fun setLeftButtonVisibility(visibility: Boolean){
-        val VISIBLE: Int = 0x00000000
-        val GONE: Int = 0x00000008
-        if (visibility) {
-            parentViewModel?.state?.leftButtonVisibility = VISIBLE
 
-        } else {
-            parentViewModel?.state?.leftButtonVisibility = GONE
-
-        }
+    fun setLeftButtonVisibility(visibility: Boolean) {
+        parentViewModel?.state?.leftButtonVisibility = visibility
     }
 
 }

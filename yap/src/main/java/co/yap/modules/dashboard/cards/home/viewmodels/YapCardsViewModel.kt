@@ -124,10 +124,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             state.noOfCard = message
     }
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
-
     private fun getAddCard(): Card {
         return Card(
             newPin = "",

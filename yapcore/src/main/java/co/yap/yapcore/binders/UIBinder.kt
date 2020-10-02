@@ -11,6 +11,7 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -24,9 +25,12 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
+import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
@@ -50,6 +54,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -83,6 +88,23 @@ object UIBinder {
         spinner.adapter = dataAdapter
     }
 
+    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
+    @JvmStatic
+    fun setPlacesAdapter(
+        autoCompleteTextView: AutoCompleteTextView,
+        placesAdapter: PlacesAutoCompleteAdapter,
+        listener: OnItemClickListener?
+    ) {
+        autoCompleteTextView.setAdapter(placesAdapter)
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val place: Place = parent.getItemAtPosition(position) as Place
+                view?.let { listener?.onItemClick(view, place.id, position) }
+                autoCompleteTextView.setText(place.mainText)
+                autoCompleteTextView.setSelection(place.mainText.length)
+            }
+    }
+
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
@@ -103,7 +125,7 @@ object UIBinder {
                 view.setImageResource(R.drawable.ic_status_expired)
                 view.visibility = VISIBLE
             } else {
-                view.setImageResource(R.drawable.ic_card_status)
+                //view.setImageResource(R.drawable.ic_card_status)
                 view.visibility = VISIBLE
             }
         }
@@ -861,12 +883,40 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter("textColorChangeIfEmpty")
-    fun textColorChangePin(view: TextView, text: String) {
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
         when {
-            text.isEmpty() -> view.setTextColor(view.context.getColorStateList(R.color.colorPrimaryDark))
-            else -> view.setTextColor(view.context.getColorStateList(R.color.colorPlaceHolderGrey))
+            isEmpty -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+
+            }
+            pin?.isNotEmpty()?:false -> {
+                view.defaultHintTextColor =
+                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
         }
 
+    }
+
+    @JvmStatic
+    @BindingAdapter("spanColor")
+    fun spanColor(view: AppCompatTextView, currency: String) {
+        val splitStringArray: List<String> = currency.split(" ")
+        val spannable: Spannable =
+            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
+
+        spannable.setSpan(
+            ForegroundColorSpan(
+                view.context.getColor(R.color.greyDark)
+            ),
+            0,
+            splitStringArray[0].length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        view.text = spannable
     }
 }

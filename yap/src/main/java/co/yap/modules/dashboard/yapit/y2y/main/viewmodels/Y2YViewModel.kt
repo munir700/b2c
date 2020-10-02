@@ -11,19 +11,9 @@ import co.yap.yapcore.SingleClickEvent
 class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(application),
     IY2Y.ViewModel {
 
-    override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val yapContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
     override var isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
     override val searchQuery: MutableLiveData<String> = MutableLiveData("")
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override val state: Y2YState = Y2YState()
-
-    override fun handlePressOnBackButton(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-
-    }
 }

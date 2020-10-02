@@ -30,12 +30,13 @@
 
         <TextView
             android:id="@+id/tvMobileNumberHeading"
-            style="@style/ASmallGrey"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_medium_large"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:textColor="@{viewModel.state.mobile.empty ? true : false}"
             app:layout_constraintTop_toBottomOf="@+id/tvChangePhoneNumberHeader"
             app:text="@{Strings.screen_change_phone_number_display_text_text_field_title}"
             tools:text="@string/screen_change_phone_number_display_text_text_field_title" />
@@ -73,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_extra_small"
                 android:text="@string/screen_change_phone_number_display_text_country_code"
-                android:textColor="@color/greyDark"
+                android:textColor="#80272262"
                 android:textSize="@dimen/margin_normal_large"
                 app:layout_constraintBottom_toBottomOf="@+id/etNewMobileNumber"
                 app:layout_constraintLeft_toLeftOf="parent"

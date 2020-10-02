@@ -31,5 +31,6 @@ interface IChangePin {
         var errorMessageForNewPin: ObservableField<String>
         var isButtonEnabled: ObservableField<Boolean>
 
+
     }
 }
