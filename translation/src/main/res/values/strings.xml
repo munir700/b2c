@@ -1009,10 +1009,10 @@
     <string name="screen_tax_info_display_text_heading_tin_number">Enter your TIN number</string>
 
     <!--    Waiting list screen-->
-    <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
-    <string name="screen_waiting_list_display_text_guide">We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready!</string>
+    <string name="screen_waiting_list_display_text_heading">Well done! You\’re #%1s on our waiting list</string>
+    <string name="screen_waiting_list_display_text_guide">We\’re currently in beta and only open to a limited number of users. Don\’t worry, you\’ll be the first to know when we\’re ready!</string>
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
-    <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
+    <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
 
     <!--   Status Time line  -->
@@ -1024,7 +1024,7 @@
     <string name="screen_time_line_display_text_status_card_delivered_description">A biometric scan will be carried out by the agent</string>
 
     <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
-    <string name="screen_time_line_display_text_status_set_card_pin_description">You’ll need this to begin using your card</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_description">You\’ll need this to begin using your card</string>
     <string name="screen_time_line_display_text_status_set_card_pin_action">Set PIN</string>
 
     <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
