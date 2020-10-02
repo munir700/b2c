@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
@@ -95,6 +95,7 @@
                 android:focusable="false"
                 android:gravity="center_horizontal"
                 android:letterSpacing="0.2"
+                android:includeFontPadding="false"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_h6"
                 app:layout_constraintTop_toBottomOf="@+id/llPasscode"
@@ -110,9 +111,9 @@
             android:foregroundGravity="center"
             android:gravity="center"
             android:lineSpacingExtra="0sp"
-            android:layout_marginTop="@dimen/_6sdp"
             android:textColor="@color/error"
             android:visibility="visible"
+            android:includeFontPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +126,6 @@
         android:id="@+id/llPasscodeFirstRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_6sdp"
         android:animateLayoutChanges="true"
         app:layout_constraintBottom_toTopOf="@+id/llPasscodeSecondRow"
         android:gravity="center_horizontal"
@@ -267,6 +267,7 @@
             android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:visibility="invisible"
             android:background="@null" />
 
         <Button
