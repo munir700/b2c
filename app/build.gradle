@@ -102,8 +102,8 @@ android {
             }
         }
         hh {
-            versionCode 7
-            versionName "0.0.7"
+            versionCode 8
+            versionName "0.0.8"
             applicationIdSuffix ".dev"
             resValue "string", "app_name", "YAP Young"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -118,7 +118,7 @@ android {
             versionName "0.0.5"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "YAP HH QA"
-            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
+            resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQnpx7IME9iIUiSR4"
             resValue "string", "facebook_app_id", "410921516527681"
             resValue "string", "fb_login_protocol_scheme", "fb410921516527681"
             externalNativeBuild.cmake {

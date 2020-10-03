@@ -71,57 +71,27 @@ class SubscriptionSelectionFragment :
         when (id) {
             R.id.btnGetStarted -> {
                 if (!state.plansList.value.isNullOrEmpty()) {
-//                    var msg: CharSequence = getString(
-//                        screen_yap_house_hold_subscription_selection_confirm_message_text,
-//                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-//                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
-//                    )
-                    val msg = span {
-                        span(getString(
-                            screen_yap_house_hold_subscription_selection_confirm_message_text,
-                            state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-                            getString(screen_yap_house_hold_subscription_selection_display_text_months)
-                        )){
-                            textColor = requireContext().getColor(R.color.semi_black)
-                        }
-                        span(getString(screen_household_set_pin_terms_and_conditions_text)) {
-                            onClick = {
-                                startFragment(
-                                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                                    ), showToolBar = false
-                                )
-                            }
-                            textColor = requireContext().getColor(R.color.semi_black)
-                            textDecorationLine = "underline"
-                        }
-                    }
-//                    SpannableStringBuilder(getString(
-//                        screen_yap_house_hold_subscription_selection_confirm_message_text,
-//                        state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-//                        getString(screen_yap_house_hold_subscription_selection_display_text_months)
-//                    )).append(" ").append(span {
-//                        span(getString(
-//                            screen_yap_house_hold_subscription_selection_confirm_message_text,
-//                            state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
-//                            getString(screen_yap_house_hold_subscription_selection_display_text_months)
-//                        )){
-//                            textColor = requireContext().getColor(R.color.semi_black)
-//                        }
-//                        span(getString(screen_household_set_pin_terms_and_conditions_text)) {
-//                            onClick = {
-//                                startFragment(
-//                                    fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-//                                        Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-//                                    ), showToolBar = false
-//                                )
-//                            }
-//                            textColor = requireContext().getColor(R.color.semi_black)
-//                            textDecorationLine = "underline"
-//                        }
-//                    })
                     confirm(
-                        message = msg,
+                        message = span {
+                            span(getString(
+                                screen_yap_house_hold_subscription_selection_confirm_message_text,
+                                state.plansList.value?.get(state.selectedPlanPosition.value ?: 0)?.type!!,
+                                getString(screen_yap_house_hold_subscription_selection_display_text_months)
+                            )){
+                                textColor = requireContext().getColor(R.color.semi_dark)
+                            }
+                            span(getString(screen_household_set_pin_terms_and_conditions_text)) {
+                                onClick = {
+                                    startFragment(
+                                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                                            Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
+                                        ), showToolBar = false
+                                    )
+                                }
+                                textColor = requireContext().getColor(R.color.semi_dark)
+                                textDecorationLine = "underline"
+                            }
+                        },
                         title = if (state.selectedPlanPosition.value == 0) "${viewModel.state.monthlyFee.value} ${getString(
                             screen_yap_house_hold_subscription_selection_display_text_per_month
                         )}" else "${viewModel.state.annuallyFee.value} ${getString(
