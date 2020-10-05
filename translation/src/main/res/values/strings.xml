@@ -259,7 +259,7 @@
     <!-- Forgot posscode success screen -->
     <string name="screen_passcode_success_display_text_heading">Success!</string>
     <string name="screen_passcode_success_display_text_heading_for_yap_core">You’re all set, %1s!</string>
-    <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created successfully</string>
+    <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created \n successfully</string>
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
     <!-- Create new Passcode screen -->

@@ -36,21 +36,21 @@
             android:text="@{viewModel.state.title}"
             tools:text="@string/screen_email_address_success_display_text_heading" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSuccessSubHeading"
+            style="@style/ASmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
+            android:text="@{viewModel.state.topSubHeading}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-            android:text="@{viewModel.state.topSubHeading}"
-            tools:text="Your email address has been changed to newemail@website.com" />
-
-
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="@string/screen_passcode_success_display_text_sub_heading" />
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/RectangleBtnStyle"
