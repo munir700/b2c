@@ -11,9 +11,6 @@ import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.extentions.maskAccountNumber
-import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.managers.MyUserManager
 
 class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDetail.View {
 

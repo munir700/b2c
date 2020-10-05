@@ -31,7 +31,7 @@ import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
@@ -61,7 +61,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             if (!it.isNullOrEmpty())
                 setupList(it)
         })
-        MyUserManager.card.observe(this, Observer {
+        SessionManager.card.observe(this, Observer {
             it?.let {
                 viewModel.getCards()
             }
@@ -161,7 +161,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                         CardStatus.ACTIVE.name -> {
                             if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !getCard(
+                                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !getCard(
                                         pos
                                     ).pinCreated
                                 ) {
@@ -171,7 +171,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                         CardStatus.INACTIVE.name -> {
                             if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                     if (getCard(pos).deliveryStatus == CardDeliveryStatus.SHIPPED.name)
                                         openSetPinScreen(getCard(pos))
                                     else
@@ -241,7 +241,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                     if (!cardSerialNumber.isNullOrBlank()) {
                         getCardFromSerialNumber(serialNumber = cardSerialNumber)?.let {
-                            if (MyUserManager.user?.otpBlocked == true) {
+                            if (SessionManager.user?.otpBlocked == true) {
                                 showToast(Utils.getOtpBlockedMessage(requireContext()))
                             } else {
                                 startActivityForResult(
@@ -323,7 +323,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun startReorderCardFlow(card: Card?) {
-        if (MyUserManager.user?.otpBlocked == true) {
+        if (SessionManager.user?.otpBlocked == true) {
             showToast(Utils.getOtpBlockedMessage(requireContext()))
         } else {
             card?.let {

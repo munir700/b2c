@@ -3,9 +3,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import co.yap.BR
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IAddFunds
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseState
@@ -43,6 +41,4 @@ class AddFundsState : BaseState(), IAddFunds.State {
         }
 
     override var valid: ObservableBoolean = ObservableBoolean(false)
-    override var allowedDecimals: ObservableInt = ObservableInt(YAPApplication.selectedCurrency)
-
 }

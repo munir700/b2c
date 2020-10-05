@@ -22,7 +22,6 @@ interface IBeneficiaryFundTransfer {
         var selectedPop: PurposeOfPayment?
         var isCutOffTimeStarted: Boolean
         var isSameCurrency: Boolean
-        var configuredDecimal:Int
     }
 
     interface State : IBase.State {

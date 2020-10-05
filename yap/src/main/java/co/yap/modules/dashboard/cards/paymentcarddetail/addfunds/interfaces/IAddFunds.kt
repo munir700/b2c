@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
@@ -39,6 +38,5 @@ interface IAddFunds {
         var maxLimit: Double
         var minLimit: Double
         var valid: ObservableBoolean
-        var allowedDecimals: ObservableInt
     }
 }

@@ -32,7 +32,7 @@ import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
@@ -165,8 +165,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundleOf(
                     OtpDataModel::class.java.name to OtpDataModel(
                         otpAction = action,
-                        mobileNumber = MyUserManager.user?.currentCustomer?.getCompletePhone(),
-                        username = MyUserManager.user?.currentCustomer?.getFullName(),
+                        mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),
+                        username = SessionManager.user?.currentCustomer?.getFullName(),
                         emailOtp = false,
                         toolBarData = OtpToolBarData()
                     )

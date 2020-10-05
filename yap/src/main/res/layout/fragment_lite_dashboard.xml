@@ -9,7 +9,7 @@
 
         <import type="co.yap.yapcore.enums.NotificationStatus" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="android.view.View" />
 
@@ -97,7 +97,7 @@
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginBottom="@dimen/margin_medium"
             android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification()}"
-            android:visibility="@{NotificationStatus.valueOf(MyUserManager.INSTANCE.getUser().notificationStatuses)==NotificationStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
+            android:visibility="@{NotificationStatus.valueOf(SessionManager.INSTANCE.getUser().notificationStatuses)==NotificationStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

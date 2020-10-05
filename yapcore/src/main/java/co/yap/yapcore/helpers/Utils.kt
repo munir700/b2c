@@ -41,7 +41,7 @@ import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -722,7 +722,7 @@ object Utils {
             context,
             Strings.common_display_text_y2y_share,
             StringUtils.getFirstname(contact.title!!),
-            MyUserManager.user?.currentCustomer?.firstName!!,
+            SessionManager.user?.currentCustomer?.firstName!!,
             getAdjustURL()
         )
     }
@@ -731,7 +731,7 @@ object Utils {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_general_share,
-            MyUserManager.user?.currentCustomer?.firstName!!,
+            SessionManager.user?.currentCustomer?.firstName!!,
             getAdjustURL()
         )
     }
@@ -817,7 +817,7 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            MyUserManager.helpPhoneNumber
+            SessionManager.helpPhoneNumber
         )}^${AlertType.DIALOG.name}"
     }
 
@@ -891,7 +891,7 @@ object Utils {
     }
 
     fun getAdjustURL(): String {
-        val userId = MyUserManager.user?.currentCustomer?.customerId
+        val userId = SessionManager.user?.currentCustomer?.customerId
         val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
         return (when (YAPApplication.configManager?.flavor) {
@@ -917,10 +917,10 @@ object Utils {
     }
 
     fun getConfiguredDecimals(currencyCode: String): Int {
-        val allowedDecimal = YAPApplication.currencies.firstOrNull {
-            it.currencyCode == currencyCode
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
         }?.allowedDecimalsNumber
-        return allowedDecimal?.toInt() ?: 2
+        return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
     }
 
     fun dpToFloat(context: Context, dp: Float): Float {

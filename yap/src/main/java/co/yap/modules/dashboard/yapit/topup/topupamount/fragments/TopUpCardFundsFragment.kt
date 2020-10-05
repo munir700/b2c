@@ -23,10 +23,9 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.showTextUpdatedAbleSnackBar
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
@@ -177,8 +176,8 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         viewModel.state.errorDescription = getString(
             Strings.common_display_text_min_max_limit_error_transaction
         ).format(
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         showTextUpdatedAbleSnackBar(
             viewModel.state.errorDescription,
@@ -194,7 +193,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
         }
 
         viewModel.state.availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance.toString()
+            SessionManager.cardBalance.value?.availableBalance.toString()
 
         getBindings().tvAvailableBalanceGuide.text = Utils.getSppnableStringForAmount(
             requireContext(),
@@ -217,7 +216,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             viewModel.state.transactionFeeSpannableString =
                 getString(Strings.screen_topup_transfer_display_text_transaction_fee)
                     .format(
-                        viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency()
+                        viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency(
+                            showCurrency = false,
+                            currency = "AED"
+                        )
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
                 requireContext(),

@@ -2,12 +2,12 @@ package co.yap.yapcore.helpers
 
 import android.text.InputFilter
 import android.text.Spanned
-import co.yap.app.YAPApplication
 import java.util.regex.Pattern
 
-class DecimalDigitsInputFilter(aiMinorUnits: Int?) : InputFilter {
+class DecimalDigitsInputFilter(allowedDecimals: Int) : InputFilter {
     private var moPattern: Pattern =
-        Pattern.compile("[0-9]*+((\\.[0-9]{0,${aiMinorUnits ?: YAPApplication.selectedCurrency}})?)||(\\.)?")
+        if (allowedDecimals == 0) Pattern.compile("[0-9]*||(\\.)?") else
+            Pattern.compile("[0-9]*+((\\.[0-9]{0,${allowedDecimals}})?)||(\\.)?")
 
     override fun filter(
         source: CharSequence,

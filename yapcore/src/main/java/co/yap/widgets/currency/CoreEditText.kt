@@ -14,13 +14,13 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
-import co.yap.app.YAPApplication
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class CoreEditText : AppCompatEditText {
 
@@ -30,17 +30,16 @@ class CoreEditText : AppCompatEditText {
     private var customWidth: Int = 0
     private var customHeight: Int = 0
 
-    var decimals: Int? = YAPApplication.selectedCurrency
-        set(value) {
-            field = value
-            filters = arrayOf(InputFilter.LengthFilter(units ?: 0), DecimalDigitsInputFilter(value))
-        }
+    var decimals: Int = Utils.getConfiguredDecimals("AED")
+    var units: Int = resources.getInteger(R.integer.unitsCount)
 
-    var units: Int? = resources.getInteger(R.integer.unitsCount)
+    var currency: String? = "AED"
         set(value) {
             field = value
+            decimals = Utils.getConfiguredDecimals(value ?: "AED")
             filters =
-                arrayOf(InputFilter.LengthFilter(value ?: 0), DecimalDigitsInputFilter(decimals))
+                arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
+            hint = "0".toFormattedCurrency(showCurrency = false, currency = value ?: "AED")
         }
 
     constructor(context: Context) : super(context) {
@@ -78,7 +77,9 @@ class CoreEditText : AppCompatEditText {
             ).toFloat()
         ).toInt()
 
-
+        filters =
+            arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
+        hint = "0".toFormattedCurrency(showCurrency = false, currency = currency ?: "AED")
         background = getShapeBackground()
         //setCursorColor(context.getColors(R.color.colorPrimary))
         gravity = Gravity.CENTER
@@ -92,8 +93,6 @@ class CoreEditText : AppCompatEditText {
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
         setSingleLine()
         maxLines = 1
-        isFocusableInTouchMode = true
-
         a.recycle()
     }
 

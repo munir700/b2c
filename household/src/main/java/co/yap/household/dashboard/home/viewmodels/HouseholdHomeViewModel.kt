@@ -9,7 +9,7 @@ import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -30,7 +30,7 @@ class HouseholdHomeViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses)
+        if (Constants.USER_STATUS_CARD_ACTIVATED == SessionManager.user?.notificationStatuses)
             checkUserStatus()
     }
 
@@ -39,7 +39,7 @@ class HouseholdHomeViewModel(application: Application) :
     }
 
     private fun checkUserStatus() {
-        when (MyUserManager.user?.notificationStatuses) {
+        when (SessionManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 viewState.value = Constants.EVENT_EMPTY
                 notificationList.value?.add(
@@ -77,7 +77,7 @@ class HouseholdHomeViewModel(application: Application) :
             }
         }
 
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             viewState.value = Constants.EVENT_CONTENT
             notificationList.value?.clear()
         } else {

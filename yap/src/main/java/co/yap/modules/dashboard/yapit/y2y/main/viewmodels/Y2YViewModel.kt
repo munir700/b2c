@@ -2,15 +2,12 @@ package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.states.Y2YState
-import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(application),
     IY2Y.ViewModel {
@@ -24,7 +21,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
 
     override fun onCreate() {
         super.onCreate()
-        getAllCurrencies()
+        SessionManager.getCurrenciesFromServer { _, _ -> }
     }
 
     override fun handlePressOnBackButton(id: Int) {
@@ -34,25 +31,6 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
 
-    }
-
-    private fun getAllCurrencies() {
-        val repository = CustomersRepository
-        launch {
-            when (val response =
-                repository.getAllCurrenciesConfigs()) {
-                is RetroApiResponse.Success -> {
-                    response.data.curriencies?.let {
-                        YAPApplication.currencies.clear()
-                        YAPApplication.currencies.addAll(it)
-                        YAPApplication.selectedCurrency = Utils.getConfiguredDecimals("AED")
-                    }
-                }
-                is RetroApiResponse.Error -> {
-
-                }
-            }
-        }
     }
 
 }

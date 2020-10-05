@@ -22,7 +22,7 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
 import id.zelory.compressor.Compressor
 import okhttp3.MediaType
@@ -60,7 +60,7 @@ class ProfileSettingsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestProfileDocumentsInformation()
-        MyUserManager.user?.let {
+        SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
             if (it.currentCustomer.getPicture() != null) {
                 state.profilePictureUrl = it.currentCustomer.getPicture()!!
@@ -114,11 +114,11 @@ class ProfileSettingsViewModel(application: Application) :
                         if (null != response.data.data) {
                             response.data.data?.let {
                                 it.imageURL?.let { url -> state.profilePictureUrl = url }
-                                MyUserManager.user?.currentCustomer?.setPicture(it.imageURL)
+                                SessionManager.user?.currentCustomer?.setPicture(it.imageURL)
                                 Glide.with(context)
                                     .load(it.imageURL).preload()
                                 state.fullName =
-                                    MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+                                    SessionManager.user?.currentCustomer?.getFullName() ?: ""
                                 state.nameInitialsVisibility = VISIBLE
                                 state.loading = false
                             }
@@ -129,7 +129,7 @@ class ProfileSettingsViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                         state.fullName =
-                            MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+                            SessionManager.user?.currentCustomer?.getFullName() ?: ""
                         state.nameInitialsVisibility = GONE
                         state.loading = false
                         file.deleteRecursively()
@@ -155,7 +155,7 @@ class ProfileSettingsViewModel(application: Application) :
                         getExpiryDate(it)
                         trackEvent(KYCEvents.EID_EXPIRE_DATE.type)
                         trackEventWithAttributes(
-                            MyUserManager.user,
+                            SessionManager.user,
                             eidExpireDate = getFormattedDate(it)
                         )
                     }
@@ -165,7 +165,7 @@ class ProfileSettingsViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     if (response.error.statusCode == 400 || response.error.actualCode == "1073")
                         state.isShowErrorIcon.set(true)
-                    MyUserManager.eidStatus =
+                    SessionManager.eidStatus =
                         EIDStatus.NOT_SET  //set the document is required if not found
                     state.loading = false
                 }
@@ -180,7 +180,7 @@ class ProfileSettingsViewModel(application: Application) :
         val cal = Calendar.getInstance()
         val currentDay = simpleDateFormat.format(cal.time)
         val currentDayDate = simpleDateFormat.parse(currentDay)
-        MyUserManager.eidStatus =
+        SessionManager.eidStatus =
             when {
                 expiryDate < currentDayDate -> {
                     state.isShowErrorIcon.set(true)

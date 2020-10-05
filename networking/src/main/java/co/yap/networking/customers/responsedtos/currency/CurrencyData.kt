@@ -15,7 +15,7 @@ data class CurrencyData(
     @SerializedName("active")
     var active: Boolean? = false,
     @SerializedName("allowedDecimalsNumber")
-    var allowedDecimalsNumber: String? = "2",
+    var allowedDecimalsNumber: String? = "",
     @SerializedName("default")
     var default: String? = null
 ) : ApiResponse()

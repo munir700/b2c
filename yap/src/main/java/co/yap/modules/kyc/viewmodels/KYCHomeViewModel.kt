@@ -18,7 +18,7 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -101,7 +101,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             identity.sirName = data.surname
                             identity.givenName = data.names
                             trackEventWithAttributes(
-                                MyUserManager.user,
+                                SessionManager.user,
                                 eidExpireDate = getFormattedDate(data.expiration_date)
                             )
                             identity.expirationDate =

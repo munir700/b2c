@@ -17,7 +17,7 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
@@ -33,7 +33,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
     private val brandId = "17038977"
-    private val appInstallId = MyUserManager.user?.uuid
+    private val appInstallId = SessionManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
@@ -110,9 +110,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             .setReadOnlyMode(false)
         LivePerson.showConversation(requireActivity(), authParams, params)
         val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(MyUserManager.user?.currentCustomer?.firstName)
-            .setLastName(MyUserManager.user?.currentCustomer?.lastName)
-            .setPhoneNumber(MyUserManager.user?.currentCustomer?.getCompletePhone())
+            .setFirstName(SessionManager.user?.currentCustomer?.firstName)
+            .setLastName(SessionManager.user?.currentCustomer?.lastName)
+            .setPhoneNumber(SessionManager.user?.currentCustomer?.getCompletePhone())
             .build()
         LivePerson.setUserProfile(consumerProfile)
     }

@@ -21,11 +21,14 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.roundVal
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
@@ -103,7 +106,10 @@ class InternationalFundsTransferFragment :
             viewModel.state.fromFxRate =
                 "${fxRate.fromCurrencyCode} ${fxRate.fxRates?.get(0)?.rate}"
             viewModel.state.toFxRate =
-                "${fxRate.toCurrencyCode} ${fxRate.value?.amount?.toFormattedCurrency()}"
+                fxRate.value?.amount?.toFormattedCurrency(
+                    showCurrency = true,
+                    currency = fxRate.toCurrencyCode ?: "AED"
+                )
             viewModel.state.sourceCurrency.set(fxRate.fromCurrencyCode)
             viewModel.state.destinationCurrency.set(fxRate.toCurrencyCode)
             viewModel.parentViewModel?.transferData?.value?.rate = fxRate.fxRates?.get(0)?.rate
@@ -117,7 +123,11 @@ class InternationalFundsTransferFragment :
             requireContext().color(R.color.colorPrimaryDark, "AED"),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                if (feeAmount.isNullOrBlank()) "0.00" else feeAmount.toFormattedCurrency() ?: "0.00"
+                if (feeAmount.isNullOrBlank()) "0".toFormattedCurrency(
+                    showCurrency = false
+                )else feeAmount.toFormattedCurrency(
+                    showCurrency = false
+                )
             )
         )
     }
@@ -125,7 +135,7 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     when {
@@ -162,7 +172,7 @@ class InternationalFundsTransferFragment :
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
@@ -173,8 +183,8 @@ class InternationalFundsTransferFragment :
         viewModel.state.errorDescription = getString(
             if (viewModel.parentViewModel?.isSameCurrency == true) Strings.common_display_text_min_max_limit_error_transaction else Strings.sm_display_text_min_max_limit_error_transaction
         ).format(
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
     }
@@ -183,7 +193,7 @@ class InternationalFundsTransferFragment :
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.etOutputAmount?.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.etOutputAmount?.toFormattedCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
@@ -205,7 +215,7 @@ class InternationalFundsTransferFragment :
                                         Strings.common_display_text_on_hold_limit_error
                                     ).format(
                                         remainingDailyLimit.roundVal().toString()
-                                            .toFormattedAmountWithCurrency()
+                                            .toFormattedCurrency()
                                     )
                                 }
 

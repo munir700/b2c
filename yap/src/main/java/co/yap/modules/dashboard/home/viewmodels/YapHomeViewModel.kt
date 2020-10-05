@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -219,7 +219,7 @@ class YapHomeViewModel(application: Application) :
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
                             val primaryCard = getPrimaryCard(response.data.data)
-                            MyUserManager.card.value = primaryCard
+                            SessionManager.card.value = primaryCard
                         } else {
                             state.toast = "Debit card not found.^${AlertType.TOAST.name}"
                         }
@@ -243,7 +243,7 @@ class YapHomeViewModel(application: Application) :
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
         ) {
             trackEvent(KYCEvents.EID_EXPIRE.type)
-            trackEventWithAttributes(MyUserManager.user, eidExpire = true)
+            trackEventWithAttributes(SessionManager.user, eidExpire = true)
         }
         val list = ArrayList<HomeNotification>()
         if (accountInfo.otpBlocked == true) {
@@ -285,7 +285,7 @@ class YapHomeViewModel(application: Application) :
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
             && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
-            MyUserManager.eidStatus = EIDStatus.EXPIRED
+            SessionManager.eidStatus = EIDStatus.EXPIRED
             list.add(
                 HomeNotification(
                     id = "4",
