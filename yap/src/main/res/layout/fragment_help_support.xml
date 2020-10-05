@@ -12,6 +12,8 @@
             type="co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.R" />
     </data>
 
 
@@ -20,13 +22,20 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_help_support_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
+            app:rightIconVisibility="@{false}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -53,9 +62,9 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_support" />
 
@@ -104,10 +113,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
@@ -155,10 +164,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
@@ -206,10 +215,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
                     android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_phone_vector" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout

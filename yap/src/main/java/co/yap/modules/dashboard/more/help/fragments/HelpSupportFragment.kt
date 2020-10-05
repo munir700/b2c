@@ -77,7 +77,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             R.id.lyCall -> {
                 requireContext().makeCall(viewModel.state.contactPhone.get())
             }
-            R.id.tbBtnBack -> {
+
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
                 activity?.finish()
             }
         }
@@ -131,7 +137,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             fragmentName = WebViewFragment::class.java.name,
             bundle = bundleOf(
                 Constants.PAGE_URL to url
-            ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = false
+            ), toolBarTitle = viewModel.state.toolbarTitle ?: "", showToolBar = false
         )
     }
 
