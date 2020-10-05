@@ -32,9 +32,9 @@ class ChangePasscodeSuccessFragment :
         viewModel.state.topSubHeading = getString(Strings.screen_passcode_success_display_text_sub_heading)
         if (MyUserManager.user?.currentCustomer?.firstName.isNullOrBlank()){
             viewModel.state.title =
-                getString(Strings.screen_email_address_success_display_text_heading)
+                getString(Strings.screen_passcode_success_heading)
         }else{
-            viewModel.state.title = getString(Strings.screen_email_address_success_display_text_heading).format(
+            viewModel.state.title = getString(Strings.screen_passcode_success_display_text_heading_for_yap_core).format(
                 MyUserManager.user?.currentCustomer?.firstName)}
     }
 

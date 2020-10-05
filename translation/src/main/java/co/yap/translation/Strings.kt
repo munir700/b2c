@@ -425,6 +425,8 @@ object Strings {
         "screen_passcode_success_display_text_sub_heading"
     const val screen_passcode_success_button_sign_in: String =
         "screen_passcode_success_button_sign_in"
+    const val screen_passcode_success_heading: String =
+        "screen_passcode_success_heading"
 
 
     //Create new passcode screen
