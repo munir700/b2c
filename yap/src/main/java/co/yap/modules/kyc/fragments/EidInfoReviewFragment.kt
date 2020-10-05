@@ -130,8 +130,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                     })
                 }
-                viewModel.eventCitizenNumberIssue -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
-                viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
+                viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
+                    "Sorry, that didn’t work. Please try again"
+                )
             }
         })
     }
