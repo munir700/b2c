@@ -61,7 +61,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
-            android:text="@string/screen_y2y_funds_transfer_success_button_back"
+            android:text="@string/screen_change_pin_success_display_text_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
