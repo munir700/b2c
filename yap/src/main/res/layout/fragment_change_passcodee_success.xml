@@ -14,25 +14,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBubbles"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:layout_height="@dimen/_165sdp"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bg_bubbles" />
-        <TextView
+            android:layout_marginTop="-5dp"
+            app:srcCompat="@drawable/bg_bubbles"
+            android:scaleType="centerCrop"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSuccessHeading"
             style="@style/ATitle3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
-            android:text="@{String.format(@string/screen_email_address_success_display_text_heading,viewModel.state.userName)}"
-            app:text="@{viewModel.state.userName}"
-            tools:text="Success!" />
+            android:text="@{viewModel.state.title}"
+            tools:text="@string/screen_email_address_success_display_text_heading" />
 
         <TextView
             android:id="@+id/tvSuccessSubHeading"
@@ -59,7 +61,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
-            android:text="Done"
+            android:text="@string/screen_y2y_funds_transfer_success_button_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

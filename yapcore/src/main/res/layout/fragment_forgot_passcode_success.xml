@@ -19,15 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
-
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBubbles"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:layout_height="@dimen/_165sdp"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bg_bubbles" />
-
+            android:layout_marginTop="-5dp"
+            app:srcCompat="@drawable/bg_bubbles"
+            android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/tvTitle"
             style="@style/ALarge"
