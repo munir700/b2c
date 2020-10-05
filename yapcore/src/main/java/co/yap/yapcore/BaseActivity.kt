@@ -61,7 +61,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
             param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
         }
-    }
+    } 
 
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
