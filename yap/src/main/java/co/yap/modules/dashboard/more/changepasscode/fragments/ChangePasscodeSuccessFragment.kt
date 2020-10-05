@@ -31,7 +31,7 @@ class ChangePasscodeSuccessFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.topSubHeading = getString(Strings.screen_change_passcode_success_display_text_sub_heading)
             viewModel.state.title =
-                getString(Strings.screen_unverified_success_display_text_heading)
+                getString(Strings.screen_passcode_success_display_text_heading_for_yap_core).format(MyUserManager.user?.currentCustomer?.firstName)
     }
 
     override fun onDestroy() {
