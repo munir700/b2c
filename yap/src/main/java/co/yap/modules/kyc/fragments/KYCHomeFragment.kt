@@ -19,7 +19,7 @@ import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
-    override fun getBindingVariable(): Int = co.yap.yapcore.BR.viewModel
+    override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_kyc_home
 
@@ -38,12 +38,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    // on press next move user to location screen
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
-
                 R.id.tvSkip -> {
-                    //on skip move user to
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                 }
             }
