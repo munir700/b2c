@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.main.interfaces.IMore
@@ -46,15 +45,19 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
     }
 
     override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObservers(this)
         super.onDestroy()
     }
 
-    private val backButtonObserver = Observer<Boolean> { onBackPressed() }
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
+            R.id.ivRightIcon -> {
+            }
+        }
+    }
 
     public fun hideToolbar() {
         toolbar.visibility = View.INVISIBLE
@@ -89,7 +92,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         viewModel.BadgeVisibility = false
 
     }
-
 
 
 }
