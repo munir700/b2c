@@ -74,6 +74,7 @@
     <string name="screen_verify_phone_number_button_send">Next</string>
 
     <!-- Create passcode screen -->
+    <string name="screen_create_passcode_display_heading">Create a new 4 to 6 digit passcode to access your account</string>
     <string name="screen_create_passcode_display_text_title">Create a new 4- to 6-digit passcode</string>
     <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
     <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
@@ -262,6 +263,10 @@
     <string name="screen_passcode_success_display_text_heading_for_yap_core">You’re all set, %1s!</string>
     <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created \n successfully</string>
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
+
+
+    <!-- Change Passcode screen -->
+    <string name="screen_change_passcode_success_display_text_sub_heading">Your new passcode has been updated \n successfully</string>
 
     <!-- Create new Passcode screen -->
     <string name="screen_create_new_passcode_button_text">Create new passcode</string>
