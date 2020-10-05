@@ -36,6 +36,7 @@ class DashboardNotificationStatusAdapter(
 
     class DashboardNotificationStatusViewHolder(private val itemDashboardNotificationStatusBinding: ItemDashboardNotificationStatusBinding) :
         RecyclerView.ViewHolder(itemDashboardNotificationStatusBinding.root) {
+
         init {
             itemDashboardNotificationStatusBinding.timeline.initLine(1)
         }
