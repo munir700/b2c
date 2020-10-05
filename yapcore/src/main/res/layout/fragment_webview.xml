@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="webViewFragmentViewModel"
             type="co.yap.modules.webview.WebViewFragmentViewModel" />
+
+        <import type="co.yap.yapcore.R" />
+
+        <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
     </data>
@@ -16,14 +19,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolBar"
-            layout="@layout/layout_faqs_support_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{webViewFragmentViewModel}" />
-
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{webViewFragmentViewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator="@{Strings.screen_help_support_display_text_title}" />
 
         <ProgressBar
             android:id="@+id/progressBar"
