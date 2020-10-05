@@ -920,8 +920,7 @@ object Utils {
         val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
             it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
         }?.allowedDecimalsNumber
-        return if (allowedDecimal?.toInt() == 0) SessionManager.getDefaultCurrencyDecimals() else allowedDecimal?.toInt()
-            ?: SessionManager.getDefaultCurrencyDecimals()
+        return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
     }
 
     fun dpToFloat(context: Context, dp: Float): Float {

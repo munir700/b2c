@@ -44,9 +44,9 @@ private fun getDecimalFormatUpTo(
         return when (selectedCurrencyDecimal) {
             0 -> {
                 if (withComma)
-                    DecimalFormat("###,###,##0.00").format(amountInDouble)
+                    DecimalFormat("###,###,##0").format(amountInDouble)
                 else
-                    DecimalFormat("########0.00").format(amountInDouble)
+                    DecimalFormat("########0").format(amountInDouble)
             }
             1 -> {
                 if (withComma)

@@ -72,9 +72,9 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                     if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString()
                         .toFormattedCurrency(
                             showCurrency = false,
-                            currency = "AED"
+                            currency = transaction.getCurrency()
                         ) else transaction.totalAmount.toString()
-                        .toFormattedCurrency(showCurrency = false, currency = "AED")
+                        .toFormattedCurrency(showCurrency = false, currency = transaction.getCurrency())
                 )
             setContentDataColor(transaction, itemTransactionListBinding)
         }
