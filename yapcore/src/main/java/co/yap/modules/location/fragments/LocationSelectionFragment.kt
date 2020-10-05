@@ -77,8 +77,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 "Location",
                 "Your GPS seems to be disabled, do you want to enable it?",
                 "Yes",
-                "No"
-                ,
+                "No",
                 object : OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
@@ -212,11 +211,17 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             R.id.rlCollapsedMapSection -> {
                 onMapClickAction()
             }
-            R.id.tbIvClose -> {
-                setIntentAction(false)
-            }
+
             R.id.layoutCitiesBottomSheet -> {
                 setupCitiesList(viewModel.cities.value)
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                setIntentAction(false)
             }
         }
     }
@@ -389,8 +394,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun showExplicitPermissionDialog() {
         Utils.confirmationDialog(
             requireContext(), "Location", "Need permission for location, do you want to enable it?",
-            "Yes", "No"
-            , object : OnItemClickListener {
+            "Yes", "No", object : OnItemClickListener {
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
