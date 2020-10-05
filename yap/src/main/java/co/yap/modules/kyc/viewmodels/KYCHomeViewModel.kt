@@ -114,10 +114,6 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             result.identity = identity
                             parentViewModel?.identity = identity
                             state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
-                        } else {
-                            state.toast = "${response.data.errors?.message
-                                ?: "Invalid image"}^${AlertType.DIALOG.name}"
-                            trackEvent(KYCEvents.EID_FAILURE.type)
                         }
                     }
 

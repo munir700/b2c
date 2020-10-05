@@ -175,26 +175,6 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = identity
                             parentViewModel?.identity = identity
                             populateState(parentViewModel?.identity)
-                        } else {
-                            if (null == parentViewModel?.identity) {
-                                state.toast =
-                                    "${
-                                    response.data.errors?.message
-                                        ?: " Error occurred"
-                                    }^${AlertType.DIALOG_WITH_FINISH.name}"
-                                parentViewModel?.paths?.forEach { filePath ->
-                                    File(filePath).deleteRecursively()
-                                }
-                            } else {
-                                state.toast =
-                                    "${
-                                    response.data.errors?.message
-                                        ?: " Error occurred"
-                                    }^${AlertType.DIALOG.name}"
-                                parentViewModel?.paths?.forEach { filePath ->
-                                    File(filePath).deleteRecursively()
-                                }
-                            }
                         }
                     }
                     is RetroApiResponse.Error -> {
