@@ -285,6 +285,7 @@ class YapHomeViewModel(application: Application) :
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
             && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
+            MyUserManager.eidStatus = EIDStatus.EXPIRED
             list.add(
                 HomeNotification(
                     id = "4",
