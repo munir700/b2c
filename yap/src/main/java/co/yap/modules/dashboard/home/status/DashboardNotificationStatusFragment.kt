@@ -91,14 +91,16 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
             StatusDataModel(
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_title),
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_description),
-                getString(Strings.screen_time_line_display_text_status_card_on_the_way_action)
+                getString(Strings.screen_time_line_display_text_status_card_on_the_way_action),
+                resources.getDrawable(R.drawable.ic_dashboard_active)
             )
         )
         list.add(
             StatusDataModel(
                 getString(Strings.screen_time_line_display_text_status_card_delivered_title),
                 getString(Strings.screen_time_line_display_text_status_card_delivered_description),
-                null
+                null,
+                resources.getDrawable(R.drawable.ic_dashboard_active)
             )
         )
 
@@ -106,14 +108,16 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
             StatusDataModel(
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_title),
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_description),
-                getString(Strings.screen_time_line_display_text_status_set_card_pin_action)
+                getString(Strings.screen_time_line_display_text_status_set_card_pin_action),
+                resources.getDrawable(R.drawable.ic_dashboard_active)
             )
         )
         list.add(
             StatusDataModel(
                 getString(Strings.screen_time_line_display_text_status_card_top_up_title),
                 getString(Strings.screen_time_line_display_text_status_card_top_up_description),
-                getString(Strings.screen_time_line_display_text_status_card_top_up_action)
+                getString(Strings.screen_time_line_display_text_status_card_top_up_action),
+                resources.getDrawable(R.drawable.ic_dashboard_active)
             )
         )
         return list
