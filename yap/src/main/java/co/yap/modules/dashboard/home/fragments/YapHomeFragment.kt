@@ -58,10 +58,11 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -469,18 +470,40 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
             NotificationAction.UPDATE_EMIRATES_ID -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(
-                        Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
-                    )
-                    putExtra(Constants.data, true)
-                    putExtra(
-                        "document",
-                        GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                            identityNo = MyUserManager.user?.currentCustomer?.identityNo
+                if (MyUserManager.user?.otpBlocked == true) {
+                    if (MyUserManager.eidStatus == EIDStatus.NOT_SET &&
+                        PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus
+                    ) {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            putExtra(
+                                Constants.name,
+                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, true)
+                            putExtra(
+                                "document",
+                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                    identityNo = MyUserManager.user?.currentCustomer?.identityNo
+                                )
+                            )
+                        }
+                    } else {
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                    }
+                } else {
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        putExtra(
+                            Constants.name,
+                            MyUserManager.user?.currentCustomer?.firstName.toString()
                         )
-                    )
+                        putExtra(Constants.data, true)
+                        putExtra(
+                            "document",
+                            GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                identityNo = MyUserManager.user?.currentCustomer?.identityNo
+                            )
+                        )
+                    }
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
