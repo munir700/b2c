@@ -69,7 +69,7 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
     private CardView mContainerCardView;
     private AppCompatEditText mSearchEditText;
     private AppCompatTextView mDoneSearchImageView;
-    private LinearLayout mSpinnerListContainer;
+    private CardView mSpinnerListContainer;
     private PopupWindow mPopupWindow;
     private ListView mSpinnerListView;
     private TextView mEmptyTextView;
@@ -195,7 +195,7 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         final LayoutInflater factory = LayoutInflater.from(context);
         factory.inflate(R.layout.view_searchable_spinner, this, true);
 
-        mSpinnerListContainer = (LinearLayout) factory.inflate(R.layout.view_list, this, false);
+        mSpinnerListContainer = (CardView) factory.inflate(R.layout.view_list, this, false);
         mSpinnerListView = mSpinnerListContainer.findViewById(R.id.LstVw_SpinnerListView);
         if (mListItemDivider != null) {
             mSpinnerListView.setDivider(mListItemDivider);
