@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,42 +16,48 @@
             type="co.yap.modules.dashboard.home.status.NotificationStatusItemViewModel" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_medium">
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp">
+
+        <com.github.vipulasri.timelineview.TimelineView
+            android:id="@+id/timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/_8sdp"
+            app:endLineColor="@color/colorPrimaryDark"
+            app:linePadding="@dimen/_8sdp"
+            app:lineStyle="normal"
+            app:lineWidth="@dimen/_1sdp"
+            app:marker="@drawable/ic_dashboard_finish"
+            app:markerInCenter="false"
+            app:markerPaddingBottom="@dimen/_8sdp"
+            app:markerPaddingTop="@dimen/_8sdp"
+            app:markerSize="@dimen/_26sdp"
+            app:startLineColor="@color/transparent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
 
-            <com.github.vipulasri.timelineview.TimelineView
-                android:id="@+id/timeline"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:endLineColor="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.076"
-                app:linePadding="4dp"
-                app:lineStyle="normal"
-                app:lineWidth="3dp"
-                app:markerSize="16dp"
-                app:startLineColor="@color/grey" />
 
             <TextView
                 android:id="@+id/tvStatusTitle"
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:paddingStart="@dimen/margin_medium"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_15sdp"
-                app:layout_constraintStart_toEndOf="@id/timeline"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="set your card pin" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -64,7 +71,8 @@
                 android:textSize="@dimen/_11sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
-                app:status="@{viewModel.statusDataModel.progressStatus}" />
+                app:status="@{viewModel.statusDataModel.progressStatus}"
+                tools:text="in progress" />
 
 
             <TextView
@@ -72,22 +80,22 @@
                 style="@style/ASmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_36sdp"
                 android:layout_marginTop="@dimen/small"
                 android:text='@{viewModel.statusDataModel.statusDescription}'
-                app:layout_constraintTop_toBottomOf="@id/timeline" />
+                app:layout_constraintTop_toBottomOf="@id/tvStatusTitle"
+                tools:text="set your card pin" />
 
             <TextView
                 android:id="@+id/tvStatusActions"
                 style="@style/ASmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_36sdp"
                 android:layout_marginTop="@dimen/small"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_13sdp"
-                app:layout_constraintTop_toBottomOf="@id/tvStatusDescription" />
+                app:layout_constraintTop_toBottomOf="@id/tvStatusDescription"
+                tools:text="set your card pin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

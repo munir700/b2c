@@ -25,8 +25,7 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
 
-    var dashboardNotificationStatusAdapter: TransactionStatusAdapter? = null
-//    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
+    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -41,14 +40,11 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         dashboardNotificationStatusAdapter =
-            activity?.let { TransactionStatusAdapter(getStatusList()) }
-//        dashboardNotificationStatusAdapter =
-//            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
         rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
 
     }

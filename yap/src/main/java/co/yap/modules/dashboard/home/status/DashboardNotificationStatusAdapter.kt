@@ -1,8 +1,6 @@
 package co.yap.modules.dashboard.home.status
 
 import android.content.Context
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -13,7 +11,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 class DashboardNotificationStatusAdapter(
     context: Context,
-    private val list: ArrayList<StatusDataModel>
+    private val list: MutableList<StatusDataModel>
 ) :
     BaseBindingRecyclerAdapter<StatusDataModel, RecyclerView.ViewHolder>(list) {
 
@@ -37,9 +35,6 @@ class DashboardNotificationStatusAdapter(
     class DashboardNotificationStatusViewHolder(private val itemDashboardNotificationStatusBinding: ItemDashboardNotificationStatusBinding) :
         RecyclerView.ViewHolder(itemDashboardNotificationStatusBinding.root) {
 
-        init {
-            itemDashboardNotificationStatusBinding.timeline.initLine(1)
-        }
 
         fun onBind(
             position: Int,
@@ -47,20 +42,14 @@ class DashboardNotificationStatusAdapter(
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?
         ) {
-
-//            val unwrappedDrawable = AppCompatResources.getDrawable(
-//                itemDashboardNotificationStatusBinding.imgIcon.context,
-//                R.drawable.bg_round_purple
-//            )
-//            val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
-//            DrawableCompat.setTint(wrappedDrawable, statusDataModel.bgColor)
-//
-//            itemDashboardNotificationStatusBinding.imgIcon.background = wrappedDrawable
-
             itemDashboardNotificationStatusBinding.viewModel =
                 NotificationStatusItemViewModel(statusDataModel, position, onItemClickListener)
             itemDashboardNotificationStatusBinding.executePendingBindings()
 
+        }
+
+        init {
+            itemDashboardNotificationStatusBinding.timeline.initLine(1)
         }
     }
 }

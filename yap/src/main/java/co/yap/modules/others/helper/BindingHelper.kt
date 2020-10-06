@@ -73,11 +73,11 @@ object BindingHelper {
         }
     }
 
-    @BindingAdapter(value = ["setMarker", "isLoadingStatus"], requireAll = false)
+    @BindingAdapter(value = ["setMarker", "isNotActive"])
     @JvmStatic
-    fun setMarker(view: TimelineView, tint: Int?, isLoading: Boolean?) {
+    fun setMarker(view: TimelineView, tint: Int?, isNotActive: Boolean =false) {
         val image: Drawable?
-        if (isLoading == true) {
+        if (isNotActive) {
             image = ContextCompat.getDrawable(view.context, R.drawable.ic_tick_disabled)
             image?.let {
                 view.marker = image
