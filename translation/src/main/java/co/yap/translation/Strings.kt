@@ -425,11 +425,19 @@ object Strings {
         "screen_passcode_success_display_text_sub_heading"
     const val screen_passcode_success_button_sign_in: String =
         "screen_passcode_success_button_sign_in"
+    const val screen_passcode_success_heading: String =
+        "screen_passcode_success_heading"
+
+    //Change Passcode screen
+    const val screen_change_passcode_success_display_text_sub_heading: String =
+        "screen_change_passcode_success_display_text_sub_heading"
 
 
     //Create new passcode screen
     const val screen_create_new_passcode_button_text: String =
         "screen_create_new_passcode_button_text"
+    const val screen_create_passcode_display_heading: String =
+        "screen_create_passcode_display_heading"
 
     //Yap Store screen
     const val screen_yap_store_display_text_title: String = "screen_yap_store_display_text_title"
