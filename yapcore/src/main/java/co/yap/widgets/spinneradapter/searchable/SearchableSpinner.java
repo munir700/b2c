@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -16,7 +15,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +46,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import co.yap.yapcore.R;
-
 import static com.leanplum.utils.SizeUtil.dpToPx;
 
 /**
@@ -70,10 +67,9 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
     private LinearLayout mRevealItem;
     private AppCompatTextView mStartSearchImageView;
     private CardView mContainerCardView;
-    private CardView listCard;
     private AppCompatEditText mSearchEditText;
     private AppCompatTextView mDoneSearchImageView;
-    private CardView mSpinnerListContainer;
+    private LinearLayout mSpinnerListContainer;
     private PopupWindow mPopupWindow;
     private ListView mSpinnerListView;
     private TextView mEmptyTextView;
@@ -199,9 +195,8 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         final LayoutInflater factory = LayoutInflater.from(context);
         factory.inflate(R.layout.view_searchable_spinner, this, true);
 
-        mSpinnerListContainer = (CardView) factory.inflate(R.layout.view_list, this, false);
+        mSpinnerListContainer = (LinearLayout) factory.inflate(R.layout.view_list, this, false);
         mSpinnerListView = mSpinnerListContainer.findViewById(R.id.LstVw_SpinnerListView);
-//        listCard = mSpinnerListContainer.findViewById(R.id.listCard);
         if (mListItemDivider != null) {
             mSpinnerListView.setDivider(mListItemDivider);
             mSpinnerListView.setDividerHeight(mListDividerSize);
@@ -259,7 +254,7 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         } else {
             width -= dpToPx(mContext, 8);
         }
-       mPopupWindow.setWidth(width);
+        mPopupWindow.setWidth(width);
         if (mExpandSize <= 0) {
             mPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         } else {
@@ -286,10 +281,12 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         mSearchEditText.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         mStartSearchImageView.setOnClickListener(this);
         mDoneSearchImageView.setOnClickListener(this);
+        mSearchEditText.addTextChangedListener(mTextWatcher);
+
         mPopupWindow = new PopupWindow(mContext);
         mPopupWindow.setContentView(mSpinnerListContainer);
-        mPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        mPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
