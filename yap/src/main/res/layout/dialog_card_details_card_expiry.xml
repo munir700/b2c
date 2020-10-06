@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogItemViewModel" />
@@ -25,8 +27,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardType"
-            style="@style/Large"
-            android:layout_width="match_parent"
+            style="@style/Small"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivCard"
             android:layout_marginStart="@dimen/margin_large"
@@ -34,10 +36,27 @@
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
             android:text="@{viewModel.cardDetailsModel.cardType}"
-            tools:text="Spare Card"
+            android:textColor="@color/greyDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivCard" />
+            app:layout_constraintTop_toBottomOf="@+id/ivCard"
+            tools:text="Spare Card" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardName"
+            style="@style/Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_three_dp"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@{StringExtensionsKt.toCamelCase(viewModel.cardDetailsModel.displayName)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardType"
+            tools:text="Spare Card" />
+
 
         <RelativeLayout
             android:id="@+id/rlCardNumber"
@@ -47,7 +66,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardType">
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName">
 
             <RelativeLayout
                 android:id="@+id/rlCardValidity"
