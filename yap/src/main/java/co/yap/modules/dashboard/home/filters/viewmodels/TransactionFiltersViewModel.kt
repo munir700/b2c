@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.home.filters.viewmodels
 
 import android.app.Application
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
@@ -57,7 +56,6 @@ class TransactionFiltersViewModel(application: Application) :
 
     val chipGroupItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            Log.d("oops", " " + data + " " + pos)
         }
     }
 
