@@ -1,8 +1,6 @@
 package co.yap.modules.others.helper
 
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +33,7 @@ object BindingHelper {
 
 /*
   Dashboard notification status
-    */
+ */
 
     @BindingAdapter("status")
     @JvmStatic
@@ -73,22 +71,13 @@ object BindingHelper {
         }
     }
 
-    @BindingAdapter(value = ["setMarker", "isNotActive"])
+    @BindingAdapter("setOpacity")
     @JvmStatic
-    fun setMarker(view: TimelineView, tint: Int?, isNotActive: Boolean =false) {
-        val image: Drawable?
+    fun setMarkerOpacity(view: TimelineView, isNotActive: Boolean = false) {
         if (isNotActive) {
-            image = ContextCompat.getDrawable(view.context, R.drawable.ic_tick_disabled)
-            image?.let {
-                view.marker = image
-            }
-        } else
-            tint?.let {
-                image = ContextCompat.getDrawable(view.context, R.drawable.ic_tick_enabled)
-                image?.let {
-                    it.setTintList(ContextCompat.getColorStateList(view.context, tint))
-                    view.marker = image
-                }
-            }
+            view.alpha = 0.4f
+
+
+        }
     }
 }

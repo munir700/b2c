@@ -11,6 +11,8 @@
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
 
+        <import type="co.yap.modules.dashboard.home.status.NotificationProgressStatus" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.home.status.NotificationStatusItemViewModel" />
@@ -25,6 +27,7 @@
 
         <com.github.vipulasri.timelineview.TimelineView
             android:id="@+id/timeline"
+            setOpacity="@{viewModel.statusDataModel.progressStatus == NotificationProgressStatus.IS_PENDING ? true : false }"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingTop="@dimen/_8sdp"
@@ -32,13 +35,13 @@
             app:linePadding="@dimen/_8sdp"
             app:lineStyle="normal"
             app:lineWidth="@dimen/_1sdp"
-            app:marker="@{viewModel.statusDataModel.statusDrawable}"
+            app:marker="@{viewModel.statusDataModel.progressStatus == NotificationProgressStatus.IS_COMPLETED ? @drawable/ic_dashboard_finish : viewModel.statusDataModel.statusDrawable}"
             app:markerInCenter="false"
             app:markerPaddingBottom="@dimen/_8sdp"
             app:markerPaddingTop="@dimen/_8sdp"
             app:markerSize="@dimen/_23sdp"
             app:startLineColor="@color/transparent" />
-        <!--        app:marker="@drawable/ic_dashboard_finish"-->
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -82,9 +85,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
+                android:text='@{viewModel.statusDataModel.statusDescription}'
                 android:textColor="@color/greyDark"
                 android:textSize="@dimen/_11sdp"
-                android:text='@{viewModel.statusDataModel.statusDescription}'
                 app:layout_constraintTop_toBottomOf="@id/tvStatusTitle"
                 tools:text="set your card pin" />
 
