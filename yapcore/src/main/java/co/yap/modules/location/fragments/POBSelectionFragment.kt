@@ -26,6 +26,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
     override val viewModel: POBSelectionViewModel
         get() = ViewModelProviders.of(this).get(POBSelectionViewModel::class.java)
+    private lateinit var mSimpleListAdapter: SimpleListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
