@@ -1031,6 +1031,9 @@
     <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
     <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
 
+    <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
 
 </resources>
 
