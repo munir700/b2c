@@ -235,8 +235,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="vertical"
+               android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_extra_small">
 
                 <include
@@ -312,10 +311,9 @@
                 android:background="@color/greyLight" />
 
             <!-- Support -->
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 android:visibility="visible">
@@ -333,12 +331,6 @@
                     app:icon="@{@drawable/support}"
                     app:title='@{"Help and support"}' />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/greyLight"
-                    android:visibility="gone" />
-
                 <TextView
                     android:id="@+id/tvVersionName"
                     style="@style/ASmallGrey"
@@ -355,9 +347,8 @@
                 <TextView
                     android:id="@+id/tvLogOut"
                     style="@style/ARegular"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="bottom|center"
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:paddingStart="@dimen/margin_small"
@@ -365,9 +356,12 @@
                     android:paddingBottom="@dimen/margin_small"
                     android:text="@string/screen_profile_settings_display_text_logout"
                     android:textColor="?attr/colorPrimaryAttr"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:text="@{Strings.screen_profile_settings_display_text_logout}" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
