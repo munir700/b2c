@@ -128,5 +128,8 @@
 
     <color name="colorCoachMarkOverlay">#4D272262</color>
 
+    <color name="colorOpaquAqua">#2400B9AE</color>
+    <color name="colorOpaquSecondaryOrange">#24F57F17</color>
+
 
 </resources>

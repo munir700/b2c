@@ -25,7 +25,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
 
-    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
+    var dashboardNotificationStatusAdapter: TransactionStatusAdapter? = null
+//    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -45,7 +46,9 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         dashboardNotificationStatusAdapter =
-            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+            activity?.let { TransactionStatusAdapter(getStatusList()) }
+//        dashboardNotificationStatusAdapter =
+//            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
         rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
 
     }
@@ -85,14 +88,15 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
     }
 
 
-    private fun getStatusList(): ArrayList<StatusDataModel> {
+    private fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_title),
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_description),
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_action),
-                resources.getDrawable(R.drawable.ic_dashboard_active)
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+                NotificationProgressStatus.IS_COMPLETED
             )
         )
         list.add(
@@ -100,7 +104,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_card_delivered_title),
                 getString(Strings.screen_time_line_display_text_status_card_delivered_description),
                 null,
-                resources.getDrawable(R.drawable.ic_dashboard_active)
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+                NotificationProgressStatus.IN_PROGRESS
             )
         )
 
@@ -109,7 +114,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_title),
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_description),
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_action),
-                resources.getDrawable(R.drawable.ic_dashboard_active)
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+                NotificationProgressStatus.IS_PENDING
             )
         )
         list.add(
@@ -117,7 +123,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_card_top_up_title),
                 getString(Strings.screen_time_line_display_text_status_card_top_up_description),
                 getString(Strings.screen_time_line_display_text_status_card_top_up_action),
-                resources.getDrawable(R.drawable.ic_dashboard_active)
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+                NotificationProgressStatus.IS_PENDING
             )
         )
         return list

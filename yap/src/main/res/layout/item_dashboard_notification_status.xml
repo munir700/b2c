@@ -18,8 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_medium"
-         >
+        android:padding="@dimen/margin_medium">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,25 +33,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.076"
-                app:linePadding="@dimen/margin_extra_small"
+                app:linePadding="4dp"
                 app:lineStyle="normal"
                 app:lineWidth="3dp"
-                app:markerSize="@dimen/_16sdp"
+                app:markerSize="16dp"
                 app:startLineColor="@color/grey" />
 
             <TextView
                 android:id="@+id/tvStatusTitle"
                 style="@style/Regular"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_36sdp"
                 android:gravity="start"
+                android:paddingStart="@dimen/margin_medium"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_15sdp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/timeline"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelCardType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/transparent_round"
+                android:backgroundTint="@color/colorOpaquSecondaryOrange"
+                android:gravity="center|center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_11sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:status="@{viewModel.statusDataModel.progressStatus}" />
+
 
             <TextView
                 android:id="@+id/tvStatusDescription"

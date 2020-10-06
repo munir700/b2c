@@ -6,5 +6,8 @@ data class StatusDataModel(
     val statusTitle: String? = null,
     val statusDescription: String? = null,
     val statusAction: String? = null,
-    val statusDrawable: Drawable
+    val statusDrawable: Drawable,
+    val progressStatus: NotificationProgressStatus
+
+
 )
