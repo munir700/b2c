@@ -46,6 +46,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import co.yap.yapcore.R;
+
 import static com.leanplum.utils.SizeUtil.dpToPx;
 
 /**
@@ -67,6 +68,7 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
     private LinearLayout mRevealItem;
     private AppCompatTextView mStartSearchImageView;
     private CardView mContainerCardView;
+    private CardView listCard;
     private AppCompatEditText mSearchEditText;
     private AppCompatTextView mDoneSearchImageView;
     private LinearLayout mSpinnerListContainer;
@@ -197,6 +199,7 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
 
         mSpinnerListContainer = (LinearLayout) factory.inflate(R.layout.view_list, this, false);
         mSpinnerListView = mSpinnerListContainer.findViewById(R.id.LstVw_SpinnerListView);
+        listCard = mSpinnerListContainer.findViewById(R.id.listCard);
         if (mListItemDivider != null) {
             mSpinnerListView.setDivider(mListItemDivider);
             mSpinnerListView.setDividerHeight(mListDividerSize);
