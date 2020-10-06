@@ -107,9 +107,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressTitle.set(viewModel.address?.address1)
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
-        if (viewModel.address?.latitude != null && viewModel.address?.longitude != null) {
-            mDefaultLocation = LatLng(viewModel.address?.latitude!!, viewModel.address?.longitude!!)
-        }
+             getCurrentLocation()
+
     }
 
     private fun setHeadings() {

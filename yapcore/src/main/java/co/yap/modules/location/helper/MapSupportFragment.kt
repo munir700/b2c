@@ -65,7 +65,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         )
     }
 
-    private fun getCurrentLocation() {
+    fun getCurrentLocation() {
         mFusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
             if (location != null) {
                 mDefaultLocation = LatLng(location.latitude, location.longitude)
