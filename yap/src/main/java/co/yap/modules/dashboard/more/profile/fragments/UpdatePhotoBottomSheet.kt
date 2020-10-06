@@ -19,6 +19,8 @@ class UpdatePhotoBottomSheet(private val mListener: CardClickListener) : BottomS
         val view = inflater.inflate(R.layout.bottom_sheet_update_card, container, false)
         view.tvChoosePhoto.setOnClickListener { mListener.onClick(Constants.EVENT_CHOOSE_PHOTO)}
         view.tvOpenCamera.setOnClickListener { mListener.onClick(Constants.EVENT_ADD_PHOTO)}
+        view.tvRemovePhoto.setOnClickListener { mListener.onClick(Constants.EVENT_REMOVE_PHOTO)}
+
 
         return view
     }

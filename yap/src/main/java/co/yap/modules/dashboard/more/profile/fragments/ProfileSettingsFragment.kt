@@ -3,7 +3,9 @@ package co.yap.modules.dashboard.more.profile.fragments
 import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
@@ -36,6 +38,7 @@ import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
+import java.net.URI
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener {
@@ -45,6 +48,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getLayoutId(): Int = R.layout.fragment_profile
     private val takePhoto = 1
     private val pickPhoto = 2
+    private val removePhoto = 3
     internal var permissionHelper: PermissionHelper? = null
 
     override val viewModel: IProfile.ViewModel
@@ -89,6 +93,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onClick(eventType: Int) {
         updatePhotoBottomSheet.dismiss()
+        Log.d("TAG","eventType: "+eventType)
+
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
                 checkPermission(takePhoto)
@@ -96,6 +102,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             Constants.EVENT_CHOOSE_PHOTO -> {
                 checkPermission(pickPhoto)
+            }
+
+            Constants.EVENT_REMOVE_PHOTO -> {
+//                viewModel.state.imageUri = Uri.EMPTY
+//                ivProfilePic.setImageURI(Uri.EMPTY)
             }
         }
     }

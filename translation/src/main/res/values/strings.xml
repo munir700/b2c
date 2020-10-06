@@ -454,6 +454,7 @@
     <string name="screen_update_profile_photo_display_text_choose_photo">Choose photo</string>
     <string name="screen_update_profile_photo_display_text_take_photo">Take photo</string>
     <string name="screen_update_profile_photo_display_text_re_take_photo">Re-take photo</string>
+    <string name="screen_update_profile_photo_display_text_remove_photo">Remove photo</string>
 
     <!-- personal detail screen -->
 
