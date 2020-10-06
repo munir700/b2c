@@ -143,7 +143,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 message = title,
                 callback = {
                     openCardScanner()
-                })
+                },
+                closeActivity = false
+            )
             viewModel.parentViewModel?.paths?.forEach { filePath ->
                 File(filePath).deleteRecursively()
             }
