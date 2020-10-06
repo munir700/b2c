@@ -16,12 +16,14 @@ import co.yap.app.databinding.FragmentLogInBinding
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.location.fragments.POBSelectionFragment
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEvent
 import co.yap.widgets.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
+import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
@@ -133,7 +135,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
-        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+//        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+        startFragment(POBSelectionFragment::class.java.name)
     }
 
     private fun getBindings(): FragmentLogInBinding = viewDataBinding as FragmentLogInBinding

@@ -2,6 +2,7 @@ package co.yap.modules.location.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -38,6 +39,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                 addObservers()
             }
         }
+
     }
 
 
