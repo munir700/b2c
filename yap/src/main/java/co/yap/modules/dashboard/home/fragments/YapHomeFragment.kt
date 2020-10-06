@@ -67,6 +67,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
+import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -75,7 +76,7 @@ import kotlin.math.abs
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private var mAdapter = NotificationAdapter(mutableListOf(), this)
+    private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
 
@@ -365,6 +366,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         accountInfo?.let { account ->
             paymentCard?.let { card ->
                 mAdapter = NotificationAdapter(
+                    requireContext(),
                     viewModel.getNotifications(account, card),
                     this
                 )
@@ -372,18 +374,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
                 getBindings().lyInclude.rvNotificationList.adapter = mAdapter
                 getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(150)
                 getBindings().lyInclude.rvNotificationList.setItemTransformer(
                     ScaleTransformer.Builder()
+                        .setMaxScale(1.05f)
                         .setMinScale(0.8f)
+                        .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                        //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
                         .build()
                 )
+//                getBindings().lyInclude.rvNotificationList.setItemTransformer(
+//                    ScaleTransformer.Builder()
+//                        .setMinScale(0.8f)
+//                        .build()
+//                )
             }
         }
     }
 
     private fun clearNotification() {
-        mAdapter.removeAllItems()
+        mAdapter?.removeAllItems()
     }
 
     override fun onCloseClick(notification: HomeNotification) {
