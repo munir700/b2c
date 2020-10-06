@@ -26,7 +26,7 @@
             android:id="@+id/rvNotificationStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_medium"
+            android:paddingTop="@dimen/_24sdp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_dashboard_notification_status" />

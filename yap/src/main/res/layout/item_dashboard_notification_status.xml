@@ -28,23 +28,24 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingTop="@dimen/_8sdp"
-            app:endLineColor="@color/colorPrimaryDark"
+            app:endLineColor="@color/colorPrimary"
             app:linePadding="@dimen/_8sdp"
             app:lineStyle="normal"
             app:lineWidth="@dimen/_1sdp"
-            app:marker="@drawable/ic_dashboard_finish"
+            app:marker="@{viewModel.statusDataModel.statusDrawable}"
             app:markerInCenter="false"
             app:markerPaddingBottom="@dimen/_8sdp"
             app:markerPaddingTop="@dimen/_8sdp"
-            app:markerSize="@dimen/_26sdp"
+            app:markerSize="@dimen/_23sdp"
             app:startLineColor="@color/transparent" />
+        <!--        app:marker="@drawable/ic_dashboard_finish"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="@dimen/_24sdp"
+            android:paddingTop="@dimen/_8sdp">
 
 
             <TextView
@@ -54,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_13sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="set your card pin" />
@@ -81,6 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
+                android:textColor="@color/greyDark"
+                android:textSize="@dimen/_11sdp"
                 android:text='@{viewModel.statusDataModel.statusDescription}'
                 app:layout_constraintTop_toBottomOf="@id/tvStatusTitle"
                 tools:text="set your card pin" />
@@ -93,7 +96,7 @@
                 android:layout_marginTop="@dimen/small"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13sdp"
+                android:textSize="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@id/tvStatusDescription"
                 tools:text="set your card pin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
