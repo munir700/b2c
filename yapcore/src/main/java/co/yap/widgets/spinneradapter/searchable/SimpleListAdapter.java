@@ -13,16 +13,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import co.yap.countryutils.country.Country;
+import co.yap.widgets.CoreCircularImageView;
 import co.yap.yapcore.R;
 
 public class SimpleListAdapter extends BaseAdapter implements Filterable, ISpinnerSelectedView {
 
     private Context mContext;
-    private ArrayList<String> mBackupStrings;
-    private ArrayList<String> mStrings;
+    private ArrayList<Country> mBackupStrings;
+    private ArrayList<Country> mStrings;
     private StringFilter mStringFilter = new StringFilter();
 
-    public SimpleListAdapter(Context context, ArrayList<String> strings) {
+    public SimpleListAdapter(Context context, ArrayList<Country> strings) {
         mContext = context;
         mStrings = strings;
         mBackupStrings = strings;
@@ -56,9 +57,10 @@ public class SimpleListAdapter extends BaseAdapter implements Filterable, ISpinn
             view = getNoSelectionView();
         } else {
             view = View.inflate(mContext, R.layout.item_list_country_code, null);
-            ImageView letters = view.findViewById(R.id.ivCountry);
+            CoreCircularImageView letters = view.findViewById(R.id.ivCountry);
             TextView dispalyName = view.findViewById(R.id.tvCountryName);
-            dispalyName.setText(mStrings.get(position - 1));
+            dispalyName.setText(mStrings.get(position - 1).getName());
+            letters.setImageResource(mStrings.get(position-1).getFlagDrawableResId(dispalyName.getContext()));
         }
         return view;
     }
@@ -70,9 +72,10 @@ public class SimpleListAdapter extends BaseAdapter implements Filterable, ISpinn
             view = getNoSelectionView();
         } else {
             view = View.inflate(mContext, R.layout.item_list_country_code, null);
-            ImageView letters = view.findViewById(R.id.ivCountry);
+            CoreCircularImageView letters = view.findViewById(R.id.ivCountry);
             TextView dispalyName = view.findViewById(R.id.tvCountryName);
-            dispalyName.setText(mStrings.get(position - 1));
+            dispalyName.setText(mStrings.get(position - 1).getName());
+            letters.setImageResource(mStrings.get(position-1).getFlagDrawableResId(dispalyName.getContext()));
         }
         return view;
     }
@@ -101,10 +104,10 @@ public class SimpleListAdapter extends BaseAdapter implements Filterable, ISpinn
                 filterResults.values = mBackupStrings;
                 return filterResults;
             }
-            final ArrayList<String> filterStrings = new ArrayList<>();
-            for (String text : mBackupStrings) {
-                if (text.toLowerCase().contains(constraint)) {
-                    filterStrings.add(text);
+            final ArrayList<Country> filterStrings = new ArrayList<>();
+            for (Country country : mBackupStrings) {
+                if (country.getName().toLowerCase().contains(constraint)) {
+                    filterStrings.add(country);
                 }
             }
             filterResults.count = filterStrings.size();

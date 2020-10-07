@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.Country
 import co.yap.databinding.FragmentHelpSupportBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
@@ -190,38 +191,38 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         }
     }
 
-    private fun getSpinnerList(): ArrayList<String> {
-        val list: ArrayList<String> = ArrayList()
-        list.add("Brigida Kurz")
-        list.add("Tracy Mckim")
-        list.add("Iesha Davids")
-        list.add("Ozella Provenza")
-        list.add("Florentina Carriere")
-        list.add("Geri Eiler")
-        list.add("Tammara Belgrave")
-        list.add("Ashton Ridinger")
-        list.add("Jodee Dawkins")
-        list.add("Florine Cruzan")
-        list.add("Latia Stead")
-        list.add("Kai Urbain")
-        list.add("Liza Chi")
-        list.add("Clayton Laprade")
-        list.add("Wilfredo Mooney")
-        list.add("Roseline Cain")
-        list.add("Chadwick Gauna")
-        list.add("Carmela Bourn")
-        list.add("Valeri Dedios")
-        list.add("Calista Mcneese")
-        list.add("Willard Cuccia")
-        list.add("Ngan Blakey")
-        list.add("Reina Medlen")
-        list.add("Fabian Steenbergen")
-        list.add("Edmond Pine")
-        list.add("Teri Quesada")
-        list.add("Vernetta Fulgham")
-        list.add("Winnifred Kiefer")
-        list.add("Chiquita Lichty")
-        list.add("Elna Stiltner")
+    private fun getSpinnerList(): ArrayList<Country> {
+        val list: ArrayList<Country> = ArrayList()
+        list.add(Country(name = "Brigida Kurz"))
+        list.add(Country(name = "Tracy Mckim"))
+        list.add(Country(name = "Iesha Davids"))
+        list.add(Country(name = "Ozella Provenza"))
+        list.add(Country(name = "Florentina Carriere"))
+        list.add(Country(name = "Geri Eiler"))
+        list.add(Country(name = "Tammara Belgrave"))
+        list.add(Country(name = "Ashton Ridinger"))
+        list.add(Country(name = "Jodee Dawkins"))
+        list.add(Country(name = "Florine Cruzan"))
+        list.add(Country(name = "Latia Stead"))
+        list.add(Country(name = "Kai Urbain"))
+        list.add(Country(name = "Liza Chi"))
+        list.add(Country(name = "Clayton Laprade"))
+        list.add(Country(name = "Wilfredo Mooney"))
+        list.add(Country(name = "Roseline Cain"))
+        list.add(Country(name = "Chadwick Gauna"))
+        list.add(Country(name = "Carmela Bourn"))
+        list.add(Country(name = "Valeri Dedios"))
+        list.add(Country(name = "Calista Mcneese"))
+        list.add(Country(name = "Willard Cuccia"))
+        list.add(Country(name = "Ngan Blakey"))
+        list.add(Country(name = "Reina Medlen"))
+        list.add(Country(name = "Fabian Steenbergen"))
+        list.add(Country(name = "Edmond Pine"))
+        list.add(Country(name = "Teri Quesada"))
+        list.add(Country(name = "Vernetta Fulgham"))
+        list.add(Country(name = "Winnifred Kiefer"))
+        list.add(Country(name = "Chiquita Lichty"))
+        list.add(Country(name = "Elna Stiltner"))
         return list
     }
 }

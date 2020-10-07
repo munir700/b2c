@@ -104,6 +104,7 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
     private String mSearchHintText;
     private String mNoItemsFoundText;
     private int mAnimDuration;
+
     private AdapterView.OnItemClickListener mOnItemSelectedListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -255,9 +256,10 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
             width -= dpToPx(mContext, 8);
         }
         mPopupWindow.setWidth(width);
-        if (mExpandSize <= 0) {
+        if (mExpandSize <= 0 ) {
             mPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        } else {
+        }
+        else {
             mPopupWindow.setHeight(heightMeasureSpec);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -282,7 +284,6 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         mStartSearchImageView.setOnClickListener(this);
         mDoneSearchImageView.setOnClickListener(this);
         mSearchEditText.addTextChangedListener(mTextWatcher);
-
         mPopupWindow = new PopupWindow(mContext);
         mPopupWindow.setContentView(mSpinnerListContainer);
         mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -407,13 +408,12 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         MarginLayoutParams spinnerListViewLayoutParams = (MarginLayoutParams) mSpinnerListView.getLayoutParams();
         ViewGroup.LayoutParams spinnerListContainerLayoutParams = mSpinnerListContainer.getLayoutParams();
         LinearLayout.LayoutParams listLayoutParams = (LinearLayout.LayoutParams) mSpinnerListView.getLayoutParams();
-
         spinnerListContainerLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
         if (mExpandSize <= 0) {
             listLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         } else {
-            listLayoutParams.height = mExpandSize;
+        listLayoutParams.height = mExpandSize;
         }
         mSpinnerListContainer.setBackgroundColor(mBoarderColor);
         if (mShowBorders && mBordersSize > 0) {
@@ -422,7 +422,6 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
             spinnerListViewLayoutParams.setMargins(0, 0, 0, 0);
         }
     }
-
     public void setAdapter(ListAdapter adapter) {
         if (!(adapter instanceof Filterable))
             throw new IllegalArgumentException("Adapter should implement the Filterable interface");
@@ -477,7 +476,6 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
         mViewState = ViewState.ShowingAnimation;
         mViewState = ViewState.ShowingEditLayout;
         mRevealContainerCardView.setVisibility(View.INVISIBLE);
-
         if (!mPopupWindow.isShowing())
             mPopupWindow.showAsDropDown(this, 0, 0);
 //            mPopupWindow.showAsDropDown(this, cx, 0);

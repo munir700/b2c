@@ -100,7 +100,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
-                app:SpinnerExpandHeight="250dp"
+                app:SpinnerExpandHeight="@dimen/_180sdp"
                 app:RevealEmptyText="Touch to select"
                 />
 

@@ -135,8 +135,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
-//        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
-        startFragment(POBSelectionFragment::class.java.name)
+        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+   //     startFragment(POBSelectionFragment::class.java.name)
     }
 
     private fun getBindings(): FragmentLogInBinding = viewDataBinding as FragmentLogInBinding

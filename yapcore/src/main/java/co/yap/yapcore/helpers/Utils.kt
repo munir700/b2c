@@ -821,15 +821,17 @@ object Utils {
         )}^${AlertType.DIALOG.name}"
     }
 
-    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {
+    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?, addOIndex : Boolean = true): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
         var countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
-            countries.add(
-                0,
-                Country(name = "Select country")
-            )
+                if (addOIndex){
+                    countries.add(
+                        0,
+                        Country(name = "Select country")
+                    )
+                }
             countries.addAll(it.map {
                 Country(
                     id = it.id,

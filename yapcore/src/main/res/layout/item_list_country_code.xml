@@ -14,11 +14,16 @@
     >
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivCountry"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:srcCompat="@drawable/flag_ae" />
-
+        app:srcCompat="@drawable/flag_ae"
+        android:visibility="gone"/>
+    <co.yap.widgets.CoreCircularImageView
+        android:id="@+id/ivCountry"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/margin_extra_small"
+        tools:visibility="visible" />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvCountryName"
         android:layout_width="wrap_content"

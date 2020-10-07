@@ -17,7 +17,7 @@ class POBSelectionViewModel(application: Application) :
     IPOBSelection.ViewModel, IRepositoryHolder<CustomersRepository> {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State = POBSelectionState()
-    override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
+    override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -40,7 +40,7 @@ class POBSelectionViewModel(application: Application) :
                 state.loading = true
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        populateSpinnerData.value = Utils.parseCountryList(response.data.data)
+                        populateSpinnerData.value = Utils.parseCountryList(response.data.data, addOIndex = false)
                         parentViewModel?.countries = populateSpinnerData.value as ArrayList<Country>
                         state.loading = false
                     }
