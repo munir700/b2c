@@ -8,6 +8,8 @@ import android.app.Dialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
@@ -24,6 +26,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import co.yap.app.YAPApplication
@@ -915,6 +918,14 @@ object Utils {
             }
             else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
         })
+    }
+
+    fun hasImage(view: ImageView): Boolean{
+        var bitmap: Bitmap? = null
+        if(view.drawable != null) {
+            bitmap = (view.drawable as BitmapDrawable).bitmap
+        }
+        return bitmap !=null
     }
 
 }
