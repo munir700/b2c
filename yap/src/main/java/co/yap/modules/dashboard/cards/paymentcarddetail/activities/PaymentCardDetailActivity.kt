@@ -549,24 +549,30 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 val groupPosition = data.let {
                     it?.getIntExtra(
-                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                         -1
                     )
                 }
-                val childPosition = data.let {intent->
+                val childPosition = data.let { intent ->
                     intent?.getIntExtra(
-                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                         -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
-                    getRecycleViewAdaptor().getDataForPosition(groupPosition?:0).transaction[childPosition?:0].transactionNote =
+                    getRecycleViewAdaptor().getDataForPosition(
+                        groupPosition ?: 0
+                    ).transaction[childPosition ?: 0].transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
-                    getRecycleViewAdaptor().getDataForPosition(groupPosition?:0).transaction[childPosition?:0].transactionNoteDate =
+                    getRecycleViewAdaptor().getDataForPosition(
+                        groupPosition ?: 0
+                    ).transaction[childPosition ?: 0].transactionNoteDate =
                         (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor().notifyItemChanged(
-                        groupPosition?:0,
-                        getRecycleViewAdaptor().getDataForPosition(groupPosition?:0).transaction[childPosition?:0]
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor().getDataForPosition(
+                            groupPosition ?: 0
+                        ).transaction[childPosition ?: 0]
                     )
 
                 }
@@ -615,7 +621,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_card_details)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
@@ -639,14 +645,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             cardType = "Primary card"
         } else {
-            if (viewModel.card.value?.nameUpdated!!) {
-                cardType = viewModel.card.value?.cardName!!
+            cardType = if (viewModel.card.value?.physical!!) {
+                Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                if (viewModel.card.value?.physical!!) {
-                    cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
-                } else {
-                    cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
-                }
+                Constants.TEXT_SPARE_CARD_VIRTUAL
+
             }
         }
 
@@ -660,14 +663,18 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             CardDetailsModel(
                 cardExpiry = viewModel.cardDetail.expiryDate,
                 cardType = cardType,
-                cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
+                cardNumber = cardNumber,
+                cardCvv = viewModel.cardDetail.cvv,
+                displayName = viewModel.cardDetail.displayName
             )
         )
         pagerList.add(
             CardDetailsModel(
                 cardExpiry = viewModel.cardDetail.expiryDate,
                 cardType = cardType,
-                cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
+                cardNumber = cardNumber,
+                cardCvv = viewModel.cardDetail.cvv,
+                displayName = viewModel.cardDetail.displayName
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
@@ -695,11 +702,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     transaction
                 )
                 putExtra(
-                     ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                     groupPosition
                 )
                 putExtra(
-                     ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                     pos
                 )
 
