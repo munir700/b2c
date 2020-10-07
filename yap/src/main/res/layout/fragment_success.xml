@@ -98,7 +98,8 @@
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="@{viewModel.state.address1}"
-                        tools:text="er owm kjhj ghg jher 1 " />
+                        tools:text="er owm kjhj ghg jher 1 "
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tvAddressSubTitle"
