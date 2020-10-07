@@ -29,6 +29,9 @@ class POBSelectionViewModel(application: Application) :
         getAllCountries()
     }
 
+
+
+
     private fun getAllCountries() {
         if (!parentViewModel?.countries.isNullOrEmpty()) {
             populateSpinnerData.setValue(parentViewModel?.countries)

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import co.yap.countryutils.country.Country;
 import co.yap.yapcore.R;
 
 public class SimpleListAdapter extends BaseAdapter implements Filterable, ISpinnerSelectedView {
