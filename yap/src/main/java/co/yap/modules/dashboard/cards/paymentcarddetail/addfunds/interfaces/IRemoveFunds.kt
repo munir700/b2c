@@ -17,7 +17,7 @@ interface IRemoveFunds {
         fun handleOnPressView(id: Int)
         fun getFundTransferDenominations()
         fun getFundTransferLimits()
-        fun removeFunds(success:()->Unit)
+        fun removeFunds(success: () -> Unit)
         val clickEvent: SingleClickEvent
         var transactionThreshold: TransactionThresholdModel?
         var errorDescription: String

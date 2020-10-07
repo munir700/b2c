@@ -17,7 +17,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
 import com.liveperson.infra.LPAuthenticationParams
@@ -34,7 +34,7 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
         get() = ViewModelProviders.of(this).get(OtpBlockedInfoViewModel::class.java)
 
     private val brandId = "17038977"
-    private val appInstallId = MyUserManager.user?.uuid
+    private val appInstallId = SessionManager.user?.uuid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,9 +93,9 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
             .setReadOnlyMode(false)
         LivePerson.showConversation(requireActivity(), authParams, params)
         val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(MyUserManager.user?.currentCustomer?.firstName)
-            .setLastName(MyUserManager.user?.currentCustomer?.lastName)
-            .setPhoneNumber(MyUserManager.user?.currentCustomer?.getCompletePhone())
+            .setFirstName(SessionManager.user?.currentCustomer?.firstName)
+            .setLastName(SessionManager.user?.currentCustomer?.lastName)
+            .setPhoneNumber(SessionManager.user?.currentCustomer?.getCompletePhone())
             .build()
         LivePerson.setUserProfile(consumerProfile)
     }

@@ -41,5 +41,4 @@ class AddFundsState : BaseState(), IAddFunds.State {
         }
 
     override var valid: ObservableBoolean = ObservableBoolean(false)
-
 }

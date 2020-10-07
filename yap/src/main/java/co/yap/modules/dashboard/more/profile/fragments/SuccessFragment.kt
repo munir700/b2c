@@ -17,7 +17,7 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -80,7 +80,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         if (primaryStr.contains(addressStr)) {
             cvLocationCard.visibility = VISIBLE
             addressField =
-                MyUserManager.userAddress?.address1 + " " + MyUserManager.userAddress?.address2
+                SessionManager.userAddress?.address1 + " " + SessionManager.userAddress?.address2
             tvSuccessSubHeading.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -89,11 +89,11 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             )
 
             tvSuccessSubHeading.text = addressStr
-            if (!MyUserManager.userAddress?.address2.isNullOrEmpty()) {
-                tvAddressTitle.setText(MyUserManager.userAddress?.address2)
+            if (!SessionManager.userAddress?.address2.isNullOrEmpty()) {
+                tvAddressTitle.setText(SessionManager.userAddress?.address2)
             }
-            if (!MyUserManager.userAddress?.address1.isNullOrEmpty()) {
-                tvAddressSubTitle.setText(MyUserManager.userAddress?.address1)
+            if (!SessionManager.userAddress?.address1.isNullOrEmpty()) {
+                tvAddressSubTitle.setText(SessionManager.userAddress?.address1)
             }
             Glide.with(ivLocationPhoto.context)
                 .load("")

@@ -20,11 +20,10 @@ import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransfer.State>(application),
@@ -53,7 +52,7 @@ class CashTransferViewModel(application: Application) :
             getString(Strings.screen_cash_transfer_display_text_available_balance),
             context.color(
                 R.color.colorPrimaryDark,
-                "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
             )
         )
     }
@@ -166,7 +165,7 @@ class CashTransferViewModel(application: Application) :
                 transactionRepository.cashPayoutTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId,
-                        amount = state.amount.toDouble(),
+                        amount = state.amount,
                         currency = "AED",
                         purposeCode = "8",
                         remarks = state.noteValue
@@ -299,7 +298,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun trxWillHold(): Boolean {
-       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
+        // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
@@ -317,7 +316,8 @@ class CashTransferViewModel(application: Application) :
                 transactionRepository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
                     currency = "AED",
-                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1).toString(),
+                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1)
+                        .toString(),
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
                         ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant
                 )) {
@@ -348,8 +348,8 @@ class CashTransferViewModel(application: Application) :
         state.errorDescription = Translator.getString(
             context,
             Strings.common_display_text_min_max_limit_error_transaction,
-            state.minLimit.toString().toFormattedAmountWithCurrency(),
-            state.maxLimit.toString().toFormattedAmountWithCurrency()
+            state.minLimit.toString().toFormattedCurrency(),
+            state.maxLimit.toString().toFormattedCurrency()
         )
         parentViewModel?.errorEvent?.value = state.errorDescription
 

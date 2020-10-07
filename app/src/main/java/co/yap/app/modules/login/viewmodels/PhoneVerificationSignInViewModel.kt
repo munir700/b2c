@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     MainChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -147,10 +147,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        MyUserManager.user = response.data.data[0]
+                        SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
                         trackEventWithAttributes(
-                            MyUserManager.user
+                            SessionManager.user
                         )
                     }
                     state.loading = false

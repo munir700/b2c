@@ -252,18 +252,6 @@ fun Transaction?.getCurrency(): String {
     } ?: return "AED"
 }
 
-fun Transaction?.getAmount(): String? {
-    this?.let { transaction ->
-        return (when (transaction.productCode) {
-            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                (transaction.amount?.div(transaction.fxRate.parseToDouble())).toString()
-                    .toFormattedCurrency()
-            }
-            else -> transaction.totalAmount.toString().toFormattedCurrency()
-        })
-    } ?: return "0.0"
-}
-
 fun Transaction?.getLabelValues(): TransactionLabelsCode? {
     this?.productCode?.let { productCode ->
         return (when (productCode) {
