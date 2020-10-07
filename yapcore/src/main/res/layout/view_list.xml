@@ -25,7 +25,8 @@
             android:layout_gravity="top"
             android:choiceMode="singleChoice"
             android:divider="@color/divider"
-            android:dividerHeight="1dp" />
+            android:dividerHeight="1dp"
+            />
         <TextView
             android:id="@+id/TxtVw_EmptyText"
             android:layout_width="match_parent"
