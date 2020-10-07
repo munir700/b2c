@@ -6,23 +6,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
-import co.yap.databinding.ActivityYapDashboardBinding
-import co.yap.databinding.FragmentDashboardNotificationStatusesBinding
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
-import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_dashboard_notification_statuses.*
 
 class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.ViewModel>(),
     IYapHome.View {
 
-    private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
 
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
@@ -34,28 +28,22 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
     override fun getLayoutId(): Int = R.layout.fragment_dashboard_notification_statuses
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parentViewModel =
-            activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+        setUpAdapter()
+
+    }
+
+    private fun setUpAdapter() {
         dashboardNotificationStatusAdapter =
             activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
         rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
-
     }
 
 
     override fun setObservers() {
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
-            if (isSuccess) {
 
-            }
-        })
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -63,26 +51,6 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
             }
         })
     }
-
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.state.filterCount.set(YAPApplication.homeTransactionsRequest.totalAppliedFilter)
-        MyUserManager.updateCardBalance {}
-    }
-
-
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        MyUserManager.onAccountInfoSuccess.removeObservers(this)
-        super.onDestroy()
-
-    }
-
-    private fun getBindings(): FragmentDashboardNotificationStatusesBinding {
-        return viewDataBinding as FragmentDashboardNotificationStatusesBinding
-    }
-
 
     private fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
@@ -136,7 +104,4 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
         return list
     }
 
-    fun getParentActivity(): ActivityYapDashboardBinding {
-        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
-    }
 }
