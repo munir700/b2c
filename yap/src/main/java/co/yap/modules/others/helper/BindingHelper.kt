@@ -8,7 +8,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.home.status.NotificationProgressStatus
 import co.yap.networking.transactions.responsedtos.CardStatement
-import com.github.vipulasri.timelineview.TimelineView
+import co.yap.widgets.timelineview.TimelineView
 import com.liveperson.infra.utils.Utils.getResources
 
 object BindingHelper {
