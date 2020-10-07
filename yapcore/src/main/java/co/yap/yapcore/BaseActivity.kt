@@ -34,7 +34,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private lateinit var permissionsManager: PermissionsManager
     private var progress: Dialog? = null
     open lateinit var context: Context
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,13 +54,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     private fun setUpFirebaseAnalytics() {
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
             param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
             param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
             param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
         }
-    } 
+    }
 
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
