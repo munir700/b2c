@@ -32,6 +32,9 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.modules.dashboard.home.status.DashboardNotificationStatusAdapter
+import co.yap.modules.dashboard.home.status.NotificationProgressStatus
+import co.yap.modules.dashboard.home.status.StatusDataModel
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
@@ -67,6 +70,10 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.content_fragment_yap_home.rvNotificationStatus
+import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard_notification_statuses.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
@@ -77,6 +84,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var mAdapter = NotificationAdapter(mutableListOf(), this)
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
+    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -108,6 +116,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
+
+        setUpDashBoardNotificationsView()
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -412,7 +422,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
-
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
@@ -681,4 +690,73 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     fun getParentActivity(): ActivityYapDashboardBinding {
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
+
+
+    fun setUpDashBoardNotificationsView(){
+        viewModel.state.isTransEmpty.set(false)
+        rvTransaction.visibility= View.GONE
+        vGraph.visibility= View.GONE
+        rvNotificationStatus.visibility= View.VISIBLE
+        setUpStatusAdapter()
+    }
+
+    private fun setUpStatusAdapter() {
+        dashboardNotificationStatusAdapter =
+            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+        rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
+    }
+
+    private fun getStatusList(): MutableList<StatusDataModel> {
+        val list = ArrayList<StatusDataModel>()
+        list.add(
+            StatusDataModel(
+                getString(Strings.screen_time_line_display_text_status_card_on_the_way_title),
+                getString(Strings.screen_time_line_display_text_status_card_on_the_way_description),
+                getString(Strings.screen_time_line_display_text_status_card_on_the_way_action),
+                resources.getDrawable(R.drawable.ic_dashboard_delivery),
+                NotificationProgressStatus.IS_COMPLETED
+            )
+        )
+        list.add(
+            StatusDataModel(
+                getString(Strings.screen_time_line_display_text_status_card_delivered_title),
+                getString(Strings.screen_time_line_display_text_status_card_delivered_description),
+                null,
+                resources.getDrawable(R.drawable.card_spare),
+                NotificationProgressStatus.IN_PROGRESS
+            )
+        )
+
+        list.add(
+            StatusDataModel(
+                getString(Strings.screen_time_line_display_text_status_additional_requirements_title),
+                getString(Strings.screen_time_line_display_text_status_additional_requirements_description),
+                getString(Strings.screen_time_line_display_text_status_additional_requirements_action),
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+                NotificationProgressStatus.IN_PROGRESS
+            )
+        )
+
+        list.add(
+            StatusDataModel(
+                getString(Strings.screen_time_line_display_text_status_set_card_pin_title),
+                getString(Strings.screen_time_line_display_text_status_set_card_pin_description),
+                getString(Strings.screen_time_line_display_text_status_set_card_pin_action),
+                resources.getDrawable(R.drawable.ic_dashboard_set_pin),
+                NotificationProgressStatus.IS_PENDING
+            )
+        )
+        list.add(
+            StatusDataModel(
+                getString(Strings.screen_time_line_display_text_status_card_top_up_title),
+                getString(Strings.screen_time_line_display_text_status_card_top_up_description),
+                getString(Strings.screen_time_line_display_text_status_card_top_up_action),
+                resources.getDrawable(R.drawable.ic_dashboard_topup),
+                NotificationProgressStatus.IS_PENDING
+            )
+        )
+        return list
+    }
+
+
 }

@@ -220,6 +220,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:listitem="@layout/item_transaction_list" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNotificationStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_dashboard_notification_status"/>
+
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/rvNotificationStatus"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:paddingTop="@dimen/_24sdp"-->
+<!--                    android:visibility="visible"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    tools:listitem="@layout/item_dashboard_notification_status" />-->
+
             </co.yap.widgets.MultiStateView>
 
             <!--            <ImageView-->
