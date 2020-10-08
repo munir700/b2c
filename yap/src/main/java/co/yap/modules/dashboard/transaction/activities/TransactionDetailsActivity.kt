@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -145,7 +146,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
         if (location.isNullOrBlank()) {
             getBindings().tvAddress.text =
-                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) "YTY transfer" else viewModel.transaction.get()
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) getString(
+                    Strings.transaction_narration_y2y_transfer_detail
+                ) else viewModel.transaction.get()
                     ?.getTransactionTypeTitle()
         } else {
             getBindings().tvAddress.text = location
