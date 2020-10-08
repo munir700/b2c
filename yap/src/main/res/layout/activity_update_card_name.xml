@@ -46,7 +46,8 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Add card name" />
+                    android:text="@string/screen_card_name_title_change_card_name"
+                    app:text="@{Strings.screen_card_name_title_change_card_name}"/>
 
             </RelativeLayout>
 
@@ -96,8 +97,8 @@
                     android:layout_marginTop="@dimen/_56sdp"
                     android:background="@null"
                     android:gravity="start"
-                    android:hint="@string/screen_report_card_hint_name_edit_text"
-                    app:hint="@{Strings.common_amount_hint}"
+                    android:hint="@string/screen_card_name_hint_enter_card_name"
+                    app:hint="@{Strings.screen_card_name_hint_enter_card_name}"
                     android:inputType="textPersonName"
                     android:maxLength="@integer/spareCardName"
                     android:paddingEnd="@dimen/margin_medium"
