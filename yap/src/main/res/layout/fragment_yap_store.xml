@@ -33,7 +33,7 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:contentDescription="@string/empty_string"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:tint="?attr/colorPrimaryDarkAttr"
+                android:tint="?attr/colorPrimaryAttr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_shopping_store" />
