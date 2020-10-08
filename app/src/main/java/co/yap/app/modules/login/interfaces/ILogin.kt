@@ -27,6 +27,5 @@ interface ILogin {
         var twoWayTextWatcher: String
         var drawbleRight: Drawable?
         var refreshField: Boolean
-        var isRemember:ObservableField<Boolean>
     }
 }
