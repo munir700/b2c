@@ -65,7 +65,6 @@ class LoginState(application: Application) : BaseState(), ILogin.State {
             field = value
             notifyPropertyChanged(BR.refreshField)
         }
-    override var isRemember: ObservableField<Boolean> = ObservableField()
 
     private fun setTwoWayTextWatcher() {
         if ((Utils.isUsernameNumeric(twoWayTextWatcher) && isValidPhoneNumber(
