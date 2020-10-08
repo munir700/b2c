@@ -99,7 +99,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 checkPermission(pickPhoto)
             }
             Constants.EVENT_REMOVE_PHOTO -> {
-                ivProfilePic.setImageResource(0)
+                ivProfilePic.setImageDrawable(null)
             }
         }
     }
