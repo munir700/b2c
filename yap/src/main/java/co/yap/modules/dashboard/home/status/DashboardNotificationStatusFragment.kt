@@ -6,11 +6,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentDashboardNotificationStatusesBinding
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
-import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.translation.Strings
 import kotlinx.android.synthetic.main.fragment_dashboard_notification_statuses.*
 
@@ -18,6 +18,7 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
     IYapHome.View {
 
     override var transactionViewHelper: TransactionsViewHelper? = null
+    var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
 
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
 
@@ -30,8 +31,10 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
-        setUpAdapter()
+//        setObservers()
+//        setUpAdapter()
+        dashboardNotificationStatusHelper =
+            DashboardNotificationStatusHelper(requireContext(), getBindings(), viewModel)
 
     }
 
@@ -43,8 +46,6 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
 
     override fun setObservers() {
-
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
@@ -104,4 +105,7 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
         return list
     }
 
+    private fun getBindings(): FragmentDashboardNotificationStatusesBinding {
+        return viewDataBinding as FragmentDashboardNotificationStatusesBinding
+    }
 }
