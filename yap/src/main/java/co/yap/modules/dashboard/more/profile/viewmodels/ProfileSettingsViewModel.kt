@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.MutableLiveData
 import co.yap.BuildConfig.VERSION_NAME
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -40,6 +41,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override var EVENT_LOGOUT_SUCCESS: Int = 101
+    override var onDeleteSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
@@ -217,5 +219,20 @@ class ProfileSettingsViewModel(application: Application) :
         return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 
+    override fun requestRemoveProfilePicture() {
+        launch {
+            state.loading = true
+            when (val response = repository.removeProfilePicture()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    onDeleteSuccess.setValue(true)
+                }
 
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    onDeleteSuccess.setValue(false)
+                }
+            }
+        }
+    }
 }
