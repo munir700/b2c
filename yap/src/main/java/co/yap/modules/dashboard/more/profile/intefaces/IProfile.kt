@@ -25,12 +25,11 @@ interface IProfile {
         var clickEvent: SingleClickEvent
         var PROFILE_PICTURE_UPLOADED: Int
         var EVENT_LOGOUT_SUCCESS: Int
-        val onDeleteSuccess: MutableLiveData<Boolean>
         fun handlePressOnViewClick(id: Int)
         fun requestProfileDocumentsInformation()
         fun requestUploadProfilePicture(actualFile: File)
         fun logout()
-        fun requestRemoveProfilePicture()
+        fun requestRemoveProfilePicture(apiRes: (Boolean)-> Unit)
 
     }
 

@@ -41,7 +41,6 @@ class ProfileSettingsViewModel(application: Application) :
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
     override var EVENT_LOGOUT_SUCCESS: Int = 101
-    override var onDeleteSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
@@ -219,19 +218,19 @@ class ProfileSettingsViewModel(application: Application) :
         return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 
-    override fun requestRemoveProfilePicture() {
+    override fun requestRemoveProfilePicture(apiRes: (Boolean)-> Unit) {
         launch {
             state.loading = true
             when (val response = repository.removeProfilePicture()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     MyUserManager.user?.currentCustomer?.setPicture("")
-                    onDeleteSuccess.setValue(true)
+                    apiRes.invoke(true)
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    onDeleteSuccess.setValue(false)
+                    apiRes.invoke(false)
                 }
             }
         }

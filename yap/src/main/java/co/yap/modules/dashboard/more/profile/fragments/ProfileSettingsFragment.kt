@@ -57,7 +57,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
         }
-        setObserver()
         viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
             SharedPreferenceManager(requireContext())
@@ -101,7 +100,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 checkPermission(pickPhoto)
             }
             Constants.EVENT_REMOVE_PHOTO -> {
-                viewModel.requestRemoveProfilePicture()
+                viewModel.requestRemoveProfilePicture {
+                    if(it)
+                        ivProfilePic.setImageDrawable(null)
+                }
             }
         }
     }
@@ -311,9 +313,4 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 
-    private fun setObserver(){
-        viewModel.onDeleteSuccess.observe(this, Observer {
-            ivProfilePic.setImageDrawable(null)
-        })
-    }
 }
