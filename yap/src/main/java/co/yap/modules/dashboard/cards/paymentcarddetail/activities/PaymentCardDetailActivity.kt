@@ -665,7 +665,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.cardDetail.displayName
+                displayName = viewModel.card.value?.cardName
             )
         )
         pagerList.add(
@@ -674,7 +674,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.cardDetail.displayName
+                displayName = viewModel.card.value?.cardName
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
