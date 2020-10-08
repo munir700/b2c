@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.R" />
+
 
     </data>
 
@@ -20,10 +22,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_fund_actions_tool_bar"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close_dark}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator='@{viewModel.state.isAddFundScreen ? Strings.screen_add_funds_display_text_add_funds : Strings.screen_remove_funds_display_text_remove_funds}' />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clFTSnackbar"

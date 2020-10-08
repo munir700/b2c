@@ -22,7 +22,7 @@
         <item name="colorSeekBar">@color/seekbarProgress</item>
 
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
-
+        <item name="android:windowBackground">@color/white</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
         <item name="actionBarSize">@dimen/toolbar_height</item>
 
