@@ -49,11 +49,11 @@ class NotificationAdapter(
             }
 
             binding.cvNotification.setOnClickListener {
-                clickListener.onClick(listItems[adapterPosition])
+                clickListener.onClick(listItems[adapterPosition], adapterPosition)
             }
 
             binding.ivCross.setOnClickListener {
-                clickListener.onCloseClick(listItems[adapterPosition])
+                clickListener.onCloseClick(listItems[adapterPosition], adapterPosition)
             }
         }
     }
