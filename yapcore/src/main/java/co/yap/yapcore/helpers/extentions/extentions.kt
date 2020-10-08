@@ -23,8 +23,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
 import java.math.RoundingMode
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 @Keep
 enum class ExtraType {
@@ -195,15 +198,15 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
-fun String.getCountryTwoDigitCodeFromThreeDigitCode() :String
-{
-    if(this.isEmpty())
-    {
+
+fun String.getCountryTwoDigitCodeFromThreeDigitCode(): String {
+    if (this.isEmpty()) {
         return this
     }
 
-    return  this.substring(0,2);
+    return this.substring(0, 2);
 }
+
 fun Double?.roundVal(): Double {
 //    this?.let {
 //        val floatingMultiplier = it * 100
@@ -218,4 +221,27 @@ fun Double?.roundVal(): Double {
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
     val floatingDivisor = (rounded ?: 0.0).div(100)
     return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
+}
+
+fun Context?.startSmsConsent() {
+    this?.let {
+        SmsRetriever.getClient(this).startSmsUserConsent(null)
+            .addOnSuccessListener {
+
+            }.addOnFailureListener {
+
+            }
+    }
+}
+
+fun Context.getOtpFromMessage(message: String?): String? {
+    var otpCode = ""
+    message?.let {
+        val pattern: Pattern = Pattern.compile("(|^)\\d{6}")
+        val matcher: Matcher = pattern.matcher(message)
+        if (matcher.find()) {
+            otpCode = matcher.group(0) ?: ""
+        }
+    }
+    return otpCode
 }

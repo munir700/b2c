@@ -45,10 +45,10 @@ class PhoneVerificationSignInState(application: Application) : BaseState(),
     @get:Bindable
     override var otp: String = ""
         set(value) {
-            field = value
-            notifyPropertyChanged(BR.otp)
-            if (isOtpBlocked.get() == false)
-                validate()
+            if (isOtpBlocked.get() == false) {
+                field = value
+                notifyPropertyChanged(BR.otp)
+            }
         }
 
     @get:Bindable
@@ -87,18 +87,6 @@ class PhoneVerificationSignInState(application: Application) : BaseState(),
                 timer = "00:00"
             }
         }.start()
-    }
-
-    private fun validate(): Boolean {
-        var vlidateOtp: Boolean = false
-        if (otp.isNotEmpty() && otp.length == 6) {
-            vlidateOtp = true
-            validateBtn = true
-
-        } else {
-            validateBtn = false
-        }
-        return vlidateOtp
     }
 
     override var isOtpBlocked: ObservableField<Boolean> = ObservableField(false)

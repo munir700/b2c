@@ -9,7 +9,9 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IPhoneVerificationSignIn {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun setObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         val postDemographicDataResult: SingleLiveEvent<Boolean>
@@ -28,7 +30,7 @@ interface IPhoneVerificationSignIn {
         var timer: String
         var valid: Boolean
         var validateBtn: Boolean
-        fun reverseTimer(Seconds: Int,context: Context)
+        fun reverseTimer(Seconds: Int, context: Context)
         var color: Int
         var isOtpBlocked: ObservableField<Boolean>
     }

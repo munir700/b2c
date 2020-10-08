@@ -77,14 +77,19 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     postDemographicData()
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                     state.otp = ""
                     otpUiBlocked(response.error.actualCode)
-                    state.loading = false
                 }
             }
 
         }
+    }
+
+    fun isValidOtpLength(otp: String): Boolean {
+        state.validateBtn = otp.isNotEmpty() && otp.length == 6
+        return otp.isNotEmpty() && otp.length == 6
     }
 
     override fun handlePressOnResend(context: Context) {

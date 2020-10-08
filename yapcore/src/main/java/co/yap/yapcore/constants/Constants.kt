@@ -151,4 +151,8 @@ object Constants {
     const val REFERRAL_ID = "customer_id"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
+
+    //Sms consent
+    const val SMS_CONSENT_REQUEST = 2
+
 }

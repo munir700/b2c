@@ -1,7 +1,11 @@
 package co.yap.app.modules.login.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -12,35 +16,81 @@ import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.household.onboard.onboarding.main.OnBoardingHouseHoldActivity
+import co.yap.modules.autoreadsms.MySMSBroadcastReceiver
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startSmsConsent
+import co.yap.yapcore.helpers.extentions.toast
+import com.google.android.gms.auth.api.phone.SmsRetriever
+
 
 class PhoneVerificationSignInFragment :
-    MainChildFragment<IPhoneVerificationSignIn.ViewModel>() {
-
+    MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
+    private var intentFilter: IntentFilter? = null
+    private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_phone_verification
 
-    override val viewModel: IPhoneVerificationSignIn.ViewModel
+    override val viewModel: PhoneVerificationSignInViewModel
         get() = ViewModelProviders.of(this).get(PhoneVerificationSignInViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+        context?.startSmsConsent()
+        initBroadcast()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
+        getData()
+    }
+
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (propertyId == BR.otp) {
+                if (viewModel.isValidOtpLength(viewModel.state.otp)) {
+                    viewModel.verifyOtp()
+                }
+            }
+        }
+    }
+
+    override fun setObservers() {
+        viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
+    }
 
-        setUsername()
-        setPasscode()
+    private fun initBroadcast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+        appSMSBroadcastReceiver =
+            MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
+                override fun onReceive(code: Intent?) {
+                    startActivityForResult(code, SMS_CONSENT_REQUEST)
+                }
+            })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireContext().registerReceiver(appSMSBroadcastReceiver, intentFilter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(appSMSBroadcastReceiver)
     }
 
     private val postDemographicDataObserver = Observer<Boolean> {
         viewModel.getAccountInfo()
-
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
@@ -85,15 +135,30 @@ class PhoneVerificationSignInFragment :
         }
     }
 
-    private fun setUsername() {
+    private fun getData() {
         viewModel.state.username =
             arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).username } as String
-    }
-
-    private fun setPasscode() {
         viewModel.state.passcode =
             arguments?.let { PhoneVerificationSignInFragmentArgs.fromBundle(it).passcode } as String
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            SMS_CONSENT_REQUEST ->
+                if (resultCode == Activity.RESULT_OK) {
+                    val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                    viewModel.state.otp = context?.getOtpFromMessage(message ?: "") ?: ""
+                } else {
+                    toast("Yap could not read message, please enter manually")
+                }
+        }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.state.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.postDemographicDataResult.removeObservers(this)
+        viewModel.accountInfo.removeObservers(this)
+    }
 }
