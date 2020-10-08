@@ -3,13 +3,8 @@ package co.yap.modules.dashboard.more.profile.fragments
 import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
@@ -33,6 +28,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.hasBitmap
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
@@ -42,7 +38,6 @@ import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
 
-
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener {
 
@@ -51,7 +46,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getLayoutId(): Int = R.layout.fragment_profile
     private val takePhoto = 1
     private val pickPhoto = 2
-    private val removePhoto = 3
     internal var permissionHelper: PermissionHelper? = null
 
     override val viewModel: IProfile.ViewModel
@@ -96,17 +90,14 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onClick(eventType: Int) {
         updatePhotoBottomSheet.dismiss()
-        Log.d("TAG","eventType: "+eventType)
 
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
                 checkPermission(takePhoto)
             }
-
             Constants.EVENT_CHOOSE_PHOTO -> {
                 checkPermission(pickPhoto)
             }
-
             Constants.EVENT_REMOVE_PHOTO -> {
                 ivProfilePic.setImageResource(0)
             }
@@ -316,7 +307,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun showRemovePhoto(): Boolean {
-        return viewModel.state.profilePictureUrl.isNotEmpty() && Utils.hasImage(ivProfilePic)
+        return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 
 }

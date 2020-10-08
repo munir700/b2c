@@ -920,12 +920,4 @@ object Utils {
         })
     }
 
-    fun hasImage(view: ImageView): Boolean{
-        var bitmap: Bitmap? = null
-        if(view.drawable != null) {
-            bitmap = (view.drawable as BitmapDrawable).bitmap
-        }
-        return bitmap !=null
-    }
-
 }
