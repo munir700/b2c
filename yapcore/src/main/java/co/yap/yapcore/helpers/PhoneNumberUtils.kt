@@ -112,7 +112,10 @@ fun isValidPhoneNumber(number: String, code: String): Boolean {
     val phoneUtil = PhoneNumberUtil.getInstance()
     var isMobile: PhoneNumberUtil.PhoneNumberType? = null
     return try {
-        val rawNumber = number.replaceFirst("00".toRegex(), "+")
+        var rawNumber = number
+        if (number.startsWith("00", false)) {
+            rawNumber = number.replaceFirst("00", "+")
+        }
         val ph = phoneUtil.parseAndKeepRawInput(rawNumber, code)
         ph.countryCode = phoneUtil.getCountryCodeForRegion(code)
         val isPossible = phoneUtil.isPossibleNumber(ph)
