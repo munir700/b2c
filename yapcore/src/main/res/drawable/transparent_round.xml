@@ -10,6 +10,6 @@
         android:top="@dimen/_2sdp" />
     <size
         android:width="@dimen/_60sdp"
-        android:height="@dimen/_22sdp" />
+    />
 
 </shape>

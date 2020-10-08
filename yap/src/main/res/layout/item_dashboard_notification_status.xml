@@ -46,7 +46,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/_24sdp"
             android:layout_marginBottom="@dimen/_24sdp"
             android:paddingTop="@dimen/_8sdp">
 
@@ -56,6 +56,7 @@
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_13sdp"
@@ -71,8 +72,10 @@
                 android:background="@drawable/transparent_round"
                 android:backgroundTint="@color/colorOpaquSecondaryOrange"
                 android:gravity="center|center_vertical"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_11sdp"
+                android:textSize="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:status="@{viewModel.statusDataModel.progressStatus}"
@@ -87,7 +90,7 @@
                 android:layout_marginTop="@dimen/small"
                 android:text='@{viewModel.statusDataModel.statusDescription}'
                 android:textColor="@color/greyDark"
-                android:textSize="@dimen/_11sdp"
+                android:textSize="@dimen/_10sdp"
                 app:layout_constraintTop_toBottomOf="@id/tvStatusTitle"
                 tools:text="set your card pin" />
 
@@ -99,7 +102,7 @@
                 android:layout_marginTop="@dimen/small"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_11sdp"
                 app:layout_constraintTop_toBottomOf="@id/tvStatusDescription"
                 tools:text="set your card pin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
