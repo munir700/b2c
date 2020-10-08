@@ -14,7 +14,6 @@ import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
@@ -114,7 +113,7 @@ open class FundActionsViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.updateCardBalance{}
+                    MyUserManager.updateCardBalance {}
                     delay(1000)
 //                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                     state.loading = false
@@ -203,10 +202,6 @@ open class FundActionsViewModel(application: Application) :
 
     override fun buttonClickEvent(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    override fun crossButtonClickEvent(id: Int) {
-        clickEvent.postValue(id)
     }
 
     override fun createTransactionSession() {
