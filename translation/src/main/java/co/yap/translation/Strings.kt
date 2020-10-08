@@ -1705,7 +1705,6 @@ object Strings {
         "screen_change_card_pin_old_pin_error_message"
 
     // Transaction narration file values
-
     const val transaction_narration_y2y_transfer_detail: String =
         "transaction_narration_y2y_transfer_detail"
 }
