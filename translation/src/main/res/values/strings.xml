@@ -395,6 +395,8 @@
 
 
     <!-- Change Card Name Screen -->
+    <string name="screen_card_name_title_change_card_name">Change card\'s name</string>
+    <string name="screen_card_name_hint_enter_card_name">Enter card name</string>
     <string name="screen_report_card_hint_name_edit_text">What would you like to call this card?</string>
 
     <!--    Card Blocked Screen-->
