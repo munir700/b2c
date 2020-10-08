@@ -22,6 +22,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
+import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
@@ -56,6 +57,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
         }
+        setObserver()
         viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
             SharedPreferenceManager(requireContext())
@@ -100,7 +102,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             }
             Constants.EVENT_REMOVE_PHOTO -> {
                 viewModel.requestRemoveProfilePicture()
-                ivProfilePic.setImageDrawable(null)
             }
         }
     }
@@ -304,11 +305,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
             }
         })
-
     }
 
     private fun showRemovePhoto(): Boolean {
         return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 
+    private fun setObserver(){
+        viewModel.onDeleteSuccess.observe(this, Observer {
+            ivProfilePic.setImageDrawable(null)
+        })
+    }
 }

@@ -225,6 +225,7 @@ class ProfileSettingsViewModel(application: Application) :
             when (val response = repository.removeProfilePicture()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
+                    MyUserManager.user?.currentCustomer?.setPicture("")
                     onDeleteSuccess.setValue(true)
                 }
 
