@@ -59,6 +59,7 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:gravity="start"
                     android:lines="1"
@@ -96,8 +97,10 @@
                 <TextView
                     android:id="@+id/tvSwift"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+
                     android:gravity="start"
                     android:lines="1"
                     android:text="SWIFT/BIC"
@@ -134,9 +137,9 @@
                 <TextView
                     android:id="@+id/tvIban"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="0.5"
                     android:gravity="start"
                     android:lines="1"
                     android:text="IBAN"
@@ -173,8 +176,9 @@
                 <TextView
                     android:id="@+id/tvAccount"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:gravity="start"
                     android:lines="1"
@@ -212,8 +216,9 @@
                 <TextView
                     android:id="@+id/tvBank"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:gravity="start"
                     android:lines="1"
@@ -251,12 +256,12 @@
                 <TextView
                     android:id="@+id/tvAddress"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="0.5"
                     android:gravity="start"
                     android:lines="1"
-                    android:text="Address"
+                    android:text="@string/screen_meeting_location_input_text_address_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
@@ -269,7 +274,6 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:lines="1"
                     android:text="@{viewModel.state.addresse}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
