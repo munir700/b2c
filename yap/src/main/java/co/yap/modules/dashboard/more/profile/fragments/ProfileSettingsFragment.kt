@@ -263,7 +263,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         ), showToolBar = false
                     )
                 }
-
                 R.id.tvFollowOnInstagram -> {
                     Utils.openInstagram(requireContext())
                 }
