@@ -66,5 +66,10 @@ class AccountInfo(
     @SerializedName("csrDocumentTimeStamp")
     var csrDocumentTimeStamp: String? = null,
     @SerializedName("workItemCreated")
-    var workItemCreated: Boolean? = false
+    var workItemCreated: Boolean? = false,
+    @SerializedName("freezeCode")
+    var severityLevel: String? = "T",
+    @SerializedName("freezeInitiator")
+    var freezeInitiator: String? = "BANK_REQUEST"
+
 ) : Parcelable

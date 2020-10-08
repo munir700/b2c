@@ -19,6 +19,7 @@ import co.yap.household.onboard.onboarding.viewmodels.NewUserSuccessViewModel
 import co.yap.household.onboard.otherscreens.InvalidEIDActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.modules.others.enums.FeatureSet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.AnimationUtils

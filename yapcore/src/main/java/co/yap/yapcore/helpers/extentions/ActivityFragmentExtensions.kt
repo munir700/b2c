@@ -23,6 +23,8 @@ import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.managers.FeatureProvisioning
+import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 
@@ -35,13 +37,17 @@ inline fun <reified T : Any> Activity.launchActivity(
     options: Bundle? = null,
     noinline init: Intent.() -> Unit = {}
 ) {
-
     val intent = newIntent<T>(this)
     intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
+
+    if (FeatureProvisioning.getFeatureProvisioning(T::class.java.name)) {
+        shortToast("This feature is blocked")
     } else {
-        startActivityForResult(intent, requestCode)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+        } else {
+            startActivityForResult(intent, requestCode)
+        }
     }
 }
 
@@ -52,10 +58,14 @@ inline fun <reified T : Any> Fragment.launchActivity(
 ) {
     val intent = newIntent<T>(requireContext())
     intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
+    if (FeatureProvisioning.getFeatureProvisioning(T::class.java.name)) {
+        context.shortToast("This feature is blocked")
     } else {
-        startActivityForResult(intent, requestCode)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+        } else {
+            startActivityForResult(intent, requestCode)
+        }
     }
 }
 

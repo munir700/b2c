@@ -37,6 +37,8 @@ import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.modules.others.helper.getBlockedFeaturesKey
+import co.yap.modules.others.helper.getBlockedFeaturesList
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -47,9 +49,11 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.UserAccessRestriction
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
@@ -78,6 +82,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
+        SessionManager.user?.freezeInitiator = "BANK_REQUEST"
+        SessionManager.user?.severityLevel = "T"
+
+        FeatureProvisioning.configure(SessionManager.user.getBlockedFeaturesList(UserAccessRestriction.ACCOUNT_INACTIVE))
     }
 
     private fun logEvent() {
@@ -399,13 +407,16 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                startActivity(
-                    YapToYapDashboardActivity.getIntent(
-                        this@YapDashboardActivity,
-                        false,
-                        null
-                    )
-                )
+                launchActivity<YapToYapDashboardActivity> {
+
+                }
+//                startActivity(
+//                    YapToYapDashboardActivity.getIntent(
+//                        this@YapDashboardActivity,
+//                        false,
+//                        null
+//                    )
+//                )
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
@@ -413,23 +424,29 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
 
             override fun onPermissionDenied() {
-                startActivity(
-                    YapToYapDashboardActivity.getIntent(
-                        this@YapDashboardActivity,
-                        false,
-                        null
-                    )
-                )
+                launchActivity<YapToYapDashboardActivity> {
+
+                }
+//                startActivity(
+//                    YapToYapDashboardActivity.getIntent(
+//                        this@YapDashboardActivity,
+//                        false,
+//                        null
+//                    )
+//                )
             }
 
             override fun onPermissionDeniedBySystem() {
-                startActivity(
-                    YapToYapDashboardActivity.getIntent(
-                        this@YapDashboardActivity,
-                        false,
-                        null
-                    )
-                )
+                launchActivity<YapToYapDashboardActivity> {
+
+                }
+//                startActivity(
+//                    YapToYapDashboardActivity.getIntent(
+//                        this@YapDashboardActivity,
+//                        false,
+//                        null
+//                    )
+//                )
             }
         })
     }
