@@ -144,7 +144,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             }
         }
         if (location.isNullOrBlank()) {
-            getBindings().tvAddress.text = viewModel.transaction.get()?.getTransactionTypeTitle()
+            getBindings().tvAddress.text =
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) "YTY transfer" else viewModel.transaction.get()
+                    ?.getTransactionTypeTitle()
         } else {
             getBindings().tvAddress.text = location
         }
