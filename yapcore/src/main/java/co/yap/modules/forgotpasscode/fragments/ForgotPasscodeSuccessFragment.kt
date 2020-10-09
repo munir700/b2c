@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -50,9 +51,9 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (args.navigationType==Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE){
-            viewModel.state.buttonTitle="Done"
-        }
+       // if (args.navigationType==Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE){
+            viewModel.state.buttonTitle= getString(Strings.screen_add_spare_card_completion_button_done)
+       // }
     }
 
     override fun onBackPressed(): Boolean {
