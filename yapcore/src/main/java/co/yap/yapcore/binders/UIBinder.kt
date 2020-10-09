@@ -883,15 +883,6 @@ object UIBinder {
     }
 
     @JvmStatic
-    @BindingAdapter("textColorChangeIfEmpty")
-    fun textColorChangePin(view: TextView, text: String) {
-        when {
-            text.isEmpty() -> view.setTextColor(view.context.getColorStateList(R.color.colorPrimaryDark))
-            else -> view.setTextColor(view.context.getColorStateList(R.color.colorPlaceHolderGrey))
-        }
-    }
-
-    @JvmStatic
     @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
     fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
         when {
@@ -899,7 +890,7 @@ object UIBinder {
                 view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
 
             }
-            pin?.isNotEmpty()!! -> {
+            pin?.isNotEmpty()?:false -> {
                 view.defaultHintTextColor =
                     view.context.getColorStateList(R.color.colorPlaceHolderGrey)
             }

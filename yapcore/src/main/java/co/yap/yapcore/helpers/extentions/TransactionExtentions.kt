@@ -342,7 +342,7 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
 
 fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return ( DateUtils.reformatStringDate(
-        this?.updatedDate ?: "",
+        this?.transactionNoteDate ?: "",
         DateUtils.SERVER_DATE_FORMAT,
         outputFormat
     ))
@@ -353,6 +353,52 @@ fun Transaction?.isTransactionCancelled(): Boolean {
 }
 
 fun Transaction?.isTransactionInProgress(): Boolean {
-    return (TransactionStatus.PENDING.name == this?.status || TransactionStatus.IN_PROGRESS.name == this?.status && this?.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
+    return (TransactionStatus.PENDING.name == this?.status || TransactionStatus.IN_PROGRESS.name == this?.status && this.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
 }
+
+fun Transaction?.getTransactionAmountPrefix(): String {
+    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+        return ""
+    } else {
+        (return when (this?.txnType) {
+            TxnType.DEBIT.type -> "-"
+            TxnType.CREDIT.type -> "+"
+            else -> ""
+        })
+    }
+}
+
+fun Transaction?.getTransactionAmount(): String? {
+    (return when (this?.txnType) {
+        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency()
+        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency()
+        else -> ""
+    })
+}
+
+fun Transaction?.getFormattedTransactionAmount(): String? {
+    return if (this?.isTransactionInProgress() == true) "0.00" else
+        String.format(
+            "%s %s", this?.getTransactionAmountPrefix(),
+            this?.getTransactionAmount()
+        )
+}
+
+fun Transaction?.getTransactionAmountColor(): Int {
+    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+        return R.color.colorPrimaryDark
+    } else {
+        (return when (this?.txnType) {
+            TxnType.DEBIT.type -> R.color.colorPrimaryDark
+            TxnType.CREDIT.type -> {
+                if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
+                    R.color.colorSecondaryGreen
+                else
+                    R.color.colorPrimaryDark
+            }
+            else -> R.color.colorPrimaryDark
+        })
+    }
+}
+
 

@@ -23,5 +23,6 @@ interface ITransactionDetails {
         var categoryIcon: ObservableField<Int>
         var transactionTitle: ObservableField<String>
         var transactionNoteDate: String?
+        val editNotePrefixText: String get() = "Note added "
     }
 }

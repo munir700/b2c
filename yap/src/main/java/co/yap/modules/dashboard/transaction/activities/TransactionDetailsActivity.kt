@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -21,6 +22,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -37,7 +39,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
+        viewModel.transaction.set(
+            intent?.getParcelableExtra(
+                ExtraKeys.TRANSACTION_OBJECT_STRING.name
+            ) as Transaction
+        )
         setSpentLabel()
         setAmount()
         setMapImageView()
@@ -139,7 +145,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             }
         }
         if (location.isNullOrBlank()) {
-            getBindings().tvAddress.text = viewModel.transaction.get()?.getTransactionTypeTitle()
+            getBindings().tvAddress.text =
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) getString(
+                    Strings.transaction_narration_y2y_transfer_detail
+                ) else viewModel.transaction.get()
+                    ?.getTransactionTypeTitle()
         } else {
             getBindings().tvAddress.text = location
         }
@@ -249,9 +259,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
+                viewModel.transaction.get()?.transactionNote =
+                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 viewModel.state.transactionNoteDate =
+                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
+                viewModel.transaction.get()?.transactionNoteDate =
                     DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
+
         }
 
     }
@@ -264,8 +281,33 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                finish()
+                setResult()
             }
         }
+    }
+
+    fun setResult() {
+        val intent = Intent()
+        intent.putExtra(
+            ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+            viewModel.transaction.get() as Transaction
+        )
+        intent.putExtra(
+            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
+                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
+            )
+        )
+        intent.putExtra(
+            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
+                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
+            )
+        )
+
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        setResult()
     }
 }

@@ -16,7 +16,7 @@
             <EditText
                 android:id="@+id/etCoreInput"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="64dp"
                 android:drawablePadding="@dimen/margin_small"
                 android:focusableInTouchMode="true"
                 android:imeOptions="actionDone"
