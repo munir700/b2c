@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/_8sdp"
+         android:paddingStart="@dimen/_8sdp"
         android:paddingEnd="@dimen/_8sdp">
 
         <co.yap.widgets.timelineview.TimelineView
@@ -46,7 +46,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_24sdp"
+             android:layout_marginStart="@dimen/_24sdp"
             android:layout_marginBottom="@dimen/_24sdp"
             android:paddingTop="@dimen/_8sdp">
 
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-                android:paddingBottom="@dimen/small"
+                android:paddingBottom="@dimen/_4sdp"
                 android:text='@{viewModel.statusDataModel.statusAction}'
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_11sdp"

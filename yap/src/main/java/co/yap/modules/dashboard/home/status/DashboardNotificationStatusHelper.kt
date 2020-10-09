@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.home.status
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,7 @@ import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.ezaka.customer.app.utils.getActivityFromContext
+import kotlinx.android.synthetic.main.fragment_dashboard_notification_statuses.*
 
 class DashboardNotificationStatusHelper(
     val context: Context, val binding: FragmentDashboardNotificationStatusesBinding,
@@ -36,31 +38,75 @@ class DashboardNotificationStatusHelper(
 
     private fun setUpAdapter() {
      var   dashboardNotificationStatusAdapter = DashboardNotificationStatusAdapter(context, getStatusList())
-        binding.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
-        dashboardNotificationStatusAdapter?.allowFullItemClickListener = true
-        dashboardNotificationStatusAdapter?.setItemListener(listener)
+//             dashboardNotificationStatusAdapter =
+//                context?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+            dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
 
-//         dashboardNotificationStatusAdapter?.allowFullItemClickListener = true
-//        dashboardNotificationStatusAdapter?.setItemListener(listener)
-    }
+            dashboardNotificationStatusAdapter?.onItemClickListener = listener
 
-    private val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-//            openTopUpScreen()
-context.shortToast(pos.toString())
-//            if (data is Achievement) {
-//                viewModel.parentViewModel?.selectedPosition = pos
-//                viewModel.parentViewModel?.achievement = data.copy()
-//                    .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
-//                val action =
-//                    YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
-//                findNavController().navigate(action)
-//            }
+            binding.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
+
         }
-    }
+
+        private val listener = object : OnItemClickListener {
+            override fun onItemClick(view: View, data: Any, pos: Int) {
+
+                var statusDataModel: StatusDataModel = data as StatusDataModel
+
+                when (statusDataModel.position) {
+                    0 -> {
+                        context.shortToast("0")
+
+                        //
+
+//                        context.startActivityForResult(
+//                            FragmentPresenterActivity.getIntent(
+//                                requireContext(),
+//                                Constants.MODE_MEETING_CONFORMATION,
+//                                null
+//                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
+//                        )
 
 
-    private fun checkStatus()  {
+                        //
+                    }
+                    1 -> {
+                        context.shortToast("1")
+                    }
+                    2 -> {
+                        context.shortToast("2")
+                        //open email
+
+//                        val intent = Intent(Intent.ACTION_MAIN)
+//                        intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+//                        startActivity(Intent.createChooser(intent, "Choose"))
+                    }
+                    3 -> {
+                        context.shortToast("3")
+
+                        //
+//                        startActivityForResult(
+//                            SetCardPinWelcomeActivity.newIntent(
+//                                requireContext(),
+//                                MyUserManager.card.value
+////                            MyUserManager.getPrimaryCard()
+//                            ), RequestCodes.REQUEST_FOR_SET_PIN
+//                        )
+
+                        //
+
+                    }
+                    4 -> {
+                        context.shortToast("4")
+
+//                        context?.startActivity(activity?.let { TopUpLandingActivity.getIntent(it) })
+                    }
+                }
+            }
+        }
+
+
+        private fun checkStatus()  {
 //        MyUserManager.card.value?.status =
 
 //        viewModel.EVENT_SET_CARD_PIN -> {
@@ -89,53 +135,53 @@ context.shortToast(pos.toString())
 
     private fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
-//        list.add(
-//            StatusDataModel(
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_title),
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description),
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_action),
-//                context.resources.getDrawable(R.drawable.ic_dashboard_delivery),
-//                NotificationProgressStatus.IS_COMPLETED
-//            )
-//        )
-//        list.add(
-//            StatusDataModel(
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_title),
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_description),
-//                null,
-//                context.resources.getDrawable(R.drawable.card_spare),
-//                NotificationProgressStatus.IN_PROGRESS
-//            )
-//        )
-//
-//        list.add(
-//            StatusDataModel(
-//                getStringHelper(Strings.screen_time_line_display_text_status_additional_requirements_title),
-//                getStringHelper(Strings.screen_time_line_display_text_status_additional_requirements_description),
-//                getStringHelper(Strings.screen_time_line_display_text_status_additional_requirements_action),
-//                context.resources.getDrawable(R.drawable.ic_dashboard_active),
-//                NotificationProgressStatus.IN_PROGRESS
-//            )
-//        )
-//
-//        list.add(
-//            StatusDataModel(
-//                getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_title),
-//                getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description),
-//                getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_action),
-//                context.resources.getDrawable(R.drawable.ic_dashboard_set_pin),
-//                NotificationProgressStatus.IS_PENDING
-//            )
-//        )
-//        list.add(
-//            StatusDataModel(
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_title),
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_description),
-//                getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_action),
-//                context.resources.getDrawable(R.drawable.ic_dashboard_topup),
-//                NotificationProgressStatus.IS_PENDING
-//            )
-//        )
+        list.add(
+            StatusDataModel(0,
+                getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_title),
+                getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description),
+                getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_action),
+                context.resources.getDrawable(R.drawable.ic_dashboard_delivery),
+                NotificationProgressStatus.IS_COMPLETED
+            )
+        )
+        list.add(
+            StatusDataModel(1,
+                getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_title),
+                getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_description),
+                null,
+                context.resources.getDrawable(R.drawable.card_spare),
+                NotificationProgressStatus.IN_PROGRESS
+            )
+        )
+
+        list.add(
+            StatusDataModel(2,
+                getStringHelper(Strings.screen_time_line_display_text_status_additional_requirements_title),
+                getStringHelper(Strings.screen_time_line_display_text_status_additional_requirements_description),
+                getStringHelper(Strings.screen_time_line_display_text_status_additional_requirements_action),
+                context.resources.getDrawable(R.drawable.ic_dashboard_active),
+                NotificationProgressStatus.IN_PROGRESS
+            )
+        )
+
+        list.add(
+            StatusDataModel(3,
+                getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_title),
+                getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description),
+                getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_action),
+                context.resources.getDrawable(R.drawable.ic_dashboard_set_pin),
+                NotificationProgressStatus.IS_PENDING
+            )
+        )
+        list.add(
+            StatusDataModel(4,
+                getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_title),
+                getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_description),
+                getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_action),
+                context.resources.getDrawable(R.drawable.ic_dashboard_topup),
+                NotificationProgressStatus.IS_PENDING
+            )
+        )
         return list
     }
 

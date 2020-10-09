@@ -15,9 +15,12 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -40,7 +43,6 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        setObservers()
         setUpAdapter()
 //        dashboardNotificationStatusHelper =
 //            DashboardNotificationStatusHelper(requireContext(), getBindings(), viewModel)
@@ -55,6 +57,20 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
         dashboardNotificationStatusAdapter?.onItemClickListener = listener
 
         rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
+//       if (MyUserManager?.getPrimaryCard()?.let { shouldShowSetPin(it) }){
+//           context.shortToast(
+//               +"got card"
+//           )
+//       }
+
+        if (shouldShowSetPin(MyUserManager.getPrimaryCard())) {
+            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+//                viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
+                context.shortToast("viewModel.EVENT_SET_CARD_PIN")
+
+            }
+        }
+
 
     }
 
@@ -69,13 +85,13 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
                     //
 
-                                startActivityForResult(
-                FragmentPresenterActivity.getIntent(
-                    requireContext(),
-                    Constants.MODE_MEETING_CONFORMATION,
-                    null
-                ), RequestCodes.REQUEST_MEETING_CONFIRMED
-            )
+                    startActivityForResult(
+                        FragmentPresenterActivity.getIntent(
+                            requireContext(),
+                            Constants.MODE_MEETING_CONFORMATION,
+                            null
+                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
+                    )
 
 
                     //
@@ -93,7 +109,6 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 }
                 3 -> {
                     context.shortToast("3")
-
                     //
                     startActivityForResult(
                         SetCardPinWelcomeActivity.newIntent(
@@ -160,7 +175,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_description),
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_action),
                 resources.getDrawable(R.drawable.ic_dashboard_delivery),
-                NotificationProgressStatus.IS_COMPLETED
+                NotificationProgressStatus.IS_COMPLETED,
+                CardDeliveryStatus.SHIPPING
             )
         )
         list.add(
@@ -170,7 +186,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_card_delivered_description),
                 null,
                 resources.getDrawable(R.drawable.card_spare),
-                NotificationProgressStatus.IN_PROGRESS
+                NotificationProgressStatus.IN_PROGRESS,
+                CardDeliveryStatus.SHIPPED
             )
         )
 
@@ -192,7 +209,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_description),
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_action),
                 resources.getDrawable(R.drawable.ic_dashboard_set_pin),
-                NotificationProgressStatus.IS_PENDING
+                NotificationProgressStatus.IS_PENDING,
+                CardDeliveryStatus.SHIPPED
             )
         )
         list.add(
@@ -210,5 +228,9 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
     private fun getBindings(): FragmentDashboardNotificationStatusesBinding {
         return viewDataBinding as FragmentDashboardNotificationStatusesBinding
+    }
+
+    private fun shouldShowSetPin(paymentCard: Card?): Boolean {
+        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 }
