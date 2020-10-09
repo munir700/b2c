@@ -1056,5 +1056,8 @@
     <string name="screen_change_card_pin_codes_unmatch_error">That doesn\'t match the previously entered PIN</string>
     <string name="screen_change_card_pin_old_pin_error_message">That doesn\'t look right.Please try again</string>
 
+    <!-- Transaction narration strings -->
+    <string name="transaction_narration_y2y_transfer_detail">YTY transfer</string>
+
 </resources>
 
