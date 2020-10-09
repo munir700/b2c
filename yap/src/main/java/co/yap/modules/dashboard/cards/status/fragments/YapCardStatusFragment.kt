@@ -105,7 +105,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     )
 
                     viewModel.state.shippingProgress = 100
-                    tbBtnShipping.setImageResource(R.drawable.ic_tick)
+                  //  tbBtnShipping.setImageResource(R.drawable.ic_tick)
                     tvShipping.text =
                         if (CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Shipped" else "Shipping"
                     tvShipping.setTextColor(
