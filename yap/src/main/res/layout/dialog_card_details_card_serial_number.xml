@@ -72,10 +72,13 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumber"
-                style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card number" />
+                android:fontFamily="@font/roboto_regular"
+                android:text="Card number"
+                android:textColor="@color/greyDark"
+                android:textSize="@dimen/text_size_h2"
+                app:fontFamily="@font/roboto_regular" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumberValue"

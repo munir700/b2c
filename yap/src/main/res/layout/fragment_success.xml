@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,9 +57,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/margin_medium"
-                android:paddingStart="@dimen/margin_normal_large"
-                android:paddingEnd="@dimen/margin_normal_large">
+                android:padding="@dimen/margin_normal_large">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/placeParent"
@@ -92,13 +90,14 @@
 
                     <TextView
                         android:id="@+id/tvAddressTitle"
-                        style="@style/Regular"
+                        style="@style/Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
+                        android:textColor="@color/colorPrimaryDark"
                         android:text="@{viewModel.state.address1}"
-                        tools:text="er owm kjhj ghg jher 1 "/>
+                        tools:text="Jumeirah Beach Residence"/>
 
                     <TextView
                         android:id="@+id/tvAddressSubTitle"
@@ -110,7 +109,7 @@
                         android:lineSpacingExtra="3sp"
                         android:maxLines="4"
                         android:text="@{viewModel.state.address2}"
-                        tools:text="31Ruide 1jhfjfjhfjjh,jh kjhkjh gjhpposite" />
+                        tools:text="Suite 1107. Dubai, UAE" />
 
 
                 </LinearLayout>

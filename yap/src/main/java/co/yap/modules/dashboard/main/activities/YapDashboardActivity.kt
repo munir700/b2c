@@ -270,7 +270,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-            startActivity(Intent.createChooser(intent, "Choose"))
+            startActivity(Intent.createChooser(intent, "Choose Email App"))
         }
         dialog.findViewById<AppCompatImageView>(R.id.ivClose).setOnClickListener {
             dialog.dismiss()
