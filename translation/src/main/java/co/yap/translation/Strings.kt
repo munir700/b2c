@@ -89,6 +89,10 @@ object Strings {
         "screen_sign_in_display_text_sub_title"
     const val screen_sign_in_display_text_error_text: String =
         "screen_sign_in_display_text_error_text"
+    const val screen_sign_in_label_switch_text: String =
+        "screen_sign_in_label_switch_text"
+    const val screen_sign_in_display_text_sign_up_prefix: String =
+        "screen_sign_in_display_text_sign_up_prefix"
 
     //Phone Number screen
     const val screen_phone_number_display_text_title: String =
@@ -421,11 +425,19 @@ object Strings {
         "screen_passcode_success_display_text_sub_heading"
     const val screen_passcode_success_button_sign_in: String =
         "screen_passcode_success_button_sign_in"
+    const val screen_passcode_success_heading: String =
+        "screen_passcode_success_heading"
+
+    //Change Passcode screen
+    const val screen_change_passcode_success_display_text_sub_heading: String =
+        "screen_change_passcode_success_display_text_sub_heading"
 
 
     //Create new passcode screen
     const val screen_create_new_passcode_button_text: String =
         "screen_create_new_passcode_button_text"
+    const val screen_create_passcode_display_heading: String =
+        "screen_create_passcode_display_heading"
 
     //Yap Store screen
     const val screen_yap_store_display_text_title: String = "screen_yap_store_display_text_title"
@@ -445,6 +457,10 @@ object Strings {
         "screen_cards_display_text_freeze_card_action"
 
     //Change Card Name Screen
+    const val screen_card_name_title_change_card_name: String =
+        "screen_card_name_title_change_card_name"
+    const val screen_card_name_hint_enter_card_name: String =
+        "screen_card_name_hint_enter_card_name"
     const val screen_report_card_hint_name_edit_text: String =
         "screen_report_card_hint_name_edit_text"
 
@@ -705,6 +721,8 @@ object Strings {
         "screen_profile_settings_display_text_about_us"
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_fees_and_pricing_plans: String =
+        "screen_profile_settings_display_fees_and_pricing_plans"
     const val screen_profile_settings_display_text_instagram: String =
         "screen_profile_settings_display_text_instagram"
     const val screen_profile_settings_display_text_twitter: String =
@@ -1090,6 +1108,7 @@ object Strings {
         "screen_bank_details_display_text_swift_code"
     const val screen_bank_details_button_find_bank: String = "screen_bank_details_button_find_bank"
     const val screen_bank_details_button_confirm: String = "screen_bank_details_button_confirm"
+    const val screen_bank_details_label_content: String = "screen_bank_details_label_content"
 
 //Beneficiary account details screen
 
@@ -1687,4 +1706,7 @@ object Strings {
     const val screen_change_card_pin_old_pin_error_message: String =
         "screen_change_card_pin_old_pin_error_message"
 
+    // Transaction narration file values
+    const val transaction_narration_y2y_transfer_detail: String =
+        "transaction_narration_y2y_transfer_detail"
 }

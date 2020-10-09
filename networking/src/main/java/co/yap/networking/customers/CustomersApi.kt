@@ -44,6 +44,7 @@ interface CustomersApi {
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
+    suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse>
 
 
 /*  send money */

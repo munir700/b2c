@@ -150,6 +150,7 @@
                     android:gravity="left|start"
                     android:textSize="@dimen/text_size_h2"
                     app:text="@{Strings.screen_meeting_location_input_text_address_title}"
+                    app:textColor="@{viewModel.state.addressTitle.empty ? true : false}"
                     tools:ignore="MissingConstraints"
                     tools:text="@string/screen_meeting_location_input_text_address_title" />
 
@@ -165,11 +166,14 @@
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:maxLength="100"
+                    android:maxLines="1"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                     android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.addressTitle}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/grey"
+                    android:textCursorDrawable="@null"
                     android:textSize="@dimen/text_size_h3"
                     android:theme="@style/Theme.EditText.GreySoft"
                     app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
@@ -192,6 +196,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etAddressField"
                     app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
+                    app:textColor="@{viewModel.state.addressSubtitle.empty ? true : false}"
                     tools:text="@string/screen_meeting_location_input_text_landmark_title" />
                 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 

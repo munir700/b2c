@@ -2,8 +2,11 @@ package co.yap.modules.dashboard.cards.home.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -56,6 +59,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupPager()
+        toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         viewModel.getCards()
         viewModel.cards.observe(this, Observer {
             if (!it.isNullOrEmpty())
@@ -202,9 +207,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                }
             }
         } else {
-            if (it == R.id.tbBtnAddCard) {
-                openAddCard()
-            }
+
+        }
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivRightIcon -> openAddCard()
         }
     }
 

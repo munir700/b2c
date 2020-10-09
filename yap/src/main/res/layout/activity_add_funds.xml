@@ -13,6 +13,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
 
     </data>
 
@@ -22,49 +24,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
-            android:gravity="center_vertical"
-            android:minHeight="?android:actionBarSize"
-            android:paddingStart="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingEnd="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/tbIvClose"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_alignParentStart="true"
-                android:clickable="true"
-                android:contentDescription="@string/empty_string"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-                android:src="@drawable/ic_close_dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/Regular"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/screen_add_funds_display_text_add_funds"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/screen_add_funds_display_text_add_funds" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close_dark}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator='@{Strings.screen_add_funds_display_text_add_funds}' />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clSnackBar"

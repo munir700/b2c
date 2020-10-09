@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.net.Uri
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.authentication.AuthRepository
 import co.yap.yapcore.IBase
@@ -28,6 +29,8 @@ interface IProfile {
         fun requestProfileDocumentsInformation()
         fun requestUploadProfilePicture(actualFile: File)
         fun logout()
+        fun requestRemoveProfilePicture(apiRes: (Boolean)-> Unit)
+
     }
 
     interface View : IBase.View<ViewModel> {

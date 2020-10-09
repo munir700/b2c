@@ -44,17 +44,15 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IReportStolenActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
         if (intent != null && intent.hasExtra(CARD))
             viewModel.card = intent.getParcelableExtra(CARD)
     }
 
-    override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObservers(this)
-        super.onDestroy()
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
+        }
     }
-
-    private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onBackPressed() {
         val fragment =

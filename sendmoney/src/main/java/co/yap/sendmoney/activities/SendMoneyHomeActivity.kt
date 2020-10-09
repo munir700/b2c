@@ -3,8 +3,6 @@ package co.yap.sendmoney.activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -16,6 +14,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -38,20 +37,10 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@SendMoneyHomeActivity, R.id.send_money_nav_host_fragment)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.send_money_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-
         }
     }
 
@@ -82,6 +71,21 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> onBackPressed()
+            R.id.tvRightText -> handleCancel()
         }
     }
+
+    private fun handleCancel() {
+        showAlertDialogAndExitApp(
+            dialogTitle = "Are you sure you want to exit?",
+            message = "The information you've entered will be lost.",
+            leftButtonText = "Confirm",
+            callback = {
+                finish()
+            },
+            titleVisibility = true,
+            isTwoButton = true
+        )
+    }
+
 }

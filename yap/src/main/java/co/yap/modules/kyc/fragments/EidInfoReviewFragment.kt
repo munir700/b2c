@@ -57,39 +57,34 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     ivEditFirstName.isEnabled = false
                     ivEditMiddleName.isEnabled = true
                     ivEditLastName.isEnabled = true
-
                     manageFocus(tvFirstName, ivEditFirstName)
                 }
 
                 R.id.ivEditMiddleName, R.id.tvMiddleName -> {
                     ivEditMiddleName.isEnabled = false
-
                     ivEditFirstName.isEnabled = true
                     ivEditLastName.isEnabled = true
-
-
                     manageFocus(tvMiddleName, ivEditMiddleName)
                 }
 
                 R.id.ivEditLastName, R.id.tvLastName -> {
                     ivEditLastName.isEnabled = false
-
                     ivEditMiddleName.isEnabled = true
                     ivEditFirstName.isEnabled = true
                     manageFocus(tvLastName, ivEditLastName)
                 }
 
-                viewModel.EVENT_ERROR_INVALID_EID -> showInvalidEidAlert()
-                viewModel.EVENT_ERROR_EXPIRED_EID -> showExpiredEidAlert()
-                viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
-                viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
-                viewModel.EVENT_RESCAN -> openCardScanner()
-                viewModel.EVENT_ALREADY_USED_EID -> {
+                viewModel.eventErrorInvalidEid -> showInvalidEidAlert()
+                viewModel.eventErrorExpiredEid -> showExpiredEidAlert()
+                viewModel.eventErrorUnderAge -> showUnderAgeAlert()
+                viewModel.eventErrorFromUsa -> showUSACitizenAlert()
+                viewModel.eventRescan -> openCardScanner()
+                viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
 
-                viewModel.EVENT_NEXT_WITH_ERROR -> {
+                viewModel.eventNextWithError -> {
                     viewModel.performUploadDocumentsRequest(true) {
                         if (it.equals("success", true)) {
                             val action =
@@ -103,11 +98,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     }
 
                 }
-                viewModel.EVENT_FINISH -> {
+                viewModel.eventFinish -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
-                viewModel.EVENT_NEXT -> {
+                viewModel.eventNext -> {
                     MyUserManager.getAccountInfo()
                     MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
@@ -121,7 +116,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                     })
                 }
-                viewModel.EVENT_EID_UPDATE -> {
+                viewModel.eventEidUpdate -> {
                     MyUserManager.getAccountInfo()
                     MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
@@ -135,8 +130,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
                     })
                 }
-                viewModel.EVENT_CITIZEN_NUMBER_ISSUE -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
-                viewModel.EVENT_EID_EXPIRY_DATE_ISSUE -> invalidCitizenNumber("Sorry, that didn’t work. Please try again")
+                viewModel.eventCitizenNumberIssue, viewModel.eventEidExpiryDateIssue -> invalidCitizenNumber(
+                    "Sorry, that didn’t work. Please try again"
+                )
             }
         })
     }
@@ -192,79 +188,113 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     }
 
-
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
     }
 
     override fun showUnderAgeAlert() {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(getString(Strings.screen_b2c_eid_info_review_display_text_error_under_age))
-            setPositiveButton(getString(Strings.common_button_yes)) { _, which ->
-                viewModel.handleUserAcceptance(
-                    viewModel.EVENT_ERROR_UNDER_AGE
-                )
+        showEIDAlert(
+            message = getString(Strings.screen_b2c_eid_info_review_display_text_error_under_age),
+            posBtn = getString(Strings.common_button_yes),
+            negBtn = getString(Strings.screen_b2c_eid_info_review_button_not_under_age),
+            response = { positiveClick ->
+                if (positiveClick) {
+                    val action =
+                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                            viewModel.errorTitle, viewModel.errorBody
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    openCardScanner()
+                }
             }
-            setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_not_under_age)) { _, _ ->
-                viewModel.handleUserRejection(
-                    viewModel.EVENT_ERROR_UNDER_AGE
-                )
-            }
-        }.create().show()
+        )
     }
 
     override fun showExpiredEidAlert() {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(false)
-            setMessage(getString(Strings.screen_b2c_eid_info_review_display_text_error_expired_eid))
-            setPositiveButton(getString(Strings.common_button_yes)) { dialog, which ->
-                viewModel.handleUserAcceptance(
-                    viewModel.EVENT_ERROR_EXPIRED_EID
-                )
+        showEIDAlert(
+            message = getString(Strings.screen_b2c_eid_info_review_display_text_error_expired_eid),
+            posBtn = getString(Strings.common_button_yes),
+            negBtn = getString(Strings.screen_b2c_eid_info_review_button_valid_emirates_id),
+            response = { positiveClick ->
+                if (positiveClick) {
+                    val action =
+                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                            viewModel.errorTitle, viewModel.errorBody
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    openCardScanner()
+                }
             }
-            setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_valid_emirates_id)) { dialog, which ->
-                viewModel.handleUserRejection(
-                    viewModel.EVENT_ERROR_EXPIRED_EID
-                )
-            }
-        }.create().show()
+        )
     }
 
     override fun showInvalidEidAlert() {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(true)
-            setMessage(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable))
-            setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                viewModel.handleUserRejection(
-                    viewModel.EVENT_ERROR_EXPIRED_EID
-                )
+        showEIDAlert(
+            message = getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable),
+            posBtn = getString(R.string.ok),
+            response = { positiveClick ->
+                if (positiveClick) {
+                    val action =
+                        EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                            viewModel.errorTitle, viewModel.errorBody
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    openCardScanner()
+                }
             }
+        )
+    }
+
+    private fun showEIDAlert(
+        message: String,
+        posBtn: String,
+        negBtn: String? = null,
+        response: (Boolean) -> Unit
+    ) {
+        AlertDialog.Builder(requireContext()).apply {
+            setCancelable(false)
+            setMessage(message)
+            setPositiveButton(posBtn) { _, _ ->
+                response.invoke(true)
+            }
+            if (negBtn != null)
+                setNegativeButton(negBtn) { _, _ ->
+                    response.invoke(false)
+                }
         }.create().show()
     }
 
     override fun showUSACitizenAlert() {
-        AlertDialog.Builder(requireContext()).apply {
-            setCancelable(true)
-            setMessage(
-                getString(Strings.screen_b2c_eid_info_review_display_text_error_from_usa).format(
-                    viewModel.sanctionedCountry
-                )
-            )
-            setPositiveButton(getString(Strings.common_button_yes)) { dialog, which ->
-                viewModel.handleUserAcceptance(
-                    viewModel.EVENT_ERROR_FROM_USA
-                )
+        showEIDAlert(
+            message = getString(Strings.screen_b2c_eid_info_review_display_text_error_from_usa).format(
+                viewModel.sanctionedCountry
+            ),
+            posBtn = getString(Strings.common_button_yes),
+            negBtn = getString(Strings.screen_b2c_eid_info_review_button_not_from_usa).format(
+                viewModel.sanctionedCountry
+            ),
+            response = { positiveClick ->
+                if (positiveClick) {
+                    viewModel.performUploadDocumentsRequest(true) { message ->
+                        if (message.equals("success", true)) {
+                            val action =
+                                EidInfoReviewFragmentDirections.actionEidInfoReviewFragmentToInformationErrorFragment(
+                                    viewModel.errorTitle, viewModel.errorBody
+                                )
+                            findNavController().navigate(action)
+                        } else {
+                            viewModel.state.toast = "${message}^${AlertType.DIALOG.name}"
+                        }
+                    }
+                } else {
+                    openCardScanner()
+                }
             }
-            setNegativeButton(
-                getString(Strings.screen_b2c_eid_info_review_button_not_from_usa).format(viewModel.sanctionedCountry)
-            ) { dialog, which ->
-                viewModel.handleUserRejection(
-                    viewModel.EVENT_ERROR_FROM_USA
-                )
-            }
-        }.create().show()
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
