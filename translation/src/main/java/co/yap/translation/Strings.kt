@@ -721,6 +721,8 @@ object Strings {
         "screen_profile_settings_display_text_about_us"
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_fees_and_pricing_plans: String =
+        "screen_profile_settings_display_fees_and_pricing_plans"
     const val screen_profile_settings_display_text_instagram: String =
         "screen_profile_settings_display_text_instagram"
     const val screen_profile_settings_display_text_twitter: String =
@@ -1704,4 +1706,7 @@ object Strings {
     const val screen_change_card_pin_old_pin_error_message: String =
         "screen_change_card_pin_old_pin_error_message"
 
+    // Transaction narration file values
+    const val transaction_narration_y2y_transfer_detail: String =
+        "transaction_narration_y2y_transfer_detail"
 }

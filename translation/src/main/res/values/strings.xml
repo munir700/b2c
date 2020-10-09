@@ -445,6 +445,7 @@
     <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
     <string name="screen_profile_settings_display_text_about_us">About us</string>
     <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_fees_and_pricing_plans">Fees &amp; pricing plans</string>
     <string name="screen_profile_settings_display_text_instagram">Instagram</string>
     <string name="screen_profile_settings_display_text_twitter">Twitter</string>
     <string name="screen_profile_settings_display_text_facebook">Facebook</string>
@@ -459,6 +460,7 @@
     <string name="screen_update_profile_photo_display_text_choose_photo">Choose photo</string>
     <string name="screen_update_profile_photo_display_text_take_photo">Take photo</string>
     <string name="screen_update_profile_photo_display_text_re_take_photo">Re-take photo</string>
+    <string name="screen_update_profile_photo_display_text_remove_photo">Remove photo</string>
 
     <!-- personal detail screen -->
 
@@ -1055,6 +1057,9 @@
     <string name="screen_change_card_pin_confirm_new_pin_text_heading">Enter it one more time</string>
     <string name="screen_change_card_pin_codes_unmatch_error">That doesn\'t match the previously entered PIN</string>
     <string name="screen_change_card_pin_old_pin_error_message">That doesn\'t look right.Please try again</string>
+
+    <!-- Transaction narration strings -->
+    <string name="transaction_narration_y2y_transfer_detail">YTY transfer</string>
 
 </resources>
 

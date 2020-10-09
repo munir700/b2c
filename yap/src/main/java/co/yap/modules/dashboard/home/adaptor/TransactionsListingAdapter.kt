@@ -60,26 +60,11 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                 ) else
                     context.getDrawable(android.R.color.transparent)
 
-            var txnAmountPreFix = ""
-            transaction.txnType?.let {
-                when (it) {
-                    TxnType.DEBIT.type -> txnAmountPreFix = "-"
-                    TxnType.CREDIT.type -> txnAmountPreFix = "+"
-
-                }
-            }
-
             itemTransactionListBinding.tvTransactionAmount.text =
-                if (transaction.isTransactionInProgress()) "0.00" else
-                    String.format(
-                        "%s %s", txnAmountPreFix,
-                        if (TxnType.CREDIT.type == transaction.txnType) transaction.amount.toString()
-                            .toFormattedCurrency() else transaction.totalAmount.toString()
-                            .toFormattedCurrency()
-                    )
+                transaction.getFormattedTransactionAmount()
             setContentDataColor(transaction, itemTransactionListBinding)
-        }
 
+        }
 
         private fun handleProductBaseCases(context: Context, transaction: Transaction) {
             val transactionTitle = transaction.getTransactionTitle()
@@ -157,12 +142,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                 )
             )
             itemTransactionListBinding.tvTransactionAmount.setTextColor(
-                context.getColors(
-                    if (transaction.txnType == TxnType.CREDIT.type && !transaction.isTransactionInProgress() && transaction.status != TransactionStatus.FAILED.name)
-                        R.color.colorSecondaryGreen
-                    else
-                        R.color.colorPrimaryDark
-                )
+                context.getColors(transaction.getTransactionAmountColor())
             )
             itemTransactionListBinding.tvCurrency.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.greyDark))
 

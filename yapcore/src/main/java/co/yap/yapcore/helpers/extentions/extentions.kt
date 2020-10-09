@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.extentions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.os.Parcelable
 import android.text.*
@@ -198,15 +199,15 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
-
-fun String.getCountryTwoDigitCodeFromThreeDigitCode(): String {
-    if (this.isEmpty()) {
+fun String.getCountryTwoDigitCodeFromThreeDigitCode() :String
+{
+    if(this.isEmpty())
+    {
         return this
     }
 
-    return this.substring(0, 2);
+    return  this.substring(0,2);
 }
-
 fun Double?.roundVal(): Double {
 //    this?.let {
 //        val floatingMultiplier = it * 100
@@ -222,6 +223,13 @@ fun Double?.roundVal(): Double {
     val floatingDivisor = (rounded ?: 0.0).div(100)
     return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
 }
+
+fun ImageView?.hasBitmap(): Boolean {
+    return this?.let {
+        this.drawable != null && (this.drawable as BitmapDrawable).bitmap != null
+    } ?: false
+}
+
 
 fun Context?.startSmsConsent() {
     this?.let {
