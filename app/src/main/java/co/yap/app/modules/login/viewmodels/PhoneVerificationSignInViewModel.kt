@@ -88,7 +88,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     otpUiBlocked(response.error.actualCode)
                 }
             }
-
         }
     }
 

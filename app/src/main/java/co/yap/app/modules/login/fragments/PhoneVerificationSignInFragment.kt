@@ -31,7 +31,7 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
-    private var intentFilter: IntentFilter? = null
+    private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
     private var appSMSBroadcastReceiver: MySMSBroadcastReceiver? = null
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -42,6 +42,7 @@ class PhoneVerificationSignInFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.state.addOnPropertyChangedCallback(stateObserver)
         setObservers()
         context?.startSmsConsent()
         initBroadcast()
@@ -51,6 +52,7 @@ class PhoneVerificationSignInFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
         getData()
+        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
@@ -64,29 +66,17 @@ class PhoneVerificationSignInFragment :
     }
 
     override fun setObservers() {
-        viewModel.state.addOnPropertyChangedCallback(stateObserver)
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
     }
 
     private fun initBroadcast() {
-        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         appSMSBroadcastReceiver =
             MySMSBroadcastReceiver(object : MySMSBroadcastReceiver.OnSmsReceiveListener {
                 override fun onReceive(code: Intent?) {
                     startActivityForResult(code, SMS_CONSENT_REQUEST)
                 }
             })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requireContext().registerReceiver(appSMSBroadcastReceiver, intentFilter)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        requireActivity().unregisterReceiver(appSMSBroadcastReceiver)
     }
 
     private val postDemographicDataObserver = Observer<Boolean> {
@@ -160,5 +150,10 @@ class PhoneVerificationSignInFragment :
         viewModel.state.removeOnPropertyChangedCallback(stateObserver)
         viewModel.postDemographicDataResult.removeObservers(this)
         viewModel.accountInfo.removeObservers(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        context?.unregisterReceiver(appSMSBroadcastReceiver)
     }
 }
