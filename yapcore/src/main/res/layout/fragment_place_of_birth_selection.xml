@@ -119,6 +119,7 @@
                    android:hint="No Selection"
                    android:inputType="textAutoComplete|textAutoCorrect"
                    android:singleLine="true"
+                   android:drawablePadding="@dimen/_10sdp"
                    android:dropDownHeight="@dimen/_100sdp"
                    android:dropDownWidth="wrap_content"
                    android:dropDownAnchor="@+id/containerAutoText"

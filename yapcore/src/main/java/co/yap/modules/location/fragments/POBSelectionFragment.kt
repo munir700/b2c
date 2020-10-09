@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -95,7 +96,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             CustomAutoCompleteAdapter(requireContext(), it as ArrayList<Country>)
         getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
         getBinding().bcountries.threshold = 0
-    //    getBinding().bcountries.setOnTouchListener(TouchListner)
+        //    getBinding().bcountries.setOnTouchListener(TouchListner)
         getBinding().bcountries.addTextChangedListener(textChangeListner)
         getBinding().bcountries.setOnItemClickListener(itemClickListner)
         /*getBinding().spinner.setItemSelectedListener(selectedItemListener)
@@ -118,18 +119,20 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         override fun onItemClick(adapter: AdapterView<*>?, view: View?, position: Int, p3: Long) {
             val country: Country = adapter?.getItemAtPosition(position) as Country
             getBinding().bcountries.setText(country.getName())
+            val drawable = requireActivity().getDrawable(country.getFlagDrawableResId(requireContext()))
+            drawable?.setBounds(20,20,20,20)
+            getBinding().bcountries.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
         }
     }
     val textChangeListner = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
-            if (s.length <= 0) getBinding().bcountries.showDropDown()
+            if (s.length < 0) getBinding().bcountries.showDropDown()
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         }
 
         override fun onTextChanged(s: CharSequence, p1: Int, p2: Int, p3: Int) {
-            if (s.length <= 0) getBinding().bcountries.showDropDown()
 
         }
     }
