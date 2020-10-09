@@ -13,8 +13,6 @@
 
         <import type="android.view.View" />
     </data>
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -275,23 +273,21 @@
                     tools:text="+971 600 55 1214" />
 
             </LinearLayout>
-
-
+            <co.yap.widgets.spinneradapter.searchable.SearchableSpinner
+                android:id="@+id/searchableSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lyCall"
+                app:SpinnerExpandHeight="@dimen/_100sdp"
+                app:RevealEmptyText="Touch to select"
+                android:visibility="gone"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <co.yap.widgets.spinneradapter.searchable.SearchableSpinner
-            android:id="@+id/searchableSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            app:BoarderColor="@color/colorPrimary"
-            app:BordersSize="1dp"
-            app:RevealEmptyText="Touch to select"
-            app:ShowBorders="true"
-            app:SpinnerExpandHeight="250dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

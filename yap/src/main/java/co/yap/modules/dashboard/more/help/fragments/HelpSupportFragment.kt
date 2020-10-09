@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.help.fragments
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.Nullable
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -48,6 +49,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requireActivity().getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setObservers()
     }
 

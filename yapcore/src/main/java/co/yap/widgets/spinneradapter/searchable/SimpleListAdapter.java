@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -82,7 +81,10 @@ public class SimpleListAdapter extends BaseAdapter implements Filterable, ISpinn
 
     @Override
     public View getNoSelectionView() {
-        return View.inflate(mContext, R.layout.item_list_no_selection, null);
+        View v = View.inflate(mContext, R.layout.item_list_no_selection, null);
+        TextView TxtVw_NoSelection = v.findViewById(R.id.TxtVw_NoSelection);
+        TxtVw_NoSelection.setText("No Selection");
+        return v;
     }
 
     @Override

@@ -40,7 +40,7 @@ class POBSelectionViewModel(application: Application) :
                 state.loading = true
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
-                        populateSpinnerData.value = Utils.parseCountryList(response.data.data, addOIndex = false)
+                        populateSpinnerData.value = Utils.parseCountryList(response.data.data,addOIndex = false)
                         parentViewModel?.countries = populateSpinnerData.value as ArrayList<Country>
                         state.loading = false
                     }

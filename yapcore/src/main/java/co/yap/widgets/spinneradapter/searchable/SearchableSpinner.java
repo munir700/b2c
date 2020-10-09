@@ -121,6 +121,9 @@ public class SearchableSpinner extends RelativeLayout implements View.OnClickLis
                 Adapter adapter = parent.getAdapter();
                 if (adapter instanceof ISpinnerSelectedView) {
                     View selectedView = ((ISpinnerSelectedView) adapter).getSelectedView(position);
+                    if (position ==0){
+
+                    }
                     mCurrSelectedView = new SelectedView(selectedView, position, selectedView.getId());
                 } else {
                     mCurrSelectedView.setMView(view);

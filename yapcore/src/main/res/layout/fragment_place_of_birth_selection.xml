@@ -69,11 +69,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSelectCountry"
                 style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/margin_large"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="@string/screen_place_of_birth_display_text_select_country"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription"
@@ -102,7 +102,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
                 app:SpinnerExpandHeight="@dimen/_100sdp"
                 app:RevealEmptyText="Touch to select"
+                android:visibility="gone"
                 />
+           <FrameLayout
+               android:id="@+id/containerAutoText"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="@dimen/margin_medium"
+               android:layout_marginEnd="@dimen/margin_medium"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">
+               <AutoCompleteTextView
+                   android:id="@+id/bcountries"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:hint="No Selection"
+                   android:inputType="textAutoComplete|textAutoCorrect"
+                   android:singleLine="true"
+                   android:dropDownHeight="@dimen/_100sdp"
+                   android:dropDownWidth="wrap_content"
+                   android:dropDownAnchor="@+id/containerAutoText"
+                   />
+           </FrameLayout>
 
             <TextView
                 android:id="@+id/textView"
@@ -112,7 +134,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:text="@string/screen_place_of_birth_display_text_city_of_birth"
                 app:layout_constraintStart_toStartOf="@+id/tvSelectCountry"
-                app:layout_constraintTop_toBottomOf="@+id/bspinner"
+                app:layout_constraintTop_toBottomOf="@+id/containerAutoText"
                 app:text="@{Strings.screen_place_of_birth_display_text_city_of_birth}"
                 app:textColor="@{viewModel.state.cityOfBirth.empty ? true : false}"
                 tools:text="@string/screen_place_of_birth_display_text_city_of_birth" />
