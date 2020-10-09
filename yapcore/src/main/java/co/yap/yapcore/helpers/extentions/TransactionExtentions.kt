@@ -77,15 +77,20 @@ fun Transaction?.getTransactionIcon(): Int {
 }
 
 fun Transaction?.getTransactionStatus(): String {
-    this?.let { txn ->
-        return (when (txn.status) {
-            TransactionStatus.CANCELLED.name -> "Rejected transaction"
-            TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
-                if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
-            }
-            else -> ""
-        })
-    } ?: return ""
+    when (this?.productCode) {
+        TransactionProductCode.ATM_WITHDRAWL.pCode -> return this.cardAcceptorLocation
+            ?: ""
+        TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName?:""
+        else -> this?.let { txn ->
+            return (when (txn.status) {
+                TransactionStatus.CANCELLED.name -> "Rejected transaction"
+                TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
+                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
+                }
+                else -> ""
+            })
+        } ?: return ""
+    }
 }
 
 fun Transaction?.getTransactionTypeTitle(): String {

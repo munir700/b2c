@@ -53,6 +53,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTotalAmount()
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
+        setLocationText()
     }
 
     private fun setAmount() {
@@ -134,20 +135,34 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setSubTitle() {
-        val location = viewModel.transaction.get()?.let {
+        val subTitle = viewModel.transaction.get()?.let {
             when {
                 it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
                 it.status == TransactionStatus.FAILED.name -> "Transaction Reverted"
                 it.isTransactionInProgress() -> "Transfer Pending"
-                it.productCode == TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
+                else -> ""
+            }
+        }
+
+        if (subTitle.isNullOrBlank()) {
+            getBindings().tvTxnSubTitle.text =
+                viewModel.transaction.get()?.getTransactionTypeTitle()
+        } else {
+            getBindings().tvTxnSubTitle.text = subTitle
+        }
+    }
+
+    private fun setLocationText() {
+        val location = viewModel.transaction.get()?.let {
+            when (it.productCode) {
+                TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
                 else -> it.cardAcceptorLocation ?: ""
             }
         }
-        if (location.isNullOrBlank()) {
-            getBindings().tvAddress.text = viewModel.transaction.get()?.getTransactionTypeTitle()
-        } else {
-            getBindings().tvAddress.text = location
-        }
+        getBindings().tvLocation.visibility =
+            if (location.isNullOrEmpty()) View.GONE else View.VISIBLE
+        getBindings().tvLocation.text = location
+
     }
 
     private fun setCardMaskNo() {
