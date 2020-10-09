@@ -256,6 +256,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     )
                 }
 
+                R.id.tvFeesAndPricingPlansView -> {
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_FEES_AND_PRICING_PLAN
+                        ), showToolBar = false
+                    )
+                }
                 R.id.tvFollowOnInstagram -> {
                     Utils.openInstagram(requireContext())
                 }
