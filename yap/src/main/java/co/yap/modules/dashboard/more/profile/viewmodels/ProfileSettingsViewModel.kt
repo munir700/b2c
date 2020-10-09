@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.MutableLiveData
 import co.yap.BuildConfig.VERSION_NAME
 import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -217,5 +218,21 @@ class ProfileSettingsViewModel(application: Application) :
         return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 
+    override fun requestRemoveProfilePicture(apiRes: (Boolean)-> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.removeProfilePicture()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    MyUserManager.user?.currentCustomer?.setPicture("")
+                    apiRes.invoke(true)
+                }
 
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    apiRes.invoke(false)
+                }
+            }
+        }
+    }
 }
