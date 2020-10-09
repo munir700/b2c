@@ -6,6 +6,7 @@ import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.interfaces.ISendMoney
 import co.yap.sendmoney.states.SendMoneyState
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 

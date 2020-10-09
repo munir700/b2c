@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers.extentions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.os.Parcelable
 import android.text.*
@@ -218,4 +219,10 @@ fun Double?.roundVal(): Double {
         floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
     val floatingDivisor = (rounded ?: 0.0).div(100)
     return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
+}
+
+fun ImageView?.hasBitmap(): Boolean {
+    return this?.let {
+        this.drawable != null && (this.drawable as BitmapDrawable).bitmap != null
+    } ?: false
 }

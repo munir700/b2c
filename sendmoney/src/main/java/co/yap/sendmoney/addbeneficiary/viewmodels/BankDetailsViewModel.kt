@@ -144,7 +144,7 @@ class BankDetailsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         parentViewModel?.state?.toolbarVisibility?.set(true)
-        parentViewModel?.state?.leftIcon?.set(true)
+        parentViewModel?.state?.leftIconVisibility?.set(true)
     }
 
     override fun searchRMTBanks(otherBankQuery: OtherBankQuery) {
