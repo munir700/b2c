@@ -44,7 +44,6 @@ import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
-import kotlinx.android.synthetic.main.layout_fund_actions_tool_bar.*
 
 
 open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
@@ -189,7 +188,6 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                     })
                 }
             R.id.ivCross -> this.finish()
-            R.id.tbIvClose -> this.finish()
 
             viewModel.EVENT_ADD_FUNDS_SUCCESS, viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
                 fundsAddedRemoveSuccess = true
@@ -199,6 +197,12 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                 btnAction.text =
                     getString(Strings.screen_success_funds_transaction_display_text_button)
             }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> this.finish()
         }
     }
 
@@ -354,7 +358,7 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
         YoYo.with(Techniques.FadeOut)
             .duration(300)
             .repeat(0)
-            .playOn(tbIvClose)
+            .playOn(toolbar.getChildAt(0))
         clBottom.children.forEach { it.alpha = 0f }
         btnAction.alpha = 0f
         clRightData.children.forEach { it.alpha = 0f }
@@ -526,7 +530,8 @@ open class AddRemoveFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(
                                 else -> Translator.getString(
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
-                                    remainingDailyLimit.roundVal().toString().toFormattedAmountWithCurrency()
+                                    remainingDailyLimit.roundVal().toString()
+                                        .toFormattedAmountWithCurrency()
                                 )
                             }
                         return enteredAmount > remainingDailyLimit.roundVal()

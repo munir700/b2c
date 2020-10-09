@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YViewModel" />
+
+        <import type="co.yap.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,10 +19,20 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_yaptoyap_toolbar"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.state.tootlBarVisibility}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{viewModel.state.leftButtonVisibility}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_gift_vector}"
+            app:rightIconVisibility="@{viewModel.state.rightButtonVisibility}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clSnackBar"

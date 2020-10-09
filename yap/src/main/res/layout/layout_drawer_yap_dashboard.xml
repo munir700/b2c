@@ -16,6 +16,9 @@
         <import type="co.yap.yapcore.enums.PartnerBankStatus" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.translation.Strings" />
+
     </data>
 
     <!--    <ScrollView-->
@@ -59,18 +62,17 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivChevron"
                         android:layout_width="@dimen/_26sdp"
                         android:layout_height="@dimen/_26sdp"
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="@dimen/_13sdp"
                         android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/_13sdp"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:tint="?attr/colorPrimaryDarkAttr"
                         app:srcCompat="@drawable/ic_chevron_down"
-                        tools:ignore="UseAppTint" />
+                        app:tint="?attr/colorPrimaryDarkAttr" />
 
                     <LinearLayout
                         android:id="@+id/lAccountContainer"
@@ -130,17 +132,27 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_extra_small"
-                        >
+                        android:layout_marginTop="@dimen/margin_extra_small">
+
+                        <View
+                            android:id="@+id/view2"
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:layout_marginTop="@dimen/margin_extra_small"
+                            android:background="@color/greyLight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tvAccountHeading"
                             style="@style/AMicroGrey"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_small"
                             android:text="Account"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
                         <TextView
                             android:id="@+id/tvAccountNo"
@@ -174,6 +186,7 @@
                             android:id="@+id/btnCopy"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_18sdp"
+                            android:layout_marginTop="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:gravity="center"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
@@ -186,23 +199,44 @@
                             app:btn_text_size="@dimen/text_size_c3"
                             app:btn_unpressed_color="@color/disabledLight"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/view2" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/greyLight"
-                    android:layout_marginTop="@dimen/margin_normal_large"/>
+                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:background="@color/greyLight" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="@dimen/margin_small"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_extra_small">
+
+                <include
+                    android:id="@+id/lRefer"
+                    layout="@layout/layout_item_icon_text"
+                    app:icon="@{@drawable/ic_gift}"
+                    app:title='@{"Refer a friend"}' />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/greyLight" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_extra_small">
 
                 <include
@@ -315,7 +349,23 @@
                     android:paddingEnd="@dimen/_2sdp"
                     android:paddingBottom="@dimen/margin_small"
                     android:text="@{viewModel.state.appVersion}"
+                    android:visibility="gone"
                     tools:text="Version 1.0.0 (11)" />
+
+                <TextView
+                    android:id="@+id/tvLogOut"
+                    style="@style/ARegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:gravity="bottom|center"
+                    android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
+                    android:paddingStart="@dimen/margin_small"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@string/screen_profile_settings_display_text_logout"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    app:text="@{Strings.screen_profile_settings_display_text_logout}" />
 
             </LinearLayout>
 
@@ -344,6 +394,7 @@
                 android:background="@drawable/circle_profile"
                 android:contentDescription="@string/empty_string"
                 android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                 android:padding="@dimen/_3sdp"
                 app:beneficiaryPicture="@{viewModel.state.userNameImage}"
                 app:fullName="@{viewModel.state.fullName}"
@@ -358,15 +409,14 @@
                 android:src="@drawable/ic_add_account"
                 android:visibility="gone" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSettings"
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/settings"
-                android:tint="@color/greyDark"
-                tools:ignore="UseAppTint" />
+                app:tint="@color/greyDark" />
 
         </RelativeLayout>
 

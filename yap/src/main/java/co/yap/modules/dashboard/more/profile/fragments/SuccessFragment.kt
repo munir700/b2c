@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.View.VISIBLE
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,16 +19,14 @@ import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.MyUserManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.fragment_success.*
+
 
 class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     ISuccess.View {
     val args: SuccessFragmentArgs by navArgs()
     var successType: String? = null
-    var addressField: String = ""
+    var photoPlacedId: String = " "
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -41,7 +40,6 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         viewModel.buttonClickEvent.observe(this, Observer {
             findNavController().popBackStack(R.id.personalDetailsFragment, true)
             findNavController().navigate(R.id.personalDetailsFragment)
-
         })
     }
 
@@ -50,27 +48,18 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         if (context is MoreActivity)
             (context as MoreActivity).goneToolbar()
         loadData()
-        if (activity is MoreActivity) {
-            (activity as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
-        }
-    }
-
-    override fun onDestroy() {
-        viewModel.buttonClickEvent.removeObservers(this)
-        super.onDestroy()
     }
 
     private fun loadData() {
         successType = args.successType
-        val fcs =
-            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+        photoPlacedId = args.placesPhotoId
 
         val separatedPrimary =
             args.staticString.split(args.destinationValue)
         val primaryStr = SpannableStringBuilder(args.staticString + args.destinationValue)
 
         primaryStr.setSpan(
-            fcs,
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)),
             separatedPrimary[0].length,
             primaryStr.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -79,30 +68,23 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
         if (primaryStr.contains(addressStr)) {
             cvLocationCard.visibility = VISIBLE
-            addressField =
-                MyUserManager.userAddress?.address1 + " " + MyUserManager.userAddress?.address2
-            tvSuccessSubHeading.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.greyDark
-                )
-            )
+            viewModel.state.topSubHeading = addressStr
 
-            tvSuccessSubHeading.text = addressStr
-            if (!MyUserManager.userAddress?.address2.isNullOrEmpty()) {
-                tvAddressTitle.setText(MyUserManager.userAddress?.address2)
+            viewModel.state.address1 = MyUserManager.userAddress?.address1 ?: ""
+            viewModel.state.address2 = MyUserManager.userAddress?.address2 ?: ""
+
+            viewModel.placesApiCall(photoPlacedId) {
+                placeImage?.setPadding(0, 0, 0, 0)
+                placeImage?.scaleType = ImageView.ScaleType.CENTER_CROP
             }
-            if (!MyUserManager.userAddress?.address1.isNullOrEmpty()) {
-                tvAddressSubTitle.setText(MyUserManager.userAddress?.address1)
-            }
-            Glide.with(ivLocationPhoto.context)
-                .load("")
-                .placeholder(R.drawable.location_place_holder)
-                .transforms(CenterCrop(), RoundedCorners(15))
-                .into(ivLocationPhoto)
         } else {
             tvSuccessSubHeading.text = primaryStr
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.buttonClickEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     override fun onBackPressed(): Boolean {

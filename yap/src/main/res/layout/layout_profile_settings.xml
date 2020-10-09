@@ -80,8 +80,8 @@
                         android:layout_height="@dimen/_14sdp"
                         android:layout_gravity="center_vertical|center"
                         android:src="@drawable/ic_exclamation"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:tint="@color/colorPrimaryDark"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
                 </FrameLayout>
@@ -124,8 +124,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -470,6 +470,18 @@
                 android:text="@string/screen_profile_settings_display_text_logout"
                 android:textColor="?attr/colorPrimaryAttr"
                 app:text="@{Strings.screen_profile_settings_display_text_logout}" />
+
+            <TextView
+                android:id="@+id/tvBuildVersion"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.state.buildVersionDetail}"
+
+               />
+
         </LinearLayout>
     </ScrollView>
 </layout>

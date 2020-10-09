@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
+import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
@@ -24,6 +28,10 @@ class YapDashBoardViewModel(application: Application) :
     override val state: YapDashBoardState = YapDashBoardState()
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: MessagesRepository = MessagesRepository
+    val customerRepository: CustomersRepository = CustomersRepository
+    private val sharedPreferenceManager = SharedPreferenceManager(application)
+    override val authRepository: AuthRepository = AuthRepository
+    override var EVENT_LOGOUT_SUCCESS: Int = 101
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -43,6 +51,22 @@ class YapDashBoardViewModel(application: Application) :
             delay(1500)
             showUnverifedscreen.value =
                 MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+        }
+    }
+
+    override fun resendVerificationEmail() {
+        launch {
+            state.loading = true
+            when (val response =
+                customerRepository.resendVerificationEmail()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.error = response.error.message
+                }
+            }
         }
     }
 
@@ -85,4 +109,23 @@ class YapDashBoardViewModel(application: Application) :
             }
         }
     }
+
+    override fun logout() {
+        val deviceId: String? =
+            sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+        launch {
+            state.loading = true
+            when (val response = authRepository.logout(deviceId.toString())) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                    state.loading = true
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
+
 }

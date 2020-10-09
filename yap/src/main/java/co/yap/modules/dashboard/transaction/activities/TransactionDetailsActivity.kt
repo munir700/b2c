@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -20,6 +21,8 @@ import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -36,14 +39,18 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transaction.set(intent?.getParcelableExtra("transaction") as Transaction)
+        viewModel.transaction.set(
+            intent?.getParcelableExtra(
+                ExtraKeys.TRANSACTION_OBJECT_STRING.name
+            ) as Transaction
+        )
         setSpentLabel()
         setAmount()
         setMapImageView()
         setTransactionImage()
         setTransactionTitle()
         setCardMaskNo()
-        setAddress()
+        setSubTitle()
         setTotalAmount()
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
@@ -52,6 +59,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setAmount() {
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
+
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedAmountWithCurrency()
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedAmountWithCurrency()
                 }
@@ -67,9 +76,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTxnFailedReason() {
         val msg = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> {
-                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.greyNormalDark))
-                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.greyNormalDark))
+                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name ||  it.isTransactionInProgress() -> {
+                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
+                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     it.cancelReason
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
@@ -99,7 +108,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
                     (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
@@ -125,18 +134,23 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    private fun setAddress() {
+    private fun setSubTitle() {
         val location = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> "Transfer rejected"
+                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
+                it.status == TransactionStatus.FAILED.name -> "Transaction Reverted"
+                it.isTransactionInProgress() -> "Transfer Pending"
                 it.productCode == TransactionProductCode.FUND_LOAD.pCode -> it.otherBankName ?: ""
                 else -> it.cardAcceptorLocation ?: ""
             }
         }
         if (location.isNullOrBlank()) {
-            getBindings().tvAddress.visibility = View.GONE
+            getBindings().tvAddress.text =
+                if (TransactionProductCode.Y2Y_TRANSFER.pCode == viewModel.transaction.get()?.productCode) getString(
+                    Strings.transaction_narration_y2y_transfer_detail
+                ) else viewModel.transaction.get()
+                    ?.getTransactionTypeTitle()
         } else {
-            getBindings().tvAddress.visibility = View.VISIBLE
             getBindings().tvAddress.text = location
         }
     }
@@ -155,7 +169,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.ivClose -> finish()
             R.id.clNote, R.id.clEditIcon ->
                 if (viewModel.state.txnNoteValue.get().isNullOrBlank()) {
                     openNoteScreen()
@@ -235,7 +248,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionCancelled()) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 
@@ -246,7 +259,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
+                viewModel.transaction.get()?.transactionNote =
+                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                viewModel.state.transactionNoteDate =
+                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                        DateUtils.FORMAT_LONG_OUTPUT
+                    )
+                viewModel.transaction.get()?.transactionNoteDate =
+                    DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
             }
+
         }
 
     }
@@ -254,5 +276,38 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                setResult()
+            }
+        }
+    }
+
+    fun setResult() {
+        val intent = Intent()
+        intent.putExtra(
+            ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+            viewModel.transaction.get() as Transaction
+        )
+        intent.putExtra(
+            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, getIntent().getIntExtra(
+                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name, -1
+            )
+        )
+        intent.putExtra(
+            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, getIntent().getIntExtra(
+                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name, -1
+            )
+        )
+
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        setResult()
     }
 }

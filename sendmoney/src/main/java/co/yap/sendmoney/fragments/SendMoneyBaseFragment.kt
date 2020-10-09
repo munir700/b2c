@@ -20,4 +20,5 @@ abstract class SendMoneyBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragme
     override fun onBackPressed(): Boolean {
         return super.onBackPressed()
     }
+
 }

@@ -9,6 +9,7 @@
     <dimen name="text_size_h5">@dimen/_19sdp</dimen>
     <dimen name="text_size_h6">@dimen/_22sdp</dimen>
     <dimen name="text_size_h7">@dimen/_26sdp</dimen>
+    <dimen name="text_size_h8">@dimen/_18sdp</dimen>
 
     <!-- Content -->
     <dimen name="text_size_c1">@dimen/_9sdp</dimen>
@@ -27,6 +28,7 @@
     <!-- MARGIN -->
     <dimen name="margin_zero_dp">0dp</dimen>
     <dimen name="margin_one_dp">1dp</dimen>
+    <dimen name="margin_two_dp">2dp</dimen>
     <dimen name="margin_three_dp">@dimen/_3sdp</dimen>
     <dimen name="margin_extra_small">@dimen/_4sdp</dimen>
     <dimen name="margin_small">@dimen/_8sdp</dimen>
@@ -40,6 +42,8 @@
     <dimen name="margin_xxl">@dimen/_56sdp</dimen>
     <dimen name="margin_btn_side_paddings">@dimen/_50sdp</dimen>
     <dimen name="margin_btn_side_paddings_xl">@dimen/_60sdp</dimen>
+    <dimen name="margin_btn_side_xxl">@dimen/_70sdp</dimen>
+    <dimen name="margin_xxxl">@dimen/_80sdp</dimen>
     <dimen name="margin_heading_to_field">@dimen/_50sdp</dimen>
 
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>

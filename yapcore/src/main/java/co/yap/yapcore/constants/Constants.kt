@@ -96,10 +96,13 @@ object Constants {
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
     const val IS_TRANSFER_MONEY = "IS_TRANSFER_MONEY"
+    const val TERMINATE_ADD_BENEFICIARY = "TERMINATE_ADD_BENEFICIARY"
 
     //Location Selection
     const val ADDRESS = "address"
     const val ADDRESS_SUCCESS = "address_success"
+    const val PLACES_PHOTO_ID = "places_photo_id"
+
     // Events for ViewState
 
     const val EVENT_LOADING: Int = 1111
@@ -139,10 +142,13 @@ object Constants {
     const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
     const val KEY_THEME = "KEY_THEME"
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
+    const val KEY_IS_REMEMBER = "IS_REMEMBER"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
+
+    const val CURRENCYWALLET = "MultiCurrencyWallet"
 }

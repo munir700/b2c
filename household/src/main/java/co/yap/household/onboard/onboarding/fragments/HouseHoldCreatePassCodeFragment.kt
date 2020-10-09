@@ -13,7 +13,6 @@ import co.yap.household.onboard.onboarding.viewmodels.HouseHoldCreatePassCodeVie
 import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import kotlinx.android.synthetic.main.fragment_house_hold_create_passcode.*
 
@@ -47,7 +46,7 @@ class HouseHoldCreatePassCodeFragment :
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
                             Constants.PAGE_URL to Constants.URL_TERMS_CONDITION
-                        ),showToolBar = true
+                        ),showToolBar = false
                     )
                     //Utils.openWebPage(Constants.URL_TERMS_CONDITION, "", activity)
                 }

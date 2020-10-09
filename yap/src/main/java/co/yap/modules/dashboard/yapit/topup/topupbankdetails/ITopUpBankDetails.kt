@@ -12,7 +12,6 @@ interface ITopUpBankDetails {
 
     interface State : IBase.State {
         var toolBarVisibility: Boolean
-        var toolBarTitle: String
         var pictureUrl: String?
         var position: Int?
     }

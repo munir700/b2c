@@ -3,6 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,7 +61,7 @@
                     android:layout_marginStart="@dimen/small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
-                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvFirstName"
                     app:layout_constraintLeft_toRightOf="@+id/tvFirstName"
                     app:layout_constraintRight_toRightOf="parent"
@@ -62,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
-                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:visibility="@{viewModel.state.middleName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMiddleName"
                     app:layout_constraintLeft_toRightOf="@+id/tvMiddleName"
@@ -75,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:background="@drawable/edit_selector"
-                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:visibility="@{viewModel.state.lastName.trim().equals(``) ? View.VISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvLastName"
                     app:layout_constraintLeft_toRightOf="@+id/tvLastName"
@@ -262,7 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_large"
-                    android:onClick="@{(v) -> viewModel.handlePressOnRescanBtn()}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:textColor="@color/colorPrimary"
                     android:visibility="@{viewModel.parentViewModel.skipFirstScreen? View.GONE :View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -282,7 +293,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:paddingTop="-5dp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
@@ -300,7 +311,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:paddingTop="-5dp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.middleName}"
@@ -320,7 +331,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:lineSpacingExtra="-5dp"
-                    android:onClick="@{(v) -> viewModel.handlePressOnEdit(v.id)}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:paddingTop="-5dp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
@@ -369,16 +380,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
                         </FrameLayout>
-
-                        <!--                        <ImageView-->
-                        <!--                            android:id="@+id/ivProfile"-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:contentDescription="@string/empty_string"-->
-                        <!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-                        <!--                            app:layout_constraintLeft_toLeftOf="parent"-->
-                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
-                        <!--                            app:srcCompat="@drawable/ic_profile" />-->
 
                         <TextView
                             android:id="@+id/tvEid"
@@ -432,7 +433,7 @@
                     android:layout_marginRight="@dimen/margin_xxl"
                     android:layout_marginBottom="@dimen/margin_normal"
                     android:gravity="center"
-                    android:onClick="@{(v) -> viewModel.handlePressOnConfirmBtn()}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -446,15 +447,4 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </LinearLayout>
-
-    <data>
-
-        <import type="co.yap.translation.Strings" />
-
-        <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel" />
-    </data>
 </layout>

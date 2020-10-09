@@ -20,8 +20,8 @@ class CardDetailsExpiryViewHolder(private val dialogCardDetailsCardExpiryBinding
             cardDetailsModel.cardExpiry
         dialogCardDetailsCardExpiryBinding.tvCvvValue.text =
             cardDetailsModel.cardCvv
-
-
+        dialogCardDetailsCardExpiryBinding.tvCardName.text =
+            cardDetailsModel.displayName
         dialogCardDetailsCardExpiryBinding.viewModel?.position = position
         dialogCardDetailsCardExpiryBinding.viewModel =
             CardDetailsDialogItemViewModel(
