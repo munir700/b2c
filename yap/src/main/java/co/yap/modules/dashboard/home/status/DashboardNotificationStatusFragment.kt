@@ -130,7 +130,8 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                 getString(Strings.screen_time_line_display_text_status_card_delivered_title),
                 getString(Strings.screen_time_line_display_text_status_card_delivered_description),
                 null,
-                resources.getDrawable(R.drawable.card_spare),
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+//                resources.getDrawable(R.drawable.card_spare),
                 NotificationProgressStatus.IN_PROGRESS,
                 CardDeliveryStatus.SHIPPED
             )
