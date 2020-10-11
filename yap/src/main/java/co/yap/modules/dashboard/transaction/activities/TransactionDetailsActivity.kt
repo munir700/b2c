@@ -138,8 +138,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setSubTitle() {
         val subTitle = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
-                it.status == TransactionStatus.FAILED.name -> "Transaction Reverted"
+                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name -> "Transfer Rejected"
                 it.isTransactionInProgress() -> "Transfer Pending"
                 else -> ""
             }
