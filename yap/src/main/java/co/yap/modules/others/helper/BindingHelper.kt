@@ -1,6 +1,7 @@
 package co.yap.modules.others.helper
 
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import co.yap.modules.dashboard.home.status.NotificationProgressStatus
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.widgets.timelineview.TimelineView
 import com.liveperson.infra.utils.Utils.getResources
+
 
 object BindingHelper {
 
@@ -79,5 +81,11 @@ object BindingHelper {
 
 
         }
+    }
+
+    @BindingAdapter("markerDrawable")
+    @JvmStatic
+    fun setMarkerDrawable(view: TimelineView, drawable: Drawable) {
+        view.setMarker(drawable)
     }
 }

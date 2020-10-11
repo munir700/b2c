@@ -9,10 +9,10 @@ import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -47,8 +47,11 @@ public class TimelineView extends View {
         int DASHED = 1;
     }
 
+    private int mMarkerHeightSize;
+    private int mMarkerWidthSize;
+
     private Drawable mMarker;
-    private int mMarkerSize;
+    //    private int mMarkerSize;
     private int mMarkerPaddingLeft;
     private int mMarkerPaddingTop;
     private int mMarkerPaddingRight;
@@ -76,9 +79,9 @@ public class TimelineView extends View {
     }
 
     private void init(AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.TimelineView);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TimelineView);
         mMarker = typedArray.getDrawable(R.styleable.TimelineView_marker);
-        mMarkerSize = typedArray.getDimensionPixelSize(R.styleable.TimelineView_markerSize, Utils.dpToPx(20, getContext()));
+//        mMarkerSize = typedArray.getDimensionPixelSize(R.styleable.TimelineView_markerSize, Utils.dpToPx(20, getContext()));
         mMarkerPaddingLeft = typedArray.getDimensionPixelSize(R.styleable.TimelineView_markerPaddingLeft, 0);
         mMarkerPaddingTop = typedArray.getDimensionPixelSize(R.styleable.TimelineView_markerPaddingTop, 0);
         mMarkerPaddingRight = typedArray.getDimensionPixelSize(R.styleable.TimelineView_markerPaddingRight, 0);
@@ -94,14 +97,22 @@ public class TimelineView extends View {
         mLineStyleDashGap = typedArray.getDimensionPixelSize(R.styleable.TimelineView_lineStyleDashGap, Utils.dpToPx(4f, getContext()));
         typedArray.recycle();
 
-        if(isInEditMode()) {
+        if (isInEditMode()) {
             mDrawStartLine = true;
             mDrawEndLine = true;
         }
 
-        if(mMarker == null) {
+
+        if (mMarker == null) {
             mMarker = getResources().getDrawable(R.drawable.default_timelinemarker);
         }
+
+        setUpMarker();
+    }
+
+    private void setUpMarker() {
+        mMarkerHeightSize = mMarker.getIntrinsicHeight();
+        mMarkerWidthSize = mMarker.getIntrinsicWidth();
 
         initTimeline();
         initLinePaint();
@@ -113,8 +124,10 @@ public class TimelineView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         //Width measurements of the width and height and the inside view of child controls
-        int w = mMarkerSize + getPaddingLeft() + getPaddingRight();
-        int h = mMarkerSize + getPaddingTop() + getPaddingBottom();
+        int w = mMarkerWidthSize + getPaddingLeft() + getPaddingRight();
+        int h = mMarkerHeightSize + getPaddingTop() + getPaddingBottom();
+// int w = mMarkerSize + getPaddingLeft() + getPaddingRight();
+//        int h = mMarkerSize + getPaddingTop() + getPaddingBottom();
 
         // Width and height to determine the final view through a systematic approach to decision-making
         int widthSize = resolveSizeAndState(w, widthMeasureSpec, 0);
@@ -143,106 +156,47 @@ public class TimelineView extends View {
         int cWidth = width - pLeft - pRight;// Circle width
         int cHeight = height - pTop - pBottom;
 
-        int markSize = Math.min(mMarkerSize, Math.min(cWidth, cHeight));
+        int markSize = Math.max(mMarkerWidthSize, mMarkerHeightSize);
 
-        if(mMarkerInCenter) { //Marker in center is true
-            int left = (width/2) - (markSize/2);
-            int top = (height/2) - (markSize/2);
-            int right = (width/2) + (markSize/2);
-            int bottom = (height/2) + (markSize/2);
+        int left = pLeft;
+        int top = pTop;
+        int right = pLeft + markSize;
+        int bottom = pTop;
 
-            switch (mLineOrientation) {
-                case LineOrientation.HORIZONTAL: {
-                    left += mMarkerPaddingLeft - mMarkerPaddingRight;
-                    right += mMarkerPaddingLeft - mMarkerPaddingRight;
-                    break;
-                }
-                case LineOrientation.VERTICAL: {
-                    top += mMarkerPaddingTop - mMarkerPaddingBottom;
-                    bottom += mMarkerPaddingTop - mMarkerPaddingBottom;
-                    break;
-                }
-            }
+        switch (mLineOrientation) {
 
-            if(mMarker != null) {
-                mMarker.setBounds(left, top, right, bottom);
-                mBounds = mMarker.getBounds();
-            }
-
-        } else { //Marker in center is false
-
-            int left = pLeft;
-            int top = pTop;
-            int right = pLeft + markSize;
-            int bottom = pTop;
-
-            switch (mLineOrientation) {
-                case LineOrientation.HORIZONTAL: {
-                    top = (height/2) - (markSize/2);
-                    bottom = (height/2) + (markSize/2);
-                    left += mMarkerPaddingLeft - mMarkerPaddingRight;
-                    right += mMarkerPaddingLeft - mMarkerPaddingRight;
-                    break;
-                }
-                case LineOrientation.VERTICAL: {
-                    top += mMarkerPaddingTop - mMarkerPaddingBottom;
-                    bottom += markSize + mMarkerPaddingTop - mMarkerPaddingBottom;
-                    break;
-                }
-            }
-
-            if(mMarker != null) {
-                mMarker.setBounds(left, top, right, bottom);
-                mBounds = mMarker.getBounds();
+            case LineOrientation.VERTICAL: {
+                top += mMarkerPaddingTop - mMarkerPaddingBottom;
+                bottom += mMarkerHeightSize + mMarkerPaddingTop - mMarkerPaddingBottom;
+                break;
             }
         }
 
-        if (mLineOrientation == LineOrientation.HORIZONTAL) {
-
-            if (mDrawStartLine) {
-                mStartLineStartX = pLeft;
-                mStartLineStartY = mBounds.centerY();
-                mStartLineStopX = mBounds.left - mLinePadding;
-                mStartLineStopY = mBounds.centerY();
-            }
-
-            if (mDrawEndLine) {
-                if (mLineStyle == LineStyle.DASHED) {
-                    mEndLineStartX = getWidth() - mLineStyleDashGap;
-                    mEndLineStartY = mBounds.centerY();
-                    mEndLineStopX = mBounds.right + mLinePadding;
-                    mEndLineStopY = mBounds.centerY();
-                } else {
-                    mEndLineStartX = mBounds.right + mLinePadding;
-                    mEndLineStartY = mBounds.centerY();
-                    mEndLineStopX = getWidth();
-                    mEndLineStopY = mBounds.centerY();
-                }
-            }
-        } else {
-
-            if (mDrawStartLine) {
-                mStartLineStartX = mBounds.centerX();
-                mStartLineStartY = pTop;
-                mStartLineStopX = mBounds.centerX();
-                mStartLineStopY = mBounds.top - mLinePadding;
-            }
-
-            if (mDrawEndLine) {
-                if (mLineStyle == LineStyle.DASHED) {
-                    mEndLineStartX = mBounds.centerX();
-                    mEndLineStartY = getHeight() - mLineStyleDashGap;
-                    mEndLineStopX = mBounds.centerX();
-                    mEndLineStopY = mBounds.bottom + mLinePadding;
-                } else {
-                    mEndLineStartX = mBounds.centerX();
-                    mEndLineStartY = mBounds.bottom + mLinePadding;
-                    mEndLineStopX = mBounds.centerX();
-                    mEndLineStopY = getHeight();
-                }
-            }
+        if (mMarker != null) {
+            mMarker.setBounds(left, top, right, bottom);
+            mBounds = mMarker.getBounds();
         }
 
+        if (mDrawStartLine) {
+            mStartLineStartX = mBounds.centerX();
+            mStartLineStartY = pTop;
+            mStartLineStopX = mBounds.centerX();
+            mStartLineStopY = mBounds.top - mLinePadding;
+        }
+
+        if (mDrawEndLine) {
+            if (mLineStyle == LineStyle.DASHED) {
+                mEndLineStartX = mBounds.centerX();
+                mEndLineStartY = getHeight() - mLineStyleDashGap;
+                mEndLineStopX = mBounds.centerX();
+                mEndLineStopY = mBounds.bottom + mLinePadding;
+            } else {
+                mEndLineStartX = mBounds.centerX();
+                mEndLineStartY = mBounds.bottom + mLinePadding;
+                mEndLineStopX = mBounds.centerX();
+                mEndLineStopY = getHeight();
+            }
+        }
         invalidate();
     }
 
@@ -264,16 +218,16 @@ public class TimelineView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mMarker != null) {
+        if (mMarker != null) {
             mMarker.draw(canvas);
         }
 
-        if(mDrawStartLine) {
+        if (mDrawStartLine) {
             mLinePaint.setColor(mStartLineColor);
             canvas.drawLine(mStartLineStartX, mStartLineStartY, mStartLineStopX, mStartLineStopY, mLinePaint);
         }
 
-        if(mDrawEndLine) {
+        if (mDrawEndLine) {
             mLinePaint.setColor(mEndLineColor);
             canvas.drawLine(mEndLineStartX, mEndLineStartY, mEndLineStopX, mEndLineStopY, mLinePaint);
         }
@@ -286,6 +240,7 @@ public class TimelineView extends View {
      */
     public void setMarker(Drawable marker) {
         mMarker = marker;
+        setUpMarker();
         initTimeline();
     }
 
@@ -351,16 +306,17 @@ public class TimelineView extends View {
      * @param markerSize the marker size
      */
     public void setMarkerSize(int markerSize) {
-        mMarkerSize = markerSize;
+//        mMarkerSize = markerSize;
         initTimeline();
     }
 
-    public int getMarkerSize() {
-        return mMarkerSize;
-    }
+//    public int getMarkerSize() {
+////        return mMarkerSize;
+//    }
 
     /**
      * Sets marker left padding
+     *
      * @param markerPaddingLeft the left padding to marker, works only in vertical orientation
      */
     public void setMarkerPaddingLeft(int markerPaddingLeft) {
@@ -374,6 +330,7 @@ public class TimelineView extends View {
 
     /**
      * Sets marker top padding
+     *
      * @param markerPaddingTop the top padding to marker, works only in horizontal orientation
      */
     public void setMarkerPaddingTop(int markerPaddingTop) {
@@ -387,6 +344,7 @@ public class TimelineView extends View {
 
     /**
      * Sets marker right padding
+     *
      * @param markerPaddingRight the right padding to marker, works only in vertical orientation
      */
     public void setMarkerPaddingRight(int markerPaddingRight) {
@@ -400,6 +358,7 @@ public class TimelineView extends View {
 
     /**
      * Sets marker bottom padding
+     *
      * @param markerPaddingBottom the bottom padding to marker, works only in horizontal orientation
      */
     public void setMarkerPaddingBottom(int markerPaddingBottom) {
@@ -417,6 +376,7 @@ public class TimelineView extends View {
 
     /**
      * Sets marker in center
+     *
      * @param markerInCenter the marker position
      */
     public void setMarkerInCenter(boolean markerInCenter) {
@@ -440,6 +400,7 @@ public class TimelineView extends View {
 
     /**
      * Sets line padding
+     *
      * @param padding the line padding
      */
     public void setLinePadding(int padding) {
@@ -453,6 +414,7 @@ public class TimelineView extends View {
 
     /**
      * Sets line orientation
+     *
      * @param lineOrientation the line orientation i.e horizontal or vertical
      */
     public void setLineOrientation(int lineOrientation) {
@@ -465,6 +427,7 @@ public class TimelineView extends View {
 
     /**
      * Sets line style
+     *
      * @param lineStyle the line style i.e normal or dashed
      */
     public void setLineStyle(int lineStyle) {
@@ -478,6 +441,7 @@ public class TimelineView extends View {
 
     /**
      * Sets dashed line length
+     *
      * @param lineStyleDashLength the dashed line length
      */
     public void setLineStyleDashLength(int lineStyleDashLength) {
@@ -491,6 +455,7 @@ public class TimelineView extends View {
 
     /**
      * Sets dashed line gap
+     *
      * @param lineStyleDashGap the dashed line gap
      */
     public void setLineStyleDashGap(int lineStyleDashGap) {
@@ -516,13 +481,13 @@ public class TimelineView extends View {
      * @param viewType the view type
      */
     public void initLine(int viewType) {
-        if(viewType == LineType.START) {
+        if (viewType == LineType.START) {
             showStartLine(false);
             showEndLine(true);
-        } else if(viewType == LineType.END) {
+        } else if (viewType == LineType.END) {
             showStartLine(true);
             showEndLine(false);
-        } else if(viewType == LineType.ONLYONE) {
+        } else if (viewType == LineType.ONLYONE) {
             showStartLine(false);
             showEndLine(false);
         } else {
@@ -536,16 +501,16 @@ public class TimelineView extends View {
     /**
      * Gets timeline view type.
      *
-     * @param position the position of current item view
+     * @param position  the position of current item view
      * @param totalSize the total size of the items
      * @return the timeline view type
      */
     public static int getTimeLineViewType(int position, int totalSize) {
-        if(totalSize == 1) {
+        if (totalSize == 1) {
             return LineType.ONLYONE;
-        } else if(position == 0) {
+        } else if (position == 0) {
             return LineType.START;
-        } else if(position == totalSize - 1) {
+        } else if (position == totalSize - 1) {
             return LineType.END;
         } else {
             return LineType.NORMAL;
