@@ -701,10 +701,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun setUpStatusAdapter() {
+
         dashboardNotificationStatusAdapter =
-            activity?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+            context?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
+
+        dashboardNotificationStatusAdapter?.onItemClickListener = listener
+
         rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
     }
+
 
     private fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
@@ -715,7 +721,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_description),
                 getString(Strings.screen_time_line_display_text_status_card_on_the_way_action),
                 resources.getDrawable(R.drawable.ic_dashboard_delivery),
-                NotificationProgressStatus.IS_COMPLETED
+                NotificationProgressStatus.IS_COMPLETED,
+                CardDeliveryStatus.SHIPPING
             )
         )
         list.add(
@@ -724,8 +731,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(Strings.screen_time_line_display_text_status_card_delivered_title),
                 getString(Strings.screen_time_line_display_text_status_card_delivered_description),
                 null,
-                resources.getDrawable(R.drawable.card_spare),
-                NotificationProgressStatus.IN_PROGRESS
+                resources.getDrawable(R.drawable.ic_dashboard_active),
+//                resources.getDrawable(R.drawable.card_spare),
+                NotificationProgressStatus.IN_PROGRESS,
+                CardDeliveryStatus.SHIPPED
             )
         )
 
@@ -747,7 +756,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_description),
                 getString(Strings.screen_time_line_display_text_status_set_card_pin_action),
                 resources.getDrawable(R.drawable.ic_dashboard_set_pin),
-                NotificationProgressStatus.IS_PENDING
+                NotificationProgressStatus.IS_PENDING,
+                CardDeliveryStatus.SHIPPED
             )
         )
         list.add(
@@ -763,5 +773,48 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
+    private val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+
+            var statusDataModel: StatusDataModel = data as StatusDataModel
+
+            when (statusDataModel.position) {
+                0 -> {
+                    context.shortToast("0")
+                    //
+                    startActivityForResult(
+                        FragmentPresenterActivity.getIntent(
+                            requireContext(),
+                            Constants.MODE_MEETING_CONFORMATION,
+                            null
+                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
+                    )
+                    //
+                }
+                1 -> {
+                    context.shortToast("1")
+                }
+                2 -> {
+                    //open email
+
+                    val intent = Intent(Intent.ACTION_MAIN)
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+                    startActivity(Intent.createChooser(intent, "Choose"))
+                }
+                3 -> {
+                    startActivityForResult(
+                        SetCardPinWelcomeActivity.newIntent(
+                            requireContext(),
+                            MyUserManager.getPrimaryCard()
+                        ), RequestCodes.REQUEST_FOR_SET_PIN
+                    )
+
+                }
+                4 -> {
+                    context?.startActivity(activity?.let { TopUpLandingActivity.getIntent(it) })
+                }
+            }
+        }
+    }
 
 }
