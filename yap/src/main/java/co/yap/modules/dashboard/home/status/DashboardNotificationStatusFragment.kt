@@ -20,7 +20,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -57,20 +56,6 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
         dashboardNotificationStatusAdapter?.onItemClickListener = listener
 
         rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
-//       if (MyUserManager?.getPrimaryCard()?.let { shouldShowSetPin(it) }){
-//           context.shortToast(
-//               +"got card"
-//           )
-//       }
-
-        if (shouldShowSetPin(MyUserManager.getPrimaryCard())) {
-            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-//                viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
-                context.shortToast("viewModel.EVENT_SET_CARD_PIN")
-
-            }
-        }
-
 
     }
 
@@ -82,9 +67,7 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
             when (statusDataModel.position) {
                 0 -> {
                     context.shortToast("0")
-
                     //
-
                     startActivityForResult(
                         FragmentPresenterActivity.getIntent(
                             requireContext(),
@@ -92,15 +75,12 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                             null
                         ), RequestCodes.REQUEST_MEETING_CONFIRMED
                     )
-
-
                     //
                 }
                 1 -> {
                     context.shortToast("1")
                 }
                 2 -> {
-                    context.shortToast("2")
                     //open email
 
                     val intent = Intent(Intent.ACTION_MAIN)
@@ -108,54 +88,19 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
                     startActivity(Intent.createChooser(intent, "Choose"))
                 }
                 3 -> {
-                    context.shortToast("3")
-                    //
                     startActivityForResult(
                         SetCardPinWelcomeActivity.newIntent(
                             requireContext(),
-                            MyUserManager.card.value
-//                            MyUserManager.getPrimaryCard()
+                            MyUserManager.getPrimaryCard()
                         ), RequestCodes.REQUEST_FOR_SET_PIN
                     )
 
-                    //
-
                 }
                 4 -> {
-                    context.shortToast("4")
-
                     context?.startActivity(activity?.let { TopUpLandingActivity.getIntent(it) })
                 }
             }
         }
-    }
-
-
-    private fun checkStatus() {
-//        MyUserManager.card.value?.status =
-
-//        viewModel.EVENT_SET_CARD_PIN -> {
-//            startActivityForResult(//here
-//                SetCardPinWelcomeActivity.newIntent(
-//                    requireContext(),
-//                    MyUserManager.getPrimaryCard()
-//                ), RequestCodes.REQUEST_FOR_SET_PIN
-//            )
-//        }
-
-//        viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-//            startActivityForResult(
-//                FragmentPresenterActivity.getIntent(
-//                    requireContext(),
-//                    Constants.MODE_MEETING_CONFORMATION,
-//                    null
-//                ), RequestCodes.REQUEST_MEETING_CONFIRMED
-//            )
-//        }
-    }
-
-    private fun openTopUpScreen() {
-//        context?.startActivity(TopUpLandingActivity.getIntent(context))
     }
 
     override fun setObservers() {
@@ -228,9 +173,5 @@ class DashboardNotificationStatusFragment : YapDashboardChildFragment<IYapHome.V
 
     private fun getBindings(): FragmentDashboardNotificationStatusesBinding {
         return viewDataBinding as FragmentDashboardNotificationStatusesBinding
-    }
-
-    private fun shouldShowSetPin(paymentCard: Card?): Boolean {
-        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 }
