@@ -401,4 +401,8 @@ fun Transaction?.getTransactionAmountColor(): Int {
     }
 }
 
+fun Transaction?.isTransactionRejected(): Boolean {
+    return (this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name)
+}
+
 

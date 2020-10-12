@@ -76,22 +76,21 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTxnFailedReason() {
         val msg = viewModel.transaction.get()?.let {
             when {
-
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    if (it.isTransactionInProgress()) {
-                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTransactionSubheading.alpha = 0.5f
-                        getBindings().ivCategoryIcon.alpha = 0.5f
-                        return@let getCutOffMsg()
-                    } else ""
-                }
-
-                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name ||  it.isTransactionInProgress() -> {
+                it.isTransactionInProgress() -> {
                     getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
+                    getBindings().tvTransactionSubheading.alpha = 0.5f
+                    getBindings().ivCategoryIcon.alpha = 0.5f
+                    return@let getCutOffMsg()
+                }
+                it.isTransactionRejected() -> {
+                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
+                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
+                    getBindings().tvTransactionSubheading.alpha = 0.5f
+                    getBindings().ivCategoryIcon.alpha = 0.5f
                     it.cancelReason
                 }
+
                 else -> ""
             }
         } ?: ""
