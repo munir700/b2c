@@ -123,6 +123,7 @@
                    android:dropDownHeight="@dimen/_100sdp"
                    android:dropDownWidth="wrap_content"
                    android:dropDownAnchor="@+id/containerAutoText"
+                   android:dropDownSelector="@drawable/iv_drown_down"
                    />
            </androidx.appcompat.widget.LinearLayoutCompat>
 
