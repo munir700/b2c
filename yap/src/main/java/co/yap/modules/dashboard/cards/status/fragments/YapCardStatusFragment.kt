@@ -27,6 +27,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
     companion object {
         const val data = "payLoad"
+
         @JvmStatic
         fun newInstance(payLoad: Parcelable?) = YapCardStatusFragment().apply {
             arguments = Bundle().apply {
@@ -85,7 +86,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     )
                 }
 
-                CardDeliveryStatus.SHIPPED, CardDeliveryStatus.SHIPPING -> {
+                CardDeliveryStatus.SHIPPING -> {
                     viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Your Primary card is shipped" else "")
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
@@ -105,7 +106,38 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     )
 
                     viewModel.state.shippingProgress = 100
-                  //  tbBtnShipping.setImageResource(R.drawable.ic_tick)
+                    tvShipping.text =
+                        if (CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Shipped" else "Shipping"
+                    tvShipping.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimary
+                        )
+                    )
+                    viewModel.state.valid =
+                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus
+                }
+                CardDeliveryStatus.SHIPPED -> {
+                    viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Your Primary card is shipped" else "")
+                    tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
+                    tvOrdered.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.colorPrimary
+                        )
+                    )
+
+                    tbProgressBarBuilding.progress = 100
+                    tbBtnBuilding.setImageResource(R.drawable.ic_tick)
+                    tvBuilding.text = "Built"
+                    tvBuilding.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimary
+                        )
+                    )
+
+                    viewModel.state.shippingProgress = 100
+                    tbBtnShipping.setImageResource(R.drawable.ic_tick)
                     tvShipping.text =
                         if (CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Shipped" else "Shipping"
                     tvShipping.setTextColor(
