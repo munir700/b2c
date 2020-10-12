@@ -304,6 +304,7 @@
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReasonLbl"
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

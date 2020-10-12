@@ -7,6 +7,7 @@ import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.states.LocationSelectionState
 import co.yap.modules.placesautocomplete.PlaceAPI
 import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
+import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.CustomersRepository
@@ -151,7 +152,7 @@ class LocationSelectionViewModel(application: Application) :
     fun isValidAddress(): Boolean {
         if (!StringUtils.isValidAddress(
                 state.addressTitle.get() ?: ""
-            ) || !StringUtils.isValidAddress(state.addressSubtitle.get()?: "")
+            ) || !StringUtils.isValidAddress(state.addressSubtitle.get() ?: "")
         ) {
             showToast("Invalid address found")
             return false
@@ -161,11 +162,17 @@ class LocationSelectionViewModel(application: Application) :
 
     val autoCompleteListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            selectedPlaceId.value=data.toString()
+            if (data is Place) {
+                state.placeTitle.set(data.mainText)
+                state.placeSubTitle.set(data.description)
+                state.isLocationInAllowedCountry.set(true)
+                selectedPlaceId.value = data.id
+            }
         }
     }
-    private fun initializePlacesAdapter()
-    { val placeAPI = PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
-        placesAdapter= PlacesAutoCompleteAdapter(context,placeAPI)
+
+    private fun initializePlacesAdapter() {
+        val placeAPI = PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
+        placesAdapter = PlacesAutoCompleteAdapter(context, placeAPI)
     }
 }
