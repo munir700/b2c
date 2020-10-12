@@ -1,6 +1,5 @@
 package co.yap.app.modules.login.states
 
-import android.app.Application
 import android.content.Context
 import android.os.CountDownTimer
 import androidx.databinding.Bindable
@@ -11,7 +10,7 @@ import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.ThemeColorUtils
 
-class PhoneVerificationSignInState(application: Application) : BaseState(),
+class PhoneVerificationSignInState : BaseState(),
     IPhoneVerificationSignIn.State {
 
     @get:Bindable
@@ -42,12 +41,12 @@ class PhoneVerificationSignInState(application: Application) : BaseState(),
             notifyPropertyChanged(BR.timer)
         }
 
-    @get:Bindable
-    override var otp: String = ""
+
+    override var otp: ObservableField<String> = ObservableField("")
         set(value) {
             if (isOtpBlocked.get() == false) {
+                otp.set(value.get())
                 field = value
-                notifyPropertyChanged(BR.otp)
             }
         }
 

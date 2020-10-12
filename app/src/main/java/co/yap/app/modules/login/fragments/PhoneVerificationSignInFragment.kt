@@ -25,7 +25,6 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
-import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.gms.auth.api.phone.SmsRetriever
 
 
@@ -42,30 +41,31 @@ class PhoneVerificationSignInFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.addOnPropertyChangedCallback(stateObserver)
         setObservers()
-        context?.startSmsConsent()
-        initBroadcast()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
         getData()
-        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (propertyId == BR.otp) {
-                if (viewModel.isValidOtpLength(viewModel.state.otp)) {
-                    viewModel.verifyOtp()
-                }
+            if (viewModel.isValidOtpLength(viewModel.state.otp.get()?:"")) {
+                viewModel.clickEvent.call()
             }
         }
     }
 
     override fun setObservers() {
+        viewModel.state.otp.addOnPropertyChangedCallback(stateObserver)
+        context?.startSmsConsent()
+        initBroadcast()
+        context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
+        viewModel.clickEvent.observe(this, Observer {
+            viewModel.verifyOtp()
+        })
         viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
         viewModel.accountInfo.observe(this, onFetchAccountInfo)
     }
@@ -138,22 +138,21 @@ class PhoneVerificationSignInFragment :
             SMS_CONSENT_REQUEST ->
                 if (resultCode == Activity.RESULT_OK) {
                     val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
-                    viewModel.state.otp = context?.getOtpFromMessage(message ?: "") ?: ""
-                } else {
-                    toast("Yap could not read message, please enter manually")
+                    viewModel.state.otp.set(context?.getOtpFromMessage(message ?: "") ?: "")
                 }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.state.removeOnPropertyChangedCallback(stateObserver)
+    override fun removeObservers() {
+        viewModel.state.otp.removeOnPropertyChangedCallback(stateObserver)
         viewModel.postDemographicDataResult.removeObservers(this)
         viewModel.accountInfo.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
+        context?.unregisterReceiver(appSMSBroadcastReceiver)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        context?.unregisterReceiver(appSMSBroadcastReceiver)
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
     }
 }

@@ -70,6 +70,7 @@ object Constants {
 
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+    const val REQUEST_CODE_CREATE_PASSCODE: Int = 127
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"

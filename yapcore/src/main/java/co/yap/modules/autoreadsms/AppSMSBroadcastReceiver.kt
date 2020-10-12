@@ -30,3 +30,4 @@ class MySMSBroadcastReceiver(private val onSmsReceiveListener: OnSmsReceiveListe
         fun onReceive(code: Intent?)
     }
 }
+
