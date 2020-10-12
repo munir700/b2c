@@ -1014,6 +1014,10 @@
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+    <!-- Blocked Screen-->
+
+    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
+
 
 </resources>
 
