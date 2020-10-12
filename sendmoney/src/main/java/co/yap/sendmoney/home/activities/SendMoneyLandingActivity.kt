@@ -20,7 +20,6 @@ import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
-import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
@@ -29,7 +28,6 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -293,17 +291,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     )
                 }
             }
-            R.id.tbBtnAddBeneficiary -> {
-                if (MyUserManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    startActivityForResult(
-                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
-                    )
-                }
-            }
-            R.id.tbBtnBack -> finish()
+
+
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
                     if (isSearching) {
@@ -313,13 +302,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     }
                 }
             }
-            R.id.foregroundContainer->{
+            R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (MyUserManager.user?.otpBlocked == true) {
                             showToast(Utils.getOtpBlockedMessage(this))
                         } else {
-                            startMoneyTransfer(payload.itemData as Beneficiary,payload.position)
+                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
                         }
                     }
                 }
@@ -376,13 +365,18 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
                             val isMoneyTransfer =
                                 data.getValue(Constants.IS_TRANSFER_MONEY, "BOOLEAN") as? Boolean
+                            val isDismissFlow =
+                                data.getValue(
+                                    Constants.TERMINATE_ADD_BENEFICIARY,
+                                    "BOOLEAN"
+                                ) as? Boolean
                             val beneficiary =
                                 data.getValue(
                                     Beneficiary::class.java.name,
                                     "PARCEABLE"
                                 ) as? Beneficiary
-                            if (isMoneyTransfer == true)
-                                beneficiary?.let {
+                            when {
+                                isMoneyTransfer == true -> beneficiary?.let {
                                     if (MyUserManager.user?.otpBlocked == true) {
                                         showToast(Utils.getOtpBlockedMessage(this))
                                     } else {
@@ -390,8 +384,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                     }
                                     viewModel.requestAllBeneficiaries()
                                 }
-                            else
-                                viewModel.requestAllBeneficiaries()
+                                isDismissFlow == true -> { }
+                                else -> viewModel.requestAllBeneficiaries()
+                            }
                         } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
                             finish()
                         }
@@ -414,6 +409,22 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> finish()
+            R.id.ivRightIcon -> {
+                if (MyUserManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(this))
+                } else {
+                    startActivityForResult(
+                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    )
                 }
             }
         }

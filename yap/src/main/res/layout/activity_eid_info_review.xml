@@ -174,7 +174,7 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:drawableEnd="@{viewModel.state.nationalityValid ? @drawable/path : @drawable/ic_error}"
                     android:text="@{viewModel.state.nationality}"
@@ -198,7 +198,7 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
                     android:text="@{viewModel.state.dateOfBirth}"
@@ -224,7 +224,7 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:drawableEnd="@{viewModel.state.genderValid ? @drawable/path : @drawable/ic_error}"
                     android:text="@{viewModel.state.gender}"
@@ -247,12 +247,25 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:drawableEnd="@{viewModel.state.expiryDateValid ? @drawable/path : @drawable/ic_error}"
                     android:text="@{viewModel.state.expiryDate}"
                     app:layout_constraintTop_toBottomOf="@+id/tvExpiryDateHeading"
                     tools:text="01/01/2019" />
+
+                <TextView
+                    android:id="@+id/tvError"
+                    style="@style/MicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:textColor="@color/error"
+                    android:visibility="@{viewModel.state.expiryDateValid? View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDate"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_expired_eid_text}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_expired_eid_text" />
 
                 <TextView
                     android:id="@+id/tvNoThanks"
@@ -389,7 +402,8 @@
                             app:layout_constraintStart_toStartOf="@+id/tvEid"
                             app:layout_constraintTop_toBottomOf="@+id/tvEid"
                             app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_sub_heading}"
-                            tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_sub_heading" />
+                            tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_sub_heading"
+                            tools:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tvCitizenNumber"
@@ -424,7 +438,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvExpiryDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvError"
                     app:layout_constraintVertical_bias="0.75"
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
                     tools:ignore="MissingConstraints"

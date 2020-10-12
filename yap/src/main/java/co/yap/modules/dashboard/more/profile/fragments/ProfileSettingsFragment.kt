@@ -54,10 +54,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
-            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
         }
-
-
+        viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
             SharedPreferenceManager(requireContext())
 
@@ -295,4 +293,5 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
 
     }
+
 }

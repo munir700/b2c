@@ -51,6 +51,13 @@ import java.util.regex.Pattern
 @SuppressLint("StaticFieldLeak")
 object Utils {
 
+    fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
+        val dimensions = IntArray(2)
+        dimensions[0] = getDimensionInPercent(context, true, width)
+        dimensions[1] = getDimensionInPercent(context, false, height)
+        return dimensions
+    }
+
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
@@ -733,7 +740,6 @@ object Utils {
             "XXXX XXXX XXXX $cardNumber"
         else
             "XXXX XXXX XXXX XXXX"
-
     }
 
     fun confirmationDialog(
@@ -742,7 +748,8 @@ object Utils {
         message: String,
         positiveButton: String,
         negitiveButton: String,
-        itemClick: OnItemClickListener
+        itemClick: OnItemClickListener,
+        isCancelable: Boolean = true
     ) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(title).setMessage(message)
@@ -756,6 +763,7 @@ object Utils {
             ) { _, _ ->
                 itemClick.onItemClick(View(context), false, 0)
             }
+            .setCancelable(isCancelable)
             .show()
     }
 
@@ -895,11 +903,12 @@ object Utils {
             }
             ProductFlavour.STG.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-
+            }
+            ProductFlavour.INTERNAL.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.QA.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-
             }
             ProductFlavour.DEV.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"

@@ -65,7 +65,10 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-        return StringUtils.validateName(firstName) && StringUtils.validateLastName(lastName) && firstNameError.value.isNullOrEmpty() && lastNameError.value.isNullOrEmpty()
+        return StringUtils.validateName(firstName)
+                && StringUtils.validateLastName(lastName)
+                && firstNameError.value.isNullOrEmpty()
+                && lastNameError.value.isNullOrEmpty()
     }
 
     private fun setFirstNameTextWatcher(value: String) {

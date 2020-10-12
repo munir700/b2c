@@ -43,18 +43,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (MyUserManager.user?.notificationStatuses) {
-            AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
-                skipLocationSelectionFragment()
+        if (viewModel.parentViewModel?.isOnBoarding == true) {
+            when (MyUserManager.user?.notificationStatuses) {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                    skipLocationSelectionFragment()
+                }
+                else -> setObservers()
             }
-            else -> {
-                setObservers()
-            }
+        } else {
+            setObservers()
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -179,9 +179,11 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
             R.id.btnLocation -> {
                 onMapClickAction()
+                removeAutoCompleteFocus()
             }
 
             R.id.ivClose -> {
+                removeAutoCompleteFocus()
                 setAddress() // set initial address
                 if (viewModel.state.isShowLocationCard.get() == true)
                     slideDownCardAnimation()
@@ -297,6 +299,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         YoYo.with(Techniques.SlideInUp)
             .duration(400)
             .playOn(flAddressDetail)
+        addAutoCompleteFocus()
 
     }
 
@@ -349,6 +352,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             val intent = Intent()
             intent.putExtra(ADDRESS, viewModel.getUserAddress())
             intent.putExtra(ADDRESS_SUCCESS, isUpdated)
+            intent.putExtra(Constants.PLACES_PHOTO_ID, viewModel.selectedPlaceId.value.toString())
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         }
@@ -449,4 +453,18 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         )
     }
 
+
+    private fun removeAutoCompleteFocus() {
+        etAddressField.isFocusable = false
+        etAddressField.isFocusableInTouchMode = false
+        etAddressField.isFocusable = false
+        etAddressField.isFocusableInTouchMode = false
+    }
+
+    private fun addAutoCompleteFocus() {
+        etAddressField.isFocusable = true
+        etAddressField.isFocusableInTouchMode = true
+        etAddressField.isFocusable = true
+        etAddressField.isFocusableInTouchMode = true
+    }
 }

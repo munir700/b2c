@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.main.activities
 
 import android.Manifest
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,7 +15,10 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.MutableLiveData
@@ -26,13 +30,13 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
@@ -48,8 +52,10 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import com.facebook.appevents.AppEventsConstants
@@ -191,7 +197,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
-                R.id.lAnalytics -> {
+                R.id.imgProfile -> {
+                    startActivity(MoreActivity.newIntent(this))
+                }
+                R.id.tvLogOut -> {
+                    logoutAlert()
+                }
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
                 }
             }
         })
@@ -211,7 +224,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
-        val tvEmail = dialog.findViewById<TextView>(R.id.tvUserGuide)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
@@ -219,13 +232,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
 
         MyUserManager.user?.currentCustomer?.email?.let {
-            tvEmail.text =
-                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
-                    if (it.isBlank())
-                        "" else it
-                )
+            tvEmail.text = it
         }
-        //  tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {
@@ -241,31 +249,35 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             getString(Strings.screen_email_verified_popup_display_text_click_here).plus("")
         val clickValue =
             getString(Strings.screen_email_verified_popup_button_title_click_here)
-        val spanStr = SpannableStringBuilder("$newValue $clickValue")
+        val spanStr = SpannableStringBuilder("$clickValue $newValue")
 
-        spanStr.setSpan(
-            fcs,
-            (newValue.length + 1),
-            (newValue.length + 1) + clickValue.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
         spanStr.setSpan(
             myClickableSpan,
-            (newValue.length + 1),
-            (newValue.length + 1) + clickValue.length,
+            0,
+            (clickValue.length + 1),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spanStr.setSpan(
+            fcs,
+            0,
+            clickValue.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        tvTroubleDescription.text = spanStr
         tvTroubleDescription.movementMethod = LinkMovementMethod.getInstance()
+        tvTroubleDescription.text = spanStr
 
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_APP_EMAIL)
             startActivity(Intent.createChooser(intent, "Choose"))
         }
+        dialog.findViewById<AppCompatImageView>(R.id.ivClose).setOnClickListener {
+            dialog.dismiss()
+        }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
+            viewModel.resendVerificationEmail()
         }
         dialog.show()
     }
@@ -325,6 +337,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
             startActivity(Intent(this, CardAnalyticsActivity::class.java))
             closeDrawer()
+        }
+        getViewBinding().includedDrawerLayout.lRefer.lnAnalytics.setOnClickListener {
+            startFragment<InviteFriendFragment>(
+                InviteFriendFragment::class.java.name, false,
+                bundleOf()
+            )
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             MyUserManager.getPrimaryCard()?.let {
@@ -461,4 +479,25 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
+
+    private fun logoutAlert() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
+                DialogInterface.OnClickListener { dialog, which ->
+                    viewModel.logout()
+                })
+
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null)
+            .show()
+    }
+
+    private fun doLogout() {
+        MyUserManager.doLogout(this)
+       finishAffinity()
+    }
+
 }

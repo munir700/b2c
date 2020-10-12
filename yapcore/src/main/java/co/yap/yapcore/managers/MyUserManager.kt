@@ -34,6 +34,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
 
     // new implementation of calling call. Plan its implementation.
     //    private val userManagerJob = Job()

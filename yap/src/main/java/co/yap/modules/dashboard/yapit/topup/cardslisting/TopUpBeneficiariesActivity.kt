@@ -233,17 +233,6 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             }
         }
         when (it) {
-            R.id.tbBtnAddCard -> {
-                if (viewModel.cardLimits?.remaining ?: 0 >= 0) {
-                    addCardProcess()
-                } else {
-                    showToast(
-                        "${getString(Strings.screen_add_topup_card_limit_text_title).format(
-                            viewModel.cardLimits?.maxLimit
-                        )}^${AlertType.DIALOG.name}"
-                    )
-                }
-            }
             R.id.btnSelect -> {
                 if (mAdapter.getDataList().isNotEmpty()) {
                     val item: TopUpCard? =
@@ -267,17 +256,38 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                     openCardDetail(item)
                 }
             }
-            R.id.tbBtnBack -> {
-                onBackPressed()
-            }
+
             R.id.lycard -> {
                 if (viewModel.cardLimits?.remaining ?: 0 > 0) {
                     addCardProcess()
                 } else {
                     showToast(
-                        "${getString(Strings.screen_add_topup_card_limit_text_title).format(
-                            viewModel.cardLimits?.maxLimit
-                        )}^${AlertType.DIALOG.name}"
+                        "${
+                            getString(Strings.screen_add_topup_card_limit_text_title).format(
+                                viewModel.cardLimits?.maxLimit
+                            )
+                        }^${AlertType.DIALOG.name}"
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+            R.id.ivRightIcon -> {
+                if (viewModel.cardLimits?.remaining ?: 0 >= 0) {
+                    addCardProcess()
+                } else {
+                    showToast(
+                        "${
+                            getString(Strings.screen_add_topup_card_limit_text_title).format(
+                                viewModel.cardLimits?.maxLimit
+                            )
+                        }^${AlertType.DIALOG.name}"
                     )
                 }
             }
@@ -336,7 +346,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             "qa" -> {
                 "https://qa-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
-            "stg" -> {
+            "stg","yapinternal" -> {
                 "https://stg-hci.yap.co/admin-web/HostedSessionIntegration.html"
             }
             else -> null

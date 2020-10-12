@@ -35,6 +35,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
             ProductFlavour.STG.flavour -> {
                 config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
             }
+            ProductFlavour.INTERNAL.flavour -> {
+                config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
+            }
             ProductFlavour.QA.flavour -> {
             }
             ProductFlavour.DEV.flavour -> {

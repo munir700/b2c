@@ -63,6 +63,7 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -205,21 +206,40 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             when (it) {
                 R.id.lyTransaction -> {
                     viewModel.clickEvent.getPayload()?.let {
-                        if (it.itemData is Transaction) {
-                            launchActivity<TransactionDetailsActivity> {
-                                putExtra("transaction", it.itemData as Transaction)
-                            }
+                        val childPosition = it.position
+                        val groupPosition = it.itemData as Int
+                        val transaction: Transaction? =
+                            getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                                childPosition
+                            )
+                        launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                            putExtra(
+                                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                                transaction
+                            )
+                            putExtra(
+                                 ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                groupPosition
+                            )
+                            putExtra(
+                                 ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                childPosition
+                            )
+
                         }
+
                     }
                     viewModel.clickEvent.setPayload(null)
                 }
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    startActivityForResult(
-                        SetCardPinWelcomeActivity.newIntent(
-                            requireContext(),
-                            MyUserManager.getPrimaryCard()
-                        ), RequestCodes.REQUEST_FOR_SET_PIN
-                    )
+                    MyUserManager.getPrimaryCard()?.let { card ->
+                        startActivityForResult(
+                            SetCardPinWelcomeActivity.newIntent(
+                                requireContext(),
+                                card
+                            ), RequestCodes.REQUEST_FOR_SET_PIN
+                        )
+                    } ?: showToast("Debit card not found.")
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
                     startActivityForResult(
@@ -602,6 +622,36 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         viewModel.getDebitCards()
                         openTopUpScreen()
                     }
+                }
+            }
+            RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
+
+                val groupPosition = data.let {intent->
+                    intent?.getIntExtra(
+                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        -1
+                    )
+                }
+                val childPosition = data.let {intent->
+                    intent?.getIntExtra(
+                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        -1
+                    )
+                }
+                if (groupPosition != -1 && childPosition != -1) {
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
+                        childPosition?:0
+                    )?.transactionNote =
+                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
+                        childPosition?:0
+                    )?.transactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition?:0,
+                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(childPosition?:0)
+                    )
+
                 }
             }
         }

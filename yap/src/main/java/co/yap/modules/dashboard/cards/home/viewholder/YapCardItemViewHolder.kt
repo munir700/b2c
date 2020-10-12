@@ -31,7 +31,7 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         }else{
             if (null!=paymentCard?.nameUpdated) {
                 if(paymentCard.nameUpdated!!){
-                    cardName = paymentCard.cardName
+                    cardName = paymentCard.cardName?: ""
                 }else {
                     if(paymentCard.physical){
                         cardName = Constants.TEXT_SPARE_CARD_PHYSICAL

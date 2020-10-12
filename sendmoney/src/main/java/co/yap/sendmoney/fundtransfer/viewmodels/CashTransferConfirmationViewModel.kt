@@ -25,7 +25,7 @@ class CashTransferConfirmationViewModel(application: Application) :
         super.onCreate()
         parentViewModel?.state?.leftIcon?.set(true)
         parentViewModel?.state?.rightIcon?.set(false)
-        parentViewModel?.state?.toolBarTitle = "Confirm transfer"
+        parentViewModel?.state?.toolbarTitle = "Confirm transfer"
         getCutOffTimeConfiguration()
     }
 

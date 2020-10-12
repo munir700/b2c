@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.main.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.networking.authentication.AuthRepository
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -26,6 +27,10 @@ interface IYapDashboard {
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
         val showUnverifedscreen: MutableLiveData<Boolean>
+        fun resendVerificationEmail()
+        fun logout()
+        val authRepository: AuthRepository
+        var EVENT_LOGOUT_SUCCESS: Int
     }
 
     interface View : IBase.View<ViewModel> {

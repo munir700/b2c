@@ -11,6 +11,7 @@ import co.yap.yapcore.managers.MyUserManager
 class TopUpBeneficiariesState : BaseState(), ITopUpBeneficiaries.State {
 
     override val valid: ObservableField<Boolean> = ObservableField(true)
+    override val responseReceived: ObservableField<Boolean> = ObservableField(false)
     override val enableAddCard: ObservableBoolean =
         ObservableBoolean(PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
     override var noOfCard: ObservableField<String> = ObservableField("")
