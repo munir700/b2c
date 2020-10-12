@@ -16,6 +16,7 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -116,7 +117,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                         viewModel.token,
                         Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                     )
-                findNavController().navigate(action)
+                navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
             } ?: showToast("Invalid username found")
         }
     }

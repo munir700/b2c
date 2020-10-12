@@ -1,17 +1,30 @@
 package co.yap.yapcore.enums
 
 enum class FeatureSet {
-    DOMESTIC,
-    UAEFTS,
-    CBWSI,
-    RMT,
-    SWIFT,
+    DOMESTIC_TRANSFER,
+    UAEFTS_TRANSFER,
+    CBWSI_TRANSFER,
+    RMT_TRANSFER,
+    SWIFT_TRANSFER,
     TOP_UP_BY_EXTERNAL_CARD,
-    ADD_FUNDS,
-    REMOVE_FUNDS,
-    Y2Y_TRANSFER,
-    UNFREEZE_CARD,
+    ADD_FUNDS,  //done
+    REMOVE_FUNDS, //done
+    Y2Y_TRANSFER, //done
+    UNFREEZE_CARD, //done
     CHANGE_PIN,
     FORGOT_PIN,
+    CHANGE_PASSCODE,  //done
+    FORGOT_PASSCODE, // done
+    ADD_SEND_MONEY_BENEFICIARY,
+    EDIT_SEND_MONEY_BENEFICIARY,
+    EDIT_PHONE_NUMBER,
+    EDIT_EMAIL,
+    UPDATE_EID,
+    REORDER_DEBIT_CARD,
+    ANALYTICS,
+    YAP_FOR_YOU,
+    YAP_TO_YAP,
+    TOP_UP,
+    SEND_MONEY,
     NONE
 }

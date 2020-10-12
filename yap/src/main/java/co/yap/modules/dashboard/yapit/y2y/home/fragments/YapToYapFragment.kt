@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -88,11 +89,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         if (SessionManager.user?.otpBlocked == true) {
             showToast(Utils.getOtpBlockedMessage(requireContext()))
         } else {
-            findNavController().navigate(
-                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-//                data.beneficiaryPictureUrl!!
-//                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
-                )
+            navigate(
+                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(),
+                screenType = FeatureSet.Y2Y_TRANSFER
             )
         }
     }

@@ -1,8 +1,8 @@
 package co.yap.yapcore.helpers.extentions
 
-import co.yap.yapcore.enums.FeatureSet
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.enums.AccountBlockSeverityLevel
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.UserAccessRestriction
 
@@ -72,11 +72,11 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
 
         UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL -> {
             arrayListOf(
-                FeatureSet.DOMESTIC,
-                FeatureSet.UAEFTS,
-                FeatureSet.RMT,
-                FeatureSet.SWIFT,
-                FeatureSet.CBWSI,
+                FeatureSet.DOMESTIC_TRANSFER,
+                FeatureSet.UAEFTS_TRANSFER,
+                FeatureSet.RMT_TRANSFER,
+                FeatureSet.SWIFT_TRANSFER,
+                FeatureSet.CBWSI_TRANSFER,
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
@@ -86,11 +86,11 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         }
         UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT -> {
             arrayListOf(
-                FeatureSet.DOMESTIC,
-                FeatureSet.UAEFTS,
-                FeatureSet.RMT,
-                FeatureSet.SWIFT,
-                FeatureSet.CBWSI,
+                FeatureSet.DOMESTIC_TRANSFER,
+                FeatureSet.UAEFTS_TRANSFER,
+                FeatureSet.RMT_TRANSFER,
+                FeatureSet.SWIFT_TRANSFER,
+                FeatureSet.CBWSI_TRANSFER,
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
@@ -107,11 +107,11 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL -> {
             arrayListOf(
-                FeatureSet.DOMESTIC,
-                FeatureSet.UAEFTS,
-                FeatureSet.RMT,
-                FeatureSet.SWIFT,
-                FeatureSet.CBWSI,
+                FeatureSet.DOMESTIC_TRANSFER,
+                FeatureSet.UAEFTS_TRANSFER,
+                FeatureSet.RMT_TRANSFER,
+                FeatureSet.SWIFT_TRANSFER,
+                FeatureSet.CBWSI_TRANSFER,
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
@@ -123,11 +123,11 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         }
         UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT -> {
             arrayListOf(
-                FeatureSet.DOMESTIC,
-                FeatureSet.UAEFTS,
-                FeatureSet.RMT,
-                FeatureSet.SWIFT,
-                FeatureSet.CBWSI,
+                FeatureSet.DOMESTIC_TRANSFER,
+                FeatureSet.UAEFTS_TRANSFER,
+                FeatureSet.RMT_TRANSFER,
+                FeatureSet.SWIFT_TRANSFER,
+                FeatureSet.CBWSI_TRANSFER,
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.Y2Y_TRANSFER,
@@ -148,18 +148,20 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         }
         UserAccessRestriction.OTP_BLOCKED -> {
             arrayListOf(
-                FeatureSet.DOMESTIC,
-                FeatureSet.UAEFTS,
-                FeatureSet.RMT,
-                FeatureSet.SWIFT,
-                FeatureSet.CBWSI,
+                FeatureSet.DOMESTIC_TRANSFER,
+                FeatureSet.UAEFTS_TRANSFER,
+                FeatureSet.RMT_TRANSFER,
+                FeatureSet.SWIFT_TRANSFER,
+                FeatureSet.CBWSI_TRANSFER,
                 FeatureSet.ADD_FUNDS,
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
                 FeatureSet.UNFREEZE_CARD,
                 FeatureSet.CHANGE_PIN,
-                FeatureSet.FORGOT_PIN
+                FeatureSet.FORGOT_PIN,
+                FeatureSet.CHANGE_PASSCODE,
+                FeatureSet.FORGOT_PASSCODE
             )
         }
         UserAccessRestriction.NONE, UserAccessRestriction.ACCOUNT_INACTIVE, UserAccessRestriction.EID_EXPIRED -> {

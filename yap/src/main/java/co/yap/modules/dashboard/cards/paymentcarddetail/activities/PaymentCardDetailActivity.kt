@@ -54,13 +54,12 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -207,10 +206,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 } else {
                     trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                     viewModel.card.value?.let { card ->
-                        startActivityForResult(
-                            AddFundsActivity.newIntent(this, card),
-                            Constants.REQUEST_ADD_REMOVE_FUNDS
-                        )
+                        launchActivity<AddFundsActivity>(
+                            requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
+                            type = FeatureSet.ADD_FUNDS
+                        ) {
+                            putExtra(AddFundsActivity.CARD, card)
+                        }
                     }
                 }
                 cancelAllSnackBar()
@@ -219,7 +220,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.freezeUnfreezeCard()
             }
             R.id.llFreezePrimaryCard -> {
-
                 viewModel.freezeUnfreezeCard()
             }
             R.id.llRemoveFunds -> {
@@ -227,13 +227,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     if (viewModel.card.value?.blocked == false) {
-                        startActivityForResult(
-                            RemoveFundsActivity.newIntent(
-                                this,
-                                viewModel.card.value!!
-                            ),
-                            Constants.REQUEST_ADD_REMOVE_FUNDS
-                        )
+                        viewModel.card.value?.let { card ->
+                            launchActivity<RemoveFundsActivity>(
+                                requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
+                                type = FeatureSet.REMOVE_FUNDS
+                            ) {
+                                putExtra(AddFundsActivity.CARD, card)
+                            }
+                        }
                         cancelAllSnackBar()
                     } else {
                         showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
@@ -371,7 +372,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         gravity = Gravity.TOP,
                         duration = Snackbar.LENGTH_INDEFINITE,
                         actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
-                        clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
+                        clickListener = View.OnClickListener {
+                            if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
+                                showAlertDialogAndExitApp(message = "This feature is blocked")
+                            } else {
+                                viewModel.freezeUnfreezeCard()
+                            }
+                        }
                     )
                     if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                         tvPrimaryCardStatus.text = "Unfreeze card"
@@ -424,12 +431,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
-                    startActivity(
-                        ChangeCardPinActivity.newIntent(
-                            this,
+                    launchActivity<ChangeCardPinActivity>(type = FeatureSet.CHANGE_PIN) {
+                        putExtra(
+                            ChangeCardPinActivity.CARD_SERIAL_NUMBER,
                             viewModel.card.value?.cardSerialNumber ?: ""
                         )
-                    )
+                    }
+
                     cancelAllSnackBar()
                 }
             }
@@ -439,9 +447,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     viewModel.card.value?.cardSerialNumber?.let {
-                        startActivity(
-                            ForgotCardPinActivity.newIntent(this, it)
-                        )
+                        launchActivity<ForgotCardPinActivity>(type = FeatureSet.FORGOT_PIN) {
+                            putExtra(
+                                co.yap.yapcore.constants.Constants.CARD_SERIAL_NUMBER,
+                                it
+                            )
+                        }
                         cancelAllSnackBar()
                     }
                 }

@@ -8,7 +8,9 @@ import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirecti
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseListItemViewModel
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
 class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
@@ -36,12 +38,19 @@ class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
                 activity.showToast(Utils.getOtpBlockedMessage(activity))
             }
         } else {
-            navigation?.navigate(
-                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                    (data as Beneficiary).beneficiaryPictureUrl ?: ""
-                    , data.beneficiaryUuid ?: "", data.title ?: "", pos
+            if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.Y2Y_TRANSFER)) { // update otp as well in a single case
+                if (view.context is BaseActivity<*>) {
+                    val activity = view.context as BaseActivity<*>
+                    activity.showToast(Utils.getOtpBlockedMessage(activity))
+                }
+            } else {
+                navigation?.navigate(
+                    YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                        (data as Beneficiary).beneficiaryPictureUrl ?: ""
+                        , data.beneficiaryUuid ?: "", data.title ?: "", pos
+                    )
                 )
-            )
+            }
         }
     }
 }
