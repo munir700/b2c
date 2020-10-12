@@ -77,7 +77,8 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                tools:ignore="MissingConstraints" />
             <co.yap.widgets.spinneradapter.searchable.SearchableSpinner
                 android:id="@+id/bspinner"
                 android:layout_width="match_parent"
@@ -89,7 +90,7 @@
                 app:SpinnerExpandHeight="@dimen/_100sdp"
                 app:RevealEmptyText="Touch to select"
                 android:visibility="gone"
-                />
+                tools:ignore="MissingConstraints" />
            <androidx.appcompat.widget.LinearLayoutCompat
                android:id="@+id/containerAutoText"
                android:layout_width="match_parent"
