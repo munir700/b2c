@@ -61,7 +61,6 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -71,9 +70,6 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home.rvNotificationStatus
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
-import kotlinx.android.synthetic.main.fragment_dashboard_notification_statuses.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
@@ -422,6 +418,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
@@ -692,23 +689,30 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
 
-    fun setUpDashBoardNotificationsView(){
-        viewModel.state.isTransEmpty.set(false)
-        rvTransaction.visibility= View.GONE
-        vGraph.visibility= View.GONE
-        rvNotificationStatus.visibility= View.VISIBLE
+    fun setUpDashBoardNotificationsView() {
+//        viewModel.state.isTransEmpty.set(false)
+        rvTransaction.visibility = View.GONE
+        vGraph.visibility = View.GONE
+        rvNotificationStatus.visibility = View.VISIBLE
         setUpStatusAdapter()
     }
 
     private fun setUpStatusAdapter() {
+        if (MyUserManager.getPrimaryCard()?.status == CardDeliveryStatus.SHIPPING.name) {
+            rvNotificationStatus.visibility = View.VISIBLE
+            dashboardNotificationStatusAdapter =
+                context?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
+            dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
 
-        dashboardNotificationStatusAdapter =
-            context?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
-        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
+            dashboardNotificationStatusAdapter?.onItemClickListener = listener
 
-        dashboardNotificationStatusAdapter?.onItemClickListener = listener
+            rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
+        } else {
+            rvNotificationStatus.visibility = View.GONE
+            rvTransaction.visibility = View.VISIBLE
+            vGraph.visibility = View.VISIBLE
 
-        rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
+        }
     }
 
 
@@ -780,8 +784,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
             when (statusDataModel.position) {
                 0 -> {
-                    context.shortToast("0")
-                    //
                     startActivityForResult(
                         FragmentPresenterActivity.getIntent(
                             requireContext(),
@@ -789,14 +791,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             null
                         ), RequestCodes.REQUEST_MEETING_CONFIRMED
                     )
-                    //
                 }
                 1 -> {
                     context.shortToast("1")
                 }
                 2 -> {
                     //open email
-
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_EMAIL)
                     startActivity(Intent.createChooser(intent, "Choose"))
