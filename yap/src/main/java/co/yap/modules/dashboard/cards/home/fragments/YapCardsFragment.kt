@@ -254,7 +254,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
                         adapter.removeAllItems()
-                        openDetailScreen(card = paymentCard)
+                        openDetailScreen(pos = viewModel.cards.value?.size ?: 0, card = paymentCard)
                         viewModel.getCards()
                     }
                 }
