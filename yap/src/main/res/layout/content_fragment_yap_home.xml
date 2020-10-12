@@ -30,7 +30,8 @@
                 android:id="@+id/rvNotificationList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dsv_orientation="horizontal" />
+                app:dsv_orientation="horizontal"
+                tools:listitem="@layout/view_notifications" />
 
             <!--     Content Graph Center       -->
             <include
