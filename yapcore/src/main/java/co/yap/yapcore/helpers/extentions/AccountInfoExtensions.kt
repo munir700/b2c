@@ -1,10 +1,13 @@
 package co.yap.yapcore.helpers.extentions
 
+import android.content.Context
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.yapcore.R
 import co.yap.yapcore.enums.AccountBlockSeverityLevel
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.UserAccessRestriction
+import co.yap.yapcore.helpers.Utils
 
 fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
     val restrictions: ArrayList<UserAccessRestriction> = arrayListOf()
@@ -168,4 +171,25 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
             arrayListOf()
         }
     })
+}
+
+fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context): String {
+    return (when (key) {
+        UserAccessRestriction.ACCOUNT_INACTIVE -> {
+            context.resources.getString(R.string.screen_popup_activation_pending_display_text_message)
+        }
+        UserAccessRestriction.EID_EXPIRED -> {
+            "EID Expired"
+        }
+        UserAccessRestriction.OTP_BLOCKED -> {
+            Utils.getOtpBlockedMessage(context)
+        }
+        UserAccessRestriction.NONE -> {
+            "None"
+        }
+        else -> {
+            "Some of your card's features are temporarily disabled. Get in touch with us at +971 600551214 for assistance."
+        }
+    }
+            )
 }

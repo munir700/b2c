@@ -1618,4 +1618,7 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
+
+    const val screen_otp_blocked_display_text_details_card_blocked: String =
+        "screen_otp_blocked_display_text_details_card_blocked"
 }
