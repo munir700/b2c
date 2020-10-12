@@ -1,5 +1,7 @@
 package co.yap.modules.location.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,7 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -25,6 +26,7 @@ import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.android.synthetic.main.fragment_place_of_birth_selection.*
 import java.util.*
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
@@ -91,16 +93,10 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     private val countriesListObserver = Observer<List<Country>> {
         /*    mSimpleListAdapter = SimpleListAdapter(requireContext(), it as ArrayList<Country>?)
             getBinding().bspinner.setAdapter(mSimpleListAdapter)
-            getBinding().bspinner.setOnItemSelectedListener(mOnItemSelectedListener)*/
-        mCustomAutoTextAdapter =
-            CustomAutoCompleteAdapter(requireContext(), it as ArrayList<Country>)
-        getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
-        getBinding().bcountries.threshold = 0
-        //    getBinding().bcountries.setOnTouchListener(TouchListner)
-        getBinding().bcountries.addTextChangedListener(textChangeListner)
-        getBinding().bcountries.setOnItemClickListener(itemClickListner)
-        /*getBinding().spinner.setItemSelectedListener(selectedItemListener)
+            getBinding().bspinner.setOnItemSelectedListener(mOnItemSelectedListener)
+        getBinding().spinner.setItemSelectedListener(selectedItemListener)
         getBinding().spinner.setAdapter(it)*/
+        setAutoCompleteText(it as ArrayList<Country>)
         if (viewModel.state.selectedCountry != null) {
             getBinding().bspinner.setSelectedItem(
                 viewModel.parentViewModel?.countries?.indexOf(
@@ -109,7 +105,20 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             )
         }
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setAutoCompleteText(it: ArrayList<Country>) {
+        mCustomAutoTextAdapter =
+            CustomAutoCompleteAdapter(requireContext(), it as ArrayList<Country>)
+        getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
+        getBinding().bcountries.threshold = 0
+        getBinding().bcountries.setOnTouchListener(TouchListner)
+        getBinding().bcountries.addTextChangedListener(textChangeListner)
+        getBinding().bcountries.setOnItemClickListener(itemClickListner)
+    }
+
     val TouchListner = object : View.OnTouchListener {
+        @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
             getBinding().bcountries.showDropDown()
             return false
@@ -118,15 +127,34 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     val itemClickListner = object : AdapterView.OnItemClickListener {
         override fun onItemClick(adapter: AdapterView<*>?, view: View?, position: Int, p3: Long) {
             val country: Country = adapter?.getItemAtPosition(position) as Country
-            getBinding().bcountries.setText(country.getName())
-            val drawable = requireActivity().getDrawable(country.getFlagDrawableResId(requireContext()))
-            drawable?.setBounds(20,20,20,20)
-            getBinding().bcountries.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+            setTextSelection(country)
         }
     }
+
+    private fun setTextSelection(country: Country) {
+        getBinding().bcountries.setText(country.getName())
+        getBinding().bcountries.setSelection(country.getName().length)
+        val drawable: Drawable? =
+            requireActivity().getDrawable(country.getFlagDrawableResId(requireContext()))
+        drawable?.setBounds(0, 0, 60, 60)
+        getBinding().bcountries.setCompoundDrawables(
+            drawable,
+            null,
+            null,
+            requireActivity().getDrawable(R.drawable.iv_drown_down)
+        )
+    }
+
     val textChangeListner = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
-            if (s.length < 0) getBinding().bcountries.showDropDown()
+            if (s.length < 0)
+                getBinding().bcountries.showDropDown()
+            else if (s.length == 0) getBinding().bcountries.setCompoundDrawables(
+                null,
+                null,
+                null,
+                null
+            )
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

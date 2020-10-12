@@ -119,11 +119,12 @@
                    android:hint="No Selection"
                    android:inputType="textAutoComplete|textAutoCorrect"
                    android:singleLine="true"
-                   android:drawablePadding="@dimen/_10sdp"
-                   android:dropDownHeight="@dimen/_100sdp"
+                   android:drawablePadding="@dimen/_5sdp"
+                   android:lineHeight="@dimen/_1sdp"
+                   android:dropDownHeight="wrap_content"
                    android:dropDownWidth="wrap_content"
                    android:dropDownAnchor="@+id/containerAutoText"
-                   android:dropDownSelector="@drawable/iv_drown_down"
+                   android:drawableEnd="@drawable/iv_drown_down"
                    />
            </androidx.appcompat.widget.LinearLayoutCompat>
 
