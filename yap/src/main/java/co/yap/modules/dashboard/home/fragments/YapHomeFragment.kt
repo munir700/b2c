@@ -33,8 +33,7 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusAdapter
-import co.yap.modules.dashboard.home.status.NotificationProgressStatus
-import co.yap.modules.dashboard.home.status.StatusDataModel
+import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
@@ -84,6 +83,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
     var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
+    var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -116,7 +116,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
 
-        setUpDashBoardNotificationsView()
+        setUpDashBoardNotificationsView()// shows cards statuses
+
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -724,21 +725,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
     fun setUpDashBoardNotificationsView() {
-        setUpStatusAdapter()
-    }
-
-    private fun setUpStatusAdapter() {
         if (MyUserManager.getPrimaryCard()?.status == CardDeliveryStatus.SHIPPING.name) {
 
             viewModel.state.isTransEmpty.set(false)
             rvTransaction.visibility = View.GONE
             vGraph.visibility = View.GONE
             rvNotificationStatus.visibility = View.VISIBLE
-            dashboardNotificationStatusAdapter =
-                context?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
-            dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
-            dashboardNotificationStatusAdapter?.onItemClickListener = listener
-            rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
+
+            dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
+                requireContext(),
+                getBindings(),
+                viewModel,
+                activity
+            )
+
         } else {
             rvNotificationStatus.visibility = View.GONE
             rvTransaction.visibility = View.VISIBLE
@@ -746,107 +746,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         }
     }
-
-
-    private fun getStatusList(): MutableList<StatusDataModel> {
-        val list = ArrayList<StatusDataModel>()
-        list.add(
-            StatusDataModel(
-                0,
-                getString(Strings.screen_time_line_display_text_status_card_on_the_way_title),
-                getString(Strings.screen_time_line_display_text_status_card_on_the_way_description),
-                getString(Strings.screen_time_line_display_text_status_card_on_the_way_action),
-                resources.getDrawable(R.drawable.ic_dashboard_delivery),
-                NotificationProgressStatus.IS_COMPLETED,
-                CardDeliveryStatus.SHIPPING
-            )
-        )
-        list.add(
-            StatusDataModel(
-                1,
-                getString(Strings.screen_time_line_display_text_status_card_delivered_title),
-                getString(Strings.screen_time_line_display_text_status_card_delivered_description),
-                null,
-                resources.getDrawable(R.drawable.ic_dashboard_active),
-//                resources.getDrawable(R.drawable.card_spare),
-                NotificationProgressStatus.IN_PROGRESS,
-                CardDeliveryStatus.SHIPPED
-            )
-        )
-
-        list.add(
-            StatusDataModel(
-                2,
-                getString(Strings.screen_time_line_display_text_status_additional_requirements_title),
-                getString(Strings.screen_time_line_display_text_status_additional_requirements_description),
-                getString(Strings.screen_time_line_display_text_status_additional_requirements_action),
-                resources.getDrawable(R.drawable.ic_dashboard_active),
-                NotificationProgressStatus.IN_PROGRESS
-            )
-        )
-
-        list.add(
-            StatusDataModel(
-                3,
-                getString(Strings.screen_time_line_display_text_status_set_card_pin_title),
-                getString(Strings.screen_time_line_display_text_status_set_card_pin_description),
-                getString(Strings.screen_time_line_display_text_status_set_card_pin_action),
-                resources.getDrawable(R.drawable.ic_dashboard_set_pin),
-                NotificationProgressStatus.IS_PENDING,
-                CardDeliveryStatus.SHIPPED
-            )
-        )
-        list.add(
-            StatusDataModel(
-                4,
-                getString(Strings.screen_time_line_display_text_status_card_top_up_title),
-                getString(Strings.screen_time_line_display_text_status_card_top_up_description),
-                getString(Strings.screen_time_line_display_text_status_card_top_up_action),
-                resources.getDrawable(R.drawable.ic_dashboard_topup),
-                NotificationProgressStatus.IS_PENDING
-            )
-        )
-        return list
-    }
-
-    private val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-
-            var statusDataModel: StatusDataModel = data as StatusDataModel
-
-            when (statusDataModel.position) {
-                0 -> {
-                    startActivityForResult(
-                        FragmentPresenterActivity.getIntent(
-                            requireContext(),
-                            Constants.MODE_MEETING_CONFORMATION,
-                            null
-                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                    )
-                }
-                1 -> {
-                    context.shortToast("1")
-                }
-                2 -> {
-                    //open email
-                    val intent = Intent(Intent.ACTION_MAIN)
-                    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-                    startActivity(Intent.createChooser(intent, "Choose"))
-                }
-                3 -> {
-                    startActivityForResult(
-                        SetCardPinWelcomeActivity.newIntent(
-                            requireContext(),
-                            MyUserManager.getPrimaryCard()
-                        ), RequestCodes.REQUEST_FOR_SET_PIN
-                    )
-
-                }
-                4 -> {
-                    context?.startActivity(activity?.let { TopUpLandingActivity.getIntent(it) })
-                }
-            }
-        }
-    }
-
 }
