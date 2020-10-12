@@ -259,7 +259,7 @@
                 android:id="@+id/clTransactionDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@color/greySoftSelected"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
