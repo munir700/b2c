@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
