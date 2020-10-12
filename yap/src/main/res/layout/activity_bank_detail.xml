@@ -37,7 +37,6 @@
             android:background="@color/light_grey_background"
             android:orientation="vertical"
             android:paddingStart="@dimen/margin_normal_large"
-            android:paddingTop="@dimen/margin_normal_large"
             android:paddingEnd="@dimen/margin_normal_large"
             android:paddingBottom="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
