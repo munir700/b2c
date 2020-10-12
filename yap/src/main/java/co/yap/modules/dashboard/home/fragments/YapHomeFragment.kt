@@ -690,22 +690,20 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
     fun setUpDashBoardNotificationsView() {
-//        viewModel.state.isTransEmpty.set(false)
-        rvTransaction.visibility = View.GONE
-        vGraph.visibility = View.GONE
-        rvNotificationStatus.visibility = View.VISIBLE
         setUpStatusAdapter()
     }
 
     private fun setUpStatusAdapter() {
         if (MyUserManager.getPrimaryCard()?.status == CardDeliveryStatus.SHIPPING.name) {
+
+            viewModel.state.isTransEmpty.set(false)
+            rvTransaction.visibility = View.GONE
+            vGraph.visibility = View.GONE
             rvNotificationStatus.visibility = View.VISIBLE
             dashboardNotificationStatusAdapter =
                 context?.let { DashboardNotificationStatusAdapter(it, getStatusList()) }
             dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
-
             dashboardNotificationStatusAdapter?.onItemClickListener = listener
-
             rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
         } else {
             rvNotificationStatus.visibility = View.GONE
