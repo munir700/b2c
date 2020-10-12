@@ -115,9 +115,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-
+/*
         setUpDashBoardNotificationsView()// shows cards statuses
 
+        */
     }
 
     private fun setClickOnWelcomeYapItem() {
