@@ -20,14 +20,16 @@ abstract class BaseNavFragment : Fragment() {
         anim { defaultAnimation }
     }
 
-    protected fun navigate(destinationId: Int, args: Bundle? = null, navOptions: NavOptions? = navOptions {
-        anim {
-            enter = R.anim.slide_in_right
-            exit = R.anim.slide_out_left
-            popEnter = R.anim.slide_in_left
-            popExit = R.anim.slide_out_right
+    protected fun navigate(
+        destinationId: Int, args: Bundle? = null, navOptions: NavOptions? = navOptions {
+            anim {
+                enter = R.anim.slide_in_right
+                exit = R.anim.slide_out_left
+                popEnter = R.anim.slide_in_left
+                popExit = R.anim.slide_out_right
+            }
         }
-    }) {
+    ) {
         findNavController().navigate(destinationId, args, navOptions)
     }
 

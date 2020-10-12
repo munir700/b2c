@@ -37,8 +37,6 @@ import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.modules.others.helper.getBlockedFeaturesKey
-import co.yap.modules.others.helper.getBlockedFeaturesList
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -48,9 +46,11 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.UserAccessRestriction
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
+import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.FeatureProvisioning
@@ -84,8 +84,16 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         logEvent()
         SessionManager.user?.freezeInitiator = "BANK_REQUEST"
         SessionManager.user?.severityLevel = "T"
-
-        FeatureProvisioning.configure(SessionManager.user.getBlockedFeaturesList(UserAccessRestriction.ACCOUNT_INACTIVE))
+        SessionManager.user?.getUserAccessRestrictions()?.let {
+            val featuresList = arrayListOf<FeatureSet>()
+            it.forEach { userAccessRestriction ->
+                featuresList.addAll(SessionManager.user.getBlockedFeaturesList(userAccessRestriction))
+            }
+            FeatureProvisioning.configure(
+                featuresList,
+                it
+            )
+        }
     }
 
     private fun logEvent() {
