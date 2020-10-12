@@ -2,6 +2,7 @@ package co.yap.modules.location.interfaces
 
 import android.graphics.Bitmap
 import androidx.databinding.ObservableField
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
 import co.yap.networking.cards.responsedtos.Address
@@ -14,6 +15,7 @@ interface ILocationSelection {
 
     interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun getBinding(): ViewDataBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {
