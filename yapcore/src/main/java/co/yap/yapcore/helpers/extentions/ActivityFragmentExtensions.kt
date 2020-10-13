@@ -34,16 +34,14 @@ import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 inline fun <reified T : Any> Activity.launchActivity(
     requestCode: Int = -1,
-    options: Bundle? = null,
-    type: FeatureSet = FeatureSet.NONE,
+    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(this)
-    intent.init()
-
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         shortToast("This feature is blocked")
     } else {
+        val intent = newIntent<T>(this)
+        intent.init()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             startActivityForResult(intent, requestCode, options)
         } else {
@@ -58,11 +56,11 @@ inline fun <reified T : Any> Fragment.launchActivity(
     type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(requireContext())
-    intent.init()
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
         context.shortToast("This feature is blocked")
     } else {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             startActivityForResult(intent, requestCode, options)
         } else {

@@ -28,7 +28,9 @@ import co.yap.yapcore.constants.Constants.EXTRA
 import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -205,12 +207,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        launchActivity<BeneficiaryFundTransferActivity>(requestCode = REQUEST_TRANSFER_MONEY) {
+        launchActivity<BeneficiaryFundTransferActivity>(
+            requestCode = REQUEST_TRANSFER_MONEY,
+            type = beneficiary.getBeneficiaryTransferType()
+        ) {
             putExtra(Constants.BENEFICIARY, beneficiary)
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
-
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
@@ -220,7 +224,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
             bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
-            launchActivity<EditBeneficiaryActivity>(RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
+            launchActivity<EditBeneficiaryActivity>(
+                requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                type = FeatureSet.EDIT_SEND_MONEY_BENEFICIARY
+            ) {
                 putExtra(EXTRA, bundle)
             }
         }
@@ -282,27 +289,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton -> {
+            R.id.addContactsButton, R.id.tbBtnAddBeneficiary -> {
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
-                    startActivityForResult(
-                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    launchActivity<SendMoneyHomeActivity>(
+                        requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                        type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
                     )
                 }
             }
-            R.id.tbBtnAddBeneficiary -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    startActivityForResult(
-                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
-                    )
-                }
-            }
-            R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
                     if (isSearching) {
@@ -350,7 +346,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
                 viewModel.clickEvent.setPayload(null)
             }
-            R.id.tvCancel -> finish()
+            R.id.tvCancel, R.id.tbBtnBack -> finish()
         }
     }
 
