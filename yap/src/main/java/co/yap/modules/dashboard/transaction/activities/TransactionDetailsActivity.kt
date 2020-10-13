@@ -76,21 +76,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTxnFailedReason() {
         val msg = viewModel.transaction.get()?.let {
             when {
-                it.isTransactionInProgress() -> {
+                it.isTransactionInProgress() || it.isTransactionRejected() -> {
                     getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     getBindings().tvTransactionSubheading.alpha = 0.5f
                     getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let getCutOffMsg()
+                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg()
                 }
-                it.isTransactionRejected() -> {
-                    getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
-                    getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                    getBindings().tvTransactionSubheading.alpha = 0.5f
-                    getBindings().ivCategoryIcon.alpha = 0.5f
-                    it.cancelReason
-                }
-
                 else -> ""
             }
         } ?: ""
