@@ -80,6 +80,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
+        SessionManager.user?.otpBlocked = true
         SessionManager.user?.freezeInitiator = "BANK_REQUEST"
         SessionManager.user?.severityLevel = "T"
         SessionManager.user?.getUserAccessRestrictions()?.let {
@@ -140,7 +141,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                         }
                         3 -> {
                             launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
-                                putExtra(SendMoneyLandingActivity.searching, true)
+                                putExtra(SendMoneyLandingActivity.searching, false)
                             }
                         }
                     }

@@ -114,7 +114,8 @@ fun showBlockedFeatureAlert(context: Activity) {
     )
     context.showAlertDialogAndExitApp(
         message = blockedMessage,
-        isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false
+        isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,
+        closeActivity = false
     )
 }
 

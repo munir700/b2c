@@ -16,10 +16,6 @@ fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
     if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == false) {
         restrictions.add(UserAccessRestriction.ACCOUNT_INACTIVE)
     }
-    if (otpBlocked == true) {
-        restrictions.add(UserAccessRestriction.OTP_BLOCKED)
-    }
-
     restrictions.add(
         when (this.freezeInitiator) {
             "MOBILE_APP_HOSTLIST" -> {
@@ -57,6 +53,9 @@ fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
             else -> UserAccessRestriction.NONE
         }
     )
+    if (otpBlocked == true) {
+        restrictions.add(UserAccessRestriction.OTP_BLOCKED)
+    }
 
     return restrictions
 }
