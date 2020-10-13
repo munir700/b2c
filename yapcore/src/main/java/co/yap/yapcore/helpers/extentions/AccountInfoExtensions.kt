@@ -164,7 +164,9 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.CHANGE_PIN,
                 FeatureSet.FORGOT_PIN,
                 FeatureSet.CHANGE_PASSCODE,
-                FeatureSet.FORGOT_PASSCODE
+                FeatureSet.FORGOT_PASSCODE,
+                FeatureSet.ADD_SEND_MONEY_BENEFICIARY,
+                FeatureSet.EDIT_SEND_MONEY_BENEFICIARY
             )
         }
         UserAccessRestriction.NONE, UserAccessRestriction.ACCOUNT_INACTIVE, UserAccessRestriction.EID_EXPIRED -> {

@@ -6,7 +6,7 @@ enum class FeatureSet {
     CBWSI_TRANSFER,  // done
     RMT_TRANSFER, // done
     SWIFT_TRANSFER, //done
-    TOP_UP_BY_EXTERNAL_CARD,
+    TOP_UP_BY_EXTERNAL_CARD, // done
     ADD_FUNDS,  //done
     REMOVE_FUNDS, //done
     Y2Y_TRANSFER, //done
