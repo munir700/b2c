@@ -14,8 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        >
+        android:background="@color/colorWhite">
 
 
         <TextView
@@ -74,5 +73,4 @@
             app:text="@{Strings.screen_add_spare_card_completion_button_done}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
