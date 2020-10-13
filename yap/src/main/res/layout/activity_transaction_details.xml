@@ -100,9 +100,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Transaction " />
-
                 <TextView
-                    android:id="@+id/tvAddress"
+                    android:id="@+id/tvLocation"
                     style="@style/AMicroGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -115,6 +114,22 @@
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
                     tools:text="transaction rejected"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvTxnSubTitle"
+                    style="@style/AMicroGrey"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="1"
+                    android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) ||viewModel.transaction.status.equals(TransactionStatus.FAILED.name) || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                    app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation"
+                    tools:text="transaction rejected"
                     tools:visibility="visible" />
 
                 <ImageView
@@ -125,7 +140,7 @@
                     android:contentDescription="@string/empty_string"
                     android:tint="@color/colorSecondaryOrange"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTxnSubTitle"
                     app:src="@{viewModel.state.categoryIcon}"
                     tools:ignore="UseAppTint"
                     tools:src="@drawable/ic_send_money" />
@@ -232,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -259,7 +274,7 @@
                 android:id="@+id/clTransactionDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@color/greySoftSelected"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
