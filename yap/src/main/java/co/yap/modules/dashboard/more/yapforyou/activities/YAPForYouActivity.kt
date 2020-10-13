@@ -30,7 +30,6 @@ class YAPForYouActivity : BaseBindingActivity<IYapForYouMain.ViewModel>(), INavi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, backButtonObserver)
-
     }
 
     override fun onDestroy() {

@@ -18,13 +18,13 @@ enum class FeatureSet {
     ADD_SEND_MONEY_BENEFICIARY, // done
     EDIT_SEND_MONEY_BENEFICIARY, // done
     EDIT_PHONE_NUMBER,
-    EDIT_EMAIL,
+    EDIT_EMAIL, //done
     UPDATE_EID,
-    REORDER_DEBIT_CARD,
-    ANALYTICS,
-    YAP_FOR_YOU,
-    YAP_TO_YAP,
-    TOP_UP,
-    SEND_MONEY,
+    REORDER_DEBIT_CARD,//done
+    ANALYTICS,// done
+    YAP_FOR_YOU, //done
+    YAP_TO_YAP, // done
+    TOP_UP,// done
+    SEND_MONEY,// done
     NONE
 }

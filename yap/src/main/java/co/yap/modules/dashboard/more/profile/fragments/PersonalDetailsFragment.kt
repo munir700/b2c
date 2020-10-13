@@ -28,6 +28,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -94,7 +95,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     } else {
                         viewModel.toggleToolBar(true)
                         viewModel.updateToolBarText("")
-                        findNavController().navigate(R.id.action_personalDetailsFragment_to_change_email_navigation)
+                        navigate(
+                            R.id.action_personalDetailsFragment_to_change_email_navigation,
+                            screenType = FeatureSet.EDIT_EMAIL
+                        )
                     }
                 }
 

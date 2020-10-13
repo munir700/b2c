@@ -13,7 +13,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.IDefault
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_block_card_success.*
 
@@ -42,10 +44,12 @@ class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewMode
                 showToast(Utils.getOtpBlockedMessage(requireContext()))
             } else {
                 viewModel.parentViewModel?.card?.let {
-                    startActivityForResult(
-                        ReorderCardActivity.newIntent(requireContext(), it),
-                        RequestCodes.REQUEST_REORDER_CARD
-                    )
+                    launchActivity<ReorderCardActivity>(
+                        type = FeatureSet.REORDER_DEBIT_CARD,
+                        requestCode = RequestCodes.REQUEST_REORDER_CARD
+                    ) {
+                        putExtra(ReorderCardActivity.CARD, it)
+                    }
                 }
             }
         }

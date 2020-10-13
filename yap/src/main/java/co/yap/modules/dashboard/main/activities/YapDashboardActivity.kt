@@ -132,27 +132,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
-                        1 -> checkPermission()
-                        2 -> openTopUpScreen()
-                        3 -> openSendMoneyScreen()
-
+                        1 -> {
+                            checkPermission()
+                        }
+                        2 -> {
+                            launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+                        }
+                        3 -> {
+                            launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
+                                putExtra(SendMoneyLandingActivity.searching, true)
+                            }
+                        }
                     }
                 }
-
-            })
-            .build()
-    }
-
-    private fun openSendMoneyScreen() {
-        startActivity(
-            SendMoneyLandingActivity.newIntent(
-                this@YapDashboardActivity
-            )
-        )
-    }
-
-    private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
+            }).build()
     }
 
     private fun setupPager() {
@@ -318,7 +311,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
-            startActivity(Intent(this, CardAnalyticsActivity::class.java))
+            launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
@@ -363,8 +356,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
-                    //checkPermission()
-                    //getViewBinding().ivYapIt
+
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -379,7 +371,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.yapIt -> {
-                    checkPermission()
+
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -396,48 +388,27 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                launchActivity<YapToYapDashboardActivity> {
-
-                }
-//                startActivity(
-//                    YapToYapDashboardActivity.getIntent(
-//                        this@YapDashboardActivity,
-//                        false,
-//                        null
-//                    )
-//                )
+                openY2YScreen()
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast("Can't proceed without permissions")
+                openY2YScreen()
             }
 
             override fun onPermissionDenied() {
-                launchActivity<YapToYapDashboardActivity> {
-
-                }
-//                startActivity(
-//                    YapToYapDashboardActivity.getIntent(
-//                        this@YapDashboardActivity,
-//                        false,
-//                        null
-//                    )
-//                )
+                openY2YScreen()
             }
 
             override fun onPermissionDeniedBySystem() {
-                launchActivity<YapToYapDashboardActivity> {
-
-                }
-//                startActivity(
-//                    YapToYapDashboardActivity.getIntent(
-//                        this@YapDashboardActivity,
-//                        false,
-//                        null
-//                    )
-//                )
+                openY2YScreen()
             }
         })
+    }
+
+    private fun openY2YScreen() {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(YapToYapDashboardActivity.searching, false)
+        }
     }
 
     override fun onResume() {
