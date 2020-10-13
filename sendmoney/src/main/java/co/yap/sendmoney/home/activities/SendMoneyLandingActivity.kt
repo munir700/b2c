@@ -1,10 +1,8 @@
 package co.yap.sendmoney.home.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -51,21 +49,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
 
     companion object {
-        private const val searching = "searching"
+        const val searching = "searching"
         private var performedDeleteOperation: Boolean = false
-        const val data = "payLoad"
-        fun newIntent(context: Context): Intent {
-            return Intent(context, SendMoneyLandingActivity::class.java)
-        }
-
-        fun getIntent(context: Context, isSearching: Boolean, payLoad: Parcelable?): Intent {
-            val intent = Intent(context, SendMoneyLandingActivity::class.java)
-            if (payLoad != null)
-                intent.putExtra(data, payLoad)
-
-            intent.putExtra(searching, isSearching)
-            return intent
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,7 +146,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
                 if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this@SendMoneyLandingActivity))
+                    showToast(Utils.getOtpBlockedMessage(context))
                 } else {
                     startMoneyTransfer(data, pos)
                 }
@@ -304,7 +289,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     if (isSearching) {
                         setSearchView(isSearching)
                     } else {
-                        startActivityForResult(getIntent(this, true, null), REQUEST_TRANSFER_MONEY)
+                        launchActivity<SendMoneyLandingActivity>(
+                            type = FeatureSet.SEND_MONEY,
+                            requestCode = REQUEST_TRANSFER_MONEY
+                        ) {
+                            putExtra(searching, true)
+                        }
                     }
                 }
             }

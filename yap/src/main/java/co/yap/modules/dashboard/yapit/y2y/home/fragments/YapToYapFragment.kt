@@ -22,6 +22,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayoutMediator
@@ -151,19 +152,19 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
-                if (!viewModel.parentViewModel?.isSearching?.value!!) {
-                    startActivity(
-                        YapToYapDashboardActivity.getIntent(
-                            requireContext(),
-                            true,
-                            null
-                        )
-                    )
+                if (viewModel.parentViewModel?.isSearching?.value == false) {
+                    openY2YScreen()
                 }
             }
             R.id.tvCancel -> {
                 activity?.finish()
             }
+        }
+    }
+
+    private fun openY2YScreen() {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(YapToYapDashboardActivity.searching, true)
         }
     }
 

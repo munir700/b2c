@@ -23,8 +23,8 @@ enum class FeatureSet {
     REORDER_DEBIT_CARD,
     ANALYTICS,
     YAP_FOR_YOU,
-    YAP_TO_YAP,
-    TOP_UP,
-    SEND_MONEY,
+    YAP_TO_YAP, // done
+    TOP_UP,// done
+    SEND_MONEY,// done
     NONE
 }
