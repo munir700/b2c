@@ -1621,4 +1621,7 @@ object Strings {
 
     const val screen_otp_blocked_display_text_details_card_blocked: String =
         "screen_otp_blocked_display_text_details_card_blocked"
+
+    const val iban_or_debit_card_freeze_or_blocked_message: String =
+        "iban_or_debit_card_freeze_or_blocked_message"
 }

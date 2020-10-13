@@ -1017,6 +1017,7 @@
     <!-- Blocked Screen-->
 
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
+    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>
 
 
 </resources>

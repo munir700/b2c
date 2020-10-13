@@ -2,17 +2,18 @@ package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.yapcore.R
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.enums.AccountBlockSeverityLevel
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.UserAccessRestriction
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
     val restrictions: ArrayList<UserAccessRestriction> = arrayListOf()
 
-    if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == true) {
+    if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == false) {
         restrictions.add(UserAccessRestriction.ACCOUNT_INACTIVE)
     }
     if (otpBlocked == true) {
@@ -169,7 +170,10 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.EDIT_SEND_MONEY_BENEFICIARY
             )
         }
-        UserAccessRestriction.NONE, UserAccessRestriction.ACCOUNT_INACTIVE, UserAccessRestriction.EID_EXPIRED -> {
+        UserAccessRestriction.ACCOUNT_INACTIVE -> {
+            arrayListOf(FeatureSet.SEND_MONEY, FeatureSet.YAP_TO_YAP, FeatureSet.TOP_UP)
+        }
+        UserAccessRestriction.NONE, UserAccessRestriction.EID_EXPIRED -> {
             arrayListOf()
         }
     })
@@ -177,21 +181,33 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
 
 fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context): String {
     return (when (key) {
-        UserAccessRestriction.ACCOUNT_INACTIVE -> {
-            context.resources.getString(R.string.screen_popup_activation_pending_display_text_message)
-        }
-        UserAccessRestriction.EID_EXPIRED -> {
-            "EID Expired"
+        UserAccessRestriction.EID_EXPIRED, UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
+        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL
+            , UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD
+            , UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
+
+            Translator.getString(
+                context,
+                Strings.iban_or_debit_card_freeze_or_blocked_message
+            ).format(SessionManager.helpPhoneNumber)
+
         }
         UserAccessRestriction.OTP_BLOCKED -> {
-            Utils.getOtpBlockedMessage(context)
+            Translator.getString(context, Strings.screen_blocked_otp_display_text_message).format(
+                SessionManager.helpPhoneNumber
+            )
         }
-        UserAccessRestriction.NONE -> {
-            "None"
+        UserAccessRestriction.ACCOUNT_INACTIVE -> {
+            Translator.getString(
+                context,
+                Strings.screen_popup_activation_pending_display_text_message
+            )
         }
         else -> {
-            "Some of your card's features are temporarily disabled. Get in touch with us at +971 600551214 for assistance."
+            Translator.getString(
+                context,
+                Strings.iban_or_debit_card_freeze_or_blocked_message
+            ).format(SessionManager.helpPhoneNumber)
         }
-    }
-            )
+    })
 }

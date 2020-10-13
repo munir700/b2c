@@ -17,4 +17,8 @@ object FeatureProvisioning {
     fun getFeatureProvisioning(screenType: FeatureSet): Boolean {
         return blockedFeatures.contains(screenType)
     }
+
+    fun getUserAccessRestriction(): UserAccessRestriction {
+        return restrictions.firstOrNull() ?: UserAccessRestriction.NONE
+    }
 }
