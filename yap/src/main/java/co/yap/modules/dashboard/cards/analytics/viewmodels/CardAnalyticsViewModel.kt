@@ -33,6 +33,7 @@ class CardAnalyticsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+
         parentVM?.let {
             parentViewModel = it
         }

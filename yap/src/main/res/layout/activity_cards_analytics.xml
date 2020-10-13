@@ -10,7 +10,7 @@
             type="co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsMainViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +29,7 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:titleString="@{viewModel.state.toolbarTitle}"
             />
+
         <fragment
             android:id="@+id/card_analytics_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -36,7 +37,7 @@
             android:layout_height="match_parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/card_analytics_navigation"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
