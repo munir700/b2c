@@ -63,7 +63,7 @@ class CardAnalyticsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
+       // setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
     }
 
     override fun handlePressOnView(id: Int) {
