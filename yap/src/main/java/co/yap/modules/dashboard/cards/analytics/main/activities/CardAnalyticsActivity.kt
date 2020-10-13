@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.main.activities
 
 import android.os.Bundle
-import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -45,5 +44,12 @@ class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when (id) {
+            co.yap.sendmoney.R.id.ivLeftIcon -> this.finish()
+        }
     }
 }

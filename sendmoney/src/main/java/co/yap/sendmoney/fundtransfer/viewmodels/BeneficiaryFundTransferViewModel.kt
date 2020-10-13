@@ -33,8 +33,8 @@ class BeneficiaryFundTransferViewModel(application: Application) :
         state.toolbarVisibility.set(true)
         state.toolbarTitle = getString(Strings.screen_cash_pickup_funds_display_text_header)
         state.leftIcon.set(true)
-        state.rightButtonText = getString(Strings.common_button_cancel)
         state.rightIcon.set(true)
+        state.rightButtonText = getString(Strings.common_button_cancel)
     }
 
 }
