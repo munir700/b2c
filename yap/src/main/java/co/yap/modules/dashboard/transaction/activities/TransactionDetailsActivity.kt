@@ -199,23 +199,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         viewModel.transaction.get()?.let { transaction ->
             when (TransactionProductCode.Y2Y_TRANSFER.pCode) {
                 transaction.productCode ?: "" -> {
-                    if (transaction.isTransactionRejected()){
-                        getBindings().ivPicture.setImageResource(R.drawable.ic_exclamation_primary)
-                        getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
-                    } else {
-                        ImageBinding.loadAvatar(
-                            getBindings().ivPicture,
-                            if (TxnType.valueOf(
-                                    transaction.txnType ?: ""
-                                ) == TxnType.DEBIT
-                            ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                            if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                            android.R.color.transparent,
-                            R.dimen.text_size_h2
-                        )
-                    }
-
-
+                    ImageBinding.loadAvatar(
+                        getBindings().ivPicture,
+                        if (TxnType.valueOf(
+                                transaction.txnType ?: ""
+                            ) == TxnType.DEBIT
+                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                        android.R.color.transparent,
+                        R.dimen.text_size_h2
+                    )
                 }
                 else -> {
                     val txnIconResId = transaction.getTransactionIcon()
@@ -228,9 +221,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                             R.drawable.ic_grey_minus_transactions, R.drawable.ic_grey_plus_transactions -> {
                                 getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_disabled_transaction)
                             }
-                        }
-                        if (transaction.isTransactionRejected()){
-                            getBindings().ivPicture.setBackgroundResource(R.drawable.bg_round_grey)
                         }
                     } else
                         setInitialsAsTxnImage(transaction)
