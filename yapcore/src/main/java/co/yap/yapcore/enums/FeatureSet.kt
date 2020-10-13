@@ -18,9 +18,9 @@ enum class FeatureSet {
     ADD_SEND_MONEY_BENEFICIARY,
     EDIT_SEND_MONEY_BENEFICIARY,
     EDIT_PHONE_NUMBER,
-    EDIT_EMAIL,
+    EDIT_EMAIL, //done
     UPDATE_EID,
-    REORDER_DEBIT_CARD,
+    REORDER_DEBIT_CARD,//done
     ANALYTICS,// done
     YAP_FOR_YOU, //done
     YAP_TO_YAP, // done
