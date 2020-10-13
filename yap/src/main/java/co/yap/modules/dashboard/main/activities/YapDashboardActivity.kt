@@ -311,7 +311,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
-            startActivity(Intent(this, CardAnalyticsActivity::class.java))
+            launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {

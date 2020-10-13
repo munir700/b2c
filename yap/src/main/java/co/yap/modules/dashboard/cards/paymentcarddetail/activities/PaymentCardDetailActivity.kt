@@ -586,12 +586,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             showToast(Utils.getOtpBlockedMessage(this))
         } else {
             viewModel.card.value?.let {
-                startActivityForResult(
-                    ReorderCardActivity.newIntent(
-                        this@PaymentCardDetailActivity,
-                        it
-                    ), RequestCodes.REQUEST_REORDER_CARD
-                )
+                launchActivity<ReorderCardActivity>(
+                    type = FeatureSet.REORDER_DEBIT_CARD,
+                    requestCode = RequestCodes.REQUEST_REORDER_CARD
+                ) {
+                    putExtra(ReorderCardActivity.CARD, it)
+                }
             }
         }
     }

@@ -112,7 +112,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openYapForYou() {
-        startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+        launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
     }
 
     private fun initComponents() {
@@ -236,16 +236,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
-                R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
-                R.id.lyAdd -> {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        openTopUpScreen()
-                    } else {
-                        showToast("Account activation pending")
-
-                    }
+                R.id.lyAnalytics -> {
+                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
                 }
-
+                R.id.lyAdd -> {
+                    openTopUpScreen()
+                }
             }
         })
 

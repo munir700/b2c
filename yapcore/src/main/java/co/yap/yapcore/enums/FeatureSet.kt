@@ -21,8 +21,8 @@ enum class FeatureSet {
     EDIT_EMAIL,
     UPDATE_EID,
     REORDER_DEBIT_CARD,
-    ANALYTICS,
-    YAP_FOR_YOU,
+    ANALYTICS,// done
+    YAP_FOR_YOU, //done
     YAP_TO_YAP, // done
     TOP_UP,// done
     SEND_MONEY,// done
