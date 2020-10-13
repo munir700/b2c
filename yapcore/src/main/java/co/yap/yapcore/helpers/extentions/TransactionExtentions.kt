@@ -123,7 +123,7 @@ fun Transaction?.getTransactionTypeTitle(): String {
 
 fun Transaction?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
-        if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
+        if (transaction.isTransactionRejected() || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
         return if (isTransactionInProgress())
             R.drawable.ic_time
         else (when (txnType) {
