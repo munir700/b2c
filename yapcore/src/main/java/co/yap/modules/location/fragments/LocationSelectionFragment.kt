@@ -106,7 +106,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressTitle.set(viewModel.address?.address1)
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
-             getCurrentLocation()
+        getCurrentLocation()
 
     }
 
@@ -168,8 +168,6 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                findNavController().navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
-/*
                 if (viewModel.parentViewModel?.isOnBoarding == true && viewModel.isValidAddress())
                     viewModel.requestOrderCard(viewModel.getUserAddress()) {
                         viewModel.address?.city?.let { city ->
@@ -181,7 +179,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                         findNavController().navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
                     }
                 else
-                    setIntentAction(true)*/
+                    setIntentAction(true)
             }
 
             R.id.btnLocation -> {

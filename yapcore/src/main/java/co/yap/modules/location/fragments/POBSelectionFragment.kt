@@ -3,9 +3,6 @@ package co.yap.modules.location.fragments
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -18,15 +15,12 @@ import co.yap.modules.location.CustomAutoCompleteAdapter
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
 import co.yap.widgets.spinneradapter.searchable.IStatusListener
-import co.yap.widgets.spinneradapter.searchable.OnItemSelectedListener
-import co.yap.widgets.spinneradapter.searchable.SimpleListAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_place_of_birth_selection.*
 import java.util.*
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
@@ -34,11 +28,12 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     override fun getLayoutId(): Int = R.layout.fragment_place_of_birth_selection
     override val viewModel: POBSelectionViewModel
         get() = ViewModelProviders.of(this).get(POBSelectionViewModel::class.java)
-    private lateinit var mSimpleListAdapter: SimpleListAdapter
-    private lateinit var mCustomAutoTextAdapter: CustomAutoCompleteAdapter
+
+    private var mCustomAutoTextAdapter: CustomAutoCompleteAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().getWindow()
+        requireActivity().window
             ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         when (MyUserManager.user?.notificationStatuses) {
             AccountStatus.BIRTH_INFO_COLLECTED.name -> {
@@ -63,15 +58,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         })
     }
 
-    private var mOnItemSelectedListener: OnItemSelectedListener = object : OnItemSelectedListener {
-        override fun onItemSelected(view: View?, position: Int, id: Long) {
-            viewModel.state.selectedCountry = mSimpleListAdapter.getItem(position) as Country
-        }
-
-        override fun onNothingSelected() {
-        }
-    }
-
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.populateSpinnerData.observe(this, countriesListObserver)
@@ -91,11 +77,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     }
 
     private val countriesListObserver = Observer<List<Country>> {
-        /*    mSimpleListAdapter = SimpleListAdapter(requireContext(), it as ArrayList<Country>?)
-            getBinding().bspinner.setAdapter(mSimpleListAdapter)
-            getBinding().bspinner.setOnItemSelectedListener(mOnItemSelectedListener)
-        getBinding().spinner.setItemSelectedListener(selectedItemListener)
-        getBinding().spinner.setAdapter(it)*/
         setAutoCompleteText(it as ArrayList<Country>)
         if (viewModel.state.selectedCountry != null) {
             getBinding().bspinner.setSelectedItem(
@@ -109,27 +90,34 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     @SuppressLint("ClickableViewAccessibility")
     private fun setAutoCompleteText(it: ArrayList<Country>) {
         mCustomAutoTextAdapter =
-            CustomAutoCompleteAdapter(requireContext(), it as ArrayList<Country>)
+            CustomAutoCompleteAdapter(requireContext(), it)
         getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
         getBinding().bcountries.threshold = 0
-        getBinding().bcountries.setOnTouchListener(TouchListner)
-        getBinding().bcountries.addTextChangedListener(textChangeListner)
-        getBinding().bcountries.setOnItemClickListener(itemClickListner)
+        getBinding().bcountries.setOnTouchListener(touchListener)
+        getBinding().bcountries.afterTextChanged { s ->
+            if (s.length < 0)
+                getBinding().bcountries.showDropDown()
+            else if (s.isEmpty()) getBinding().bcountries.setCompoundDrawables(
+                null,
+                null,
+                null,
+                null
+            )
+        }
+        getBinding().bcountries.onItemClickListener = itemClickListener
     }
 
-    val TouchListner = object : View.OnTouchListener {
-        @SuppressLint("ClickableViewAccessibility")
-        override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-            getBinding().bcountries.showDropDown()
-            return false
-        }
+    @SuppressLint("ClickableViewAccessibility")
+    private val touchListener = View.OnTouchListener { _, _ ->
+        getBinding().bcountries.showDropDown()
+        false
     }
-    val itemClickListner = object : AdapterView.OnItemClickListener {
-        override fun onItemClick(adapter: AdapterView<*>?, view: View?, position: Int, p3: Long) {
+
+    private val itemClickListener =
+        AdapterView.OnItemClickListener { adapter, _, position, _ ->
             val country: Country = adapter?.getItemAtPosition(position) as Country
             setTextSelection(country)
         }
-    }
 
     private fun setTextSelection(country: Country) {
         getBinding().bcountries.setText(country.getName())
@@ -143,34 +131,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             null,
             requireActivity().getDrawable(R.drawable.iv_drown_down)
         )
-    }
-
-    val textChangeListner = object : TextWatcher {
-        override fun afterTextChanged(s: Editable) {
-            if (s.length < 0)
-                getBinding().bcountries.showDropDown()
-            else if (s.length == 0) getBinding().bcountries.setCompoundDrawables(
-                null,
-                null,
-                null,
-                null
-            )
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence, p1: Int, p2: Int, p3: Int) {
-
-        }
-    }
-
-    private val selectedItemListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Country) {
-                viewModel.state.selectedCountry = data
-            }
-        }
     }
 
     override fun removeObservers() {
