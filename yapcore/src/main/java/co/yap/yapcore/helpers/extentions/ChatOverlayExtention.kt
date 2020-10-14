@@ -27,7 +27,7 @@ fun Activity.initializeChatOverLayButton() {
         dimen(R.dimen.margin_medium),
         dimen(R.dimen.margin_medium),
         dimen(R.dimen.margin_medium),
-        dimen(R.dimen.margin_xxl)
+        dimen(R.dimen.margin_btn_side_paddings_xl)
     )
     param.gravity = Gravity.END or Gravity.BOTTOM
     val view = layoutInflater.inflate(R.layout.layout_overlay_live_chat, null) as? CounterFloatingActionButton
