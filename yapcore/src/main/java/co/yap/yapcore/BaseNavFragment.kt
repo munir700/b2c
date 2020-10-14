@@ -8,7 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.managers.FeatureProvisioning
 
 abstract class BaseNavFragment : Fragment() {
@@ -38,7 +38,7 @@ abstract class BaseNavFragment : Fragment() {
         }
     ) {
         if (FeatureProvisioning.getFeatureProvisioning(screenType)) {
-            requireActivity().showAlertDialogAndExitApp(message = "This feature is blocked")
+            showBlockedFeatureAlert(requireActivity(), screenType)
         } else {
             findNavController().navigate(destinationId, args, navOptions)
         }
@@ -57,7 +57,7 @@ abstract class BaseNavFragment : Fragment() {
         }
     ) {
         if (FeatureProvisioning.getFeatureProvisioning(screenType)) {
-            requireActivity().showAlertDialogAndExitApp(message = "This feature is blocked")
+            showBlockedFeatureAlert(requireActivity(), screenType)
         } else {
             findNavController().navigate(navDirection, navOptions)
         }
@@ -83,5 +83,4 @@ abstract class BaseNavFragment : Fragment() {
 
     private fun anim(animBuilder: AnimBuilder.() -> Unit): AnimBuilder =
         AnimBuilder().apply(animBuilder)
-
 }

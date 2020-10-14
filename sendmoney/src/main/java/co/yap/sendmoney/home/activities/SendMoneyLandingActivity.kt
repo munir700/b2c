@@ -145,11 +145,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val recentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(context))
-                } else {
-                    startMoneyTransfer(data, pos)
-                }
+                startMoneyTransfer(data, pos)
         }
     }
 
@@ -275,14 +271,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val clickListener = Observer<Int> {
         when (it) {
             R.id.addContactsButton, R.id.tbBtnAddBeneficiary -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    launchActivity<SendMoneyHomeActivity>(
-                        requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
-                        type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
-                    )
-                }
+                launchActivity<SendMoneyHomeActivity>(
+                    requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                    type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
+                )
             }
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
@@ -301,11 +293,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
-                        if (SessionManager.user?.otpBlocked == true) {
-                            showToast(Utils.getOtpBlockedMessage(this))
-                        } else {
-                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
-                        }
+                        startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
                     }
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -314,11 +302,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.btnEdit -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
-                        if (SessionManager.user?.otpBlocked == true) {
-                            showToast(Utils.getOtpBlockedMessage(this))
-                        } else {
-                            openEditBeneficiary(payload.itemData as Beneficiary)
-                        }
+                        openEditBeneficiary(payload.itemData as Beneficiary)
                     }
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -368,11 +352,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                 ) as? Beneficiary
                             if (isMoneyTransfer == true)
                                 beneficiary?.let {
-                                    if (SessionManager.user?.otpBlocked == true) {
-                                        showToast(Utils.getOtpBlockedMessage(this))
-                                    } else {
-                                        startMoneyTransfer(it, 0)
-                                    }
+                                    startMoneyTransfer(it, 0)
                                     viewModel.requestAllBeneficiaries()
                                 }
                             else

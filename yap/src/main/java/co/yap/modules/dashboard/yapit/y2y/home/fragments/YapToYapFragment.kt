@@ -20,11 +20,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
@@ -87,14 +85,10 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
-        } else {
-            navigate(
-                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(),
-                screenType = FeatureSet.Y2Y_TRANSFER
-            )
-        }
+        navigate(
+            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(),
+            screenType = FeatureSet.Y2Y_TRANSFER
+        )
     }
 
     private fun setupAdaptor() {

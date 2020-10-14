@@ -50,6 +50,10 @@ fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
             "YAP_COMPLIANCE_CREDIT" -> {
                 UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT
             }
+            "EID_EXPIRED_SCHEDULER" -> {
+                UserAccessRestriction.EID_EXPIRED
+            }
+
             else -> UserAccessRestriction.NONE
         }
     )
@@ -108,7 +112,7 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.UNFREEZE_CARD
             )
         }
-        UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL -> {
+        UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.EID_EXPIRED -> {
             arrayListOf(
                 FeatureSet.DOMESTIC_TRANSFER,
                 FeatureSet.UAEFTS_TRANSFER,
@@ -166,7 +170,9 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.CHANGE_PASSCODE,
                 FeatureSet.FORGOT_PASSCODE,
                 FeatureSet.ADD_SEND_MONEY_BENEFICIARY,
-                FeatureSet.EDIT_SEND_MONEY_BENEFICIARY
+                FeatureSet.EDIT_SEND_MONEY_BENEFICIARY,
+                FeatureSet.EDIT_EMAIL,
+                FeatureSet.EDIT_PHONE_NUMBER
             )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
@@ -208,5 +214,21 @@ fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context):
                 Strings.iban_or_debit_card_freeze_or_blocked_message
             ).format(SessionManager.helpPhoneNumber)
         }
+    })
+}
+
+fun AccountInfo.getNotificationOfBlockedFeature(
+    key: UserAccessRestriction
+): String? {
+    return (when (key) {
+        UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
+        UserAccessRestriction.CARD_HOTLISTED_BY_APP, UserAccessRestriction.CARD_HOTLISTED_BY_CSR, UserAccessRestriction.IBAN_BLOCKED_BY_RAK_TOTAL
+            , UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD
+            , UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
+
+            "Some of your card's features are temporarily disabled. Get in touch with us at +971 ${SessionManager.helpPhoneNumber} for assistance"
+
+        }
+        else -> null
     })
 }

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.otp.GenericOtpFragment
@@ -23,7 +22,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.SessionManager
 
 class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(), IPassCode.View {
 
@@ -54,16 +52,15 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    if (SessionManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        viewModel.validatePassCode { isValidPassCode ->
-                            if (isValidPassCode) {
-                                parentActivity.passCodeData.token = viewModel.token
-                                findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
-                            } else
-                                getBinding().dialer.startAnimation()
-                        }
+                    viewModel.validatePassCode { isValidPassCode ->
+                        if (isValidPassCode) {
+                            parentActivity.passCodeData.token = viewModel.token
+                            navigate(
+                                R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment,
+                                screenType = FeatureSet.CHANGE_PASSCODE
+                            )
+                        } else
+                            getBinding().dialer.startAnimation()
                     }
                 }
                 R.id.tvForgotPasscode -> {

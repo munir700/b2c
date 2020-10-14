@@ -477,7 +477,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     }
                 } else {
-                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    launchActivity<DocumentsDashboardActivity>(
+                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        type = FeatureSet.UPDATE_EID
+                    ) {
                         putExtra(
                             Constants.name,
                             SessionManager.user?.currentCustomer?.firstName.toString()

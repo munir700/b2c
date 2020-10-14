@@ -41,7 +41,7 @@ inline fun <reified T : Any> Activity.launchActivity(
     noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
-        showBlockedFeatureAlert(this)
+        showBlockedFeatureAlert(this,type)
     } else {
         val intent = newIntent<T>(this)
         intent.init()
@@ -60,7 +60,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
     noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
-        showBlockedFeatureAlert(requireActivity())
+        showBlockedFeatureAlert(requireActivity(), type)
     } else {
         val intent = newIntent<T>(requireContext())
         intent.init()
@@ -78,7 +78,7 @@ inline fun <reified T : Any> Context.launchActivity(
     noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
-        showBlockedFeatureAlert(this as BaseActivity<*>)
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
         val intent = newIntent<T>(this)
         intent.init()
@@ -107,9 +107,9 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
     return intent
 }
 
-fun showBlockedFeatureAlert(context: Activity) {
+fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
     val blockedMessage = SessionManager.user?.getBlockedMessage(
-        key = FeatureProvisioning.getUserAccessRestriction(),
+        key = FeatureProvisioning.getUserAccessRestriction(type),
         context = context
     )
     context.showAlertDialogAndExitApp(

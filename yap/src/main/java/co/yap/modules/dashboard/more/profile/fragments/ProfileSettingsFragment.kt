@@ -230,7 +230,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-
                     val action =
                         ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
@@ -245,13 +244,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    if (SessionManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
-                    }
+                    launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
                 }
-
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(

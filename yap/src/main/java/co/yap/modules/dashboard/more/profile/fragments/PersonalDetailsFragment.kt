@@ -35,6 +35,7 @@ import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -90,16 +91,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
-                    if (SessionManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
+                    if (!FeatureProvisioning.getFeatureProvisioning(FeatureSet.EDIT_EMAIL)){
                         viewModel.toggleToolBar(true)
                         viewModel.updateToolBarText("")
-                        navigate(
-                            R.id.action_personalDetailsFragment_to_change_email_navigation,
-                            screenType = FeatureSet.EDIT_EMAIL
-                        )
                     }
+                    navigate(
+                        R.id.action_personalDetailsFragment_to_change_email_navigation,
+                        screenType = FeatureSet.EDIT_EMAIL
+                    )
                 }
 
                 R.id.tvEditAddress -> {
@@ -118,9 +117,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (SessionManager.user?.otpBlocked == true) {
-                        if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
-                            PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
-                        ) {
+                        if (canScanEIDCard()) {
                             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                                 putExtra(
                                     Constants.name,
@@ -134,7 +131,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                         }
                     } else {
                         if (canOpenEIDCard()) {
-                            launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            launchActivity<DocumentsDashboardActivity>(
+                                requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                                type = FeatureSet.UPDATE_EID
+                            ) {
                                 putExtra(
                                     Constants.name,
                                     SessionManager.user?.currentCustomer?.firstName.toString()
@@ -164,6 +164,11 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         })
 
         toggleAddressVisibility()
+    }
+
+    private fun canScanEIDCard(): Boolean {
+        return SessionManager.eidStatus == EIDStatus.NOT_SET &&
+                PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
     }
 
     private fun canOpenEIDCard(): Boolean {

@@ -321,16 +321,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun startReorderCardFlow(card: Card?) {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
-        } else {
-            card?.let {
-                launchActivity<ReorderCardActivity>(
-                    type = FeatureSet.REORDER_DEBIT_CARD,
-                    requestCode = RequestCodes.REQUEST_REORDER_CARD
-                ) {
-                    putExtra(ReorderCardActivity.CARD, it)
-                }
+        card?.let {
+            launchActivity<ReorderCardActivity>(
+                type = FeatureSet.REORDER_DEBIT_CARD,
+                requestCode = RequestCodes.REQUEST_REORDER_CARD
+            ) {
+                putExtra(ReorderCardActivity.CARD, it)
             }
         }
     }

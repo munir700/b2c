@@ -83,16 +83,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         SessionManager.user?.otpBlocked = true
         SessionManager.user?.freezeInitiator = "BANK_REQUEST"
         SessionManager.user?.severityLevel = "T"
-        SessionManager.user?.getUserAccessRestrictions()?.let {
-            val featuresList = arrayListOf<FeatureSet>()
-            it.forEach { userAccessRestriction ->
-                featuresList.addAll(SessionManager.user.getBlockedFeaturesList(userAccessRestriction))
-            }
-            FeatureProvisioning.configure(
-                featuresList,
-                it
-            )
-        }
     }
 
     private fun logEvent() {

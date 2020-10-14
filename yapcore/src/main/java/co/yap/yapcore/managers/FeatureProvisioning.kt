@@ -2,6 +2,7 @@ package co.yap.yapcore.managers
 
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.UserAccessRestriction
+import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 
 object FeatureProvisioning {
     private var blockedFeatures: ArrayList<FeatureSet> = arrayListOf()
@@ -18,7 +19,9 @@ object FeatureProvisioning {
         return blockedFeatures.contains(screenType)
     }
 
-    fun getUserAccessRestriction(): UserAccessRestriction {
-        return restrictions.firstOrNull() ?: UserAccessRestriction.NONE
+    fun getUserAccessRestriction(screenType: FeatureSet): UserAccessRestriction {
+        return restrictions.find {
+            SessionManager.user.getBlockedFeaturesList(it).contains(screenType)
+        } ?: UserAccessRestriction.NONE
     }
 }
