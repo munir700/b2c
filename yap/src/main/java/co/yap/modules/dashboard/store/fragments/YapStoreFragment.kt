@@ -42,7 +42,6 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     }
 
     private fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
         viewModel.storesLiveData.observe(this, Observer {
             (recycler_stores.adapter as YapStoreAdaptor).setList(it)
         })
@@ -83,12 +82,6 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         }
     }
 
-    private val observer = Observer<Int> {
-        when (it) {
-            R.id.imgStoreShopping -> {
-            }
-        }
-    }
 
     private fun getRecycleViewAdaptor(): YapStoreAdaptor? {
         return if (recycler_stores.adapter is YapStoreAdaptor) {
@@ -98,14 +91,9 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         }
     }
 
-    override fun onDestroyView() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroyView()
-    }
-
     override fun onToolBarClick(id: Int) {
         when (id) {
-            R.id.imgStoreShopping -> {
+            R.id.ivRightIcon -> {
                 Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
             }
         }

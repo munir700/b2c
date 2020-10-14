@@ -19,6 +19,7 @@ class MoreHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
 
+
     override fun onResume() {
         super.onResume()
         setPicture()

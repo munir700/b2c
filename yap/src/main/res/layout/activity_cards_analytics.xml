@@ -28,7 +28,8 @@
             android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:titleString="@{viewModel.state.toolbarTitle}"
-            />
+
+        />
 
         <fragment
             android:id="@+id/card_analytics_nav_host_fragment"

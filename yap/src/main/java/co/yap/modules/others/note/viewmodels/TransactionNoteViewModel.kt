@@ -36,10 +36,6 @@ class TransactionNoteViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun handlePressOnCrossButton(id: Int) {
-        //   clickEvent.setValue(id)
-    }
-
     override fun addEditNote(transactionId: String?, transactionDetail: String?) {
         launch {
             state.loading = true

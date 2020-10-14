@@ -34,7 +34,9 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightTitle="@{viewModel.state.rightTitle}"
             app:rightTitleVisibility="@{viewModel.state.rightTitleVisibility}"
-            app:titleString="@{viewModel.state.toolbarTitle}" />
+            app:titleString="@{viewModel.state.toolbarTitle}"
+            app:rigthTitleDisabled ="@{viewModel.state.noteValue.empty ? false : true}"
+            />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNote"

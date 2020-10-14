@@ -153,9 +153,6 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             R.id.imgProfile -> {
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
-            R.id.imgSettings -> {
-                startActivity(MoreActivity.newIntent(requireContext()))
-            }
             R.id.tvName -> {
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
@@ -199,5 +196,13 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     override fun getBinding(): FragmentMoreHomeBinding {
         return viewDataBinding as FragmentMoreHomeBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when(id){
+            R.id.ivRightIcon -> startActivity(MoreActivity.newIntent(requireContext()))
+
+        }
     }
 }

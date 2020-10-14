@@ -97,6 +97,15 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
         }
 
+    var rigthTitleDisabled: Boolean = true
+        set(value) {
+            field = value
+            tvRightText.isEnabled = value
+            if (!value) tvRightText.alpha = 0.5f
+            else tvRightText.alpha =1f
+            invalidate()
+        }
+
     var rightIcon: Int? = null
         set(value) {
             field = value

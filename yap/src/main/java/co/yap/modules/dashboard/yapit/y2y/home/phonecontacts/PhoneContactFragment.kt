@@ -75,7 +75,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
         viewModel.phoneContactLiveData.observe(this, Observer {
             adaptor.setList(it)
             getBinding().tvContactListDescription.visibility =
@@ -194,14 +193,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         it.putExtra("sms_body", Utils.getBody(requireContext(), contact))
         startActivity(it)
     }*/
-
-    private val observer = Observer<Int> {
-        when (it) {
-            R.id.imgStoreShopping -> {
-
-            }
-        }
-    }
 
     private fun getBinding(): FragmentPhoneContactsBinding {
         return (viewDataBinding as FragmentPhoneContactsBinding)

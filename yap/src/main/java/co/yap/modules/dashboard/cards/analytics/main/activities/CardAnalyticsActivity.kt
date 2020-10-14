@@ -30,7 +30,7 @@ class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
-            co.yap.sendmoney.R.id.ivLeftIcon -> this.finish()
+            R.id.ivLeftIcon ->{ this.finish()}
         }
     }
 }
