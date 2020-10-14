@@ -53,7 +53,7 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     fun hideToolbar(){
-        toolbar.visibility = View.INVISIBLE
+        viewModel.state.tootlBarVisibility = View.INVISIBLE
     }
 
     override fun onBackPressed() {
