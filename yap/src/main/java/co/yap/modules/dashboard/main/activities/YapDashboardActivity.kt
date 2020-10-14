@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -52,9 +53,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import com.facebook.appevents.AppEventsConstants
@@ -84,6 +83,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
+        initializeChatOverLayButton()
     }
 
     private fun logEvent() {
@@ -119,10 +119,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
-
+                    overLayButtonVisibility(View.GONE)
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
+                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
@@ -491,13 +492,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
             .setNegativeButton(
                 getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
-                null)
+                null
+            )
             .show()
     }
 
     private fun doLogout() {
         MyUserManager.doLogout(this)
-       finishAffinity()
+        finishAffinity()
     }
 
 }

@@ -3,8 +3,9 @@ package co.yap.app
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import co.yap.yapcore.helpers.SingletonHolder
+import co.yap.yapcore.helpers.extentions.toast
 import com.liveperson.api.LivePersonCallbackImpl
 import com.liveperson.api.LivePersonIntents
 import com.liveperson.api.response.types.CloseReason
@@ -16,34 +17,25 @@ import com.liveperson.messaging.TaskType
 import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
 
-@Deprecated("Use LivePersonChat like this LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents() ")
-open class ChatApplication : YAPApplication() {
+class LivePersonChat(private val context: Context) {
+    companion object : SingletonHolder<LivePersonChat, Context>(::LivePersonChat)
 
     private val authKey = "17038977"
-    private val atg = ChatApplication::class.java.simpleName
-    private lateinit var instance: ChatApplication
+    private val TAG = LivePersonChat::class.java.simpleName
     private var livePersonCallback: LivePersonCallbackImpl? = null
-    private lateinit var mLivePersonReceiver: BroadcastReceiver
     private var showToastOnCallback: Boolean = false
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        registerToLivePersonEvents()
-    }
-
-    private fun registerToLivePersonEvents() {
+    fun registerToLivePersonEvents() {
         createLivePersonReceiver()
-        LocalBroadcastManager.getInstance(applicationContext)
+        LocalBroadcastManager.getInstance(context)
             .registerReceiver(
-                mLivePersonReceiver,
+                createLivePersonReceiver(),
                 LivePersonIntents.getIntentFilterForAllEvents()
             )
     }
 
 
-    private fun createLivePersonReceiver() {
-        mLivePersonReceiver = object : BroadcastReceiver() {
+    private fun createLivePersonReceiver(): BroadcastReceiver {
+        val mLivePersonReceiver = object : BroadcastReceiver() {
 
             override fun onReceive(context: Context, intent: Intent) {
 
@@ -127,9 +119,10 @@ open class ChatApplication : YAPApplication() {
 
             }
         }
+        return mLivePersonReceiver
     }
 
-    fun registerToLivePersonCallbacks() {
+    private fun registerToLivePersonCallbacks() {
         createLivePersonCallback()
         LivePerson.setCallback(livePersonCallback)
     }
@@ -226,15 +219,15 @@ open class ChatApplication : YAPApplication() {
     }
 
 
-    fun setShowToastOnCallback(showToastOnCallback: Boolean) {
+    private fun setShowToastOnCallback(showToastOnCallback: Boolean) {
         this.showToastOnCallback = showToastOnCallback
     }
 
     private fun showToast(message: String) {
         if (showToastOnCallback) {
-            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+            context.toast(message)
         } else {
-            LPMobileLog.d(atg + "_CALLBACK", message)
+            LPMobileLog.d(TAG + "_CALLBACK", message)
         }
     }
 

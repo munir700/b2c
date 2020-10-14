@@ -15,6 +15,7 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils.FORMAT_TIME_12H
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -94,7 +95,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
-                transaction.getFormattedTime(), categoryTitle
+                transaction.getFormattedTime(outputFormat = FORMAT_TIME_12H), categoryTitle
             )
         }
 
@@ -102,16 +103,21 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
-            ImageBinding.loadAvatar(
-                itemTransactionListBinding.ivTransaction,
-                if (TxnType.valueOf(
-                        transaction.txnType ?: ""
-                    ) == TxnType.DEBIT
-                ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                android.R.color.transparent,
-                R.dimen.text_size_h2
-            )
+            if(transaction.isTransactionRejected()){
+                itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_exclamation_primary)
+                itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+            }else {
+                ImageBinding.loadAvatar(
+                    itemTransactionListBinding.ivTransaction,
+                    if (TxnType.valueOf(
+                            transaction.txnType ?: ""
+                        ) == TxnType.DEBIT
+                    ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                    if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                    android.R.color.transparent,
+                    R.dimen.text_size_h2
+                )
+            }
         }
 
 
