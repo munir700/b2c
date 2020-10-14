@@ -368,16 +368,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.rvNotificationList.setItemTransformer(
                     ScaleTransformer.Builder()
                         .setMaxScale(1.05f)
-                        .setMinScale(0.8f)
+                        .setMinScale(1f)
                         .setPivotX(Pivot.X.CENTER) // CENTER is a default one
                         //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
                         .build()
                 )
-//                getBindings().lyInclude.rvNotificationList.setItemTransformer(
-//                    ScaleTransformer.Builder()
-//                        .setMinScale(0.8f)
-//                        .build()
-//                )
             }
         }
     }
@@ -386,8 +381,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         mAdapter?.removeAllItems()
     }
 
-    override fun onCloseClick(notification: HomeNotification) {
-        super.onCloseClick(notification)
+    override fun onCloseClick(notification: HomeNotification, position: Int) {
+        super.onCloseClick(notification, position)
         clearNotification()
     }
 
@@ -437,7 +432,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
-    override fun onClick(notification: HomeNotification) {
+    override fun onClick(notification: HomeNotification, position: Int) {
+        if (position != getBindings().lyInclude.rvNotificationList.currentItem) {
+            getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(position)
+            return
+        }
+
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
