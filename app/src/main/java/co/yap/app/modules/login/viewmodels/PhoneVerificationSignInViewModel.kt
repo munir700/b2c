@@ -17,6 +17,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.enums.AlertType
@@ -67,11 +68,15 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         if (tokens.size > 1)
                             repository.setJwtToken(tokens.last())
                     }
-                    val sharedPreferenceManager = SharedPreferenceManager(context)
+                    val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
                     sharedPreferenceManager.save(
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
+                    MyUserManager.isRemembered.value?.let {
+                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
+                    }
+
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     postDemographicData()

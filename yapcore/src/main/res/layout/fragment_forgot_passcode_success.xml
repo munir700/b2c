@@ -19,22 +19,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
-
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBubbles"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:layout_height="@dimen/_165sdp"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bg_bubbles" />
-
-        <TextView
+            android:layout_marginTop="-5dp"
+            app:srcCompat="@drawable/bg_bubbles"
+            android:scaleType="centerCrop"/>
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
             android:lineSpacingExtra="9sp"
@@ -42,7 +41,7 @@
             android:text="@{viewModel.state.title}"
             tools:text="@string/screen_passcode_success_display_text_heading_for_yap_core" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubTitle"
             style="@style/ASmallGrey"
             android:layout_width="match_parent"

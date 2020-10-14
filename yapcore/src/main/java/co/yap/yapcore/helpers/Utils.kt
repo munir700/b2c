@@ -916,5 +916,4 @@ object Utils {
             else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
         })
     }
-
 }

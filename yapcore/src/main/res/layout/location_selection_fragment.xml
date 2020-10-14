@@ -166,6 +166,7 @@
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:drawablePadding="@dimen/margin_extra_small"
                     android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
                     android:maxLength="100"
                     android:maxLines="1"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"

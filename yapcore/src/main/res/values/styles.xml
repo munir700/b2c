@@ -471,7 +471,6 @@
     </style>
 
 
-
     <style name="TabTextCardAnalytics" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:textColor">?attr/colorPrimaryDarkAttr</item>
@@ -618,6 +617,22 @@
         <item name="android:editTextColor">?attr/colorPrimaryDarkAttr</item>
         <item name="android:textStyle">normal</item>
         <item name="closeIcon">@android:color/transparent</item>
+    </style>
 
+    <style name="Yap.App.Widget.FloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="fabCustomSize">@dimen/_30sdp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fabSize">mini</item>
+        <item name="backgroundTint">@color/disabledLight</item>
+        <item name="android:tint">@color/disabledLight</item>
+        <item name="rippleColor">@color/transparent</item>
+        <item name="maxImageSize">@dimen/_16sdp</item>
+        <item name="borderWidth">@dimen/margin_zero_dp</item>
+        <item name="pressedTranslationZ">@dimen/margin_zero_dp</item>
+        <item name="elevation">@dimen/margin_zero_dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:elevation">@dimen/margin_zero_dp</item>
     </style>
 </resources>

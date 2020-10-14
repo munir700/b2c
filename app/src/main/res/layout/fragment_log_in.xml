@@ -11,11 +11,14 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.translation.Translator" />
+
+        <import type="co.yap.yapcore.managers.MyUserManager" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="false"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -25,7 +28,6 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/clSignUp"
             android:layout_alignParentTop="true"
-            android:animateLayoutChanges="true"
             android:fillViewport="true">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -61,9 +63,9 @@
                     android:id="@+id/etEmailField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_xl"
-                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
                     android:layout_marginBottom="@dimen/margin_small"
                     app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
                     app:coreInputError="@{viewModel.state.emailError}"
@@ -80,13 +82,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium_large"
-                    android:checked="@={viewModel.state.isRemember}"
+                    android:checked="@={MyUserManager.INSTANCE.isRemembered}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_label_switch_text)}"
                     android:theme="@style/CustomSwitch" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:layout_weight="1" />
 
                 <co.yap.widgets.CoreButton
@@ -94,13 +97,15 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="@dimen/margin_xxl"
+                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
                     app:enableCoreButton="@{viewModel.state.valid}" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_normal" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </co.yap.widgets.LockableScrollView>
 
@@ -111,7 +116,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginBottom="@dimen/margin_medium"
             android:orientation="horizontal">
 

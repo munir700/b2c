@@ -223,4 +223,8 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_RESEND_EMAIL)
     suspend fun resendVerificationEmail(): Response<ApiResponse>
+
+    // delete profile picture
+    @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
+    suspend fun removeProfilePicture(): Response<ApiResponse>
 }

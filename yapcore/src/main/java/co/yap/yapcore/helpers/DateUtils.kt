@@ -17,6 +17,7 @@ object DateUtils {
     const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
+    const val FORMAT_TIME_12H = "hh:mm a"
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
