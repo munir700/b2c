@@ -16,8 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llConfirmVirtualCardPurchase"
@@ -32,13 +31,12 @@
                 style="@style/ASmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:gravity="center"
                 android:text="@string/screen_add_spare_card_display_text_card_fee"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="@dimen/_4sdp"
-                app:text="@{Strings.screen_add_spare_card_display_text_card_fee}"
-                android:layout_marginTop="@dimen/margin_medium"
-                />
+                app:text="@{Strings.screen_add_spare_card_display_text_card_fee}" />
 
             <TextView
                 android:id="@+id/tvPrice"
@@ -53,34 +51,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvVirtualCardMonths"
                 tools:text="AED 6.00" />
 
-                <TextView
-                    android:id="@+id/tvAvailableBalanceTitle"
-                    style="@style/RegularGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/screen_add_spare_card_display_text_available_balance"
-                    android:textSize="@dimen/text_size_h2"
-                    app:text="@{Strings.screen_add_spare_card_display_text_available_balance}"
-                    app:layout_constraintTop_toBottomOf="@id/glContent"
-                    android:layout_marginEnd="@dimen/margin_xl"
-                    app:layout_constraintStart_toStartOf="@+id/btnConfirmVirtualCardPurchase"
-                    />
+            <TextView
+                android:id="@+id/tvAvailableBalanceTitle"
+                style="@style/RegularGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_xl"
+                android:gravity="center_vertical"
+                android:text="@string/screen_add_spare_card_display_text_available_balance"
+                android:textSize="@dimen/text_size_h2"
+                app:layout_constraintStart_toStartOf="@+id/btnConfirmVirtualCardPurchase"
+                app:layout_constraintTop_toBottomOf="@id/glContent"
+                app:text="@{Strings.screen_add_spare_card_display_text_available_balance}" />
 
-                <TextView
-                    android:id="@+id/tvAvailableBalance"
-                    style="@style/Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/_4sdp"
-                    android:text="@{viewModel.state.avaialableCardBalance}"
-                    android:textColor="?attr/colorPrimaryAttr"
-                    android:layout_marginStart="@dimen/margin_extra_small"
-                    android:textSize="@dimen/text_size_h2"
-                    app:layout_constraintTop_toBottomOf="@id/glContent"
-                    app:layout_constraintStart_toEndOf="@+id/tvAvailableBalanceTitle"
-                    />
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_extra_small"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/_4sdp"
+                android:text="@{viewModel.state.avaialableCardBalance}"
+                android:textColor="?attr/colorPrimaryAttr"
+                android:textSize="@dimen/text_size_h2"
+                app:layout_constraintStart_toEndOf="@+id/tvAvailableBalanceTitle"
+                app:layout_constraintTop_toBottomOf="@id/glContent" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirmVirtualCardPurchase"
@@ -88,8 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_btn_side_paddings"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings"
+                android:layout_marginRight="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_add_spare_card_button_confirm_purchase"
@@ -113,13 +109,12 @@
             layout="@layout/layout_add_spare_virtual_card_success"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include"
-            app:viewModel="@{viewModel}"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:visibility="gone"
-            />
+            app:viewModel="@{viewModel}" />
     </LinearLayout>
 
 </layout>
