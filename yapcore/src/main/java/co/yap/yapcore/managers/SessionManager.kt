@@ -87,10 +87,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     private fun setupDataSetForBlockedFeatures() {
-        user?.otpBlocked = true
-        user?.freezeInitiator = "EID_EXPIRED_SCHEDULER"
-        user?.severityLevel = "E"
-
         user?.getUserAccessRestrictions()?.let {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
