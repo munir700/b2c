@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="131dp"
+                app:layout_constraintGuide_begin="@dimen/_100sdp"
                 app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
