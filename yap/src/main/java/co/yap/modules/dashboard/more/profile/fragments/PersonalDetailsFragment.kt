@@ -30,7 +30,6 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
@@ -127,7 +126,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                                 putExtra("document", viewModel.parentViewModel?.document)
                             }
                         } else {
-                            showToast(Utils.getOtpBlockedMessage(requireContext()))
+                            showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                         }
                     } else {
                         if (canOpenEIDCard()) {
