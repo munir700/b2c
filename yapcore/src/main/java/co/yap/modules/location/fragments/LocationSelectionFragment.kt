@@ -106,7 +106,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressTitle.set(viewModel.address?.address1)
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
-             getCurrentLocation()
+        getCurrentLocation()
 
     }
 

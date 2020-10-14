@@ -18,10 +18,7 @@ import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
-import com.liveperson.infra.*
-import com.liveperson.infra.callbacks.InitLivePersonCallBack
-import com.liveperson.messaging.sdk.api.LivePerson
-import com.liveperson.messaging.sdk.api.model.ConsumerProfile
+import com.liveperson.infra.CampaignInfo
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 

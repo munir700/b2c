@@ -14,7 +14,6 @@
         <import type="android.view.View" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +28,7 @@
             app:viewModel="@{viewModel}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -53,10 +53,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
-                    android:tint="?attr/colorPrimaryAttr"
+                    app:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_support" />
 
                 <TextView
@@ -104,10 +104,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
+                    app:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
@@ -155,10 +155,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
+                    app:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
@@ -206,10 +206,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
+                    android:backgroundTint="?attr/colorPrimaryAttr"
                     android:contentDescription="@string/empty_string"
                     android:padding="@dimen/_10sdp"
-                    android:tint="?attr/colorPrimaryAttr"
-                    android:backgroundTint="?attr/colorPrimaryAttr"
+                    app:tint="?attr/colorPrimaryAttr"
                     app:srcCompat="@drawable/ic_phone_vector" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -274,8 +274,6 @@
                     tools:text="+971 600 55 1214" />
 
             </LinearLayout>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
