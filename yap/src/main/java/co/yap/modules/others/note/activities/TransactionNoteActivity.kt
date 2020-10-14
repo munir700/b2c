@@ -51,7 +51,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
     }
 
     private fun setObservers() {
-        viewModel.clickEvent.observe(this, clickEventObserver)
+        //    viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.addEditNoteSuccess.observe(this, Observer {
             when (it) {
                 true -> onAddEditNoteSuccess()
@@ -59,13 +59,14 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         })
     }
 
-    private val clickEventObserver = Observer<Int> {
-        when (it) {
-            R.id.ivClose -> {
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when (id) {
+            co.yap.sendmoney.R.id.ivLeftIcon -> {
                 hideKeyboard()
                 finish()
             }
-            R.id.tvSave -> {
+            co.yap.sendmoney.R.id.tvRightText -> {
                 viewModel.addEditNote(getTransactionId(), viewModel.state.noteValue.get()!!)
             }
         }

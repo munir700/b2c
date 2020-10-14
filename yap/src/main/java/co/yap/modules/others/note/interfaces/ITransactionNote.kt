@@ -1,5 +1,6 @@
 package co.yap.modules.others.note.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
@@ -21,5 +22,9 @@ interface ITransactionNote {
         var tvEnableState: ObservableField<Boolean>
         var noteValue: ObservableField<String>
         var addEditNote: ObservableField<String>
+        var toolbarVisibility: ObservableBoolean
+         var leftButtonVisibility: ObservableBoolean
+         var rightTitleVisibility: ObservableBoolean
+         var rightTitle: ObservableField<String>
     }
 }

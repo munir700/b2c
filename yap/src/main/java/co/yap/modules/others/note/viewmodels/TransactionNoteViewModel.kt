@@ -8,6 +8,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -18,24 +19,32 @@ class TransactionNoteViewModel(application: Application) :
     override val addEditNoteSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val repository: TransactionsRepository = TransactionsRepository
 
-    override val state: ITransactionNote.State = TransactionNoteState()
+    override val state: TransactionNoteState = TransactionNoteState()
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override fun onCreate() {
+        super.onCreate()
+        state.toolbarVisibility.set(true)
+        state.leftButtonVisibility.set(true)
+        state.toolbarTitle = getString(Strings.screen_transaction_details_display_text_add_note)
+        state.rightTitleVisibility.set(true)
+        state.rightTitle.set(getString(Strings.screen_add_note_display_text_save))
+    }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnCrossButton(id: Int) {
-        clickEvent.setValue(id)
+        //   clickEvent.setValue(id)
     }
 
     override fun addEditNote(transactionId: String?, transactionDetail: String?) {
         launch {
             state.loading = true
             when (val response =
-                repository.addEditNote(AddEditNoteRequest(transactionId, transactionDetail)))
-            {
+                repository.addEditNote(AddEditNoteRequest(transactionId, transactionDetail))) {
                 is RetroApiResponse.Success -> addEditNoteSuccess.value = true
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
