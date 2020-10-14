@@ -59,6 +59,13 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         })
     }
 
+    private fun onAddEditNoteSuccess() {
+        val data = Intent()
+        data.putExtra(Constants.KEY_NOTE_VALUE, viewModel.state.noteValue.get())
+        setResult(Activity.RESULT_OK, data)
+        finish()
+    }
+
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
@@ -72,10 +79,4 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         }
     }
 
-    private fun onAddEditNoteSuccess() {
-        val data = Intent()
-        data.putExtra(Constants.KEY_NOTE_VALUE, viewModel.state.noteValue.get())
-        setResult(Activity.RESULT_OK, data)
-        finish()
-    }
 }

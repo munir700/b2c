@@ -23,8 +23,8 @@ interface ITransactionNote {
         var noteValue: ObservableField<String>
         var addEditNote: ObservableField<String>
         var toolbarVisibility: ObservableBoolean
-         var leftButtonVisibility: ObservableBoolean
-         var rightTitleVisibility: ObservableBoolean
-         var rightTitle: ObservableField<String>
+        var leftButtonVisibility: ObservableBoolean
+        var rightTitleVisibility: ObservableBoolean
+        var rightTitle: ObservableField<String>
     }
 }
