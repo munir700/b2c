@@ -31,7 +31,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
         viewModel.state.forgotTextVisibility = false
         viewModel.setLayoutVisibility(false)
         viewModel.setTitles(
-            title = getString(Strings.screen_create_passcode_display_heading),
+            title = getString(Strings.screen_create_passcode_display_text_title),
             buttonTitle = getString(Strings.screen_create_new_passcode_button_text)
         )
         viewModel.mobileNumber = args.mobileNumber
