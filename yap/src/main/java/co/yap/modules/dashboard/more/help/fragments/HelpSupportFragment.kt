@@ -18,11 +18,7 @@ import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.MyUserManager
-import com.liveperson.infra.*
-import com.liveperson.infra.callbacks.InitLivePersonCallBack
-import com.liveperson.messaging.sdk.api.LivePerson
-import com.liveperson.messaging.sdk.api.model.ConsumerProfile
-
+import com.liveperson.infra.CampaignInfo
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
@@ -32,7 +28,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
-    private val brandId = "17038977"
     private val appInstallId = MyUserManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
@@ -65,7 +60,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
-                chatSetup()
+                requireActivity().chatSetup()
             }
             R.id.lyLiveWhatsApp -> {
                 if (requireContext().isWhatsAppInstalled()) {
@@ -81,40 +76,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 activity?.finish()
             }
         }
-    }
-
-    private fun chatSetup() {
-//        val monitoringParams = MonitoringInitParams(appInstallId)
-        LivePerson.initialize(
-            requireContext(),
-            InitLivePersonProperties(
-                brandId, appInstallId,
-                object : InitLivePersonCallBack {
-                    override fun onInitSucceed() {
-                        openActivity()
-                    }
-
-                    override fun onInitFailed(e: Exception) {
-                        toast("Unable to open chat")
-                    }
-                })
-        )
-    }
-
-    private fun openActivity() {
-        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-        authParams.hostAppJWT = viewModel.authRepository.getJwtToken()
-//        authParams.hostAppJWT = CookiesManager.jwtToken
-        val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
-            .setReadOnlyMode(false)
-        LivePerson.showConversation(requireActivity(), authParams, params)
-        val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(MyUserManager.user?.currentCustomer?.firstName)
-            .setLastName(MyUserManager.user?.currentCustomer?.lastName)
-            .setPhoneNumber(MyUserManager.user?.currentCustomer?.getCompletePhone())
-            .build()
-        LivePerson.setUserProfile(consumerProfile)
     }
 
     @Nullable

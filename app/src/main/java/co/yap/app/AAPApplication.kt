@@ -34,7 +34,7 @@ import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.util.*
 
-class AAPApplication : ChatApplication(), NavigatorProvider {
+class AAPApplication : YAPApplication(), NavigatorProvider {
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -93,6 +93,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         initNetworkLayer()
         setAppUniqueId(this)
         inItLeanPlum()
+        LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
     }

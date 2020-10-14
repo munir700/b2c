@@ -34,7 +34,8 @@ class LoginViewModel(application: Application) :
     }
 
     override fun handlePressOnSignUp() {
-        signUpButtonPressEvent.value = true
+   signUpButtonPressEvent.value = true
+
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
