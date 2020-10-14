@@ -44,20 +44,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginTop="@dimen/_2sdp"
             android:singleLine="true"
             android:textColor="@color/colorMidnightExpress"
             app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Amazon" />
+            tools:text="AmazonAmazonAmazonAmazonAmazonAmazonAmazonAmazon" />
 
         <TextView
             android:id="@+id/tvTransactionAmount"
             style="@style/SmallGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/margin_normal"
             android:layout_marginTop="@dimen/_2sdp"
             android:textColor="@color/colorSecondaryGreen"
             app:layout_constraintEnd_toEndOf="parent"
