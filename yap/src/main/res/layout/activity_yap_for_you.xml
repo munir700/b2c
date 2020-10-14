@@ -3,20 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.yapforyou.viewmodels.YapForYouMainViewModel" />
 
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
+
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{viewModel.state.leftIcon}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{viewModel.state.rightIcon}"
+            app:rightIconVisibility="@{true}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
+
+        <include
             layout="@layout/layout_yap_for_you_toolbar"
             app:viewModel="@{viewModel}" />
 
@@ -30,5 +49,5 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/yap_for_you_navigation" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
