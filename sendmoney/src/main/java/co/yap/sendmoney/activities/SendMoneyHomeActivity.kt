@@ -1,7 +1,6 @@
 package co.yap.sendmoney.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -21,12 +20,6 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavigator,
     IFragmentHolder {
-
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, SendMoneyHomeActivity::class.java)
-        }
-    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 

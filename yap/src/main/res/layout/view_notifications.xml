@@ -52,7 +52,6 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:lines="1"
-                app:layout_constraintBottom_toBottomOf="@+id/ivCross"
                 app:layout_constraintEnd_toStartOf="@+id/ivCross"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/ivNotification"
@@ -64,14 +63,18 @@
                 style="@style/AMicroGrey"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_extra_small"
                 android:autoSizeTextType="uniform"
                 android:ellipsize="end"
+                android:autoLink="phone|email"
+                android:linksClickable="true"
                 android:lineSpacingExtra="0sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tvTitle"
-                app:layout_constraintTop_toBottomOf="@+id/ivCross"
-                tools:text="On May 24th, Intersdfdsfsdf  sdfsdfsdfdsffsdfdsfsdfdsf asdfsdfsgjhg jhgjhg dnational monsdds sd ds sd sd sd sd sd sd dssdsc scdscsd sdcsdcds sd sd sd sd sd sd dsedasd dasda sadssd asdasada asd asasdas y trandasd adassfer won�t be available from 7 p.m. to 11 p.mdas ads.sdfsdfsdf" />
+                app:layout_constraintStart_toEndOf="@+id/ivNotification"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                tools:text="On May 24th, dds ssd asasdas y trandasd ansfer be available from 7 p.m. to 11 p.mdas ads.sdfsdfsdf" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

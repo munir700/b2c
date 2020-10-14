@@ -56,10 +56,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.enums.NotificationAction
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -115,7 +112,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openYapForYou() {
-        startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+        launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
     }
 
     private fun initComponents() {
@@ -239,16 +236,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
-                R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
-                R.id.lyAdd -> {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        openTopUpScreen()
-                    } else {
-                        showToast("Account activation pending")
-
-                    }
+                R.id.lyAnalytics -> {
+                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
                 }
-
+                R.id.lyAdd -> {
+                    openTopUpScreen()
+                }
             }
         })
 
@@ -484,7 +477,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     }
                 } else {
-                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    launchActivity<DocumentsDashboardActivity>(
+                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        type = FeatureSet.UPDATE_EID
+                    ) {
                         putExtra(
                             Constants.name,
                             SessionManager.user?.currentCustomer?.firstName.toString()
@@ -649,7 +645,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(requireContext()))
+        launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
