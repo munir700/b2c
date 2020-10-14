@@ -541,10 +541,20 @@
         <attr name="android:drawablePadding" format="dimension|reference" />
     </declare-styleable>
 
-    <declare-styleable name="CoreToolbar">
-    </declare-styleable>
+    <declare-styleable name="CoreToolbar"></declare-styleable>
 
     <declare-styleable name="RoundedImageViewV2">
         <attr name="rounded_radius" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="CounterFloatingActionButton">
+        <attr name="badgeTextColor" format="color" />
+        <attr name="badgeBackgroundColor" format="color" />
+        <attr name="badgePosition" format="enum">
+            <enum name="RightTop" value="0" />
+            <enum name="LeftBottom" value="1" />
+            <enum name="LeftTop" value="2" />
+            <enum name="RightBottom" value="3" />
+        </attr>
     </declare-styleable>
 </resources>

@@ -77,19 +77,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTxnFailedReason() {
         val msg = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name ||  it.isTransactionInProgress() -> {
+                it.isTransactionInProgress() || it.isTransactionRejected() -> {
                     getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                    it.cancelReason
-                }
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    if (TransactionStatus.PENDING.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
-                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTransactionSubheading.alpha = 0.5f
-                        getBindings().ivCategoryIcon.alpha = 0.5f
-                        return@let getCutOffMsg()
-                    } else ""
+                    getBindings().tvTransactionSubheading.alpha = 0.5f
+                    getBindings().ivCategoryIcon.alpha = 0.5f
+                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg()
                 }
                 else -> ""
             }
@@ -138,7 +131,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setSubTitle() {
         val subTitle = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name -> "Transfer Rejected"
+                it.isTransactionRejected() -> "Transfer Rejected"
                 it.isTransactionInProgress() -> "Transfer Pending"
                 else -> ""
             }
