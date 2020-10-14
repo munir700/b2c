@@ -50,37 +50,33 @@ class OtpBlockedInfoFragment : BaseBindingFragment<IOtpBlockedInfo.ViewModel>(),
     }
 
     private fun setDetailTextView() {
-        when (SessionManager.user?.otpBlocked) {
-            true -> {
-                getBinding().tvSubTitle.text = resources.getText(
-                    getString(Strings.screen_otp_blocked_display_text_details),
-                    viewModel.state.helpPhoneNo.get() ?: ""
-                )
-                getBinding().tvSubTitle.makeLinks(
-                    Pair(viewModel.state.helpPhoneNo.get() ?: "", View.OnClickListener {
-                        requireContext().makeCall(viewModel.state.helpPhoneNo.get())
-                    }),
-                    Pair("Live Chat", View.OnClickListener {
-                        chatSetup()
-                    })
-                )
-            }
-            false -> {
-                getBinding().tvSubTitle.text = resources.getText(
-                    getString(Strings.screen_otp_blocked_display_text_details_card_blocked),
-                    viewModel.state.helpPhoneNo.get() ?: ""
-                )
-                getBinding().tvSubTitle.makeLinks(
-                    Pair(viewModel.state.helpPhoneNo.get() ?: "", View.OnClickListener {
-                        requireContext().makeCall(viewModel.state.helpPhoneNo.get())
-                    }),
-                    Pair("Live Chat", View.OnClickListener {
-                        chatSetup()
-                    })
-                )
-            }
+        if (SessionManager.user?.freezeInitiator != null) {
+            getBinding().tvSubTitle.text = resources.getText(
+                getString(Strings.screen_otp_blocked_display_text_details_card_blocked),
+                viewModel.state.helpPhoneNo.get() ?: ""
+            )
+            getBinding().tvSubTitle.makeLinks(
+                Pair(viewModel.state.helpPhoneNo.get() ?: "", View.OnClickListener {
+                    requireContext().makeCall(viewModel.state.helpPhoneNo.get())
+                }),
+                Pair("Live Chat", View.OnClickListener {
+                    chatSetup()
+                })
+            )
+        } else if (SessionManager.user?.otpBlocked == true) {
+            getBinding().tvSubTitle.text = resources.getText(
+                getString(Strings.screen_otp_blocked_display_text_details),
+                viewModel.state.helpPhoneNo.get() ?: ""
+            )
+            getBinding().tvSubTitle.makeLinks(
+                Pair(viewModel.state.helpPhoneNo.get() ?: "", View.OnClickListener {
+                    requireContext().makeCall(viewModel.state.helpPhoneNo.get())
+                }),
+                Pair("Live Chat", View.OnClickListener {
+                    chatSetup()
+                })
+            )
         }
-
     }
 
     private fun chatSetup() {

@@ -86,7 +86,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    private fun setupDataSetForBlockedFeatures() {
+    fun setupDataSetForBlockedFeatures() {
         user?.getUserAccessRestrictions()?.let {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->

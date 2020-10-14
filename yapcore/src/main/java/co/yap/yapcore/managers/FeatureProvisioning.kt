@@ -24,4 +24,8 @@ object FeatureProvisioning {
             SessionManager.user.getBlockedFeaturesList(it).contains(screenType)
         } ?: UserAccessRestriction.NONE
     }
+
+    fun getTopUserAccessRestriction(): UserAccessRestriction? {
+        return restrictions.firstOrNull()
+    }
 }

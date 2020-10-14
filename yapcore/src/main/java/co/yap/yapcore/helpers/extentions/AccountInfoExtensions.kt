@@ -172,13 +172,14 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.ADD_SEND_MONEY_BENEFICIARY,
                 FeatureSet.EDIT_SEND_MONEY_BENEFICIARY,
                 FeatureSet.EDIT_EMAIL,
-                FeatureSet.EDIT_PHONE_NUMBER
+                FeatureSet.EDIT_PHONE_NUMBER,
+                FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
             )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
             arrayListOf(FeatureSet.SEND_MONEY, FeatureSet.YAP_TO_YAP, FeatureSet.TOP_UP)
         }
-        UserAccessRestriction.NONE, UserAccessRestriction.EID_EXPIRED -> {
+        UserAccessRestriction.NONE -> {
             arrayListOf()
         }
     })
@@ -226,7 +227,7 @@ fun AccountInfo.getNotificationOfBlockedFeature(
             , UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD
             , UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
 
-            "Some of your card's features are temporarily disabled. Get in touch with us at +971 ${SessionManager.helpPhoneNumber} for assistance"
+            "Some of your card's features are temporarily disabled. Get in touch with us at ${SessionManager.helpPhoneNumber} for assistance."
 
         }
         else -> null

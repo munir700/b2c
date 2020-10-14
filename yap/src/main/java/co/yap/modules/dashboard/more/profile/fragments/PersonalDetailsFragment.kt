@@ -31,10 +31,7 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 
@@ -75,8 +72,11 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEditPhoneNumber -> {
-                    if (SessionManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                    if (FeatureProvisioning.getFeatureProvisioning(
+                            FeatureSet.EDIT_PHONE_NUMBER
+                        )
+                    ) {
+                        showBlockedFeatureAlert(requireActivity(), FeatureSet.EDIT_PHONE_NUMBER)
                     } else {
                         mNavigator.startVerifyPassCodePresenterActivity(
                             requireActivity(),

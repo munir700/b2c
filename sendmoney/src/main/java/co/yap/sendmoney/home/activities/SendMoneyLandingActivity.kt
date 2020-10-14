@@ -31,6 +31,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -311,7 +312,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (SessionManager.user?.otpBlocked == true) {
-                            showToast(Utils.getOtpBlockedMessage(this))
+                            showBlockedFeatureAlert(this,FeatureSet.DELETE_SEND_MONEY_BENEFICIARY)
                         } else {
                             positionToDelete = payload.position
                             confirmDeleteBeneficiary(payload.itemData as Beneficiary)

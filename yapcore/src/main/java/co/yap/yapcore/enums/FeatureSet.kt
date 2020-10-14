@@ -17,9 +17,10 @@ enum class FeatureSet {
     FORGOT_PASSCODE, // done
     ADD_SEND_MONEY_BENEFICIARY, // done
     EDIT_SEND_MONEY_BENEFICIARY, // done
-    EDIT_PHONE_NUMBER,
+    DELETE_SEND_MONEY_BENEFICIARY, // done
+    EDIT_PHONE_NUMBER, // done
     EDIT_EMAIL, //done
-    UPDATE_EID,
+    UPDATE_EID, //done
     REORDER_DEBIT_CARD,//done
     ANALYTICS,// done
     YAP_FOR_YOU, //done
