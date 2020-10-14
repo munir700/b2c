@@ -14,8 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:paddingBottom="@dimen/margin_medium">
+        android:background="@color/colorWhite">
 
 
         <TextView
@@ -23,11 +22,11 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center"
             android:text="@string/screen_add_spare_card_completion_display_text_complete_transaction_virtual"
             app:layout_constraintBottom_toTopOf="@+id/flTransactionComplete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
@@ -74,5 +73,4 @@
             app:text="@{Strings.screen_add_spare_card_completion_button_done}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

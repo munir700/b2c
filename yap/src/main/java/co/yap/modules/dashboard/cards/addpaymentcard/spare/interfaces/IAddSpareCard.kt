@@ -11,6 +11,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 interface IAddSpareCard {
     interface State : IBase.State {
         var cardType: String
+
         //add virtual card layout fields
         var virtualCardFee: String
 
