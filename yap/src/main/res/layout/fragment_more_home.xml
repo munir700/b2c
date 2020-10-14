@@ -24,16 +24,14 @@
             android:id="@+id/imgSettings"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:layout_marginEnd="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/margin_normal_large"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:tint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_settings"
-            android:tint="@color/colorPrimary"
-            />
-
+            app:srcCompat="@drawable/ic_settings" />
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
@@ -110,10 +108,10 @@
             android:id="@+id/btnBankDetails"
             style="@style/RectangleBtnSmallStyle"
             android:layout_width="match_parent"
-            android:layout_marginStart="@dimen/_86sdp"
-            android:layout_marginEnd="@dimen/_86sdp"
             android:layout_height="@dimen/_22sdp"
+            android:layout_marginStart="@dimen/_86sdp"
             android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/_86sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
