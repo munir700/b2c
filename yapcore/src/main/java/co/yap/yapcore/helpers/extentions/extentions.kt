@@ -141,13 +141,12 @@ fun RecyclerView.fixSwipeToRefresh(refreshLayout: SwipeRefreshLayout): RecyclerV
 
 class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) :
     RecyclerView.OnScrollListener() {
-    companion object {
-        private const val DIRECTION_UP = -1
-    }
+
+    private val directionUp = -1
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        refreshLayout.isEnabled = !(recyclerView?.canScrollVertically(DIRECTION_UP) ?: return)
+        refreshLayout.isEnabled = !(recyclerView?.canScrollVertically(directionUp) ?: return)
     }
 
 }

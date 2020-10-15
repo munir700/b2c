@@ -23,6 +23,8 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -39,6 +41,8 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        setUpFirebaseAnalytics()
+
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -55,6 +59,16 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             onToolBarClick(it)
         })
     }
+
+    private fun setUpFirebaseAnalytics() {
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
+            param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
+            param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+        }
+    }
+
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {
