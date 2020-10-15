@@ -27,7 +27,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val repository: CustomersRepository = CustomersRepository
     override var receiverUUID: String = ""
-    override val transferFundSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+//    override val transferFundSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate() {
         super.onCreate()
@@ -42,7 +42,7 @@ class Y2YFundsTransferViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun proceedToTransferAmount() {
+    override fun proceedToTransferAmount(success: () -> Unit) {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
             receiverUUID, state.fullName, state.amount, false, if(state.noteValue.isBlank()) null else state.noteValue
         )
@@ -50,7 +50,7 @@ class Y2YFundsTransferViewModel(application: Application) :
             state.loading = true
             when (val response = transactionsRepository.y2yFundsTransferRequest(y2yFundsTransfer)) {
                 is RetroApiResponse.Success -> {
-                    transferFundSuccess.value = true
+                    success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {

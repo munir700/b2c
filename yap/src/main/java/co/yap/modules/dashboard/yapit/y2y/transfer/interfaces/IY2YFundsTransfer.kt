@@ -17,15 +17,15 @@ class IY2YFundsTransfer {
         val clickEvent: SingleClickEvent
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var receiverUUID: String
-        val transferFundSuccess:MutableLiveData<Boolean>
+//        val transferFundSuccess: MutableLiveData<Boolean>
         fun handlePressOnView(id: Int)
         fun getTransactionThresholds()
-        fun proceedToTransferAmount()
+        fun proceedToTransferAmount(success: () -> Unit)
         fun getTransactionLimits()
     }
 
     interface State : IBase.State {
-        var amount:String
+        var amount: String
         var amountBackground: Drawable?
         var valid: Boolean
         var minLimit: Double

@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -59,7 +58,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
+//        viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
         viewModel.isFeeReceived.observe(this, Observer {
             if (it) viewModel.updateFees(viewModel.state.amount ?: "")
         })
@@ -79,11 +78,11 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             )
     }
 
-    private val transferFundSuccessObserver = Observer<Boolean> {
-        if (it) {
-            moveToFundTransferSuccess()
-        }
-    }
+    /* private val transferFundSuccessObserver = Observer<Boolean> {
+         if (it) {
+             moveToFundTransferSuccess()
+         }
+     }*/
 
     private fun setEditTextWatcher() {
         etAmount.applyAmountFilters()
@@ -94,7 +93,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 viewModel.state.valid = false
                 cancelAllSnackBar()
             }
-
             viewModel.updateFees(it)
         }
     }
@@ -131,7 +129,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
-
     }
 
     private fun showBalanceNotAvailableError() {
@@ -165,7 +162,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                             startOtpFragment()
                         }
                         else -> {
-                            viewModel.proceedToTransferAmount()
+                            viewModel.proceedToTransferAmount {
+                                moveToFundTransferSuccess()
+                            }
                         }
                     }
                 }
@@ -191,7 +190,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             )
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.proceedToTransferAmount()
+                viewModel.proceedToTransferAmount {
+                    moveToFundTransferSuccess()
+                }
             }
         }
     }
@@ -205,7 +206,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             args.position
         )
 
-
         getBinding().lyUserImage.tvNameInitials.setTextColor(
             Utils.getContactColors(
                 getBinding().lyUserImage.tvNameInitials.context, args.position
@@ -215,7 +215,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " +
                     viewModel.state.availableBalance?.toFormattedCurrency()
-
         etAmount.applyAmountFilters()
     }
 
@@ -270,7 +269,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.removeObservers(this)
         cancelAllSnackBar()
         super.onDestroy()
-
     }
 
     override fun getBinding(): FragmentY2yFundsTransferBinding {
@@ -281,5 +279,4 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.parentViewModel?.state?.rightButtonVisibility = true
         return super.onBackPressed()
     }
-
 }
