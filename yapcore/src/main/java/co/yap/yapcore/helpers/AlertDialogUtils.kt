@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 /**
  * Display AlertDialog instantly with confirm
@@ -216,8 +216,8 @@ fun Activity.showAlertDialogAndExitApp(
         btnDivider.visibility = View.VISIBLE
     }
     if (isOtpBlocked) {
-        label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
-            makeCall(MyUserManager.helpPhoneNumber)
+        label.makeLinks(Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
+            makeCall(SessionManager.helpPhoneNumber)
         }))
     }
 

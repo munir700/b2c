@@ -11,7 +11,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class OtpBlockedInfoViewModel(application: Application) :
     BaseViewModel<IOtpBlockedInfo.State>(application),
@@ -28,7 +28,7 @@ class OtpBlockedInfoViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.userFirstName.set(MyUserManager.user?.currentCustomer?.firstName)
+        state.userFirstName.set(SessionManager.user?.currentCustomer?.firstName)
     }
 
     override fun getHelpPhoneNo() {

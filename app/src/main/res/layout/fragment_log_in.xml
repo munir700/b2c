@@ -12,7 +12,7 @@
 
         <import type="co.yap.translation.Translator" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <RelativeLayout
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium_large"
-                    android:checked="@={MyUserManager.INSTANCE.isRemembered}"
+                    android:checked="@={SessionManager.INSTANCE.isRemembered}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_label_switch_text)}"
                     android:theme="@style/CustomSwitch" />
 

@@ -12,7 +12,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -38,9 +38,9 @@ class SpareCardLandingViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.virtualCardFee =
-            parentViewModel?.virtualCardFee ?: "0.0".toFormattedAmountWithCurrency()
+            parentViewModel?.virtualCardFee ?: "0.0".toFormattedCurrency()
         state.physicalCardFee =
-            parentViewModel?.physicalCardFee ?: "0.0".toFormattedAmountWithCurrency()
+            parentViewModel?.physicalCardFee ?: "0.0".toFormattedCurrency()
     }
 
     override fun getVirtualCardFee() {
@@ -76,10 +76,10 @@ class SpareCardLandingViewModel(application: Application) :
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             state.virtualCardFee =
                                 feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedAmountWithCurrency()
+                                    .toFormattedCurrency()
                         }
                     } else {
-                        state.physicalCardFee = "0.0".toFormattedAmountWithCurrency()
+                        state.physicalCardFee = "0.0".toFormattedCurrency()
                     }
 
                     parentViewModel?.physicalCardFee = state.physicalCardFee

@@ -18,7 +18,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -111,7 +111,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.lyContact -> {
-                    if (MyUserManager.user?.otpBlocked == true ) {
+                    if (SessionManager.user?.otpBlocked == true ) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         if (data is Contact && data.yapUser == true && data.accountDetailList != null && !data.accountDetailList.isNullOrEmpty()) {

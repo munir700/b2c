@@ -9,8 +9,10 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.CardType
@@ -19,10 +21,12 @@ import co.yap.yapcore.helpers.AuthUtils
 import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-object MyUserManager : IRepositoryHolder<CardsRepository> {
+object SessionManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
     private val customerRepository: CustomersRepository = CustomersRepository
@@ -34,36 +38,35 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
     var eidStatus: EIDStatus = EIDStatus.NOT_SET
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
 
-    // new implementation of calling call. Plan its implementation.
-    //    private val userManagerJob = Job()
-//    private val viewModelBGScope =
-//        BaseViewModel.CloseableCoroutineScope(userManagerJob + Dispatchers.IO)
-//
-//    fun cancelAllJobs() {
-//        viewModelBGScope.close()
-//    }
-//
-//    suspend fun getAccountInfo() {
-//        val response = viewModelBGScope.async {
-//            customerRepository.getAccountInfo()
-//        }.await()
-//        when (response) {
-//            is RetroApiResponse.Success -> {
-//                usersList = response.data.data as ArrayList
-//                user = getCurrentUser()
-//                onAccountInfoSuccess.postValue(true)
-//            }
-//
-//            is RetroApiResponse.Error -> {
-//                onAccountInfoSuccess.postValue(false)
-//            }
-//        }
-//    }
+    private val viewModelBGScope =
+        BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
+
+    fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
+        GlobalScope.launch(Dispatchers.IO) {
+            when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
+                is RetroApiResponse.Success -> {
+                    currencies.postValue(apiResponse.data.curriencies)
+                    response.invoke(true, apiResponse.data.curriencies ?: arrayListOf())
+                }
+
+                is RetroApiResponse.Error -> {
+                    response.invoke(false, arrayListOf())
+                }
+            }
+        }
+    }
+
+    fun getCurrencies(): ArrayList<CurrencyData> {
+        return currencies.value ?: arrayListOf()
+    }
+
+    fun getDefaultCurrencyDecimals(): Int = 2
 
     fun updateCardBalance(success: () -> Unit) {
-        getAccountBalanceRequest{
+        getAccountBalanceRequest {
             success()
         }
     }
@@ -139,8 +142,17 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         return null
     }
 
-    private fun expireUserSession() {
+    fun expireUserSession() {
         user = null
+        cardBalance.value = CardBalance()
+        card = MutableLiveData()
+        userAddress = null
+        YAPApplication.clearFilters()
+        cancelAllJobs()
+    }
+
+    private fun cancelAllJobs() {
+        viewModelBGScope.close()
     }
 
     fun doLogout(context: Context, isOnPassCode: Boolean = false) {
@@ -156,9 +168,5 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
 
             }
         })
-        cardBalance.value = CardBalance()
-        card = MutableLiveData()
-        userAddress = null
-        YAPApplication.clearFilters()
     }
 }

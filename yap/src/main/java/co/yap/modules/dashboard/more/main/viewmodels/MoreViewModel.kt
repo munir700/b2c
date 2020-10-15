@@ -15,7 +15,7 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class MoreViewModel(application: Application) :

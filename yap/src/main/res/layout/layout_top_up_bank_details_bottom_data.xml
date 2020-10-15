@@ -7,9 +7,8 @@
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsViewModel" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
-
         <import type="co.yap.translation.Strings" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,7 +44,7 @@
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:text="@{MyUserManager.INSTANCE.getUser().currentCustomer.fullName}"
+                    android:text="@{SessionManager.INSTANCE.getUser().currentCustomer.fullName}"
                     android:theme="@style/Theme.EditText"
                     app:hint="@{Strings.screen_add_topup_bank_account_name_label_text}"
                     tools:text="Sufyan Shabbir" />
@@ -72,7 +71,7 @@
                     android:inputType="textEmailAddress"
                     android:paddingBottom="@dimen/margin_normal"
                     android:singleLine="true"
-                    android:text="@{MyUserManager.INSTANCE.getUser().iban}"
+                    android:text="@{SessionManager.INSTANCE.getUser().iban}"
                     android:theme="@style/Theme.EditText"
                     app:hint="@{Strings.screen_add_topup_bank_iban_label_text}"
                     tools:text="@string/screen_add_topup_bank_iban_label_text" />
@@ -98,7 +97,7 @@
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:text="@{MyUserManager.INSTANCE.getUser().bank.name}"
+                    android:text="@{SessionManager.INSTANCE.getUser().bank.name}"
                     android:theme="@style/Theme.EditText"
                     app:hint="@{Strings.screen_add_topup_bank_iban_label_text}"
                     tools:text="National Bank of Ras Al Khaimah" />
@@ -124,7 +123,7 @@
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:text="@{MyUserManager.INSTANCE.getUser().bank.address}"
+                    android:text="@{SessionManager.INSTANCE.getUser().bank.address}"
                     android:theme="@style/Theme.EditText"
                     tools:text="Bank address" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -149,7 +148,7 @@
                     android:cursorVisible="false"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:text="@{MyUserManager.INSTANCE.getUser().accountNo}"
+                    android:text="@{SessionManager.INSTANCE.getUser().accountNo}"
                     android:theme="@style/Theme.EditText"
                     tools:text="123456789012" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
@@ -175,7 +174,7 @@
                     android:inputType="textEmailAddress"
                     android:drawableEnd="@drawable/ic_copy"
                     android:singleLine="true"
-                    android:text="@{MyUserManager.INSTANCE.getUser().bank.swiftCode}"
+                    android:text="@{SessionManager.INSTANCE.getUser().bank.swiftCode}"
                     android:theme="@style/Theme.EditText"
                     tools:text="QR135336DA4" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>

@@ -245,9 +245,7 @@ open class MapSupportFragment : LocationBaseFragment<ILocationSelection.ViewMode
         val photoTask = placesClient?.fetchPhoto(photoRequestBuilder.build())
 
         photoTask?.addOnSuccessListener { response ->
-
             viewModel.state.placePhoto.set(response.bitmap)
-//            MyUserManager.addressPhotoUrl = viewModel.state.placePhoto.get()
         }
 
         photoTask?.addOnFailureListener { exception ->

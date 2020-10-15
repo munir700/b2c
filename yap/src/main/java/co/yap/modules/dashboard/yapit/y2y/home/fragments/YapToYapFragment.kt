@@ -19,11 +19,10 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
@@ -86,7 +85,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        if (MyUserManager.user?.otpBlocked == true) {
+        if (SessionManager.user?.otpBlocked == true) {
             showToast(Utils.getOtpBlockedMessage(requireContext()))
         } else {
             findNavController().navigate(

@@ -34,7 +34,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.trackEventInFragments
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.ezaka.customer.app.utils.hideKeyboard
@@ -48,10 +48,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
-            when (MyUserManager.user?.notificationStatuses) {
+            when (SessionManager.user?.notificationStatuses) {
                 AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
                     skipLocationSelectionFragment()
                 }
@@ -172,7 +173,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                     viewModel.requestOrderCard(viewModel.getUserAddress()) {
                         viewModel.address?.city?.let { city ->
                             trackEventInFragments(
-                                MyUserManager.user,
+                                SessionManager.user,
                                 city = city
                             )
                         }
@@ -188,7 +189,6 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
 
             R.id.ivClose -> {
-                // setAddress() // set initial address
                 if (viewModel.state.isShowLocationCard.get() == true)
                     slideDownCardAnimation()
                 else {

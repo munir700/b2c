@@ -576,4 +576,11 @@
             <enum name="RightBottom" value="3" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CoreEditText">
+        <attr name="ce_setBackgroundColor" format="color" />
+        <attr name="ce_custom_width" format="dimension" />
+        <attr name="ce_custom_height" format="dimension" />
+    </declare-styleable>
+
 </resources>

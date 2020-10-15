@@ -32,7 +32,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.hasBitmap
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
@@ -210,7 +210,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun doLogout() {
-        MyUserManager.doLogout(requireContext())
+        SessionManager.doLogout(requireContext())
         activity?.finish()
     }
 
@@ -249,7 +249,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
+                    if (SessionManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))

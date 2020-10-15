@@ -23,7 +23,7 @@ import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
@@ -103,8 +103,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
                 viewModel.eventNext -> {
-                    MyUserManager.getAccountInfo()
-                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+                    SessionManager.getAccountInfo()
+                    SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
                             viewModel.parentViewModel?.finishKyc?.value =
                                 DocumentsResponse(true)
@@ -117,8 +117,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                     })
                 }
                 viewModel.eventEidUpdate -> {
-                    MyUserManager.getAccountInfo()
-                    MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+                    SessionManager.getAccountInfo()
+                    SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
                             viewModel.parentViewModel?.finishKyc?.value =
                                 DocumentsResponse(false, KYCAction.ACTION_EID_UPDATE.name)
@@ -300,8 +300,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null && viewModel.parentViewModel?.skipFirstScreen?.value == true) {
-//            if (MyUserManager.eidStatus != EIDStatus.EXPIRED)
-//                activity?.finish()
+
         }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
