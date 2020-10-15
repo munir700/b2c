@@ -18,12 +18,14 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             field = value
             notifyPropertyChanged(BR.otpDataModel)
         }
+
     @get:Bindable
     override var verificationTitle: String = "I am your title"
         set(value) {
             field = value
             notifyPropertyChanged(BR.verificationTitle)
         }
+
     @get:Bindable
     override var verificationDescription: String = ""
         set(value) {
@@ -34,18 +36,11 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
     val mContext = application.applicationContext
     override var mobileNumber: Array<String?> = arrayOfNulls(1)
 
-    @get:Bindable
-    override var otp: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.otp)
-            validate()
-        }
+    override var otp: ObservableField<String> = ObservableField("")
 
 
     @get:Bindable
     override var valid: Boolean = false
-        get() = validate()
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
@@ -73,6 +68,7 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             field = value
             notifyPropertyChanged(BR.color)
         }
+
     @get:Bindable
     override var verificationDescriptionForLogo: SpannableStringBuilder? =
         SpannableStringBuilder("")
@@ -80,6 +76,7 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             field = value
             notifyPropertyChanged(BR.verificationDescriptionForLogo)
         }
+
     @get:Bindable
     override var imageUrl: String? = ""
         set(value) {
@@ -93,18 +90,21 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             field = value
             notifyPropertyChanged(BR.currencyType)
         }
+
     @get:Bindable
     override var amount: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
         }
+
     @get:Bindable
     override var beneficiaryCountry: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
         }
+
     @get:Bindable
     override var errorMessage: String? = ""
         set(value) {
@@ -112,13 +112,10 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
             notifyPropertyChanged(BR.errorMessage)
         }
 
-    private fun validate(): Boolean {
-        var validateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 6) {
-            validateOtp = true
+    private fun validate() {
+        if (otp.get()?.isNotEmpty() == true && otp.get()?.length == 6) {
             valid = true
         }
-        return validateOtp
     }
 
     override fun reverseTimer(Seconds: Int, context: Context) {

@@ -43,10 +43,7 @@ fun Transaction?.getTransactionTitle(): String {
 fun Transaction?.getTransactionIcon(): Int {
     return this?.let { transaction ->
         return when (transaction.status) {
-            TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation_primary
-            TransactionStatus.FAILED.name -> {
-                R.drawable.ic_reverted
-            }
+            TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> R.drawable.ic_exclamation_primary
             else -> when (transaction.getLabelValues()) {
                 TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
@@ -77,21 +74,25 @@ fun Transaction?.getTransactionIcon(): Int {
 }
 
 fun Transaction?.getTransactionStatus(): String {
-    this?.let { txn ->
-        return (when (txn.status) {
-            TransactionStatus.CANCELLED.name -> "Rejected transaction"
-            TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
-                if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
-            }
-            else -> ""
-        })
-    } ?: return ""
+    when (this?.productCode) {
+        TransactionProductCode.ATM_WITHDRAWL.pCode -> return this.cardAcceptorLocation
+            ?: ""
+        TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName?:""
+        else -> this?.let { txn ->
+            return (when (txn.status) {
+                TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
+                TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
+                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
+                }
+                else -> ""
+            })
+        } ?: return ""
+    }
 }
 
 fun Transaction?.getTransactionTypeTitle(): String {
     this?.let { txn ->
         return when {
-            txn.status == TransactionStatus.FAILED.name -> "Reverted"
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_REFUND -> "Refund"
             txn.getLabelValues() == TransactionLabelsCode.IS_INCOMING -> "Inward Bank Transfer"
@@ -122,7 +123,7 @@ fun Transaction?.getTransactionTypeTitle(): String {
 
 fun Transaction?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
-        if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
+        if (transaction.isTransactionRejected() || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
         return if (isTransactionInProgress())
             R.drawable.ic_time
         else (when (txnType) {
@@ -349,7 +350,7 @@ fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_
 }
 
 fun Transaction?.isTransactionCancelled(): Boolean {
-    return this?.status == TransactionStatus.CANCELLED.name
+    return this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name
 }
 
 fun Transaction?.isTransactionInProgress(): Boolean {
@@ -357,7 +358,7 @@ fun Transaction?.isTransactionInProgress(): Boolean {
 }
 
 fun Transaction?.getTransactionAmountPrefix(): String {
-    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) {
         return ""
     } else {
         (return when (this?.txnType) {
@@ -399,6 +400,10 @@ fun Transaction?.getTransactionAmountColor(): Int {
             else -> R.color.colorPrimaryDark
         })
     }
+}
+
+fun Transaction?.isTransactionRejected(): Boolean {
+    return (this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name)
 }
 
 

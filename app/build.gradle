@@ -51,8 +51,8 @@ android {
         }
 
         stg {
-            versionCode 187
-            versionName "0.18.7"
+            versionCode 189
+            versionName "0.18.9"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -64,8 +64,8 @@ android {
         }
 
         yapinternal {
-            versionCode 21
-            versionName "0.2.1"
+            versionCode 23
+            versionName "0.2.3"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

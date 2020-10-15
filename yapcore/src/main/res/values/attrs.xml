@@ -541,10 +541,39 @@
         <attr name="android:drawablePadding" format="dimension|reference" />
     </declare-styleable>
 
-    <declare-styleable name="CoreToolbar">
-    </declare-styleable>
+    <declare-styleable name="CoreToolbar"></declare-styleable>
 
     <declare-styleable name="RoundedImageViewV2">
         <attr name="rounded_radius" format="float" />
+    </declare-styleable>
+    <declare-styleable name="SearchableSpinner">
+        <!-- View attributes -->
+        <attr name="RevealViewBackgroundColor" format="color" />
+        <attr name="StartSearchTintColor" format="color" />
+        <attr name="SearchViewBackgroundColor" format="color" />
+        <attr name="SearchViewTextColor" format="color" />
+        <attr name="DoneSearchTintColor" format="color" />
+        <attr name="AnimDuration" format="integer" />
+        <attr name="ShowBorders" format="boolean" />
+        <attr name="BordersSize" format="dimension" />
+        <attr name="BoarderColor" format="color" />
+        <attr name="SpinnerExpandHeight" format="dimension" />
+        <attr name="KeepLastSearch" format="boolean" />
+        <attr name="RevealEmptyText" format="string" />
+        <attr name="SearchHintText" format="string" />
+        <attr name="NoItemsFoundText" format="string" />
+        <attr name="ItemsDivider" format="reference" />
+        <attr name="DividerHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CounterFloatingActionButton">
+        <attr name="badgeTextColor" format="color" />
+        <attr name="badgeBackgroundColor" format="color" />
+        <attr name="badgePosition" format="enum">
+            <enum name="RightTop" value="0" />
+            <enum name="LeftBottom" value="1" />
+            <enum name="LeftTop" value="2" />
+            <enum name="RightBottom" value="3" />
+        </attr>
     </declare-styleable>
 </resources>

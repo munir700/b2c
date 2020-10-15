@@ -3,6 +3,7 @@ package co.yap.sendmoney.addbeneficiary.states
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.yapcore.BaseState
@@ -248,9 +249,7 @@ class AddBeneficiaryStates(val viewModel: AddBeneficiaryViewModel) : BaseState()
         }
 
     private fun validate() {
-        //val beneficiary_length =resources.getInteger(R.integer.unitsCount))
-        // sync it from above feild because its binding in XML
-        val beneficiaryLength = 39
+        val beneficiaryLength = viewModel.context.resources.getInteger(R.integer.beneficiary_length)
         selectedBeneficiaryType?.let {
             when (valueOf(it)) {
                 RMT -> {

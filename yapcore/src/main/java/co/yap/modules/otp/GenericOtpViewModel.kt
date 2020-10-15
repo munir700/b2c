@@ -81,7 +81,12 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun handlePressOnButtonClick(id: Int) {
-        verifyOtp(id)
+        clickEvent.setValue(id)
+    }
+
+    override fun isValidOtpLength(otp: String): Boolean {
+        state.valid = otp.isNotEmpty() && otp.length == 6
+        return otp.isNotEmpty() && otp.length == 6
     }
 
     override fun handlePressOnResendClick(context: Context) {
@@ -92,7 +97,7 @@ class GenericOtpViewModel(application: Application) :
         }
     }
 
-    private fun verifyOtp(id: Int) {
+    override fun verifyOtp(success: () -> Unit) {
         when (state.otpDataModel?.otpAction) {
             OTPActions.CHANGE_MOBILE_NO.name -> {
                 launch {
@@ -100,15 +105,18 @@ class GenericOtpViewModel(application: Application) :
                     when (val response =
                         repository.verifyOtpGenericWithPhone(
                             state.mobileNumber[0]?.replace(" ", "")?.replace("+", "00") ?: "",
-                            VerifyOtpGenericRequest(state.otpDataModel?.otpAction ?: "", state.otp)
+                            VerifyOtpGenericRequest(
+                                state.otpDataModel?.otpAction ?: "",
+                                state.otp.get() ?: ""
+                            )
                         )
                         ) {
                         is RetroApiResponse.Success -> {
-                            clickEvent.setValue(id)
+                            success.invoke()
                         }
                         is RetroApiResponse.Error -> {
                             showToast(response.error.message)
-                            state.otp = ""
+                            state.otp.set("")
                             otpUiBlocked(response.error.actualCode)
                             state.loading = false
                         }
@@ -117,7 +125,9 @@ class GenericOtpViewModel(application: Application) :
                 }
             }
             OTPActions.FORGOT_PASS_CODE.name -> {
-                verifyForgotPassCodeOtp(id)
+                verifyForgotPassCodeOtp {
+                    success.invoke()
+                }
             }
             else -> {
                 launch {
@@ -126,7 +136,7 @@ class GenericOtpViewModel(application: Application) :
                         repository.verifyOtpGeneric(
                             VerifyOtpGenericRequest(
                                 state.otpDataModel?.otpAction ?: "",
-                                state.otp
+                                state.otp.get() ?: ""
                             )
                         )) {
                         is RetroApiResponse.Success -> {
@@ -136,14 +146,13 @@ class GenericOtpViewModel(application: Application) :
                                 if (tokens.size > 1)
                                     authRepository.setJwtToken(tokens.last())
                             }
-                            clickEvent.setValue(id)
+                            success.invoke()
                         }
                         is RetroApiResponse.Error -> {
                             state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                            state.otp = ""
+                            state.otp.set("")
                             state.loading = false
                             otpUiBlocked(response.error.actualCode)
-                            // errorEvent.call()
                         }
                     }
                     state.loading = false
@@ -152,14 +161,14 @@ class GenericOtpViewModel(application: Application) :
         }
     }
 
-    private fun verifyForgotPassCodeOtp(id: Int) {
+    private fun verifyForgotPassCodeOtp(success: () -> Unit) {
         launch {
             state.loading = true
             when (val response =
                 repository.verifyForgotPasscodeOtp(
                     VerifyForgotPasscodeOtpRequest(
                         state.otpDataModel?.username.toString(),
-                        state.otp,
+                        state.otp.get() ?: "",
                         state.otpDataModel?.emailOtp ?: false
                     )
                 )) {
@@ -170,11 +179,11 @@ class GenericOtpViewModel(application: Application) :
                         if (tokens.size > 1)
                             authRepository.setJwtToken(tokens.last())
                     }
-                    clickEvent.setValue(id)
+                    success.invoke()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.otp = ""
+                    state.otp.set("")
                     otpUiBlocked(response.error.actualCode)
                 }
             }
@@ -338,5 +347,4 @@ class GenericOtpViewModel(application: Application) :
                 state.mobileNumber[0]
             )
     }
-
 }

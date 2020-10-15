@@ -153,7 +153,7 @@ class InternationalFundsTransferFragment :
                     viewModel.updateFees()
                     getBindings().tvSelectReason.text = viewModel.parentViewModel?.selectedPop?.purposeDescription
                     getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvReasonLbl.alpha = 0.5f
+                    getBindings().tvReasonLbl.alpha  = 0.5f
                 }
 
             }, purposeCategories)

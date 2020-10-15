@@ -28,7 +28,7 @@ class PlacesAutoCompleteAdapter(mContext: Context, val placesApi: PlaceAPI) :
     override fun getItem(position: Int): Place? {
         return when {
             resultList.isNullOrEmpty() -> null
-            else -> resultList!![position]
+            else -> resultList?.get(position)
         }
     }
 

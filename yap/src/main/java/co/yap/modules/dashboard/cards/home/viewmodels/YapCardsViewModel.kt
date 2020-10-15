@@ -90,7 +90,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         }
     }
 
-
     override fun getDebitCard() {
         launch {
             when (val response = repository.getDebitCards("DEBIT")) {
@@ -156,7 +155,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             pinCreated = true
         )
     }
-
 
     override fun unFreezeCard(cardSerialNumber: String, success: () -> Unit) {
         launch {
