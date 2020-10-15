@@ -8,7 +8,7 @@ import co.yap.yapcore.IBase
 abstract class YapForYouBaseViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
 
-    var parentViewModel: IYapForYouMain.ViewModel? = null
+    var parentViewModel: YapForYouMainViewModel? = null
 
     fun setToolBarTitle(title: String) {
         parentViewModel?.state?.toolbarTitle = title
@@ -16,5 +16,11 @@ abstract class YapForYouBaseViewModel<S : IBase.State>(application: Application)
 
     fun toggleToolBarVisibility(visibility: Boolean) {
         parentViewModel?.state?.toolbarVisibility?.set(visibility)
+    }
+    fun setLeftIcon(icon : Int){
+        parentViewModel?.state?.leftIcon?.set(icon)
+    }
+    fun setLeftIconVisibility(visibility : Boolean){
+        parentViewModel?.state?.leftIconVisibility?.set(visibility)
     }
 }

@@ -24,27 +24,21 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{View.VISIBLE}"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{viewModel.state.leftIcon}"
-            app:leftIconVisibility="@{true}"
+            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{viewModel.state.rightIcon}"
-            app:rightIconVisibility="@{true}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
-
-        <include
-            layout="@layout/layout_yap_for_you_toolbar"
-            app:viewModel="@{viewModel}" />
 
         <fragment
             android:id="@+id/yap_for_you_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_small"
             android:layout_weight="1"
             app:defaultNavHost="true"
             app:navGraph="@navigation/yap_for_you_navigation" />
