@@ -2,6 +2,7 @@ package co.yap.sendmoney.fundtransfer.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -153,7 +154,7 @@ class InternationalFundsTransferFragment :
                     viewModel.updateFees()
                     getBindings().tvSelectReason.text = viewModel.parentViewModel?.selectedPop?.purposeDescription
                     getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvReasonLbl.alpha  = 0.5f
+                    getBindings().tvReasonLbl.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
                 }
 
             }, purposeCategories)
