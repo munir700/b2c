@@ -11,7 +11,7 @@
 
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <co.yap.widgets.OnlyVerticalSwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -143,5 +143,5 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </co.yap.widgets.OnlyVerticalSwipeRefreshLayout>
 </layout>

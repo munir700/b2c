@@ -57,12 +57,15 @@ import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
+import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -70,7 +73,7 @@ import kotlin.math.abs
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private var mAdapter = NotificationAdapter(mutableListOf(), this)
+    private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
 
@@ -360,6 +363,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         accountInfo?.let { account ->
             paymentCard?.let { card ->
                 mAdapter = NotificationAdapter(
+                    requireContext(),
                     viewModel.getNotifications(account, card),
                     this
                 )
@@ -367,10 +371,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
                 getBindings().lyInclude.rvNotificationList.adapter = mAdapter
                 getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(150)
                 getBindings().lyInclude.rvNotificationList.setItemTransformer(
                     ScaleTransformer.Builder()
-                        .setMinScale(0.8f)
+                        .setMaxScale(1.05f)
+                        .setMinScale(1f)
+                        .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                        //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
                         .build()
                 )
             }
@@ -378,11 +385,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun clearNotification() {
-        mAdapter.removeAllItems()
+        mAdapter?.removeAllItems()
     }
 
-    override fun onCloseClick(notification: HomeNotification) {
-        super.onCloseClick(notification)
+    override fun onCloseClick(notification: HomeNotification, position: Int) {
+        super.onCloseClick(notification, position)
         clearNotification()
     }
 
@@ -432,7 +439,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
-    override fun onClick(notification: HomeNotification) {
+    override fun onClick(notification: HomeNotification, position: Int) {
+        if (position != getBindings().lyInclude.rvNotificationList.currentItem) {
+            getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(position)
+            return
+        }
+
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
@@ -451,18 +463,40 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
             NotificationAction.UPDATE_EMIRATES_ID -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(
-                        Constants.name,
-                        SessionManager.user?.currentCustomer?.firstName.toString()
-                    )
-                    putExtra(Constants.data, true)
-                    putExtra(
-                        "document",
-                        GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                            identityNo = SessionManager.user?.currentCustomer?.identityNo
+                if (SessionManager.user?.otpBlocked == true) {
+                    if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
+                        PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
+                    ) {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            putExtra(
+                                Constants.name,
+                                SessionManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, true)
+                            putExtra(
+                                "document",
+                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                    identityNo = SessionManager.user?.currentCustomer?.identityNo
+                                )
+                            )
+                        }
+                    } else {
+                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                    }
+                } else {
+                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
                         )
-                    )
+                        putExtra(Constants.data, true)
+                        putExtra(
+                            "document",
+                            GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                identityNo = SessionManager.user?.currentCustomer?.identityNo
+                            )
+                        )
+                    }
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
