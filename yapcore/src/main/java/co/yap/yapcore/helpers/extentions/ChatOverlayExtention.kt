@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import co.yap.networking.authentication.AuthRepository
 import co.yap.widgets.CounterFloatingActionButton
 import co.yap.yapcore.R
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
 import com.liveperson.infra.LPAuthenticationParams
@@ -42,7 +42,7 @@ fun Activity.overLayButtonVisibility(visibility: Int) {
 }
 
 fun Activity.chatSetup() {
-    MyUserManager.user?.let {
+    SessionManager.user?.let {
 //        val monitoringParams = MonitoringInitParams(appInstallId)
         LivePerson.initialize(
             this,
@@ -62,7 +62,7 @@ fun Activity.chatSetup() {
 }
 
 private fun Activity.openChatActivity() {
-    MyUserManager.user?.currentCustomer?.let {
+    SessionManager.user?.currentCustomer?.let {
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
         authParams.hostAppJWT = AuthRepository.getJwtToken()
 //        authParams.hostAppJWT = CookiesManager.jwtToken

@@ -17,7 +17,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -40,7 +40,7 @@ class CardAnalyticsViewModel(application: Application) :
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         fetchCardCategoryAnalytics(DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
         state.nextMonth = false
-        MyUserManager.user?.creationDate?.let {
+        SessionManager.user?.creationDate?.let {
             val date =
                 DateUtils.stringToDate(
                     it,
@@ -122,7 +122,7 @@ class CardAnalyticsViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
-                MyUserManager.getCardSerialNumber(), currentMonth
+                SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
@@ -130,10 +130,13 @@ class CardAnalyticsViewModel(application: Application) :
                             response.data.data?.monthlyAvgAmount?.toString()
                         state.setUpString(
                             state.currencyType,
-                            state.monthlyCategoryAvgAmount?.toFormattedCurrency()
+                            state.monthlyCategoryAvgAmount?.toFormattedCurrency(showCurrency = false)
                         )
-                        state.totalCategorySpent =
-                            state.currencyType + "${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+                        state.totalCategorySpent = response.data.data?.totalTxnAmount.toString()
+                            .toFormattedCurrency(
+                                showCurrency = true,
+                                currency = state.currencyType ?: "AED"
+                            )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                         parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
@@ -155,14 +158,17 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
-                MyUserManager.getCardSerialNumber(),
+                SessionManager.getCardSerialNumber(),
                 currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
-                    state.totalMerchantSpent =
-                        state.currencyType + "${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+                    state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
+                        .toFormattedCurrency(
+                            showCurrency = true,
+                            currency = state.currencyType ?: "AED"
+                        )
                     state.setUpStringForMerchant(
                         state.currencyType,
                         state.monthlyMerchantAvgAmount?.toFormattedCurrency()

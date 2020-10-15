@@ -18,9 +18,8 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_success.*
-
 
 class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     ISuccess.View {
@@ -70,8 +69,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             cvLocationCard.visibility = VISIBLE
             viewModel.state.topSubHeading = addressStr
 
-            viewModel.state.address1 = MyUserManager.userAddress?.address1 ?: ""
-            viewModel.state.address2 = MyUserManager.userAddress?.address2 ?: ""
+            viewModel.state.address1 = SessionManager.userAddress?.address1 ?: ""
+            viewModel.state.address2 = SessionManager.userAddress?.address2 ?: ""
 
             viewModel.placesApiCall(photoPlacedId) {
                 placeImage?.setPadding(0, 0, 0, 0)

@@ -10,8 +10,10 @@
             type="co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel" />
 
         <import type="android.view.View" />
+
         <import type="co.yap.R" />
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.enums.PartnerBankStatus" />
     </data>
@@ -21,28 +23,29 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
+
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:onClick="@{viewModel::onToolBarClick}"
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:rightIcon="@{R.drawable.ic_settings}"
             app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
             app:rightIconVisibility="@{true}"
-            app:titleString="@{viewModel.state.toolbarTitle}"
-            android:visibility="@{View.VISIBLE}"
-            />
+            app:titleString="@{viewModel.state.toolbarTitle}" />
+
         <include
             layout="@layout/layout_bank_detail_toolbar"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}"
-            android:visibility="gone"/>
+            app:viewModel="@{viewModel}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -347,7 +350,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Share"
-            android:visibility="@{MyUserManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
             app:btn_drawable="@drawable/ic_share_white"
             app:btn_drawable_padding_left="10"
             app:btn_drawable_padding_top="4"

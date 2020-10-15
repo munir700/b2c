@@ -3,7 +3,6 @@ package co.yap.sendmoney.fundtransfer.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -34,7 +33,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
@@ -95,8 +94,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             requireContext().color(R.color.colorPrimaryDark, "AED"),
             requireContext().color(
                 R.color.colorPrimaryDark,
-                if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency()
-                    ?: "0.00"
+                if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = "AED"
+                )
             )
         )
     }
@@ -124,7 +125,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
@@ -162,7 +163,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     viewModel.parentViewModel?.transferData?.value?.otpAction,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: "",
                     username = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                     amount = viewModel.state.amount,
@@ -197,14 +198,14 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance > viewModel.getTotalAmountWithFee())
         } else
@@ -229,7 +230,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                                         Strings.common_display_text_on_hold_limit_error
                                     ).format(
                                         remainingDailyLimit.roundVal().toString()
-                                            .toFormattedAmountWithCurrency()
+                                            .toFormattedCurrency()
                                     )
                                 }
                             return (enteredAmount > remainingDailyLimit.roundVal())
@@ -320,12 +321,9 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             null,
             navOptions
         )
-
     }
 
     private fun setEditTextWatcher() {
-        etAmount.applyAmountFilters()
-
         etAmount.afterTextChanged {
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {

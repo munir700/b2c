@@ -12,8 +12,8 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.enums.TxnType" />
 
@@ -355,7 +355,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.amount.toString(),viewModel.transaction.currency)}"
+                    android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.amount.toString(),true,viewModel.transaction.currency,true)}"
                     android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardMask"
@@ -490,7 +490,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.postedFees!=null ?  StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.postedFees.toString(),`AED`) :  `AED 0.00`}"
+                    android:text="@{viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) :  `AED 0.00`}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                     tools:text="1000" />
@@ -513,7 +513,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.vatAmount==null ? `AED 0.00` :StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.vatAmount.toString(),`AED`)}"
+                    android:text="@{viewModel.transaction.vatAmount==null ? `AED 0.00` :CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.vatAmount.toString(),true,`AED`,true)}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFeeAmount"
                     tools:text="AED 1500" />

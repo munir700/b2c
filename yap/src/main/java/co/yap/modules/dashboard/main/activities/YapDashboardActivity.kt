@@ -55,7 +55,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
@@ -126,21 +126,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                         2 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 openTopUpScreen()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
                         }
                         3 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 openSendMoneyScreen()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
@@ -166,7 +166,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupPager() {
-        MyUserManager.card = MutableLiveData()
+        SessionManager.card = MutableLiveData()
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 
@@ -228,10 +228,16 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
         tvUnverifiedDescription.text =
             getString(Strings.screen_email_verified_popup_display_text_title).format(
-                MyUserManager.user!!.currentCustomer.firstName
+                SessionManager.user!!.currentCustomer.firstName
             )
 
-        MyUserManager.user?.currentCustomer?.email?.let {
+//        SessionManager.user?.currentCustomer?.email?.let {
+//            tvEmail.text =
+//                getString(Strings.screen_email_verified_popup_display_text_sub_title).format(
+//                    if (it.isBlank())
+//                        "" else it
+//                )
+            SessionManager.user?.currentCustomer?.email?.let {
             tvEmail.text = it
         }
 
@@ -311,7 +317,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupDrawerNavigation(navController: NavController) {
-        getViewBinding().drawerNav?.setupWithNavController(navController)
+        getViewBinding().drawerNav.setupWithNavController(navController)
     }
 
     private fun setupBottomNavigation(navController: NavController) {
@@ -319,7 +325,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onBackPressed() {
-        if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
+        if (actionMenu?.isOpen == true && actionMenu?.isAnimating() == false) {
             actionMenu?.toggle(getViewBinding().ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else if (getViewBinding().viewPager.currentItem != 0) {
@@ -346,7 +352,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
-            MyUserManager.getPrimaryCard()?.let {
+            SessionManager.getPrimaryCard()?.let {
                 launchActivity<CardStatementsActivity> {
                     putExtra("card", it)
                     putExtra("isFromDrawer", true)
@@ -381,7 +387,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (item.itemId) {
                 R.id.yapHome -> {
                     getViewBinding().viewPager.setCurrentItem(0, false)
-                    MyUserManager.getAccountInfo()
+                    SessionManager.getAccountInfo()
                 }
                 R.id.yapStore -> {
                     getViewBinding().viewPager.setCurrentItem(1, false)
@@ -458,7 +464,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onResume() {
         super.onResume()
         if (bottomNav.selectedItemId == R.id.yapHome) {
-            MyUserManager.getAccountInfo()
+            SessionManager.getAccountInfo()
         }
     }
 
@@ -498,7 +504,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun doLogout() {
-        MyUserManager.doLogout(this)
+        SessionManager.doLogout(this)
         finishAffinity()
     }
 

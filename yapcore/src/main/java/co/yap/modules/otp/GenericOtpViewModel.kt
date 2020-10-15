@@ -62,7 +62,10 @@ class GenericOtpViewModel(application: Application) :
                 val descriptionString =
                     getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
                         state.currencyType,
-                        state.otpDataModel?.amount?.toFormattedCurrency(),
+                        state.otpDataModel?.amount?.toFormattedCurrency(
+                            showCurrency = false,
+                            currency = state.currencyType ?: "AED"
+                        ),
                         state.otpDataModel?.username
                     )
                 state.verificationDescriptionForLogo =
