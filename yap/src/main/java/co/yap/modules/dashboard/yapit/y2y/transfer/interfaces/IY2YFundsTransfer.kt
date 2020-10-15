@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.interfaces
 import android.graphics.drawable.Drawable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.transactions.requestdtos.CoolingPeriodRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -21,6 +22,7 @@ class IY2YFundsTransfer {
         fun handlePressOnView(id: Int)
         fun getTransactionThresholds()
         fun proceedToTransferAmount(success: () -> Unit)
+        fun coolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest,success: () -> Unit)
         fun getTransactionLimits()
     }
 

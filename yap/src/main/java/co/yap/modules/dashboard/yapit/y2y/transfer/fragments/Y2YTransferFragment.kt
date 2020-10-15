@@ -190,6 +190,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             )
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
+
                 viewModel.proceedToTransferAmount {
                     moveToFundTransferSuccess()
                 }

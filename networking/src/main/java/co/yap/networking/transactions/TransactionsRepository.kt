@@ -70,6 +70,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/cut-off-time-configuration"
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
+    const val URL_GET_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -231,5 +232,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
+
+    override suspend fun getCoolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest): RetroApiResponse<PaymentPurposeResponseDTO> =
+        executeSafely(call = { api.getCoolingPeriodRequest(coolingPeriodRequest) })
 
 }

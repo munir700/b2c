@@ -9,6 +9,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.CoolingPeriodRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
@@ -44,7 +45,11 @@ class Y2YFundsTransferViewModel(application: Application) :
 
     override fun proceedToTransferAmount(success: () -> Unit) {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
-            receiverUUID, state.fullName, state.amount, false, if(state.noteValue.isBlank()) null else state.noteValue
+            receiverUUID,
+            state.fullName,
+            state.amount,
+            false,
+            if (state.noteValue.isBlank()) null else state.noteValue
         )
         launch {
             state.loading = true
@@ -63,17 +68,45 @@ class Y2YFundsTransferViewModel(application: Application) :
         }
     }
 
+    override fun coolingPeriodRequest(
+        coolingPeriodRequest: CoolingPeriodRequest,
+        success: () -> Unit
+    ) {
+        val coolingPeriodRequestData = CoolingPeriodRequest(
+            receiverUUID,
+            state.fullName,
+            state.amount,
+            ""
+        )
+        launch {
+            state.loading = true
+            when (val response =
+                transactionsRepository.getCoolingPeriodRequest(coolingPeriodRequestData)) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
+        }
+    }
+
     override fun getTransactionThresholds() {
         launch {
-            state.loading=true
+            state.loading = true
             when (val response = transactionsRepository.getTransactionThresholds()) {
                 is RetroApiResponse.Success -> {
                     transactionThreshold.value = response.data.data
-                    state.loading=false
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.loading=false
+                    state.loading = false
                 }
             }
         }
