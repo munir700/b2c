@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.main.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
@@ -20,9 +21,8 @@ interface ICardAnalyticsMain {
     }
 
     interface State : IBase.State {
-        var toolBarTitle: ObservableField<String>
-        var toolBarVisibility: ObservableField<Boolean>
-        var leftButtonVisibility: ObservableField<Boolean>
+        var leftButtonVisibility: ObservableBoolean
+        var toolbarVisibility: ObservableBoolean
 
     }
 

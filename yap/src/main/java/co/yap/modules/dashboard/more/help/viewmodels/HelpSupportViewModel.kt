@@ -25,7 +25,7 @@ class HelpSupportViewModel(application: Application) :
 
     init {
         state.contactPhone.set("")
-        state.title.set(getString(R.string.screen_help_support_display_text_title))
+        state.toolbarTitle = getString(R.string.screen_help_support_display_text_title)
     }
 
     override fun handlePressOnView(id: Int) {

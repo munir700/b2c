@@ -9,7 +9,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 
 class TopUpCardSuccessViewModel(application: Application) :
@@ -30,7 +30,7 @@ class TopUpCardSuccessViewModel(application: Application) :
         state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
                 state.currencyType,
-                state.amount.toFormattedCurrency()
+                state.amount.toFormattedCurrency(showCurrency = false,currency = "AED")
             )
 
     }
@@ -38,9 +38,9 @@ class TopUpCardSuccessViewModel(application: Application) :
     fun getAccountBalanceRequest() {
         launch {
             state.loading = true
-            when (val response = MyUserManager.repository.getAccountBalanceRequest()) {
+            when (val response = SessionManager.repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.cardBalance.value =
+                    SessionManager.cardBalance.value =
                         (CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
                     kotlinx.coroutines.delay(1000)
                     state.loading = false

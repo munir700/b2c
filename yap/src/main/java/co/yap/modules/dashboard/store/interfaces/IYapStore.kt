@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
@@ -10,7 +11,10 @@ import co.yap.yapcore.helpers.PagingState
 
 interface IYapStore {
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var toolbarVisibility: ObservableBoolean
+        var rightIconVisibility: ObservableBoolean
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent

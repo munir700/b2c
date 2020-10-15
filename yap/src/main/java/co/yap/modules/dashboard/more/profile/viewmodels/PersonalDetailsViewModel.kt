@@ -15,7 +15,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
@@ -66,14 +66,14 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
-        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+        state.fullName = SessionManager.user?.currentCustomer?.getFullName() ?: ""
         state.phoneNumber =
-            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
-        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
-        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = SessionManager.user?.currentCustomer?.email ?: ""
+        state.fullName = SessionManager.user?.currentCustomer?.getFullName() ?: ""
         state.phoneNumber =
-            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
-        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
+            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = SessionManager.user?.currentCustomer?.email ?: ""
         setUpVerificationLayout()
     }
 
@@ -85,7 +85,7 @@ class PersonalDetailsViewModel(application: Application) :
 
                     address = response.data.data
                     setUpAddressFields()
-                    MyUserManager.userAddress = address
+                    SessionManager.userAddress = address
                     clickEvent.setValue(UPDATE_ADDRESS_UI)
                     state.loading = false
                 }
@@ -158,7 +158,7 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     override fun setUpVerificationLayout() {
-        when (MyUserManager.eidStatus) {
+        when (SessionManager.eidStatus) {
             EIDStatus.EXPIRED -> populateExpiredDocumentData()
             EIDStatus.VALID -> populateVerifiedDocumentData()
             EIDStatus.NOT_SET -> populateRequiredDocumentData()

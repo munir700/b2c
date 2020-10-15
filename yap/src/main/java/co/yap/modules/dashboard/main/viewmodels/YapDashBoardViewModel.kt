@@ -17,7 +17,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.maskAccountNumber
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class YapDashBoardViewModel(application: Application) :
@@ -50,7 +50,7 @@ class YapDashBoardViewModel(application: Application) :
         launch {
             delay(1500)
             showUnverifedscreen.value =
-                MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
+                SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
         }
     }
 
@@ -82,11 +82,12 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
+        SessionManager.getCurrenciesFromServer { _, _ -> }
         populateState()
     }
 
     private fun populateState() {
-        MyUserManager.user?.let { it ->
+        SessionManager.user?.let { it ->
             it.accountNo?.let { state.accountNo = it.maskAccountNumber() }
             it.iban?.let { state.ibanNo = it.maskIbanNumber() }
             state.fullName = it.currentCustomer.getFullName()
@@ -101,7 +102,7 @@ class YapDashBoardViewModel(application: Application) :
                 repository.getHelpDeskContact()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        MyUserManager.helpPhoneNumber = it
+                        SessionManager.helpPhoneNumber = it
                     }
                 }
                 is RetroApiResponse.Error -> {

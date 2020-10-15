@@ -34,7 +34,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.managers.SessionManager
 
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
@@ -74,7 +75,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvEditPhoneNumber -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
+                    if (SessionManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         mNavigator.startVerifyPassCodePresenterActivity(
@@ -89,7 +90,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
+                    if (SessionManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         viewModel.toggleToolBar(true)
@@ -104,7 +105,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
-                            address = MyUserManager.userAddress ?: Address(),
+                            address = SessionManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
@@ -113,14 +114,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        if (MyUserManager.eidStatus == EIDStatus.NOT_SET &&
-                            PartnerBankStatus.ACTIVATED.status != MyUserManager.user?.partnerBankStatus
+                    if (SessionManager.user?.otpBlocked == true) {
+                        if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
+                            PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
                         ) {
                             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                                 putExtra(
                                     Constants.name,
-                                    MyUserManager.user?.currentCustomer?.firstName.toString()
+                                    SessionManager.user?.currentCustomer?.firstName.toString()
                                 )
                                 putExtra(Constants.data, true)
                                 putExtra("document", viewModel.parentViewModel?.document)
@@ -133,7 +134,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                                 putExtra(
                                     Constants.name,
-                                    MyUserManager.user?.currentCustomer?.firstName.toString()
+                                    SessionManager.user?.currentCustomer?.firstName.toString()
                                 )
                                 putExtra(Constants.data, true)
                                 putExtra("document", viewModel.parentViewModel?.document)
@@ -163,16 +164,16 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     }
 
     private fun canOpenEIDCard(): Boolean {
-        return when (MyUserManager.eidStatus) {
+        return when (SessionManager.eidStatus) {
             EIDStatus.NOT_SET, EIDStatus.EXPIRED -> {
                 true
             }
-            EIDStatus.VALID -> MyUserManager.user?.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.status)
+            EIDStatus.VALID -> SessionManager.user?.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.status)
         }
     }
 
     private fun toggleAddressVisibility() {
-        if (MyUserManager.userAddress == null) {
+        if (SessionManager.userAddress == null) {
             getBinding().llAddress.visibility = View.GONE
         } else {
             getBinding().llAddress.visibility = VISIBLE
@@ -233,7 +234,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     if (isUpdatedAddress == true) {
                         val address: Address? = data.getParcelableExtra(ADDRESS)
                         address?.let {
-                            MyUserManager.userAddress = it
+                            SessionManager.userAddress = it
                             updateUserAddress(it)
                         }
                     }
@@ -261,12 +262,12 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
             success?.let {
                 if (it) {
-                    MyUserManager.eidStatus = EIDStatus.VALID
+                    SessionManager.eidStatus = EIDStatus.VALID
                     viewModel.setUpVerificationLayout()
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
-                            address = MyUserManager.userAddress ?: Address(),
+                            address = SessionManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
                             onBoarding = true
@@ -285,7 +286,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID)
             if (result) {
                 val address = it.getParcelableExtra<Address>(ADDRESS)
-                MyUserManager.userAddress = address
+                SessionManager.userAddress = address
                 viewModel.requestOrderCard(address)
             }
         }

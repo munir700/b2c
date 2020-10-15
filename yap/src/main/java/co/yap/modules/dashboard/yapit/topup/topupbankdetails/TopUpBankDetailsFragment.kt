@@ -15,8 +15,7 @@ import co.yap.databinding.FragmentTopUpBankDetailsBinding
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.managers.MyUserManager
-
+import co.yap.yapcore.managers.SessionManager
 
 class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel>(),
     ITopUpBankDetails.View {
@@ -32,7 +31,6 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
         viewModel.clickEvent.observe(this, clickEvent)
 
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,12 +77,12 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
     }
 
     private fun getBody(): String {
-        return "Name: ${MyUserManager.user?.currentCustomer?.getFullName()}\n" +
-                "IBAN: ${MyUserManager.user?.iban}\n" +
-                "Swift/BIC: ${MyUserManager.user?.bank?.swiftCode}\n" +
-                "Account: ${MyUserManager.user?.accountNo}\n" +
-                "Bank: ${MyUserManager.user?.bank?.name}\n" +
-                "Address: ${MyUserManager.user?.bank?.address}\n"
+        return "Name: ${SessionManager.user?.currentCustomer?.getFullName()}\n" +
+                "IBAN: ${SessionManager.user?.iban}\n" +
+                "Swift/BIC: ${SessionManager.user?.bank?.swiftCode}\n" +
+                "Account: ${SessionManager.user?.accountNo}\n" +
+                "Bank: ${SessionManager.user?.bank?.name}\n" +
+                "Address: ${SessionManager.user?.bank?.address}\n"
     }
 
     override fun onDestroy() {

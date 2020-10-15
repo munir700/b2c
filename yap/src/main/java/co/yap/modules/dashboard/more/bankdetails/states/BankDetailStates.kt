@@ -11,7 +11,6 @@ class BankDetailStates : BaseState(), IBankDetail.State {
     override var account: ObservableField<String> = ObservableField("")
     override var bank: ObservableField<String> = ObservableField("")
     override var addresse: ObservableField<String> = ObservableField("")
-    override var title: ObservableField<String> = ObservableField()
     override var image: ObservableField<String> = ObservableField("")
     override var initials: ObservableField<String> = ObservableField()
 }

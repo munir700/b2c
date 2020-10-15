@@ -1,6 +1,5 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
-
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -37,9 +36,8 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
-
 
 class AddBeneficiaryInternationlTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -47,6 +45,7 @@ class AddBeneficiaryInternationlTransferFragment :
     private var currencyPopMenu: PopupMenu? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
+
     override val viewModel: AddBeneficiaryViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
@@ -109,7 +108,6 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun initComponents() {
-
         val currencies = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
         currencyPopMenu =
             requireContext().getCurrencyPopMenu(
@@ -152,7 +150,7 @@ class AddBeneficiaryInternationlTransferFragment :
                     bundleOf(
                         OtpDataModel::class.java.name to OtpDataModel(
                             OTPActions.CHANGE_EMAIL.name,
-                            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
                                 requireContext()
                             )
                                 ?: ""
@@ -188,7 +186,7 @@ class AddBeneficiaryInternationlTransferFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             ),

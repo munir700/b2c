@@ -42,7 +42,7 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
         viewModel.state.cvvSpanableString.set(
             getString(Strings.screen_topup_card_cvv_display_text_cvv).format(
                 args.currencyType,
-                args.amount.toFormattedCurrency()
+                args.amount.toFormattedCurrency(showCurrency = false,currency = "AED")
             )
         )
         getBindings().tvTopUpDescription.text = Utils.getSppnableStringForAmount(

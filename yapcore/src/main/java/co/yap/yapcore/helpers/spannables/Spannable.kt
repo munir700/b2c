@@ -76,6 +76,9 @@ fun Context.color(@ColorRes id: Int, s: CharSequence) =
 fun Context.color(@ColorRes id: Int, s: SpannableString) =
     span(s, ForegroundColorSpan(ContextCompat.getColor(this, id)))
 
+fun Context.color(@ColorRes id: Int, s: String) =
+    span(s, ForegroundColorSpan(ContextCompat.getColor(this, id)))
+
 fun color(color: Int, s: SpannableString) =
     span(s, ForegroundColorSpan(color))
 
