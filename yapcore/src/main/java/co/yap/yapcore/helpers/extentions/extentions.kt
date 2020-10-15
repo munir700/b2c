@@ -24,8 +24,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.navigation.NavigationView
 import java.math.RoundingMode
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 @Keep
 enum class ExtraType {
@@ -138,13 +141,12 @@ fun RecyclerView.fixSwipeToRefresh(refreshLayout: SwipeRefreshLayout): RecyclerV
 
 class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) :
     RecyclerView.OnScrollListener() {
-    companion object {
-        private const val DIRECTION_UP = -1
-    }
+
+    private val directionUp = -1
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        refreshLayout.isEnabled = !(recyclerView?.canScrollVertically(DIRECTION_UP) ?: return)
+        refreshLayout.isEnabled = !(recyclerView?.canScrollVertically(directionUp) ?: return)
     }
 
 }
@@ -225,4 +227,28 @@ fun ImageView?.hasBitmap(): Boolean {
     return this?.let {
         this.drawable != null && (this.drawable as BitmapDrawable).bitmap != null
     } ?: false
+}
+
+
+fun Context?.startSmsConsent() {
+    this?.let {
+        SmsRetriever.getClient(this).startSmsUserConsent(null)
+            .addOnSuccessListener {
+
+            }.addOnFailureListener {
+
+            }
+    }
+}
+
+fun Context.getOtpFromMessage(message: String?): String? {
+    var otpCode = ""
+    message?.let {
+        val pattern: Pattern = Pattern.compile("(|^)\\d{6}")
+        val matcher: Matcher = pattern.matcher(message)
+        if (matcher.find()) {
+            otpCode = matcher.group(0) ?: ""
+        }
+    }
+    return otpCode
 }

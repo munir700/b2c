@@ -18,7 +18,7 @@ import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
 
-open class PhoneVerificationViewModel(application: Application) :
+class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
     IRepositoryHolder<MessagesRepository> {
 
@@ -39,8 +39,13 @@ open class PhoneVerificationViewModel(application: Application) :
         state.validResend = false
     }
 
+    override fun isValidOtpLength(otp: String): Boolean {
+        state.valid = otp.isNotEmpty() && otp.length == 6
+        return otp.isNotEmpty() && otp.length == 6
+    }
+
     override fun handlePressOnSendButton(id: Int) {
-        verifyOtp(id)
+        nextButtonPressEvent.setValue(id)
     }
 
     override fun handlePressOnResendOTP(context: Context) {
@@ -69,14 +74,14 @@ open class PhoneVerificationViewModel(application: Application) :
         }
     }
 
-    private fun verifyOtp(id: Int) {
+    override fun verifyOtp(success: () -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.verifyOtpOnboarding(
                 VerifyOtpOnboardingRequest(
                     parentViewModel?.onboardingData?.countryCode ?: "",
                     parentViewModel?.onboardingData?.mobileNo ?: "",
-                    state.otp
+                    state.otp.get() ?: ""
                 )
             )) {
                 is RetroApiResponse.Success -> {
@@ -85,11 +90,11 @@ open class PhoneVerificationViewModel(application: Application) :
                     trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_MOBILE_NUMBER_VERIFIED.type)
                     parentViewModel?.isWaitingList?.value = response.data.data?.isWaiting
                     parentViewModel?.rankNo?.value = response.data.data?.rankNo
-                    nextButtonPressEvent.call()
+                    success.invoke()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.otp = ""
+                    state.otp.set("")
                     otpUiBlocked(response.error.actualCode)
                 }
             }

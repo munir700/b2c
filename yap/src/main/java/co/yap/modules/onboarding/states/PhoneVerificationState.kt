@@ -19,6 +19,7 @@ open class PhoneVerificationState(application: Application) : BaseState(),
             field = value
             notifyPropertyChanged(BR.verificationTitle)
         }
+
     @get:Bindable
     override var verificationDescription: String = ""
         set(value) {
@@ -29,18 +30,10 @@ open class PhoneVerificationState(application: Application) : BaseState(),
     val mContext = application.applicationContext
     val mobileNumber: Array<String?> = arrayOfNulls(1)
 
-    @get:Bindable
-    override var otp: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.otp)
-            validate()
-        }
-
+    override var otp: ObservableField<String> = ObservableField("")
 
     @get:Bindable
     override var valid: Boolean = false
-        get() = validate()
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
@@ -72,7 +65,7 @@ open class PhoneVerificationState(application: Application) : BaseState(),
     private fun validate(): Boolean {
         var validateOtp: Boolean = false
         return if (isOtpBlocked.get() == false) {
-            if (!otp.isNullOrEmpty() && otp.length == 6) {
+            if (!otp.get().isNullOrEmpty() && otp.get()?.length == 6) {
                 validateOtp = true
                 valid = true
             }

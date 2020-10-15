@@ -16,6 +16,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -34,11 +35,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override val repository: AuthRepository = AuthRepository
     override val state: PhoneVerificationSignInState =
-        PhoneVerificationSignInState(application)
+        PhoneVerificationSignInState()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    private val customersRepository: CustomersRepository = CustomersRepository;
+    private val customersRepository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
+    override var clickEvent: SingleClickEvent =SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
@@ -58,7 +60,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         clientId = parentViewModel?.signingInData?.clientId,
                         clientSecret = parentViewModel?.signingInData?.clientSecret,
                         deviceId = parentViewModel?.signingInData?.deviceID,
-                        otp = state.otp
+                        otp = state.otp.get()
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -82,14 +84,18 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     postDemographicData()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.otp = ""
-                    otpUiBlocked(response.error.actualCode)
                     state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.otp.set("")
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
-
         }
+    }
+
+    fun isValidOtpLength(otp: String): Boolean {
+        state.validateBtn = otp.isNotEmpty() && otp.length == 6
+        return otp.isNotEmpty() && otp.length == 6
     }
 
     override fun handlePressOnResend(context: Context) {

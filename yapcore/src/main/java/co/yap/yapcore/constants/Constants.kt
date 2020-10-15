@@ -70,6 +70,7 @@ object Constants {
 
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+    const val REQUEST_CODE_CREATE_PASSCODE: Int = 127
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"
@@ -151,4 +152,8 @@ object Constants {
     const val REFERRAL_ID = "customer_id"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
+
+    //Sms consent
+    const val SMS_CONSENT_REQUEST = 2
+
 }

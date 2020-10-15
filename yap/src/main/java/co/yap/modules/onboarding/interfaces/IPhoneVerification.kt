@@ -9,16 +9,15 @@ interface IPhoneVerification {
 
     interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        // val nextButtonPressEvent: SingleLiveEvent<Boolean>
         val nextButtonPressEvent: SingleClickEvent
-
-        //  fun handlePressOnSend()
         fun handlePressOnSendButton(id: Int)
-
+        fun isValidOtpLength(otp: String): Boolean
         fun handlePressOnResendOTP(context: Context)
+        fun verifyOtp(success: () -> Unit)
         fun setPasscode(passcode: String)
     }
 
@@ -28,7 +27,7 @@ interface IPhoneVerification {
         var verificationDescription: String
 
         //properties
-        var otp: String
+        var otp: ObservableField<String>
         var valid: Boolean
         var timer: String
         var validResend: Boolean
