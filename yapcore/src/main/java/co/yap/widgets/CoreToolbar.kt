@@ -87,6 +87,14 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
             invalidate()
 
         }
+    var rightIconPading: Boolean? = null
+        set(value) {
+            field = value
+            ivRightIcon.setPadding(40, 40, 40, 40)
+            invalidate()
+
+        }
+
 
     var rightTitleVisibility: Boolean? = null
         set(value) {
@@ -102,7 +110,7 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
             field = value
             tvRightText.isEnabled = value
             if (!value) tvRightText.alpha = 0.5f
-            else tvRightText.alpha =1f
+            else tvRightText.alpha = 1f
             invalidate()
         }
 

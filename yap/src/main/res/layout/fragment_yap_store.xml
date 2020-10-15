@@ -31,9 +31,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_shopping}"
+            app:rightIcon="@{R.drawable.ic_shopping_store_new}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
-            app:titleString="@{viewModel.state.toolbarTitle}" />
+            app:titleString="@{viewModel.state.toolbarTitle}"
+            app:rightIconPading="@{true}"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
