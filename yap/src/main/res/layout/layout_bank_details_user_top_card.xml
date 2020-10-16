@@ -7,7 +7,7 @@
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsViewModel" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,8 +37,8 @@
                     android:src="@drawable/ic_store_b2b"
                     android:visibility="gone"
                     app:colorType="@{`Beneficiary`}"
-                    app:fullName="@{MyUserManager.INSTANCE.getUser().currentCustomer.fullName}"
-                    app:imageUrl="@{MyUserManager.INSTANCE.getUser().currentCustomer.picture}"
+                    app:fullName="@{SessionManager.INSTANCE.getUser().currentCustomer.fullName}"
+                    app:imageUrl="@{SessionManager.INSTANCE.getUser().currentCustomer.picture}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

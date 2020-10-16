@@ -27,27 +27,22 @@ class YAPForYouViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate() {
+        super.onCreate()
         setToolbarData()
     }
 
     private fun setToolbarData() {
-        parentViewModel?.state?.toolbarVisibility?.set(true)
-        parentViewModel?.state?.toolbarTitle =
-            getString(Strings.screen_yap_for_you_display_text_title)
-        parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
-        parentViewModel?.state?.rightIcon?.set(R.drawable.ic_trade)
+        state.toolbarTitle = getString(Strings.screen_yap_for_you_display_text_title)
+        toggleToolBarVisibility(false)
+        state.toolbarVisibility.set(true)
     }
-
 
     private fun setInitialAchievement() {
         parentViewModel?.achievement = parentViewModel?.achievements?.get(0)
         state.selectedAchievementPercentage =
             getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${parentViewModel?.achievement?.percentage}%")
         state.selectedAchievementTitle = parentViewModel?.achievement?.name ?: ""
-
     }
 
     override fun getAchievements() {
@@ -64,7 +59,6 @@ class YAPForYouViewModel(application: Application) :
 
                     state.loading = false
                 }
-
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     showDialogWithCancel(response.error.message)
@@ -73,9 +67,9 @@ class YAPForYouViewModel(application: Application) :
         }
     }
 
-    private fun achievementDataFactory(){
+    private fun achievementDataFactory() {
         var position = 0
-        for(achievement in parentViewModel?.achievements?: mutableListOf()){
+        for (achievement in parentViewModel?.achievements ?: mutableListOf()) {
             achievement.also {
                 it.icon = getAchievementIcon(position)
                 position++
@@ -83,7 +77,7 @@ class YAPForYouViewModel(application: Application) :
         }
     }
 
-    override fun getAchievementIcon(position: Int,isWithBadged:Boolean): Int {
+    override fun getAchievementIcon(position: Int, isWithBadged: Boolean): Int {
         return when (position) {
             0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
             1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple

@@ -17,7 +17,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class AddBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IAddBeneficiary.State>(application), IAddBeneficiary.ViewModel,
@@ -98,7 +98,7 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     private fun isLoggedinUserIBAN(beneficiary: Beneficiary): Boolean {
-        MyUserManager.user?.iban?.let {
+        SessionManager.user?.iban?.let {
             return beneficiary.accountNo.equals(it, true)
         } ?: return false
 

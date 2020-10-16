@@ -2,7 +2,6 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
-import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
@@ -24,7 +23,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -196,7 +195,7 @@ class EmailViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
                         delay(500)
-                        MyUserManager.user = response.data.data[0]
+                        SessionManager.user = response.data.data[0]
                         state.valid = true
                         state.loading = false
                         nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)

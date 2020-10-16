@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class AddBeneficiaryForDomesticTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -64,7 +64,7 @@ class AddBeneficiaryForDomesticTransferFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.DOMESTIC_BENEFICIARY.name,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             ),

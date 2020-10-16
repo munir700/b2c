@@ -21,7 +21,7 @@ import co.yap.yapcore.constants.Constants.KEY_IS_REMEMBER
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.scrollToBottomWithoutFocusChange
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 
@@ -61,9 +61,9 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
         ) {
             etEmailField.requestKeyboard()
         }
-        MyUserManager.isRemembered.value =
+        SessionManager.isRemembered.value =
             sharedPreferenceManager.getValueBoolien(KEY_IS_REMEMBER, true)
-        MyUserManager.isRemembered.value?.let {
+        SessionManager.isRemembered.value?.let {
             etEmailField.editText.setText(if (it) sharedPreferenceManager.getDecryptedUserName() else "")
             if (etEmailField.editText.length() > 1) etEmailField.editText.setSelection(etEmailField.editText.length())
         }

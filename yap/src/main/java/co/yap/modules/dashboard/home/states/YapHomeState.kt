@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseState
 class YapHomeState : BaseState(), IYapHome.State{
 
     @get:Bindable
-    override var availableBalance: String = "0.00"
+    override var availableBalance: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalance)

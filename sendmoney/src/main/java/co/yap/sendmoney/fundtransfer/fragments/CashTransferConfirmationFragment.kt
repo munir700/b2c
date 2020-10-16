@@ -35,7 +35,7 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferConfirmationFragment :
     BeneficiaryFundTransferBaseFragment<ICashTransferConfirmation.ViewModel>(),
@@ -68,7 +68,8 @@ class CashTransferConfirmationFragment :
                 viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferAmount?.toFormattedCurrency()}"
+                    viewModel.parentViewModel?.transferData?.value?.transferAmount?.toFormattedCurrency()
+                        ?: ""
                 )
             )
         )
@@ -113,7 +114,10 @@ class CashTransferConfirmationFragment :
                 getString(Strings.scren_send_money_funds_transfer_confirmation_display_text_fee),
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency()}"
+                    viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency(
+                        true,
+                        "AED"
+                    ) ?: ""
                 )
             )
         )
@@ -130,7 +134,7 @@ class CashTransferConfirmationFragment :
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (isOtpRequired()) {
@@ -158,17 +162,18 @@ class CashTransferConfirmationFragment :
     private fun isOtpRequired(): Boolean {
         viewModel.parentViewModel?.transactionThreshold?.value?.let {
             it.totalDebitAmountRemittance?.let { totalSMConsumedAmount ->
-                viewModel.parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull()?.let { enteredAmount ->
-                    return if (viewModel.parentViewModel?.transactionWillHold == true) {
-                        val totalHoldAmount =
-                            (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
-                        val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
-                        enteredAmount > (remainingOtpLimit ?: 0.0)
-                    } else {
-                        val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
-                        enteredAmount > (remainingOtpLimit ?: 0.0)
-                    }
-                } ?: return false
+                viewModel.parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull()
+                    ?.let { enteredAmount ->
+                        return if (viewModel.parentViewModel?.transactionWillHold == true) {
+                            val totalHoldAmount =
+                                (it.holdSwiftAmount ?: 0.0).plus(it.holdUAEFTSAmount ?: 0.0)
+                            val remainingOtpLimit = it.otpLimit?.minus(totalHoldAmount)
+                            enteredAmount > (remainingOtpLimit ?: 0.0)
+                        } else {
+                            val remainingOtpLimit = it.otpLimit?.minus(totalSMConsumedAmount)
+                            enteredAmount > (remainingOtpLimit ?: 0.0)
+                        }
+                    } ?: return false
             } ?: return false
         } ?: return false
     }
@@ -179,7 +184,7 @@ class CashTransferConfirmationFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = getOtpAction(),
-                    mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                    mobileNumber = SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
                     amount = viewModel.parentViewModel?.transferData?.value?.transferAmount,

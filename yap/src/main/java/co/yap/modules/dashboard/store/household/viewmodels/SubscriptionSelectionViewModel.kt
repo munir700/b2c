@@ -16,7 +16,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PackageType
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -136,8 +136,8 @@ class SubscriptionSelectionViewModel(application: Application) :
                 yearlyFee = 0.0
             }
 
-            state.monthlyFee = monthlyFee.toString().toFormattedAmountWithCurrency()
-            state.annuallyFee = yearlyFee.toString().toFormattedAmountWithCurrency()
+            state.monthlyFee = monthlyFee.toString().toFormattedCurrency()
+            state.annuallyFee = yearlyFee.toString().toFormattedCurrency()
 
             plansList.add(
                 HouseHoldPlan(
