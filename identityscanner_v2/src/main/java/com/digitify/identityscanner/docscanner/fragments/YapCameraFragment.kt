@@ -254,6 +254,7 @@ class YapCameraFragment : BaseFragment(),
     }
 
     private fun test(filename: String) {
+        setInstructions("")
         progress?.show()
         val options = ObjectDetectorOptions.Builder()
             .setDetectorMode(ObjectDetectorOptions.SINGLE_IMAGE_MODE)
@@ -268,7 +269,7 @@ class YapCameraFragment : BaseFragment(),
                     // Task completed successfully
                     if (detectedObjects.isEmpty()) {
                         progress?.hide()
-                        toast("Please rescan the image")
+                        setInstructions("Please rescan the image")
                     } else {
                         for (detectedObject: DetectedObject in detectedObjects) {
                             val boundingBox: Rect = detectedObject.boundingBox
@@ -290,7 +291,7 @@ class YapCameraFragment : BaseFragment(),
                                     }, true)
                                 } else {
                                     progress?.hide()
-                                    showToast("Please rescan the image")
+                                    setInstructions("Please rescan the image")
                                 }
                             }
                         }
@@ -299,7 +300,7 @@ class YapCameraFragment : BaseFragment(),
                 .addOnFailureListener { e ->
                     e.printStackTrace()
                     progress?.hide()
-                    toast("Please rescan the image")
+                    setInstructions("Please rescan the image")
                 }
         } catch (e: IOException) {
             e.printStackTrace()
