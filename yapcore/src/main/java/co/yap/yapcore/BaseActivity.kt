@@ -12,8 +12,8 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
-import co.yap.app.YAPApplication
 import androidx.lifecycle.Observer
+import co.yap.app.YAPApplication
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -54,7 +54,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
-        preventTakeScreenShot(true)
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
