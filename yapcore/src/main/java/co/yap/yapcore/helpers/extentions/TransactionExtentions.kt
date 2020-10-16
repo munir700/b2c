@@ -43,7 +43,12 @@ fun Transaction?.getTransactionTitle(): String {
 fun Transaction?.getTransactionIcon(): Int {
     return this?.let { transaction ->
         return when (transaction.status) {
-            TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> R.drawable.ic_exclamation_primary
+            TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> {
+                when (transaction.productCode) {
+                    TransactionProductCode.POS_PURCHASE.pCode -> R.drawable.ic_reverted
+                    else -> -1
+                }
+            }
             else -> when (transaction.getLabelValues()) {
                 TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
