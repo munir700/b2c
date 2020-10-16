@@ -5,7 +5,7 @@ import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
 data class KycResponse(
-    @SerializedName("Data")
+    @SerializedName("data")
     val data: Data?,
     @SerializedName("error")
     var errors: ApiError?
