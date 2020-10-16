@@ -196,7 +196,7 @@
     <string name="screen_b2c_eid_info_review_display_expired_eid_text">Looks like your ID has expired. Please re-scan a valid ID</string>
 
     <string name="screen_b2c_eid_info_review_display_text_first_name_heading">First name</string>
-    <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name(if applicable)</string>
+    <string name="screen_b2c_eid_info_review_display_text_middle_name_heading">Middle name (if applicable)</string>
     <string name="screen_b2c_eid_info_review_display_text_last_name_heading">Last name</string>
 
     <string name="screen_b2c_eid_info_review_display_text_edit_sub_title">Thanks %1$s! Verify your details are exactly as per your Emirates Id. You can edit the name fields incase we got it wrong!</string>
