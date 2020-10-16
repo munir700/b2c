@@ -106,7 +106,7 @@ class YapCameraFragment : BaseFragment(),
     private fun capturePicture() {
         if (binding.camera.isTakingPicture) return
         viewModel?.state?.isCapturing = false
-        binding.camera.takePicture()
+        binding.camera.takePictureSnapshot()
     }
 
     private val propertyChangedCallback: OnPropertyChangedCallback =
