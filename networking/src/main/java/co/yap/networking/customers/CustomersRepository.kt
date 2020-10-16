@@ -6,6 +6,8 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -105,6 +107,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
+    const val URL_GET_ALL_CURRENCIES = "/customers/api/currencies"
+    const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     private val api: CustomersRetroService =
@@ -336,6 +340,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
+
+    override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
+        executeSafely(call = { api.getAllCurrencies() })
+
+    override suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse> =
+        executeSafely(call = { api.getCurrencyByCode(currencyCode ?: "") })
 
     override suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.resendVerificationEmail() })

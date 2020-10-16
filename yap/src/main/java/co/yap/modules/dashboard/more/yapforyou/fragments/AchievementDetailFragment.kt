@@ -19,11 +19,6 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
     override val viewModel: AchievementDetailViewModel
         get() = ViewModelProviders.of(this).get(AchievementDetailViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addObservers()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.parentViewModel?.achievement?.let {
@@ -31,10 +26,6 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
                 if (it.features.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT
         }
         getBinding().rvAchievements.adapter = viewModel.adapter
-    }
-
-    override fun addObservers() {
-
     }
 
     override fun getBinding(): FragmentAchievementDetailBinding {

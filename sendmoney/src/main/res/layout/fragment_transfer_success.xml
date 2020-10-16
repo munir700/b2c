@@ -7,7 +7,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
 
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:gravity="center"
-                android:text="@{viewModel.parentViewModel.transferData.destinationCurrency+` `+StringExtensionsKt.toFormattedCurrency(viewModel.parentViewModel.transferData.transferAmount)}"
+                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.parentViewModel.transferData.transferAmount,true,viewModel.parentViewModel.transferData.destinationCurrency,true)}"
                 android:textSize="@dimen/text_size_h5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

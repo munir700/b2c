@@ -15,8 +15,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startSmsConsent
-import co.yap.yapcore.managers.MyUserManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import co.yap.yapcore.managers.SessionManager
 
 class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGenericOtp.View {
     private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
@@ -42,7 +42,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, errorEvent)
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
+        SessionManager.onAccountInfoSuccess.observe(this, Observer {
             viewModel.state.loading = false
         })
         viewModel.state.isOtpBlocked.addOnPropertyChangedCallback(stateObserver)
@@ -56,7 +56,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (viewModel.state.isOtpBlocked.get() == true) {
                 viewModel.state.loading = true
-                MyUserManager.getAccountInfo()
+                SessionManager.getAccountInfo()
             }
         }
     }
@@ -133,7 +133,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     override fun removeObservers() {
         viewModel.errorEvent.removeObservers(this)
         viewModel.clickEvent.removeObservers(this)
-        MyUserManager.onAccountInfoSuccess.removeObservers(this)
+        SessionManager.onAccountInfoSuccess.removeObservers(this)
         viewModel.state.isOtpBlocked.removeOnPropertyChangedCallback(stateObserver)
         context?.unregisterReceiver(appSMSBroadcastReceiver)
         viewModel.state.otp.removeOnPropertyChangedCallback(stateObserver)

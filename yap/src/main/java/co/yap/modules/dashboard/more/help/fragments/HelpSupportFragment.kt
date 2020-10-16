@@ -17,8 +17,13 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
+import com.liveperson.infra.ConversationViewParams
+import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.messaging.sdk.api.LivePerson
+import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
@@ -28,7 +33,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
-    private val appInstallId = MyUserManager.user?.uuid
+    private val appInstallId = SessionManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
@@ -72,10 +77,32 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             R.id.lyCall -> {
                 requireContext().makeCall(viewModel.state.contactPhone.get())
             }
-            R.id.tbBtnBack -> {
+
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
                 activity?.finish()
             }
         }
+    }
+
+    private fun openActivity() {
+        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
+        authParams.hostAppJWT = viewModel.authRepository.getJwtToken()
+//        authParams.hostAppJWT = CookiesManager.jwtToken
+        val params = ConversationViewParams(false)
+            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
+            .setReadOnlyMode(false)
+        LivePerson.showConversation(requireActivity(), authParams, params)
+        val consumerProfile = ConsumerProfile.Builder()
+            .setFirstName(SessionManager.user?.currentCustomer?.firstName)
+            .setLastName(SessionManager.user?.currentCustomer?.lastName)
+            .setPhoneNumber(SessionManager.user?.currentCustomer?.getCompletePhone())
+            .build()
+        LivePerson.setUserProfile(consumerProfile)
     }
 
     @Nullable
@@ -92,7 +119,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             fragmentName = WebViewFragment::class.java.name,
             bundle = bundleOf(
                 Constants.PAGE_URL to url
-            ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = false
+            ), toolBarTitle = viewModel.state.toolbarTitle ?: "", showToolBar = false
         )
     }
 

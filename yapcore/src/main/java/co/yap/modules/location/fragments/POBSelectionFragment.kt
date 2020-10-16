@@ -20,8 +20,9 @@ import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.managers.MyUserManager
 import java.util.*
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -35,7 +36,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         super.onCreate(savedInstanceState)
         requireActivity().window
             ?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        when (MyUserManager.user?.notificationStatuses) {
+        when (SessionManager.user?.notificationStatuses) {
             AccountStatus.BIRTH_INFO_COLLECTED.name -> {
                 skipPOBSelectionFragment()
             }

@@ -23,10 +23,8 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.PartnerBankStatus
@@ -35,7 +33,7 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 
 
@@ -79,9 +77,9 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     private fun initComponents() {
         getBinding().tvName.text =
-            MyUserManager.user?.currentCustomer?.getFullName()
+            SessionManager.user?.currentCustomer?.getFullName()
 
-        val ibanSpan = SpannableString("IBAN ${MyUserManager.user?.iban?.maskIbanNumber()}")
+        val ibanSpan = SpannableString("IBAN ${SessionManager.user?.iban?.maskIbanNumber()}")
         getBinding().tvIban.text = Utils.setSpan(
             0,
             4,
@@ -89,7 +87,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
         )
 
-        MyUserManager.user?.bank?.swiftCode?.let {
+        SessionManager.user?.bank?.swiftCode?.let {
             val bicSpan = SpannableString("BIC $it")
             getBinding().tvBic.text = Utils.setSpan(
                 0,
@@ -168,7 +166,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 startActivity(BankDetailActivity.newIntent(requireContext()))
             }
             R.id.yapForYou -> {
-                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
                 } else {
                     showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")

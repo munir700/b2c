@@ -37,7 +37,7 @@ import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
@@ -204,7 +204,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun doLogout() {
-        activity?.let { MyUserManager.doLogout(it, true) }
+        activity?.let { SessionManager.doLogout(it, true) }
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -245,7 +245,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     viewModel.login()
             }
             R.id.tvForgotPassword -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (!isUserLoginIn()) {
@@ -264,7 +264,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private fun updateName() {
         if (isUserLoginIn()) {
-            viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
+            viewModel.state.username = SessionManager.user?.currentCustomer?.email ?: ""
             return
         }
 

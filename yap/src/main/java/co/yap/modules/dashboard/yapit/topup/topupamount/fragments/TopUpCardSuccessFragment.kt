@@ -19,7 +19,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel>(),
     ITopUpCardSuccess.View {
@@ -45,11 +45,14 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        MyUserManager.cardBalance.observe(this, Observer {
+        SessionManager.cardBalance.observe(this, Observer {
             viewModel.state.availableBalanceSpanable.set(
                 getString(Strings.screen_topup_success_display_text_account_balance_title).format(
                     args.currencyType,
-                    it.availableBalance?.toFormattedCurrency()
+                    it.availableBalance?.toFormattedCurrency(
+                        showCurrency = false,
+                        currency = args.currencyType
+                    )
                 )
             )
 

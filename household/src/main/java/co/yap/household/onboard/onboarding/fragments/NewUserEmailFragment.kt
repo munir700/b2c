@@ -19,7 +19,7 @@ import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.enums.NotificationStatus
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
@@ -61,7 +61,7 @@ class NewUserEmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
             R.id.next_button -> {
                 hideKeyboard()
                 if (viewModel.hasDoneAnimation) {
-                    MyUserManager.user?.notificationStatuses = NotificationStatus.ON_BOARDED.name
+                    SessionManager.user?.notificationStatuses = NotificationStatus.ON_BOARDED.name
                     findNavController().navigate(R.id.action_emailHouseHoldFragment_to_newUserCongratulationsFragment)
                 } else {
                     viewModel.sendVerificationEmail()

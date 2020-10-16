@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 
@@ -45,7 +45,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
+        viewModel.state.availableBalance = SessionManager.cardBalance.value?.availableBalance
         viewModel.getTransferFees(TransactionProductCode.Y2Y_TRANSFER.pCode)
         setObservers()
     }
@@ -73,7 +73,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             resources.getText(
                 getString(Strings.common_text_fee), requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${viewModel.state.currencyType} ${feeAmount?.toFormattedCurrency()}"
+                    feeAmount?.toFormattedCurrency(
+                        showCurrency = true,
+                        currency = viewModel.state.currencyType
+                    ) ?: ""
                 )
             )
     }
@@ -85,7 +88,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
      }*/
 
     private fun setEditTextWatcher() {
-        etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
@@ -125,8 +127,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.errorDescription = Translator.getString(
             requireContext(),
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
     }
@@ -135,13 +137,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         val des = Translator.getString(
             requireContext(),
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         viewModel.parentViewModel?.errorEvent?.value = des
     }
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getTotalAmountWithFee())
         } else
@@ -151,7 +153,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     when {
@@ -178,7 +180,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.Y2Y.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: "",
                     username = viewModel.state.fullName,
                     amount = viewModel.state.amount,
@@ -214,9 +216,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         )
 
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " +
-                    viewModel.state.availableBalance?.toFormattedCurrency()
-        etAmount.applyAmountFilters()
+            " " + viewModel.state.availableBalance?.toFormattedCurrency(
+                showCurrency = true,
+                currency = "AED"
+            )
     }
 
     private fun isDailyLimitReached(): Boolean {

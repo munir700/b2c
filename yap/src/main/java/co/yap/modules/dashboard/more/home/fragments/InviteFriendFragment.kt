@@ -33,9 +33,6 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.tbIvClose -> {
-                activity?.finish()
-            }
             R.id.btnShare -> {
                 shareInfo()
             }
@@ -60,5 +57,13 @@ class InviteFriendFragment : BaseBindingFragment<IInviteFriend.ViewModel>(), IIn
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
     }
 }

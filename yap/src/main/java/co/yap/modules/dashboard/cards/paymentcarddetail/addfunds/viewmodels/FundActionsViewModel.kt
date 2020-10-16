@@ -16,7 +16,7 @@ import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 open class FundActionsViewModel(application: Application) :
@@ -113,7 +113,7 @@ open class FundActionsViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.updateCardBalance {}
+                    SessionManager.updateCardBalance{}
                     delay(1000)
 //                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                     state.loading = false

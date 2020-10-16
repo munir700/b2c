@@ -11,6 +11,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.yapcore.R" />
+
         <import type="co.yap.translation.Strings" />
 
     </data>
@@ -55,17 +57,17 @@
                     android:layout_gravity="top"
                     android:orientation="vertical">
 
-                    <include
+                    <co.yap.widgets.CoreToolbar
                         android:id="@+id/toolbar"
-                        layout="@layout/layout_location_selection_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/viewMapFragment"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:viewModel="@{viewModel}" />
+                        app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+                        app:leftIconVisibility="@{true}"
+                        app:onClick="@{viewModel::onToolBarClick}"
+                        app:rightIconVisibility="@{false}"
+                        app:titleString="@{viewModel.state.toolbarTitle}" />
+
 
                     <TextView
                         android:id="@+id/tvAddressSelectionHeading"

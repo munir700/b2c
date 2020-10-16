@@ -18,7 +18,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -64,9 +64,9 @@ class PhoneContactViewModel(application: Application) :
             launch {
                 val localContacts = getLocalContacts()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    localContacts.removeIf { it.mobileNo == MyUserManager.user?.currentCustomer?.mobileNo }
+                    localContacts.removeIf { it.mobileNo == SessionManager.user?.currentCustomer?.mobileNo }
                 } else {
-                    localContacts.remove(localContacts.find { it.mobileNo == MyUserManager.user?.currentCustomer?.mobileNo })
+                    localContacts.remove(localContacts.find { it.mobileNo == SessionManager.user?.currentCustomer?.mobileNo })
                 }
 
                 if (localContacts.isEmpty()) {

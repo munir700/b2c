@@ -16,6 +16,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.managers.SessionManager
 
 
 class SendMoneyHomeScreenViewModel(application: Application) :
@@ -40,6 +41,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAllBeneficiaries()
+        SessionManager.getCurrenciesFromServer { _, _ -> }
         isSearching.value?.let {
             if (!it)
                 requestRecentBeneficiaries()
@@ -114,6 +116,4 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
-
-
 }

@@ -8,7 +8,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.sendmoney.fundtransfer.interfaces.ITransferSuccess
 import co.yap.sendmoney.fundtransfer.states.TransferSuccessState
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class TransferSuccessViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ITransferSuccess.State>(application), ITransferSuccess.ViewModel,
@@ -29,9 +29,9 @@ class TransferSuccessViewModel(application: Application) :
     override fun getAccountBalanceRequest() {
         launch {
             state.loading = true
-            when (val response = MyUserManager.repository.getAccountBalanceRequest()) {
+            when (val response = SessionManager.repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.cardBalance.value =
+                    SessionManager.cardBalance.value =
                         (CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
                     updatedCardBalanceEvent.call()
                     state.loading = false

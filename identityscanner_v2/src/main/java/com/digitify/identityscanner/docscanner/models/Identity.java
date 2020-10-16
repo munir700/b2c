@@ -41,23 +41,12 @@ public class Identity implements Parcelable {
     }
 
     public boolean isExpiryDateValid() {
-
         if (expirationDate == null) {
-            return expiryDateValid =false;
+            return expiryDateValid = false;
         }
-        if (isDateFallInPandemic(expirationDate) && isDateFallInPandemic(new Date()))
-            return expiryDateValid = true;
-
         return !(expiryDateValid = DateUtils.INSTANCE.isDatePassed(expirationDate));
     }
 
-    private boolean isDateFallInPandemic(Date date) {
-        Date fromDate = DateUtils.INSTANCE.reformatLocalDate("200301", "yyMMdd", "yyyy-MM-dd");
-        Date toDate = DateUtils.INSTANCE.reformatLocalDate("201231", "yyMMdd", "yyyy-MM-dd");
-
-        // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
-        return !date.after(toDate) && !date.before(fromDate);
-    }
     private boolean dateOfBirthValid;
 
     /**
@@ -66,9 +55,9 @@ public class Identity implements Parcelable {
     public Date expirationDate;
     private boolean expiryDateValid;
     private Gender gender;
-    private String givenName="";
-    private String sirName="";
-    private String nationality="";
+    private String givenName = "";
+    private String sirName = "";
+    private String nationality = "";
     private String issuingCountry = "";
     public String isoCountryCode2Digit = "";
     public String isoCountryCode3Digit = "";
@@ -150,7 +139,6 @@ public class Identity implements Parcelable {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
 
 
 //    public MrzFormat getFormat() {
