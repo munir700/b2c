@@ -68,20 +68,20 @@ class Y2YFundsTransferViewModel(application: Application) :
         }
     }
 
-    override fun coolingPeriodRequest(
+    override fun checkCoolingPeriodRequest(
         coolingPeriodRequest: CoolingPeriodRequest,
         success: () -> Unit
     ) {
         val coolingPeriodRequestData = CoolingPeriodRequest(
-            receiverUUID,
-            state.fullName,
-            state.amount,
-            ""
+            beneficiaryId = receiverUUID,
+            beneficiaryCreationDate = state.fullName,
+            beneficiaryName = state.amount,
+            amount = "500"
         )
         launch {
             state.loading = true
             when (val response =
-                transactionsRepository.getCoolingPeriodRequest(coolingPeriodRequestData)) {
+                transactionsRepository.checkCoolingPeriodRequest(coolingPeriodRequestData)) {
                 is RetroApiResponse.Success -> {
                     success.invoke()
                 }

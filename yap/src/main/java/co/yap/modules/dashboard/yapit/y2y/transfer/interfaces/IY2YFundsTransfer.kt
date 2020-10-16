@@ -22,7 +22,7 @@ class IY2YFundsTransfer {
         fun handlePressOnView(id: Int)
         fun getTransactionThresholds()
         fun proceedToTransferAmount(success: () -> Unit)
-        fun coolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest,success: () -> Unit)
+        fun checkCoolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest,success: () -> Unit)
         fun getTransactionLimits()
     }
 

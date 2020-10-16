@@ -182,6 +182,6 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_PURPOSE_OF_PAYMENT)
     suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
 
-    @GET(TransactionsRepository.URL_GET_COOLING_PERIOD)
-    suspend fun getCoolingPeriodRequest(@Body coolingPeriodRequest: CoolingPeriodRequest): Response<PaymentPurposeResponseDTO>
+    @GET(TransactionsRepository.URL_CHECK_COOLING_PERIOD)
+    suspend fun checkCoolingPeriodRequest(@Body coolingPeriodRequest: CoolingPeriodRequest): Response<PaymentPurposeResponseDTO>
 }
