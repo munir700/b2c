@@ -55,6 +55,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.textfield.TextInputLayout
+import java.io.File
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -654,7 +655,8 @@ object UIBinder {
                 .load(path).centerCrop()
                 .into(view)
         } else {
-            view.setImageURI(imageUri)
+            Glide.with(view.context).load(imageUri.path).centerCrop()
+                .into(view)
         }
     }
 
