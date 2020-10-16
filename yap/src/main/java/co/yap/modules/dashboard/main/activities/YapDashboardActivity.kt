@@ -237,7 +237,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 //                    if (it.isBlank())
 //                        "" else it
 //                )
-            SessionManager.user?.currentCustomer?.email?.let {
+        SessionManager.user?.currentCustomer?.email?.let {
             tvEmail.text = it
         }
 
