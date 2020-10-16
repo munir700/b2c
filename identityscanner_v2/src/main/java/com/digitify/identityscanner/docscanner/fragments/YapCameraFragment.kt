@@ -336,4 +336,14 @@ class YapCameraFragment : BaseFragment(),
                 toast("Please rescan the image")
             }
     }
+
+    override fun onDestroyView() {
+        progress?.dismiss()
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        progress=null
+    }
 }
