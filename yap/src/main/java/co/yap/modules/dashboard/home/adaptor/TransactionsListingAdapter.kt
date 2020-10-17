@@ -79,9 +79,11 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                         if (transaction.isTransactionCancelled())
-                            itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+                        if (transaction.isTransactionCancelled())
+                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     }
 
                     ImageViewCompat.setImageTintList(
@@ -104,8 +106,21 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
             if(transaction.isTransactionRejected()){
-                itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_exclamation_primary)
-                itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                if(transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) {
+                    itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_reverted)
+                } else {
+                    ImageBinding.loadAvatar(
+                        itemTransactionListBinding.ivTransaction,
+                        if (TxnType.valueOf(
+                                transaction.txnType ?: ""
+                            ) == TxnType.DEBIT
+                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                        android.R.color.transparent,
+                        R.dimen.text_size_h2
+                    )
+                    itemTransactionListBinding.ivTransaction.alpha = 0.5f
+                }
             }else {
                 ImageBinding.loadAvatar(
                     itemTransactionListBinding.ivTransaction,
