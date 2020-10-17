@@ -2,25 +2,23 @@ package com.digitify.identityscanner.docscanner.fragments
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.PointF
-import android.graphics.Rect
+import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.rx.Task
 import com.digitify.identityscanner.BR
 import com.digitify.identityscanner.R
@@ -64,9 +62,12 @@ class YapCameraFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this).get(CameraViewModel::class.java)
-        parentViewModel = ViewModelProviders.of(requireActivity()).get(
-            IdentityScannerViewModel::class.java
-        )
+        activity?.let { actiivty ->
+            parentViewModel = ViewModelProviders.of(actiivty).get(
+                IdentityScannerViewModel::class.java
+            )
+        }
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
         val view = binding.root
         binding.model = viewModel
@@ -86,8 +87,30 @@ class YapCameraFragment : BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
         binding.camera.setLifecycleOwner(this)
         binding.camera.addCameraListener(this)
-        if (progress == null)
-            progress = Utils.createProgressDialog(requireActivity())
+        if (progress == null) {
+            activity?.let { activity ->
+                progress = Utils.createProgressDialog(activity)
+            }
+        }
+        binding.camera.visibility = View.INVISIBLE
+        binding.cardOverlay.isDrawn.observe(this, Observer {
+            if (it) {
+//                binding.camera.layoutParams.width = binding.cardOverlay.width
+//                binding.camera.layoutParams.height = binding.cardOverlay.cardHeight+((binding.cardOverlay.cardHeight/10)*2)
+                val params = RelativeLayout.LayoutParams(
+                    binding.cardOverlay.width,
+                    binding.cardOverlay.cardHeight + ((binding.cardOverlay.cardHeight / 10) * 2)
+                )
+                params.setMargins(
+                    0,
+                    binding.cardOverlay.cardTop - (binding.cardOverlay.cardHeight / 10),
+                    0,
+                    0
+                )
+                binding.camera.layoutParams = params
+                binding.camera.visibility = View.VISIBLE
+            }
+        })
     }
 
     override fun getScreenTitle(): String {
@@ -104,9 +127,14 @@ class YapCameraFragment : BaseFragment(),
     }
 
     private fun capturePicture() {
+        /*   val runnable = Runnable {
+               progress?.show()
+           }*/
+        activity?.run { progress?.show() }
+//        Thread(runnable).start()
         if (binding.camera.isTakingPicture) return
         viewModel?.state?.isCapturing = false
-        binding.camera.takePictureSnapshot()
+        binding.camera.takePicture()
     }
 
     private val propertyChangedCallback: OnPropertyChangedCallback =
@@ -127,17 +155,16 @@ class YapCameraFragment : BaseFragment(),
 
     override fun openCropper(filename: String) {
         if (!TextUtils.isEmpty(filename)) {
-            if (parentViewModel?.state?.scanMode == DocumentPageType.BACK) test(filename = filename) else onCaptureProcessCompleted(
-                filename
-            )
-
+            detectObject(filename = filename)
         } else {
-            setInstructions(
-                getString(
-                    requireContext(),
-                    Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file
+            activity?.let { activity ->
+                setInstructions(
+                    getString(
+                        activity,
+                        Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -153,12 +180,14 @@ class YapCameraFragment : BaseFragment(),
     }
 
     override fun onCaptureProcessCompleted(filename: String) {
-        setInstructions(
-            getString(
-                requireContext(),
-                Strings.idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete
+        context?.let { context ->
+            setInstructions(
+                getString(
+                    context,
+                    Strings.idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete
+                )
             )
-        )
+        }
         parentViewModel?.onPictureTaken(filename)
     }
 
@@ -192,6 +221,7 @@ class YapCameraFragment : BaseFragment(),
         viewModel?.state?.addOnPropertyChangedCallback(propertyChangedCallback)
         parentViewModel?.state?.addOnPropertyChangedCallback(propertyChangedCallback)
     }
+
 
     override fun onPause() {
         viewModel?.onStop()
@@ -232,7 +262,7 @@ class YapCameraFragment : BaseFragment(),
 
     override fun onPictureTaken(result: PictureResult) {
         result.toFile(
-            ImageUtils.getFilePrivately(requireContext())!!
+            ImageUtils.getFilePrivately(activity) ?: File(result.toString())
         ) { file: File? -> viewModel?.handleOnPressCapture(file) }
     }
 
@@ -253,88 +283,101 @@ class YapCameraFragment : BaseFragment(),
     ) {
     }
 
-    private fun test(filename: String) {
+    private fun detectObject(filename: String) {
+        IdentityScannerActivity.imageFiles.add(filename)
         setInstructions("")
-        progress?.show()
-        val options = ObjectDetectorOptions.Builder()
-            .setDetectorMode(ObjectDetectorOptions.SINGLE_IMAGE_MODE)
-            .enableClassification()  // Optional
-            .build()
-        val objectDetector = ObjectDetection.getClient(options)
-        val image: InputImage
-        try {
-            image = InputImage.fromFilePath(requireContext(), Uri.fromFile(File(filename)))
-            objectDetector.process(image)
-                .addOnSuccessListener { detectedObjects ->
-                    // Task completed successfully
-                    if (detectedObjects.isEmpty()) {
-                        progress?.hide()
-                        setInstructions("Please rescan the image")
-                    } else {
-                        for (detectedObject: DetectedObject in detectedObjects) {
-                            val boundingBox: Rect = detectedObject.boundingBox
-                            val sourceBitmap: Bitmap = BitmapFactory.decodeFile(filename)
-                            val croppedBmp: Bitmap = Bitmap.createBitmap(
-                                sourceBitmap,
-                                (boundingBox.exactCenterX() - boundingBox.width() / 2).toInt(),
-                                (boundingBox.exactCenterY() - boundingBox.height() / 2).toInt(),
-                                boundingBox.width(),
-                                boundingBox.height()
-                            )
-                            extractText(image) { lines ->
-                                if (lines in 1..2) {
-                                    Task.runSafely({
-                                        overWrite(File(filename), croppedBmp)
-                                    }, {
-                                        progress?.hide()
-                                        onCaptureProcessCompleted(filename)
-                                    }, true)
-                                } else {
-                                    progress?.hide()
-                                    setInstructions("Please rescan the image")
+        val runnable = Runnable {
+            val bitmap = BitmapFactory.decodeFile(filename)
+            setOrientation(filename, bitmap) {
+                val options = ObjectDetectorOptions.Builder()
+                    .setDetectorMode(ObjectDetectorOptions.SINGLE_IMAGE_MODE)
+                    .enableClassification()  // Optional
+                    .build()
+                val objectDetector = ObjectDetection.getClient(options)
+                var image: InputImage
+                try {
+                    image = InputImage.fromBitmap(it, 0)
+                    objectDetector.process(image)
+                        .addOnSuccessListener { detectedObjects ->
+                            if (detectedObjects.isEmpty()) {
+                                progress?.hide()
+                                setInstructions("Please readjust your card and scan again")
+                            } else {
+                                var croppedBmp: Bitmap? = null
+                                for (detectedObject: DetectedObject in detectedObjects) {
+                                    val boundingBox: Rect = detectedObject.boundingBox
+                                    val sourceBitmap: Bitmap = it
+                                    croppedBmp = Bitmap.createBitmap(
+                                        sourceBitmap,
+                                        (boundingBox.exactCenterX() - boundingBox.width() / 2).toInt(),
+                                        (boundingBox.exactCenterY() - boundingBox.height() / 2).toInt(),
+                                        boundingBox.width(),
+                                        boundingBox.height()
+                                    )
+                                    if (parentViewModel?.state?.scanMode != DocumentPageType.BACK) {
+                                        reWriteImage(filename, croppedBmp)
+                                    } else {
+                                        image = InputImage.fromBitmap(croppedBmp, 0)
+                                        extractText(image) { success ->
+                                            if (success) {
+                                                reWriteImage(filename, croppedBmp)
+                                            } else {
+                                                activity?.runOnUiThread(Runnable {
+                                                    progress?.hide()
+                                                    setInstructions("Please rescan the card, it's not card back side")
+                                                })
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-                .addOnFailureListener { e ->
-                    e.printStackTrace()
-                    progress?.hide()
-                    setInstructions("Please rescan the image")
-                }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            progress?.hide()
-        }
+                        .addOnFailureListener { e ->
+                            e.printStackTrace()
+                            activity?.runOnUiThread(Runnable {
+                                progress?.hide()
+                                setInstructions("Please rescan the card")
+                            })
+                        }
 
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    activity?.runOnUiThread(Runnable {
+                        progress?.hide()
+                    })
+                }
+
+            }
+        }
+        Thread(runnable).start()
 
     }
 
+    private fun reWriteImage(filename: String, croppedBmp: Bitmap) {
+        Task.runSafely({
+            overWrite(File(filename), croppedBmp)
+        }, {
+            activity?.runOnUiThread(Runnable {
+                progress?.hide()
+            })
 
-    private fun extractText(inputImage: InputImage, callback: (Int) -> Unit) {
-        var lines: Int = 0
+            onCaptureProcessCompleted(filename)
+        }, true)
+    }
+
+
+    private fun extractText(inputImage: InputImage, callback: (Boolean) -> Unit) {
         val recognizer = TextRecognition.getClient()
-        val line1 = "([A-Z]{4})([A-Z0-9<]{26})";
-        val line2 =
-            "^[A-Z0-9<]{9}[0-9]{1}[A-Z<]{3}[0-9]{6}[0-9]{1}[FM<]{1}[0-9]{6}[0-9]{1}[A-Z0-9<]{14}[0-9]{1}[0-9]{1}$^";
         recognizer.process(inputImage)
             .addOnSuccessListener { visionText ->
-                for (block in visionText.textBlocks) {
-                    for (line in block.lines) {
-                        val lineText = line.text
-                        if (lineText.contains(line1.toRegex()) || lineText.contains(
-                                line2.toRegex()
-                            )
-                        ) {
-                            lines += 1
-                        }
-                    }
-                }
-                callback(lines)
+                callback(visionText.text.contains("<<"))
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
-                toast("Please rescan the image")
+                activity?.runOnUiThread(Runnable {
+                    progress?.hide()
+                    setInstructions("Please rescan the card")
+                })
             }
     }
 
@@ -345,6 +388,38 @@ class YapCameraFragment : BaseFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        progress=null
+        progress = null
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(
+            source, 0, 0, source.width, source.height,
+            matrix, true
+        )
+    }
+
+    private fun setOrientation(
+        photoPath: String?,
+        bitmap: Bitmap,
+        success: (file: Bitmap) -> Unit
+    ) {
+        val ei = ExifInterface(photoPath ?: "")
+        val orientation: Int = ei.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+
+        var rotatedBitmap: Bitmap
+        rotatedBitmap = when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90F)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180F)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270F)
+            ExifInterface.ORIENTATION_NORMAL -> bitmap
+            else -> bitmap
+        }
+
+        success.invoke(rotatedBitmap)
     }
 }
