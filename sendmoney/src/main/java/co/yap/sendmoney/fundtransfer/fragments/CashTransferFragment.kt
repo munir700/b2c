@@ -363,7 +363,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         }
     }
 
-    fun getBindings(): FragmentCashTransferBinding {
+   private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
 }
