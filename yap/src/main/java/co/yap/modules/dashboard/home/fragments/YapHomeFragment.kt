@@ -57,7 +57,6 @@ import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -474,7 +473,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         }
                     } else {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                        showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                     }
                 } else {
                     launchActivity<DocumentsDashboardActivity>(

@@ -164,7 +164,6 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD,
                 FeatureSet.CHANGE_PIN,
                 FeatureSet.FORGOT_PIN,
                 FeatureSet.CHANGE_PASSCODE,
@@ -173,7 +172,8 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.EDIT_SEND_MONEY_BENEFICIARY,
                 FeatureSet.EDIT_EMAIL,
                 FeatureSet.EDIT_PHONE_NUMBER,
-                FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
+                FeatureSet.DELETE_SEND_MONEY_BENEFICIARY,
+                FeatureSet.UPDATE_EID
             )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
@@ -194,7 +194,7 @@ fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context):
 
             Translator.getString(
                 context,
-                Strings.iban_or_debit_card_freeze_or_blocked_message
+                Strings.common_display_text_feature_blocked_error
             ).format(SessionManager.helpPhoneNumber)
 
         }
@@ -212,14 +212,15 @@ fun AccountInfo.getBlockedMessage(key: UserAccessRestriction, context: Context):
         else -> {
             Translator.getString(
                 context,
-                Strings.iban_or_debit_card_freeze_or_blocked_message
+                Strings.common_display_text_feature_blocked_error
             ).format(SessionManager.helpPhoneNumber)
         }
     })
 }
 
 fun AccountInfo.getNotificationOfBlockedFeature(
-    key: UserAccessRestriction
+    key: UserAccessRestriction,
+    context: Context
 ): String? {
     return (when (key) {
         UserAccessRestriction.CARD_FREEZE_BY_APP, UserAccessRestriction.CARD_FREEZE_BY_CSR,
@@ -227,7 +228,10 @@ fun AccountInfo.getNotificationOfBlockedFeature(
             , UserAccessRestriction.IBAN_BLOCKED_BY_RAK_DEBIT, UserAccessRestriction.IBAN_BLCOKED_BY_RAK_CREDIT, UserAccessRestriction.CARD_BLOCKED_BY_MASTER_CARD
             , UserAccessRestriction.CARD_BLOCKED_BY_YAP_TOTAL, UserAccessRestriction.CARD_BLOCKED_BY_YAP_DEBIT, UserAccessRestriction.CARD_BLOCKED_BY_YAP_CREDIT -> {
 
-            "Some of your card's features are temporarily disabled. Get in touch with us at ${SessionManager.helpPhoneNumber} for assistance."
+            Translator.getString(
+                context,
+                Strings.iban_or_debit_card_freeze_or_blocked_message
+            ).format(SessionManager.helpPhoneNumber)
 
         }
         else -> null

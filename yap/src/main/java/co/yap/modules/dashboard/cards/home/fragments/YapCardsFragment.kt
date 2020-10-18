@@ -212,7 +212,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         else -> {
-                            updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                            adapter.getDataList()
+                                .firstOrNull { it.cardSerialNumber == updatedCard?.cardSerialNumber }
+                                ?.let { card ->
+                                    val pos = adapter.getDataList().indexOf(card)
+                                    updatedCard?.let { adapter.setItemAt(pos, it) }
+                                } ?: showToast("Card not found")
                         }
                     }
                 }

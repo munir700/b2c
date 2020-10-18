@@ -283,7 +283,8 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if (accountInfo.getUserAccessRestrictions().contains(UserAccessRestriction.EID_EXPIRED)
+        if (accountInfo.getUserAccessRestrictions()
+                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
             && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             SessionManager.eidStatus = EIDStatus.EXPIRED
@@ -299,7 +300,7 @@ class YapHomeViewModel(application: Application) :
         }
 
         accountInfo.getUserAccessRestrictions().forEach {
-            accountInfo.getNotificationOfBlockedFeature(it)?.let { description ->
+            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
                 list.add(
                     HomeNotification(
                         id = "5",

@@ -58,7 +58,6 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -216,10 +215,18 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cancelAllSnackBar()
             }
             R.id.llFreezeSpareCard -> {
-                viewModel.freezeUnfreezeCard()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
+                    showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
+                } else {
+                    viewModel.freezeUnfreezeCard()
+                }
             }
             R.id.llFreezePrimaryCard -> {
-                viewModel.freezeUnfreezeCard()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
+                    showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
+                } else {
+                    viewModel.freezeUnfreezeCard()
+                }
             }
             R.id.llRemoveFunds -> {
                 if (viewModel.card.value?.blocked == false) {
@@ -344,7 +351,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             rlSpareCardActions.visibility = View.VISIBLE
         }
-//        checkFreezeUnfreezStatus()
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
         }
@@ -369,7 +375,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
                         clickListener = View.OnClickListener {
                             if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
-                                showAlertDialogAndExitApp(message = "This feature is blocked")
+                                showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
                             } else {
                                 viewModel.freezeUnfreezeCard()
                             }
@@ -491,7 +497,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
-//                checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
                     // Send Broadcast for updating transactions list in `Home Fragment`
                     val intent =
@@ -602,16 +607,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         }
 
-        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-            cardType = "Primary card"
+        cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+            "Primary card"
         } else {
-            if (viewModel.card.value?.nameUpdated!!) {
-                cardType = viewModel.card.value?.cardName!!
+            if (viewModel.card.value?.nameUpdated == true) {
+                viewModel.card.value?.cardName!!
             } else {
                 if (viewModel.card.value?.physical!!) {
-                    cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
+                    Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
+                    Constants.TEXT_SPARE_CARD_VIRTUAL
                 }
             }
         }
@@ -676,10 +681,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             val updateCard = viewModel.card.value!!
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
-            updateCard.nameUpdated = nameUpdated
 
             if (cardFreezeUnfreeze) {
-                if (viewModel.card.value?.blocked!!)
+                if (viewModel.card.value?.blocked == true)
                     updateCard.status = "BLOCKED"
                 else
                     updateCard.status = "ACTIVE"
