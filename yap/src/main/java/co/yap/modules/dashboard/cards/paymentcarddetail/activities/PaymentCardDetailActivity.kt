@@ -602,16 +602,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         }
 
-        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-            cardType = "Primary card"
+        cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+            "Primary card"
         } else {
-            if (viewModel.card.value?.nameUpdated!!) {
-                cardType = viewModel.card.value?.cardName!!
+            if (viewModel.card.value?.nameUpdated == true) {
+                viewModel.card.value?.cardName!!
             } else {
                 if (viewModel.card.value?.physical!!) {
-                    cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
+                    Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
+                    Constants.TEXT_SPARE_CARD_VIRTUAL
                 }
             }
         }
@@ -676,10 +676,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             val updateCard = viewModel.card.value!!
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
-            updateCard.nameUpdated = nameUpdated
 
             if (cardFreezeUnfreeze) {
-                if (viewModel.card.value?.blocked!!)
+                if (viewModel.card.value?.blocked == true)
                     updateCard.status = "BLOCKED"
                 else
                     updateCard.status = "ACTIVE"
