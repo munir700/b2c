@@ -2,7 +2,9 @@ package co.yap.modules.location.interfaces
 
 import android.graphics.Bitmap
 import androidx.databinding.ObservableField
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.IBase
@@ -13,6 +15,7 @@ interface ILocationSelection {
 
     interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun getBinding(): ViewDataBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -22,13 +25,15 @@ interface ILocationSelection {
         var defaultHeading: String
         var clickEvent: SingleClickEvent
         var isMapExpanded: MutableLiveData<Boolean>
+        var selectedPlaceId: MutableLiveData<String>
         var termsCheckedTime: MutableLiveData<String>
         var cities: MutableLiveData<ArrayList<City>>
         var address: Address?
         fun onLocationSelected()
         fun handleOnPressView(id: Int)
         fun getCities()
-        fun requestOrderCard(address: Address?,success:() -> Unit)
+        fun requestOrderCard(address: Address?, success: () -> Unit)
+        val placesAdapter: PlacesAutoCompleteAdapter
     }
 
     interface State : IBase.State {

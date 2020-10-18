@@ -5,28 +5,43 @@
 
     <data>
 
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsViewModel" />
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_top_up_bank_details_toolbar"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.state.toolBarVisibility ? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightTitleVisibility="@{true}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <ScrollView
             android:id="@+id/svDetails"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintBottom_toTopOf="@+id/btnShare">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -38,7 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="@dimen/margin_extra_small"
                     app:viewModel="@{viewModel}" />
 
                 <include
@@ -46,33 +60,37 @@
                     layout="@layout/layout_top_up_bank_details_bottom_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal_large"
+                    android:layout_marginEnd="@dimen/margin_normal_large"
+                    android:layout_marginTop="@dimen/margin_extra_large"
                     app:layout_constraintTop_toBottomOf="@+id/layoutUserHeader"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:viewModel="@{viewModel}"
-                    tools:layout_editor_absoluteX="0dp" />
+                    app:viewModel="@{viewModel}"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_xl"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutUserBankDetails">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btnShare"
+                        style="@style/Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginBottom="@dimen/margin_xl"
+                        android:textColor="@color/colorPrimary"
+                        tools:text="Share"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_goneMarginTop="@dimen/margin_extra_large"
+                        app:text="@{Strings.screen_add_topup_bank_core_btn_label_text}" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnShare"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginTop="@dimen/margin_extra_small"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-            android:text="Share"
-            app:btn_drawable="@drawable/ic_share_white"
-            app:btn_drawable_padding_top="4"
-            app:btn_drawable_position="right"
-            app:enableCoreButton="@{true}"
-            app:layout_constraintTop_toBottomOf="@+id/svDetails"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_goneMarginTop="@dimen/margin_extra_large" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

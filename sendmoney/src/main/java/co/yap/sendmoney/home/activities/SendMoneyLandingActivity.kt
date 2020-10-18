@@ -312,7 +312,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (SessionManager.user?.otpBlocked == true) {
-                            showBlockedFeatureAlert(this,FeatureSet.DELETE_SEND_MONEY_BENEFICIARY)
+                            showBlockedFeatureAlert(this, FeatureSet.DELETE_SEND_MONEY_BENEFICIARY)
                         } else {
                             positionToDelete = payload.position
                             confirmDeleteBeneficiary(payload.itemData as Beneficiary)
@@ -346,18 +346,26 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
                             val isMoneyTransfer =
                                 data.getValue(Constants.IS_TRANSFER_MONEY, "BOOLEAN") as? Boolean
+                            val isDismissFlow =
+                                data.getValue(
+                                    Constants.TERMINATE_ADD_BENEFICIARY,
+                                    "BOOLEAN"
+                                ) as? Boolean
                             val beneficiary =
                                 data.getValue(
                                     Beneficiary::class.java.name,
                                     "PARCEABLE"
                                 ) as? Beneficiary
-                            if (isMoneyTransfer == true)
-                                beneficiary?.let {
-                                    startMoneyTransfer(it, 0)
-                                    viewModel.requestAllBeneficiaries()
+                            when {
+                                isMoneyTransfer == true ->
+                                    beneficiary?.let {
+                                        startMoneyTransfer(it, 0)
+                                        viewModel.requestAllBeneficiaries()
+                                    }
+                                isDismissFlow == true -> {
                                 }
-                            else
-                                viewModel.requestAllBeneficiaries()
+                                else -> viewModel.requestAllBeneficiaries()
+                            }
                         } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
                             finish()
                         }
@@ -380,6 +388,22 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> finish()
+            R.id.ivRightIcon -> {
+                if (SessionManager.user?.otpBlocked == true) {
+                    showToast(Utils.getOtpBlockedMessage(this))
+                } else {
+                    startActivityForResult(
+                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    )
                 }
             }
         }

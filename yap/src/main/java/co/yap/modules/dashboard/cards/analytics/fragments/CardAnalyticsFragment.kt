@@ -235,7 +235,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             viewModel.state.selectedItemName = it.title
             viewModel.state.selectedItemPercentage = "${it.totalSpendingInPercentage}%"
             viewModel.state.selectedItemSpentValue =
-                "${viewModel.state.currencyType} ${it.totalSpending}"
+                "${viewModel.state.currencyType}${it.totalSpending}"
         }
     }
 

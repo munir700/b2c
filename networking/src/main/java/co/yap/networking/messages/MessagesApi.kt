@@ -4,6 +4,7 @@ package co.yap.networking.messages
 import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.FaqsResponse
 import co.yap.networking.messages.responsedtos.HelpDeskResponse
+import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 

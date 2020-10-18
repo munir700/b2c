@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,10 +14,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        >
 
         <ImageView
             android:id="@+id/tbBtnBack"
@@ -32,18 +33,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back_arrow_left" />
 
-
         <TextView
             android:id="@+id/tvTitle"
             style="@style/Regular"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/_14sdp"
-            android:layout_toEndOf="@id/tbBtnBack"
-            android:gravity="center"
-            android:text="@={viewModel.state.tootlBarTitle}" />
+            android:text="@={viewModel.state.tootlBarTitle}"
+            tools:text="Add spare card" />
+
 
     </RelativeLayout>
 </layout>

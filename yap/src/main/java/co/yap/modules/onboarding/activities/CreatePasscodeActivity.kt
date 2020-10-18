@@ -9,17 +9,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.passcode.IPassCode
 import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 
 
@@ -70,8 +69,6 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                 }
             }
         })
-        preventTakeScreenShot(true)
-
     }
 
     private fun setIntentResults() {

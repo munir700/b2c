@@ -30,7 +30,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.cardInfo.set(item)
-        state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
+        state.toolbarTitle = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
         state.currencyType = getString(Strings.common_text_currency_type)

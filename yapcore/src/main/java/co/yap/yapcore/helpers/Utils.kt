@@ -741,7 +741,6 @@ object Utils {
             "XXXX XXXX XXXX $cardNumber"
         else
             "XXXX XXXX XXXX XXXX"
-
     }
 
     fun confirmationDialog(
@@ -750,7 +749,8 @@ object Utils {
         message: String,
         positiveButton: String,
         negitiveButton: String,
-        itemClick: OnItemClickListener
+        itemClick: OnItemClickListener,
+        isCancelable: Boolean = true
     ) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(title).setMessage(message)
@@ -764,6 +764,7 @@ object Utils {
             ) { _, _ ->
                 itemClick.onItemClick(View(context), false, 0)
             }
+            .setCancelable(isCancelable)
             .show()
     }
 
@@ -821,15 +822,17 @@ object Utils {
         )}^${AlertType.DIALOG.name}"
     }
 
-    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {
+    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?, addOIndex : Boolean = true): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
         var countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
-            countries.add(
-                0,
-                Country(name = "Select country")
-            )
+                if (addOIndex){
+                    countries.add(
+                        0,
+                        Country(name = "Select country")
+                    )
+                }
             countries.addAll(it.map {
                 Country(
                     id = it.id,
@@ -903,11 +906,12 @@ object Utils {
             }
             ProductFlavour.STG.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-
+            }
+            ProductFlavour.INTERNAL.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.QA.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-
             }
             ProductFlavour.DEV.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"

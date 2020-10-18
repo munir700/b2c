@@ -39,4 +39,5 @@ app/~/tmp/full-r8-config.txt
 /security/.cxx/*
 /security/build
 /app/live/release
-/multicurrency
+/multicurrency/build/*
+/app/yapinternal/release

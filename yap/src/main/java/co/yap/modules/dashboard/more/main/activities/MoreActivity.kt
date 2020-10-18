@@ -14,7 +14,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_add_payment_cards.*
@@ -25,10 +24,11 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     public companion object {
         // do not remove this boolean variable
         var navigationVariable: Boolean = false
+        const val intentPlaceHolderIsDrawerNav = "isDrawerNav"
 
         fun newIntent(context: Context, isDrawerNav: Boolean = false): Intent {
             val intent = Intent(context, MoreActivity::class.java)
-            intent.putExtra("isDrawerNav", isDrawerNav)
+            intent.putExtra(intentPlaceHolderIsDrawerNav, isDrawerNav)
             return intent
         }
     }
@@ -45,19 +45,19 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-        viewModel.preventTakeDeviceScreenShot.observe(this, Observer {
-            preventTakeScreenShot(it)
-        })
     }
 
     override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObservers(this)
-        viewModel.preventTakeDeviceScreenShot.removeObservers(this)
         super.onDestroy()
     }
 
-    private val backButtonObserver = Observer<Boolean> { onBackPressed() }
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
+            R.id.ivRightIcon -> {
+            }
+        }
+    }
 
     public fun hideToolbar() {
         toolbar.visibility = View.INVISIBLE
@@ -71,10 +71,10 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         toolbar.visibility = View.VISIBLE
     }
 
-    fun getIntentData(): Boolean {
+    private fun isFromDrawer(): Boolean {
         if (intent != null) {
-            if (intent.hasExtra("isDrawerNav"))
-                return intent.getBooleanExtra("isDrawerNav", false)
+            if (intent.hasExtra(intentPlaceHolderIsDrawerNav))
+                return intent.getBooleanExtra(intentPlaceHolderIsDrawerNav, false)
         }
         return false
     }
@@ -83,14 +83,15 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-
         }
+
     }
 
     override fun onResume() {
         super.onResume()
-      viewModel.BadgeVisibility= false
+        viewModel.BadgeVisibility = false
 
     }
+
 
 }

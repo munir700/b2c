@@ -45,9 +45,6 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
                     RequestCodes.REQUEST_SHOW_BENEFICIARY
                 )
             }
-            R.id.tbBtnBack -> {
-                onBackPressed()
-            }
         }
     }
 
@@ -75,4 +72,11 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
         }
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+        }
+    }
 }

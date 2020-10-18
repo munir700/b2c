@@ -16,4 +16,5 @@ abstract class YapForYouBaseFragment<V : IBase.ViewModel<*>> :
                 ViewModelProviders.of(activity!!).get(YapForYouMainViewModel::class.java)
         }
     }
+
 }

@@ -64,12 +64,13 @@ object Constants {
 
     const val URL_TERMS_CONDITION = "https://yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
-
+    const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
 
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+    const val REQUEST_CODE_CREATE_PASSCODE: Int = 127
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"
@@ -96,10 +97,13 @@ object Constants {
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
     const val IS_TRANSFER_MONEY = "IS_TRANSFER_MONEY"
+    const val TERMINATE_ADD_BENEFICIARY = "TERMINATE_ADD_BENEFICIARY"
 
     //Location Selection
     const val ADDRESS = "address"
     const val ADDRESS_SUCCESS = "address_success"
+    const val PLACES_PHOTO_ID = "places_photo_id"
+
     // Events for ViewState
 
     const val EVENT_LOADING: Int = 1111
@@ -139,10 +143,17 @@ object Constants {
     const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
     const val KEY_THEME = "KEY_THEME"
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
+    const val KEY_IS_REMEMBER = "IS_REMEMBER"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
+
+    const val CURRENCYWALLET = "MultiCurrencyWallet"
+
+    //Sms consent
+    const val SMS_CONSENT_REQUEST = 2
+
 }

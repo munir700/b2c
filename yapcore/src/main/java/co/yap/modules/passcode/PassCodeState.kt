@@ -38,6 +38,13 @@ class PassCodeState : BaseState(), IPassCode.State {
         }
 
     @get:Bindable
+    override var needTermsConditions: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.needTermsConditions)
+        }
+
+    @get:Bindable
     override var buttonTitle: String = ""
         set(value) {
             field = value

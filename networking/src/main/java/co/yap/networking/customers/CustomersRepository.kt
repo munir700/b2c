@@ -37,6 +37,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
     const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
+    const val URL_DELETE_PROFILE_PICTURE = "customers/api/customers/profile-picture"
     const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
     const val URL_VALIDATE_EMAIL = "customers/api/validate-email"
     const val URL_CHANGE_MOBILE_NUMBER =
@@ -104,6 +105,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_VALIDATE_CURRENT_PASSCODE = "/customers/api/user/verify-passcode"
     const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
+    const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
     const val URL_GET_ALL_CURRENCIES = "/customers/api/currencies"
     const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
@@ -345,4 +347,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse> =
         executeSafely(call = { api.getCurrencyByCode(currencyCode ?: "") })
 
+    override suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.resendVerificationEmail() })
+
+    override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.removeProfilePicture() })
 }

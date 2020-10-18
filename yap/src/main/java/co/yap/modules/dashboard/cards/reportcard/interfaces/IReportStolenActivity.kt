@@ -7,14 +7,11 @@ import co.yap.yapcore.SingleLiveEvent
 interface IReportStolenActivity {
 
     interface State : IBase.State {
-        var tootlBarTitle: String
         var tootlBarVisibility: Int
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnBackButton()
         fun handlePressOnTickButton()
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
         var card: Card?
     }
 

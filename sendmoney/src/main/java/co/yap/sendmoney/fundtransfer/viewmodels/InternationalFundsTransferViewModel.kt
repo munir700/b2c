@@ -49,7 +49,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
+        parentViewModel?.state?.toolbarTitle = getString(Strings.screen_funds_toolbar_header)
         state.availableBalanceString =
             context.resources.getText(
                 getString(Strings.screen_cash_transfer_display_text_available_balance),

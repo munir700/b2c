@@ -23,10 +23,6 @@ class CompletedAchievementsFragment : YapForYouBaseFragment<ICompletedAchievemen
         getBinding().rvCompletedAchievements.adapter = viewModel.adapter
     }
 
-    override fun addObservers() {
-
-    }
-
     override fun getBinding(): FragmentCompletedAchievementsBinding {
         return viewDataBinding as FragmentCompletedAchievementsBinding
     }

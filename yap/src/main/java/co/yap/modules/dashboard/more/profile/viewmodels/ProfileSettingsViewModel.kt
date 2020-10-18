@@ -192,4 +192,22 @@ class ProfileSettingsViewModel(application: Application) :
                 }
             }
     }
+
+    override fun requestRemoveProfilePicture(apiRes: (Boolean) -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.removeProfilePicture()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    SessionManager.user?.currentCustomer?.setPicture("")
+                    apiRes.invoke(true)
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    apiRes.invoke(false)
+                }
+            }
+        }
+    }
 }

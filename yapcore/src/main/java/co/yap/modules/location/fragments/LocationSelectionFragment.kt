@@ -18,15 +18,18 @@ import co.yap.modules.location.CitiesListBottomSheet
 import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.databinding.LocationSelectionFragmentBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -39,6 +42,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.layout_google_maps.*
 import kotlinx.android.synthetic.main.location_selection_fragment.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,8 +83,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 "Location",
                 "Your GPS seems to be disabled, do you want to enable it?",
                 "Yes",
-                "No"
-                ,
+                "No",
                 object : OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
@@ -102,9 +106,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         viewModel.state.addressTitle.set(viewModel.address?.address1)
         viewModel.state.addressSubtitle.set(viewModel.address?.address2)
         populateCardState(viewModel.address, true)
-        if (viewModel.address?.latitude != null && viewModel.address?.longitude != null) {
-            mDefaultLocation = LatLng(viewModel.address?.latitude!!, viewModel.address?.longitude!!)
-        }
+        getCurrentLocation()
+
     }
 
     private fun setHeadings() {
@@ -115,6 +118,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.selectedPlaceId.observe(this, autoCompleteLocationListener)
         viewModel.state.isTermsChecked.addOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressSubtitle.addOnPropertyChangedCallback(stateObserver)
         viewModel.state.addressTitle.addOnPropertyChangedCallback(stateObserver)
@@ -180,10 +184,10 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
             R.id.btnLocation -> {
                 onMapClickAction()
+                removeAutoCompleteFocus()
             }
 
             R.id.ivClose -> {
-                setAddress() // set initial address
                 if (viewModel.state.isShowLocationCard.get() == true)
                     slideDownCardAnimation()
                 else {
@@ -203,7 +207,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
             R.id.etAddressField -> {
 
-                if (etAddressField.length() == 0 && !viewModel.hasSeletedLocation) {
+                if (getBinding().etAddressField.length() == 0 && !viewModel.hasSeletedLocation) {
                     onMapClickAction()
                 }
             }
@@ -211,11 +215,17 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             R.id.rlCollapsedMapSection -> {
                 onMapClickAction()
             }
-            R.id.tbIvClose -> {
-                setIntentAction(false)
-            }
+
             R.id.layoutCitiesBottomSheet -> {
                 setupCitiesList(viewModel.cities.value)
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                setIntentAction(false)
             }
         }
     }
@@ -270,9 +280,11 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    mDefaultLocation?.let {
-                        loadAysnMapInfo(it)
-                        animateCameraToLocation(it)
+                    if (!isFromPlacesApi) {
+                        mDefaultLocation?.let {
+                            loadAysnMapInfo(it)
+                            animateCameraToLocation(it)
+                        }
                     }
                 }
 
@@ -298,6 +310,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         YoYo.with(Techniques.SlideInUp)
             .duration(400)
             .playOn(flAddressDetail)
+        addAutoCompleteFocus()
 
     }
 
@@ -314,7 +327,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                     viewModel.state.isShowLocationCard.set(false)
                     collapseMap()
                     viewModel.onLocationSelected()
-                    etAddressField.setSelection(etAddressField.length())
+                    getBinding().etAddressField.setSelection(getBinding().etAddressField.length())
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -350,11 +363,11 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             val intent = Intent()
             intent.putExtra(ADDRESS, viewModel.getUserAddress())
             intent.putExtra(ADDRESS_SUCCESS, isUpdated)
+            intent.putExtra(Constants.PLACES_PHOTO_ID, viewModel.selectedPlaceId.value.toString())
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         }
     }
-
 
     private fun checkPermission() {
         permissionHelper = PermissionHelper(
@@ -386,8 +399,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     private fun showExplicitPermissionDialog() {
         Utils.confirmationDialog(
             requireContext(), "Location", "Need permission for location, do you want to enable it?",
-            "Yes", "No"
-            , object : OnItemClickListener {
+            "Yes", "No", object : OnItemClickListener {
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
@@ -450,4 +462,57 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
         )
     }
 
+
+    private fun removeAutoCompleteFocus() {
+        getBinding().etAddressField.isFocusable = false
+        getBinding().etAddressField.isFocusableInTouchMode = false
+        getBinding().etAddressField.isFocusable = false
+        getBinding().etAddressField.isFocusableInTouchMode = false
+        getBinding().etAddressField.hideKeyboard()
+    }
+
+    private fun addAutoCompleteFocus() {
+        viewModel.viewModelScope.launch {
+            delay(1000)
+            getBinding().etAddressField.isFocusable = true
+            getBinding().etAddressField.isFocusableInTouchMode = true
+            getBinding().etAddressField.isFocusable = true
+            getBinding().etAddressField.isFocusableInTouchMode = true
+        }
+
+    }
+
+    private val autoCompleteLocationListener = Observer<String> {
+        when {
+            !it.isNullOrEmpty() -> {
+                getLocationFromPlacesApi(it) { latlng ->
+                    latlng?.let { it1 ->
+                        isFromPlacesApi = true
+                        viewModel.state.isShowLocationCard.set(true)
+                        removeAutoCompleteFocus()
+                        animateCameraToLocation(it1)
+                        val address = getAddressFromPlacesApi(latlng)
+                        populateCardState(address, false)
+                        viewModel.onLocationSelected()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getAddressFromPlacesApi(latLng: LatLng): Address {
+        return Address(
+            latitude = latLng.latitude,
+            longitude = latLng.longitude,
+            address1 = viewModel.state.placeTitle.get(),
+            address2 = viewModel.state.placeSubTitle.get(),
+            city = viewModel.state.city.get(),
+            country = "United Arab Emirates",
+            nearestLandMark = viewModel.state.placeTitle.get()
+        )
+    }
+
+    override fun getBinding(): LocationSelectionFragmentBinding {
+        return viewDataBinding as LocationSelectionFragmentBinding
+    }
 }

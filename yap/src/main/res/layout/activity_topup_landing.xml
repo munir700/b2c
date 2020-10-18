@@ -11,6 +11,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -20,13 +22,19 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_topup_landing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator="@{Strings.screen_topup_type_selection_display_text_title}" />
 
         <TextView
             android:id="@+id/mTitle"
@@ -36,10 +44,10 @@
             android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
             android:text="@string/screen_topup_type_selection_display_text_heading"
-            app:text="@{Strings.screen_topup_type_selection_display_text_heading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:text="@{Strings.screen_topup_type_selection_display_text_heading}"
             tools:text="@string/screen_topup_type_selection_display_text_heading" />
 
 
@@ -57,7 +65,7 @@
                 android:id="@+id/llBankTransferType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/_18sdp"
                 android:layout_weight="1"
                 android:background="@drawable/cornor_edges_gery"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -79,7 +87,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_icon_bank_transfer" />
+                    app:srcCompat="@drawable/ic_icon_bank_transfer"
+                    tools:ignore="UseAppTint" />
 
                 <TextView
                     android:id="@+id/tvBankTransferTitle"
@@ -102,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/_18sdp"
                 android:layout_weight="1"
                 android:background="@drawable/cornor_edges_gery"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"

@@ -12,6 +12,7 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.enums.TxnType" />
@@ -21,6 +22,8 @@
         <import type="co.yap.yapcore.enums.TransactionProductCode" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+
+        <import type="co.yap.R" />
 
 
         <import type="android.view.View" />
@@ -35,16 +38,26 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <include
+            <co.yap.widgets.CoreToolbar
                 android:id="@+id/toolbar"
-                layout="@layout/layout_transaction_details_toolbar"
-                app:viewModel="@{viewModel}" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+                app:leftIconVisibility="@{true}"
+                app:onClick="@{viewModel::onToolBarClick}"
+                app:rightIcon="@{R.drawable.ic_share}"
+                app:rightIconVisibility="@{false}"
+                app:titleString="@{viewModel.state.toolbarTitle}" />
 
             <ImageView
                 android:id="@+id/ivMap"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_120sdp"
                 android:contentDescription="@string/empty_string"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_image_brown_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,9 +67,9 @@
                 android:id="@+id/ivPicture"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? 0.5f : 1.0f}"
+                android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
                 android:background="@drawable/bg_round_purple_enabled"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivMap" />
@@ -65,7 +78,7 @@
                 android:id="@+id/clAmount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_normal_large"
+                android:layout_marginEnd="@dimen/_18sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/vLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPicture"
@@ -87,20 +100,35 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Transaction " />
-
                 <TextView
-                    android:id="@+id/tvAddress"
+                    android:id="@+id/tvLocation"
                     style="@style/AMicroGrey"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
                     android:maxLines="1"
-                    android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? @color/colorPrimaryDark : @color/greyDark}"
+                    android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
                     app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading"
+                    tools:text="transaction rejected"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvTxnSubTitle"
+                    style="@style/AMicroGrey"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="1"
+                    android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+                    app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocation"
                     tools:text="transaction rejected"
                     tools:visibility="visible" />
 
@@ -112,8 +140,9 @@
                     android:contentDescription="@string/empty_string"
                     android:tint="@color/colorSecondaryOrange"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTxnSubTitle"
                     app:src="@{viewModel.state.categoryIcon}"
+                    tools:ignore="UseAppTint"
                     tools:src="@drawable/ic_send_money" />
 
                 <TextView
@@ -157,9 +186,9 @@
 
             <View
                 android:id="@+id/vLine"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_normal_large"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="@id/clAmount"
                 app:layout_constraintStart_toStartOf="@+id/clAmount"
@@ -169,7 +198,7 @@
                 android:id="@+id/clEditIcon"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:background="@drawable/bg_round_purple_enabled"
                 android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
@@ -177,8 +206,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/vLine">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="33dp"
+                    android:layout_height="31dp"
                     android:contentDescription="@string/empty_string"
                     android:src="@drawable/ic_edit"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -193,7 +222,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/_18sdp"
                 android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
                 app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
                 app:layout_constraintRight_toRightOf="parent"
@@ -205,7 +234,7 @@
                     style="@style/Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : @string/screen_transaction_details_display_text_edit_note}"
+                    android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : viewModel.state.transactionNoteDate}"
                     android:textColor="?attr/colorPrimaryAttr"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -218,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -233,7 +262,7 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_large"
                 android:text="Payment details"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -245,7 +274,7 @@
                 android:id="@+id/clTransactionDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@color/greySoftSelected"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
@@ -324,7 +353,7 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.amount.toString(),true,viewModel.transaction.currency,true)}"
                     android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
@@ -349,7 +378,7 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{viewModel.transaction.currency+` 1.00 = AED `+viewModel.transaction.fxRate}"
                     android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode)) ? View.VISIBLE : View.GONE}"
@@ -375,8 +404,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginLeft="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:lines="1"
@@ -408,7 +437,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginBottom="@dimen/small"
                     android:ellipsize="end"
                     android:gravity="end"
@@ -437,7 +466,7 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvReceiverName"
@@ -459,7 +488,7 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) :  `AED 0.00`}"
                     app:layout_constraintRight_toRightOf="parent"
@@ -482,7 +511,7 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{viewModel.transaction.vatAmount==null ? `AED 0.00` :CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.vatAmount.toString(),true,`AED`,true)}"
                     app:layout_constraintRight_toRightOf="parent"
@@ -505,7 +534,7 @@
                     style="@style/ASmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvVatAmount"
@@ -529,7 +558,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
                     android:text="@{viewModel.transaction.transactionId}"
                     app:layout_constraintEnd_toEndOf="parent"

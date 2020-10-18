@@ -11,6 +11,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.yapcore.R" />
+
         <import type="co.yap.translation.Strings" />
 
     </data>
@@ -55,17 +57,17 @@
                     android:layout_gravity="top"
                     android:orientation="vertical">
 
-                    <include
+                    <co.yap.widgets.CoreToolbar
                         android:id="@+id/toolbar"
-                        layout="@layout/layout_location_selection_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/viewMapFragment"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:viewModel="@{viewModel}" />
+                        app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+                        app:leftIconVisibility="@{true}"
+                        app:onClick="@{viewModel::onToolBarClick}"
+                        app:rightIconVisibility="@{false}"
+                        app:titleString="@{viewModel.state.toolbarTitle}" />
+
 
                     <TextView
                         android:id="@+id/tvAddressSelectionHeading"
@@ -150,47 +152,53 @@
                     android:gravity="left|start"
                     android:textSize="@dimen/text_size_h2"
                     app:text="@{Strings.screen_meeting_location_input_text_address_title}"
+                    app:textColor="@{viewModel.state.addressTitle.empty ? true : false}"
                     tools:ignore="MissingConstraints"
                     tools:text="@string/screen_meeting_location_input_text_address_title" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/etAddressField"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_minus3sdp"
+                    android:layout_marginEnd="@dimen/_minus3sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:background="@android:color/transparent"
+                    android:drawablePadding="@dimen/margin_extra_small"
+                    android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:maxLength="100"
+                    android:maxLines="1"
                     android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.addressTitle}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/grey"
+                    android:textCursorDrawable="@null"
                     android:textSize="@dimen/text_size_h3"
+                    android:theme="@style/Theme.EditText.GreySoft"
+                    app:drawableClick="@{viewModel.state.addressTitle.isEmpty()?false : true}"
                     app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvAddressHeading"
+                    app:placesAdaptor="@{viewModel.placesAdapter}"
+                    app:selectedListener="@{viewModel.autoCompleteListener}"
                     tools:hint="@string/screen_meeting_location_input_text_address_hint" />
-
-                <View
-                    android:id="@+id/breakLineAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/greySoft" />
 
                 <TextView
                     android:id="@+id/tvLandMark"
                     style="@style/ASmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:textSize="@dimen/text_size_h2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etAddressField"
                     app:text="@{Strings.screen_meeting_location_input_text_landmark_title}"
+                    app:textColor="@{viewModel.state.addressSubtitle.empty ? true : false}"
                     tools:text="@string/screen_meeting_location_input_text_landmark_title" />
                 <!--                    android:textColor="@{viewModel.state.landMarkTitleColor}"-->
 

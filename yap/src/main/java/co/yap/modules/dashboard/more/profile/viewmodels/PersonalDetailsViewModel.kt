@@ -25,6 +25,8 @@ class PersonalDetailsViewModel(application: Application) :
     override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
+
+
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
 
@@ -166,7 +168,7 @@ class PersonalDetailsViewModel(application: Application) :
     private fun populateVerifiedDocumentData() {
         //context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
         state.drawbleRight =
-            context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
+            context.resources.getDrawable(R.drawable.ic_achievement_completed_personal_details)
         state.verificationText = Translator.getString(
             context,
             Strings.screen_personal_details_display_text_emirates_id_details_update

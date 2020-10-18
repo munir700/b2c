@@ -22,7 +22,7 @@ class InviteFriendViewModel(application: Application) :
     }
 
     override fun setUpStrings() {
-        state.toolBarTitle = getString(Strings.screen_invite_friend_display_text_title)
+        state.toolbarTitle = getString(Strings.screen_invite_friend_display_text_title)
         state.inviteTitle = getString(Strings.screen_invite_friend_display_text_reward)
         state.inviteDescription =
             getString(Strings.screen_invite_friend_display_text_referal_reward)

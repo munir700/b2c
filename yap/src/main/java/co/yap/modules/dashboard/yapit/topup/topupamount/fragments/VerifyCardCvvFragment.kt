@@ -77,7 +77,6 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
                 args.currencyType
             )
         when (it) {
-            R.id.ivCross -> findNavController().navigateUp()
             R.id.btnAction ->
                 if (context is TopUpCardActivity) {
                     viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
@@ -92,6 +91,12 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
             }
         }
 
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> findNavController().navigateUp()
+        }
     }
 
     private fun getBindings(): FragmentVerifyCardCvvBinding {

@@ -54,7 +54,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         if (card != null) {
             viewModel.state.title.set(if (card?.cardType == "DEBIT") "Primary card" else "Spare physical card")
             viewModel.state.cardType.set(if (card?.cardType == "DEBIT") "Primary card" else "Spare physical card")
-            viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your Primary card is on its way" else "Your Spare physical card is on its way")
+            viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your YAP card is on its way!" else "Your Spare physical card is on its way")
 
 
             when (card?.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
@@ -160,12 +160,14 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnActivateCard -> {
-                startActivityForResult(
-                    SetCardPinWelcomeActivity.newIntent(
-                        requireContext(),
-                        card
-                    ), Constants.EVENT_CREATE_CARD_PIN
-                )
+                card?.let { card ->
+                    startActivityForResult(
+                        SetCardPinWelcomeActivity.newIntent(
+                            requireContext(),
+                            card
+                        ), Constants.EVENT_CREATE_CARD_PIN
+                    )
+                } ?: showToast("Debit card not found.")
             }
             R.id.tbBtnBack -> {
                 val returnIntent = Intent()

@@ -55,6 +55,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
@@ -187,21 +188,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val clickObserver = Observer<Int> {
         when (it) {
-            R.id.ivBack -> {
-                setupActionsIntent()
-                finish()
-            }
-            R.id.ivMenu -> {
-                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                    primaryCardBottomSheet =
-                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
-                    primaryCardBottomSheet.show(supportFragmentManager, "")
-                } else {
-                    spareCardBottomSheet =
-                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
-                    spareCardBottomSheet.show(supportFragmentManager, "")
-                }
-            }
             R.id.llAddFunds -> {
                 trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
@@ -281,6 +267,26 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("Card successfully removed!")
                 setupActionsIntent()
                 finish()
+            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                setupActionsIntent()
+                finish()
+            }
+            R.id.ivRightIcon -> {
+                if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                    primaryCardBottomSheet =
+                        PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
+                    primaryCardBottomSheet.show(supportFragmentManager, "")
+                } else {
+                    spareCardBottomSheet =
+                        SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
+                    spareCardBottomSheet.show(supportFragmentManager, "")
+                }
             }
         }
     }
@@ -545,7 +551,38 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     }
                 }
             }
+            RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
 
+                val groupPosition = data.let {
+                    it?.getIntExtra(
+                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        -1
+                    )
+                }
+                val childPosition = data.let { intent ->
+                    intent?.getIntExtra(
+                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        -1
+                    )
+                }
+                if (groupPosition != -1 && childPosition != -1) {
+                    getRecycleViewAdaptor().getDataForPosition(
+                        groupPosition ?: 0
+                    ).transaction[childPosition ?: 0].transactionNote =
+                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                    getRecycleViewAdaptor().getDataForPosition(
+                        groupPosition ?: 0
+                    ).transaction[childPosition ?: 0].transactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor().notifyItemChanged(
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor().getDataForPosition(
+                            groupPosition ?: 0
+                        ).transaction[childPosition ?: 0]
+                    )
+
+                }
+            }
         }
     }
 
@@ -610,14 +647,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             "Primary card"
         } else {
-            if (viewModel.card.value?.nameUpdated == true) {
-                viewModel.card.value?.cardName!!
+            if (viewModel.card.value?.physical == true) {
+                Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                if (viewModel.card.value?.physical!!) {
-                    Constants.TEXT_SPARE_CARD_PHYSICAL
-                } else {
-                    Constants.TEXT_SPARE_CARD_VIRTUAL
-                }
+                Constants.TEXT_SPARE_CARD_VIRTUAL
             }
         }
 
@@ -631,14 +664,18 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             CardDetailsModel(
                 cardExpiry = viewModel.cardDetail.expiryDate,
                 cardType = cardType,
-                cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
+                cardNumber = cardNumber,
+                cardCvv = viewModel.cardDetail.cvv,
+                displayName = viewModel.card.value?.cardName
             )
         )
         pagerList.add(
             CardDetailsModel(
                 cardExpiry = viewModel.cardDetail.expiryDate,
                 cardType = cardType,
-                cardNumber = cardNumber, cardCvv = viewModel.cardDetail.cvv
+                cardNumber = cardNumber,
+                cardCvv = viewModel.cardDetail.cvv,
+                displayName = viewModel.card.value?.cardName
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
@@ -657,10 +694,23 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Transaction) {
-                launchActivity<TransactionDetailsActivity> {
-                    putExtra("transaction", data)
-                }
+            val groupPosition = data as Int
+            val transaction: Transaction? =
+                getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(pos)
+            launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                putExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                    transaction
+                )
+                putExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                    groupPosition
+                )
+                putExtra(
+                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                    pos
+                )
+
             }
         }
     }

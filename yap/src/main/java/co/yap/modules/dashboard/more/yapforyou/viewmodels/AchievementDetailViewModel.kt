@@ -19,18 +19,18 @@ class AchievementDetailViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun onResume() {
-        super.onResume()
-        parentViewModel?.state?.toolbarTitle =
-            getString(Strings.screen_yap_for_you_display_text_title)
-        parentViewModel?.state?.leftIcon?.set(R.drawable.ic_close_primary)
-        parentViewModel?.state?.rightIcon?.set(-1)
-    }
-
     override fun onCreate() {
         super.onCreate()
+        setupToolbar()
         parentViewModel?.achievement?.features?.let {
             adapter.setList(it)
         }
+    }
+
+    private fun setupToolbar() {
+        setToolBarTitle(getString(Strings.screen_yap_for_you_display_text_title))
+        setLeftIcon(R.drawable.ic_close_primary)
+        setLeftIconVisibility(true)
+        toggleToolBarVisibility(true)
     }
 }

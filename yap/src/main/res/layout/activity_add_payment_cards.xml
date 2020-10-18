@@ -19,7 +19,8 @@
             android:id="@+id/toolbar"
              android:visibility="@{viewModel.state.tootlBarVisibility}"
              layout="@layout/layout_add_payment_cards_toolbar"
-             app:viewModel="@{viewModel}"/>
+             app:viewModel="@{viewModel}"
+            />
 
         <fragment
             android:id="@+id/main_cards_nav_host_fragment"
@@ -30,6 +31,5 @@
             android:layout_weight="1"
             app:defaultNavHost="true"
             app:navGraph="@navigation/spare_cards_navigation"/>
-
     </LinearLayout>
 </layout>

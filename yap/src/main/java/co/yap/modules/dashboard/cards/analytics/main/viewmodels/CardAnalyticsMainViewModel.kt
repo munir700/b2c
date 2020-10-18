@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.states.CardAnalyticsMainState
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,7 +20,12 @@ class CardAnalyticsMainViewModel(application: Application) :
     override val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>> =
         MutableLiveData()
     override val selectedItemPosition: MutableLiveData<Int> = MutableLiveData()
-
+    override fun onCreate() {
+        super.onCreate()
+        state.toolbarVisibility.set(true)
+        state.leftButtonVisibility.set(true)
+        state.toolbarTitle = getString(Strings.screen_card_analytics_tool_bar_title)
+    }
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

@@ -10,7 +10,7 @@ abstract class MoreBaseViewModel<S : IBase.State>(application: Application) :
     var parentViewModel: IMore.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.tootlBarTitle = title
+        parentViewModel?.state?.toolbarTitle = title
     }
 
     fun toggleToolBarVisibility(visibility: Boolean) {
@@ -26,6 +26,6 @@ abstract class MoreBaseViewModel<S : IBase.State>(application: Application) :
     }
 
     fun toggleAchievementsBadgeVisibility(visibility: Boolean) {
-        parentViewModel?.state?.tootlBarBadgeVisibility= visibility
+        parentViewModel?.state?.tootlBarBadgeVisibility = visibility
     }
 }

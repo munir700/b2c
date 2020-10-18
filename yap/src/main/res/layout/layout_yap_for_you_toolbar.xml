@@ -2,16 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.more.yapforyou.viewmodels.YapForYouMainViewModel" />
-
-        <import type="android.view.View" />
-    </data>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +9,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
-        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
+ >
 
         <ImageView
             android:id="@+id/tbBtnBack"
@@ -30,11 +20,9 @@
             android:background="@color/transparent"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{(v) -> viewModel.handlePressButton(v.id)}"
-            android:visibility="@{viewModel.state.leftIcon==-1? View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.state.leftIcon}" />
+       />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -46,8 +34,7 @@
             android:layout_marginEnd="@dimen/_14sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            android:text="@{viewModel.state.toolbarTitle}"
-            android:visibility="@{viewModel.state.toolbarTitle.isEmpty()? View.GONE:View.VISIBLE}" />
+             />
 
         <ImageView
             android:id="@+id/tbBtnAchievements"
@@ -58,11 +45,8 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{v->viewModel.handlePressButton(v.id)}"
-            android:visibility="@{viewModel.state.rightIcon==-1? View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.state.rightIcon}"
             tools:src="@drawable/ic_trade" />
     </RelativeLayout>
 </layout>

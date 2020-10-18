@@ -17,9 +17,13 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.ChatManager
+import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
-
+import com.liveperson.infra.ConversationViewParams
+import com.liveperson.infra.LPAuthenticationParams
+import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.messaging.sdk.api.LivePerson
+import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
@@ -29,8 +33,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     override fun getLayoutId(): Int = R.layout.fragment_help_support
 
-//    private val brandId = "17038977"
-//    private val appInstallId = SessionManager.user?.uuid
+    private val appInstallId = SessionManager.user?.uuid
 
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
@@ -62,9 +65,10 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
-                activity?.let { activity ->
-                    ChatManager.config(activity)
-                }
+                requireActivity().chatSetup()
+//                activity?.let { activity ->
+//                    ChatManager.config(activity)
+//                }
             }
             R.id.lyLiveWhatsApp -> {
                 if (requireContext().isWhatsAppInstalled()) {
@@ -76,7 +80,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             R.id.lyCall -> {
                 requireContext().makeCall(viewModel.state.contactPhone.get())
             }
-            R.id.tbBtnBack -> {
+
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
                 activity?.finish()
             }
         }
@@ -96,7 +106,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             fragmentName = WebViewFragment::class.java.name,
             bundle = bundleOf(
                 Constants.PAGE_URL to url
-            ), toolBarTitle = viewModel.state.title.get() ?: "", showToolBar = false
+            ), toolBarTitle = viewModel.state.toolbarTitle ?: "", showToolBar = false
         )
     }
 

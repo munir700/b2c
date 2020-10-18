@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
@@ -24,7 +24,6 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setObservers()
         viewModel.getAchievements()
     }
 
@@ -54,9 +53,8 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                     if (!viewModel.parentViewModel?.achievements.isNullOrEmpty()) {
                         viewModel.parentViewModel?.achievement =
                             viewModel.parentViewModel?.achievements?.get(0)
-                        val action =
-                            YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
-                        findNavController().navigate(action)
+                        viewModel.state.toolbarVisibility.set(false)
+                        navigate(R.id.achievementDetailFragment)
                     }
                 }
             }
@@ -75,20 +73,6 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 //        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].name ?: ""
     }
 
-    private fun setObservers() {
-        viewModel.parentViewModel?.clickEvent?.observe(this, clickObserver)
-    }
-
-    private val clickObserver = Observer<Int> {
-        when (it) {
-            R.id.tbBtnAchievements -> {
-                val action =
-                    YAPForYouFragmentDirections.actionYAPForYouFragmentToCompletedAchievementsFragment()
-                findNavController().navigate(action)
-            }
-        }
-    }
-
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (pos in 3..5)
@@ -98,9 +82,9 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                 viewModel.parentViewModel?.selectedPosition = pos
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
-                val action =
-                    YAPForYouFragmentDirections.actionYAPForYouFragmentToAchievementDetailFragment()
-                findNavController().navigate(action)
+                viewModel.state.toolbarVisibility.set(false)
+                navigate(R.id.achievementDetailFragment)
+
             }
         }
     }
@@ -112,4 +96,16 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         viewModel.state.selectedAchievementPercentage =
             getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${achievement.percentage}%")
     }
+
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when (id) {
+            R.id.ivLeftIcon -> (requireActivity() as YAPForYouActivity).onBackPressed()
+            R.id.ivRightIcon -> {
+                viewModel.state.toolbarVisibility.set(false)
+                navigate(R.id.completedAchievementsFragment)
+            }
+        }
+    }
+
 }

@@ -133,7 +133,12 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 } else
                     viewModel.createTransactionSession()
             }
-            R.id.tbIvClose -> activity?.finish()
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> activity?.finish()
         }
     }
 

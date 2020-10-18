@@ -38,7 +38,7 @@ class TransactionsHeaderAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is HeaderViewHolder) {
-            holder.onBind(list[position], adaptorClick)
+            holder.onBind(list[position], adaptorClick, position)
         } else {
             if (holder is EmptyItemViewHolder)
                 holder.onBind(position)
@@ -60,7 +60,11 @@ class TransactionsHeaderAdapter(
     class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
         RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
 
-        fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
+        fun onBind(
+            homeTransaction: HomeTransactionListData,
+            adaptorClick: OnItemClickListener,
+            groupPosition: Int
+        ) {
 
             //itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
             //itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
@@ -84,7 +88,7 @@ class TransactionsHeaderAdapter(
             adaptor.allowFullItemClickListener = true
             adaptor.setItemListener(object : OnItemClickListener {
                 override fun onItemClick(view: View, data: Any, pos: Int) {
-                    adaptorClick.onItemClick(view, data, pos)
+                    adaptorClick.onItemClick(view, groupPosition, pos)
                 }
             })
 

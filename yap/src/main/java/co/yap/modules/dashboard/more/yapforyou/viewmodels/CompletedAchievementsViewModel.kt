@@ -18,16 +18,16 @@ class CompletedAchievementsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        setupToolbar()
         val list = parentViewModel?.achievements ?: mutableListOf()
         adapter.setList(list.filter { it.percentage == 100.00 })
     }
 
-    override fun onResume() {
-        super.onResume()
-        parentViewModel?.state?.toolbarTitle =
-            getString(Strings.screen_your_achievements_display_text_toolbar_title)
-        parentViewModel?.state?.leftIcon?.set(R.drawable.ic_back_arrow_left)
-        parentViewModel?.state?.rightIcon?.set(-1)
+    private fun setupToolbar() {
+        toggleToolBarVisibility(true)
+        setToolBarTitle(getString(Strings.screen_yap_for_you_display_text_title))
+        setLeftIcon(R.drawable.ic_close_primary)
+        setLeftIconVisibility(true)
     }
 
     override fun handlePressOnButton(id: Int) {

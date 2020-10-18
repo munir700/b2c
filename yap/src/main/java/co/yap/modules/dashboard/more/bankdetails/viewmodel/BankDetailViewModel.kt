@@ -25,7 +25,7 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
         SessionManager.user?.bank?.swiftCode?.let { state.swift.set(it) }
 
         state.name.set(SessionManager.user?.currentCustomer?.getFullName())
-        state.title.set(getString(R.string.screen_more_detail_display_text_bank_details))
+        state.toolbarTitle = getString(R.string.screen_more_detail_display_text_bank_details)
         SessionManager.user?.currentCustomer?.getPicture()?.let {
             state.image.set(it)
         }

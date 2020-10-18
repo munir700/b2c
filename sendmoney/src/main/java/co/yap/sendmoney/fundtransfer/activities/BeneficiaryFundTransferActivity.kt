@@ -44,7 +44,6 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getBeneficiary()
-        viewModel.clickEvent.observe(this, clickEvent)
         viewModel.errorEvent.observe(this, errorEvent)
     }
 
@@ -71,23 +70,6 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
         cancelAllSnackBar()
     }
 
-    val clickEvent = Observer<Int> {
-        when (it) {
-            R.id.tbIvClose -> onBackPressed()
-            R.id.tvRightToolbar -> {
-                val i = Intent()
-                intent?.let { inten ->
-                    i.putExtra(
-                        Constants.BENEFICIARY_CHANGE,
-                        inten.getBooleanExtra(Constants.IS_NEW_BENEFICIARY, false)
-                    )
-                    setResult(Activity.RESULT_OK, i)
-                    finish()
-                }
-            }
-        }
-    }
-
     private fun getBeneficiary() {
         if (intent != null) {
             viewModel.beneficiary.value =
@@ -107,9 +89,24 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
     }
 
     override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
         viewModel.errorEvent.removeObservers(this)
         super.onDestroy()
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
+            R.id.tvRightText -> {
+                val i = Intent()
+                intent?.let { inten ->
+                    i.putExtra(
+                        Constants.BENEFICIARY_CHANGE,
+                        inten.getBooleanExtra(Constants.IS_NEW_BENEFICIARY, false)
+                    )
+                    setResult(Activity.RESULT_OK, i)
+                    finish()
+                }
+            }
+        }
+    }
 }

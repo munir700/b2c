@@ -204,10 +204,6 @@ open class FundActionsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun crossButtonClickEvent(id: Int) {
-        clickEvent.postValue(id)
-    }
-
     override fun createTransactionSession() {
 
     }

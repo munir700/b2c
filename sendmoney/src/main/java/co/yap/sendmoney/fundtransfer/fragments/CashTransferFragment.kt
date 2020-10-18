@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -113,6 +114,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     viewModel.updateFees()
                     getBindings().tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    getBindings().tvSelectReason.alpha = 1.0f
+                    getBindings().tvLabelSpinner.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
                     checkOnTextChangeValidation()
                 }
 

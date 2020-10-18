@@ -38,6 +38,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
+    var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)

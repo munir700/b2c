@@ -33,6 +33,7 @@ class PDFViewModel(application: Application) :
     }
 
     override fun handlePressView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     private suspend fun getPDFFileFromWeb(path: String) = viewModelBGScope.async(Dispatchers.IO) {

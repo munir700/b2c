@@ -9,13 +9,4 @@ abstract class CardAnalyticsBaseViewModel<S : IBase.State>(application: Applicat
     BaseViewModel<S>(application) {
 
     var parentVM: ICardAnalyticsMain.ViewModel? = null
-
-    fun setToolBarTitle(title: String) {
-        parentVM?.state?.toolBarTitle?.set(title)
-    }
-
-    fun setToolBarVisibility(visibility: Boolean) {
-        parentVM?.state?.toolBarVisibility?.set(visibility)
-    }
-
 }

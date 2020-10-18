@@ -126,7 +126,12 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             R.id.tvDominationThirdAmount -> setDenominationValue(
                 viewModel.state.thirdDenomination.get() ?: ""
             )
-            R.id.tbIvClose -> finish()
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> finish()
         }
     }
 
@@ -242,7 +247,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             YoYo.with(Techniques.FadeOut)
                 .duration(300)
                 .repeat(0)
-                .playOn(getBinding().tbIvClose)
+                .playOn(getBinding().toolbar.getChildAt(0))
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }

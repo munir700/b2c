@@ -10,8 +10,8 @@
     <View
         android:id="@+id/sepretorTop"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/dividerNew"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,10 +20,15 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_9sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_9sdp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/margin_extra_small"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_9sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,10 +38,9 @@
             style="@style/ARegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="20dp"
-            android:padding="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:layout_weight="6"
+            android:padding="@dimen/_2sdp"
             android:textColor="?attr/colorPrimaryDarkAttr" />
 
         <ImageView
@@ -54,17 +58,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:el_duration="300"
-        app:el_parallax=".5"
         app:el_expanded="false"
+        app:el_parallax=".5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerNew"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_view_child"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:background="@color/subMenuColor"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/child_row" />
 
         <View
             android:layout_width="match_parent"

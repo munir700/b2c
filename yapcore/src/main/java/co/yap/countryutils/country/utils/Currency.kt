@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class Currency(
+data class Currency(
     var code: String? = "",
     var name: String? = "",
     var symbol: String? = "",

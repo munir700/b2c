@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.home.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -39,10 +40,10 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
             R.id.main_nav_host_fragment
         )
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-        viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.errorEvent.observe(this, errorEvent)
         main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -57,12 +58,12 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
             hideErrorSnackBar()
     }
 
-    private val clickEventObserver = Observer<Int> {
-        when (it) {
-            R.id.tbIvClose -> {
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
                 onBackPressed()
             }
-            R.id.tbIvGift -> {
+            R.id.ivRightIcon -> {
                 Utils.shareText(this, getBody())
             }
         }
@@ -97,7 +98,6 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.clickEvent.removeObservers(this)
         viewModel.errorEvent.removeObservers(this)
     }
 
