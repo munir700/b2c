@@ -219,11 +219,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 transaction
                             )
                             putExtra(
-                                 ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                                 groupPosition
                             )
                             putExtra(
-                                 ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                                 childPosition
                             )
 
@@ -323,8 +323,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             MultiStateView.ViewState.ERROR
                     } else {
                         //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
-                        getBindings().lyInclude.multiStateView.viewState =
-                            MultiStateView.ViewState.EMPTY
+//                        getBindings().lyInclude.multiStateView.viewState =
+//                            MultiStateView.ViewState.EMPTY
                     }
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
@@ -605,39 +605,45 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                     } else {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                         openTopUpScreen()
                     }
                 }
             }
             RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
 
-                val groupPosition = data.let {intent->
+                val groupPosition = data.let { intent ->
                     intent?.getIntExtra(
-                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                         -1
                     )
                 }
-                val childPosition = data.let {intent->
+                val childPosition = data.let { intent ->
                     intent?.getIntExtra(
-                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                         -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
-                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
-                        childPosition?:0
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
                     )?.transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
-                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
-                        childPosition?:0
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
                     )?.transactionNoteDate =
                         (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
-                        groupPosition?:0,
-                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(childPosition?:0)
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
                     )
 
                 }
@@ -768,7 +774,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             getBindings().refreshLayout.isRefreshing = false
             getBindings().refreshLayout.isEnabled = false
             getBindings().lyInclude.rlFilter.visibility = View.GONE
-
 
             dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
                 requireContext(),

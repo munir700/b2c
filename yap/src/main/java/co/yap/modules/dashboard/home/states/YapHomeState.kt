@@ -6,7 +6,7 @@ import co.yap.BR
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.yapcore.BaseState
 
-class YapHomeState : BaseState(), IYapHome.State{
+class YapHomeState : BaseState(), IYapHome.State {
 
     @get:Bindable
     override var availableBalance: String = ""
@@ -16,4 +16,5 @@ class YapHomeState : BaseState(), IYapHome.State{
         }
     override var filterCount: ObservableField<Int> = ObservableField()
     override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)
+    override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(false)
 }

@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/_8sdp"
-        android:paddingEnd="@dimen/_8sdp">
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium">
 
         <co.yap.widgets.timelineview.TimelineView
             android:id="@+id/timeline"
@@ -41,7 +41,6 @@
             app:markerPaddingTop="@dimen/_8sdp"
             app:markerSize="@dimen/_23sdp"
             app:startLineColor="@color/transparent" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -70,12 +69,12 @@
                 android:id="@+id/labelCardType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:background="@drawable/transparent_round"
                 android:backgroundTint="@color/colorOpaquSecondaryOrange"
                 android:gravity="center|center_vertical"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingBottom="@dimen/_2sdp"
-                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -100,10 +99,10 @@
             <TextView
                 android:id="@+id/tvStatusActions"
                 style="@style/ASmall"
-                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
+                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
                 android:paddingBottom="@dimen/_4sdp"
                 android:text='@{viewModel.statusDataModel.statusAction}'

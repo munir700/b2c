@@ -86,7 +86,7 @@ class DashboardNotificationStatusHelper(
                 statusAction = null,
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.DELIVERY) == StageProgress.COMPLETED) context.resources.getDrawable(
                     R.drawable.ic_dashboard_finish
-                ) else context.resources.getDrawable(R.drawable.ic_dashboard_active),
+                ) else context.resources.getDrawable(R.drawable.ic_card_small),
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.DELIVERY)
             )
         )

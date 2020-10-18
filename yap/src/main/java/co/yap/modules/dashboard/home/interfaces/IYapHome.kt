@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.models.HomeNotification
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -26,7 +25,6 @@ interface IYapHome {
         var MAX_CLOSING_BALANCE: Double
         val clickEvent: SingleClickEvent
         var txnFilters: TransactionFilters
-        fun getDebitCards()
         fun handlePressOnView(id: Int)
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         var isLoadMore: MutableLiveData<Boolean>
@@ -44,6 +42,7 @@ interface IYapHome {
     interface State : IBase.State {
         var availableBalance: String
         var filterCount: ObservableField<Int>
-        var isTransEmpty:ObservableField<Boolean>
+        var isTransEmpty: ObservableField<Boolean>
+        var isUserAccountActivated: ObservableField<Boolean>
     }
 }
