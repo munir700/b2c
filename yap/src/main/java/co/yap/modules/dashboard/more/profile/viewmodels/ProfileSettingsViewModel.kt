@@ -151,13 +151,16 @@ class ProfileSettingsViewModel(application: Application) :
                         response.data.data?.customerDocuments?.get(0)?.documentInformation
 
                     val data = response.data
-                    data.data?.dateExpiry?.let {
-                        getExpiryDate(it)
+                    if (data.data?.dateExpiry != null) {
+                        getExpiryDate(data.data?.dateExpiry ?: "")
                         trackEvent(KYCEvents.EID_EXPIRE_DATE.type)
                         trackEventWithAttributes(
                             SessionManager.user,
-                            eidExpireDate = getFormattedDate(it)
+                            eidExpireDate = getFormattedDate(data.data?.dateExpiry ?: "")
                         )
+                    } else {
+                        SessionManager.eidStatus =
+                            EIDStatus.NOT_SET
                     }
                     state.loading = false
                 }

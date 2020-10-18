@@ -138,6 +138,29 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    fun getDebitCard(success: (card: Card) -> Unit = {}) {
+        GlobalScope.launch {
+            when (val response = repository.getDebitCards("DEBIT")) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        getDebitFromList(it)?.let { debitCard ->
+                            card.postValue(debitCard)
+                            success.invoke(debitCard)
+                        } ?: "Debit card not found"
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+    fun getDebitFromList(it: ArrayList<Card>?): Card? {
+        return it?.firstOrNull {
+            it.cardType == CardType.DEBIT.type
+        }
+    }
+
     fun getCardSerialNumber(): String {
         card.value?.let {
             if (it.cardType == CardType.DEBIT.type) {

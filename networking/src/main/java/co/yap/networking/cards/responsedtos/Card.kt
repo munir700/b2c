@@ -34,5 +34,7 @@ data class Card(
     val customerId: String,
     val accountNumber: String,
     val productCode: String,
-    var pinCreated: Boolean
+    var pinCreated: Boolean,
+    var shipmentDate: String? = null,
+    var activationDate: String? = null
 ) : Parcelable
