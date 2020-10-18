@@ -271,7 +271,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton, R.id.tbBtnAddBeneficiary -> {
+            R.id.addContactsButton -> {
                 launchActivity<SendMoneyHomeActivity>(
                     requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
                     type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
@@ -400,9 +400,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
-                    startActivityForResult(
-                        SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                        RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
+                    launchActivity<SendMoneyHomeActivity>(
+                        requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                        type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
                     )
                 }
             }

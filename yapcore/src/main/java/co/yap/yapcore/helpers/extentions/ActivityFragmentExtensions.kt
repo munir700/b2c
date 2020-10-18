@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
@@ -25,7 +26,9 @@ import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.FeatureProvisioning
+import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 
