@@ -3,6 +3,7 @@ package co.yap.yapcore.managers
 import android.app.Activity
 import co.yap.networking.authentication.AuthApi
 import co.yap.networking.authentication.AuthRepository
+import co.yap.yapcore.helpers.extentions.toast
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
 import com.liveperson.infra.LPAuthenticationParams
@@ -30,18 +31,16 @@ object ChatManager {
                 brandId, appInstallId,
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
-                        openActivity()
+                        openChatConversation()
                     }
-
                     override fun onInitFailed(e: Exception) {
-//                        viewModel.state.toast = "Unable to open chat^${AlertType.DIALOG.name}"
-//                        viewModel.state.loading = true
+                        activity?.get()?.toast("Unable to open chat")
                     }
                 })
         )
     }
 
-    private fun openActivity() {
+    private fun openChatConversation() {
         val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
         authParams.hostAppJWT = authRepository.getJwtToken()
         val params = ConversationViewParams(false)
