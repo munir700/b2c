@@ -164,7 +164,6 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.REMOVE_FUNDS,
                 FeatureSet.TOP_UP_BY_EXTERNAL_CARD,
                 FeatureSet.Y2Y_TRANSFER,
-                FeatureSet.UNFREEZE_CARD,
                 FeatureSet.CHANGE_PIN,
                 FeatureSet.FORGOT_PIN,
                 FeatureSet.CHANGE_PASSCODE,
