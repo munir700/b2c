@@ -19,8 +19,6 @@ interface IYapCards {
         fun getCards()
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(id: Int)
-        fun getPrimaryCard(cards: ArrayList<Card>?): Card?
-        fun getDebitCard()
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
     }
 

@@ -154,7 +154,6 @@ project.ext {
             playservicesAuth         : 'com.google.android.gms:play-services-auth:17.0.0',
             playservicesAuthPhone    : 'com.google.android.gms:play-services-auth-api-phone:17.4.0',
 
-            facebook                 : 'com.facebook.android:facebook-android-sdk:[5,6)',
             tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0'
 
     ]

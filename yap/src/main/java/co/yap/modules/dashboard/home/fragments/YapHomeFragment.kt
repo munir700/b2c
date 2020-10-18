@@ -30,6 +30,7 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
@@ -60,14 +61,15 @@ import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
 
@@ -77,6 +79,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
+    private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -108,6 +111,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
+
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -215,11 +219,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 transaction
                             )
                             putExtra(
-                                 ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                                 groupPosition
                             )
                             putExtra(
-                                 ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                                 childPosition
                             )
 
@@ -276,6 +280,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             primaryCard?.let {
                 startFlowForSetPin()
                 checkUserStatus()
+                setUpDashBoardNotificationsView()
             }
         })
 
@@ -312,14 +317,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    //if transaction is empty and filer is applied then state would be Error where no transaction image show
+                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
                     if (homeTransactionsRequest.totalAppliedFilter > 0) {
                         getBindings().lyInclude.multiStateView.viewState =
                             MultiStateView.ViewState.ERROR
                     } else {
-                        //if transaction is empty and filer is not applied then state would be Empty where a single row appears welcome to yap
-                        getBindings().lyInclude.multiStateView.viewState =
-                            MultiStateView.ViewState.EMPTY
+                        //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
+//                        getBindings().lyInclude.multiStateView.viewState =
+//                            MultiStateView.ViewState.EMPTY
                     }
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
@@ -600,39 +605,45 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                     } else {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                         openTopUpScreen()
                     }
                 }
             }
             RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
 
-                val groupPosition = data.let {intent->
+                val groupPosition = data.let { intent ->
                     intent?.getIntExtra(
-                         ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
                         -1
                     )
                 }
-                val childPosition = data.let {intent->
+                val childPosition = data.let { intent ->
                     intent?.getIntExtra(
-                         ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                         -1
                     )
                 }
                 if (groupPosition != -1 && childPosition != -1) {
-                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
-                        childPosition?:0
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
                     )?.transactionNote =
                         (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
-                    getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(
-                        childPosition?:0
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
                     )?.transactionNoteDate =
                         (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
                     getRecycleViewAdaptor()?.notifyItemChanged(
-                        groupPosition?:0,
-                        getRecycleViewAdaptor()?.getDataForPosition(groupPosition?:0)?.transaction?.get(childPosition?:0)
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
                     )
 
                 }
@@ -744,7 +755,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
-    fun getParentActivity(): ActivityYapDashboardBinding {
+    private fun getParentActivity(): ActivityYapDashboardBinding {
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
+    }
+
+    private fun setUpDashBoardNotificationsView() {
+        if (SessionManager.card.value?.active == false) {
+            viewModel.state.isUserAccountActivated.set(false)
+            dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
+                requireContext(),
+                getBindings(),
+                viewModel,
+                activity
+            )
+
+        } else {
+            viewModel.state.isUserAccountActivated.set(true)
+        }
     }
 }
