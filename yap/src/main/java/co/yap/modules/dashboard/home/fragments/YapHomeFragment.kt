@@ -759,22 +759,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 
-
     private fun setUpDashBoardNotificationsView() {
-        if (true) {
-            rvTransaction.visibility = View.GONE
-            vGraph.visibility = View.GONE
-            viewModel.state.isTransEmpty.set(true)
-            rvNotificationStatus.visibility = View.VISIBLE
-            getBindings().lyInclude.lyAdd.isEnabled = false
-            getBindings().lyInclude.lyAnalytics.isEnabled = false
-            getBindings().lyInclude.lyAnalytics.alpha = 0.5f
-            getBindings().lyInclude.lyAdd.alpha = 0.5f
-            getBindings().lyInclude.lyAdd.isClickable = false
-            getBindings().refreshLayout.isRefreshing = false
-            getBindings().refreshLayout.isEnabled = false
-            getBindings().lyInclude.rlFilter.visibility = View.GONE
-
+        if (SessionManager.card.value?.active == false) {
+            viewModel.state.isUserAccountActivated.set(false)
             dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
                 requireContext(),
                 getBindings(),
@@ -783,10 +770,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             )
 
         } else {
-            rvNotificationStatus.visibility = View.GONE
-            rvTransaction.visibility = View.VISIBLE
-            vGraph.visibility = View.VISIBLE
-
+            viewModel.state.isUserAccountActivated.set(true)
         }
     }
 }

@@ -65,6 +65,8 @@
 
                 <LinearLayout
                     android:id="@+id/lyAdd"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -103,6 +105,8 @@
 
                 <LinearLayout
                     android:id="@+id/lyAnalytics"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
