@@ -283,7 +283,8 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if (accountInfo.getUserAccessRestrictions().contains(UserAccessRestriction.EID_EXPIRED)
+        if (accountInfo.getUserAccessRestrictions()
+                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
             && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             SessionManager.eidStatus = EIDStatus.EXPIRED
