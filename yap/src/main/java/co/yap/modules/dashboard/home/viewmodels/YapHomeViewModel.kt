@@ -299,7 +299,7 @@ class YapHomeViewModel(application: Application) :
         }
 
         accountInfo.getUserAccessRestrictions().forEach {
-            accountInfo.getNotificationOfBlockedFeature(it)?.let { description ->
+            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
                 list.add(
                     HomeNotification(
                         id = "5",

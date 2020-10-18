@@ -8,9 +8,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.managers.ChatManager
 import co.yap.yapcore.managers.SessionManager
 
 /**
@@ -196,9 +198,14 @@ fun Activity.showAlertDialogAndExitApp(
         callback()
     }
     if (isOtpBlocked) {
-        label.makeLinks(Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
-            makeCall(SessionManager.helpPhoneNumber)
-        }))
+        label.makeLinks(
+            Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
+                makeCall(SessionManager.helpPhoneNumber)
+            }),
+            Pair("live chat", View.OnClickListener {
+                ChatManager.config(ok.context as BaseActivity<*>)
+            })
+        )
     }
 
     builder.setView(dialogLayout)
