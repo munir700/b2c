@@ -42,7 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/clTermsAndConditions"
-            android:layout_margin="@dimen/margin_medium_large"
             app:componentDialerError='@{viewModel.state.dialerError}'
             app:dialer_max_length="4"
             app:dialer_pass_code="passcode"
@@ -56,7 +55,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/btnAction"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:visibility="@{viewModel.state.needTermsConditions ? View.VISIBLE : View.INVISIBLE}">
+            android:visibility="@{viewModel.state.needTermsConditions ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:id="@+id/tvTermsAndConditionsTitle"
@@ -65,7 +64,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAlignment="center"
+                android:textSize="@dimen/text_size_h2"
                 app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:text="@{Strings.screen_confirm_card_pin_display_title_terms_and_conditions}"
@@ -84,7 +85,8 @@
                 android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
                 app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
                 app:text="@{Strings.screen_confirm_card_pin_display_text_terms_and_conditions}"
-                tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions" />
+                tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions"
+                android:textSize="@dimen/text_size_h2"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <co.yap.widgets.CoreButton
@@ -94,10 +96,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:onClick="@{(v)-> viewModel.handlePressView(v.id)}"
+            android:paddingTop="@dimen/_13sdp"
+            android:paddingBottom="@dimen/_13sdp"
             android:paddingStart="@dimen/_65sdp"
-            android:paddingTop="@dimen/_12sdp"
             android:paddingEnd="@dimen/_65sdp"
-            android:paddingBottom="@dimen/_12sdp"
             android:text="@{viewModel.state.buttonTitle}"
             android:textColor="@color/colorWhite"
             app:enableCoreButton="@{viewModel.state.valid}"

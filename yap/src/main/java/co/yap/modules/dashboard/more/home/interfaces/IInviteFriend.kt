@@ -15,7 +15,6 @@ interface IInviteFriend {
     }
 
     interface State : IBase.State {
-        var toolBarTitle: String
         var inviteTitle: String
         var inviteDescription: String
         var referralLinkTextHeading: String

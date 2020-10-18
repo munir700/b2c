@@ -48,7 +48,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -86,23 +86,6 @@ object UIBinder {
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = dataAdapter
-    }
-
-    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
-    @JvmStatic
-    fun setPlacesAdapter(
-        autoCompleteTextView: AutoCompleteTextView,
-        placesAdapter: PlacesAutoCompleteAdapter,
-        listener: OnItemClickListener?
-    ) {
-        autoCompleteTextView.setAdapter(placesAdapter)
-        autoCompleteTextView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
-                val place: Place = parent.getItemAtPosition(position) as Place
-                view?.let { listener?.onItemClick(view, place.id, position) }
-                autoCompleteTextView.setText(place.mainText)
-                autoCompleteTextView.setSelection(place.mainText.length)
-            }
     }
 
     @BindingAdapter("tvColor")
@@ -179,7 +162,7 @@ object UIBinder {
         when (card.status) {
             CardStatus.ACTIVE.name -> {
                 if (card.cardType == CardType.DEBIT.type) {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                         linearLayout.visibility = GONE
                 } else {
                     linearLayout.visibility = VISIBLE
@@ -197,7 +180,7 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
                         else
                             linearLayout.visibility = GONE
@@ -219,7 +202,7 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated) {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
@@ -255,7 +238,7 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setTextForInactiveCard(text = text, card = card)
                     } else
                         text.visibility = GONE
@@ -290,7 +273,7 @@ object UIBinder {
     private fun setTextForInactiveCard(text: TextView, card: Card) {
         when (card.cardType) {
             CardType.DEBIT.type -> {
-                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
                         text.context,
@@ -318,7 +301,7 @@ object UIBinder {
             when (CardStatus.valueOf(card.status)) {
                 CardStatus.ACTIVE -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setCardButtonTextForInactive(coreButton, card)
                         else
                             coreButton.visibility = GONE
@@ -340,7 +323,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                         setCardButtonTextForInactive(coreButton, card)
                     else
                         coreButton.visibility = GONE
@@ -671,7 +654,8 @@ object UIBinder {
                 .load(path).centerCrop()
                 .into(view)
         } else {
-            view.setImageURI(imageUri)
+            Glide.with(view.context).load(imageUri.path).centerCrop()
+                .into(view)
         }
     }
 
@@ -890,7 +874,7 @@ object UIBinder {
                 view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
 
             }
-            pin?.isNotEmpty()?:false -> {
+            pin?.isNotEmpty() ?: false -> {
                 view.defaultHintTextColor =
                     view.context.getColorStateList(R.color.colorPlaceHolderGrey)
             }
@@ -918,5 +902,30 @@ object UIBinder {
         )
 
         view.text = spannable
+    }
+
+    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
+    @JvmStatic
+    fun setPlacesAdapter(
+        autoCompleteTextView: AutoCompleteTextView,
+        placesAdapter: PlacesAutoCompleteAdapter,
+        listener: OnItemClickListener?
+    ) {
+        autoCompleteTextView.setAdapter(placesAdapter)
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val place: Place = parent.getItemAtPosition(position) as Place
+                view?.let {
+                    listener?.onItemClick(view, place, position)
+                }
+                autoCompleteTextView.setText(place.mainText)
+                autoCompleteTextView.setSelection(place.mainText.length)
+            }
+        autoCompleteTextView.setOnClickListener {
+            autoCompleteTextView.isFocusable = true
+            autoCompleteTextView.isFocusableInTouchMode = true
+            autoCompleteTextView.isFocusable = true
+            autoCompleteTextView.isFocusableInTouchMode = true
+        }
     }
 }

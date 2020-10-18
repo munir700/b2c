@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableField
+import co.yap.R
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState

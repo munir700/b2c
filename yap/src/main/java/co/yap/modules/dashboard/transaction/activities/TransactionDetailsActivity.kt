@@ -61,14 +61,14 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedAmountWithCurrency()
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(showCurrency = false)
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    "0.00".toFormattedAmountWithCurrency()
+                    "0.00".toFormattedCurrency()
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    (it.settlementAmount ?: "0.00").toString().toFormattedAmountWithCurrency()
+                    (it.settlementAmount ?: "0.00").toString().toFormattedCurrency()
                 }
-                else -> it.amount.toString().toFormattedAmountWithCurrency()
+                else -> it.amount.toString().toFormattedCurrency()
             }
 
         } ?: "0.00"
@@ -77,19 +77,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setTxnFailedReason() {
         val msg = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name || it.status == TransactionStatus.FAILED.name ||  it.isTransactionInProgress() -> {
+                it.isTransactionInProgress() || it.isTransactionRejected() -> {
                     getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorPrimaryDarkFadedLight))
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                    it.cancelReason
-                }
-                it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    if (TransactionStatus.PENDING.name == it.status && it.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) {
-                        getBindings().tvTransactionHeading.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
-                        getBindings().tvTransactionSubheading.alpha = 0.5f
-                        getBindings().ivCategoryIcon.alpha = 0.5f
-                        return@let getCutOffMsg()
-                    } else ""
+                    getBindings().tvTransactionSubheading.alpha = 0.5f
+                    getBindings().ivCategoryIcon.alpha = 0.5f
+                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg()
                 }
                 else -> ""
             }
@@ -116,9 +109,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             }
         } ?: "0.0"
         getBindings().tvTotalAmountValueCalculated.text =
-            totalAmount.toFormattedAmountWithCurrency()
+            totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = "AED"
+            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = "AED")}"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
@@ -138,8 +134,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     private fun setSubTitle() {
         val subTitle = viewModel.transaction.get()?.let {
             when {
-                it.status == TransactionStatus.CANCELLED.name -> "Transfer Rejected"
-                it.status == TransactionStatus.FAILED.name -> "Transaction Reverted"
+                it.isTransactionRejected() -> "Transfer Rejected"
                 it.isTransactionInProgress() -> "Transfer Pending"
                 else -> ""
             }

@@ -16,7 +16,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
@@ -90,7 +90,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         }
     }
 
-
     override fun getDebitCard() {
         launch {
             when (val response = repository.getDebitCards("DEBIT")) {
@@ -98,7 +97,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
                             val primaryCard = getPrimaryCard(response.data.data)
-                            MyUserManager.card.value = primaryCard
+                            SessionManager.card.value = primaryCard
                         } else {
                             state.toast = "Debit card not found."
                         }
@@ -156,7 +155,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             pinCreated = true
         )
     }
-
 
     override fun unFreezeCard(cardSerialNumber: String, success: () -> Unit) {
         launch {

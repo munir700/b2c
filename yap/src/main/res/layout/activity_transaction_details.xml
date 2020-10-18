@@ -12,8 +12,8 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <import type="co.yap.yapcore.enums.TxnType" />
 
@@ -69,7 +69,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginStart="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name)? 0.5f : 1.0f}"
+                android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
                 android:background="@drawable/bg_round_purple_enabled"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivMap" />
@@ -108,7 +108,7 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
                     android:maxLines="1"
-                    android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) ||viewModel.transaction.status.equals(TransactionStatus.FAILED.name) || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
+                    android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -124,7 +124,7 @@
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
                     android:maxLines="1"
-                    android:textColor="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) ||viewModel.transaction.status.equals(TransactionStatus.FAILED.name) || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
+                    android:textColor="@{TransactionExtentionsKt.isTransactionRejected(viewModel.transaction)==true || TransactionExtentionsKt.isTransactionInProgress(viewModel.transaction)==true ? @color/colorPrimaryDark : @color/greyDark}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
                     app:layout_constraintStart_toStartOf="@+id/tvTransactionHeading"
@@ -247,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lineSpacingExtra="2dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -274,7 +274,7 @@
                 android:id="@+id/clTransactionDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@color/greySoftSelected"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
@@ -355,7 +355,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.amount.toString(),viewModel.transaction.currency)}"
+                    android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.amount.toString(),true,viewModel.transaction.currency,true)}"
                     android:visibility="@{ (viewModel.transaction.productCode.equals(TransactionProductCode.SWIFT.pCode) || viewModel.transaction.productCode.equals(TransactionProductCode.RMT.pCode))  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardMask"
@@ -490,7 +490,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.postedFees!=null ?  StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.postedFees.toString(),`AED`) :  `AED 0.00`}"
+                    android:text="@{viewModel.transaction.postedFees!=null ?  CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.postedFees.toString(),true,`AED`,true) :  `AED 0.00`}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCardSpendAmount"
                     tools:text="1000" />
@@ -513,7 +513,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="end"
-                    android:text="@{viewModel.transaction.vatAmount==null ? `AED 0.00` :StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.transaction.vatAmount.toString(),`AED`)}"
+                    android:text="@{viewModel.transaction.vatAmount==null ? `AED 0.00` :CurrencyExtensionsKt.toFormattedCurrency(viewModel.transaction.vatAmount.toString(),true,`AED`,true)}"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFeeAmount"
                     tools:text="AED 1500" />

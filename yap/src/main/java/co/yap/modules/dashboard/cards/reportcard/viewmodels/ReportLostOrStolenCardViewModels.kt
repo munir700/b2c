@@ -16,7 +16,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class ReportLostOrStolenCardViewModels(application: Application) :
     ReportLostOrStolenCardChildViewModels<IRepostOrStolenCard.State>(application),
@@ -133,10 +133,10 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             cardFee =
                                 feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedAmountWithCurrency()
+                                    .toFormattedCurrency()
                         }
                     } else {
-                        cardFee = "0.0".toFormattedAmountWithCurrency()
+                        cardFee = "0.0".toFormattedCurrency()
                     }
                     toggleReportCardToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
@@ -158,10 +158,10 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             cardFee =
                                 feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedAmountWithCurrency()
+                                    .toFormattedCurrency()
                         }
                     } else {
-                        cardFee = "0.0".toFormattedAmountWithCurrency()
+                        cardFee = "0.0".toFormattedCurrency()
                     }
                     toggleReportCardToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)

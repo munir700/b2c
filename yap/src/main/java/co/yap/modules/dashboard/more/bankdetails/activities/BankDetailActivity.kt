@@ -11,9 +11,6 @@ import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.extentions.maskAccountNumber
-import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.managers.MyUserManager
 
 class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDetail.View {
 
@@ -33,6 +30,10 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setObserver()
+    }
+
+    private fun setObserver() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.imgProfile -> {
@@ -40,12 +41,6 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
                 }
                 R.id.btnConfirm -> {
                     shareInfo()
-                }
-                R.id.tbBtnBack -> {
-                    onBackPressed()
-                }
-                R.id.tbBtnSettings -> {
-                    startActivity(MoreActivity.newIntent(this))
                 }
             }
         })
@@ -74,4 +69,15 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
         super.onDestroy()
     }
 
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when (id) {
+            R.id.ivLeftIcon -> {
+                this.finish()
+            }
+            R.id.ivRightIcon -> {
+                this.startActivity(MoreActivity.newIntent(this))
+            }
+        }
+    }
 }

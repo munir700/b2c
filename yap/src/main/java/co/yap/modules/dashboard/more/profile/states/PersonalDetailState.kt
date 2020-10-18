@@ -4,12 +4,10 @@ import android.app.Application
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.managers.MyUserManager
 
 class PersonalDetailState(val application: Application) : BaseState(), IPersonalDetail.State {
 

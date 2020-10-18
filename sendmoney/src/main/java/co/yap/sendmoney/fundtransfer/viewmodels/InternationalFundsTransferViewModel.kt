@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.extentions.roundVal
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -55,7 +55,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
                 )
             )
     }
@@ -200,7 +200,9 @@ class InternationalFundsTransferViewModel(application: Application) :
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
                 ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
             totalDestinationAmount?.let {
-                state.etOutputAmount = it.roundVal().toString()
+                state.etOutputAmount =
+                    it.roundVal().toString()
+                        .toFormattedCurrency(false, state.sourceCurrency.get(), false)
             }
         } else {
             state.etOutputAmount = ""

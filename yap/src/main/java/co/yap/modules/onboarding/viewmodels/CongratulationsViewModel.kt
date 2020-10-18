@@ -9,7 +9,7 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CongratulationsViewModel(application: Application) :
     OnboardingChildViewModel<ICongratulations.State>(application),
@@ -22,7 +22,7 @@ class CongratulationsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        MyUserManager.getAccountInfo()
+        SessionManager.getAccountInfo()
         trackAdjustPlatformEvent(AdjustEvents.SIGN_UP_END.type)
         // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0

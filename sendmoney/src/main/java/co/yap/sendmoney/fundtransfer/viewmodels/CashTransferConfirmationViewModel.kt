@@ -91,7 +91,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                 repository.uaeftsTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId?.toInt(),
-                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount,
                         settlementAmount = 0.0,
                         purposeCode = parentViewModel?.selectedPop?.purposeCode,
                         purposeReason = parentViewModel?.selectedPop?.purposeDescription,
@@ -123,7 +123,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                 repository.domesticTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId?.toInt(),
-                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount,
                         settlementAmount = 0.0,
                         purposeCode = parentViewModel?.selectedPop?.purposeCode,
                         purposeReason = parentViewModel?.selectedPop?.purposeDescription,

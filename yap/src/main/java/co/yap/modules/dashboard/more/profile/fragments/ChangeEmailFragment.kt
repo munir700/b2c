@@ -16,7 +16,7 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 
 open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {
@@ -40,7 +40,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
         })
 
         viewModel.changeEmailSuccessEvent.observe(this, Observer {
-            MyUserManager.user?.currentCustomer?.email = viewModel.state.newEmail
+            SessionManager.user?.currentCustomer?.email = viewModel.state.newEmail
             viewModel.sharedPreferenceManager.saveUserNameWithEncryption(
                 viewModel.state.newEmail
             )
@@ -60,7 +60,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CHANGE_EMAIL.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             )

@@ -24,7 +24,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getAdjustURL
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
@@ -75,7 +75,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
         viewModel.phoneContactLiveData.observe(this, Observer {
             adaptor.setList(it)
             getBinding().tvContactListDescription.visibility =
@@ -120,7 +119,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     sendInvite((data as Contact))
                 }
                 R.id.lyContact -> {
-                    if (MyUserManager.user?.otpBlocked == true && data is Contact && data.yapUser == false) {
+                    if (SessionManager.user?.otpBlocked == true && data is Contact && data.yapUser == false) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         if (data is Contact && data.yapUser == true && data.accountDetailList != null && data.accountDetailList?.isNotEmpty() == true) {
@@ -194,14 +193,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         it.putExtra("sms_body", Utils.getBody(requireContext(), contact))
         startActivity(it)
     }*/
-
-    private val observer = Observer<Int> {
-        when (it) {
-            R.id.imgStoreShopping -> {
-
-            }
-        }
-    }
 
     private fun getBinding(): FragmentPhoneContactsBinding {
         return (viewDataBinding as FragmentPhoneContactsBinding)

@@ -6,11 +6,9 @@ import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementTaskAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-
 interface IAchievementDetail {
 
     interface View : IBase.View<ViewModel> {
-        fun addObservers()
         fun getBinding(): FragmentAchievementDetailBinding
     }
 
@@ -20,7 +18,7 @@ interface IAchievementDetail {
         fun handlePressOnButton(id: Int)
     }
 
-    interface State : IBase.State{
-        var achievementIcon:ObservableField<Int>
+    interface State : IBase.State {
+        var achievementIcon: ObservableField<Int>
     }
 }

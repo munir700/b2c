@@ -15,6 +15,7 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.DateUtils.FORMAT_TIME_12H
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
@@ -78,9 +79,11 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                         if (transaction.isTransactionCancelled())
-                            itemTransactionListBinding.ivTransaction.setBackgroundResource(R.drawable.bg_round_grey)
+                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+                        if (transaction.isTransactionCancelled())
+                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     }
 
                     ImageViewCompat.setImageTintList(
@@ -94,7 +97,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
-                transaction.getFormattedTime(), categoryTitle
+                transaction.getFormattedTime(outputFormat = FORMAT_TIME_12H), categoryTitle
             )
         }
 
@@ -102,16 +105,34 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
-            ImageBinding.loadAvatar(
-                itemTransactionListBinding.ivTransaction,
-                if (TxnType.valueOf(
-                        transaction.txnType ?: ""
-                    ) == TxnType.DEBIT
-                ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                android.R.color.transparent,
-                R.dimen.text_size_h2
-            )
+            if(transaction.isTransactionRejected()){
+                if(transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) {
+                    itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_reverted)
+                } else {
+                    ImageBinding.loadAvatar(
+                        itemTransactionListBinding.ivTransaction,
+                        if (TxnType.valueOf(
+                                transaction.txnType ?: ""
+                            ) == TxnType.DEBIT
+                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                        android.R.color.transparent,
+                        R.dimen.text_size_h2
+                    )
+                    itemTransactionListBinding.ivTransaction.alpha = 0.5f
+                }
+            }else {
+                ImageBinding.loadAvatar(
+                    itemTransactionListBinding.ivTransaction,
+                    if (TxnType.valueOf(
+                            transaction.txnType ?: ""
+                        ) == TxnType.DEBIT
+                    ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                    if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                    android.R.color.transparent,
+                    R.dimen.text_size_h2
+                )
+            }
         }
 
 
