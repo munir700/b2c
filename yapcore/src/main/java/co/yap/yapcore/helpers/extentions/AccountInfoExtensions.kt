@@ -173,7 +173,8 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
                 FeatureSet.EDIT_SEND_MONEY_BENEFICIARY,
                 FeatureSet.EDIT_EMAIL,
                 FeatureSet.EDIT_PHONE_NUMBER,
-                FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
+                FeatureSet.DELETE_SEND_MONEY_BENEFICIARY,
+                FeatureSet.UPDATE_EID
             )
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
