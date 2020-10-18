@@ -7,7 +7,7 @@ import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
-import co.yap.modules.dashboard.home.status.NotificationProgressStatus
+import co.yap.modules.dashboard.home.status.StageProgress
 import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.widgets.timelineview.TimelineView
 import com.liveperson.infra.utils.Utils.getResources
@@ -41,29 +41,28 @@ object BindingHelper {
     @JvmStatic
     fun setStatus(
         view: androidx.appcompat.widget.AppCompatTextView,
-        status: NotificationProgressStatus
+        status: StageProgress
     ) {
 
         when (status) {
 
-            NotificationProgressStatus.IS_COMPLETED -> {
-
-                view.getBackground().setColorFilter(
+            StageProgress.COMPLETED -> {
+                view.background.setColorFilter(
                     getResources().getColor(R.color.colorOpaquAqua),
                     PorterDuff.Mode.SRC_IN
                 )
-                view.text = "completed"
+                view.text = "Completed"
             }
 
-            NotificationProgressStatus.IN_PROGRESS -> {
-                view.getBackground().setColorFilter(
+            StageProgress.IN_PROGRESS -> {
+                view.background.setColorFilter(
                     getResources().getColor(R.color.colorOpaquSecondaryOrange),
                     PorterDuff.Mode.SRC_IN
                 )
-                view.text = "in progress"
+                view.text = "In progress"
             }
             else -> {
-                view.getBackground().setColorFilter(
+                view.background.setColorFilter(
                     getResources().getColor(R.color.transparent),
                     PorterDuff.Mode.SRC_IN
                 )
@@ -78,14 +77,12 @@ object BindingHelper {
     fun setMarkerOpacity(view: TimelineView, isNotActive: Boolean = false) {
         if (isNotActive) {
             view.alpha = 0.4f
-
-
         }
     }
 
     @BindingAdapter("markerDrawable")
     @JvmStatic
     fun setMarkerDrawable(view: TimelineView, drawable: Drawable) {
-        view.setMarker(drawable)
+        view.marker = drawable
     }
 }

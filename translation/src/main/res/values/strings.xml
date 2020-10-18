@@ -1021,7 +1021,7 @@
     <string name="screen_time_line_display_text_status_card_on_the_way_action">Track your delivery</string>
 
     <string name="screen_time_line_display_text_status_card_delivered_title">Your card is delivered</string>
-    <string name="screen_time_line_display_text_status_card_delivered_description">A biometric scan will be carried out by the agent</string>
+    <string name="screen_time_line_display_text_status_card_delivered_description">Your EID scan has been carried out</string>
 
     <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
     <string name="screen_time_line_display_text_status_set_card_pin_description">You\’ll need this to begin using your card</string>

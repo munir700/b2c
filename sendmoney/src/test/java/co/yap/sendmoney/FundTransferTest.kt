@@ -1,7 +1,10 @@
 package co.yap.sendmoney
 
+import org.junit.Assert
+import org.junit.Test
+
 class FundTransferTest {
-//
+
 //
 //    @Test
 //    fun isValidCPErrorMessage() {

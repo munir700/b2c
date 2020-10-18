@@ -32,7 +32,6 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
-import co.yap.modules.dashboard.home.status.DashboardNotificationStatusAdapter
 import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -82,8 +81,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
-    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
-    var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
+    private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -115,10 +113,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-/*
-        setUpDashBoardNotificationsView()// shows cards statuses
 
-        */
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -268,6 +263,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             primaryCard?.let {
                 startFlowForSetPin()
                 checkUserStatus()
+                setUpDashBoardNotificationsView()
             }
         })
 
@@ -726,8 +722,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
     fun setUpDashBoardNotificationsView() {
-        if (MyUserManager.getPrimaryCard()?.status == CardDeliveryStatus.SHIPPING.name) {
-
+        if (true) {
             viewModel.state.isTransEmpty.set(false)
             rvTransaction.visibility = View.GONE
             vGraph.visibility = View.GONE

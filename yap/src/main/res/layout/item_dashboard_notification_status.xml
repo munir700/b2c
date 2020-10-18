@@ -11,7 +11,7 @@
 
         <import type="co.yap.yapcore.managers.MyUserManager" />
 
-        <import type="co.yap.modules.dashboard.home.status.NotificationProgressStatus" />
+        <import type="co.yap.modules.dashboard.home.status.StageProgress" />
 
         <variable
             name="viewModel"
@@ -28,7 +28,7 @@
         <co.yap.widgets.timelineview.TimelineView
             android:id="@+id/timeline"
             markerDrawable="@{viewModel.statusDataModel.statusDrawable}"
-            setOpacity="@{viewModel.statusDataModel.progressStatus == NotificationProgressStatus.IS_PENDING ? true : false }"
+            setOpacity="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? true : false }"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingTop="@dimen/_8sdp"
@@ -41,7 +41,6 @@
             app:markerPaddingTop="@dimen/_8sdp"
             app:markerSize="@dimen/_23sdp"
             app:startLineColor="@color/transparent" />
-        <!--        app:marker="@{viewModel.statusDataModel.progressStatus == NotificationProgressStatus.IS_COMPLETED ? @drawable/ic_dashboard_finish : viewModel.statusDataModel.statusDrawable}"-->
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
+                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:text='@{viewModel.statusDataModel.statusTitle}'
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_13sdp"
@@ -75,6 +75,7 @@
                 android:gravity="center|center_vertical"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingBottom="@dimen/_2sdp"
+                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
+                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:text='@{viewModel.statusDataModel.statusDescription}'
                 android:textColor="@color/greyDark"
                 android:textSize="@dimen/_10sdp"
@@ -98,6 +100,7 @@
             <TextView
                 android:id="@+id/tvStatusActions"
                 style="@style/ASmall"
+                android:alpha="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? 0.4f : 1f}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
@@ -106,7 +109,7 @@
                 android:text='@{viewModel.statusDataModel.statusAction}'
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_11sdp"
-                android:visibility="@{viewModel.statusDataModel.progressStatus == NotificationProgressStatus.IS_COMPLETED ? View.INVISIBLE : View.VISIBLE }"
+                android:visibility="@{viewModel.statusDataModel.progressStatus == StageProgress.COMPLETED ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintTop_toBottomOf="@id/tvStatusDescription"
                 tools:text="set your card pin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
