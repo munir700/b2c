@@ -80,9 +80,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
-        SessionManager.user?.otpBlocked = true
-        SessionManager.user?.freezeInitiator = "BANK_REQUEST"
-        SessionManager.user?.severityLevel = "T"
     }
 
     private fun logEvent() {
