@@ -766,6 +766,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             getBindings().lyInclude.lyAdd.alpha = 0.5f
             getBindings().lyInclude.lyAdd.isClickable = false
             getBindings().refreshLayout.isRefreshing = false
+            getBindings().refreshLayout.isEnabled = false
+            getBindings().lyInclude.rlFilter.visibility = View.GONE
 
 
             dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
