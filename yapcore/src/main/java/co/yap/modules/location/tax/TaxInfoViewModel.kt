@@ -27,7 +27,7 @@ class TaxInfoViewModel(application: Application) :
     override var reasonsList: ArrayList<String> = arrayListOf()
     override var options = arrayListOf("No", "Yes")
     private var rowTitles = arrayListOf(
-        "Select country of tax residence",
+        "Country of tax residence",
         "Select a second country of tax residence",
         "Select a third country of tax residence"
     )
