@@ -111,24 +111,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is Card)
-                    if (data.status == CardStatus.BLOCKED.name) {
-                        viewModel.unFreezeCard(data.cardSerialNumber) {
-                            viewModel.getUpdatedCard(pos) {
-                                it?.let {
-                                    adapter.setItemAt(pos, it)
-                                }
-                            }
-                        }
-                    } else {
-                        viewModel.clickEvent.setPayload(
-                            SingleClickEvent.AdaptorPayLoadHolder(
-                                view,
-                                data,
-                                pos
-                            )
+                    viewModel.clickEvent.setPayload(
+                        SingleClickEvent.AdaptorPayLoadHolder(
+                            view,
+                            data,
+                            pos
                         )
-                        viewModel.clickEvent.setValue(view.id)
-                    }
+                    )
+                viewModel.clickEvent.setValue(view.id)
             }
 
         })
@@ -171,7 +161,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.tvCardStatusAction -> {
                     when (getCard(pos).status) {
                         CardStatus.BLOCKED.name -> {
-                            openDetailScreen(pos)
+                            viewModel.unFreezeCard(getCard(pos).cardSerialNumber) {
+                                viewModel.getUpdatedCard(pos) { card ->
+                                    card?.let {
+                                        adapter.setItemAt(pos, card)
+                                    }
+                                }
+                            }
                         }
                         CardStatus.HOTLISTED.name -> {
                             startReorderCardFlow(getCard(pos))
