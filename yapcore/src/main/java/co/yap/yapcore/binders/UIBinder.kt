@@ -654,7 +654,7 @@ object UIBinder {
                 .load(path).centerCrop()
                 .into(view)
         } else {
-            Glide.with(view.context).load(imageUri.path).into(view)
+            Glide.with(view.context).load(imageUri.path).centerCrop().into(view)
         }
     }
 
