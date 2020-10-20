@@ -41,7 +41,6 @@ class ProfileSettingsViewModel(application: Application) :
     override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)
-    var pandemicValidation: Boolean = false
 
     override val state: ProfileStates =
         ProfileStates()
@@ -183,10 +182,6 @@ class ProfileSettingsViewModel(application: Application) :
         val currentDayDate = simpleDateFormat.parse(currentDay)
         MyUserManager.eidStatus =
             when {
-                isDateFallInPandemic(expiryDateString) && isDateFallInPandemic(currentDay) -> {
-                    state.isShowErrorIcon.set(false)
-                    EIDStatus.VALID
-                }
                 expiryDate < currentDayDate -> {
                     state.isShowErrorIcon.set(true)
                     EIDStatus.EXPIRED
@@ -196,20 +191,5 @@ class ProfileSettingsViewModel(application: Application) :
                     EIDStatus.VALID
                 }
             }
-    }
-
-    /*
-       If EID is expiring between  Mar 1, 2020, to Dec 31, 2020 Mark expiry date for EID as Dec 31, 2020,
-       which means any user whose EID is expiring between  Mar 1, 2020, to Dec 31, 2020 will be able to onboard in our system.
-   */
-    private fun isDateFallInPandemic(EIDExpiryDate: String): Boolean {
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-        simpleDateFormat.timeZone = TimeZone.getDefault()
-        val fromDate = simpleDateFormat.parse("2020-03-01")
-        val toDate = simpleDateFormat.parse("2020-12-31")
-        val eidExpiry = simpleDateFormat.parse(EIDExpiryDate)
-
-        // use inverse of condition bcz strict order check to a non-strict check e.g both dates are equals
-        return !eidExpiry.after(toDate) && !eidExpiry.before(fromDate)
     }
 }
