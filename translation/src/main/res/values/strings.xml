@@ -28,6 +28,8 @@
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
+    <string name="common_display_text_cooling_period_limit_consumed_error">You have consumed the limit for the amount you can send at this time. To send money, please wait for %1s from the time you added %2s.</string>
+    <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>

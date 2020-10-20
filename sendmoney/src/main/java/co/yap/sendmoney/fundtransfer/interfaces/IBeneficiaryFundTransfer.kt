@@ -24,7 +24,9 @@ interface IBeneficiaryFundTransfer {
         fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest)
         fun isInCoolingPeriod(): Boolean
         fun isCPAmountConsumed(inputAmount: String): Boolean
+        fun showCoolingPeriodLimitError():String?
         var smCoolingPeriod: SMCoolingPeriod?
+
     }
 
     interface State : IBase.State {

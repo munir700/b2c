@@ -14,9 +14,11 @@ import co.yap.sendmoney.fundtransfer.interfaces.IBeneficiaryFundTransfer
 import co.yap.sendmoney.fundtransfer.models.TransferFundData
 import co.yap.sendmoney.fundtransfer.states.BeneficiaryFundTransferState
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 
 class BeneficiaryFundTransferViewModel(application: Application) :
@@ -46,19 +48,6 @@ class BeneficiaryFundTransferViewModel(application: Application) :
         state.rightButtonText = getString(Strings.common_button_cancel)
     }
 
-    override fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest) {
-        launch {
-            when (val response = repository.getCoolingPeriod(smCoolingPeriodRequest)) {
-                is RetroApiResponse.Success -> {
-                    smCoolingPeriod = response.data.data
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-                }
-            }
-        }
-    }
-
     override fun isInCoolingPeriod(): Boolean {
         smCoolingPeriod?.let { period ->
             val coolingPeriodDurationInSeconds =
@@ -74,4 +63,48 @@ class BeneficiaryFundTransferViewModel(application: Application) :
             return inputAmount.parseToDouble() > remainingLimit
         } ?: return false
     }
+
+    override fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest) {
+        launch {
+            when (val response = repository.getCoolingPeriod(smCoolingPeriodRequest)) {
+                is RetroApiResponse.Success -> {
+                    smCoolingPeriod = response.data.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+                }
+            }
+        }
+    }
+
+    override fun showCoolingPeriodLimitError(): String? {
+        var errorDescription = ""
+        if (smCoolingPeriod?.consumedAmount ?: 0.0 >= smCoolingPeriod?.maxAllowedCoolingPeriodAmount.parseToDouble()) {
+            errorDescription = Translator.getString(
+                context,
+                Strings.common_display_text_cooling_period_limit_consumed_error,
+                smCoolingPeriod?.coolingPeriodDuration.toString() + getCoolingHoursLabel(),
+                beneficiary.value?.fullName().toString()
+            )
+        } else {
+            errorDescription = Translator.getString(
+                context,
+                Strings.common_display_text_cooling_period_limit_error,
+                smCoolingPeriod?.maxAllowedCoolingPeriodAmount.parseToDouble()
+                    .minus(smCoolingPeriod?.consumedAmount ?: 0.0)
+                    .toString().toFormattedCurrency(),
+                smCoolingPeriod?.coolingPeriodDuration.toString() + getCoolingHoursLabel(),
+                beneficiary.value?.fullName().toString()
+            )
+        }
+        return errorDescription
+//        errorEvent.value = errorDescription
+    }
+
+    private fun getCoolingHoursLabel(): String {
+        return smCoolingPeriod?.coolingPeriodDuration?.parseToDouble()?.let { coolingHours ->
+            return@let if (coolingHours > 1) " hours" else " hour"
+        } ?: " hour"
+    }
+
 }

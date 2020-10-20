@@ -183,5 +183,10 @@ interface TransactionsRetroService {
     suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
 
     @GET(TransactionsRepository.URL_CHECK_COOLING_PERIOD)
-    suspend fun checkCoolingPeriodRequest(@Body coolingPeriodRequest: CoolingPeriodRequest): Response<PaymentPurposeResponseDTO>
+    suspend fun checkCoolingPeriodRequest(
+        @Query("beneficiaryId") beneficiaryId: String?,
+        @Query("beneficiaryCreationDate") beneficiaryCreationDate: String?,
+        @Query("beneficiaryName") beneficiaryName: String?,
+        @Query("amount") amount: String?
+    ): Response<ApiResponse>
 }

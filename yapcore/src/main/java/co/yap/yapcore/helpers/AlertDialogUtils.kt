@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
@@ -158,6 +159,34 @@ fun Context.showYapAlertDialog(
     label.text = message
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
     ok.text = "OK"
+    ok.setOnClickListener {
+        alertDialog?.dismiss()
+    }
+
+    builder.setView(dialogLayout)
+    builder.setCancelable(false)
+    alertDialog = builder.create()
+
+    alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    alertDialog.show()
+
+}
+fun Activity.showAlertCustomDialog(
+    title: String? = "",
+    message: String?="",
+    buttonText:String?="OK"
+) {
+    val builder = android.app.AlertDialog.Builder(this)
+    var alertDialog: android.app.AlertDialog? = null
+    val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    title?.let { builder.setTitle(title) }
+    val dialogLayout: View =
+        inflater.inflate(R.layout.alert_dialogue_custom, null)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    val ok = dialogLayout.findViewById<CoreButton>(R.id.btnAction)
+    ok.text = buttonText
     ok.setOnClickListener {
         alertDialog?.dismiss()
     }

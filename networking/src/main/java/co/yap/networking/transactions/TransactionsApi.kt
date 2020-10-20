@@ -71,5 +71,10 @@ interface TransactionsApi {
 
     suspend fun getAchievements(): RetroApiResponse<ApiResponse>
     suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO>
-    suspend fun checkCoolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest): RetroApiResponse<PaymentPurposeResponseDTO>
+    suspend fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?
+    ): RetroApiResponse<ApiResponse>
 }

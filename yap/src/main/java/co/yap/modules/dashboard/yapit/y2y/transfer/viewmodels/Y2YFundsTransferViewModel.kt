@@ -9,7 +9,6 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.CoolingPeriodRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.translation.Strings
@@ -69,19 +68,27 @@ class Y2YFundsTransferViewModel(application: Application) :
     }
 
     override fun checkCoolingPeriodRequest(
-        coolingPeriodRequest: CoolingPeriodRequest,
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
         success: () -> Unit
     ) {
-        val coolingPeriodRequestData = CoolingPeriodRequest(
+        /*val coolingPeriodRequestData = CoolingPeriodRequest(
             beneficiaryId = receiverUUID,
             beneficiaryCreationDate = state.fullName,
             beneficiaryName = state.amount,
             amount = "500"
-        )
+        )*/
         launch {
             state.loading = true
             when (val response =
-                transactionsRepository.checkCoolingPeriodRequest(coolingPeriodRequestData)) {
+                transactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId,
+                    beneficiaryCreationDate,
+                    beneficiaryName,
+                    amount
+                )) {
                 is RetroApiResponse.Success -> {
                     success.invoke()
                 }

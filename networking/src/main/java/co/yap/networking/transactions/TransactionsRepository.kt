@@ -71,6 +71,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
+
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -191,16 +192,16 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
 
-    override suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun cashPayoutTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.cashPayoutTransferRequest(sendMoneyTransferRequest) })
 
-    override suspend fun domesticTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun domesticTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.domesticTransferRequest(sendMoneyTransferRequest) })
 
-    override suspend fun uaeftsTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun uaeftsTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.uaeftsTransferRequest(sendMoneyTransferRequest) })
 
-    override suspend fun rmtTransferRequest(sendMoneyTransferRequest:SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+    override suspend fun rmtTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.rmtTransferRequest(sendMoneyTransferRequest) })
 
     override suspend fun swiftTransferRequest(sendMoneyTransferRequest: SendMoneyTransferRequest): RetroApiResponse<SendMoneyTransactionResponseDTO> =
@@ -233,7 +234,19 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
 
-    override suspend fun checkCoolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest): RetroApiResponse<PaymentPurposeResponseDTO> =
-        executeSafely(call = { api.checkCoolingPeriodRequest(coolingPeriodRequest) })
+    override suspend fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.checkCoolingPeriodRequest(
+                beneficiaryId,
+                beneficiaryCreationDate,
+                beneficiaryName,
+                amount
+            )
+        })
 
 }

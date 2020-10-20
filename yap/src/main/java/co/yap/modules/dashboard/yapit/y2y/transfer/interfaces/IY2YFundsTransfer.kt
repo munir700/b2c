@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.interfaces
 import android.graphics.drawable.Drawable
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.transactions.requestdtos.CoolingPeriodRequest
 import co.yap.networking.transactions.responsedtos.TransactionThresholdModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -18,11 +17,18 @@ class IY2YFundsTransfer {
         val clickEvent: SingleClickEvent
         val transactionThreshold: MutableLiveData<TransactionThresholdModel>
         var receiverUUID: String
-//        val transferFundSuccess: MutableLiveData<Boolean>
+
+        //        val transferFundSuccess: MutableLiveData<Boolean>
         fun handlePressOnView(id: Int)
         fun getTransactionThresholds()
         fun proceedToTransferAmount(success: () -> Unit)
-        fun checkCoolingPeriodRequest(coolingPeriodRequest: CoolingPeriodRequest,success: () -> Unit)
+        fun checkCoolingPeriodRequest(
+            beneficiaryId: String?,
+            beneficiaryCreationDate: String?,
+            beneficiaryName: String?,
+            amount: String?, success: () -> Unit
+        )
+
         fun getTransactionLimits()
     }
 
