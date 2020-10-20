@@ -55,7 +55,6 @@
                 app:srcCompat="@drawable/ic_back_arrow_left"
                 tools:ignore="ContentDescription" />
 
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTitle"
                 style="@style/Regular"
