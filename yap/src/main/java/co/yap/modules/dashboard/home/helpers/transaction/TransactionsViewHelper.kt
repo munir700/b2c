@@ -255,8 +255,6 @@ class TransactionsViewHelper(
                 }
             }
         rvTransactionScrollListener?.let { transactionsView.rvTransaction.addOnScrollListener(it) }
-
-
     }
 
     fun onToolbarCollapsed() {
