@@ -115,7 +115,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                     viewModel.state.valid =
-                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus
+                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
                 }
                 CardDeliveryStatus.SHIPPED -> {
                     viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Your Primary card is shipped" else "")
