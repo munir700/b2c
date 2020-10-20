@@ -192,16 +192,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                     }
                 }
-//                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
-//                    var card: Card = adapter.getDataForPosition(selectedCardPosition)
-//                    card.status = "ACTIVE"
-//                    card.blocked = false
-//                    viewModel.cards.value?.set(selectedCardPosition, card)
-//                    adapter.setItemAt(selectedCardPosition, card)
-//                }
             }
-        } else {
-
         }
     }
 
