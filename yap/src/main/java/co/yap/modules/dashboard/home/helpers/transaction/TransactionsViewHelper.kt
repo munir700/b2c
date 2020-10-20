@@ -124,6 +124,8 @@ class TransactionsViewHelper(
     fun setTooltipVisibility(visibility: Int = View.VISIBLE) {
         transactionsView.tvTransactionDate?.visibility = visibility
         tooltip?.visibility = visibility
+        tooltip?.arrowView = transactionsView.findViewById(R.id.arrowView)
+        tooltip?.arrowView?.visibility = visibility
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
@@ -148,7 +150,7 @@ class TransactionsViewHelper(
             tooltip?.apply {
                 visibility = View.VISIBLE
                 it.bringToFront()
-                this.text = data.date?.let {
+                this.text.text = data.date?.let {
                     SpannableString(text).apply {
                         setSpan(
                             ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
@@ -160,39 +162,49 @@ class TransactionsViewHelper(
                 }
 
                 val viewPosition = IntArray(2)
-                view.getLocationInWindow(viewPosition)
+                val arrowViewPosition = IntArray(2)
+                it.getLocationInWindow(viewPosition)
+                tooltip?.arrowView?.getLocationInWindow(arrowViewPosition)
                 val screen = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(screen)
 
                 if (viewPosition[0] + this.width >= screen.widthPixels) {
                     // It is the end of the screen so adjust X
-                    translationX =
-                        screen.widthPixels.toFloat() - this.width
+//                    if((arrowViewPosition[0].minus(this.width))>screen.widthPixels/2){
+//                        translationX =
+//                            screen.widthPixels.toFloat() - this.width-10
+//                    }else {
+                        translationX =
+                            screen.widthPixels.toFloat() - this.width
+//                    }
 
                     // Adjust position of arrow of tooltip
                     arrowX = viewPosition[0] - x + (it.width / 2)
+                    tooltip?.arrowView?.translationX=((viewPosition[0].toFloat()-(it.width / 2)))// translationX-it.width / 2//viewPosition[0] - x + (it.width / 2)
                 } else {
                     val viewWidth = it.width + (context.dimen(R.dimen.margin_one_dp) * 2)
                     if ((viewPosition[0] - viewWidth) > 0) {
-                        translationX = viewPosition[0].toFloat() - context.dimen(R.dimen._2sdp)
+                        translationX = viewPosition[0].toFloat()- tooltip?.arrowView?.width!!//context.dimen(R.dimen._2sdp)
                         arrowX =
                             viewPosition[0] - x + (it.width / 2)
+                        tooltip?.arrowView?.translationX = viewPosition[0].toFloat() - (it.width / 2)
                     } else {
                         translationX = 0f
                         arrowX = 0f
+                        tooltip?.arrowView?.translationX =  viewPosition[0].toFloat()
                     }
                 }
                 val notificationView =
                     transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
                 if (firstTime) {
                     addToolTipDelay(10) {
-                        y = (it.y - this.height) + context.dimen(R.dimen._6sdp)
+                        y = (it.y - this.height) - (tooltip?.arrowView?.height?.div(2)?:context.dimen(R.dimen._6sdp))
                         if (notificationView.adapter?.itemCount ?: 0 > 0) {
                             y += notificationView.height
                         }
                     }
                 } else {
-                    y = (it.y - this.height) + context.dimen(R.dimen._6sdp)
+                    y = (it.y - this.height) -  (tooltip?.arrowView?.height?.div(2)?:context.dimen(R.dimen._6sdp))
                     if (notificationView.adapter?.itemCount ?: 0 > 0) {
                         y += notificationView.height
                     }
