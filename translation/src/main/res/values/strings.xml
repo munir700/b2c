@@ -1034,6 +1034,7 @@
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
+    <string name="screen_tax_info_display_text_reason_no_tin_number_selected">Reason for not having a TIN</string>
     <string name="screen_tax_info_display_text_country_no_tin_issue">The country does not issue a TIN</string>
     <string name="screen_tax_info_display_text_add_another_country">Add another country</string>
     <string name="screen_tax_info_display_text_not_us_national">I am not a US national/resident for tax purposes.</string>
