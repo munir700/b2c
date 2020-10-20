@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.adaptors.CardAnalyticsDetailsAdapter
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsDetailsViewModel
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.widgets.DividerItemDecoration
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BaseBindingFragment
@@ -31,6 +32,10 @@ class CardAnalyticsDetailsFragment : BaseBindingFragment<ICardAnalyticsDetails.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            var Model = it.get("DATA") as TxnAnalytic
+            viewModel.state.toolbarTitle = Model.title?:"Some Title"
+        }
         viewModel.clickEvent?.observe(this, Observer {
             activity?.onBackPressed()
         })
