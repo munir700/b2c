@@ -11,6 +11,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 
 class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragmentHolder {
 
@@ -27,6 +28,7 @@ class MainActivity : BaseBindingActivity<IMain.ViewModel>(), INavigator, IFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
+        SessionManager.expireUserSession()
     }
 
     override fun onBackPressed() {

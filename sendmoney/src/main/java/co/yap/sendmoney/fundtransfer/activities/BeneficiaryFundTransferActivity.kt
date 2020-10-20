@@ -54,6 +54,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
         else
             hideErrorSnackBar()
     }
+
     private fun showErrorSnackBar(errorMessage: String) {
         getSnackBarFromQueue(0)?.let {
             if (it.isShown) {

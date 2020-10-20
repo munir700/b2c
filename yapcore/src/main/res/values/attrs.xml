@@ -537,9 +537,17 @@
     <declare-styleable name="ShapeOfView">
         <attr name="shape_clip_drawable" format="reference" />
     </declare-styleable>
+
     <declare-styleable name="TriangleView">
         <attr name="shape_triangle_percentLeft" format="float" />
         <attr name="shape_triangle_percentBottom" format="float" />
         <attr name="shape_triangle_percentRight" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="CoreEditText">
+        <attr name="ce_setBackgroundColor" format="color" />
+        <attr name="ce_custom_width" format="dimension" />
+        <attr name="ce_custom_height" format="dimension" />
+    </declare-styleable>
+
 </resources>

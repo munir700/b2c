@@ -12,11 +12,10 @@ import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionReques
 import co.yap.networking.transactions.requestdtos.CreateSessionRequest
 import co.yap.networking.transactions.requestdtos.Order
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
@@ -27,6 +26,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     private lateinit var topupCrad: TopUpCard
     private var secureId: String? = null
     private var orderId: String? = null
+
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.cardInfo.set(item)
@@ -40,8 +40,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
                     state.currencyType,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedCurrency()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
+                        .toFormattedCurrency(showCurrency = false,currency = "AED")
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }

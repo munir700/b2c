@@ -13,9 +13,8 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.IDefault
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_block_card_success.*
 
 class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewModel>() {
@@ -39,7 +38,7 @@ class BlockCardSuccessFragment : ReportOrLOstCardChildFragment<IDefault.ViewMode
                 )
 
         btnReOrder.setOnClickListener {
-            if (MyUserManager.user?.otpBlocked == true) {
+            if (SessionManager.user?.otpBlocked == true) {
                 showToast(Utils.getOtpBlockedMessage(requireContext()))
             } else {
                 viewModel.parentViewModel?.card?.let {

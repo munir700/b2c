@@ -145,7 +145,8 @@ class TransactionsViewHelper(
                     "yyyy-MM-dd",
                     DateUtils.FORMAT_DATE_MON_YEAR
                 ),
-                data.closingBalance.toString().toFormattedCurrency()
+                data.closingBalance.toString()
+                    .toFormattedCurrency(showCurrency = false, currency = "AED")
             )
             tooltip?.apply {
                 visibility = View.VISIBLE

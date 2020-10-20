@@ -53,12 +53,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
-                    "0.00".toFormattedAmountWithCurrency()
+                    "0.00".toFormattedCurrency()
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
-                    (it.settlementAmount ?: "0.00").toString().toFormattedAmountWithCurrency()
+                    (it.settlementAmount ?: "0.00").toString().toFormattedCurrency()
                 }
-                else -> it.amount.toString().toFormattedAmountWithCurrency()
+                else -> it.amount.toString().toFormattedCurrency()
             }
 
         } ?: "0.00"
@@ -99,16 +99,19 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         val totalAmount = viewModel.transaction.get()?.let {
             when (it.productCode) {
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
-                    val totalFee = (it.postedFees?:0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
                     (it.settlementAmount ?: 0.00).plus(totalFee).toString()
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
             }
         } ?: "0.0"
         getBindings().tvTotalAmountValueCalculated.text =
-            totalAmount.toFormattedAmountWithCurrency()
+            totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency()}" else "+ ${totalAmount.toFormattedCurrency()}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = "AED"
+            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = "AED")}"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {

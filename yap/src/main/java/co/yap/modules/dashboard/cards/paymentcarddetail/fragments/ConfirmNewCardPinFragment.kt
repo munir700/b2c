@@ -22,7 +22,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
@@ -104,7 +104,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.FORGOT_CARD_PIN.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             )
