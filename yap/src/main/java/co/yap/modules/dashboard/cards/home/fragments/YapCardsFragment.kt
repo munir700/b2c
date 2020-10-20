@@ -31,7 +31,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
@@ -159,10 +161,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.tvCardStatusAction -> {
                     when (getCard(pos).status) {
                         CardStatus.BLOCKED.name -> {
-                            viewModel.unFreezeCard(getCard(pos).cardSerialNumber) {
-                                viewModel.getUpdatedCard(pos) { card ->
-                                    card?.let {
-                                        adapter.setItemAt(pos, card)
+                            if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
+                                showBlockedFeatureAlert(requireActivity(), FeatureSet.UNFREEZE_CARD)
+                            } else {
+                                viewModel.unFreezeCard(getCard(pos).cardSerialNumber) {
+                                    viewModel.getUpdatedCard(pos) { card ->
+                                        card?.let {
+                                            adapter.setItemAt(pos, card)
+                                        }
                                     }
                                 }
                             }
