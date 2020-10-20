@@ -147,7 +147,7 @@ class EidInfoReviewViewModel(application: Application) :
 
             val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
             val part =
-                MultipartBody.Part.createFormData("image", file?.name, fileReqBody)
+                MultipartBody.Part.createFormData("files", file?.name, fileReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(part)) {
