@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -59,8 +60,9 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            highlightSelectedItem(view, pos)
+            //  highlightSelectedItem(view, pos)
             viewModel.parentViewModel.selectedItemPosition.value = pos
+            navigate(R.id.cardAnalyticsDetailsFragment, bundleOf("DATA" to getAdaptor().getDataForPosition(pos)))
         }
     }
 
