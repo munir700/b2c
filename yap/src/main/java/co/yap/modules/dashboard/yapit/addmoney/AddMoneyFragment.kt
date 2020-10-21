@@ -41,16 +41,13 @@ class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.V
     }
 
     private fun setupRecycleView() {
-        val adapter: AddMoneyAdapter = getBinding().recyclerOptions.adapter as AddMoneyAdapter
-
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true
             )
         )
-        adapter.setList(viewModel.getAddMoneyOptions())
-        adapter.allowFullItemClickListener = true
-        adapter.setItemListener(listener)
+        viewModel.adapter.allowFullItemClickListener = true
+        viewModel.adapter.setItemListener(listener)
     }
 
     private val listener = object : OnItemClickListener {

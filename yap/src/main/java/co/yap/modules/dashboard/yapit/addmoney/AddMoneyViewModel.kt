@@ -24,6 +24,7 @@ class AddMoneyViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.toolbarTitle = getString(Strings.screen_fragment_yap_it_add_money_title)
+        adapter.setList(getAddMoneyOptions())
     }
 
     override fun handlePressOnView(id: Int) {
