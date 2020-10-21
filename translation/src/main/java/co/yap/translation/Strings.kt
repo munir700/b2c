@@ -1746,4 +1746,22 @@ object Strings {
         "screen_time_line_display_text_status_additional_requirements_description"
     const val screen_time_line_display_text_status_additional_requirements_action: String =
         "screen_time_line_display_text_status_additional_requirements_action"
+
+    // yap it add money screen
+    const val screen_fragment_yap_it_add_money_title: String =
+        "screen_fragment_yap_it_add_money_title"
+    const val screen_fragment_yap_it_add_money_how_do_you_want_to_add_money: String =
+        "screen_fragment_yap_it_add_money_how_do_you_want_to_add_money"
+    const val screen_fragment_yap_it_add_money_text_top_via_card: String =
+        "screen_fragment_yap_it_add_money_text_top_via_card"
+    const val screen_fragment_yap_it_add_money_text_samsung_pay: String =
+        "screen_fragment_yap_it_add_money_text_samsung_pay"
+    const val screen_fragment_yap_it_add_money_text_google_pay: String =
+        "screen_fragment_yap_it_add_money_text_google_pay"
+    const val screen_fragment_yap_it_add_money_text_bank_transfer: String =
+        "screen_fragment_yap_it_add_money_text_bank_transfer"
+    const val screen_fragment_yap_it_add_money_text_cash_or_cheque: String =
+        "screen_fragment_yap_it_add_money_text_cash_or_cheque"
+    const val screen_fragment_yap_it_add_money_text_qr_code: String =
+        "screen_fragment_yap_it_add_money_text_qr_code"
 }
