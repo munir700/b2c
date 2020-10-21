@@ -157,6 +157,14 @@ object Constants {
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2
 
+    // Add Money Constants
+    const val ADD_MONEY_TOP_UP_VIA_CARD: Int = 1
+    const val ADD_MONEY_SAMSUNG_PAY: Int = 2
+    const val ADD_MONEY_GOOGLE_PAY: Int = 3
+    const val ADD_MONEY_BANK_TRANSFER: Int = 4
+    const val ADD_MONEY_CASH_OR_CHEQUE: Int = 5
+    const val ADD_MONEY_QR_CODE: Int = 6
+
     //Analytics
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
 }
