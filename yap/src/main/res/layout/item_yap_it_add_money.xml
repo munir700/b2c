@@ -24,10 +24,10 @@
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_43sdp"
             android:layout_height="@dimen/_43sdp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_small"
             android:background="@drawable/bg_round_purple_enabled"
             android:contentDescription="@string/empty_string"
-            android:padding="@dimen/_11sdp"
+            android:padding="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,15 +36,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
-            style="@style/ASmall"
+            style="@style/Micro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
             android:text="@{viewModel.addMoneyOptions.name}"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="?attr/colorPrimaryDarkAttr"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="Top up via debit/credit card" />
 

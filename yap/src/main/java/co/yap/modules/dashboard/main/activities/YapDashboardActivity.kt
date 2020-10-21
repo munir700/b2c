@@ -40,6 +40,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.yapit.addmoney.AddMoneyFragment
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -162,7 +163,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
+//        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
+        startFragment<AddMoneyFragment>(AddMoneyFragment::class.java.name)
     }
 
     private fun setupPager() {
