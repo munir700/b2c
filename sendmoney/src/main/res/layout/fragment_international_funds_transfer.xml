@@ -336,7 +336,7 @@
                     android:focusable="true"
                     android:gravity="top"
                     android:inputType="text"
-                    android:maxLength="@integer/note_max_length"
+                    android:maxLength="@integer/notes_external_transfer_length"
                     android:minHeight="@dimen/_40sdp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.transactionNote}"
