@@ -6,8 +6,15 @@ import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsDetailsState
 import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.SessionManager
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CardAnalyticsDetailsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalyticsDetails.State>(application),
@@ -15,6 +22,9 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override val state = CardAnalyticsDetailsState()
     override val adapter: ObservableField<TransactionsListingAdapter> =
         ObservableField<TransactionsListingAdapter>()
+    val repository: TransactionsRepository = TransactionsRepository
+    var currentCalendar: Calendar = Calendar.getInstance()
+
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
     override fun handleOnClickEvent(id: Int) {
@@ -24,6 +34,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getCardAnalyticsDetails()
+        fetchMerchantTransactions(Constants.MERCHANT_TYPE, DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
     }
 
     override fun onResume() {
@@ -33,6 +44,27 @@ class CardAnalyticsDetailsViewModel(application: Application) :
 
     override fun getCardAnalyticsDetails() {
         adapter.get()?.setList(getMutableList())
+    }
+
+    override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.getTransactionsOfMerchant(
+                merchantType,
+                SessionManager.getCardSerialNumber(),
+                currentDate
+            )) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        state.loading = false
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 
     private fun getMutableList(): List<Transaction> {

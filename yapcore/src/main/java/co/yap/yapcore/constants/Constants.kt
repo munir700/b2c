@@ -167,4 +167,5 @@ object Constants {
 
     //Analytics
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
+    var MERCHANT_TYPE : String = "merchant-name"
 }
