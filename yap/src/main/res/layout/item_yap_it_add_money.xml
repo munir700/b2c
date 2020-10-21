@@ -38,7 +38,7 @@
             app:src="@{viewModel.addMoneyOptions.image}"
             tools:src="@drawable/ic_notification" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/ASmall"
             android:layout_width="match_parent"
