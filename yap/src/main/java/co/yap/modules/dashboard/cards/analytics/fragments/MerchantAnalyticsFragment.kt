@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,8 @@ import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdapto
 import co.yap.modules.dashboard.cards.analytics.interfaces.IMerchantAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.MerchantAnalyticsViewModel
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.item_analytics.view.*
 
@@ -32,14 +35,14 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     }
 
     override fun setObservers() {
-        viewModel.parentViewModel.merchantAnalyticsItemLiveData?.observe(this, Observer {
+        viewModel.pViewModel.merchantAnalyticsItemLiveData?.observe(this, Observer {
             if (it == null) {
                 return@Observer
             }
             getAdaptor().setList(it)
         })
 
-        viewModel.parentViewModel.selectedItemPositionParent.observe(this, Observer {
+        viewModel.pViewModel.selectedItemPositionParent.observe(this, Observer {
             val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
             if (null != view) {
                 highlightSelectedItem(view, it)
@@ -58,9 +61,25 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            highlightSelectedItem(view, pos)
-            viewModel.parentViewModel.selectedItemPosition.value = pos
+        //    highlightSelectedItem(view, pos)
+            viewModel.pViewModel.selectedItemPosition.value = pos
+            navigateDetails(pos)
         }
+    }
+    private fun navigateDetails(pos : Int) {
+        val selectedItem = getAdaptor().getDataForPosition(pos)
+        navigate(
+            R.id.cardAnalyticsDetailsFragment,
+            bundleOf(
+                Constants.TRANSACTION_TITLE to TxnAnalytic(
+                    title = selectedItem.title,
+                    txnCount = selectedItem.txnCount,
+                    totalSpending = selectedItem.totalSpending,
+                    logoUrl = selectedItem.logoUrl,
+                    totalSpendingInPercentage = selectedItem.totalSpendingInPercentage
+                )
+            )
+        )
     }
 
     private fun highlightSelectedItem(view: View?, pos: Int) {
@@ -89,7 +108,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
             ) {
                 when (newState) {
                     RecyclerView.SCROLL_STATE_IDLE -> {
-                        val pos = viewModel.parentViewModel.selectedItemPositionParent.value
+                        val pos = viewModel.pViewModel.selectedItemPositionParent.value
                         pos?.let {
                             val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
                             highlightSelectedItem(view, it)

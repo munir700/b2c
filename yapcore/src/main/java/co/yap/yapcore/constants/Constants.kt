@@ -156,4 +156,11 @@ object Constants {
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2
 
+    //Analytics
+    const val TRANSACTION_TITLE = "toolbar_title"
+    const val NO_OF_TRANSECTIONS = "no_of_transactions"
+    const val TRANSACTION_DATE = "transaction_date"
+    const val TRANSECTION_IMAGE = "image_icon"
+
+
 }

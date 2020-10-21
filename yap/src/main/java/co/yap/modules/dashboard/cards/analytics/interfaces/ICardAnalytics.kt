@@ -15,7 +15,7 @@ interface ICardAnalytics {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var selectedModel: MutableLiveData<AnalyticsItem>
-        var parentViewModel: ICardAnalyticsMain.ViewModel
+        var pViewModel: ICardAnalyticsMain.ViewModel
         fun fetchCardCategoryAnalytics(currentMonth: String)
         fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)

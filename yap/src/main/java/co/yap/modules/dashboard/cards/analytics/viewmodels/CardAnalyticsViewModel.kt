@@ -26,7 +26,7 @@ class CardAnalyticsViewModel(application: Application) :
     override val state: CardAnalyticsState = CardAnalyticsState(application)
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
-    override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
+    override lateinit var pViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     var currentCalendar: Calendar = Calendar.getInstance()
     var creationCalender: Calendar = Calendar.getInstance()
@@ -34,9 +34,10 @@ class CardAnalyticsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
 
-        parentVM?.let {
-            parentViewModel = it
+        parentViewModel?.let {
+            pViewModel = it
         }
+        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         fetchCardCategoryAnalytics(DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
         state.nextMonth = false
@@ -139,7 +140,7 @@ class CardAnalyticsViewModel(application: Application) :
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
@@ -173,7 +174,7 @@ class CardAnalyticsViewModel(application: Application) :
                         state.currencyType,
                         state.monthlyMerchantAvgAmount?.toFormattedCurrency()
                     )
-                    parentVM?.merchantAnalyticsItemLiveData?.value =
+                    parentViewModel?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics
                     state.loading = false
                 }

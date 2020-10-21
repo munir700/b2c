@@ -20,63 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <co.yap.widgets.CoreToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:leftIconVisibility="@{true}"
-            app:onClick="@{cardAnalyticsDetailsViewModel::onToolBarClick}"
-            app:titleString="@{cardAnalyticsDetailsViewModel.state.toolbarTitle}" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center_vertical"
-            android:padding="@dimen/_8sdp">
-
-            <ImageView
-                android:id="@+id/tbBtnBack"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{(v) -> cardAnalyticsDetailsViewModel.handleOnClickEvent(v.id)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back_arrow_left"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitle"
-                style="@style/Regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:layout_toEndOf="@id/tbBtnBack"
-                android:gravity="center"
-                android:text="@{cardAnalyticsDetailsViewModel.state.toolbarTitle}"
-                android:textColor="@color/colorPrimaryDark"
-                tools:text="Shopping" />
-
-        </RelativeLayout>
-
         <co.yap.widgets.CoreCircularImageView
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal_large"
-            android:background="@color/light_grey"
+            android:background="@drawable/bg_round_purple_enabled"
             android:padding="@dimen/_10sdp"
             android:src="@drawable/ic_access_alarm" />
 
@@ -98,28 +47,29 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="2dp"
             android:gravity="center_horizontal"
-            android:text="AED 600.30"
+            android:text="@{cardAnalyticsDetailsViewModel.state.totalSpendings}"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_size_h6" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="8dp"
-            app:contentPaddingBottom="@dimen/margin_small"
-            app:contentPaddingTop="@dimen/margin_small">
+            app:cardCornerRadius="@dimen/margin_extra_small"
+            app:cardElevation="@dimen/margin_extra_small"
+            >
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/margin_btn_side_xxl"
                 android:orientation="horizontal"
-                android:paddingTop="@dimen/margin_extra_small"
-                android:paddingBottom="@dimen/margin_extra_small">
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal"
+                android:background="@drawable/bg_grey_border">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -150,7 +100,7 @@
                 <View
                     android:layout_width="0.1sp"
                     android:layout_height="match_parent"
-                    android:background="@color/textDarkColor" />
+                    android:background="@color/greyLight" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -181,7 +131,7 @@
                 <View
                     android:layout_width="0.1sp"
                     android:layout_height="match_parent"
-                    android:background="@color/textDarkColor" />
+                    android:background="@color/greyLight" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -208,20 +158,20 @@
                         android:textColor="@color/greyDark"
                         android:textSize="@dimen/text_size_h1" />
                 </LinearLayout>
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_normal"
             android:lineSpacingExtra="6sp"
             android:text="Transactions"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp" />
+            android:textColor="@color/colorMidnightExpress"
+            android:textSize="@dimen/_12sdp" />
 
         <View
             android:layout_width="match_parent"
@@ -233,7 +183,7 @@
             android:id="@+id/multiStateView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/small"
+            android:layout_marginTop="@dimen/_6sdp"
             android:layout_weight="1"
             app:msv_animateViewChanges="true"
             app:msv_emptyView="@layout/layout_empty_view_no_results"
@@ -249,7 +199,7 @@
                 app:adapter="@{cardAnalyticsDetailsViewModel.adapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:reverseLayout="false"
-                tools:listitem="@layout/item_card_analytics_details" />
+                tools:listitem="@layout/item_transaction_list" />
         </co.yap.widgets.MultiStateView>
 
     </LinearLayout>
