@@ -166,4 +166,9 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_GET_PURPOSE_OF_PAYMENT)
     suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_MERCHANT_TRANSACTIONS)
+    suspend fun getTransactionsOfMerchant(@Path("merchant-type") merchantType: String): Response<AnalyticsDetailResponseDTO>
+
+
 }
