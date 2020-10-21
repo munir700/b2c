@@ -4,9 +4,9 @@ import android.view.View
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class YapItAddMoneyItemViewModel(
-    val addMoneyOptions: AddMoneyOptions,
-    val position: Int,
+class YapItAddMoneyItemVM(
+    var addMoneyOptions: AddMoneyOptions,
+    var position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {
     fun handlePressOnView(view: View) {

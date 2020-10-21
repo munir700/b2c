@@ -9,7 +9,5 @@ import kotlinx.android.parcel.Parcelize
 data class AddMoneyOptions(
     val id: Int,
     var name: String,
-    val image: Int,
-    val bgColor: Int,
-    val tint: Int
+    val image: Int
 ) : Parcelable

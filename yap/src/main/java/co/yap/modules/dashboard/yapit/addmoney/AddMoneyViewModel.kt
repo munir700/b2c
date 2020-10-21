@@ -2,18 +2,24 @@ package co.yap.modules.dashboard.yapit.addmoney
 
 import android.app.Application
 import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableField
 import co.yap.R
 import co.yap.modules.dashboard.more.home.models.MoreOption
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import com.leanplum.Leanplum
 
-class AddMoneyViewModel (application: Application):
-        BaseViewModel<IAddMoney.State>(application), IAddMoney.ViewModel {
+class AddMoneyViewModel(application: Application) :
+    BaseViewModel<IAddMoney.State>(application), IAddMoney.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IAddMoney.State = AddMoneyState()
+    override val adapter = AddMoneyAdapter(
+        context,
+        mutableListOf()
+    )
 
     override fun onCreate() {
         super.onCreate()
@@ -30,55 +36,42 @@ class AddMoneyViewModel (application: Application):
             AddMoneyOptions(
                 Constants.ADD_MONEY_TOP_UP_VIA_CARD,
                 getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
-                R.drawable.ic_icon_card_transfer,
-                ContextCompat.getColor(context, R.color.colorPrimary),
-                ContextCompat.getColor(context, R.color.colorPrimary)
+                R.drawable.ic_icon_card_transfer
             )
         )
-        //colorSecondaryGreen
         list.add(
             AddMoneyOptions(
                 Constants.ADD_MONEY_GOOGLE_PAY,
                 getString(Strings.screen_fragment_yap_it_add_money_text_google_pay),
-                R.drawable.flag_ad,
-                0,
-                0
+                R.drawable.flag_ad
             )
         )
         list.add(
             AddMoneyOptions(
                 Constants.ADD_MONEY_SAMSUNG_PAY,
                 getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay),
-                R.drawable.flag_ae,
-                0,
-            0
+                R.drawable.flag_ae
             )
         )
         list.add(
             AddMoneyOptions(
                 Constants.ADD_MONEY_BANK_TRANSFER,
                 getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer),
-                R.drawable.ic_bank,
-                ContextCompat.getColor(context, R.color.colorPrimary),
-                0
+                R.drawable.ic_bank_transfer
             )
         )
         list.add(
             AddMoneyOptions(
                 Constants.ADD_MONEY_CASH_OR_CHEQUE,
                 getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque),
-                R.drawable.ic_cash_out_trasaction,
-                ContextCompat.getColor(context, R.color.colorPrimary),
-                0
+                R.drawable.ic_cash
             )
         )
         list.add(
             AddMoneyOptions(
                 Constants.ADD_MONEY_QR_CODE,
                 getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
-                R.drawable.ic_qr_code,
-                ContextCompat.getColor(context, R.color.colorPrimary),
-                0
+                R.drawable.ic_qr_code
             )
         )
         return list

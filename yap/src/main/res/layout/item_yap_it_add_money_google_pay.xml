@@ -20,7 +20,7 @@
         android:background="@drawable/cornor_edges_gery"
         android:padding="@dimen/margin_medium">
 
-        <co.yap.widgets.CoreCircularImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_43sdp"
             android:layout_height="@dimen/_43sdp"
@@ -29,7 +29,6 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_round_purple_enabled"
             android:contentDescription="@string/empty_string"
             android:padding="@dimen/_11sdp"
             app:layout_constraintEnd_toEndOf="parent"

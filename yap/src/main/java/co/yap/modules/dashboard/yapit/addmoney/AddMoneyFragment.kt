@@ -15,10 +15,10 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.View {
-    lateinit var adapter: AddMoneyAdapter
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_money
+    lateinit var adapter: AddMoneyAdapter
 
     override val viewModel: IAddMoney.ViewModel
         get() = ViewModelProviders.of(this).get(AddMoneyViewModel::class.java)

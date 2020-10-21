@@ -10,10 +10,13 @@ interface IAddMoney {
         fun setObservers()
         fun removeObservers()
     }
+
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        val adapter: AddMoneyAdapter
         fun handlePressOnView(id: Int)
         fun getAddMoneyOptions(): MutableList<AddMoneyOptions>
     }
+
     interface State : IBase.State {}
 }
