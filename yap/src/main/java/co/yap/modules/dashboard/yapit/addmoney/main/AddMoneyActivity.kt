@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.main
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
@@ -24,5 +24,13 @@ class AddMoneyActivity : BaseBindingActivity<IAddMoney.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+        }
     }
 }

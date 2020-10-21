@@ -32,7 +32,6 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
-import co.yap.modules.dashboard.addmoney.AddMoneyActivity
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
@@ -41,7 +40,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
-import co.yap.modules.dashboard.yapit.addmoney.AddMoneyFragment
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -138,11 +137,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             }*/
                         }
                         2 -> {
-                           /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                openTopUpScreen()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }*/
+                            /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                 openTopUpScreen()
+                             } else {
+                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                             }*/
                         }
                         3 -> {
                             launchActivity<AddMoneyActivity>()

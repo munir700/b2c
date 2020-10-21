@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.main
 
 import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase

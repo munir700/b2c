@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.addmoney.AddMoneyViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyViewModel" />
 
         <import type="android.view.View" />
 
@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIcon="@{R.drawable.ic_close}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_trade}"

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.main
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders

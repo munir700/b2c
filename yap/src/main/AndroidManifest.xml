@@ -120,7 +120,7 @@
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".modules.dashboard.addmoney.AddMoneyActivity"
+            android:name=".modules.dashboard.yapit.addmoney.main.AddMoneyActivity"
             android:screenOrientation="portrait" />
 
         <activity

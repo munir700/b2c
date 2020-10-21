@@ -1,21 +1,21 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
-import co.yap.databinding.FragmentAddMoneyBinding
+import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IAddMoney {
+interface IAddMoneyLanding {
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAddMoneyBinding
+        fun getBinding(): FragmentAddMoneyLandingBinding
         fun setObservers()
         fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val adapter: AddMoneyAdapter
+        val landingAdapter: AddMoneyLandingAdapter
         fun handlePressOnView(id: Int)
-        fun getAddMoneyOptions(): MutableList<AddMoneyOptions>
+        fun getAddMoneyOptions(): MutableList<AddMoneyLandingOptions>
     }
 
     interface State : IBase.State {}
