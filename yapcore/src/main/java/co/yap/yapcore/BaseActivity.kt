@@ -18,7 +18,6 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.enums.UserAccessRestriction
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
