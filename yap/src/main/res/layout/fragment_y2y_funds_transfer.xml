@@ -140,7 +140,6 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:maxLength="@integer/notes_internal_transfer_length"
                 android:background="@null"
-                android:maxLength="@integer/note_max_length"
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
