@@ -13,7 +13,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
@@ -76,7 +75,8 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
 
             val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
-                context.dummyEID()
+                //context.dummyEID()
+                File(result.document.files[1].croppedFile)
             } else {
                 File(result.document.files[1].croppedFile)
             }
