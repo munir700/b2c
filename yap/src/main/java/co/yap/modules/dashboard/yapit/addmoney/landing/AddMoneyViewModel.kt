@@ -1,25 +1,23 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.app.Application
-import androidx.core.content.ContextCompat
-import androidx.databinding.ObservableField
 import co.yap.R
-import co.yap.modules.dashboard.more.home.models.MoreOption
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import com.leanplum.Leanplum
 
 class AddMoneyViewModel(application: Application) :
-    BaseViewModel<IAddMoney.State>(application), IAddMoney.ViewModel {
+    BaseViewModel<IAddMoney.State>(application),
+    IAddMoney.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: IAddMoney.State = AddMoneyState()
-    override val adapter = AddMoneyAdapter(
-        context,
-        mutableListOf()
-    )
+    override val state: IAddMoney.State =
+        AddMoneyState()
+    override val adapter =
+        AddMoneyAdapter(
+            context,
+            mutableListOf()
+        )
 
     override fun onCreate() {
         super.onCreate()

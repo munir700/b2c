@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
@@ -22,7 +22,9 @@ class AddMoneyAdapter(context: Context, private val list: MutableList<AddMoneyOp
         if (viewType == type1) R.layout.item_yap_it_add_money else R.layout.item_yap_it_add_money_google_pay
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return if (binding is ItemYapItAddMoneyBinding) ViewHolder(binding) else ViewHolderType2(
+        return if (binding is ItemYapItAddMoneyBinding) ViewHolder(
+            binding
+        ) else ViewHolderType2(
             binding as ItemYapItAddMoneyGooglePayBinding
         )
     }

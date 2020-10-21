@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.View {
+class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(),
+    IAddMoney.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_money

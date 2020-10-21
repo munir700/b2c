@@ -1758,4 +1758,10 @@ object Strings {
         "screen_fragment_yap_it_add_money_text_cash_or_cheque"
     const val screen_fragment_yap_it_add_money_text_qr_code: String =
         "screen_fragment_yap_it_add_money_text_qr_code"
+
+    // yap it QR Code screen
+    const val screen_fragment_yap_it_qr_code_share_my_code: String =
+        "screen_fragment_yap_it_qr_code_share_my_code"
+    const val screen_fragment_yap_it_qr_code_save_to_gallery: String =
+        "screen_fragment_yap_it_qr_code_save_to_gallery"
 }

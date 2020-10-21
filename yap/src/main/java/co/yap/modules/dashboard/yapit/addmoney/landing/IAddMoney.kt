@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import co.yap.databinding.FragmentAddMoneyBinding
 import co.yap.yapcore.IBase

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.AddMoneyViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.landing.AddMoneyViewModel" />
 
         <import type="android.view.View" />
     </data>

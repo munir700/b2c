@@ -1,6 +1,7 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.view.View
+import co.yap.modules.dashboard.yapit.addmoney.landing.AddMoneyOptions
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
