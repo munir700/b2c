@@ -8,7 +8,7 @@ interface IMerchantAnalytics {
         fun setObservers()
     }
     interface ViewModel : IBase.ViewModel<State>{
-        var parentViewModel: ICardAnalyticsMain.ViewModel
+        var pViewModel: ICardAnalyticsMain.ViewModel
     }
     interface State : IBase.State
 }
