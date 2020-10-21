@@ -285,13 +285,12 @@ class YapHomeViewModel(application: Application) :
         }
         if (accountInfo.getUserAccessRestrictions()
                 .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
-            && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             SessionManager.eidStatus = EIDStatus.EXPIRED
             list.add(
                 HomeNotification(
                     id = "4",
-                    title = "Renewed ID",
+                    title = "Renew ID",
                     description = accountInfo.EIDExpiryMessage
                         ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
                     action = NotificationAction.UPDATE_EMIRATES_ID
