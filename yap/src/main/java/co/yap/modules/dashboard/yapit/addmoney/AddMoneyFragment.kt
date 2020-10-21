@@ -41,7 +41,7 @@ class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.V
     }
 
     private fun setupRecycleView() {
-        var adapter: AddMoneyAdapter = getBinding().recyclerOptions.adapter as AddMoneyAdapter
+        val adapter: AddMoneyAdapter = getBinding().recyclerOptions.adapter as AddMoneyAdapter
 
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
