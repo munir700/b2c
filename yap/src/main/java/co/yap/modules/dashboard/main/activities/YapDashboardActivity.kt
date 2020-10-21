@@ -32,6 +32,7 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
+import co.yap.modules.dashboard.addmoney.AddMoneyActivity
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
@@ -97,29 +98,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
             .addSubActionView(
-                getString(R.string.send_money),
+                getString(Strings.common_send_money),
                 R.drawable.ic_send_money,
+                R.layout.component_yap_menu_sub_button,
+                this, 1
+            )/*.addSubActionView(
+                getString(Strings.common_pay_bills),
+                R.drawable.ic_bill,
+                R.layout.component_yap_menu_sub_button,
+                this, 2
+            )*/.addSubActionView(
+                getString(Strings.common_add_money),
+                R.drawable.ic_add_sign_white,
                 R.layout.component_yap_menu_sub_button,
                 this, 3
             )
-            .addSubActionView(
-                getString(R.string.common_add_money),
-                R.drawable.ic_add_sign_white,
-                R.layout.component_yap_menu_sub_button,
-                this, 1
-            )
-            /*.addSubActionView(
-                getString(R.string.yap_to_yap),
-                R.drawable.ic_yap_to_yap,
-                R.layout.component_yap_menu_sub_button,
-                this, 1
-            )*/
-            /*.addSubActionView(
-          getString(R.string.top_up),
-          R.drawable.ic_top_up,
-          R.layout.component_yap_menu_sub_button,
-          this, 2
-      )*/
             .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
             .setTxtYapIt(getViewBinding().txtYapIt)
             .setStateChangeListener(object :
@@ -132,6 +125,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                openSendMoneyScreen()
+                            } else {
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            }
                             /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
@@ -139,22 +137,17 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             }*/
                         }
                         2 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                           /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 openTopUpScreen()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
+                            }*/
                         }
                         3 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                openSendMoneyScreen()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
+                            launchActivity<AddMoneyActivity>()
                         }
                     }
                 }
-
             })
             .build()
     }

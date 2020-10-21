@@ -40,8 +40,12 @@ object Strings {
         "common_display_text_daily_limit_error"
     const val common_display_text_on_hold_limit_error: String =
         "common_display_text_on_hold_limit_error"
+    const val common_send_money: String =
+        "common_send_money"
     const val common_add_money: String =
         "common_add_money"
+    const val common_pay_bills: String =
+        "common_pay_bills"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
