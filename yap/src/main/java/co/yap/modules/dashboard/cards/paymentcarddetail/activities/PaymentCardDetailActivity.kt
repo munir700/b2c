@@ -193,9 +193,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         type = FeatureSet.ADD_FUNDS
                     ) {
                         putExtra(AddFundsActivity.CARD, card)
+                        cancelAllSnackBar()
                     }
                 }
-                cancelAllSnackBar()
             }
             R.id.llFreezeSpareCard -> {
                 if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
@@ -437,8 +437,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         ChangeCardPinActivity.CARD_SERIAL_NUMBER,
                         viewModel.card.value?.cardSerialNumber ?: ""
                     )
+                    cancelAllSnackBar()
                 }
-                cancelAllSnackBar()
             }
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
@@ -448,8 +448,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                             co.yap.yapcore.constants.Constants.CARD_SERIAL_NUMBER,
                             it
                         )
+                        cancelAllSnackBar()
                     }
-                    cancelAllSnackBar()
                 }
             }
 
@@ -458,8 +458,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     launchActivity<CardStatementsActivity> {
                         putExtra("card", it)
                         putExtra("isFromDrawer", false)
+                        cancelAllSnackBar()
                     }
-                    cancelAllSnackBar()
                 }
             }
             Constants.EVENT_REPORT_CARD -> {
