@@ -61,17 +61,18 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-        //    highlightSelectedItem(view, pos)
+            //    highlightSelectedItem(view, pos)
             viewModel.pViewModel.selectedItemPosition.value = pos
             navigateDetails(pos)
         }
     }
-    private fun navigateDetails(pos : Int) {
+
+    private fun navigateDetails(pos: Int) {
         val selectedItem = getAdaptor().getDataForPosition(pos)
         navigate(
             R.id.cardAnalyticsDetailsFragment,
             bundleOf(
-                Constants.TRANSACTION_TITLE to TxnAnalytic(
+                Constants.TRANSACTION_DETAIL to TxnAnalytic(
                     title = selectedItem.title,
                     txnCount = selectedItem.txnCount,
                     totalSpending = selectedItem.totalSpending,

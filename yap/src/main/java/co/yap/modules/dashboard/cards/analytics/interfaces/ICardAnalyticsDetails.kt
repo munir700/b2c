@@ -1,9 +1,7 @@
 package co.yap.modules.dashboard.cards.analytics.interfaces
 
 import androidx.databinding.ObservableField
-import co.yap.modules.dashboard.cards.analytics.adaptors.CardAnalyticsDetailsAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 

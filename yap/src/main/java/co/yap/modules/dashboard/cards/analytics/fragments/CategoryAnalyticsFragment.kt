@@ -74,7 +74,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
         navigate(
             R.id.cardAnalyticsDetailsFragment,
             bundleOf(
-                Constants.TRANSACTION_TITLE to TxnAnalytic(
+                Constants.TRANSACTION_DETAIL to TxnAnalytic(
                     title = selectedItem.title,
                     txnCount = selectedItem.txnCount,
                     totalSpending = selectedItem.totalSpending,

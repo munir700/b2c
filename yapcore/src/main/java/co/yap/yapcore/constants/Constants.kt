@@ -65,6 +65,7 @@ object Constants {
     const val URL_TERMS_CONDITION = "https://yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
+
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
 
@@ -157,10 +158,5 @@ object Constants {
     const val SMS_CONSENT_REQUEST = 2
 
     //Analytics
-    const val TRANSACTION_TITLE = "toolbar_title"
-    const val NO_OF_TRANSECTIONS = "no_of_transactions"
-    const val TRANSACTION_DATE = "transaction_date"
-    const val TRANSECTION_IMAGE = "image_icon"
-
-
+    const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
 }

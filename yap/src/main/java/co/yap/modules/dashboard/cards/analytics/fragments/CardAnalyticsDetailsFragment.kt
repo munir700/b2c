@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.analytics.adaptors.CardAnalyticsDetailsAdapter
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsDetailsViewModel
@@ -23,7 +22,6 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
 
     override fun getLayoutId() = R.layout.fragment_card_analytics_details
 
-
     override val viewModel: CardAnalyticsDetailsViewModel
         get() = ViewModelProviders.of(this).get(CardAnalyticsDetailsViewModel::class.java)
 
@@ -31,9 +29,8 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
         super.onCreate(savedInstanceState)
         viewModel.adapter.set(TransactionsListingAdapter(mutableListOf()))
         arguments?.let { bundle ->
-            bundle.getParcelable<TxnAnalytic>(Constants.TRANSACTION_TITLE)?.let {
-                viewModel.parentViewModel?.state?.toolbarTitle = it.title ?: ""
-//                viewModel.state.title.set(it.title.toString())
+            bundle.getParcelable<TxnAnalytic>(Constants.TRANSACTION_DETAIL)?.let {
+                viewModel.state.title.set(it.title ?: "")
                 viewModel.state.totalSpendings.set(it.totalSpending)
             }
         }
