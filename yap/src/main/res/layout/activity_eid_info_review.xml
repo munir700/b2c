@@ -275,7 +275,6 @@
                     android:layout_marginBottom="@dimen/margin_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:textColor="@color/colorPrimary"
-                    android:visibility="@{viewModel.parentViewModel.skipFirstScreen? View.GONE :View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

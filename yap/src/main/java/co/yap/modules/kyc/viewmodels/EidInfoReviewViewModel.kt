@@ -226,8 +226,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
-                            .toString() else it.citizenNumber,
+                        identityNo = it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
@@ -397,6 +396,26 @@ class EidInfoReviewViewModel(application: Application) :
                 builder.append(it.subSequence(14..14))
             return@let builder.toString()
         } ?: ""
+    }
+
+    fun invalidateFields() {
+        state.firstName = ""
+        state.middleName = ""
+        state.lastName = ""
+        state.nationality = ""
+        state.dateOfBirth = ""
+        state.gender = ""
+        state.citizenNumber = ""
+        state.caption = ""
+        state.valid = false
+        state.fullNameValid = false
+        state.nationalityValid = false
+        state.dateOfBirthValid = false
+        state.genderValid = false
+        state.expiryDateValid = true
+        state.expiryDate = ""
+        //state.isShowMiddleName = false
+        //state.isShowLastName = false
     }
 
     private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {
