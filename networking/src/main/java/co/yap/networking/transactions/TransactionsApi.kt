@@ -71,5 +71,7 @@ interface TransactionsApi {
 
     suspend fun getAchievements(): RetroApiResponse<ApiResponse>
     suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO>
-    suspend fun getTransactionsOfMerchant(productCode: String): RetroApiResponse<AnalyticsDetailResponseDTO>
+    suspend fun getTransactionsOfMerchant(  merchantType: String,
+                                            cardSerialNo: String?,
+                                            date: String?): RetroApiResponse<AnalyticsDetailResponseDTO>
 }

@@ -234,7 +234,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
 
-    override suspend fun getTransactionsOfMerchant(merchantType: String): RetroApiResponse<AnalyticsDetailResponseDTO> =
-        executeSafely(call = { api.getTransactionsOfMerchant(merchantType) })
+    override suspend fun getTransactionsOfMerchant(
+        merchantType: String,
+        cardSerialNo: String?,
+        date: String?
+    ): RetroApiResponse<AnalyticsDetailResponseDTO> =
+        executeSafely(call = { api.getTransactionsOfMerchant(merchantType, cardSerialNo, date) })
 
 }
