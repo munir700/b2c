@@ -10,5 +10,5 @@
     <integer name="spareCardName">50</integer>
     <integer name="beneficiary_length">31</integer>
     <integer name="notes_external_transfer_length">30</integer>
-    <integer name="notes_internal_transfer_length">32</integer>
+    <integer name="notes_internal_transfer_length">30</integer>
 </resources>
