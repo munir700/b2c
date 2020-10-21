@@ -163,8 +163,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun openTopUpScreen() {
-//        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
-        startFragment<AddMoneyFragment>(AddMoneyFragment::class.java.name)
+        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
     }
 
     private fun setupPager() {

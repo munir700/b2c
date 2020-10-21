@@ -26,7 +26,7 @@
             android:layout_height="@dimen/_43sdp"
             android:layout_marginTop="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
-            android:padding="@dimen/margin_small"
+            android:padding="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

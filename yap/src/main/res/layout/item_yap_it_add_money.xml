@@ -27,7 +27,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:background="@drawable/bg_round_purple_enabled"
             android:contentDescription="@string/empty_string"
-            android:padding="@dimen/margin_small"
+            android:padding="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
