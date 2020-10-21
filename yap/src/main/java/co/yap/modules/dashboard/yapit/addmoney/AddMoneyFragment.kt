@@ -18,7 +18,6 @@ class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.V
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_money
-    lateinit var adapter: AddMoneyAdapter
 
     override val viewModel: IAddMoney.ViewModel
         get() = ViewModelProviders.of(this).get(AddMoneyViewModel::class.java)
@@ -42,14 +41,14 @@ class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.V
     }
 
     private fun setupRecycleView() {
-        adapter = AddMoneyAdapter(requireContext(), viewModel.getAddMoneyOptions())
-        getBinding().recyclerOptions.adapter = adapter
+        var adapter: AddMoneyAdapter = getBinding().recyclerOptions.adapter as AddMoneyAdapter
 
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true
             )
         )
+        adapter.setList(viewModel.getAddMoneyOptions())
         adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
     }
