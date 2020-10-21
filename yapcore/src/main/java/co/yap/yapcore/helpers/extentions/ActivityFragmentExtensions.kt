@@ -41,7 +41,7 @@ inline fun <reified T : Any> Activity.launchActivity(
     noinline init: Intent.() -> Unit = {}
 ) {
     if (FeatureProvisioning.getFeatureProvisioning(type)) {
-        showBlockedFeatureAlert(this,type)
+        showBlockedFeatureAlert(this, type)
     } else {
         val intent = newIntent<T>(this)
         intent.init()
