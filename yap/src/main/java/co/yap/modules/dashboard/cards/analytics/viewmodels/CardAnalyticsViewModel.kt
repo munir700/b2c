@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
-import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
@@ -26,19 +25,14 @@ class CardAnalyticsViewModel(application: Application) :
     override val state: CardAnalyticsState = CardAnalyticsState(application)
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
-    override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     var currentCalendar: Calendar = Calendar.getInstance()
     var creationCalender: Calendar = Calendar.getInstance()
 
     override fun onCreate() {
         super.onCreate()
-
-        parentVM?.let {
-            parentViewModel = it
-        }
+        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        fetchCardCategoryAnalytics(DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
         state.nextMonth = false
         SessionManager.user?.creationDate?.let {
             val date =
@@ -60,11 +54,6 @@ class CardAnalyticsViewModel(application: Application) :
 
 
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-       // setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
     }
 
     override fun handlePressOnView(id: Int) {
@@ -139,7 +128,7 @@ class CardAnalyticsViewModel(application: Application) :
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
@@ -173,7 +162,7 @@ class CardAnalyticsViewModel(application: Application) :
                         state.currencyType,
                         state.monthlyMerchantAvgAmount?.toFormattedCurrency()
                     )
-                    parentVM?.merchantAnalyticsItemLiveData?.value =
+                    parentViewModel?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics
                     state.loading = false
                 }

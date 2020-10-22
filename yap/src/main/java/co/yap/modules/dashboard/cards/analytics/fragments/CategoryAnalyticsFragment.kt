@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,8 @@ import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdapto
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICategoryAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.item_analytics.view.*
 
@@ -24,7 +27,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     override fun getLayoutId(): Int = R.layout.fragment_category_analytics
 
-    override val viewModel: ICategoryAnalytics.ViewModel
+    override val viewModel: CategoryAnalyticsViewModel
         get() = ViewModelProviders.of(this).get(CategoryAnalyticsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,13 +37,13 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun setObservers() {
-        viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
+        viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.observe(this, Observer {
             if (it == null) {
                 return@Observer
             }
             getAdaptor().setList(it)
         })
-        viewModel.parentViewModel.selectedItemPositionParent.observe(this, Observer {
+        viewModel.parentViewModel?.selectedItemPositionParent?.observe(this, Observer {
             val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
             if (null != view) {
                 highlightSelectedItem(view, it)
@@ -59,9 +62,27 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            highlightSelectedItem(view, pos)
-            viewModel.parentViewModel.selectedItemPosition.value = pos
+            viewModel.parentViewModel?.selectedItemPosition?.value = pos
+            navigateDetails(pos)
+
         }
+    }
+
+    private fun navigateDetails(pos : Int) {
+        Constants.MERCHANT_TYPE = "merchant-category"
+        val selectedItem = getAdaptor().getDataForPosition(pos)
+        navigate(
+            R.id.cardAnalyticsDetailsFragment,
+            bundleOf(
+                Constants.TRANSACTION_DETAIL to TxnAnalytic(
+                    title = selectedItem.title,
+                    txnCount = selectedItem.txnCount,
+                    totalSpending = selectedItem.totalSpending,
+                    logoUrl = selectedItem.logoUrl,
+                    totalSpendingInPercentage = selectedItem.totalSpendingInPercentage
+                )
+            )
+        )
     }
 
     private fun highlightSelectedItem(view: View?, pos: Int) {
@@ -91,7 +112,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             ) {
                 when (newState) {
                     SCROLL_STATE_IDLE -> {
-                        val pos = viewModel.parentViewModel.selectedItemPositionParent.value
+                        val pos = viewModel.parentViewModel?.selectedItemPositionParent?.value
                         pos?.let {
                             val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
                             highlightSelectedItem(view, it)

@@ -65,6 +65,7 @@ object Constants {
     const val URL_TERMS_CONDITION = "https://yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
+
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
 
@@ -164,4 +165,7 @@ object Constants {
     const val ADD_MONEY_CASH_OR_CHEQUE: Int = 5
     const val ADD_MONEY_QR_CODE: Int = 6
 
+    //Analytics
+    const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
+    var MERCHANT_TYPE : String = "merchant-name"
 }

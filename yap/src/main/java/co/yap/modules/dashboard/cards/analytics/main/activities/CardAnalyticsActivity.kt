@@ -30,7 +30,9 @@ class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(
     override fun onToolBarClick(id: Int) {
         super.onToolBarClick(id)
         when (id) {
-            R.id.ivLeftIcon ->{ this.finish()}
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
         }
     }
 }
