@@ -62,7 +62,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            //  highlightSelectedItem(view, pos)
             viewModel.pViewModel.selectedItemPosition.value = pos
             navigateDetails(pos)
 

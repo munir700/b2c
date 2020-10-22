@@ -24,6 +24,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
         ObservableField<TransactionsListingAdapter>()
     val repository: TransactionsRepository = TransactionsRepository
     var currentCalendar: Calendar = Calendar.getInstance()
+    var list: MutableList<Transaction>? = ArrayList<Transaction>()
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
@@ -33,11 +34,11 @@ class CardAnalyticsDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getCardAnalyticsDetails()
         fetchMerchantTransactions(
             Constants.MERCHANT_TYPE,
             DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         )
+        getCardAnalyticsDetails()
     }
 
     override fun onResume() {
@@ -46,7 +47,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     }
 
     override fun getCardAnalyticsDetails() {
-        adapter.get()?.setList(getMutableList())
+        list?.let { adapter.get()?.setList(it) }
     }
 
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
@@ -59,6 +60,9 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
+                        if (!it.txnAnalytics.isNullOrEmpty()){
+                            list = it.txnAnalytics
+                        }
                         state.loading = false
                     }
                 }
@@ -68,50 +72,5 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                 }
             }
         }
-    }
-
-    private fun getMutableList(): List<Transaction> {
-        var list: MutableList<Transaction> = ArrayList<Transaction>()
-        list.add(
-            Transaction(
-                title = "Something",
-                currency = "AED",
-                updatedDate = "2010-09-22T07:28:56",
-                creationDate = "2009-04-22T07:28:19"
-            )
-        )
-        list.add(
-            Transaction(
-                title = "Something1",
-                currency = "AED",
-                updatedDate = "2010-09-22T07:28:56",
-                creationDate = "2009-04-22T07:28:19"
-            )
-        )
-        list.add(
-            Transaction(
-                title = "Something2",
-                currency = "AED",
-                updatedDate = "2010-09-22T07:20:16",
-                creationDate = "2009-04-22T07:28:19"
-            )
-        )
-        list.add(
-            Transaction(
-                title = "Something3",
-                currency = "AED",
-                updatedDate = "2010-09-22T07:28:56",
-                creationDate = "2009-04-22T07:28:19"
-            )
-        )
-        list.add(
-            Transaction(
-                title = "Something4",
-                currency = "AED",
-                updatedDate = "2010-09-22T07:28:56",
-                creationDate = "2009-04-22T07:28:19"
-            )
-        )
-        return list
     }
 }
