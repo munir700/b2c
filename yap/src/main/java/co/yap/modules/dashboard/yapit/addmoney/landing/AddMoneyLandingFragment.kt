@@ -2,17 +2,22 @@ package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
+import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
+import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
+import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivityForResult
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>(),
@@ -63,7 +68,9 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private val observer = Observer<Int> {
         when (it) {
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
-                showToast(getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card))
+//                RequestCodes.REQUEST_SHOW_BENEFICIARY
+                launchActivityForResult<TopUpBeneficiariesActivity>(completionHandler = { resultCode, data ->
+                })
             }
             Constants.ADD_MONEY_SAMSUNG_PAY -> {
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay))
@@ -72,10 +79,15 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_google_pay))
             }
             Constants.ADD_MONEY_BANK_TRANSFER -> {
-                showToast(getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer))
+                startFragment(
+                    TopUpBankDetailsFragment::class.java.name,
+                    false,
+                    bundleOf(
+                    )
+                )
             }
             Constants.ADD_MONEY_CASH_OR_CHEQUE -> {
-                showToast(getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque))
+                startFragment(CdmMapFragment::class.java.name)
             }
             Constants.ADD_MONEY_QR_CODE -> {
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_qr_code))
@@ -86,5 +98,4 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     override fun getBinding(): FragmentAddMoneyLandingBinding {
         return viewDataBinding as FragmentAddMoneyLandingBinding
     }
-
 }
