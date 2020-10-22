@@ -1764,4 +1764,6 @@ object Strings {
         "screen_fragment_yap_it_qr_code_share_my_code"
     const val screen_fragment_yap_it_qr_code_save_to_gallery: String =
         "screen_fragment_yap_it_qr_code_save_to_gallery"
+    const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
+        "screen_fragment_yap_it_qr_code_text_share_to_proceed"
 }

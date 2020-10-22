@@ -13,6 +13,7 @@ class QRCodeViewModel (application: Application) :
     override val state: QRCodeState = QRCodeState()
 
     override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun onCreate() {

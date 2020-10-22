@@ -20,24 +20,28 @@
         android:background="@color/transparent">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/layoutQRCode"
+            app:layout_constraintBottom_toTopOf="@+id/layoutQRCode"
             android:src="@drawable/ic_close_white"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginStart="@dimen/margin_extra_large"/>
+            android:layout_marginBottom="@dimen/margin_small"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutQRCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="@dimen/margin_extra_large"
         android:background="@drawable/cornor_edges_gery"
-        android:padding="@dimen/margin_medium">
+        android:layout_margin="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_large">
 
         <RelativeLayout
             android:id="@+id/layoutImg"
@@ -83,24 +87,25 @@
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Small"
+            style="@style/Regular"
             android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutImg"
             tools:text="Nada Hassan"
-            android:text="@{viewModel.state.fullName}"/>
+            android:text="@{viewModel.state.fullName}"
+            />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivQRCode"
             android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUserName"
-            tools:src="@drawable/gold"
-            android:src="@drawable/gold"
+            tools:src="@drawable/ic_card_chip"
+            android:src="@drawable/ic_card_chip"
             />
 <!-- app:bitmap="@{viewModel.state.qrBitmap}" -->
         <androidx.appcompat.widget.AppCompatImageView
@@ -111,14 +116,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivQRCode"
-            tools:src="@drawable/ic_yap"
-            android:src="@drawable/ic_yap"/>
+            tools:src="@drawable/logo"
+            android:src="@drawable/logo"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvShareMyCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Small"
+            style="@style/Regular"
+            android:textColor="?attr/colorPrimaryAttr"
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_extra_large"
             app:layout_constraintStart_toStartOf="@id/ivQRCode"
@@ -126,6 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivYap"
             android:drawableStart="@drawable/ic_share_code"
             android:drawablePadding="@dimen/margin_normal"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:text="@{Strings.screen_fragment_yap_it_qr_code_share_my_code}"
             tools:text="@string/screen_fragment_yap_it_qr_code_share_my_code"/>
 
@@ -133,16 +140,33 @@
             android:id="@+id/tvSaveToGallery"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Small"
+            style="@style/Regular"
+            android:textColor="?attr/colorPrimaryAttr"
             android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintStart_toStartOf="@id/ivQRCode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvShareMyCode"
             android:drawableStart="@drawable/ic_gallery"
             android:drawablePadding="@dimen/margin_medium"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:text="@{Strings.screen_fragment_yap_it_qr_code_save_to_gallery}"
             tools:text="@string/screen_fragment_yap_it_qr_code_save_to_gallery"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Regular"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+            android:background="@drawable/cornor_edges_black"
+            app:layout_constraintStart_toStartOf="@id/layoutQRCode"
+            app:layout_constraintEnd_toEndOf="@id/layoutQRCode"
+            app:layout_constraintTop_toBottomOf="@+id/layoutQRCode"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:text="@{Strings.screen_fragment_yap_it_qr_code_text_share_to_proceed}"
+            tools:text="@string/screen_fragment_yap_it_qr_code_text_share_to_proceed"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
