@@ -7,13 +7,11 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ICardAnalyticsDetails {
     interface View : IBase.View<ViewModel> {
-        fun FetchMerchantTransactionDetails()
     }
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent?
         fun handleOnClickEvent(id: Int)
         val adapter: ObservableField<TransactionsListingAdapter>
-        fun getCardAnalyticsDetails()
         fun fetchMerchantTransactions(merchantType : String, currentDate : String)
     }
     interface State : IBase.State {

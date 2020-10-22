@@ -10,12 +10,8 @@ class CategoryAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICategoryAnalytics.State>(application),
     ICategoryAnalytics.ViewModel {
     override val state: CategoryAnalyticsState = CategoryAnalyticsState()
-    override lateinit var pViewModel: ICardAnalyticsMain.ViewModel
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.let {
-            pViewModel = it
-        }
     }
 }

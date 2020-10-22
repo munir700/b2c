@@ -10,14 +10,7 @@ class MerchantAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<IMerchantAnalytics.State>(application = application),
     IMerchantAnalytics.ViewModel {
 
-    override lateinit var pViewModel: ICardAnalyticsMain.ViewModel
     override val state: MerchantAnalyticsState = MerchantAnalyticsState()
 
-    override fun onCreate() {
-        super.onCreate()
-        parentViewModel?.let {
-            pViewModel = it
-        }
-    }
 
 }

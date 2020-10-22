@@ -27,7 +27,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     override fun getLayoutId(): Int = R.layout.fragment_category_analytics
 
-    override val viewModel: ICategoryAnalytics.ViewModel
+    override val viewModel: CategoryAnalyticsViewModel
         get() = ViewModelProviders.of(this).get(CategoryAnalyticsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,13 +37,13 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun setObservers() {
-        viewModel.pViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
+        viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.observe(this, Observer {
             if (it == null) {
                 return@Observer
             }
             getAdaptor().setList(it)
         })
-        viewModel.pViewModel.selectedItemPositionParent.observe(this, Observer {
+        viewModel.parentViewModel?.selectedItemPositionParent?.observe(this, Observer {
             val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
             if (null != view) {
                 highlightSelectedItem(view, it)
@@ -62,7 +62,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.pViewModel.selectedItemPosition.value = pos
+            viewModel.parentViewModel?.selectedItemPosition?.value = pos
             navigateDetails(pos)
 
         }
@@ -112,7 +112,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             ) {
                 when (newState) {
                     SCROLL_STATE_IDLE -> {
-                        val pos = viewModel.pViewModel.selectedItemPositionParent.value
+                        val pos = viewModel.parentViewModel?.selectedItemPositionParent?.value
                         pos?.let {
                             val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
                             highlightSelectedItem(view, it)

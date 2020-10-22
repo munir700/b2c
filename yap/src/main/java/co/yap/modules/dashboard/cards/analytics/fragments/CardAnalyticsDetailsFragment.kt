@@ -42,6 +42,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
         viewModel.clickEvent?.observe(this, Observer {
             activity?.onBackPressed()
         })
+        viewModel.viewState.observe(this, viewStateObserver)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
@@ -53,8 +54,24 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
         multiStateView.viewState = MultiStateView.ViewState.CONTENT
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.viewState.removeObserver(viewStateObserver)
         viewModel.clickEvent?.removeObservers(this)
+    }
+
+    private val viewStateObserver = Observer<Int> {
+        when (it) {
+            Constants.EVENT_LOADING -> {
+                multiStateView.viewState = MultiStateView.ViewState.LOADING
+            }
+            Constants.EVENT_EMPTY -> {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            }
+            Constants.EVENT_CONTENT -> {
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            }
+        }
+
     }
 }

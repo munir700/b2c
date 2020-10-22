@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsDetailsState
@@ -25,6 +26,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     val repository: TransactionsRepository = TransactionsRepository
     var currentCalendar: Calendar = Calendar.getInstance()
     var list: MutableList<Transaction>? = ArrayList<Transaction>()
+    var viewState: MutableLiveData<Int> = MutableLiveData(Constants.EVENT_LOADING)
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
@@ -38,7 +40,6 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             Constants.MERCHANT_TYPE,
             DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         )
-        getCardAnalyticsDetails()
     }
 
     override fun onResume() {
@@ -46,22 +47,25 @@ class CardAnalyticsDetailsViewModel(application: Application) :
         setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
     }
 
-    override fun getCardAnalyticsDetails() {
-        list?.let { adapter.get()?.setList(it) }
-    }
-
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
         launch {
             state.loading = true
+            viewState.value = Constants.EVENT_EMPTY
             when (val response = repository.getTransactionsOfMerchant(
                 merchantType,
                 SessionManager.getCardSerialNumber(),
                 currentDate, state.title.get() ?: ""
             )) {
                 is RetroApiResponse.Success -> {
+
                     response.data.data?.let {
-                        if (!it.txnAnalytics.isNullOrEmpty()){
+                        if (!it.txnAnalytics.isNullOrEmpty()) {
+                            viewState.value = Constants.EVENT_CONTENT
+                            list?.clear()
                             list = it.txnAnalytics
+                            list?.let { transactionList ->
+                                adapter.get()?.setList(transactionList)
+                            }
                         }
                         state.loading = false
                     }
