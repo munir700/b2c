@@ -40,7 +40,7 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
-import co.yap.modules.dashboard.yapit.addmoney.AddMoneyFragment
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -98,20 +98,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
             .addSubActionView(
-                getString(R.string.yap_to_yap),
-                R.drawable.ic_yap_to_yap,
+                getString(Strings.common_send_money),
+                R.drawable.ic_send_money,
                 R.layout.component_yap_menu_sub_button,
                 this, 1
-            )
-            .addSubActionView(
-                getString(R.string.top_up),
-                R.drawable.ic_top_up,
+            )/*.addSubActionView(
+                getString(Strings.common_pay_bills),
+                R.drawable.ic_bill,
                 R.layout.component_yap_menu_sub_button,
                 this, 2
-            )
-            .addSubActionView(
-                getString(R.string.send_money),
-                R.drawable.ic_send_money,
+            )*/.addSubActionView(
+                getString(Strings.common_add_money),
+                R.drawable.ic_add_sign_white,
                 R.layout.component_yap_menu_sub_button,
                 this, 3
             )
@@ -128,28 +126,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     when (subActionButtonId) {
                         1 -> {
                             if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                checkPermission()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
-                        }
-                        2 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                openTopUpScreen()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
-                        }
-                        3 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 openSendMoneyScreen()
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
+                            /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                checkPermission()
+                            } else {
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            }*/
+                        }
+                        2 -> {
+                            /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                 openTopUpScreen()
+                             } else {
+                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                             }*/
+                        }
+                        3 -> {
+                            launchActivity<AddMoneyActivity>()
                         }
                     }
                 }
-
             })
             .build()
     }
