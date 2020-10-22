@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Keep
 @Parcelize
-data class AddMoneyOptions(
+data class AddMoneyLandingOptions(
     val id: Int,
     var name: String,
     val image: Int

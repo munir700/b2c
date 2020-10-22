@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.landing.YapItAddMoneyItemVM" />
+            type="co.yap.modules.dashboard.yapit.addmoney.landing.YapItAddMoneyLandingItemVM" />
 
         <import type="co.yap.translation.Strings" />
 
