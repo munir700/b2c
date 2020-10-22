@@ -11,6 +11,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.firebase.FirebaseTagManagerModel
+import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
@@ -42,6 +44,7 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
         preventTakeDeviceScreenShot.observe(this, Observer {
             preventTakeScreenShot(it)
         })
+        firebaseTagManagerEvent(FirebaseTagManagerModel(label = "delivery-confirmed"))
     }
 
     override fun onBackPressed() {
