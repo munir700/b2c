@@ -55,7 +55,6 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     }
 
     private fun initAdaptor() {
-        Constants.MERCHANT_TYPE = "merchant-name"
         getBinding().recycler.adapter = MerchantAnalyticsAdaptor(mutableListOf())
         getAdaptor().setItemListener(listener)
     }
@@ -69,6 +68,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     }
 
     private fun navigateDetails(pos: Int) {
+        Constants.MERCHANT_TYPE = "merchant-name"
         val selectedItem = getAdaptor().getDataForPosition(pos)
         navigate(
             R.id.cardAnalyticsDetailsFragment,

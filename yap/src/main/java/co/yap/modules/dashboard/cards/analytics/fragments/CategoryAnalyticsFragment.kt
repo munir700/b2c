@@ -70,6 +70,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun navigateDetails(pos : Int) {
+        Constants.MERCHANT_TYPE = "merchant-category"
         val selectedItem = getAdaptor().getDataForPosition(pos)
         navigate(
             R.id.cardAnalyticsDetailsFragment,

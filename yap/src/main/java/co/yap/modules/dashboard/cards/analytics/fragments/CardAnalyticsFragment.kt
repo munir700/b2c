@@ -214,7 +214,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     private fun setupTabs() {
-        Constants.MERCHANT_TYPE = "merchant-category"
         TabLayoutMediator(getBindingView().tabLayout, getBindingView().viewPager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = getTabTitle(position)

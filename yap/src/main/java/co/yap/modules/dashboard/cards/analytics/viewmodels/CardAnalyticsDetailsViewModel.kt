@@ -34,12 +34,15 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getCardAnalyticsDetails()
-        fetchMerchantTransactions(Constants.MERCHANT_TYPE, DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
+        fetchMerchantTransactions(
+            Constants.MERCHANT_TYPE,
+            DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
+        )
     }
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(state.title.get() ?: "Analytics")
+        setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
     }
 
     override fun getCardAnalyticsDetails() {
@@ -52,7 +55,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             when (val response = repository.getTransactionsOfMerchant(
                 merchantType,
                 SessionManager.getCardSerialNumber(),
-                currentDate
+                currentDate, state.title.get() ?: ""
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
