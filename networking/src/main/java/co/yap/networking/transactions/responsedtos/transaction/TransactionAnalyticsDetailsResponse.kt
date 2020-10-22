@@ -1,6 +1,5 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
-import co.yap.networking.transactions.responsedtos.AnalyticsTransaction
 import com.google.gson.annotations.SerializedName
 
 data class TransactionAnalyticsDetailsResponse(
@@ -13,5 +12,5 @@ data class TransactionAnalyticsDetailsResponse(
     @SerializedName("currentToLastMonth")
     val currentToLastMonth: Double? = null,
     @SerializedName("transactionDetails")
-    val txnAnalytics: ArrayList<AnalyticsTransaction>? = null
+    val txnAnalytics: ArrayList<Transaction>? = null
 )

@@ -92,7 +92,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             Transaction(
                 title = "Something2",
                 currency = "AED",
-                updatedDate = "2010-09-22T07:28:56",
+                updatedDate = "2010-09-22T07:20:16",
                 creationDate = "2009-04-22T07:28:19"
             )
         )
