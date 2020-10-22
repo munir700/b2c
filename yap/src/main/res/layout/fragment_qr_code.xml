@@ -26,19 +26,23 @@
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_close_white"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginStart="@dimen/margin_normal"/>
+            android:layout_marginStart="@dimen/margin_extra_large"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="@dimen/margin_extra_large"
-        android:background="@drawable/cornor_edges_gery">
+        android:background="@drawable/cornor_edges_gery"
+        android:padding="@dimen/margin_medium">
 
         <RelativeLayout
             android:id="@+id/layoutImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/circle_profile"
             android:padding="@dimen/_3sdp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +66,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="AH" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
@@ -84,7 +88,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutImg"
-            tools:text="Nada Hassan"/>
+            tools:text="Nada Hassan"
+            android:text="@{viewModel.state.fullName}"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivQRCode"
@@ -95,8 +100,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUserName"
             tools:src="@drawable/gold"
-            app:bitmap="@{viewModel.state.qrBitmap}"/>
-
+            android:src="@drawable/gold"
+            />
+<!-- app:bitmap="@{viewModel.state.qrBitmap}" -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivYap"
             android:layout_width="wrap_content"

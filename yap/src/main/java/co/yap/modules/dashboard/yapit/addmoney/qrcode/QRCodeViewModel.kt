@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.addmoney.qrcode
 
 import android.app.Application
-import android.util.Log
 import android.view.View
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -31,7 +30,8 @@ class QRCodeViewModel (application: Application) :
                 state.fullName = it.currentCustomer.getFullName()
                 state.nameInitialsVisibility = View.VISIBLE
             }
-            Log.d("TAG", "UserName"+ state.fullName+" url: "+state.profilePictureUrl)
+
         }
     }
+
 }
