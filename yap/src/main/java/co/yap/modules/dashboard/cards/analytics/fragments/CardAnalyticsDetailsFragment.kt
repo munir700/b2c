@@ -9,7 +9,6 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsDetailsViewModel
-import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.widgets.DividerItemDecoration
 import co.yap.widgets.MultiStateView
@@ -27,7 +26,10 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.adapter.set(TransactionsListingAdapter(mutableListOf()))
+        getArgument()
+    }
+
+    private fun getArgument() {
         arguments?.let { bundle ->
             bundle.getParcelable<TxnAnalytic>(Constants.TRANSACTION_DETAIL)?.let {
                 viewModel.state.title.set(it.title ?: "")

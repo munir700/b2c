@@ -40,11 +40,11 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             Constants.MERCHANT_TYPE,
             DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         )
+        setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
     }
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
     }
 
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
@@ -54,14 +54,14 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             when (val response = repository.getTransactionsOfMerchant(
                 merchantType,
                 SessionManager.getCardSerialNumber(),
-                currentDate, state.title.get() ?: ""
+                currentDate,
+                state.title.get() ?: ""
             )) {
                 is RetroApiResponse.Success -> {
 
                     response.data.data?.let {
                         if (!it.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
-                            list?.clear()
                             list = it.txnAnalytics
                             list?.let { transactionList ->
                                 adapter.get()?.setList(transactionList)

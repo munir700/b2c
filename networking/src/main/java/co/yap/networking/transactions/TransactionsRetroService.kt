@@ -187,7 +187,7 @@ interface TransactionsRetroService {
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?,
-        @Query("merchant-name") merchantName : String
+        @Query("merchant-name") merchantName : String?
     ): Response<AnalyticsDetailResponseDTO>
 
 

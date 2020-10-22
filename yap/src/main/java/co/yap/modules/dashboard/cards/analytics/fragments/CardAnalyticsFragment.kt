@@ -50,10 +50,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindingView().rlDetails.setOnClickListener { }
-        getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
+        setupBindings()
         setupAdaptor()
         setupTabs()
+    }
+
+    private fun setupBindings() {
+        getBindingView().rlDetails.setOnClickListener { }
+        getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
     }
 
     /*
