@@ -14,6 +14,19 @@
 
         <import type="android.view.View" />
     </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_close_white"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -71,7 +84,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutImg"
-            tools:text="jskahdjksahdjkas"/>
+            tools:text="Nada Hassan"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivQRCode"
@@ -111,6 +124,7 @@
             tools:text="@string/screen_fragment_yap_it_qr_code_share_my_code"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSaveToGallery"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/Small"
@@ -123,5 +137,6 @@
             app:text="@{Strings.screen_fragment_yap_it_qr_code_save_to_gallery}"
             tools:text="@string/screen_fragment_yap_it_qr_code_save_to_gallery"/>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
