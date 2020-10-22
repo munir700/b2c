@@ -59,6 +59,7 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
+import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -84,7 +85,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
-        initializeChatOverLayButton()
+        if (Leanplum.getInbox().unreadCount() > 0)
+            initializeChatOverLayButton()
     }
 
     private fun logEvent() {
