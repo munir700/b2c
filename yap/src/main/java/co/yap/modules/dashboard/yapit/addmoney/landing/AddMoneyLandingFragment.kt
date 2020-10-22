@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
+import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>(),
@@ -75,7 +77,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_bank_transfer))
             }
             Constants.ADD_MONEY_CASH_OR_CHEQUE -> {
-                showToast(getString(Strings.screen_fragment_yap_it_add_money_text_cash_or_cheque))
+                startFragment(CdmMapFragment::class.java.name)
             }
             Constants.ADD_MONEY_QR_CODE -> {
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_qr_code))
