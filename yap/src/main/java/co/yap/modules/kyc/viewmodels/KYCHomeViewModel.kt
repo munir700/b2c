@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import co.yap.app.YAPApplication
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -62,12 +61,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
 
-            val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
-                //context.dummyEID()
-                File(result.document.files[1].croppedFile)
-            } else {
-                File(result.document.files[1].croppedFile)
-            }
+            val file = File(result.document.files[1].croppedFile)
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
