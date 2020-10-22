@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.addmoney.AddMoneyViewModel" />
+            type="co.yap.modules.dashboard.yapit.addmoney.landing.AddMoneyLandingViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -42,8 +42,8 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         app:spanCount="2"
         tools:itemCount="7"
-        tools:listitem="@layout/item_yap_it_add_money"
-        app:recycleViewAdapter="@{viewModel.adapter}"/>
+        tools:listitem="@layout/item_yap_it_add_money_landing"
+        app:recycleViewAdapter="@{viewModel.landingAdapter}"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

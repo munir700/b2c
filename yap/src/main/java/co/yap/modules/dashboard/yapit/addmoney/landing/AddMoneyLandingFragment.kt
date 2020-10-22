@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney
+package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentAddMoneyBinding
+import co.yap.databinding.FragmentAddMoneyLandingBinding
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseBindingFragment
@@ -14,13 +15,14 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.View {
+class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>(),
+    IAddMoneyLanding.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_add_money
+    override fun getLayoutId(): Int = R.layout.fragment_add_money_landing
 
-    override val viewModel: IAddMoney.ViewModel
-        get() = ViewModelProviders.of(this).get(AddMoneyViewModel::class.java)
+    override val viewModel: IAddMoneyLanding.ViewModel
+        get() = ViewModelProviders.of(this).get(AddMoneyLandingViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +48,13 @@ class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.V
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true
             )
         )
-        viewModel.adapter.allowFullItemClickListener = true
-        viewModel.adapter.setItemListener(listener)
+        viewModel.landingAdapter.allowFullItemClickListener = true
+        viewModel.landingAdapter.setItemListener(listener)
     }
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is AddMoneyOptions)
+            if (data is AddMoneyLandingOptions)
                 viewModel.clickEvent.setValue(data.id)
         }
     }
@@ -81,8 +83,8 @@ class AddMoneyFragment : BaseBindingFragment<IAddMoney.ViewModel>(), IAddMoney.V
         }
     }
 
-    override fun getBinding(): FragmentAddMoneyBinding {
-        return viewDataBinding as FragmentAddMoneyBinding
+    override fun getBinding(): FragmentAddMoneyLandingBinding {
+        return viewDataBinding as FragmentAddMoneyLandingBinding
     }
 
 }
