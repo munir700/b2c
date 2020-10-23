@@ -49,15 +49,27 @@ import java.util.*
 
 class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
                 AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
                     skipLocationSelectionFragment()
                 }
+                else -> setObservers()
+            }
+        } else {
+            setObservers()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (viewModel.parentViewModel?.isOnBoarding == true) {
+            when (SessionManager.user?.notificationStatuses) {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                }
                 else -> {
-                    setObservers()
                     checkPermission()
                     setHeadings()
                     setAddress()
@@ -65,7 +77,6 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                 }
             }
         } else {
-            setObservers()
             checkPermission()
             setHeadings()
             setAddress()
