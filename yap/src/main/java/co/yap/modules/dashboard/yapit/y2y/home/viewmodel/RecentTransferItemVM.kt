@@ -6,12 +6,10 @@ import androidx.navigation.NavController
 import co.yap.R
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.translation.Strings
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseListItemViewModel
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
     private lateinit var mItem: Beneficiary
@@ -32,7 +30,7 @@ class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
 
     override fun layoutRes() = R.layout.item_recent_transfer
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        if (MyUserManager.user?.otpBlocked == true) {
+        if (SessionManager.user?.otpBlocked == true) {
             if (view.context is BaseActivity<*>) {
                 val activity = view.context as BaseActivity<*>
                 activity.showToast(Utils.getOtpBlockedMessage(activity))

@@ -5,6 +5,8 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -220,5 +222,11 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_TAX_INFO)
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
+
+    @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
+    suspend fun getAllCurrencies(): Response<CurrenciesResponse>
+
+    @GET(CustomersRepository.URL_GET_BY_CURRENCY_CODE)
+    suspend fun getCurrencyByCode(@Path("currencyCode") currencyCode: String): Response<CurrenciesByCodeResponse>
 
 }

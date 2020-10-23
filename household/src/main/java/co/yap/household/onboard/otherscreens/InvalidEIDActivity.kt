@@ -10,7 +10,7 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.translation.Strings
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_eidnot_accepted.*
 
 
@@ -33,7 +33,7 @@ class InvalidEIDActivity : DefaultActivity(), IFragmentHolder {
         setContentView(R.layout.activity_eidnot_accepted)
         tvEID_NotAcceptMessage.text =
             getString(Strings.screen_house_hold_existing_yap_message).format(
-                MyUserManager.user?.currentCustomer?.getFullName()
+                SessionManager.user?.currentCustomer?.getFullName()
             )
         setClickerListner()
 
@@ -60,7 +60,7 @@ class InvalidEIDActivity : DefaultActivity(), IFragmentHolder {
     * */
     private fun setClickerListner() {
         btnEID_NotAccept.setOnClickListener {
-            MyUserManager.doLogout(this)
+            SessionManager.doLogout(this)
             finish()
         }
 

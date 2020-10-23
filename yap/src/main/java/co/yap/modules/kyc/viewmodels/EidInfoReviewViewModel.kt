@@ -17,12 +17,11 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -136,18 +135,15 @@ class EidInfoReviewViewModel(application: Application) :
 
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
-                context.dummyEID()
-            } else {
-                File(result.document.files[1].croppedFile)
-            }
+            val file = File(result.document.files[1].croppedFile)
+
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
             val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
             val part =
-                MultipartBody.Part.createFormData("image", file?.name, fileReqBody)
+                MultipartBody.Part.createFormData("files", file?.name, fileReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(part)) {
@@ -162,7 +158,7 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.sirName = data.surname
                             identity.givenName = data.names
                             trackEventWithAttributes(
-                                MyUserManager.user,
+                                SessionManager.user,
                                 eidExpireDate = getFormattedDate(data.expiration_date)
                             )
                             identity.expirationDate =
@@ -175,26 +171,6 @@ class EidInfoReviewViewModel(application: Application) :
                             result.identity = identity
                             parentViewModel?.identity = identity
                             populateState(parentViewModel?.identity)
-                        } else {
-                            if (null == parentViewModel?.identity) {
-                                state.toast =
-                                    "${
-                                    response.data.errors?.message
-                                        ?: " Error occurred"
-                                    }^${AlertType.DIALOG_WITH_FINISH.name}"
-                                parentViewModel?.paths?.forEach { filePath ->
-                                    File(filePath).deleteRecursively()
-                                }
-                            } else {
-                                state.toast =
-                                    "${
-                                    response.data.errors?.message
-                                        ?: " Error occurred"
-                                    }^${AlertType.DIALOG.name}"
-                                parentViewModel?.paths?.forEach { filePath ->
-                                    File(filePath).deleteRecursively()
-                                }
-                            }
                         }
                     }
                     is RetroApiResponse.Error -> {
@@ -258,12 +234,12 @@ class EidInfoReviewViewModel(application: Application) :
 
                     when (response) {
                         is RetroApiResponse.Success -> {
-                            when (MyUserManager.eidStatus) {
+                            when (SessionManager.eidStatus) {
                                 EIDStatus.EXPIRED, EIDStatus.VALID -> {
                                     if (fromInformationErrorFragment) {
                                         success.invoke("success")
                                     } else {
-                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        SessionManager.eidStatus = EIDStatus.VALID
                                         clickEvent.setValue(eventEidUpdate)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
@@ -272,7 +248,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     if (fromInformationErrorFragment) {
                                         success.invoke("success")
                                     } else {
-                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        SessionManager.eidStatus = EIDStatus.VALID
                                         clickEvent.setValue(eventNext)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
@@ -281,7 +257,7 @@ class EidInfoReviewViewModel(application: Application) :
                                     if (fromInformationErrorFragment) {
                                         success.invoke("success")
                                     } else {
-                                        MyUserManager.eidStatus = EIDStatus.VALID
+                                        SessionManager.eidStatus = EIDStatus.VALID
                                         clickEvent.setValue(eventNext)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }

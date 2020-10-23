@@ -254,29 +254,49 @@
 
         <co.yap.widgets.tooltipview.TooltipView
             android:id="@+id/tooltip"
-            style="@style/Small"
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/divider"
-            android:elevation="5dp"
-            android:gravity="center"
-            android:paddingStart="@dimen/_6sdp"
-            android:paddingTop="@dimen/_2sdp"
-            android:paddingEnd="@dimen/_6sdp"
-            android:paddingBottom="@dimen/_8sdp"
-            android:textColor="?attr/colorPrimaryDark"
-            android:textSize="@dimen/text_size_h1"
             android:visibility="gone"
             app:arrowAlignment="custom"
-            app:arrowHeight="@dimen/_6sdp"
+            app:arrowHeight="@dimen/_16sdp"
             app:arrowLocation="bottom"
-            app:arrowWidth="@dimen/_6sdp"
+            app:arrowWidth="@dimen/_16sdp"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="@dimen/tooltip_elevation"
+            app:contentPaddingBottom="@dimen/_8sdp"
+            app:contentPaddingLeft="@dimen/_6sdp"
+            app:contentPaddingRight="@dimen/_6sdp"
+            app:contentPaddingTop="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tooltipColor="@color/white"
-            tools:text="Tooltip" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="@dimen/_80sdp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_h1"
+                tools:text="Tooltip" />
+        </co.yap.widgets.tooltipview.TooltipView>
+
+        <co.yap.widgets.tooltipview.TriangleView
+            android:id="@+id/arrowView"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:elevation="@dimen/tooltip_elevation"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+        </co.yap.widgets.tooltipview.TriangleView>
 
     </RelativeLayout>
 

@@ -21,7 +21,7 @@ import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_EVENT_FORMAT
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -91,13 +91,13 @@ open class ConfirmCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.
     }
 
     private fun setDebitCardData() {
-        MyUserManager.getAccountInfo()
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
+        SessionManager.getAccountInfo()
+        SessionManager.onAccountInfoSuccess.observe(this, Observer {
             if (it) {
-                if (MyUserManager.user?.notificationStatuses == AccountStatus.CARD_ACTIVATED.name) {
+                if (SessionManager.user?.notificationStatuses == AccountStatus.CARD_ACTIVATED.name) {
                     trackEvent(KYCEvents.CARD_ACTIVE.type)
                     trackEventInFragments(
-                        MyUserManager.user,
+                        SessionManager.user,
                         account_active = SimpleDateFormat(LEAN_PLUM_EVENT_FORMAT).format(
                             Calendar.getInstance().time
                         )

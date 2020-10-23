@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import co.yap.app.YAPApplication
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
@@ -13,12 +12,11 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.extentions.dummyEID
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -75,18 +73,14 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
 
-            val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
-                context.dummyEID()
-            } else {
-                File(result.document.files[1].croppedFile)
-            }
+            val file = File(result.document.files[1].croppedFile)
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
             val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file!!)
             val part =
-                MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+                MultipartBody.Part.createFormData("files", file.name, fileReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(part)) {
@@ -101,7 +95,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             identity.sirName = data.surname
                             identity.givenName = data.names
                             trackEventWithAttributes(
-                                MyUserManager.user,
+                                SessionManager.user,
                                 eidExpireDate = getFormattedDate(data.expiration_date)
                             )
                             identity.expirationDate =
@@ -114,10 +108,6 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                             result.identity = identity
                             parentViewModel?.identity = identity
                             state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
-                        } else {
-                            state.toast = "${response.data.errors?.message
-                                ?: "Invalid image"}^${AlertType.DIALOG.name}"
-                            trackEvent(KYCEvents.EID_FAILURE.type)
                         }
                     }
 

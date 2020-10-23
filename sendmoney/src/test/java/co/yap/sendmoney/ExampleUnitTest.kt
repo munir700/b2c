@@ -1,6 +1,5 @@
 package co.yap.sendmoney
 
-import co.yap.translation.Strings
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.roundVal
 import org.junit.Assert.assertEquals
@@ -66,5 +65,15 @@ class ExampleUnitTest {
         return value?.let {
             return (end in start..it.length)
         } ?: false
+    }
+
+
+    @Test
+    fun mathTest() {
+        val citizenNo: Double = 9999999.0
+        val mutlipiler: Double = 4.8
+        val valid = citizenNo * mutlipiler
+        val value = valid.toString()
+        assertEquals(value, valid)
     }
 }

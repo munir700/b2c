@@ -30,7 +30,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
@@ -77,7 +77,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             resources.getText(
                 getString(Strings.common_text_fee), this.color(
                     R.color.colorPrimaryDark,
-                    "${feeAmount?.toFormattedAmountWithCurrency()}"
+                    "${feeAmount?.toFormattedCurrency()}"
                 )
             )
         )
@@ -93,7 +93,6 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setEditTextWatcher() {
-        getBinding().etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()
@@ -107,7 +106,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(this))
                 } else {
                     when {
@@ -171,8 +170,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
     }
 
@@ -180,13 +179,13 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         viewModel.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         showErrorSnackBar(viewModel.errorDescription)
     }
 
     private fun isBalanceAvailable(): Boolean {
         val availableBalance =
-            MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+            SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
         return if (availableBalance != null) {
             (availableBalance >= viewModel.getAmountWithFee())
         } else
@@ -200,7 +199,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                     viewModel.errorDescription = Translator.getString(
                         this,
                         Strings.screen_add_funds_display_text_error_card_balance_limit_reached,
-                        threshold.virtualCardBalanceLimit.toString().toFormattedAmountWithCurrency()
+                        threshold.virtualCardBalanceLimit.toString().toFormattedCurrency()
                     )
                     return true
                 }
@@ -210,9 +209,9 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                         this,
                         Strings.screen_add_funds_display_text_error_card_balance_limit,
                         threshold.virtualCardBalanceLimit.toString()
-                            .toFormattedAmountWithCurrency(),
+                            .toFormattedCurrency(),
                         (threshold.virtualCardBalanceLimit?.minus(viewModel.state.card.get()?.availableBalance.parseToDouble())).toString()
-                            .toFormattedAmountWithCurrency()
+                            .toFormattedCurrency()
                     )
                     return true
                 }
@@ -235,7 +234,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                                     this,
                                     Strings.common_display_text_daily_limit_remaining_error,
                                     remainingDailyLimit.roundVal().toString()
-                                        .toFormattedAmountWithCurrency()
+                                        .toFormattedCurrency()
                                 )
                             }
                         return enteredAmount > remainingDailyLimit.roundVal()
@@ -259,11 +258,11 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-        getBinding().etAmountLayout.background =
-            this.resources.getDrawable(
-                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-                null
-            )
+//        getBinding().etAmountLayout.background =
+//            this.resources.getDrawable(
+//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
+//                null
+//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
@@ -287,7 +286,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.TOP_UP_SUPPLEMENTARY.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(this)
                         ?: "",
                     amount = viewModel.state.amount
                 )
@@ -307,7 +306,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
             resources.getText(
                 getString(Strings.screen_success_funds_transaction_display_text_top_up), this.color(
                     R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedAmountWithCurrency()
+                    viewModel.state.amount.toFormattedCurrency()
                 )
             )
         )
@@ -317,8 +316,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
                 this.color(
                     R.color.colorPrimaryDark,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedAmountWithCurrency()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
+                        .toFormattedCurrency()
                 )
             )
         )
@@ -329,7 +328,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                 this.color(
                     R.color.colorPrimaryDark,
                     (viewModel.state.card.get()?.availableBalance.parseToDouble() + viewModel.state.amount.parseToDouble()).toString()
-                        .toFormattedAmountWithCurrency()
+                        .toFormattedCurrency()
                 )
             )
         )

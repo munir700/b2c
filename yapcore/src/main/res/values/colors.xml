@@ -61,7 +61,7 @@
 
 
     <color name="colorLightGreyGradient">#eff2f9</color>
-    <color name="colorDarkGreyGradient">#dbe1f0</color>
+    <color name="colorDarkGreyGradient">#DAE0F0</color>
 
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>

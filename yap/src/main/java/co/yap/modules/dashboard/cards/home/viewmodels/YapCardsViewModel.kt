@@ -14,7 +14,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
@@ -59,7 +59,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
                             val primaryCard = getPrimaryCard(response.data.data)
-                            MyUserManager.card.value = primaryCard
+                            SessionManager.card.value = primaryCard
                         } else {
                             state.toast = "Debit card not found."
                         }

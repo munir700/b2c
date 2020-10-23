@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(), IPassCode.View {
 
@@ -53,7 +53,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
+                    if (SessionManager.user?.otpBlocked == true) {
                         showToast(Utils.getOtpBlockedMessage(requireContext()))
                     } else {
                         viewModel.validatePassCode { isValidPassCode ->

@@ -11,7 +11,6 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
@@ -196,7 +195,6 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
 
 
-
     fun checkValidityForAddTopUpFromExternalCard(): String {
         try {
             if (amount != "") {
@@ -212,7 +210,9 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                             context,
                             Strings.screen_add_funds_display_text_max_limit_error,
                             currencyType,
-                            maxLimit.toString().toFormattedCurrency()?:""
+                            maxLimit.toString()
+                                .toFormattedCurrency(showCurrency = false, currency = currencyType)
+                                ?: ""
                         )
                         return errorDescription
 
