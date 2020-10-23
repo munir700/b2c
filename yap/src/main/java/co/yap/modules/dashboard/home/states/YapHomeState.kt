@@ -20,5 +20,5 @@ class YapHomeState : BaseState(), IYapHome.State {
     override var filterCount: ObservableField<Int> = ObservableField()
     override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)
     override var showTxnShimmer: MutableLiveData<State> = MutableLiveData()
-    override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(false)
+    override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(true)
 }
