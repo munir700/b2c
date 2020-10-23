@@ -19,7 +19,8 @@ import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 const val BRAND_ID: String = "17038977"
 
-fun Activity.initializeChatOverLayButton() {
+fun Activity.initializeChatOverLayButton(unreadCount: Int) {
+    if (unreadCount <= 0) return
     val param = FrameLayout.LayoutParams(
         FrameLayout.LayoutParams.WRAP_CONTENT,
         FrameLayout.LayoutParams.WRAP_CONTENT
@@ -37,7 +38,7 @@ fun Activity.initializeChatOverLayButton() {
     ) as? CounterFloatingActionButton
     (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
         .addView(view, param)
-//    view?.count = 10
+    view?.count = unreadCount
     view?.setOnClickListener { chatSetup() }
 }
 
