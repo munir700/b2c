@@ -91,7 +91,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 startFragment(CdmMapFragment::class.java.name)
             }
             Constants.ADD_MONEY_QR_CODE -> {
-                QRCodeFragment().let {fragment ->
+                QRCodeFragment().let { fragment ->
                     if (isAdded)
                         fragment.show(requireActivity().supportFragmentManager, "")
                 }

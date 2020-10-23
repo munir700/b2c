@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.translation.Strings" />
+
         <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
@@ -14,6 +15,7 @@
 
         <import type="android.view.View" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,150 +25,163 @@
             android:id="@+id/ivBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@id/layoutQRCode"
-            app:layout_constraintBottom_toTopOf="@+id/layoutQRCode"
-            android:src="@drawable/ic_close_white"
             android:layout_marginBottom="@dimen/margin_small"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"/>
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:src="@drawable/ic_close_white"
+            app:layout_constraintBottom_toTopOf="@+id/layoutQRCode"
+            app:layout_constraintStart_toStartOf="@id/layoutQRCode"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutQRCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/cornor_edges_gery"
-        android:layout_margin="@dimen/margin_normal"
-        android:paddingTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_large">
-
-        <RelativeLayout
-            android:id="@+id/layoutImg"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutQRCode"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle_profile"
-            android:padding="@dimen/_3sdp"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/cornor_edges_gery"
+            android:paddingStart="@dimen/margin_extra_small"
+            android:paddingTop="@dimen/margin_extra_small"
+            android:paddingEnd="@dimen/margin_extra_small"
+            android:paddingBottom="@dimen/margin_large"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAccountHolderNameInitials"
-                style="@style/ASmallWhite"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/bg_round_red"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/app_name"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/qrContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
                 android:gravity="center"
-                android:maxLength="2"
-                android:text="@{Utils.INSTANCE.shortName(viewModel.state.fullName)}"
-                android:visibility="@{viewModel.state.nameInitialsVisibility}"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_small"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:id="@+id/layoutImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_profile"
+                    android:padding="@dimen/_3sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvAccountHolderNameInitials"
+                        style="@style/ASmallWhite"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@drawable/bg_round_red"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:contentDescription="@string/app_name"
+                        android:gravity="center"
+                        android:maxLength="2"
+                        android:text="@{Utils.INSTANCE.shortName(viewModel.state.fullName)}"
+                        android:visibility="@{viewModel.state.nameInitialsVisibility}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="AH" />
+
+                    <co.yap.widgets.CoreCircularImageView
+                        android:id="@+id/ivProfilePic"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:contentDescription="@string/app_name"
+                        app:imageSrc="@{viewModel.state.profilePictureUrl}"
+                        app:imageUri="@{viewModel.state.imageUri}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvUserName"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="@{viewModel.state.fullName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutImg"
+                    tools:text="Nada Hassan" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivQRCode"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:src="@drawable/ic_card_chip"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+                    tools:src="@drawable/ic_card_chip" />
+                <!-- app:bitmap="@{viewModel.state.qrBitmap}" -->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivYap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:src="@drawable/logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivQRCode"
+                    tools:src="@drawable/logo" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvShareMyCode"
+                style="@style/Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:drawableStart="@drawable/ic_share_code"
+                android:drawablePadding="@dimen/margin_normal"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="AH" />
+                app:layout_constraintStart_toStartOf="@id/qrContainer"
+                app:layout_constraintTop_toBottomOf="@+id/qrContainer"
+                app:text="@{Strings.screen_fragment_yap_it_qr_code_share_my_code}"
+                tools:text="@string/screen_fragment_yap_it_qr_code_share_my_code" />
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:contentDescription="@string/app_name"
-                app:imageSrc="@{viewModel.state.profilePictureUrl}"
-                app:imageUri="@{viewModel.state.imageUri}"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSaveToGallery"
+                style="@style/Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:drawableStart="@drawable/ic_gallery"
+                android:drawablePadding="@dimen/margin_medium"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </RelativeLayout>
+                app:layout_constraintStart_toStartOf="@id/qrContainer"
+                app:layout_constraintTop_toBottomOf="@+id/tvShareMyCode"
+                app:text="@{Strings.screen_fragment_yap_it_qr_code_save_to_gallery}"
+                tools:text="@string/screen_fragment_yap_it_qr_code_save_to_gallery" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             style="@style/Regular"
-            android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutImg"
-            tools:text="Nada Hassan"
-            android:text="@{viewModel.state.fullName}"
-            />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivQRCode"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUserName"
-            tools:src="@drawable/ic_card_chip"
-            android:src="@drawable/ic_card_chip"
-            />
-<!-- app:bitmap="@{viewModel.state.qrBitmap}" -->
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivYap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivQRCode"
-            tools:src="@drawable/logo"
-            android:src="@drawable/logo"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvShareMyCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Regular"
-            android:textColor="?attr/colorPrimaryAttr"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            app:layout_constraintStart_toStartOf="@id/ivQRCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivYap"
-            android:drawableStart="@drawable/ic_share_code"
-            android:drawablePadding="@dimen/margin_normal"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            app:text="@{Strings.screen_fragment_yap_it_qr_code_share_my_code}"
-            tools:text="@string/screen_fragment_yap_it_qr_code_share_my_code"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSaveToGallery"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/Regular"
-            android:textColor="?attr/colorPrimaryAttr"
             android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="@id/ivQRCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvShareMyCode"
-            android:drawableStart="@drawable/ic_gallery"
-            android:drawablePadding="@dimen/margin_medium"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            app:text="@{Strings.screen_fragment_yap_it_qr_code_save_to_gallery}"
-            tools:text="@string/screen_fragment_yap_it_qr_code_save_to_gallery"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/Regular"
-            android:textColor="@color/white"
+            android:background="@drawable/cornor_edges_black"
             android:gravity="center"
             android:padding="@dimen/_1sdp"
-            android:background="@drawable/cornor_edges_black"
-            app:layout_constraintStart_toStartOf="@id/layoutQRCode"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/layoutQRCode"
+            app:layout_constraintStart_toStartOf="@id/layoutQRCode"
             app:layout_constraintTop_toBottomOf="@+id/layoutQRCode"
-            android:layout_marginTop="@dimen/margin_medium"
             app:text="@{Strings.screen_fragment_yap_it_qr_code_text_share_to_proceed}"
-            tools:text="@string/screen_fragment_yap_it_qr_code_text_share_to_proceed"
-            />
+            tools:text="@string/screen_fragment_yap_it_qr_code_text_share_to_proceed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
