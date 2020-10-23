@@ -13,7 +13,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.networking.transactions.responsedtos.transaction.TransactionAnalyticsDetailsResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
 import kotlin.collections.ArrayList
@@ -41,7 +40,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
         super.onCreate()
         fetchMerchantTransactions(
             Constants.MERCHANT_TYPE,
-            DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
+            parentViewModel?.state?.currentSelectedDate ?: ""
         )
         setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
     }

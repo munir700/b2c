@@ -17,6 +17,6 @@ abstract class CardAnalyticsBaseViewModel<S : IBase.State>(application: Applicat
     }
 
     fun setSelectedDate(date: String) {
-        parentViewModel?.state?.currentSelectedDate = date
+        parentViewModel?.state?.currentSelectedMonth = date
     }
 }

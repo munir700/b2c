@@ -52,7 +52,6 @@ class CardAnalyticsViewModel(application: Application) :
                 }
             }
 
-
         }
     }
 
@@ -80,7 +79,8 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
-                parentViewModel?.state?.currentSelectedDate = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
             }
             R.id.ivNext -> {
                 val tempCalendar = Calendar.getInstance()
@@ -101,7 +101,8 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
-                parentViewModel?.state?.currentSelectedDate = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
             }
         }
         clickEvent.setValue(id)

@@ -48,7 +48,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
 
     private fun getConcatinatedString(count: Int): String? {
         var concatenatedString = ""
-        var date = viewModel.parentViewModel?.state?.currentSelectedDate ?: ""
+        var date = viewModel.parentViewModel?.state?.currentSelectedMonth ?: ""
         if (date.contains(",")) date = date.replace(",", "")
         concatenatedString = date + " ・ " + count + " " + getString(
             Strings.screen_yap_analytics_detail_transaction_count
