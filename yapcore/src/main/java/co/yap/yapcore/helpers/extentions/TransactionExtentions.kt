@@ -413,8 +413,8 @@ fun Transaction?.isTransactionRejected(): Boolean {
     return (this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name)
 }
 
-fun Transaction?.isInternationalTransaction(): Boolean {
-    return (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode)
+fun Transaction?.showCutOffMsg(): Boolean {
+    return (this?.productCode == TransactionProductCode.SWIFT.pCode)
 }
 
 
