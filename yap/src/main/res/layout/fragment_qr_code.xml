@@ -43,7 +43,8 @@
             android:paddingBottom="@dimen/margin_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivBack">
+            app:layout_constraintTop_toBottomOf="@+id/ivBack"
+            app:layout_constraintBottom_toTopOf="@+id/tvShareToProceed">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/qrContainer"
@@ -160,17 +161,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvShareToProceed"
             style="@style/Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_xl"
             android:background="@drawable/cornor_edges_black"
             android:gravity="center"
             android:padding="@dimen/margin_two_dp"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/layoutQRCode"
             app:layout_constraintStart_toStartOf="@id/layoutQRCode"
-            app:layout_constraintTop_toBottomOf="@+id/layoutQRCode"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_fragment_yap_it_qr_code_text_share_to_proceed}"
             tools:text="@string/screen_fragment_yap_it_qr_code_text_share_to_proceed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
