@@ -113,7 +113,7 @@
 
         <LinearLayout
             android:id="@+id/spinner_reasons"
-            android:layout_width="376dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_small"
