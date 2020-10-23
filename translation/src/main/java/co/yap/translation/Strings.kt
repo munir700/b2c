@@ -454,6 +454,8 @@ object Strings {
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
         "screen_fragment_home_transaction_time_category"
+    const val screen_fragment_yap_home_add_money: String =
+        "screen_fragment_yap_home_add_money"
 
     // spare cards Landing Screen
     const val screen_spare_card_landing_display_text_title: String =

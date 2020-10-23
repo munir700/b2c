@@ -26,7 +26,6 @@ interface IYapHome {
         var MAX_CLOSING_BALANCE: Double
         val clickEvent: SingleClickEvent
         var txnFilters: TransactionFilters
-        fun getDebitCards()
         fun handlePressOnView(id: Int)
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         var isLoadMore: MutableLiveData<Boolean>
@@ -45,5 +44,6 @@ interface IYapHome {
         var availableBalance: String
         var filterCount: ObservableField<Int>
         var isTransEmpty:ObservableField<Boolean>
+        var isUserAccountActivated: ObservableField<Boolean>
     }
 }

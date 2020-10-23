@@ -302,10 +302,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         getBindings().lyInclude.multiStateView.viewState =
                             MultiStateView.ViewState.ERROR
                     } else {
+
                         //if transaction is empty and filer is not applied then state would be Empty where a single row appears welcome to yap
 //                        getBindings().lyInclude.multiStateView.viewState =
 //                            MultiStateView.ViewState.EMPTY
                         viewModel.state.isUserAccountActivated.set(false)
+                        setUpDashBoardNotificationsView()
                     }
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
@@ -582,9 +584,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                     } else {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                         openTopUpScreen()
                     }
                 }
