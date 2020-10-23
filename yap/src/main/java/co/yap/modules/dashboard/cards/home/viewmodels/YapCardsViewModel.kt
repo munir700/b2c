@@ -13,7 +13,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.managers.SessionManager
 
 class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
@@ -33,7 +32,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                         if (it.isNotEmpty()) {
 
                             val cardsList = response.data.data
-                            val primaryCard = getPrimaryCard(cardsList)
+                            val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
 
                             primaryCard?.let {
@@ -50,28 +49,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             }
             state.loading = false
         }
-    }
-
-    override fun getDebitCard() {
-        launch {
-            when (val response = repository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            SessionManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found."
-                        }
-                    }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-        }
-    }
-
-    override fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
-        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     override fun updateCardCount(size: Int) {

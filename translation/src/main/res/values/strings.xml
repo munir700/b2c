@@ -265,6 +265,7 @@
 
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
+    <string name="screen_fragment_yap_home_add_money">Add money</string>
 
     <!--    Card Home Screen-->
     <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
@@ -1009,11 +1010,31 @@
     <string name="screen_tax_info_display_text_heading_tin_number">Enter your TIN number</string>
 
     <!--    Waiting list screen-->
-    <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
-    <string name="screen_waiting_list_display_text_guide">We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready!</string>
+    <string name="screen_waiting_list_display_text_heading">Well done! You\’re #%1s on our waiting list</string>
+    <string name="screen_waiting_list_display_text_guide">We\’re currently in beta and only open to a limited number of users. Don\’t worry, you\’ll be the first to know when we\’re ready!</string>
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
-    <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
+    <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+
+    <!--   Status Time line  -->
+    <string name="screen_time_line_display_text_status_card_on_the_way_title">Your card is on the way</string>
+    <string name="screen_time_line_display_text_status_card_on_the_way_description">Give us up to 48 hours for it to reach you</string>
+    <string name="screen_time_line_display_text_status_card_on_the_way_action">Track your delivery</string>
+
+    <string name="screen_time_line_display_text_status_card_delivered_title">Your card is delivered</string>
+    <string name="screen_time_line_display_text_status_card_delivered_description">Your EID scan has been carried out</string>
+
+    <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_description">You\’ll need this to begin using your card</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_action">Set PIN</string>
+
+    <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
+    <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
+    <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
+
+    <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
 
 </resources>
 
