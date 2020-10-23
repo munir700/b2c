@@ -46,6 +46,8 @@ fun Transaction?.getTransactionIcon(): Int {
             TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> {
                 when (transaction.productCode) {
                     TransactionProductCode.POS_PURCHASE.pCode -> R.drawable.ic_reverted
+                    TransactionProductCode.TOP_UP_VIA_CARD.pCode -> R.drawable.ic_reverted
+                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_reverted
                     else -> -1
                 }
             }
