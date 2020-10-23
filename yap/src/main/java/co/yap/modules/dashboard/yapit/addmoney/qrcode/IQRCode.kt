@@ -8,11 +8,11 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IQRCode {
     interface State : IBase.State {
-        var fullName: String
-        var userNameImage: ObservableField<String>
-        var profilePictureUrl: String
-        var nameInitialsVisibility: Int
-        var imageUri: Uri
+        var fullName: String?
+        var userNameImage: ObservableField<String>?
+        var profilePictureUrl: String?
+        var nameInitialsVisibility: Int?
+        var imageUri: Uri?
         var qrBitmap: Bitmap?
     }
 

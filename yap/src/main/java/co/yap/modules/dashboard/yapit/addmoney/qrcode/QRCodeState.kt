@@ -9,17 +9,17 @@ import co.yap.BR
 import co.yap.yapcore.BaseState
 
 class QRCodeState : BaseState(), IQRCode.State {
-    override var userNameImage: ObservableField<String> = ObservableField("")
+    override var userNameImage: ObservableField<String>? = ObservableField("")
 
     @get:Bindable
-    override var fullName: String = ""
+    override var fullName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
         }
 
     @get:Bindable
-    override var nameInitialsVisibility: Int = View.VISIBLE
+    override var nameInitialsVisibility: Int? = View.VISIBLE
         set(value) {
             field = value
             notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.nameInitialsVisibility)
@@ -27,14 +27,14 @@ class QRCodeState : BaseState(), IQRCode.State {
         }
 
     @get:Bindable
-    override var imageUri: Uri = Uri.EMPTY
+    override var imageUri: Uri? = Uri.EMPTY
         set(value) {
             field = value
             notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.imageUri)
         }
 
     @get:Bindable
-    override var profilePictureUrl: String = ""
+    override var profilePictureUrl: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.profilePictureUrl)
