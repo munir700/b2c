@@ -49,26 +49,29 @@ import java.util.*
 
 class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (viewModel.parentViewModel?.isOnBoarding == true) {
             when (SessionManager.user?.notificationStatuses) {
                 AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
                     skipLocationSelectionFragment()
                 }
-                else -> setObservers()
+                else -> {
+                    setObservers()
+                    checkPermission()
+                    setHeadings()
+                    setAddress()
+                    addListeners()
+                }
             }
         } else {
             setObservers()
+            checkPermission()
+            setHeadings()
+            setAddress()
+            addListeners()
         }
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        checkPermission()
-        setHeadings()
-        setAddress()
-        addListeners()
     }
 
     private fun addListeners() {
