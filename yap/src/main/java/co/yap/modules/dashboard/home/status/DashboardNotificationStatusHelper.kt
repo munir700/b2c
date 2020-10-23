@@ -19,7 +19,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class DashboardNotificationStatusHelper(
     val context: Context, val binding: FragmentYapHomeBinding,
@@ -125,7 +125,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun getNotificationStatus(stage: PaymentCardOnboardingStage): StageProgress {
-        return MyUserManager.card.value?.let { card ->
+        return SessionManager.card.value?.let { card ->
             when (stage) {
                 PaymentCardOnboardingStage.SHIPPING -> {
                     return (when (card.deliveryStatus) {
@@ -141,12 +141,12 @@ class DashboardNotificationStatusHelper(
                 PaymentCardOnboardingStage.DELIVERY -> {
                     return (when {
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name
-                                && MyUserManager.user?.partnerBankStatus != PartnerBankStatus.ACTIVATED.status -> {
+                                && SessionManager.user?.partnerBankStatus != PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.ACTIVE
                         }
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name
-                                && MyUserManager.user?.partnerBankStatus == PartnerBankStatus.INITIAL_VERIFICATION_SUCCESSFUL.status
-                                || MyUserManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                                && SessionManager.user?.partnerBankStatus == PartnerBankStatus.INITIAL_VERIFICATION_SUCCESSFUL.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.COMPLETED
                         }
                         else -> StageProgress.INACTIVE
@@ -154,10 +154,10 @@ class DashboardNotificationStatusHelper(
                 }
                 PaymentCardOnboardingStage.SET_PIN -> {
                     return (when {
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !card.pinCreated && MyUserManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.ACTIVE
                         }
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && card.pinCreated && MyUserManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.COMPLETED
                         }
                         else -> StageProgress.INACTIVE
@@ -166,7 +166,7 @@ class DashboardNotificationStatusHelper(
 
                 PaymentCardOnboardingStage.TOP_UP -> {
                     return (when {
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && card.pinCreated && MyUserManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.ACTIVE
                         }
                         else -> StageProgress.INACTIVE
@@ -181,7 +181,7 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.SHIPPING -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
                 StageProgress.COMPLETED -> "Your card was delivered on ${DateUtils.reformatStringDate(
-                    MyUserManager.card.value?.shipmentDate ?: "",
+                    SessionManager.card.value?.shipmentDate ?: "",
                     SERVER_DATE_FORMAT,
                     DEFAULT_DATE_FORMAT
                 )}"
@@ -196,7 +196,7 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
                 StageProgress.COMPLETED -> "Your PIN was successfully set on ${DateUtils.reformatStringDate(
-                    MyUserManager.card.value?.activationDate ?: "",
+                    SessionManager.card.value?.activationDate ?: "",
                     SERVER_DATE_FORMAT,
                     DEFAULT_DATE_FORMAT
                 )}"
@@ -216,7 +216,7 @@ class DashboardNotificationStatusHelper(
             FragmentPresenterActivity.getIntent(
                 context,
                 Constants.MODE_STATUS_SCREEN,
-                MyUserManager.card.value
+                SessionManager.card.value
             ), Constants.EVENT_CREATE_CARD_PIN
         )
     }
@@ -225,7 +225,7 @@ class DashboardNotificationStatusHelper(
         fragment?.startActivityForResult(
             SetCardPinWelcomeActivity.newIntent(
                 context,
-                MyUserManager.getPrimaryCard()
+                SessionManager.getPrimaryCard()
             ), RequestCodes.REQUEST_FOR_SET_PIN
         )
     }
