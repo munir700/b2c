@@ -11,16 +11,12 @@
     android:paddingEnd="@dimen/margin_normal"
     android:paddingBottom="@dimen/margin_normal">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <co.yap.widgets.CoreCircularImageView
         android:id="@+id/ivTransaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         android:layout_gravity="center_vertical"
-        android:focusable="false"
-        app:elevation="0dp"
-        app:fabCustomSize="@dimen/_36sdp"
-        app:pressedTranslationZ="0dp"
-        app:srcCompat="@drawable/flag_ae" />
+        android:src="@drawable/flag_ae" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"

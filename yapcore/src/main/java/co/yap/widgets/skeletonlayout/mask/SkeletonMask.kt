@@ -1,13 +1,12 @@
 package co.yap.widgets.skeletonlayout.mask
 
 import android.graphics.*
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import co.yap.widgets.skeletonlayout.tag
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.skeletonlayout.views
 import timber.log.Timber
 
@@ -24,7 +23,8 @@ internal abstract class SkeletonMask(protected val parent: View, @ColorInt color
     private val canvas: Canvas by lazy { createCanvas() }
     protected val paint: Paint by lazy { createPaint() }
 
-    protected open fun createBitmap(): Bitmap = Bitmap.createBitmap(parent.width, parent.height, Bitmap.Config.ALPHA_8)
+    protected open fun createBitmap(): Bitmap =
+        Bitmap.createBitmap(parent.width, parent.height, Bitmap.Config.ALPHA_8)
 
     protected open fun createCanvas(): Canvas = Canvas(bitmap)
 
@@ -64,8 +64,16 @@ internal abstract class SkeletonMask(protected val parent: View, @ColorInt color
         root.offsetDescendantRectToMyCoords(view, rect)
 
         if (maskCornerRadius > 0) {
-            val rectF = RectF(rect.left.toFloat(), rect.top.toFloat(), rect.right.toFloat(), rect.bottom.toFloat())
-            draw(rectF, maskCornerRadius, paint)
+            val rectF = RectF(
+                rect.left.toFloat(),
+                rect.top.toFloat(),
+                rect.right.toFloat(),
+                rect.bottom.toFloat()
+            )
+            if (view is CoreCircularImageView)
+                draw(rectF, 100f, paint)
+            else
+                draw(rectF, maskCornerRadius, paint)
         } else {
             draw(rect, paint)
         }
