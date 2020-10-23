@@ -85,7 +85,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
-        initializeChatOverLayButton()
+        initializeChatOverLayButton(Leanplum.getInbox().unreadCount())
     }
 
     private fun logEvent() {

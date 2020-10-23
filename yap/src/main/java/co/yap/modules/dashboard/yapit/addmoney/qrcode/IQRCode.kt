@@ -11,7 +11,6 @@ interface IQRCode {
         var fullName: String?
         var userNameImage: ObservableField<String>?
         var profilePictureUrl: String?
-        var nameInitialsVisibility: Int?
         var imageUri: Uri?
         var qrBitmap: Bitmap?
     }

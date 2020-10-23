@@ -18,6 +18,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_qr_code.*
@@ -74,6 +76,17 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewDataBinding.executePendingBindings()
 
+        updateUI()
+    }
+
+   private fun updateUI(){
+       ImageBinding.loadAvatar(
+           ivProfilePic,
+           viewModel.state.profilePictureUrl,
+           viewModel.state.fullName,
+           android.R.color.transparent,
+           R.dimen.text_size_h2
+       )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

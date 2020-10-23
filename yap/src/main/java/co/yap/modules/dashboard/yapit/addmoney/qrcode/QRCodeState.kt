@@ -19,34 +19,17 @@ class QRCodeState : BaseState(), IQRCode.State {
         }
 
     @get:Bindable
-    override var nameInitialsVisibility: Int? = View.VISIBLE
-        set(value) {
-            field = value
-            notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.nameInitialsVisibility)
-
-        }
-
-    @get:Bindable
     override var imageUri: Uri? = Uri.EMPTY
         set(value) {
             field = value
-            notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.imageUri)
+            notifyPropertyChanged(BR.imageUri)
         }
 
     @get:Bindable
     override var profilePictureUrl: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.profilePictureUrl)
-            if (!field.isNullOrEmpty()) {
-                nameInitialsVisibility = View.VISIBLE
-                notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.nameInitialsVisibility)
-
-            } else {
-                nameInitialsVisibility = View.GONE
-                notifyPropertyChanged(androidx.databinding.library.baseAdapters.BR.nameInitialsVisibility)
-
-            }
+            notifyPropertyChanged(BR.profilePictureUrl)
         }
 
     @get:Bindable

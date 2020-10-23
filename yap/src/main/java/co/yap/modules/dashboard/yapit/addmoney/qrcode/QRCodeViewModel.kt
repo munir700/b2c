@@ -24,14 +24,9 @@ class QRCodeViewModel (application: Application) :
     private fun populateState() {
         SessionManager.user?.let {
             state.fullName = it.currentCustomer.getFullName()
-            if (it.currentCustomer.getPicture() != null) {
-                state.profilePictureUrl = it.currentCustomer.getPicture()!!
-                state.nameInitialsVisibility = View.GONE
-            } else {
-                state.fullName = it.currentCustomer.getFullName()
-                state.nameInitialsVisibility = View.VISIBLE
+            it.currentCustomer.getPicture().let { picture ->
+                state.profilePictureUrl = picture
             }
-
         }
     }
 
