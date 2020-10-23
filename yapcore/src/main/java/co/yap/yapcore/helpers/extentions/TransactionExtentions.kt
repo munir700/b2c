@@ -46,6 +46,8 @@ fun Transaction?.getTransactionIcon(): Int {
             TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> {
                 when (transaction.productCode) {
                     TransactionProductCode.POS_PURCHASE.pCode -> R.drawable.ic_reverted
+                    TransactionProductCode.TOP_UP_VIA_CARD.pCode -> R.drawable.ic_reverted
+                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_reverted
                     else -> -1
                 }
             }
@@ -376,8 +378,8 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 
 fun Transaction?.getTransactionAmount(): String? {
     (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency()
-        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency()
+        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(showCurrency = false)
+        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(showCurrency = false)
         else -> ""
     })
 }
@@ -409,6 +411,10 @@ fun Transaction?.getTransactionAmountColor(): Int {
 
 fun Transaction?.isTransactionRejected(): Boolean {
     return (this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name)
+}
+
+fun Transaction?.isInternationalTransaction(): Boolean {
+    return (this?.productCode == TransactionProductCode.SWIFT.pCode || this?.productCode == TransactionProductCode.RMT.pCode)
 }
 
 

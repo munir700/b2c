@@ -1740,4 +1740,9 @@ object Strings {
         "screen_time_line_display_text_status_additional_requirements_description"
     const val screen_time_line_display_text_status_additional_requirements_action: String =
         "screen_time_line_display_text_status_additional_requirements_action"
+
+    // Transaction Detail Screen
+    const val screen_transaction_detail_text_cut_off_msg: String =
+        "screen_transaction_detail_text_cut_off_msg"
+
 }
