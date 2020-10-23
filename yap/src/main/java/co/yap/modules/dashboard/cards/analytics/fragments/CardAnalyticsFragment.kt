@@ -19,10 +19,12 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_card_analytics.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
@@ -32,14 +34,30 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_analytics
 
-    override val viewModel: ICardAnalytics.ViewModel
+    override val viewModel: CardAnalyticsViewModel
         get() = ViewModelProviders.of(this).get(CardAnalyticsViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.fetchCardCategoryAnalytics(
+            DateUtils.dateToString(
+                Calendar.getInstance().time,
+                "yyyy-MM-dd"
+            )
+        )
+        setObservers()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBindings()
         setupAdaptor()
         setupTabs()
-        setObservers()
+    }
+
+    private fun setupBindings() {
+        getBindingView().rlDetails.setOnClickListener { }
+        getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
     }
 
     /*
@@ -68,7 +86,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setEntryLabelColor(Color.WHITE)
             chart.setEntryLabelTextSize(0f)
 //            chart.setDrawRoundedSlices(true)  // For Rounded corner graph with spaces
-
             setData(data)
         }
     }
@@ -114,10 +131,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
 
     override fun setObservers() {
-        rlDetails.setOnClickListener { }
-        getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
-        viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
+        viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.observe(this, Observer {
             if (it != null && it.isNullOrEmpty())
                 getBindingView().rlDetails.visibility = View.INVISIBLE
             else
@@ -127,10 +142,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
         })
-        viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
+        viewModel.parentViewModel?.selectedItemPosition?.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
-                    viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.let { list ->
+                    viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
                     }
@@ -138,7 +153,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
-                    viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.let { list ->
+                    viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.let { list ->
                         updatePieChartInnerData(list[it])
                         setState(list[it])
                     }
@@ -147,7 +162,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
         })
-
     }
 
     /*
@@ -252,16 +266,16 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         val selectedItem = getBindingView().tabLayout.selectedTabPosition
         h?.let {
             setSelectedTabData(selectedItem, it.x.toInt())
-            viewModel.parentViewModel.selectedItemPositionParent.value = it.x.toInt()
+            viewModel.parentViewModel?.selectedItemPositionParent?.value = it.x.toInt()
         }
     }
 
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                if (!viewModel.parentViewModel.categoryAnalyticsItemLiveData.value.isNullOrEmpty()) {
+                if (!viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
-                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
+                        viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value?.get(
                             contentPos
                         )
                     updatePieChartInnerData(txnItem)
@@ -269,9 +283,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
             MERCHANT_ANALYTICS -> {
-                if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
+                if (!viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value.isNullOrEmpty()) {
                     val txnItem =
-                        viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
+                        viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value?.get(
                             contentPos
                         )
                     updatePieChartInnerData(txnItem)
@@ -285,7 +299,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setupPieChart(TabPosition: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
+                setPieView(viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalCategorySpent
                 getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
                     requireContext(),
@@ -295,7 +309,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 )
             }
             MERCHANT_ANALYTICS -> {
-                setPieView(viewModel.parentViewModel.merchantAnalyticsItemLiveData.value)
+                setPieView(viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
                 getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
                     requireContext(),
@@ -309,5 +323,12 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     private fun setState(txnAnalytic: TxnAnalytic?) {
         viewModel.state.selectedTxnAnalyticsItem = txnAnalytic
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.parentViewModel?.selectedItemPosition?.removeObservers(this)
     }
 }

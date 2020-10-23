@@ -11,11 +11,13 @@ import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.qrcode.QRCodeFragment
+import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -67,7 +69,9 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private val observer = Observer<Int> {
         when (it) {
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
-                showToast(getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card))
+//                RequestCodes.REQUEST_SHOW_BENEFICIARY
+                launchActivityForResult<TopUpBeneficiariesActivity>(completionHandler = { resultCode, data ->
+                })
             }
             Constants.ADD_MONEY_SAMSUNG_PAY -> {
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay))
@@ -98,5 +102,4 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     override fun getBinding(): FragmentAddMoneyLandingBinding {
         return viewDataBinding as FragmentAddMoneyLandingBinding
     }
-
 }

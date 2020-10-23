@@ -24,7 +24,6 @@ class CardAnalyticsMainViewModel(application: Application) :
         super.onCreate()
         state.toolbarVisibility.set(true)
         state.leftButtonVisibility.set(true)
-        state.toolbarTitle = getString(Strings.screen_card_analytics_tool_bar_title)
     }
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

@@ -28,7 +28,6 @@
             android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:titleString="@{viewModel.state.toolbarTitle}"
-
         />
 
         <fragment

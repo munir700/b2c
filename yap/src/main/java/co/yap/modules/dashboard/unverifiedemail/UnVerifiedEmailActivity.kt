@@ -58,7 +58,8 @@ class UnVerifiedEmailActivity : BaseBindingActivity<IUnverifiedEmail.ViewModel>(
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.unverified_email_nav_host_fragment)
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.unverified_email_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             if (onBackPressCheck) {
                 super.onBackPressed()
