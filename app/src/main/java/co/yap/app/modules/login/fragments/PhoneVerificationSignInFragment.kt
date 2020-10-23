@@ -17,6 +17,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.SessionManager
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>() {
@@ -44,6 +45,7 @@ class PhoneVerificationSignInFragment :
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            SessionManager.updateCardBalance {  }
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
                 SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)

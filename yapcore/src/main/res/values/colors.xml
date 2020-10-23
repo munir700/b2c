@@ -127,6 +127,8 @@
     <color name="colorDarkPeach">#F57F17</color>
 
     <color name="colorCoachMarkOverlay">#4D272262</color>
+    <color name="skeleton_mask">#E8ECF6</color>
+    <color name="skeleton_shimmer">#d5d5d5</color>
 
 
 </resources>

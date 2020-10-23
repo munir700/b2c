@@ -9,6 +9,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -32,6 +33,7 @@ interface IYapHome {
         var isLoadMore: MutableLiveData<Boolean>
         var isRefreshing: MutableLiveData<Boolean>
         var isLast: MutableLiveData<Boolean>
+
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()
@@ -42,8 +44,9 @@ interface IYapHome {
     }
 
     interface State : IBase.State {
-        var availableBalance: String
+        var availableBalance: String?
         var filterCount: ObservableField<Int>
         var isTransEmpty:ObservableField<Boolean>
+        var showTxnShimmer: MutableLiveData<co.yap.widgets.State>
     }
 }
