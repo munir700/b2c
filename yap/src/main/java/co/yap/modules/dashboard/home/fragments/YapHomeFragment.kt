@@ -50,7 +50,11 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.skeletonlayout.Skeleton
+import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
@@ -80,6 +84,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
+    private lateinit var skeleton: Skeleton
+    private lateinit var tvBalanceSkeleton: Skeleton
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -128,7 +134,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
-
+        skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
+            R.layout.item_transaction_list_shimmer,
+            5
+        )
+        viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
@@ -144,11 +154,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             } else {
                 if (Math.abs(verticalOffset) > 0)
-                    getBindings().lyInclude.lyHomeAction.alpha = 10 / abs(verticalOffset).toFloat()
+                    getBindings().lyInclude.lyHomeAction.alpha =
+                        10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
+    }
+
+    private fun handleShimmerState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> skeleton.showSkeleton()
+            else -> skeleton.showOriginal()
+        }
     }
 
     override fun onRefresh() {
@@ -163,7 +181,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private val transactionClickListener = object : OnItemClickListener {
+    private
+    val transactionClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             viewModel.clickEvent.setPayload(
                 SingleClickEvent.AdaptorPayLoadHolder(
@@ -290,7 +309,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(
+                    true
+                )
 
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
@@ -316,6 +337,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getGraphRecycleViewAdapter()?.addList(listToAppend)
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
+                //skeleton.showOriginal()
                 if (it.isEmpty()) {
                     //if transaction is empty and filter is applied then state would be Error where no transaction image show
                     if (homeTransactionsRequest.totalAppliedFilter > 0) {
@@ -348,11 +370,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
             object :
                 RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                override fun onScrolled(
+                    recyclerView: RecyclerView,
+                    dx: Int,
+                    dy: Int
+                ) {
                     super.onScrolled(recyclerView, dx, dy)
                     val layoutManager =
                         getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
-                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    val lastVisiblePosition =
+                        layoutManager.findLastVisibleItemPosition()
                     if (lastVisiblePosition == layoutManager.itemCount - 1) {
                         if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
                             viewModel.isLoadMore.value = true
@@ -367,7 +394,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 homeTransactionsRequest.number =
                     homeTransactionsRequest.number + 1
                 val item =
-                    getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        getRecycleViewAdaptor()?.itemCount!! - 1
+                    )
                         ?.copy()
                 item?.totalAmount = "loader"
                 getRecycleViewAdaptor()?.addListItem(item!!)
@@ -384,7 +413,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setNotificationAdapter(SessionManager.user, SessionManager.card.value)
     }
 
-    private fun setNotificationAdapter(accountInfo: AccountInfo?, paymentCard: Card?) {
+    private fun setNotificationAdapter(
+        accountInfo: AccountInfo?,
+        paymentCard: Card?
+    ) {
         accountInfo?.let { account ->
             paymentCard?.let { card ->
                 mAdapter = NotificationAdapter(
@@ -396,7 +428,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
                 getBindings().lyInclude.rvNotificationList.adapter = mAdapter
                 getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(150)
+                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(
+                    150
+                )
                 getBindings().lyInclude.rvNotificationList.setItemTransformer(
                     ScaleTransformer.Builder()
                         .setMaxScale(1.05f)
@@ -413,7 +447,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         mAdapter?.removeAllItems()
     }
 
-    override fun onCloseClick(notification: HomeNotification, position: Int) {
+    override fun onCloseClick(
+        notification: HomeNotification,
+        position: Int
+    ) {
         super.onCloseClick(notification, position)
         clearNotification()
     }
@@ -428,7 +465,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isTransEmpty.set(true)
             }
         } else {
-            getBindings().lyInclude.multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            getBindings().lyInclude.multiStateView.viewState =
+                MultiStateView.ViewState.CONTENT
             viewModel.state.isTransEmpty.set(false)
             view?.let {
                 transactionViewHelper = TransactionsViewHelper(
@@ -460,13 +498,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     }
 
-    private fun setAvailableBalance(balance: String) {
+    private fun setAvailableBalance(balance: String?) {
+        getBindings().skeletonLayout.apply {
+            if (balance.isNullOrEmpty()) showSkeleton() else showOriginal()
+        }
         getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
     override fun onClick(notification: HomeNotification, position: Int) {
         if (position != getBindings().lyInclude.rvNotificationList.currentItem) {
-            getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(position)
+            getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(
+                position
+            )
             return
         }
 
@@ -535,8 +578,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private val appbarListener = object : AppBarStateChangeListener() {
-        override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
+    private
+    val appbarListener = object : AppBarStateChangeListener() {
+        override fun onStateChanged(
+            appBarLayout: AppBarLayout?,
+            state: State?
+        ) {
             if (state == State.COLLAPSED) {
                 transactionViewHelper?.onToolbarCollapsed()
             } else if (state == State.EXPANDED) {
@@ -549,7 +596,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().appbar.addOnOffsetChangedListener(appbarListener)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             RequestCodes.REQUEST_KYC_DOCUMENTS -> {
@@ -560,7 +611,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
-                                address = SessionManager.userAddress ?: Address(),
+                                address = SessionManager.userAddress
+                                    ?: Address(),
                                 headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                                 subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
                                 onBoarding = true
@@ -691,7 +743,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun registerTransactionBroadcast() {
         LocalBroadcastManager.getInstance(requireContext())
-            .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_UPDATE_TRANSACTION))
+            .registerReceiver(
+                broadCastReceiver,
+                IntentFilter(BROADCAST_UPDATE_TRANSACTION)
+            )
     }
 
     private fun unregisterTransactionBroadcast() {
@@ -699,7 +754,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             .unregisterReceiver(broadCastReceiver)
     }
 
-    private val broadCastReceiver = object : BroadcastReceiver() {
+    private
+    val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             when (intent?.action) {
                 BROADCAST_UPDATE_TRANSACTION -> {
@@ -755,7 +811,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
-    private fun getParentActivity(): ActivityYapDashboardBinding {
+    fun getParentActivity(): ActivityYapDashboardBinding {
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 

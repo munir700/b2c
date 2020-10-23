@@ -28,6 +28,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import com.google.android.gms.auth.api.phone.SmsRetriever
 
+import co.yap.yapcore.managers.SessionManager
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
@@ -87,6 +88,7 @@ class PhoneVerificationSignInFragment :
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            SessionManager.updateCardBalance {  }
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
                 SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)

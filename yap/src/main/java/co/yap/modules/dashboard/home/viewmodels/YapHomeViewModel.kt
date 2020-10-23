@@ -15,6 +15,8 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -62,8 +64,10 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestAccountTransactions() {
         launch {
-            if (isLoadMore.value == false)
-                state.loading = true
+            if (isLoadMore.value == false) {
+               // state.loading = true
+                state.showTxnShimmer.value = State.loading(null)
+            }
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
@@ -139,14 +143,18 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
+                    ///if (isLoadMore.value == false) {
+                        state.showTxnShimmer.value = State.success(null)
+                    //}
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
-                    state.loading = false
+                    //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
+                   // state.loading = false
                     isRefreshing.value = false
                     isLoadMore.value = false
+                    state.showTxnShimmer.value = State.error("")
                 }
             }
         }
