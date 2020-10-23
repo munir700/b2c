@@ -534,6 +534,15 @@
             <flag name="to_left" value="2" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="ShapeOfView">
+        <attr name="shape_clip_drawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TriangleView">
+        <attr name="shape_triangle_percentLeft" format="float" />
+        <attr name="shape_triangle_percentBottom" format="float" />
+        <attr name="shape_triangle_percentRight" format="float" />
+    </declare-styleable>
 
     <declare-styleable name="CollapsedColoredHintTextInputLayout">
         <attr name="hintTextColorNormal" format="color" />
