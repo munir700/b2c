@@ -60,10 +60,24 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkPermission()
-        setHeadings()
-        setAddress()
-        addListeners()
+        if (viewModel.parentViewModel?.isOnBoarding == true) {
+            when (SessionManager.user?.notificationStatuses) {
+                AccountStatus.MEETING_SCHEDULED.name, AccountStatus.BIRTH_INFO_COLLECTED.name -> {
+                }
+                else -> {
+                    checkPermission()
+                    setHeadings()
+                    setAddress()
+                    addListeners()
+                }
+            }
+        } else {
+            checkPermission()
+            setHeadings()
+            setAddress()
+            addListeners()
+        }
+
     }
 
     private fun addListeners() {
