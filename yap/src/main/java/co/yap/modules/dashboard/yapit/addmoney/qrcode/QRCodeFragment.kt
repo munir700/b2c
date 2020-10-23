@@ -78,7 +78,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.myDialog)
+        setStyle(STYLE_NO_TITLE, R.style.QRCodeTheme)
         viewModel.onCreate()
     }
 
