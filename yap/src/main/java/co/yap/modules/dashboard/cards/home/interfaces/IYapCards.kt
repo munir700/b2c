@@ -19,6 +19,8 @@ interface IYapCards {
         fun getCards()
         fun handlePressOnView(id: Int)
         fun updateCardCount(id: Int)
+        fun getPrimaryCard(cards: ArrayList<Card>?):Card?
+        fun getDebitCard()
     }
 
     interface View : IBase.View<ViewModel>
