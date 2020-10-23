@@ -95,7 +95,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun getCutOffMsg(transaction: Transaction): String {
-        return if(transaction.isInternationalTransaction()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
+        return if(transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
     }
 
     private fun setTotalAmount() {
