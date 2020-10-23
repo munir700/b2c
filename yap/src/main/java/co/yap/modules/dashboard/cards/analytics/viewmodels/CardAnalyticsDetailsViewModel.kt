@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.networking.transactions.responsedtos.transaction.TransactionAnalyticsDetailsResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
@@ -23,6 +24,8 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override val state = CardAnalyticsDetailsState()
     override val adapter: ObservableField<TransactionsListingAdapter> =
         ObservableField<TransactionsListingAdapter>()
+    override var transactionResponse: TransactionAnalyticsDetailsResponse =
+        TransactionAnalyticsDetailsResponse()
     val repository: TransactionsRepository = TransactionsRepository
     var currentCalendar: Calendar = Calendar.getInstance()
     var list: MutableList<Transaction>? = ArrayList<Transaction>()
@@ -43,10 +46,6 @@ class CardAnalyticsDetailsViewModel(application: Application) :
         setToolBarTitle(state.title.get()?.trim() ?: "Analytics")
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
         launch {
             state.loading = true
@@ -59,10 +58,11 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
 
-                    response.data.data?.let {
-                        if (!it.txnAnalytics.isNullOrEmpty()) {
+                    response.data.data?.let { resp ->
+                        transactionResponse = resp
+                        if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
-                            list = it.txnAnalytics
+                            list = transactionResponse.txnAnalytics
                             list?.let { transactionList ->
                                 adapter.get()?.setList(transactionList)
                             }

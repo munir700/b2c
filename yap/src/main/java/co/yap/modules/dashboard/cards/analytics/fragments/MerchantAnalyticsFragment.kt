@@ -35,23 +35,27 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     }
 
     override fun setObservers() {
-        viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.observe(this, Observer {
-            if (it == null) {
-                return@Observer
-            }
-            getAdaptor().setList(it)
-        })
+        viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.observe(
+            this,
+            Observer { txnAnalytics ->
+                if (txnAnalytics == null) {
+                    return@Observer
+                }
+                getAdaptor().setList(txnAnalytics)
+            })
 
-        viewModel.parentViewModel?.selectedItemPositionParent?.observe(this, Observer {
-            val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
-            if (null != view) {
-                highlightSelectedItem(view, it)
-            } else {
-                getBinding().recycler.removeOnScrollListener(onScrollListener)
-                getBinding().recycler.addOnScrollListener(onScrollListener)
-                getBinding().recycler.smoothScrollToPosition(it)
-            }
-        })
+        viewModel.parentViewModel?.selectedItemPositionParent?.observe(
+            this,
+            Observer { selectedPosition ->
+                val view = getBinding().recycler.layoutManager?.findViewByPosition(selectedPosition)
+                if (null != view) {
+                    highlightSelectedItem(view, selectedPosition)
+                } else {
+                    getBinding().recycler.removeOnScrollListener(onScrollListener)
+                    getBinding().recycler.addOnScrollListener(onScrollListener)
+                    getBinding().recycler.smoothScrollToPosition(selectedPosition)
+                }
+            })
     }
 
     private fun initAdaptor() {
@@ -79,7 +83,8 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
                     totalSpendingInPercentage = selectedItem.totalSpendingInPercentage
-                )
+                ),
+                Constants.TRANSACTION_POSITION to pos
             )
         )
     }
@@ -87,15 +92,15 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     private fun highlightSelectedItem(view: View?, pos: Int) {
         val colors = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
         if (getAdaptor().checkedPosition != pos) {
-            view?.let {
-                it.isSelected = true
-                it.setBackgroundColor(
+            view?.let { itemView ->
+                itemView.isSelected = true
+                itemView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.itemBackground
                     )
                 )
-                it.tvName.setTextColor(colors[pos % colors.size])
+                itemView.tvName.setTextColor(colors[pos % colors.size])
                 getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
                 getAdaptor().checkedPosition = pos
             }
@@ -111,9 +116,10 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                 when (newState) {
                     RecyclerView.SCROLL_STATE_IDLE -> {
                         val pos = viewModel.parentViewModel?.selectedItemPositionParent?.value
-                        pos?.let {
-                            val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
-                            highlightSelectedItem(view, it)
+                        pos?.let { position ->
+                            val view =
+                                getBinding().recycler.layoutManager?.findViewByPosition(position)
+                            highlightSelectedItem(view, position)
                         }
                     }
                 }

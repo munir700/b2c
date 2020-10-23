@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.main.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
@@ -15,5 +14,9 @@ abstract class CardAnalyticsBaseViewModel<S : IBase.State>(application: Applicat
 
     fun toggleToolBarVisibility(visibility: Boolean) {
         parentViewModel?.state?.toolbarVisibility?.set(visibility)
+    }
+
+    fun setSelectedDate(date: String) {
+        parentViewModel?.state?.currentSelectedDate = date
     }
 }

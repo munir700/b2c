@@ -23,7 +23,7 @@ interface ICardAnalyticsMain {
     interface State : IBase.State {
         var leftButtonVisibility: ObservableBoolean
         var toolbarVisibility: ObservableBoolean
-
+        var currentSelectedDate : String
     }
 
 }

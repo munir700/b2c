@@ -34,15 +34,15 @@ class CardAnalyticsViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
         state.nextMonth = false
-        SessionManager.user?.creationDate?.let {
+        SessionManager.user?.creationDate?.let {str ->
             val date =
                 DateUtils.stringToDate(
-                    it,
+                    str,
                     DateUtils.SERVER_DATE_FORMAT
                 )
             state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-            date?.let { it ->
-                creationCalender.time = it
+            date?.let { dates ->
+                creationCalender.time = dates
                 if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
                     state.previousMonth = false
                 } else {
@@ -80,6 +80,7 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
+                parentViewModel?.state?.currentSelectedDate = state.selectedMonth ?: ""
             }
             R.id.ivNext -> {
                 val tempCalendar = Calendar.getInstance()
@@ -100,6 +101,7 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
+                parentViewModel?.state?.currentSelectedDate = state.selectedMonth ?: ""
             }
         }
         clickEvent.setValue(id)
@@ -114,7 +116,7 @@ class CardAnalyticsViewModel(application: Application) :
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
+                    response.data.data?.let {analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
                         state.setUpString(
@@ -128,7 +130,7 @@ class CardAnalyticsViewModel(application: Application) :
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentViewModel?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value = analyticsDTO.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
