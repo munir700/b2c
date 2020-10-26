@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.yapit.addmoney.qrcode
 
 import android.Manifest
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.qrcode.BarcodeEncoder
+import co.yap.modules.qrcode.BarcodeFormat
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
@@ -67,18 +72,18 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         viewDataBinding.lifecycleOwner = this
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewDataBinding.executePendingBindings()
-
         updateUI()
     }
 
-   private fun updateUI(){
-       ImageBinding.loadAvatar(
-           ivProfilePic,
-           viewModel.state.profilePictureUrl,
-           viewModel.state.fullName,
-           android.R.color.transparent,
-           R.dimen.text_size_h2
-       )
+    private fun updateUI() {
+        ImageBinding.loadAvatar(
+            ivProfilePic,
+            viewModel.state.profilePictureUrl,
+            viewModel.state.fullName,
+            android.R.color.transparent,
+            R.dimen.text_size_h2
+        )
+        viewModel.state.qrBitmap = generateQrCode("This Is YAP QR code")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,6 +120,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
                 storeBitmap(qrContainer, requireContext())
+
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
@@ -132,4 +138,16 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         })
     }
 
+    fun generateQrCode(resourceKey: String = "This Is YAP QR code"): Drawable? {
+        var drawable: Drawable? = resources.getDrawable(R.drawable.ic_card_chip)
+        try {
+            val barcodeEncoder = BarcodeEncoder()
+            val bitmap: Bitmap =
+                barcodeEncoder.encodeBitmap(resourceKey, BarcodeFormat.QR_CODE, 400, 400)
+            drawable = BitmapDrawable(getResources(), bitmap)
+            return drawable
+        } catch (e: Exception) {
+        }
+        return drawable
+    }
 }
