@@ -46,6 +46,8 @@ object Strings {
         "common_add_money"
     const val common_pay_bills: String =
         "common_pay_bills"
+    const val common_permission_rejected_error: String =
+        "common_permission_rejected_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1765,6 +1767,10 @@ object Strings {
     const val screen_fragment_yap_it_add_money_text_qr_code: String =
         "screen_fragment_yap_it_add_money_text_qr_code"
 
+    const val screen_yap_analytics_detail_transaction_count: String =
+        "screen_yap_analytics_detail_transaction_count"
+
+
     // yap it QR Code screen
     const val screen_fragment_yap_it_qr_code_share_my_code: String =
         "screen_fragment_yap_it_qr_code_share_my_code"
@@ -1772,4 +1778,5 @@ object Strings {
         "screen_fragment_yap_it_qr_code_save_to_gallery"
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
+
 }

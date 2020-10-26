@@ -18,9 +18,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.translation.Strings
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.storeBitmap
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 import java.io.File
@@ -91,7 +93,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.QRCodeTheme)
+        setStyle(STYLE_NO_FRAME, R.style.myDialog)
         viewModel.onCreate()
     }
 
@@ -109,60 +111,9 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         }
     }
 
-    private fun captureAndSaveQR() {
-        val image = takeScreenshotForView(qrContainer)
-        image?.let { storeBitmap(it, "qrcodetest") }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-    }
-
-    fun takeScreenshotForView(view: View): Bitmap? {
-        view.measure(
-            MeasureSpec.makeMeasureSpec(view.width, MeasureSpec.EXACTLY),
-            MeasureSpec.makeMeasureSpec(view.height, MeasureSpec.EXACTLY)
-        )
-        view.layout(
-            view.x.toInt(),
-            view.y.toInt(),
-            view.x.toInt() + view.measuredWidth,
-            view.y.toInt() + view.measuredHeight
-        )
-        var bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        var canvas = Canvas(bitmap)
-        view.draw(canvas)
-        /*  return bitmap
-          view.isDrawingCacheEnabled = true
-          view.buildDrawingCache(true)
-          val bitmap = Bitmap.createBitmap(view.drawingCache)
-          view.isDrawingCacheEnabled = false*/
-        showToast("Save to Gallery")
-        return bitmap
-    }
-
-    fun storeBitmap(bitmap: Bitmap, image_name: String) {
-
-        val root = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_PICTURES
-        ).toString()
-        val myDir = File("$root/yap_saved_images")
-        myDir.mkdirs()
-        val fname = "Image-" + image_name + ".jpg"
-        val file = File(myDir, fname)
-        if (file.exists()) file.delete()
-        try {
-            val out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-            out.flush()
-            out.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        MediaScannerConnection.scanFile(requireContext(), arrayOf(file.toString()), null,
-            OnScanCompletedListener { path, uri ->
-            })
     }
 
     private fun checkPermission() {
@@ -173,11 +124,12 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                captureAndSaveQR()
+                storeBitmap(qrContainer, requireContext())
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast("Can't proceed without permissions")
+                showToast(getString(Strings.common_permission_rejected_error))
+
             }
 
             override fun onPermissionDenied() {
