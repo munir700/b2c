@@ -1094,6 +1094,12 @@
     <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque">Cash or Cheque</string>
     <string name="screen_fragment_yap_it_add_money_text_qr_code">QR code</string>
 
+    <!--  Yap It QR Code Screen-->
+    <string name="screen_fragment_yap_it_qr_code_share_my_code">Share my code</string>
+    <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
+    <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
+    <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
+
     <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
 
 </resources>
