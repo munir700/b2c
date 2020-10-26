@@ -1767,6 +1767,10 @@ object Strings {
     const val screen_fragment_yap_it_add_money_text_qr_code: String =
         "screen_fragment_yap_it_add_money_text_qr_code"
 
+    const val screen_yap_analytics_detail_transaction_count: String =
+        "screen_yap_analytics_detail_transaction_count"
+
+
     // yap it QR Code screen
     const val screen_fragment_yap_it_qr_code_share_my_code: String =
         "screen_fragment_yap_it_qr_code_share_my_code"
