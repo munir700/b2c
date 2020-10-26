@@ -67,7 +67,6 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
         viewModel.clickEvent.observe(this, clickEventObserver)
@@ -83,7 +82,8 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
             android.R.color.transparent,
             R.dimen.text_size_h2
         )
-        viewModel.state.qrBitmap = generateQrCode("This Is YAP QR code")
+        viewModel.state.qrBitmap =
+            generateQrCode(resourceKey = getString(Strings.screen_yap_for_you_display_text_completed_percentage))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,13 +138,13 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         })
     }
 
-    fun generateQrCode(resourceKey: String = "This Is YAP QR code"): Drawable? {
-        var drawable: Drawable? = resources.getDrawable(R.drawable.ic_card_chip)
+    private fun generateQrCode(resourceKey: String): Drawable? {
+        var drawable: Drawable? = resources.getDrawable(R.drawable.ic_card_chip, null)
         try {
             val barcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap =
                 barcodeEncoder.encodeBitmap(resourceKey, BarcodeFormat.QR_CODE, 400, 400)
-            drawable = BitmapDrawable(getResources(), bitmap)
+            drawable = BitmapDrawable(resources, bitmap)
             return drawable
         } catch (e: Exception) {
         }
