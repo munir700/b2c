@@ -27,8 +27,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.05"
+            android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:src="@drawable/ic_close_white" />
 
@@ -36,13 +35,13 @@
             android:id="@+id/layoutQRCode"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.80"
+            android:layout_weight="0.85"
             app:cardCornerRadius="@dimen/_8sdp"
             app:contentPaddingLeft="@dimen/_30sdp"
             app:contentPaddingRight="@dimen/_30sdp"
             app:contentPaddingTop="@dimen/margin_medium"
             app:contentPaddingBottom="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_large">
+            android:layout_marginTop="@dimen/margin_extra_large">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -134,10 +133,9 @@
             android:id="@+id/tvShareToProceed"
             style="@style/Regular"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
             android:background="@drawable/cornor_edges_black"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:gravity="center"
             android:padding="@dimen/margin_two_dp"
             android:textColor="@color/white"
