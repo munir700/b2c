@@ -46,6 +46,8 @@ object Strings {
         "common_add_money"
     const val common_pay_bills: String =
         "common_pay_bills"
+    const val common_permission_rejected_error: String =
+        "common_permission_rejected_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1772,4 +1774,5 @@ object Strings {
         "screen_fragment_yap_it_qr_code_save_to_gallery"
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
+
 }

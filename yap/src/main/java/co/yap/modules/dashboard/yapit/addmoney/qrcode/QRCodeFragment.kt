@@ -1,15 +1,9 @@
 package co.yap.modules.dashboard.yapit.addmoney.qrcode
 
 import android.Manifest
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.media.MediaScannerConnection
-import android.media.MediaScannerConnection.OnScanCompletedListener
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -18,12 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.translation.Strings
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.storeBitmap
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_qr_code.*
-import java.io.File
-import java.io.FileOutputStream
 
 
 class QRCodeFragment : DialogFragment(), IQRCode.View {
@@ -110,11 +103,12 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                storeBitmap(qrContainer,requireContext())
+                storeBitmap(qrContainer, requireContext())
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast("Can't proceed without permissions")
+                showToast(getString(Strings.common_permission_rejected_error))
+
             }
 
             override fun onPermissionDenied() {
