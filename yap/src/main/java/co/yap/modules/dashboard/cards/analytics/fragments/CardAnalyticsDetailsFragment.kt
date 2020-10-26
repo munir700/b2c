@@ -32,13 +32,11 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
 
     private fun getArgument() {
         arguments?.let { bundle ->
-            var count = 0
             bundle.getParcelable<TxnAnalytic>(Constants.TRANSACTION_DETAIL)?.let { txnAnalytics ->
                 viewModel.state.title.set(txnAnalytics.title ?: "")
                 viewModel.state.totalSpendings.set(txnAnalytics.totalSpending)
                 viewModel.state.ImageUrl.set(txnAnalytics.logoUrl)
-                count = txnAnalytics.txnCount ?: 0
-                viewModel.state.countWithDate.set(getConcatinatedString(count))
+                viewModel.state.countWithDate.set(getConcatinatedString(txnAnalytics.txnCount ?: 0))
             }
             bundle.getInt(Constants.TRANSACTION_POSITION).let { position ->
                 viewModel.state.position = position
@@ -50,9 +48,8 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
         var concatenatedString = ""
         var date = viewModel.parentViewModel?.state?.currentSelectedMonth ?: ""
         if (date.contains(",")) date = date.replace(",", "")
-        concatenatedString = date + " ・ " + count + " " + getString(
-            Strings.screen_yap_analytics_detail_transaction_count
-        )
+        concatenatedString =
+            "${date} ・ ${count} ${getString(Strings.screen_yap_analytics_detail_transaction_count)}"
         return concatenatedString
     }
 

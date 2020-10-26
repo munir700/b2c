@@ -26,7 +26,6 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override var transactionResponse: TransactionAnalyticsDetailsResponse =
         TransactionAnalyticsDetailsResponse()
     val repository: TransactionsRepository = TransactionsRepository
-    var currentCalendar: Calendar = Calendar.getInstance()
     var list: MutableList<Transaction>? = ArrayList<Transaction>()
     var viewState: MutableLiveData<Int> = MutableLiveData(Constants.EVENT_LOADING)
 
