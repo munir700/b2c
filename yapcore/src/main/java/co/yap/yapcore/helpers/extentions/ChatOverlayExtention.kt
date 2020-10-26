@@ -8,6 +8,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.widgets.CounterFloatingActionButton
 import co.yap.yapcore.R
 import co.yap.yapcore.managers.SessionManager
+import com.leanplum.Leanplum
 import com.liveperson.infra.ConversationViewParams
 import com.liveperson.infra.InitLivePersonProperties
 import com.liveperson.infra.LPAuthenticationParams
@@ -18,7 +19,8 @@ import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 const val BRAND_ID: String = "17038977"
 
-fun Activity.initializeChatOverLayButton() {
+fun Activity.initializeChatOverLayButton(unreadCount: Int) {
+    if (unreadCount <= 0) return
     val param = FrameLayout.LayoutParams(
         FrameLayout.LayoutParams.WRAP_CONTENT,
         FrameLayout.LayoutParams.WRAP_CONTENT
@@ -30,15 +32,20 @@ fun Activity.initializeChatOverLayButton() {
         dimen(R.dimen.margin_btn_side_paddings_xl)
     )
     param.gravity = Gravity.END or Gravity.BOTTOM
-    val view = layoutInflater.inflate(R.layout.layout_overlay_live_chat, null) as? CounterFloatingActionButton
+    val view = layoutInflater.inflate(
+        R.layout.layout_overlay_live_chat,
+        null
+    ) as? CounterFloatingActionButton
     (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
         .addView(view, param)
-//    view?.count = 10
+    view?.count = unreadCount
     view?.setOnClickListener { chatSetup() }
 }
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
-    (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat).visibility = visibility
+    if (Leanplum.getInbox().unreadCount() > 0)
+        (window.decorView as FrameLayout).findViewById<View>(R.id.faLiveChat).visibility =
+            visibility
 }
 
 fun Activity.chatSetup() {
