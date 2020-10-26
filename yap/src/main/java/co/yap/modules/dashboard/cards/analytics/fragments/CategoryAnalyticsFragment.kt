@@ -37,22 +37,26 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun setObservers() {
-        viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.observe(this, Observer {
-            if (it == null) {
-                return@Observer
-            }
-            getAdaptor().setList(it)
-        })
-        viewModel.parentViewModel?.selectedItemPositionParent?.observe(this, Observer {
-            val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
-            if (null != view) {
-                highlightSelectedItem(view, it)
-            } else {
-                getBinding().recycler.removeOnScrollListener(onScrollListener)
-                getBinding().recycler.addOnScrollListener(onScrollListener)
-                getBinding().recycler.smoothScrollToPosition(it)
-            }
-        })
+        viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.observe(
+            this,
+            Observer { txnanalytics ->
+                if (txnanalytics == null) {
+                    return@Observer
+                }
+                getAdaptor().setList(txnanalytics)
+            })
+        viewModel.parentViewModel?.selectedItemPositionParent?.observe(
+            this,
+            Observer { selectedPosition ->
+                val view = getBinding().recycler.layoutManager?.findViewByPosition(selectedPosition)
+                if (null != view) {
+                    highlightSelectedItem(view, selectedPosition)
+                } else {
+                    getBinding().recycler.removeOnScrollListener(onScrollListener)
+                    getBinding().recycler.addOnScrollListener(onScrollListener)
+                    getBinding().recycler.smoothScrollToPosition(selectedPosition)
+                }
+            })
     }
 
     private fun initAdaptor() {
@@ -68,7 +72,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
         }
     }
 
-    private fun navigateDetails(pos : Int) {
+    private fun navigateDetails(pos: Int) {
         Constants.MERCHANT_TYPE = "merchant-category"
         val selectedItem = getAdaptor().getDataForPosition(pos)
         navigate(
@@ -80,7 +84,8 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
                     totalSpendingInPercentage = selectedItem.totalSpendingInPercentage
-                )
+                ),
+                Constants.TRANSACTION_POSITION to pos
             )
         )
     }
@@ -88,15 +93,15 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     private fun highlightSelectedItem(view: View?, pos: Int) {
         val colors = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
         if (getAdaptor().checkedPosition != pos) {
-            view?.let {
-                it.isSelected = true
-                it.setBackgroundColor(
+            view?.let { itemView ->
+                itemView.isSelected = true
+                itemView.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.itemBackground
                     )
                 )
-                it.tvName.setTextColor(colors[pos % colors.size])
+                itemView.tvName.setTextColor(colors[pos % colors.size])
                 getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
                 getAdaptor().checkedPosition = pos
             }
@@ -113,9 +118,10 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                 when (newState) {
                     SCROLL_STATE_IDLE -> {
                         val pos = viewModel.parentViewModel?.selectedItemPositionParent?.value
-                        pos?.let {
-                            val view = getBinding().recycler.layoutManager?.findViewByPosition(it)
-                            highlightSelectedItem(view, it)
+                        pos?.let { position ->
+                            val view =
+                                getBinding().recycler.layoutManager?.findViewByPosition(position)
+                            highlightSelectedItem(view, position)
                         }
                     }
                 }

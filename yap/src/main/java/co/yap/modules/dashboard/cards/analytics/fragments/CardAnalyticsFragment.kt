@@ -162,6 +162,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
         })
+        viewModel.parentViewModel
     }
 
     /*
@@ -208,9 +209,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
-            tab?.let {
-                setSelectedTabData(it.position, 0)
-                setupPieChart(it.position)
+            tab?.let { tabs ->
+                setSelectedTabData(tabs.position, 0)
+                setupPieChart(tabs.position)
             }
         }
     }
@@ -245,11 +246,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     private fun updatePieChartInnerData(item: TxnAnalytic?) {
-        item?.let {
-            viewModel.state.selectedItemName = it.title
-            viewModel.state.selectedItemPercentage = "${it.totalSpendingInPercentage}%"
+        item?.let { txnAnalytics ->
+            viewModel.state.selectedItemName = txnAnalytics.title
+            viewModel.state.selectedItemPercentage = "${txnAnalytics.totalSpendingInPercentage}%"
             viewModel.state.selectedItemSpentValue =
-                "${viewModel.state.currencyType}${it.totalSpending}"
+                "${viewModel.state.currencyType}${txnAnalytics.totalSpending}"
         }
     }
 
@@ -264,9 +265,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 
         val selectedItem = getBindingView().tabLayout.selectedTabPosition
-        h?.let {
-            setSelectedTabData(selectedItem, it.x.toInt())
-            viewModel.parentViewModel?.selectedItemPositionParent?.value = it.x.toInt()
+        h?.let {highlight ->
+            setSelectedTabData(selectedItem, highlight.x.toInt())
+            viewModel.parentViewModel?.selectedItemPositionParent?.value = highlight.x.toInt()
         }
     }
 

@@ -1094,5 +1094,7 @@
     <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque">Cash or Cheque</string>
     <string name="screen_fragment_yap_it_add_money_text_qr_code">QR code</string>
 
+    <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
+
 </resources>
 
