@@ -68,16 +68,16 @@ fun File.deleteRecursivelyYap(): Boolean {
 
 fun storeBitmap(rootView: View, context: Context) {
     val bitmap: Bitmap = takeScreenshotForView(rootView)
-    val rnds = (0..10).random()
-    val image_date = "${rnds} " + getCurrentDateTime()
-    val image_name = "YAP-" + image_date + "-qrCode"
+    val randomNum = (0..10).random()
+    val imageDate = "$randomNum " + getCurrentDateTime()
+    val imageName = "YAP-${imageDate}-qrCode"
     val root = Environment.getExternalStoragePublicDirectory(
         Environment.DIRECTORY_PICTURES
     ).toString()
     val myDir = File("$root/yap_qr_codes")
     myDir.mkdirs()
-    val fname = image_name + ".jpg"
-    val file = File(myDir, fname)
+    val fileName = "${imageName}.jpg"
+    val file = File(myDir, fileName)
     if (file.exists()) file.delete()
     try {
         val out = FileOutputStream(file)
