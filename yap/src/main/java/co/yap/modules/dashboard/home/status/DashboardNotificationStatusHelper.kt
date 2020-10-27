@@ -215,10 +215,6 @@ class DashboardNotificationStatusHelper(
         })
     }
 
-    private fun openTopUpScreen() {
-        context.startActivity(TopUpLandingActivity.getIntent(context))
-    }
-
     private fun openCardDeliveryStatusScreen() {
         fragment?.startActivityForResult(
             FragmentPresenterActivity.getIntent(
@@ -227,6 +223,10 @@ class DashboardNotificationStatusHelper(
                 SessionManager.card.value
             ), Constants.EVENT_CREATE_CARD_PIN
         )
+    }
+
+    private fun openTopUpScreen() {
+        context.startActivity(TopUpLandingActivity.getIntent(context))
     }
 
     private fun openSetCardPinScreen() {

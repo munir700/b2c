@@ -751,6 +751,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
+    private fun getParentActivity(): ActivityYapDashboardBinding {
+        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
+    }
+
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
             requireContext(),
@@ -759,9 +763,5 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             activity
         )
 
-    }
-
-    private fun getParentActivity(): ActivityYapDashboardBinding {
-        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }

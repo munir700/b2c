@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.home.status
 
 enum class StageProgress {
     INACTIVE,
-    ACTIVE,
     COMPLETED,
+    ACTIVE,
     IN_PROGRESS
 }
