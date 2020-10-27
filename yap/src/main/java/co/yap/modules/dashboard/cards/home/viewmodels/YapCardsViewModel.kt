@@ -22,8 +22,8 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: YapCardsState = YapCardsState()
     override val repository: CardsRepository = CardsRepository
+    override val state: YapCardsState = YapCardsState()
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
 
     override fun getCards() {
@@ -145,7 +145,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-
         }
     }
 }

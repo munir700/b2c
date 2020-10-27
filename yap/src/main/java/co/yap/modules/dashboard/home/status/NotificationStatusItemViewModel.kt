@@ -11,4 +11,5 @@ class NotificationStatusItemViewModel (
     fun handlePressOnView(view: View) {
         onItemClickListener?.onItemClick(view, statusDataModel, position)
     }
+
 }

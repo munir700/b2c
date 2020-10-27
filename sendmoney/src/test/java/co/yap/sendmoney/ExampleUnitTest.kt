@@ -67,13 +67,13 @@ class ExampleUnitTest {
         } ?: false
     }
 
-
     @Test
     fun mathTest() {
-        val citizenNo: Double = 9999999.0
         val mutlipiler: Double = 4.8
+        val citizenNo: Double = 9999999.0
         val valid = citizenNo * mutlipiler
         val value = valid.toString()
         assertEquals(value, valid)
     }
+
 }
