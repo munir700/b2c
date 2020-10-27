@@ -118,7 +118,8 @@ class DashboardNotificationStatusHelper(
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.TOP_UP) == StageProgress.COMPLETED) context.resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else context.resources.getDrawable(R.drawable.ic_dashboard_topup),
-                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.TOP_UP)
+                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.TOP_UP),
+                hideLine = true
             )
         )
         return list
@@ -128,11 +129,14 @@ class DashboardNotificationStatusHelper(
         return SessionManager.card.value?.let { card ->
             when (stage) {
                 PaymentCardOnboardingStage.SHIPPING -> {
-                    return (when (card.deliveryStatus) {
-                        CardDeliveryStatus.ORDERED.name, CardDeliveryStatus.BOOKED.name, CardDeliveryStatus.SHIPPING.name -> {
+                    return (when {
+                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
+                            StageProgress.INACTIVE
+                        }
+                        card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE
                         }
-                        CardDeliveryStatus.SHIPPED.name -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
                             StageProgress.COMPLETED
                         }
                         else -> StageProgress.INACTIVE
@@ -180,11 +184,13 @@ class DashboardNotificationStatusHelper(
         return (when (stage) {
             PaymentCardOnboardingStage.SHIPPING -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
-                StageProgress.COMPLETED -> "Your card was delivered on ${DateUtils.reformatStringDate(
-                    SessionManager.card.value?.shipmentDate ?: "",
-                    SERVER_DATE_FORMAT,
-                    DEFAULT_DATE_FORMAT
-                )}"
+                StageProgress.COMPLETED -> "Your card was delivered on ${
+                    DateUtils.reformatStringDate(
+                        SessionManager.card.value?.shipmentDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                }"
                 else -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
             })
             PaymentCardOnboardingStage.DELIVERY -> return (when (progress) {
@@ -195,11 +201,13 @@ class DashboardNotificationStatusHelper(
             })
             PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
-                StageProgress.COMPLETED -> "Your PIN was successfully set on ${DateUtils.reformatStringDate(
-                    SessionManager.card.value?.activationDate ?: "",
-                    SERVER_DATE_FORMAT,
-                    DEFAULT_DATE_FORMAT
-                )}"
+                StageProgress.COMPLETED -> "Your PIN was successfully set on ${
+                    DateUtils.reformatStringDate(
+                        SessionManager.card.value?.activationDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                }"
                 else -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
             })
             PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_description)
