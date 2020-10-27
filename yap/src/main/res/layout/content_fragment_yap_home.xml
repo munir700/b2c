@@ -58,10 +58,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_7sdp"
+                android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                android:enabled="@{viewModel.state.isUserAccountActivated}"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/lyAdd"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -92,7 +96,7 @@
                         android:layout_marginTop="8dp"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="6sp"
-                        android:text="Add"
+                        android:text="@string/screen_fragment_yap_home_add_money"
                         android:textColor="#5e35b1"
                         android:textSize="12sp"
                         android:textStyle="normal" />
@@ -100,6 +104,8 @@
 
                 <LinearLayout
                     android:id="@+id/lyAnalytics"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -109,7 +115,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/eamf"
+                        android:id="@+id/fbAnalytics"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -146,7 +152,8 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_small">
+                android:layout_marginBottom="@dimen/margin_small"
+                android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.INVISIBLE}">
 
                 <TextView
                     android:id="@+id/tvTransactionTitle"
@@ -197,7 +204,6 @@
                         android:layout_toEndOf="@+id/ivFilters"
                         android:text="Filter"
                         android:textColor="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
-                    <!--                        android:textColor="?attr/colorPrimaryAttr" />-->
 
                 </RelativeLayout>
 
@@ -220,17 +226,18 @@
                     android:id="@+id/rvTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.GONE}"
                     tools:listitem="@layout/item_transaction_list" />
-            </co.yap.widgets.MultiStateView>
 
-            <!--            <ImageView-->
-            <!--                android:id="@+id/ivNoTransaction"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_gravity="center_horizontal"-->
-            <!--                android:layout_marginBottom="@dimen/margin_extra_large"-->
-            <!--                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"-->
-            <!--                app:srcCompat="@drawable/ic_no_transaction" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNotificationStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.state.isUserAccountActivated ? View.GONE : View.VISIBLE}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_dashboard_notification_status" />
+
+            </co.yap.widgets.MultiStateView>
 
         </LinearLayout>
 
@@ -281,6 +288,5 @@
                 android:background="@color/white" />
 
         </co.yap.widgets.tooltipview.TriangleView>
-
     </RelativeLayout>
 </layout>
