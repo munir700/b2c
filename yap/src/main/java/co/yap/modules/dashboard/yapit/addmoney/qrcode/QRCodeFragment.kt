@@ -21,8 +21,10 @@ import co.yap.modules.qrcode.BarcodeFormat
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.generateQrCode
 import co.yap.yapcore.helpers.extentions.storeBitmap
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 
 class QRCodeFragment : DialogFragment(), IQRCode.View {
@@ -83,7 +85,10 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
             android.R.color.transparent,
             R.dimen.text_size_h2
         )
-        viewModel.state.qrBitmap = viewModel.qrUUID?.let { generateQrCode(it) }
+        SessionManager.user?.let { accountInfo ->
+            viewModel.state.qrBitmap =
+                context?.generateQrCode(accountInfo.encryptedAccountUUID ?: "")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,18 +141,5 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
 
             }
         })
-    }
-
-    private fun generateQrCode(resourceKey: String): Drawable? {
-        var drawable: Drawable? = null
-        try {
-            val barcodeEncoder = BarcodeEncoder()
-            val bitmap: Bitmap =
-                barcodeEncoder.encodeBitmap(resourceKey, BarcodeFormat.QR_CODE, 400, 400)
-            drawable = BitmapDrawable(resources, bitmap)
-            return drawable
-        } catch (e: Exception) {
-        }
-        return drawable
     }
 }

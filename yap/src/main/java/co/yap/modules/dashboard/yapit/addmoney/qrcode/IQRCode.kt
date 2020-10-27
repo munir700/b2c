@@ -17,7 +17,6 @@ interface IQRCode {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        var qrUUID: String?
         fun handlePressOnView(id: Int)
     }
 
