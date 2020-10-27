@@ -205,8 +205,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                    adapter.setItemAt(selectedCardPosition, card)
 //                }
             }
-        } else {
-
         }
     }
 
