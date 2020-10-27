@@ -1,14 +1,11 @@
 package co.yap.modules.dashboard.yapit.addmoney.qrcode
 
 import android.Manifest
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.UserManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -16,12 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.qrcode.BarcodeEncoder
-import co.yap.modules.qrcode.BarcodeFormat
-import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.generateQrCode
+import co.yap.yapcore.helpers.extentions.shareImage
 import co.yap.yapcore.helpers.extentions.storeBitmap
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -103,7 +97,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
                 checkPermission()
             }
             R.id.tvShareMyCode -> {
-                Utils.shareText(requireContext(), "QR Code")
+                context?.shareImage(qrContainer)
             }
             R.id.ivBack -> {
                 dismiss()
@@ -124,13 +118,22 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                storeBitmap(qrContainer, requireContext())
+                context?.storeBitmap(qrContainer) {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.common_saved_image_to_gallery),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast(getString(Strings.common_permission_rejected_error))
-
+                Toast.makeText(
+                    context,
+                    getString(R.string.common_permission_rejected_error),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             override fun onPermissionDenied() {
