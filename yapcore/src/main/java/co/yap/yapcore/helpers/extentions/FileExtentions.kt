@@ -1,9 +1,11 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.view.View
@@ -66,7 +68,7 @@ fun File.deleteRecursivelyYap(): Boolean {
     return deleteRecursively()
 }
 
-fun storeBitmap(rootView: View, context: Context) {
+fun Context.storeBitmap(rootView: View, success: (filePath: String?) -> Unit) {
     val bitmap: Bitmap = takeScreenshotForView(rootView)
     val randomNum = (0..10).random()
     val imageDate = "$randomNum " + getCurrentDateTime()
@@ -84,12 +86,43 @@ fun storeBitmap(rootView: View, context: Context) {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
         out.flush()
         out.close()
+        success.invoke("$root/yap_qr_codes")
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null
+    MediaScannerConnection.scanFile(
+        this, arrayOf(file.toString()), null
     ) { _, _ ->
     }
+}
+
+fun Context.shareImage(rootView: View) {
+    val bitmap: Bitmap = takeScreenshotForView(rootView)
+    val imageName = "YAP-qrCode"
+    val root = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_PICTURES
+    ).toString()
+    val myDir = File("$root/yap_qr_codes")
+    myDir.mkdirs()
+    val fileName = "${imageName}.jpg"
+    val file = File(myDir, fileName)
+    if (file.exists()) file.delete()
+    try {
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+        out.flush()
+        out.close()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    val share = Intent(Intent.ACTION_SEND)
+    share.type = "image/jpeg"
+    share.putExtra(
+        Intent.EXTRA_STREAM,
+        Uri.parse(file.toString())
+    )
+    this.startActivity(Intent.createChooser(share, "Share Image"))
+    file.deleteOnExit()
 }
 
 fun takeScreenshotForView(view: View): Bitmap {

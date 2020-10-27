@@ -48,6 +48,8 @@ object Strings {
         "common_pay_bills"
     const val common_permission_rejected_error: String =
         "common_permission_rejected_error"
+    const val common_saved_image_to_gallery: String =
+        "common_saved_image_to_gallery"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
