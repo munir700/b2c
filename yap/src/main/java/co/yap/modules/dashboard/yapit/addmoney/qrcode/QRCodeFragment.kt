@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.UserManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,8 +83,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
             android.R.color.transparent,
             R.dimen.text_size_h2
         )
-        viewModel.state.qrBitmap =
-            generateQrCode(resourceKey = getString(Strings.screen_yap_for_you_display_text_completed_percentage))
+        viewModel.state.qrBitmap = viewModel.qrUUID?.let { generateQrCode(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,7 +139,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     }
 
     private fun generateQrCode(resourceKey: String): Drawable? {
-        var drawable: Drawable? = resources.getDrawable(R.drawable.ic_card_chip, null)
+        var drawable: Drawable? = null
         try {
             val barcodeEncoder = BarcodeEncoder()
             val bitmap: Bitmap =

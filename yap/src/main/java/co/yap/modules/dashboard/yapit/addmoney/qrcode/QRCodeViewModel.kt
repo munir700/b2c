@@ -10,6 +10,7 @@ class QRCodeViewModel(application: Application) :
     IQRCode.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: QRCodeState = QRCodeState()
+    override var qrUUID: String? = ""
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -26,6 +27,7 @@ class QRCodeViewModel(application: Application) :
             it.currentCustomer.getPicture().let { picture ->
                 state.profilePictureUrl = picture
             }
+            qrUUID = it.encryptedAccountUUID
         }
     }
 
