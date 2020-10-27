@@ -263,7 +263,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     SessionManager.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-
                     val cardSerialNumber: String? =
                         data?.getStringExtra(Constants.CARD_SERIAL_NUMBER)
 
@@ -368,12 +367,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun getCardFromSerialNumber(serialNumber: String): Card? {
-        return adapter.getDataList().firstOrNull { it.cardSerialNumber == serialNumber }
-    }
-
     private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
+    }
+
+    private fun getCardFromSerialNumber(serialNumber: String): Card? {
+        return adapter.getDataList().firstOrNull { it.cardSerialNumber == serialNumber }
     }
 
     override fun onDestroy() {
