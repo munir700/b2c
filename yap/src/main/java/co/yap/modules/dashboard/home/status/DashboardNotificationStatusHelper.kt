@@ -118,7 +118,8 @@ class DashboardNotificationStatusHelper(
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.TOP_UP) == StageProgress.COMPLETED) context.resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else context.resources.getDrawable(R.drawable.ic_dashboard_topup),
-                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.TOP_UP)
+                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.TOP_UP),
+                hideLine = true
             )
         )
         return list
@@ -129,7 +130,7 @@ class DashboardNotificationStatusHelper(
             when (stage) {
                 PaymentCardOnboardingStage.SHIPPING -> {
                     return (when {
-                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.HARD_KYC_PENDING.status -> {
+                        SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
                             StageProgress.INACTIVE
                         }
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {

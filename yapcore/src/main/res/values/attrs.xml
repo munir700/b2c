@@ -602,7 +602,7 @@
         <attr name="markerPaddingBottom" format="dimension" />
         <attr name="markerInCenter" format="boolean" />
         <attr name="startLineColor" format="color" />
-        <attr name="endLineColor" format="color" />
+        <attr name="endLineColor" format="color|reference" />
         <attr name="lineWidth" format="dimension" />
         <attr name="lineStyle" format="enum">
             <enum name="normal" value="0" />
