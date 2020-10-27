@@ -338,6 +338,7 @@
                     android:background="@drawable/bg_edit_text_disable_grey_under_line"
                     android:gravity="top"
                     android:inputType="text"
+                    android:maxLength="@integer/notes_external_transfer_length"
                     android:minHeight="@dimen/_40sdp"
                     android:text="@={viewModel.state.transactionNote}"
                     android:textColorHint="@color/greyDark"

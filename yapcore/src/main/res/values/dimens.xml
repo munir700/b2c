@@ -80,6 +80,7 @@
     <dimen name="cardview_elevation">@dimen/_10sdp</dimen>
     <dimen name="cardview_radius">@dimen/_10sdp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="tooltip_elevation">6dp</dimen>
 
 
 <!--    others-->

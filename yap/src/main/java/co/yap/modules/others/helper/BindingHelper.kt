@@ -85,4 +85,18 @@ object BindingHelper {
     fun setMarkerDrawable(view: TimelineView, drawable: Drawable) {
         view.marker = drawable
     }
+
+    @BindingAdapter("endLineColor")
+    @JvmStatic
+    fun setEndLineColor(view: TimelineView, hideLine: Boolean) {
+        when (hideLine) {
+            true -> {
+                view.setEndLineColor(R.color.transparent, 3)
+            }
+            false -> {
+                view.setEndLineColor(R.color.colorPrimary, 1)
+            }
+        }
+    }
+
 }

@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.digitify.identityscanner.R;
 
@@ -46,7 +47,7 @@ public class TransparentCardView extends View {
     private boolean cardBorderDashed = false;
 
     //Flag for checking whether view is drawn or not.
-    private boolean isDrawn = false;
+    public MutableLiveData<Boolean> isDrawn = new MutableLiveData<>(false);
 
     private OnLayoutListener layoutListener;
 
@@ -102,20 +103,22 @@ public class TransparentCardView extends View {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         defaultAttributes();
-
-        if (this.layoutListener != null && !isDrawn)
-            this.layoutListener.onLayout();
-
-        isDrawn = true;
+        if (isDrawn.getValue() != null) {
+            if (this.layoutListener != null && !isDrawn.getValue())
+                this.layoutListener.onLayout();
+        }
+        isDrawn.setValue(true);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (!isDrawn) defaultAttributes();
-        isDrawn = true;
+        if (isDrawn.getValue() != null) {
+            if (!isDrawn.getValue()) defaultAttributes();
+        }
+        isDrawn.setValue(true);
         Bitmap bitmap = bitmapDraw();
-        if (bitmap != null) canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(bitmap, 0, 0, null);
     }
 
     /**

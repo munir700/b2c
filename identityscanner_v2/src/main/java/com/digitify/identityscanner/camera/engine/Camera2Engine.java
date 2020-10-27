@@ -6,6 +6,7 @@ import android.graphics.ImageFormat;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -69,7 +70,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAvailableListener,
+public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAvailableListener, Camera.PreviewCallback,
+        Camera.ErrorCallback,
+        FrameManager.BufferCallback ,
         ActionHolder {
 
     private static final String TAG = Camera2Engine.class.getSimpleName();
@@ -677,21 +680,28 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
                     Axis.RELATIVE_TO_SENSOR);
             stub.size = getPictureSize(Reference.OUTPUT);
             try {
-                if (mPictureCaptureStopsPreview) {
-                    // These two are present in official samples and are probably meant to
-                    // speed things up? But from my tests, they actually make everything slower.
-                    // So this is disabled by default with a boolean flag. Maybe in the future
-                    // we can make this configurable as some people might want to stop the preview
-                    // while picture is being taken even if it increases the latency.
-                    mSession.stopRepeating();
-                    mSession.abortCaptures();
-                }
                 CaptureRequest.Builder builder
                         = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-                applyAllParameters(builder, mRepeatingRequestBuilder);
-                mPictureRecorder = new Full2PictureRecorder(stub, this, builder,
-                        mPictureReader);
-                mPictureRecorder.take();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        applyAllParameters(builder, mRepeatingRequestBuilder);
+                        mPictureRecorder = new Full2PictureRecorder(stub, Camera2Engine.this, builder,
+                                mPictureReader);
+                        mPictureRecorder.take();
+                        /*if (mPictureCaptureStopsPreview) {
+                            // These two are present in official samples and are probably meant to
+                            // speed things up? But from my tests, they actually make everything slower.
+                            // So this is disabled by default with a boolean flag. Maybe in the future
+                            // we can make this configurable as some people might want to stop the preview
+                            // while picture is being taken even if it increases the latency.
+//                            mSession.stopRepeating();
+//                            mSession.abortCaptures();
+//                    mSession.close();
+                        }*/
+                    }
+                };
+                new Thread(runnable).start();
             } catch (CameraAccessException e) {
                 throw createCameraException(e);
             }
@@ -703,7 +713,13 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
         boolean fullPicture = mPictureRecorder instanceof Full2PictureRecorder;
         super.onPictureResult(result, error);
         if (fullPicture && mPictureCaptureStopsPreview) {
-            applyRepeatingRequestBuilder();
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    applyRepeatingRequestBuilder();
+                }
+            };
+            new Thread(runnable).start();
         }
 
         // Some picture recorders might lock metering, and we usually run a metering sequence
@@ -1291,7 +1307,60 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
     @Override
     public void applyBuilder(@NonNull Action source, @NonNull CaptureRequest.Builder builder)
             throws CameraAccessException {
-        mSession.capture(builder.build(), mRepeatingRequestCallback, null);
+
+        mHandler.run(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mSession.capture(builder.build(), mRepeatingRequestCallback, null);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onError(int error, Camera camera) {
+        if (error == Camera.CAMERA_ERROR_SERVER_DIED) {
+            // Looks like this is recoverable.
+            LOG.w("Recoverable error inside the onError callback.",
+                    "CAMERA_ERROR_SERVER_DIED");
+            restart();
+            return;
+        }
+
+        String message = LOG.e("Internal Camera1 error.", error);
+        Exception runtime = new RuntimeException(message);
+        int reason;
+        switch (error) {
+            case Camera.CAMERA_ERROR_EVICTED: reason = CameraException.REASON_DISCONNECTED; break;
+            case Camera.CAMERA_ERROR_UNKNOWN: reason = CameraException.REASON_UNKNOWN; break;
+            default: reason = CameraException.REASON_UNKNOWN;
+        }
+        throw new CameraException(runtime, reason);
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        if (data == null) {
+            // Let's test this with an exception.
+            throw new RuntimeException("Camera1 returns null data from onPreviewFrame! " +
+                    "This would make the frame processors crash later.");
+        }
+        Frame frame = getFrameManager().getFrame(data,
+                System.currentTimeMillis(),
+                getAngles().offset(Reference.SENSOR, Reference.OUTPUT, Axis.RELATIVE_TO_SENSOR));
+        mCallback.dispatchFrame(frame);
+    }
+
+    @Override
+    public void onBufferAvailable(@NonNull byte[] buffer) {
+        if (getEngineState() == STATE_STARTED) {
+//            mCamera.addCallbackckBuffer(buffer);
+        }
     }
 
     //endregion
