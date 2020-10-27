@@ -47,7 +47,6 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
-        getDebitCards()
     }
 
     override fun filterTransactions() {
@@ -205,25 +204,6 @@ class YapHomeViewModel(application: Application) :
                 closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
-    }
-
-    override fun getDebitCards() {
-        launch {
-            when (val response = cardsRepository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            SessionManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
-                        }
-                    }
-                }
-                is RetroApiResponse.Error ->
-                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
-            }
-        }
     }
 
     private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
