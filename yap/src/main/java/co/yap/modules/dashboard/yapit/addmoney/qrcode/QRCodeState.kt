@@ -1,8 +1,7 @@
 package co.yap.modules.dashboard.yapit.addmoney.qrcode
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import co.yap.BR
@@ -33,7 +32,7 @@ class QRCodeState : BaseState(), IQRCode.State {
         }
 
     @get:Bindable
-    override var qrBitmap: Bitmap? = null
+    override var qrBitmap: Drawable? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.qrBitmap)
