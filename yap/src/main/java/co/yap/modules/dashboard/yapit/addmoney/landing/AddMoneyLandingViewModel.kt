@@ -39,7 +39,7 @@ class AddMoneyLandingViewModel(application: Application) :
                 R.drawable.ic_icon_card_transfer
             )
         )
-        list.add(
+      /*  list.add(
             AddMoneyLandingOptions(
                 Constants.ADD_MONEY_GOOGLE_PAY,
                 getString(Strings.screen_fragment_yap_it_add_money_text_google_pay),
@@ -52,7 +52,7 @@ class AddMoneyLandingViewModel(application: Application) :
                 getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay),
                 R.drawable.flag_ae
             )
-        )
+        )*/
         list.add(
             AddMoneyLandingOptions(
                 Constants.ADD_MONEY_BANK_TRANSFER,

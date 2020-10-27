@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapItAddMoneyGooglePayBinding
@@ -20,7 +21,7 @@ class AddMoneyLandingAdapter(
     private val type1 = 1
     private val type2 = 2
 
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 20)
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == type1) R.layout.item_yap_it_add_money_landing else R.layout.item_yap_it_add_money_google_pay
 
@@ -53,6 +54,11 @@ class AddMoneyLandingAdapter(
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?
         ) {
+            val params =
+                itemYapItAddMoneyBinding.clMain.layoutParams as GridLayoutManager.LayoutParams
+            params.width = dimensions[0]
+            params.height = dimensions[1]
+            itemYapItAddMoneyBinding.clMain.layoutParams = params
             itemYapItAddMoneyBinding.viewModel =
                 YapItAddMoneyLandingItemVM(
                     addMoneyOptions,
