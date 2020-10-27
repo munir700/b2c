@@ -1081,10 +1081,9 @@
     <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
     <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
     <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
-
     <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
     <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
 
     <!--  Yap It Add Money Screen-->
     <string name="screen_fragment_yap_it_add_money_title">Add money</string>
@@ -1104,5 +1103,5 @@
 
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
-</resources>
 
+</resources>

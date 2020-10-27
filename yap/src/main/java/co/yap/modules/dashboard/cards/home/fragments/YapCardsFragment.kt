@@ -39,8 +39,8 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     private val EVENT_CARD_ADDED: Int get() = 12
+    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     private var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -130,7 +130,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         viewModel.clickEvent.setValue(view.id)
                     }
             }
-
         })
     }
 
@@ -312,8 +311,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         card?.let {
             gotoPaymentCardDetailScreen(it)
         } ?: gotoPaymentCardDetailScreen(getCard(pos))
-
-
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
@@ -371,12 +368,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun getCard(pos: Int): Card {
-        return adapter.getDataForPosition(pos)
-    }
-
     private fun getCardFromSerialNumber(serialNumber: String): Card? {
         return adapter.getDataList().firstOrNull { it.cardSerialNumber == serialNumber }
+    }
+
+    private fun getCard(pos: Int): Card {
+        return adapter.getDataForPosition(pos)
     }
 
     override fun onDestroy() {

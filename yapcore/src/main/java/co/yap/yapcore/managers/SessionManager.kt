@@ -186,9 +186,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
-
             override fun onLogoutFailed() {
-
             }
         })
     }

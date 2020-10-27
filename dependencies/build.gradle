@@ -49,7 +49,6 @@ project.ext {
             quickAction              : "me.piruin:quickaction:2.4.3",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
 
-
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
             daggerAndroid            : "com.google.dagger:dagger-android:$daggerVersion",

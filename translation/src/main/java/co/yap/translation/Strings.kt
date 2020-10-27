@@ -1744,10 +1744,10 @@ object Strings {
         "screen_time_line_display_text_status_card_top_up_action"
     const val screen_time_line_display_text_status_additional_requirements_title: String =
         "screen_time_line_display_text_status_additional_requirements_title"
-    const val screen_time_line_display_text_status_additional_requirements_description: String =
-        "screen_time_line_display_text_status_additional_requirements_description"
     const val screen_time_line_display_text_status_additional_requirements_action: String =
         "screen_time_line_display_text_status_additional_requirements_action"
+    const val screen_time_line_display_text_status_additional_requirements_description: String =
+        "screen_time_line_display_text_status_additional_requirements_description"
 
     // yap it add money screen
     const val screen_fragment_yap_it_add_money_title: String =
@@ -1783,5 +1783,4 @@ object Strings {
     // Transaction Detail Screen
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
-
 }
