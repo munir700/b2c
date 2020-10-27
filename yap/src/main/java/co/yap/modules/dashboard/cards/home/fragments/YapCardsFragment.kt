@@ -340,18 +340,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun openSetPinScreen(card: Card) {
-        context?.let { context ->
-            startActivityForResult(
-                SetCardPinWelcomeActivity.newIntent(
-                    context = context,
-                    card = card,
-                    skipWelcomeScreen = true
-                ), Constants.EVENT_CREATE_CARD_PIN
-            )
-        }
-    }
-
     private fun startReorderCardFlow(card: Card?) {
         if (SessionManager.user?.otpBlocked == true) {
             showToast(Utils.getOtpBlockedMessage(requireContext()))
@@ -364,6 +352,18 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     ), RequestCodes.REQUEST_REORDER_CARD
                 )
             }
+        }
+    }
+
+    private fun openSetPinScreen(card: Card) {
+        context?.let { context ->
+            startActivityForResult(
+                SetCardPinWelcomeActivity.newIntent(
+                    context = context,
+                    card = card,
+                    skipWelcomeScreen = true
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
         }
     }
 
