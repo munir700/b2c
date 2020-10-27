@@ -66,5 +66,7 @@ class AccountInfo(
     @SerializedName("csrDocumentTimeStamp")
     var csrDocumentTimeStamp: String? = null,
     @SerializedName("workItemCreated")
-    var workItemCreated: Boolean? = false
+    var workItemCreated: Boolean? = false,
+    @SerializedName("encryptedAccountUUID")
+    var encryptedAccountUUID: String? = null
 ) : Parcelable

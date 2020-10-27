@@ -1,7 +1,11 @@
 package co.yap.modules.dashboard.yapit.addmoney.qrcode
 
 import android.Manifest
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.UserManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +16,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.qrcode.BarcodeEncoder
+import co.yap.modules.qrcode.BarcodeFormat
 import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.generateQrCode
 import co.yap.yapcore.helpers.extentions.storeBitmap
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 
 class QRCodeFragment : DialogFragment(), IQRCode.View {
@@ -62,28 +70,30 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewDataBinding.executePendingBindings()
-
         updateUI()
     }
 
-   private fun updateUI(){
-       ImageBinding.loadAvatar(
-           ivProfilePic,
-           viewModel.state.profilePictureUrl,
-           viewModel.state.fullName,
-           android.R.color.transparent,
-           R.dimen.text_size_h2
-       )
+    private fun updateUI() {
+        ImageBinding.loadAvatar(
+            ivProfilePic,
+            viewModel.state.profilePictureUrl,
+            viewModel.state.fullName,
+            android.R.color.transparent,
+            R.dimen.text_size_h2
+        )
+        SessionManager.user?.let { accountInfo ->
+            viewModel.state.qrBitmap =
+                context?.generateQrCode(accountInfo.encryptedAccountUUID ?: "")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.myDialog)
+        setStyle(STYLE_NO_FRAME, R.style.QRCodeTheme)
         viewModel.onCreate()
     }
 
@@ -115,6 +125,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
                 storeBitmap(qrContainer, requireContext())
+
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
@@ -131,5 +142,4 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
             }
         })
     }
-
 }
