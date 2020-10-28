@@ -253,7 +253,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         } ?: return false
     }
 
-
     private fun startFlows(productCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
             when (beneficiaryType) {

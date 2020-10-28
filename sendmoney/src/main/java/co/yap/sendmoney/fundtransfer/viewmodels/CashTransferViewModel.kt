@@ -168,7 +168,7 @@ class CashTransferViewModel(application: Application) :
                         amount = state.amount,
                         currency = "AED",
                         purposeCode = "8",
-                        remarks = state.noteValue
+                        remarks = state.noteValue?.trim()
                     )
                 )
                 ) {
