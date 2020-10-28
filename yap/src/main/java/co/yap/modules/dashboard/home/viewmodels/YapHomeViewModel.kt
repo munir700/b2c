@@ -15,7 +15,6 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
@@ -24,6 +23,7 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.SessionManager.getDebitCard
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -49,7 +49,7 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
-        getDebitCards()
+        getDebitCard()
     }
 
     override fun filterTransactions() {
@@ -65,7 +65,7 @@ class YapHomeViewModel(application: Application) :
     override fun requestAccountTransactions() {
         launch {
             if (isLoadMore.value == false) {
-               // state.loading = true
+                // state.loading = true
                 state.showTxnShimmer.value = State.loading(null)
             }
             when (val response =
@@ -143,14 +143,14 @@ class YapHomeViewModel(application: Application) :
                         }
                     }
                     ///if (isLoadMore.value == false) {
-                        state.showTxnShimmer.value = State.success(null)
+                    state.showTxnShimmer.value = State.success(null)
                     //}
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
                     //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                   // state.loading = false
+                    // state.loading = false
                     isRefreshing.value = false
                     isLoadMore.value = false
                     state.showTxnShimmer.value = State.error("")
@@ -213,29 +213,6 @@ class YapHomeViewModel(application: Application) :
                 closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
-    }
-
-    override fun getDebitCards() {
-        launch {
-            when (val response = cardsRepository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            SessionManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
-                        }
-                    }
-                }
-                is RetroApiResponse.Error ->
-                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
-            }
-        }
-    }
-
-    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
-        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     override fun getNotifications(
