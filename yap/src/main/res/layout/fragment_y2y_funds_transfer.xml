@@ -75,7 +75,7 @@
                 app:text="@{Strings.common_text_currency_type}"
                 tools:text="@string/common_text_currency_type" />
 
-            <co.yap.widgets.currency.CoreEditText
+            <co.yap.widgets.EasyMoneyEditText
                 android:id="@+id/etAmount"
                 style="@style/ATitle2"
                 android:layout_width="0dp"
