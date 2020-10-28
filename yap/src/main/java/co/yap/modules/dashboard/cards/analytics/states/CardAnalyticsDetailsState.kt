@@ -24,6 +24,13 @@ class CardAnalyticsDetailsState : BaseState(), ICardAnalyticsDetails.State {
     override var percentCardVisibility: Boolean = true
         set(value) {
             field = value
-            notifyPropertyChanged(BR.position)
+            notifyPropertyChanged(BR.percentCardVisibility)
+        }
+
+    @get:Bindable
+    override var categories: ArrayList<String>? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.categories)
         }
 }

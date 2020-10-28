@@ -50,7 +50,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                 merchantType,
                 SessionManager.getCardSerialNumber(),
                 currentDate,
-                state.title.get() ?: ""
+                state.categories
             )) {
                 is RetroApiResponse.Success -> {
 

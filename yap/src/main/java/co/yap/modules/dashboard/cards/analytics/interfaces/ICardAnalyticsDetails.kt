@@ -24,5 +24,6 @@ interface ICardAnalyticsDetails {
         var ImageUrl : ObservableField<String>
         var position : Int
         var percentCardVisibility : Boolean
+        var categories : ArrayList<String>?
     }
 }

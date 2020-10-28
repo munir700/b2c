@@ -38,6 +38,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.state.ImageUrl.set(txnAnalytics.logoUrl)
                 viewModel.state.countWithDate.set(getConcatinatedString(txnAnalytics.txnCount ?: 0))
                 viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
+                viewModel.state.categories = txnAnalytics.categories
             }
             bundle.getInt(Constants.TRANSACTION_POSITION).let { position ->
                 viewModel.state.position = position
