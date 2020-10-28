@@ -15,6 +15,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 

@@ -30,7 +30,6 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
-import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
@@ -116,7 +115,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-
     }
 
     private fun setClickOnWelcomeYapItem() {
@@ -333,7 +331,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
+                    //if transaction is empty and filer is applied then state would be Error where no transaction image show
                     if (homeTransactionsRequest.totalAppliedFilter > 0) {
                         getBindings().lyInclude.multiStateView.viewState =
                             MultiStateView.ViewState.ERROR

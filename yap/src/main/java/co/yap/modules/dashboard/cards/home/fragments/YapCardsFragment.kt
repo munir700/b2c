@@ -261,7 +261,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
             Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    SessionManager.getDebitCard()
+                    viewModel.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
 

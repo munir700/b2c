@@ -31,7 +31,6 @@ interface IYapHome {
         var isLoadMore: MutableLiveData<Boolean>
         var isRefreshing: MutableLiveData<Boolean>
         var isLast: MutableLiveData<Boolean>
-
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()
@@ -42,7 +41,7 @@ interface IYapHome {
     }
 
     interface State : IBase.State {
-        var availableBalance: String?
+        var availableBalance: String
         var filterCount: ObservableField<Int>
         var showTxnShimmer: MutableLiveData<co.yap.widgets.State>
         var isTransEmpty: ObservableField<Boolean>
