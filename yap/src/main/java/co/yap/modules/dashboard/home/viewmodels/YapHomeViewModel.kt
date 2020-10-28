@@ -47,6 +47,7 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
+        SessionManager.getDebitCard()
     }
 
     override fun filterTransactions() {
