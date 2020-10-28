@@ -110,7 +110,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         setObservers()
         setClickOnWelcomeYapItem()
         setAvailableBalance(viewModel.state.availableBalance)
-
     }
 
     private fun setClickOnWelcomeYapItem() {

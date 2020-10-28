@@ -39,8 +39,8 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     private val EVENT_CARD_ADDED: Int get() = 12
+    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     private var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -130,7 +130,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         viewModel.clickEvent.setValue(view.id)
                     }
             }
-
         })
     }
 
@@ -206,8 +205,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                    adapter.setItemAt(selectedCardPosition, card)
 //                }
             }
-        } else {
-
         }
     }
 
@@ -264,7 +261,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     SessionManager.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-
                     val cardSerialNumber: String? =
                         data?.getStringExtra(Constants.CARD_SERIAL_NUMBER)
 
@@ -312,8 +308,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         card?.let {
             gotoPaymentCardDetailScreen(it)
         } ?: gotoPaymentCardDetailScreen(getCard(pos))
-
-
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
@@ -344,18 +338,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun openSetPinScreen(card: Card) {
-        context?.let { context ->
-            startActivityForResult(
-                SetCardPinWelcomeActivity.newIntent(
-                    context = context,
-                    card = card,
-                    skipWelcomeScreen = true
-                ), Constants.EVENT_CREATE_CARD_PIN
-            )
-        }
-    }
-
     private fun startReorderCardFlow(card: Card?) {
         if (SessionManager.user?.otpBlocked == true) {
             showToast(Utils.getOtpBlockedMessage(requireContext()))
@@ -368,6 +350,18 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     ), RequestCodes.REQUEST_REORDER_CARD
                 )
             }
+        }
+    }
+
+    private fun openSetPinScreen(card: Card) {
+        context?.let { context ->
+            startActivityForResult(
+                SetCardPinWelcomeActivity.newIntent(
+                    context = context,
+                    card = card,
+                    skipWelcomeScreen = true
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
         }
     }
 

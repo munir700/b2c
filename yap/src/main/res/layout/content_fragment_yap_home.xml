@@ -10,7 +10,6 @@
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
         <import type="android.view.View" />
-
     </data>
 
     <RelativeLayout
@@ -193,7 +192,8 @@
                         android:layout_marginEnd="2dp"
                         android:layout_toEndOf="@+id/tvFilterCount"
                         android:src="@drawable/ic_filter"
-                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
+                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}"
+                        android:visibility="@{viewModel.state.filterCount > 0 ? View.GONE:View.VISIBLE}" />
 
                     <TextView
                         android:id="@+id/tvFilters"
@@ -245,12 +245,13 @@
             android:id="@+id/tooltip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="@dimen/tooltip_elevation"
             android:visibility="gone"
             app:arrowAlignment="custom"
             app:arrowHeight="@dimen/_16sdp"
             app:arrowLocation="bottom"
             app:arrowWidth="@dimen/_16sdp"
-            app:cardCornerRadius="2dp"
+            app:cardCornerRadius="@dimen/tooltip_radius"
             app:cardElevation="@dimen/tooltip_elevation"
             app:contentPaddingBottom="@dimen/_8sdp"
             app:contentPaddingLeft="@dimen/_6sdp"
@@ -263,10 +264,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text"
-                style="@style/Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
+                android:lineSpacingExtra="3sp"
                 android:minWidth="@dimen/_80sdp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_h1"
@@ -275,8 +277,8 @@
 
         <co.yap.widgets.tooltipview.TriangleView
             android:id="@+id/arrowView"
-            android:layout_width="@dimen/_14sdp"
-            android:layout_height="@dimen/_8sdp"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_5sdp"
             android:elevation="@dimen/tooltip_elevation"
             android:visibility="gone">
 
@@ -286,8 +288,5 @@
                 android:background="@color/white" />
 
         </co.yap.widgets.tooltipview.TriangleView>
-
     </RelativeLayout>
-
-
 </layout>

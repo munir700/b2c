@@ -15,7 +15,6 @@ import com.liveperson.infra.utils.Utils.getResources
 
 object BindingHelper {
 
-
     @BindingAdapter("adaptorList")
     @JvmStatic
     fun setAdaptor(recycleview: RecyclerView, list: ObservableField<List<CardStatement>>) {
@@ -98,5 +97,4 @@ object BindingHelper {
             }
         }
     }
-
 }

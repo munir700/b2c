@@ -64,7 +64,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="set your card pin" />
 
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/labelCardType"
                 android:layout_width="wrap_content"
@@ -81,7 +80,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:status="@{viewModel.statusDataModel.progressStatus}"
                 tools:text="in progress" />
-
 
             <TextView
                 android:id="@+id/tvStatusDescription"
