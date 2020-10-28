@@ -48,8 +48,8 @@ class Y2YFundsTransferViewModel(application: Application) :
             beneficiaryName = state.fullName,
             amount = state.amount,
             otpVerificationReq = false,
-            transactionNote = if (state.noteValue.isBlank()) null else state.noteValue,
-            remarks = if (state.noteValue.isBlank()) null else state.noteValue
+            transactionNote = if (state.noteValue.isBlank()) null else state.noteValue.trim(),
+            remarks = if (state.noteValue.isBlank()) null else state.noteValue.trim()
         )
         launch {
             state.loading = true

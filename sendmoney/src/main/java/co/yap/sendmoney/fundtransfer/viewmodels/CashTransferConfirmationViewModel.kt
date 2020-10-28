@@ -98,7 +98,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         cbwsi = if (parentViewModel?.isCutOffTimeStarted == true) !checkCBWSI() else false,
                         cbwsiFee = parentViewModel?.selectedPop?.cbwsiFee,
                         nonChargeable = parentViewModel?.selectedPop?.nonChargeable,
-                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue?.trim()
 
                     )
                 )
