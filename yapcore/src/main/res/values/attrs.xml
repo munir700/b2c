@@ -592,7 +592,6 @@
         <attr name="ce_custom_height" format="dimension" />
     </declare-styleable>
 
-
     <declare-styleable name="TimelineView">
         <attr name="marker" format="color|reference" />
         <attr name="markerSize" format="dimension" />

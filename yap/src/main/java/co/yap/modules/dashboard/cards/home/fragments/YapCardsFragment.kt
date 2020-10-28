@@ -130,7 +130,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         viewModel.clickEvent.setValue(view.id)
                     }
             }
-
         })
     }
 
@@ -206,8 +205,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                    adapter.setItemAt(selectedCardPosition, card)
 //                }
             }
-        } else {
-
         }
     }
 
@@ -261,7 +258,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
             Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    viewModel.getDebitCard()
+                    SessionManager.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
 
@@ -312,8 +309,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         card?.let {
             gotoPaymentCardDetailScreen(it)
         } ?: gotoPaymentCardDetailScreen(getCard(pos))
-
-
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {

@@ -138,7 +138,6 @@
                     </androidx.appcompat.widget.Toolbar>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
-
             </com.google.android.material.appbar.AppBarLayout>
 
             <include
@@ -148,6 +147,5 @@
                 app:viewModel="@{viewModel}" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
     </co.yap.widgets.OnlyVerticalSwipeRefreshLayout>
 </layout>

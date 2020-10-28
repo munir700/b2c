@@ -1,13 +1,18 @@
 package co.yap.modules.others.helper
 
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
+import co.yap.modules.dashboard.home.status.StageProgress
 import co.yap.networking.transactions.responsedtos.CardStatement
+import co.yap.widgets.timelineview.TimelineView
+import com.liveperson.infra.utils.Utils.getResources
 
 object BindingHelper {
-
 
     @BindingAdapter("adaptorList")
     @JvmStatic
@@ -91,5 +96,4 @@ object BindingHelper {
             }
         }
     }
-
 }

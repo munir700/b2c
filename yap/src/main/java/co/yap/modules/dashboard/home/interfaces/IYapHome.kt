@@ -21,8 +21,8 @@ interface IYapHome {
 
     interface ViewModel : IBase.ViewModel<State> {
         val EVENT_SET_CARD_PIN: Int get() = 1
-        val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 2
         val ON_ADD_NEW_ADDRESS_EVENT: Int get() = 3
+        val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 2
         var MAX_CLOSING_BALANCE: Double
         val clickEvent: SingleClickEvent
         var txnFilters: TransactionFilters
@@ -41,7 +41,7 @@ interface IYapHome {
     }
 
     interface State : IBase.State {
-        var availableBalance: String
+        var availableBalance: String?
         var filterCount: ObservableField<Int>
         var showTxnShimmer: MutableLiveData<co.yap.widgets.State>
         var isTransEmpty: ObservableField<Boolean>
