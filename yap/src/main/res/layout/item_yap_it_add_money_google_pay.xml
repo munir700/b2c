@@ -15,10 +15,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/cornor_edges_gery"
-        android:padding="@dimen/margin_medium">
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgIcon"
@@ -26,7 +29,7 @@
             android:layout_height="@dimen/_43sdp"
             android:layout_marginTop="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
-            android:padding="@dimen/margin_normal"
+            android:padding="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,6 +44,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
+            android:paddingBottom="@dimen/margin_medium"
             android:text="@{viewModel.addMoneyOptions.name}"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="Top up via debit/credit card" />

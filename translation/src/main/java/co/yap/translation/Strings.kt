@@ -48,6 +48,8 @@ object Strings {
         "common_pay_bills"
     const val common_permission_rejected_error: String =
         "common_permission_rejected_error"
+    const val common_saved_image_to_gallery: String =
+        "common_saved_image_to_gallery"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -494,6 +496,8 @@ object Strings {
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
         "screen_fragment_home_transaction_time_category"
+    const val screen_fragment_yap_home_add_money: String =
+        "screen_fragment_yap_home_add_money"
 
     // spare cards Landing Screen
     const val screen_spare_card_landing_display_text_title: String =
@@ -1695,10 +1699,6 @@ object Strings {
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
 
-    //yap home fragment screen
-    const val screen_fragment_yap_home_add_money: String =
-        "screen_fragment_yap_home_add_money"
-
     //Change Card Pin screen
 
     const val screen_change_card_pin_text_heading: String =
@@ -1778,5 +1778,10 @@ object Strings {
         "screen_fragment_yap_it_qr_code_save_to_gallery"
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
+
+
+    // Transaction Detail Screen
+    const val screen_transaction_detail_text_cut_off_msg: String =
+        "screen_transaction_detail_text_cut_off_msg"
 
 }
