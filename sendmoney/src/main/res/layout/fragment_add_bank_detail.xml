@@ -81,12 +81,13 @@
                         android:layout_marginTop="@dimen/_3sdp"
                         android:importantForAutofill="no"
                         android:background="@drawable/bg_edit_text_under_line_light"
-                        android:maxLength="50"
+                        android:maxLength="@integer/swift_bank_name_length"
                         android:singleLine="true"
                         android:text="@={viewModel.state.bankName}"
                         app:hint="@{Strings.screen_bank_details_display_text_bank_name}"
                         tools:hint="@string/screen_bank_details_display_text_bank_name" />
 
+                    <TextView
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
@@ -109,7 +110,7 @@
                         android:imeOptions="actionNext"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:importantForAutofill="no"
-                        android:maxLength="50"
+                        android:maxLength="@integer/swift_branch_name_length"
                         android:singleLine="true"
                         tools:hint="@string/screen_bank_details_input_text_branch_hint"
                         android:background="@drawable/bg_edit_text_under_line_light"
@@ -138,7 +139,7 @@
                         android:imeOptions="actionNext"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:importantForAutofill="no"
-                        android:maxLength="50"
+                        android:maxLength="@integer/swift_city_name_length"
                         android:singleLine="true"
                         tools:hint="@string/screen_bank_details_input_text_city_hint"
                         android:text="@={viewModel.state.bankCity}"
