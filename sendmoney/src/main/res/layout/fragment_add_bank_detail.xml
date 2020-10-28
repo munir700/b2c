@@ -87,7 +87,6 @@
                         app:hint="@{Strings.screen_bank_details_display_text_bank_name}"
                         tools:hint="@string/screen_bank_details_display_text_bank_name" />
 
-                    <TextView
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
