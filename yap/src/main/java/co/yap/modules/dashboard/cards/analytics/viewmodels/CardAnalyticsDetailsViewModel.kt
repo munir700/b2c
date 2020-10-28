@@ -14,8 +14,6 @@ import co.yap.networking.transactions.responsedtos.transaction.TransactionAnalyt
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.SessionManager
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CardAnalyticsDetailsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalyticsDetails.State>(application),

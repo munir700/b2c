@@ -37,6 +37,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 viewModel.state.totalSpendings.set(txnAnalytics.totalSpending)
                 viewModel.state.ImageUrl.set(txnAnalytics.logoUrl)
                 viewModel.state.countWithDate.set(getConcatinatedString(txnAnalytics.txnCount ?: 0))
+                viewModel.state.monthlyTotalPercentage.set("${txnAnalytics.totalSpendingInPercentage}%")
             }
             bundle.getInt(Constants.TRANSACTION_POSITION).let { position ->
                 viewModel.state.position = position
@@ -49,7 +50,7 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
         var date = viewModel.parentViewModel?.state?.currentSelectedMonth ?: ""
         if (date.contains(",")) date = date.replace(",", "")
         concatenatedString =
-            "${date} ・ ${count} ${getString(Strings.screen_yap_analytics_detail_transaction_count)}"
+            "$date ・ $count ${getString(Strings.screen_yap_analytics_detail_transaction_count)}"
         return concatenatedString
     }
 
@@ -89,6 +90,6 @@ class CardAnalyticsDetailsFragment : CardAnalyticsBaseFragment<ICardAnalyticsDet
                 multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
         }
-
     }
 }
+

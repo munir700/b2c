@@ -108,7 +108,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
         }
     }
 
-
     private val onScrollListener: RecyclerView.OnScrollListener =
         object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(
@@ -135,5 +134,4 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     private fun getBinding(): FragmentCategoryAnalyticsBinding {
         return (viewDataBinding as FragmentCategoryAnalyticsBinding)
     }
-
 }

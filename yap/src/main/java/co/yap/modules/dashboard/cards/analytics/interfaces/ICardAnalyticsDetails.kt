@@ -20,7 +20,9 @@ interface ICardAnalyticsDetails {
         var title : ObservableField<String>
         var totalSpendings : ObservableField<String>
         var countWithDate : ObservableField<String>
+        var monthlyTotalPercentage : ObservableField<String>
         var ImageUrl : ObservableField<String>
         var position : Int
+        var percentCardVisibility : Boolean
     }
 }
