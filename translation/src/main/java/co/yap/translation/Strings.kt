@@ -1598,6 +1598,8 @@ object Strings {
         "screen_tax_info_display_text_have_tin_number"
     const val screen_tax_info_display_text_reason_no_tin_number: String =
         "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number_selected: String =
+        "screen_tax_info_display_text_reason_no_tin_number_selected"
     const val screen_tax_info_display_text_heading_tin_number: String =
         "screen_tax_info_display_text_heading_tin_number"
     const val screen_tax_info_display_text_country_no_tin_issue: String =
