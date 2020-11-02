@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
@@ -18,10 +18,8 @@ import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -97,9 +95,8 @@ class AddBeneficiaryForDomesticTransferFragment :
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
                             if (data) {
-                                startMoneyTransfer()
                                 activity?.let {
-                                    setIntentResult()
+                                    setIntentResult(isMoneyTransfer = true)
                                 }
                             } else {
                                 activity?.let {
@@ -112,19 +109,11 @@ class AddBeneficiaryForDomesticTransferFragment :
         }
     }
 
-    private fun startMoneyTransfer() {
-        viewModel.beneficiary?.let {
-            launchActivity<BeneficiaryFundTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
-                putExtra(Constants.BENEFICIARY, it)
-                putExtra(Constants.POSITION, 0)
-                putExtra(Constants.IS_NEW_BENEFICIARY, true)
-            }
-        }
-    }
-
-    private fun setIntentResult() {
+    private fun setIntentResult(isMoneyTransfer: Boolean = false) {
         val intent = Intent()
         intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+        intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
+        intent.putExtra(Beneficiary::class.java.name, viewModel.beneficiary)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }

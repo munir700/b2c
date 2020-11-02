@@ -45,11 +45,13 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
+import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
@@ -119,43 +121,19 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                checkPermission()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
+                            checkPermission()
                         }
                         2 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                openTopUpScreen()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
+                            launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
                         }
                         3 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                openSendMoneyScreen()
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
+                                putExtra(SendMoneyLandingActivity.searching, false)
                             }
                         }
                     }
                 }
-
-            })
-            .build()
-    }
-
-    private fun openSendMoneyScreen() {
-        startActivity(
-            SendMoneyLandingActivity.newIntent(
-                this@YapDashboardActivity
-            )
-        )
-    }
-
-    private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
+            }).build()
     }
 
     private fun setupPager() {
@@ -321,7 +299,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
-            startActivity(Intent(this, CardAnalyticsActivity::class.java))
+            launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
@@ -366,8 +344,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
-                    //checkPermission()
-                    //getViewBinding().ivYapIt
+
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -382,7 +359,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.yapIt -> {
-                    checkPermission()
+
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -399,39 +376,27 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                startActivity(
-                    YapToYapDashboardActivity.getIntent(
-                        this@YapDashboardActivity,
-                        false,
-                        null
-                    )
-                )
+                openY2YScreen()
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast("Can't proceed without permissions")
+                openY2YScreen()
             }
 
             override fun onPermissionDenied() {
-                startActivity(
-                    YapToYapDashboardActivity.getIntent(
-                        this@YapDashboardActivity,
-                        false,
-                        null
-                    )
-                )
+                openY2YScreen()
             }
 
             override fun onPermissionDeniedBySystem() {
-                startActivity(
-                    YapToYapDashboardActivity.getIntent(
-                        this@YapDashboardActivity,
-                        false,
-                        null
-                    )
-                )
+                openY2YScreen()
             }
         })
+    }
+
+    private fun openY2YScreen() {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(YapToYapDashboardActivity.searching, false)
+        }
     }
 
     override fun onResume() {
