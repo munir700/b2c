@@ -58,7 +58,7 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                         transactionResponse = resp
                         state.avgSpending.set("${transactionResponse.averageSpending}%")
                         state.currToLast.set("${transactionResponse.currentToLastMonth}%")
-                        if (!resp.txnAnalytics.isNullOrEmpty()) {
+                        if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
                             list = transactionResponse.txnAnalytics
                             list?.let { transactionList ->
