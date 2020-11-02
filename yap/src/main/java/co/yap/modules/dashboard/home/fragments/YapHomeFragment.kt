@@ -37,7 +37,7 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -264,7 +264,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
                 R.id.lyAdd -> {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        openTopUpScreen()
+                        launchActivity<AddMoneyActivity>()
                     } else {
                         showToast("Account activation pending")
 
@@ -603,7 +603,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         SessionManager.getDebitCard()
                     } else {
                         SessionManager.getDebitCard()
-                        openTopUpScreen()
+                        launchActivity<AddMoneyActivity>()
                     }
                 }
             }
@@ -702,10 +702,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
         }
-    }
-
-    private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(requireContext()))
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
