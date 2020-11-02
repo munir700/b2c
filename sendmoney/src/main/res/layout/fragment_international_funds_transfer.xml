@@ -136,7 +136,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="0dp"
-                    android:text="@={viewModel.state.etInputAmount}"
                     tools:text="1234567891" />
 
                 <androidx.appcompat.widget.AppCompatTextView
