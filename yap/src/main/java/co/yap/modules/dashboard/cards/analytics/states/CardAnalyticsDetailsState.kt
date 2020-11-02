@@ -11,6 +11,8 @@ class CardAnalyticsDetailsState : BaseState(), ICardAnalyticsDetails.State {
     override var totalSpendings: ObservableField<String> = ObservableField("Spendings")
     override var monthlyTotalPercentage: ObservableField<String> = ObservableField("50%")
     override var countWithDate: ObservableField<String> = ObservableField()
+    override var avgSpending: ObservableField<String> = ObservableField()
+    override var currToLast: ObservableField<String> = ObservableField()
     override var ImageUrl: ObservableField<String> = ObservableField("Url")
 
     @get:Bindable

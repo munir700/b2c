@@ -48,15 +48,17 @@ class CardAnalyticsDetailsViewModel(application: Application) :
             viewState.value = Constants.EVENT_EMPTY
             when (val response = repository.getTransactionsOfMerchant(
                 merchantType,
-                SessionManager.getCardSerialNumber(),
-                currentDate,
+                "1000000002480",
+                "2020-01-01",
                 state.categories
             )) {
                 is RetroApiResponse.Success -> {
 
                     response.data.data?.let { resp ->
                         transactionResponse = resp
-                        if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
+                        state.avgSpending.set("${transactionResponse.averageSpending}%")
+                        state.currToLast.set("${transactionResponse.currentToLastMonth}%")
+                        if (!resp.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
                             list = transactionResponse.txnAnalytics
                             list?.let { transactionList ->
