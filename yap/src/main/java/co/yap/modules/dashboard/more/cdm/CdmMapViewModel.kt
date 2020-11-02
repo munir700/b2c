@@ -61,7 +61,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
 
     override fun onCreate() {
         super.onCreate()
-        getCardsAtmCdm()
+        getCardsAtmCdm(state.locationType?.value)
     }
 
     override fun handleClickEvent(id: Int) {
@@ -95,17 +95,21 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
         mMap?.addMarker(option)
     }
 
-    override fun getCardsAtmCdm() {
+    override fun getCardsAtmCdm(type: String?) {
         launch {
             state.stateLiveData.postValue(State.loading(""))
             //state.loading = true
             when (val response = cardsRepository.getCardsAtmCdm()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
+                        var data = it
                         if (it.isNotEmpty()) {
                             // filter data here based on type
-                            val data = it.filter { it?.type == "ATM" }
-                            if(data.isNotEmpty()) {
+                            if (!state.locationType?.value.isNullOrBlank()) data = it.filter {
+                                it?.type == state.locationType?.value
+                            }
+
+                            if (data.isNotEmpty()) {
                                 moveCameraToCurrentLocation = false
                                 state.stateLiveData.postValue(State.success(""))
                                 val latLans = ArrayList<LatLng>()
