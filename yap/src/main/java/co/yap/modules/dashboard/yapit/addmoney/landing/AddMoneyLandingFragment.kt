@@ -88,7 +88,11 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 )
             }
             Constants.ADD_MONEY_CASH_OR_CHEQUE -> {
-                startFragment(CdmMapFragment::class.java.name)
+                startFragment(
+                    fragmentName = CdmMapFragment::class.java.name, bundle = bundleOf(
+                        Constants.LOCATION_TYPE to Constants.LOCATION_CDM
+                    )
+                )
             }
             Constants.ADD_MONEY_QR_CODE -> {
                 QRCodeFragment().let { fragment ->
