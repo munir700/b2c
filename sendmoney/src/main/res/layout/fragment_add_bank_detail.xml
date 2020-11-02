@@ -72,6 +72,7 @@
                         app:textColor="@{viewModel.state.bankName.empty ? true : false}"
                         tools:text="@string/screen_bank_details_display_text_bank_name" />
 
+
                     <EditText
                         android:id="@+id/etBankName"
                         style="@style/Regular"
@@ -80,12 +81,11 @@
                         android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
-                        android:maxLength="50"
+                        android:maxLength="@integer/swift_bank_name_length"
                         android:singleLine="true"
                         android:text="@={viewModel.state.bankName}"
                         app:hint="@{Strings.screen_bank_details_display_text_bank_name}"
                         tools:hint="@string/screen_bank_details_display_text_bank_name" />
-
 
                     <TextView
                         style="@style/Small"
@@ -108,7 +108,7 @@
                         android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
-                        android:maxLength="50"
+                        android:maxLength="@integer/swift_branch_name_length"
                         android:singleLine="true"
                         android:text="@={viewModel.state.bankBranch}"
                         app:hint="@{Strings.screen_bank_details_input_text_branch_hint}" />
@@ -134,7 +134,7 @@
                         android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
-                        android:maxLength="50"
+                        android:maxLength="@integer/swift_city_name_length"
                         android:singleLine="true"
                         android:text="@={viewModel.state.bankCity}"
                         app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />

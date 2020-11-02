@@ -11,6 +11,9 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+
+
     </data>
 
     <ScrollView
@@ -131,7 +134,7 @@
                     tools:text="AED 500" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,6 +143,7 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:maxLength="@integer/notes_internal_transfer_length"
                 android:singleLine="true"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
                 app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"

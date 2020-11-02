@@ -17,6 +17,8 @@
 
         <import type="co.yap.app.YAPApplication" />
 
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+
     </data>
 
     <ScrollView
@@ -130,13 +132,14 @@
                 tools:text="Your available balance is " />
 
 
-            <com.google.android.material.textfield.TextInputEditText
+            <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                 android:maxLength="@integer/notes_external_transfer_length"
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
@@ -147,7 +150,6 @@
             <!--            android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"-->
 
             <RelativeLayout
-                android:id="@+id/layoutReasonsSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
