@@ -129,6 +129,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     tools:text="CAD" />
 
+                <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->
+
                 <co.yap.widgets.EasyMoneyEditText
                     android:id="@+id/etSenderAmount"
                     style="@style/ATitle2"
