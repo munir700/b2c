@@ -57,6 +57,7 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
+import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -82,7 +83,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
         logEvent()
-        initializeChatOverLayButton()
+        initializeChatOverLayButton(Leanplum.getInbox().unreadCount())
     }
 
     private fun logEvent() {
@@ -95,6 +96,22 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
+//            .addSubActionView(
+//                getString(Strings.common_send_money),
+//                R.drawable.ic_send_money,
+//                R.layout.component_yap_menu_sub_button,
+//                this, 1
+//            )/*.addSubActionView(
+//                getString(Strings.common_pay_bills),
+//                R.drawable.ic_bill,
+//                R.layout.component_yap_menu_sub_button,
+//                this, 2
+//            )*/.addSubActionView(
+//                getString(Strings.common_add_money),
+//                R.drawable.ic_add_sign_white,
+//                R.layout.component_yap_menu_sub_button,
+//                this, 3
+//            )
             .addSubActionView(
                 getString(R.string.yap_to_yap),
                 R.drawable.ic_yap_to_yap,

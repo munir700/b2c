@@ -104,15 +104,24 @@ interface TransactionsRetroService {
 
     // Card top up transaction request
     @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
-    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId: String, @Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
+    suspend fun cardTopUpTransactionRequest(
+        @Path("order-id") orderId: String,
+        @Body topUpTransactionRequest: TopUpTransactionRequest
+    ): Response<ApiResponse>
 
     //Get analytics by merchant name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_MERCHANT_NAME)
-    suspend fun getAnalyticsByMerchantName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByMerchantName(
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?
+    ): Response<AnalyticsResponseDTO>
 
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
-    suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByCategoryName(
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?
+    ): Response<AnalyticsResponseDTO>
 
     //Cash payout transfer request
     @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
@@ -120,7 +129,10 @@ interface TransactionsRetroService {
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest?): Response<RemittanceFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(
+        @Path("product-code") productCode: String?,
+        @Body mRemittanceFeeRequest: RemittanceFeeRequest?
+    ): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
@@ -128,7 +140,10 @@ interface TransactionsRetroService {
 
     //Get transaction international purpose reasons.
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
-    suspend fun getInternationalRXRateList(@Path("product-code") productCode: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
+    suspend fun getInternationalRXRateList(
+        @Path("product-code") productCode: String?,
+        @Body mRxListRequest: RxListRequest
+    ): Response<FxRateResponse>
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
@@ -166,4 +181,14 @@ interface TransactionsRetroService {
 
     @GET(TransactionsRepository.URL_GET_PURPOSE_OF_PAYMENT)
     suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_MERCHANT_TRANSACTIONS)
+    suspend fun getTransactionsOfMerchant(
+        @Path("merchant-type") merchantType: String,
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?,
+        @Query("merchant-name") merchantName : String?
+    ): Response<AnalyticsDetailResponseDTO>
+
+
 }

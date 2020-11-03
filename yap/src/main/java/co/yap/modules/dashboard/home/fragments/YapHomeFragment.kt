@@ -62,12 +62,7 @@ import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.enums.NotificationAction
-import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -328,7 +323,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    //if transaction is empty and filer is applied then state would be Error where no transaction image show
+                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
                     if (homeTransactionsRequest.totalAppliedFilter > 0) {
                         getBindings().lyInclude.multiStateView.viewState =
                             MultiStateView.ViewState.ERROR

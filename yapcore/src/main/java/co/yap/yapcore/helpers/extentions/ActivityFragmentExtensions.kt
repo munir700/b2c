@@ -91,6 +91,26 @@ inline fun <reified T : Any> Context.launchActivity(
     }
 }
 
+inline fun <reified T : Any> Fragment.launchActivityForResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {},
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        intent.putExtra(EXTRA, options)
+        this.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(requestCode = requestCode, options = options, init = init)
+    }
+}
+
 inline fun <reified T : Any> newIntent(context: Context): Intent =
     Intent(context, T::class.java)
 

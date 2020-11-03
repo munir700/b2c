@@ -72,6 +72,7 @@ class AccountInfo(
     @SerializedName("freezeInitiator")
     var freezeInitiator: String? = null,
     @SerializedName("eidNotificationContent")
-    var EIDExpiryMessage: String? = null
-
+    var EIDExpiryMessage: String? = null,
+    @SerializedName("encryptedAccountUUID")
+    var encryptedAccountUUID: String? = null
 ) : Parcelable

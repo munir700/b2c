@@ -8,7 +8,6 @@ import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
