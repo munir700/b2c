@@ -31,15 +31,7 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
-    }
-
-    val clickEvent = Observer<Int> {
-        when (it) {
-            R.id.tbIvClose -> onBackPressed()
-
-        }
-    }
+     }
 
     override fun onBackPressed() {
         val fragment =
@@ -53,4 +45,14 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+        }
+    }
+
 }
