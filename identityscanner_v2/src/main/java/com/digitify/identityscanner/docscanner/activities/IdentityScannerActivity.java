@@ -147,7 +147,7 @@ public class IdentityScannerActivity extends DefaultActivity implements IIdentit
             File f = new File(file);
             deleteRecursivelyYap(f);
         }
-        deleteTempFolder(context);
+//        deleteTempFolder(context);
         super.onDestroy();
     }
 
