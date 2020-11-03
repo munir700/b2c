@@ -175,7 +175,7 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
             }
             final ArrayList<Country> filterStrings = new ArrayList<>();
             for (Country country : mBackupStrings) {
-                if (country.getName().toLowerCase().contains(constraint)) {
+                if (country.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                     filterStrings.add(country);
                 }
             }
@@ -187,7 +187,9 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mOriginalValues = (ArrayList) results.values;
-            notifyDataSetChanged();
+            if (constraint != null){
+                notifyDataSetChanged();
+            }
         }
     }
 

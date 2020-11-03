@@ -21,6 +21,7 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.modules.location.fragments.POBSelectionFragment
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
@@ -31,10 +32,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.ExtraType
-import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -100,7 +98,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
-                    viewModel.toggleToolBar(true)
+                    startFragment(POBSelectionFragment::class.java.name)
+                 /*   viewModel.toggleToolBar(true)
                     changeAddress = true
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
@@ -109,7 +108,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
-                    )
+                    )*/
 
                 }
 

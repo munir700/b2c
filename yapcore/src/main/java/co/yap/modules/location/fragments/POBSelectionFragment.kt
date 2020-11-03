@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -20,9 +21,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import java.util.*
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import java.util.*
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -94,14 +94,15 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         getBinding().bcountries.threshold = 0
         getBinding().bcountries.setOnTouchListener(touchListener)
         getBinding().bcountries.afterTextChanged { s ->
-            if (s.length < 0)
+            if (s.isEmpty()) {
+                getBinding().bcountries.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    ContextCompat.getDrawable(requireContext(), R.drawable.iv_drown_down),
+                    null
+                )
                 getBinding().bcountries.showDropDown()
-            else if (s.isEmpty()) getBinding().bcountries.setCompoundDrawables(
-                null,
-                null,
-                null,
-                null
-            )
+            }
         }
         getBinding().bcountries.onItemClickListener = itemClickListener
     }
@@ -128,7 +129,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             drawable,
             null,
             null,
-            requireActivity().getDrawable(R.drawable.iv_drown_down)
+            null
         )
     }
 
