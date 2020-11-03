@@ -13,10 +13,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.enums.AccountType
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
-import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
@@ -88,6 +89,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun setupDataSetForBlockedFeatures() {
+        /*YM-6962
         user?.getUserAccessRestrictions()?.let {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
@@ -98,7 +100,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 it
             )
 
-        }
+        }*/
     }
 
     private fun getYapUser(): AccountInfo? {
