@@ -54,13 +54,14 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -202,42 +203,44 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llAddFunds -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
-                    viewModel.card.value?.let { card ->
-                        startActivityForResult(
-                            AddFundsActivity.newIntent(this, card),
-                            Constants.REQUEST_ADD_REMOVE_FUNDS
-                        )
+                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
+                viewModel.card.value?.let { card ->
+                    launchActivity<AddFundsActivity>(
+                        requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
+                        type = FeatureSet.ADD_FUNDS
+                    ) {
+                        putExtra(AddFundsActivity.CARD, card)
+                        cancelAllSnackBar()
                     }
                 }
-                cancelAllSnackBar()
             }
             R.id.llFreezeSpareCard -> {
-                viewModel.freezeUnfreezeCard()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
+                    showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
+                } else {
+                    viewModel.freezeUnfreezeCard()
+                }
             }
             R.id.llFreezePrimaryCard -> {
-
-                viewModel.freezeUnfreezeCard()
+                if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
+                    showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
+                } else {
+                    viewModel.freezeUnfreezeCard()
+                }
             }
             R.id.llRemoveFunds -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    if (viewModel.card.value?.blocked == false) {
-                        startActivityForResult(
-                            RemoveFundsActivity.newIntent(
-                                this,
-                                viewModel.card.value!!
-                            ),
-                            Constants.REQUEST_ADD_REMOVE_FUNDS
-                        )
-                        cancelAllSnackBar()
-                    } else {
-                        showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
+                if (viewModel.card.value?.blocked == false) {
+                    viewModel.card.value?.let { card ->
+                        launchActivity<RemoveFundsActivity>(
+                            requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
+                            type = FeatureSet.REMOVE_FUNDS
+                        ) {
+                            putExtra(AddFundsActivity.CARD, card)
+                        }
                     }
+                    cancelAllSnackBar()
+                } else {
+                    showToast("${getString(Strings.screen_remove_funds_display_text_unfreeze_feature)}^${AlertType.DIALOG.name}")
                 }
             }
             R.id.llCardLimits -> {
@@ -348,7 +351,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
             rlSpareCardActions.visibility = View.VISIBLE
         }
-//        checkFreezeUnfreezStatus()
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
         }
@@ -371,7 +373,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         gravity = Gravity.TOP,
                         duration = Snackbar.LENGTH_INDEFINITE,
                         actionText = underline(getString(Strings.screen_cards_display_text_freeze_card_action)),
-                        clickListener = View.OnClickListener { viewModel.freezeUnfreezeCard() }
+                        clickListener = View.OnClickListener {
+                            if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
+                                showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
+                            } else {
+                                viewModel.freezeUnfreezeCard()
+                            }
+                        }
                     )
                     if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
                         tvPrimaryCardStatus.text = "Unfreeze card"
@@ -421,26 +429,21 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cancelAllSnackBar()
             }
             Constants.EVENT_CHANGE_PIN -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    startActivity(
-                        ChangeCardPinActivity.newIntent(
-                            this,
-                            viewModel.card.value?.cardSerialNumber ?: ""
-                        )
+                launchActivity<ChangeCardPinActivity>(type = FeatureSet.CHANGE_PIN) {
+                    putExtra(
+                        ChangeCardPinActivity.CARD_SERIAL_NUMBER,
+                        viewModel.card.value?.cardSerialNumber ?: ""
                     )
                     cancelAllSnackBar()
                 }
             }
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    viewModel.card.value?.cardSerialNumber?.let {
-                        startActivity(
-                            ForgotCardPinActivity.newIntent(this, it)
+                viewModel.card.value?.cardSerialNumber?.let {
+                    launchActivity<ForgotCardPinActivity>(type = FeatureSet.FORGOT_PIN) {
+                        putExtra(
+                            co.yap.yapcore.constants.Constants.CARD_SERIAL_NUMBER,
+                            it
                         )
                         cancelAllSnackBar()
                     }
@@ -452,8 +455,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     launchActivity<CardStatementsActivity> {
                         putExtra("card", it)
                         putExtra("isFromDrawer", false)
+                        cancelAllSnackBar()
                     }
-                    cancelAllSnackBar()
                 }
             }
             Constants.EVENT_REPORT_CARD -> {
@@ -494,7 +497,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
-//                checkFreezeUnfreezStatus()
                 if (resultCode == Activity.RESULT_OK) {
                     // Send Broadcast for updating transactions list in `Home Fragment`
                     val intent =
@@ -571,16 +573,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun startReorderCardFlow() {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(this))
-        } else {
-            viewModel.card.value?.let {
-                startActivityForResult(
-                    ReorderCardActivity.newIntent(
-                        this@PaymentCardDetailActivity,
-                        it
-                    ), RequestCodes.REQUEST_REORDER_CARD
-                )
+        viewModel.card.value?.let {
+            launchActivity<ReorderCardActivity>(
+                requestCode = RequestCodes.REQUEST_REORDER_CARD,
+                type = FeatureSet.REORDER_DEBIT_CARD
+            ) {
+                putExtra(ReorderCardActivity.CARD, it)
             }
         }
     }
@@ -609,16 +607,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
         }
 
-        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-            cardType = "Primary card"
+        cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+            "Primary card"
         } else {
-            if (viewModel.card.value?.nameUpdated!!) {
-                cardType = viewModel.card.value?.cardName!!
+            if (viewModel.card.value?.nameUpdated == true) {
+                viewModel.card.value?.cardName!!
             } else {
                 if (viewModel.card.value?.physical!!) {
-                    cardType = Constants.TEXT_SPARE_CARD_PHYSICAL
+                    Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    cardType = Constants.TEXT_SPARE_CARD_VIRTUAL
+                    Constants.TEXT_SPARE_CARD_VIRTUAL
                 }
             }
         }
@@ -683,10 +681,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             val updateCard = viewModel.card.value!!
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
-            updateCard.nameUpdated = nameUpdated
 
             if (cardFreezeUnfreeze) {
-                if (viewModel.card.value?.blocked!!)
+                if (viewModel.card.value?.blocked == true)
                     updateCard.status = "BLOCKED"
                 else
                     updateCard.status = "ACTIVE"

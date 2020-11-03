@@ -17,6 +17,7 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.SessionManager
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>() {
@@ -59,7 +60,7 @@ class PhoneVerificationSignInFragment :
                             false
                         )
                     ) {
-                        if (it.otpBlocked == true)
+                        if (it.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         else
                             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
@@ -74,7 +75,7 @@ class PhoneVerificationSignInFragment :
                     }
 
                 } else {
-                    if (it.otpBlocked == true)
+                    if (it.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

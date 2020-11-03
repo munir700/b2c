@@ -196,6 +196,7 @@ class EmailViewModel(application: Application) :
                         parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
                         delay(500)
                         SessionManager.user = response.data.data[0]
+                        SessionManager.setupDataSetForBlockedFeatures()
                         state.valid = true
                         state.loading = false
                         nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)

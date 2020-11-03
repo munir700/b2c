@@ -28,7 +28,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
-    override var beneficiary: Beneficiary? = Beneficiary()
+    override var beneficiary: Beneficiary? = null
 
     override fun onCreate() {
         super.onCreate()

@@ -24,12 +24,11 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -285,13 +284,12 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun startTopUpActivity(item: TopUpCard) {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(this))
-        } else {
-            startActivityForResult(
-                TopUpCardActivity.newIntent(this, item, successButtonLabel),
-                RequestCodes.REQUEST_TOP_UP_BENEFICIARY
-            )
+        launchActivity<TopUpCardActivity>(
+            requestCode = RequestCodes.REQUEST_TOP_UP_BENEFICIARY,
+            type = FeatureSet.TOP_UP_BY_EXTERNAL_CARD
+        ) {
+            putExtra(co.yap.yapcore.constants.Constants.CARD, item)
+            putExtra("successButtonLabel", successButtonLabel)
         }
     }
 
