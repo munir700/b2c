@@ -333,4 +333,9 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         return (viewDataBinding as ActivityRemoveFundsBinding)
     }
 
+    override fun onBackPressed() {
+        if (getBinding().btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
+            super.onBackPressed()
+        }
+    }
 }
