@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:backgroundTint="@color/greyLight"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
