@@ -10,7 +10,10 @@
             type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
         <import type="co.yap.translation.Strings" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.R" />
 
     </data>
 
@@ -19,10 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
+        android:background="@android:color/white"
         android:focusableInTouchMode="true"
-        android:paddingEnd="@dimen/small"
         android:paddingStart="@dimen/small"
-        android:background="@android:color/white">
+        android:paddingEnd="@dimen/small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyTo"
@@ -36,11 +39,12 @@
             android:textColor="?attr/colorPrimaryDarkAttr"
             android:textSize="@dimen/_14sdp"
             android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_send_money_no_contacts_display_text_sub_heading}"
             tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
+
         <include
             android:id="@+id/layoutRecent"
             layout="@layout/layout_recent_beneficiaries"
@@ -51,13 +55,43 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSendMoneyTo" />
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--             app:layout_constraintBottom_toTopOf="@+id/layoutSearchView"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent">-->
+
+
+            <co.yap.widgets.CoreToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/layoutSearchView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+                app:leftIconVisibility="@{true}"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                app:onClick="@{viewModel::onToolBarClick}"
+                app:rightIcon="@{R.drawable.ic_settings}"
+                app:rightIconVisibility="@{false}"
+                 android:visibility="@{viewModel.state.isSearching?View.VISIBLE : View.GONE}"
+
+                />
+
+<!--        </FrameLayout>-->
+
         <include
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_beneficiairy_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginStart="@dimen/margin_normal_large"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginEnd="@dimen/margin_normal_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
@@ -89,10 +123,10 @@
             android:layout_marginBottom="@dimen/margin_large"
             android:gravity="center"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_y2y_display_text_no_result}"
             tools:text="@string/screen_y2y_display_text_no_result" />
 
@@ -101,9 +135,9 @@
             style="@style/ASmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:gravity="start"
-            android:layout_marginStart="@dimen/margin_normal_large"
             android:text="@string/screen_send_money_display_text_all_beneficiaries"
             android:visibility="@{viewModel.state.isSearching?View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
