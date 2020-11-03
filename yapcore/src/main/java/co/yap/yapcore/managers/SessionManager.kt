@@ -44,7 +44,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
-        /* feature disable for later enabling as RAK permit.
+        //YM-11111 feature disable for later enabling as RAK permit.
         GlobalScope.launch(Dispatchers.IO) {
             when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
@@ -56,7 +56,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     response.invoke(false, arrayListOf())
                 }
             }
-        }*/
+        }
     }
 
     fun getCurrencies(): ArrayList<CurrencyData> {
@@ -201,6 +201,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })
