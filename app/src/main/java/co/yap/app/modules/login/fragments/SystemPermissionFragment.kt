@@ -96,7 +96,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
 
     private fun navigateToDashboard() {
-        if (SessionManager.user?.otpBlocked == true)
+        if (SessionManager.user?.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
         else
             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
