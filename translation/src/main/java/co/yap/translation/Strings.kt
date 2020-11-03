@@ -40,6 +40,8 @@ object Strings {
         "common_display_text_daily_limit_error"
     const val common_display_text_on_hold_limit_error: String =
         "common_display_text_on_hold_limit_error"
+    const val common_display_text_feature_blocked_error: String =
+        "common_display_text_feature_blocked_error"
     const val common_send_money: String =
         "common_send_money"
     const val common_add_money: String =
@@ -1676,6 +1678,8 @@ object Strings {
         "screen_tax_info_display_text_have_tin_number"
     const val screen_tax_info_display_text_reason_no_tin_number: String =
         "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number_selected: String =
+        "screen_tax_info_display_text_reason_no_tin_number_selected"
     const val screen_tax_info_display_text_heading_tin_number: String =
         "screen_tax_info_display_text_heading_tin_number"
     const val screen_tax_info_display_text_country_no_tin_issue: String =
@@ -1783,4 +1787,10 @@ object Strings {
     // Transaction Detail Screen
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
+
+    const val screen_otp_blocked_display_text_details_card_blocked: String =
+        "screen_otp_blocked_display_text_details_card_blocked"
+
+    const val iban_or_debit_card_freeze_or_blocked_message: String =
+        "iban_or_debit_card_freeze_or_blocked_message"
 }

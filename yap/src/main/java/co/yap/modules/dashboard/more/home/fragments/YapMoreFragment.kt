@@ -23,13 +23,12 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.maskIbanNumber
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -166,11 +165,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 startActivity(BankDetailActivity.newIntent(requireContext()))
             }
             R.id.yapForYou -> {
-                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                    startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
-                } else {
-                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                }
+                launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
             }
             Constants.MORE_NOTIFICATION -> {
                 Utils.showComingSoon(requireContext())
