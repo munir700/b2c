@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import androidx.core.animation.addListener
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -15,10 +16,11 @@ import co.yap.R
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.IWaitingList
 import co.yap.modules.onboarding.viewmodels.WaitingListViewModel
-import co.yap.translation.Strings
+import co.yap.modules.webview.WebViewFragment
 import co.yap.widgets.AnimatingProgressBar
-import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.extentions.startFragment
 
 class WaitingListFragment : OnboardingChildFragment<IWaitingList.ViewModel>(), IWaitingList.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -48,7 +50,15 @@ class WaitingListFragment : OnboardingChildFragment<IWaitingList.ViewModel>(), I
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnKeepMePosted -> {
-                showToast(getString(Strings.screen_waiting_list_display_dialog_text) + "^" + AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT)
+                startFragment(
+                    fragmentName = WebViewFragment::class.java.name,
+                    clearAllPrevious = true,
+                    bundle = bundleOf(
+                        Constants.PAGE_URL to Constants.URL_YAP_WEBSITE
+                    ),
+                    showToolBar = false
+                )
+//                showToast(getString(Strings.screen_waiting_list_display_dialog_text) + "^" + AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT)
             }
         }
     }
