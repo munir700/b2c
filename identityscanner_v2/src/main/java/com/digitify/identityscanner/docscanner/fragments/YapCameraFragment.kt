@@ -354,8 +354,9 @@ class YapCameraFragment : BaseFragment(),
     }
 
     private fun reWriteImage(filename: String, croppedBmp: Bitmap) {
+        var file: File? = null
         Task.runSafely({
-            overWrite(File(filename), croppedBmp)
+            file = overWrite(File(filename), croppedBmp, quality = 90)
         }, {
             activity?.runOnUiThread(Runnable {
                 progress?.hide()
