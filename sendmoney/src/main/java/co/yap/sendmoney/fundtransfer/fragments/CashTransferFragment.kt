@@ -326,6 +326,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun setEditTextWatcher() {
         etAmount.afterTextChanged {
+            viewModel.state.amount = it
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
