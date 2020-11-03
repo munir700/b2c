@@ -675,21 +675,24 @@ object Utils {
         R.drawable.bg_round_light_red,
         R.drawable.bg_round_light_blue,
         R.drawable.bg_round_light_green,
-        R.drawable.bg_round_light_orange
+        R.drawable.bg_round_light_orange,
+        R.drawable.bg_round_light_red
     )
 
     private val backgroundColors = intArrayOf(
         R.color.bg_round_light_red,
         R.color.bg_round_light_blue,
         R.color.bg_round_light_green,
-        R.color.bg_round_light_orange
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_red
     )
 
     private val contactColors = intArrayOf(
         R.color.colorSecondaryMagenta,
         R.color.colorSecondaryBlue,
         R.color.colorSecondaryGreen,
-        R.color.colorSecondaryOrange
+        R.color.colorSecondaryOrange,
+        R.color.colorSecondaryMagenta
     )
 
     private val beneficiaryColors = intArrayOf(

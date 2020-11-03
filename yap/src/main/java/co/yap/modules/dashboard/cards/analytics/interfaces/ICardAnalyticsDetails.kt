@@ -12,7 +12,7 @@ interface ICardAnalyticsDetails {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent?
         fun handleOnClickEvent(id: Int)
-        val adapter: ObservableField<TransactionsListingAdapter>
+        val adapter: TransactionsListingAdapter
         var transactionResponse : TransactionAnalyticsDetailsResponse
         fun fetchMerchantTransactions(merchantType : String, currentDate : String)
     }
