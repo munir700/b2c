@@ -102,7 +102,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
-                    startFragment(POBSelectionFragment::class.java.name)
                     viewModel.toggleToolBar(true)
                     changeAddress = true
                     startActivityForResult(
