@@ -100,7 +100,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvEnterAmountHeading"
                         tools:text="AED" />
 
-                    <co.yap.widgets.currency.CoreEditText
+                    <co.yap.widgets.EasyMoneyEditText
                         android:id="@+id/etAmount"
                         style="@style/ATitle2"
                         android:layout_width="0dp"

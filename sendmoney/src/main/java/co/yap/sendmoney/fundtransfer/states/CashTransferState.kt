@@ -9,6 +9,7 @@ import co.yap.networking.transactions.responsedtos.InternationalFundsTransferRea
 import co.yap.sendmoney.fundtransfer.interfaces.ICashTransfer
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
@@ -33,7 +34,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     @get:Bindable
     override var amount: String = ""
         set(value) {
-            field = value
+            field = value.getValueWithoutComa()
             notifyPropertyChanged(BR.amount)
         }
 

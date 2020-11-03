@@ -99,7 +99,7 @@
                         tools:text="AED" />
 
                     <!--app:decimals="@{YAPApplication.selectedCurrency}"-->
-                    <co.yap.widgets.currency.CoreEditText
+                    <co.yap.widgets.EasyMoneyEditText
                         android:id="@+id/etAmount"
                         style="@style/ATitle2"
                         android:layout_width="0dp"

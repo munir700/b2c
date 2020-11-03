@@ -51,7 +51,7 @@ import java.util.regex.Pattern
 
 @SuppressLint("StaticFieldLeak")
 object Utils {
-
+    @JvmStatic
     fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
         val dimensions = IntArray(2)
         dimensions[0] = getDimensionInPercent(context, true, width)
@@ -825,17 +825,20 @@ object Utils {
         )}^${AlertType.DIALOG.name}"
     }
 
-    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?, addOIndex : Boolean = true): ArrayList<Country>? {
+    fun parseCountryList(
+        list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?,
+        addOIndex: Boolean = true
+    ): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
         var countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
-                if (addOIndex){
-                    countries.add(
-                        0,
-                        Country(name = "Select country")
-                    )
-                }
+            if (addOIndex) {
+                countries.add(
+                    0,
+                    Country(name = "Select country")
+                )
+            }
             countries.addAll(it.map {
                 Country(
                     id = it.id,
@@ -923,6 +926,7 @@ object Utils {
         })
     }
 
+    @JvmStatic
     fun getConfiguredDecimals(currencyCode: String): Int {
         val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
             it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
