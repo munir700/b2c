@@ -28,12 +28,12 @@
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
-    <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
     <string name="common_send_money">Send money</string>
     <string name="common_add_money">Add money</string>
     <string name="common_pay_bills">Pay bills</string>
     <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
     <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
+    <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -1047,8 +1047,8 @@
     <string name="screen_tax_info_display_text_heading_tin_number">Enter your TIN number</string>
 
     <!--    Waiting list screen-->
-    <string name="screen_waiting_list_display_text_heading">Well done! You\’re #%1s on our waiting list</string>
-    <string name="screen_waiting_list_display_text_guide">We\’re currently in beta and only open to a limited number of users. Don\’t worry, you\’ll be the first to know when we\’re ready!</string>
+    <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
+    <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>

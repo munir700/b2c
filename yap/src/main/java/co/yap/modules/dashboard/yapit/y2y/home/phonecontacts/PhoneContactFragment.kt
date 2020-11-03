@@ -137,11 +137,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
 
     private fun sendInvite(contact: Contact) {
         shareInfo(contact)
-
-        /*    this.fragmentManager?.let {
-                val inviteFriendBottomSheet = InviteBottomSheet(this, contact)
-                inviteFriendBottomSheet.show(it, "")
-            }*/
     }
 
     private fun shareInfo(contact: Contact) {
@@ -152,43 +147,8 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     override fun onClick(viewId: Int, data: Any) {
-      /*  if (data is Contact)
-            when (viewId) {
-                R.id.tvChooseEmail -> inviteViaEmail(data)
-                R.id.tvChooseSMS -> inviteViaSms(data)
-                R.id.tvChooseWhatsapp -> inviteViaWhatsapp(data)
-            }*/
-    }
-/*    private fun inviteViaWhatsapp(contact: Contact) {
-        val url =
-            "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
-                requireContext(),
-                "${contact.countryCode}${contact.mobileNo!!}"
-            )}&text=${Utils.getBody(requireContext(), contact)}"
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(url)
-        startActivity(i)
-    }
 
-    private fun inviteViaEmail(contact: Contact) {
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", contact.email, null))
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-        intent.putExtra(Intent.EXTRA_TEXT, Utils.getBody(requireContext(), contact))
-        startActivity(Intent.createChooser(intent, "Send mail..."))
     }
-
-    private fun inviteViaSms(contact: Contact) {
-        val uri = Uri.parse(
-            "smsto:${Utils.getFormattedPhoneNumber(
-                requireContext(),
-                "${contact.countryCode}${contact.mobileNo}"
-            )}"
-        )
-        val it = Intent(Intent.ACTION_SENDTO, uri)
-        it.putExtra("sms_body", Utils.getBody(requireContext(), contact))
-        startActivity(it)
-    }*/
-
     private fun getBinding(): FragmentPhoneContactsBinding {
         return (viewDataBinding as FragmentPhoneContactsBinding)
     }

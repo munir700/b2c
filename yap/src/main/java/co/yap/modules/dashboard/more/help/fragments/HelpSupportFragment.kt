@@ -24,6 +24,7 @@ import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.infra.LPConversationsHistoryStateToDisplay
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
+import co.yap.yapcore.managers.ChatManager
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 

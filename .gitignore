@@ -41,3 +41,4 @@ app/~/tmp/full-r8-config.txt
 /app/live/release
 /multicurrency/build/*
 /app/yapinternal/release
+/multicurrency

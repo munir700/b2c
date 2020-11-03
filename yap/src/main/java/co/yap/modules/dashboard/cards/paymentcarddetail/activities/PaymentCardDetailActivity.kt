@@ -48,10 +48,13 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -187,6 +190,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.llAddFunds -> {
+                trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
                     launchActivity<AddFundsActivity>(
                         requestCode = Constants.REQUEST_ADD_REMOVE_FUNDS,
@@ -620,7 +624,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_card_details)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val btnClose = dialog.findViewById(R.id.ivCross) as ImageView

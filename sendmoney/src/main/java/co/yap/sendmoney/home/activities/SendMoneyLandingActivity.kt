@@ -357,11 +357,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                     "PARCEABLE"
                                 ) as? Beneficiary
                             when {
-                                isMoneyTransfer == true ->
+                                isMoneyTransfer == true -> {
                                     beneficiary?.let {
                                         startMoneyTransfer(it, 0)
                                         viewModel.requestAllBeneficiaries()
                                     }
+                                }
                                 isDismissFlow == true -> {
                                 }
                                 else -> viewModel.requestAllBeneficiaries()
@@ -397,14 +398,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         when (id) {
             R.id.ivLeftIcon -> finish()
             R.id.ivRightIcon -> {
-                if (SessionManager.user?.otpBlocked == true) {
-                    showToast(Utils.getOtpBlockedMessage(this))
-                } else {
-                    launchActivity<SendMoneyHomeActivity>(
-                        requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
-                        type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
-                    )
-                }
+                launchActivity<SendMoneyHomeActivity>(
+                    requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+                    type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
+                )
             }
         }
     }

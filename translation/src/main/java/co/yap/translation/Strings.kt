@@ -1787,8 +1787,8 @@ object Strings {
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
 
-
     // Transaction Detail Screen
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
+
 }
