@@ -28,6 +28,11 @@
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
+    <string name="common_send_money">Send money</string>
+    <string name="common_add_money">Add money</string>
+    <string name="common_pay_bills">Pay bills</string>
+    <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
+    <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -1076,12 +1081,27 @@
     <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
     <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
     <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
-
     <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
     <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
+
+    <!--  Yap It Add Money Screen-->
+    <string name="screen_fragment_yap_it_add_money_title">Add money</string>
+    <string name="screen_fragment_yap_it_add_money_how_do_you_want_to_add_money">How do you want to add money?</string>
+    <string name="screen_fragment_yap_it_add_money_text_top_via_card">Top up via debit/credit card</string>
+    <string name="screen_fragment_yap_it_add_money_text_samsung_pay">Samsung Pay</string>
+    <string name="screen_fragment_yap_it_add_money_text_google_pay">Google Pay</string>
+    <string name="screen_fragment_yap_it_add_money_text_bank_transfer">Bank Transfer</string>
+    <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque">Cash or Cheque</string>
+    <string name="screen_fragment_yap_it_add_money_text_qr_code">QR code</string>
+
+    <!--  Yap It QR Code Screen-->
+    <string name="screen_fragment_yap_it_qr_code_share_my_code">Share my code</string>
+    <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
+    <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
+    <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
 
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
-</resources>
 
+</resources>

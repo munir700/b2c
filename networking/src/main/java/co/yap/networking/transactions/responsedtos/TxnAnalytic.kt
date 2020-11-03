@@ -1,7 +1,10 @@
 package co.yap.networking.transactions.responsedtos
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TxnAnalytic(
     @SerializedName("logoUrl")
     val logoUrl: String? = null,
@@ -13,4 +16,4 @@ data class TxnAnalytic(
     val totalSpendingInPercentage: Double? = null,
     @SerializedName("txnCount")
     val txnCount: Int? = null
-)
+): Parcelable

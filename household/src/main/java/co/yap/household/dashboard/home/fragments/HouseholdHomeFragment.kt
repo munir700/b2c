@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.household.R
-import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.household.dashboard.home.interfaces.IHouseholdHome
 import co.yap.household.dashboard.home.viewmodels.HouseholdHomeViewModel
 import co.yap.household.dashboard.main.fragments.HouseholdDashboardBaseFragment
+import co.yap.household.databinding.FragmentHouseholdHomeBinding
 import co.yap.modules.yapnotification.adaptors.YapNotificationAdapter
 import co.yap.modules.yapnotification.interfaces.NotificationItemClickListener
 import co.yap.modules.yapnotification.models.Notification

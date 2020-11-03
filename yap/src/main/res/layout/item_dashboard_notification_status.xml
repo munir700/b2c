@@ -27,12 +27,12 @@
 
         <co.yap.widgets.timelineview.TimelineView
             android:id="@+id/timeline"
+            endLineColor="@{viewModel.statusDataModel.hideLine}"
             markerDrawable="@{viewModel.statusDataModel.statusDrawable}"
             setOpacity="@{viewModel.statusDataModel.progressStatus == StageProgress.INACTIVE ? true : false }"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingTop="@dimen/_8sdp"
-            app:endLineColor="@color/colorPrimary"
             app:linePadding="@dimen/_8sdp"
             app:lineStyle="normal"
             app:lineWidth="@dimen/_1sdp"
@@ -64,7 +64,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="set your card pin" />
 
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/labelCardType"
                 android:layout_width="wrap_content"
@@ -81,7 +80,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:status="@{viewModel.statusDataModel.progressStatus}"
                 tools:text="in progress" />
-
 
             <TextView
                 android:id="@+id/tvStatusDescription"

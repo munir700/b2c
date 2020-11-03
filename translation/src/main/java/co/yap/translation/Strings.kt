@@ -40,6 +40,16 @@ object Strings {
         "common_display_text_daily_limit_error"
     const val common_display_text_on_hold_limit_error: String =
         "common_display_text_on_hold_limit_error"
+    const val common_send_money: String =
+        "common_send_money"
+    const val common_add_money: String =
+        "common_add_money"
+    const val common_pay_bills: String =
+        "common_pay_bills"
+    const val common_permission_rejected_error: String =
+        "common_permission_rejected_error"
+    const val common_saved_image_to_gallery: String =
+        "common_saved_image_to_gallery"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1734,13 +1744,43 @@ object Strings {
         "screen_time_line_display_text_status_card_top_up_action"
     const val screen_time_line_display_text_status_additional_requirements_title: String =
         "screen_time_line_display_text_status_additional_requirements_title"
-    const val screen_time_line_display_text_status_additional_requirements_description: String =
-        "screen_time_line_display_text_status_additional_requirements_description"
     const val screen_time_line_display_text_status_additional_requirements_action: String =
         "screen_time_line_display_text_status_additional_requirements_action"
+    const val screen_time_line_display_text_status_additional_requirements_description: String =
+        "screen_time_line_display_text_status_additional_requirements_description"
+
+    // yap it add money screen
+    const val screen_fragment_yap_it_add_money_title: String =
+        "screen_fragment_yap_it_add_money_title"
+    const val screen_fragment_yap_it_add_money_how_do_you_want_to_add_money: String =
+        "screen_fragment_yap_it_add_money_how_do_you_want_to_add_money"
+    const val screen_fragment_yap_it_add_money_text_top_via_card: String =
+        "screen_fragment_yap_it_add_money_text_top_via_card"
+    const val screen_fragment_yap_it_add_money_text_samsung_pay: String =
+        "screen_fragment_yap_it_add_money_text_samsung_pay"
+    const val screen_fragment_yap_it_add_money_text_google_pay: String =
+        "screen_fragment_yap_it_add_money_text_google_pay"
+    const val screen_fragment_yap_it_add_money_text_bank_transfer: String =
+        "screen_fragment_yap_it_add_money_text_bank_transfer"
+    const val screen_fragment_yap_it_add_money_text_cash_or_cheque: String =
+        "screen_fragment_yap_it_add_money_text_cash_or_cheque"
+    const val screen_fragment_yap_it_add_money_text_qr_code: String =
+        "screen_fragment_yap_it_add_money_text_qr_code"
+
+    const val screen_yap_analytics_detail_transaction_count: String =
+        "screen_yap_analytics_detail_transaction_count"
+
+
+    // yap it QR Code screen
+    const val screen_fragment_yap_it_qr_code_share_my_code: String =
+        "screen_fragment_yap_it_qr_code_share_my_code"
+    const val screen_fragment_yap_it_qr_code_save_to_gallery: String =
+        "screen_fragment_yap_it_qr_code_save_to_gallery"
+    const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
+        "screen_fragment_yap_it_qr_code_text_share_to_proceed"
+
 
     // Transaction Detail Screen
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
-
 }

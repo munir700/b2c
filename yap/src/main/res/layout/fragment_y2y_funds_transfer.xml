@@ -132,7 +132,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
                 tools:text="Fee: AED 500" />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,6 +142,7 @@
                 android:background="@null"
                 android:maxLength="@integer/notes_internal_transfer_length"
                 android:singleLine="true"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                 android:text="@={viewModel.state.noteValue}"
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"

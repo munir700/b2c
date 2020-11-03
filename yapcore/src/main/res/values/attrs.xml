@@ -595,7 +595,6 @@
         <attr name="ce_custom_height" format="dimension" />
     </declare-styleable>
 
-
     <declare-styleable name="TimelineView">
         <attr name="marker" format="color|reference" />
         <attr name="markerSize" format="dimension" />
@@ -605,7 +604,7 @@
         <attr name="markerPaddingBottom" format="dimension" />
         <attr name="markerInCenter" format="boolean" />
         <attr name="startLineColor" format="color" />
-        <attr name="endLineColor" format="color" />
+        <attr name="endLineColor" format="color|reference" />
         <attr name="lineWidth" format="dimension" />
         <attr name="lineStyle" format="enum">
             <enum name="normal" value="0" />
@@ -619,5 +618,4 @@
         </attr>
         <attr name="linePadding" format="dimension" />
     </declare-styleable>
-
 </resources>

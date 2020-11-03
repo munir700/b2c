@@ -2,9 +2,7 @@ package co.yap.modules.dashboard.more.main.activities
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -43,14 +41,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@MoreActivity, R.id.main_more_nav_host_fragment)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> onBackPressed()
@@ -84,7 +74,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
-
     }
 
     override fun onResume() {
@@ -92,6 +81,4 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         viewModel.BadgeVisibility = false
 
     }
-
-
 }

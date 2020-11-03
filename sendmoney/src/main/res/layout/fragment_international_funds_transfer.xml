@@ -328,7 +328,7 @@
 
                 </RelativeLayout>
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <co.yap.widgets.AlphaNumericEditText
                     android:id="@+id/etNote"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
@@ -337,6 +337,7 @@
                     android:background="@drawable/bg_edit_text_disable_grey_under_line"
                     android:gravity="top"
                     android:inputType="text"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:maxLength="@integer/notes_external_transfer_length"
                     android:minHeight="@dimen/_40sdp"
                     android:text="@={viewModel.state.transactionNote}"

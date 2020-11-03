@@ -120,7 +120,6 @@ class YapHomeViewModel(application: Application) :
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
-
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
@@ -208,6 +207,10 @@ class YapHomeViewModel(application: Application) :
         return transactionModelData
     }
 
+    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
+        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
+    }
+
     override fun getNotifications(
         accountInfo: AccountInfo,
         paymentCard: Card
@@ -275,4 +278,3 @@ class YapHomeViewModel(application: Application) :
         return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 }
-

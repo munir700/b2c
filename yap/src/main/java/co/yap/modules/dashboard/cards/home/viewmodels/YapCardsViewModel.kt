@@ -14,6 +14,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
@@ -22,8 +23,8 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: YapCardsState = YapCardsState()
     override val repository: CardsRepository = CardsRepository
+    override val state: YapCardsState = YapCardsState()
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
 
     override fun getCards() {
@@ -145,7 +146,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-
         }
     }
 }
