@@ -52,7 +52,7 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
     }*/
 
     public CustomAutoCompleteAdapter(Context context, ArrayList<Country> objects) {
-        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mOriginalValues = objects;
         mBackupStrings = objects;
         this.context = context;

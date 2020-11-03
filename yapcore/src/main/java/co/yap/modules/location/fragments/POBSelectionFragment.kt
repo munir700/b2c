@@ -1,6 +1,7 @@
 package co.yap.modules.location.fragments
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -93,6 +94,12 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
                 getBinding().bcountries.showDropDown()
             }
+          /*  if (mCustomAutoTextAdapter?.getFilteredCount()?:0 <=3){
+                getBinding().bcountries.dropDownHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            }
+            else{
+                getBinding().bcountries.dropDownHeight = resources.getDimensionPixelSize(R.dimen._80sdp)
+            }*/
         }
         getBinding().bcountries.onItemClickListener = itemClickListener
 
