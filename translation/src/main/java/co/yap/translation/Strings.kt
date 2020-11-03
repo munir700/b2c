@@ -40,6 +40,8 @@ object Strings {
         "common_display_text_daily_limit_error"
     const val common_display_text_on_hold_limit_error: String =
         "common_display_text_on_hold_limit_error"
+    const val common_display_text_feature_blocked_error: String =
+        "common_display_text_feature_blocked_error"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1271,7 +1273,6 @@ object Strings {
     const val screen_add_topup_card_limit_text_title: String =
         "screen_add_topup_card_limit_text_title"
 
-
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =
         "screen_card_analytics_display_tab_title_category"
@@ -1296,7 +1297,6 @@ object Strings {
         "screen_cash_pickup_funds_success_toolbar_header"
     const val screen_funds_local_toolbar_header: String =
         "screen_funds_local_toolbar_header"
-
 
     //success Transfer flow
     const val screen_funds_success_header: String =
@@ -1666,6 +1666,8 @@ object Strings {
         "screen_tax_info_display_text_have_tin_number"
     const val screen_tax_info_display_text_reason_no_tin_number: String =
         "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number_selected: String =
+        "screen_tax_info_display_text_reason_no_tin_number_selected"
     const val screen_tax_info_display_text_heading_tin_number: String =
         "screen_tax_info_display_text_heading_tin_number"
     const val screen_tax_info_display_text_country_no_tin_issue: String =
@@ -1707,6 +1709,12 @@ object Strings {
     // Transaction narration file values
     const val transaction_narration_y2y_transfer_detail: String =
         "transaction_narration_y2y_transfer_detail"
+
+    const val screen_otp_blocked_display_text_details_card_blocked: String =
+        "screen_otp_blocked_display_text_details_card_blocked"
+
+    const val iban_or_debit_card_freeze_or_blocked_message: String =
+        "iban_or_debit_card_freeze_or_blocked_message"
 
 
     //  Status Time line

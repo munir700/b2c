@@ -66,6 +66,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             }
             R.id.lyChat -> {
                 requireActivity().chatSetup()
+//                activity?.let { activity ->
+//                    ChatManager.config(activity)
+//                }
             }
             R.id.lyLiveWhatsApp -> {
                 if (requireContext().isWhatsAppInstalled()) {
@@ -87,22 +90,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 activity?.finish()
             }
         }
-    }
-
-    private fun openActivity() {
-        val authParams = LPAuthenticationParams(LPAuthenticationParams.LPAuthenticationType.AUTH)
-        authParams.hostAppJWT = viewModel.authRepository.getJwtToken()
-//        authParams.hostAppJWT = CookiesManager.jwtToken
-        val params = ConversationViewParams(false)
-            .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.OPEN)
-            .setReadOnlyMode(false)
-        LivePerson.showConversation(requireActivity(), authParams, params)
-        val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(SessionManager.user?.currentCustomer?.firstName)
-            .setLastName(SessionManager.user?.currentCustomer?.lastName)
-            .setPhoneNumber(SessionManager.user?.currentCustomer?.getCompletePhone())
-            .build()
-        LivePerson.setUserProfile(consumerProfile)
     }
 
     @Nullable

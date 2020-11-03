@@ -14,10 +14,12 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
@@ -215,6 +217,10 @@ class DashboardNotificationStatusHelper(
         })
     }
 
+    private fun openTopUpScreen() {
+        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+    }
+
     private fun openCardDeliveryStatusScreen() {
         fragment?.startActivityForResult(
             FragmentPresenterActivity.getIntent(
@@ -225,10 +231,6 @@ class DashboardNotificationStatusHelper(
         )
     }
 
-    private fun openTopUpScreen() {
-        context.startActivity(TopUpLandingActivity.getIntent(context))
-    }
-
     private fun openSetCardPinScreen() {
         fragment?.startActivityForResult(
             SessionManager.getPrimaryCard()?.let {
@@ -237,7 +239,6 @@ class DashboardNotificationStatusHelper(
                     it
                 )
             }, RequestCodes.REQUEST_FOR_SET_PIN
-
         )
     }
 }

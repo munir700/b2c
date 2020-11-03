@@ -81,6 +81,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventErrorUnderAge -> showUnderAgeAlert()
                 viewModel.eventErrorFromUsa -> showUSACitizenAlert()
                 viewModel.eventRescan -> openCardScanner()
+                R.id.tvNoThanks -> openCardScanner()
                 viewModel.eventAlreadyUsedEid -> {
                     viewModel.parentViewModel?.finishKyc?.value =
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
@@ -317,6 +318,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun openCardScanner() {
+        viewModel.invalidateFields()
         startActivityForResult(
             IdentityScannerActivity.getLaunchIntent(
                 requireContext(),

@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
@@ -18,13 +17,13 @@ import co.yap.networking.customers.requestdtos.Contact
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getAdjustURL
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
@@ -119,20 +118,16 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     sendInvite((data as Contact))
                 }
                 R.id.lyContact -> {
-                    if (SessionManager.user?.otpBlocked == true && data is Contact && data.yapUser == false) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        if (data is Contact && data.yapUser == true && data.accountDetailList != null && data.accountDetailList?.isNotEmpty() == true) {
-                            if (parentFragment is YapToYapFragment) {
-                                (parentFragment as YapToYapFragment).findNavController().navigate(
-                                    YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                        data.beneficiaryPictureUrl ?: "",
-                                        data.accountDetailList?.get(0)?.accountUuid ?: "",
-                                        data.title ?: "",
-                                        pos
-                                    )
-                                )
-                            }
+                    if (data is Contact && data.yapUser == true && data.accountDetailList != null && data.accountDetailList?.isNotEmpty() == true) {
+                        if (parentFragment is YapToYapFragment) {
+                            navigate(
+                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                                    data.beneficiaryPictureUrl ?: "",
+                                    data.accountDetailList?.get(0)?.accountUuid ?: "",
+                                    data.title ?: "",
+                                    pos
+                                ), screenType = FeatureSet.Y2Y_TRANSFER
+                            )
                         }
                     }
                 }

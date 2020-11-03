@@ -2,9 +2,7 @@ package co.yap.modules.dashboard.yapit.y2y.home.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -29,13 +27,6 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     companion object {
         const val searching = "searching"
         const val data = "payLoad"
-        fun getIntent(context: Context, isSearching: Boolean, payLoad: Parcelable?): Intent {
-            val intent = Intent(context, YapToYapDashboardActivity::class.java)
-            if (payLoad != null)
-                intent.putExtra(data, payLoad)
-            intent.putExtra(searching, isSearching)
-            return intent
-        }
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
