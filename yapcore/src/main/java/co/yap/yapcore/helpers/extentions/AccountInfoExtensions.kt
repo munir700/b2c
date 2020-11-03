@@ -4,7 +4,6 @@ import android.content.Context
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.enums.AccountBlockSeverityLevel
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.enums.UserAccessRestriction
@@ -16,6 +15,7 @@ fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
     if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == false) {
         restrictions.add(UserAccessRestriction.ACCOUNT_INACTIVE)
     }
+    /*
     restrictions.add(
         when (this.freezeInitiator) {
             "MOBILE_APP_HOSTLIST" -> {
@@ -56,7 +56,7 @@ fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
 
             else -> UserAccessRestriction.NONE
         }
-    )
+    )*/
     if (otpBlocked == true) {
         restrictions.add(UserAccessRestriction.OTP_BLOCKED)
     }
