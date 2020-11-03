@@ -108,7 +108,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
-                    )*/
+                    )
+
+                  */
 
                 }
 

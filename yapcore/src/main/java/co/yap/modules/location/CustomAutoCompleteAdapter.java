@@ -25,6 +25,7 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
     private StringFilter mFilter;
     private OnItemSelectClickListener mSelectListener;
     private OnItemDeleteClickListener mDeleteListener;
+    private int filteredCount = 0;
 
     AppCompatTextView itemName;
     CoreCircularImageView ivCountry;
@@ -77,9 +78,9 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
         return getCustomView(position, convertView, parent);
     }
 
-    public View getCustomView(final int position, View convertView, ViewGroup parent){
-        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-        View rowView =  inflater.inflate(R.layout.item_list_country_code, parent, false);
+    public View getCustomView(final int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.item_list_country_code, parent, false);
         itemName = (AppCompatTextView) rowView.findViewById(R.id.tvCountryName);
         ivCountry = (CoreCircularImageView) rowView.findViewById(R.id.ivCountry);
         itemName.setText(mOriginalValues.get(position).getName());
@@ -95,74 +96,6 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
         return mFilter;
     }
 
-    //filter items which does not contain typed text
-/*
-    private class ArrayFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence prefix) {
-
-            FilterResults results = new FilterResults();
-
-			if (mOriginalValues == null) {
-				synchronized (mLock) {
-					mOriginalValues = new ArrayList<String>(fullList);
-				}
-			}
-
-			if (prefix == null || prefix.length() == 0) {
-                final ArrayList<String> list;
-                synchronized (mLock) {
-					list = new ArrayList<String>(mOriginalValues);
-				}
-                results.values = list;
-                results.count = list.size();
-			} else {
-				final String prefixString = prefix.toString().toLowerCase();
-
-				final ArrayList<String> values;
-
-                synchronized (mLock) {
-                    values = new ArrayList<String>(mOriginalValues);
-                }
-                results.values = values;
-                results.count = values.size();
-
-				final int count = values.size();
-
-				final ArrayList<String> newValues = new ArrayList<String>();
-
-				for (int i = 0; i < count; i++) {
-					String item = values.get(i);
-					if (item.toLowerCase().contains(prefixString)) {
-						newValues.add(item);
-					}
-				}
-
-				results.values = newValues;
-				results.count = newValues.size();
-			}
-
-            return results;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            fullList = (ArrayList<String>) results.values;
-
-            if (results.count > 0) {
-                notifyDataSetChanged();
-            } else {
-                notifyDataSetInvalidated();
-            }
-
-        }
-
-
-    }
-*/
     public class StringFilter extends Filter {
 
         @Override
@@ -187,10 +120,14 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mOriginalValues = (ArrayList) results.values;
-            if (constraint != null){
+            filteredCount = results.count;
+            if (constraint != null) {
                 notifyDataSetChanged();
             }
         }
     }
 
+   public int getFilteredCount(){
+        return filteredCount;
+    }
 }

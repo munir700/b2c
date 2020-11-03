@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,14 +16,12 @@ import co.yap.countryutils.country.Country
 import co.yap.modules.location.CustomAutoCompleteAdapter
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
-import co.yap.widgets.spinneradapter.searchable.IStatusListener
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.managers.SessionManager
-import java.util.*
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -46,17 +45,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getBinding().bspinner.setStatusListener(object : IStatusListener {
-            override fun spinnerIsOpening() {
-            }
-
-            override fun spinnerIsClosing() {
-            }
-        })
-    }
-
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
         viewModel.populateSpinnerData.observe(this, countriesListObserver)
@@ -78,11 +66,12 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     private val countriesListObserver = Observer<List<Country>> {
         setAutoCompleteText(it as ArrayList<Country>)
         if (viewModel.state.selectedCountry != null) {
-            getBinding().bspinner.setSelectedItem(
+            getBinding().bcountries.setSelection(
                 viewModel.parentViewModel?.countries?.indexOf(
                     viewModel.state.selectedCountry ?: Country()
                 ) ?: 0
             )
+
         }
     }
 
@@ -93,18 +82,28 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
         getBinding().bcountries.threshold = 0
         getBinding().bcountries.setOnTouchListener(touchListener)
-        getBinding().bcountries.afterTextChanged { s ->
-            if (s.isEmpty()) {
+        getBinding().bcountries.afterTextChanged { string ->
+            if (string.isEmpty()) {
                 getBinding().bcountries.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
                     ContextCompat.getDrawable(requireContext(), R.drawable.iv_drown_down),
                     null
                 )
+
                 getBinding().bcountries.showDropDown()
             }
         }
         getBinding().bcountries.onItemClickListener = itemClickListener
+
+
+        setTextSelection(getDefaultCuntry())
+    }
+
+    private fun getDefaultCuntry(): Country {
+        val countryTest: Country? =
+            viewModel.populateSpinnerData.value?.find { it.isoCountryCode2Digit == "AE" }
+        return countryTest as Country
     }
 
     @SuppressLint("ClickableViewAccessibility")
