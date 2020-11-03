@@ -129,15 +129,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     tools:text="CAD" />
 
-                <co.yap.widgets.currency.CoreEditText
+                <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->
+
+                <co.yap.widgets.EasyMoneyEditText
                     android:id="@+id/etSenderAmount"
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="0dp"
-                    android:text="@={viewModel.state.etInputAmount}"
-                    app:currency="@{viewModel.state.destinationCurrency}"
                     tools:text="1234567891" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -162,7 +162,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     tools:text="AED" />
 
-                <co.yap.widgets.currency.CoreEditText
+                <co.yap.widgets.EasyMoneyEditText
                     android:id="@+id/etReceiver"
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
@@ -173,8 +173,7 @@
                     android:focusableInTouchMode="false"
                     android:text="@{viewModel.state.etOutputAmount}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    app:currency="@{viewModel.state.sourceCurrency}"
-                    app:units="@{50}"
+
                     tools:text="1234567891" />
 
                 <LinearLayout

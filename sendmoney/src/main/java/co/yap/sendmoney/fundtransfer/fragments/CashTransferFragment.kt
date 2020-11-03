@@ -115,7 +115,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     getBindings().tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
                     getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvLabelSpinner.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
+                    getBindings().tvLabelSpinner.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.greyDark
+                        )
+                    )
                     checkOnTextChangeValidation()
                 }
 
@@ -329,6 +334,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun setEditTextWatcher() {
         getBindings().etAmount.afterTextChanged {
+            viewModel.state.amount = it
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()

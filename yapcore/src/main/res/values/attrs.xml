@@ -425,6 +425,9 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
+        <attr name="em_setBackgroundColor" format="color" />
+        <attr name="em_custom_width" format="dimension" />
+        <attr name="em_custom_height" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">

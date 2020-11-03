@@ -75,59 +75,64 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"
                 tools:ignore="MissingConstraints" />
+
             <co.yap.widgets.spinneradapter.searchable.SearchableSpinner
                 android:id="@+id/bspinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
+                android:visibility="gone"
+                app:RevealEmptyText="Touch to select"
+                app:SpinnerExpandHeight="@dimen/_100sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:SpinnerExpandHeight="@dimen/_100sdp"
-                app:RevealEmptyText="Touch to select"
-                android:visibility="gone"
                 tools:ignore="MissingConstraints" />
-           <androidx.appcompat.widget.LinearLayoutCompat
-               android:id="@+id/containerAutoText"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="@dimen/margin_medium"
-               android:layout_marginTop="@dimen/margin_large"
-               android:layout_marginEnd="@dimen/margin_medium"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-               android:orientation="vertical">
-               <androidx.appcompat.widget.AppCompatTextView
-                   android:id="@+id/tvSelectCountry"
-                   style="@style/ASmallGrey"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="@dimen/margin_normal"
-                   android:gravity="center_vertical"
-                   android:text="@string/screen_place_of_birth_display_text_select_country"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
-                   tools:text="@string/screen_place_of_birth_display_text_select_country" />
-               <AutoCompleteTextView
-                   android:id="@+id/bcountries"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:hint="No Selection"
-                   android:inputType="textAutoComplete|textAutoCorrect"
-                   android:singleLine="true"
-                   android:drawablePadding="@dimen/_5sdp"
-                   android:lineHeight="@dimen/_1sdp"
-                   android:dropDownHeight="wrap_content"
-                   android:dropDownWidth="wrap_content"
-                   android:dropDownAnchor="@+id/containerAutoText"
-                   android:drawableEnd="@drawable/iv_drown_down"
-                   />
-           </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/containerAutoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSelectCountry"
+                    style="@style/ASmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:gravity="center_vertical"
+                    android:text="@string/screen_place_of_birth_display_text_select_country"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
+                    tools:text="@string/screen_place_of_birth_display_text_select_country" />
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/bcountries"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/iv_drown_down"
+                    android:dropDownAnchor="@+id/containerAutoText"
+                    android:dropDownWidth="wrap_content"
+                    android:dropDownHeight="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="textAutoComplete|textAutoCorrect"
+                    android:lineHeight="@dimen/_1sdp"
+                    android:drawablePadding="@dimen/_6sdp"
+                    android:nextFocusDown="@id/etCityOfBirth"
+                    android:singleLine="true"
+                    app:hint="@{Strings.screen_place_of_birth_display_text_select_country}" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
                 android:id="@+id/textView"
