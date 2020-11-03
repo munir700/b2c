@@ -102,7 +102,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
-                    viewModel.toggleToolBar(true)
+                    startFragment(POBSelectionFragment::class.java.name)
+              /*      viewModel.toggleToolBar(true)
                     changeAddress = true
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
@@ -111,7 +112,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle)
                         ), RequestCodes.REQUEST_FOR_LOCATION
-                    )
+                    )*/
 
                 }
 
