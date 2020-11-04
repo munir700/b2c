@@ -106,7 +106,9 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             itemTransactionListBinding: ItemTransactionListBinding
         ) {
             if(transaction.isTransactionRejected()){
-                if(transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode) {
+                if(transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
+                    transaction.productCode == TransactionProductCode.TOP_UP_VIA_CARD.pCode ||
+                    transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
                     itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_reverted)
                 } else {
                     ImageBinding.loadAvatar(

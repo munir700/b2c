@@ -285,9 +285,10 @@ class InternationalFundsTransferFragment :
 
     private fun setEditTextWatcher() {
         etSenderAmount.afterTextChanged {
+            viewModel.state.etInputAmount = it
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
-            if (it.isNotBlank() && it.parseToDouble() > 0.0)
+            if (it.isNotBlank() && viewModel.state.etInputAmount.parseToDouble() > 0.0)
                 checkOnTextChangeValidation()
             else {
                 viewModel.state.valid = false

@@ -129,15 +129,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     tools:text="CAD" />
 
-                <co.yap.widgets.currency.CoreEditText
+                <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->
+
+                <co.yap.widgets.EasyMoneyEditText
                     android:id="@+id/etSenderAmount"
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="0dp"
-                    android:text="@={viewModel.state.etInputAmount}"
-                    app:currency="@{viewModel.state.destinationCurrency}"
                     tools:text="1234567891" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -162,7 +162,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     tools:text="AED" />
 
-                <co.yap.widgets.currency.CoreEditText
+                <co.yap.widgets.EasyMoneyEditText
                     android:id="@+id/etReceiver"
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
@@ -173,8 +173,7 @@
                     android:focusableInTouchMode="false"
                     android:text="@{viewModel.state.etOutputAmount}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    app:currency="@{viewModel.state.sourceCurrency}"
-                    app:units="@{50}"
+
                     tools:text="1234567891" />
 
                 <LinearLayout
@@ -329,7 +328,7 @@
 
                 </RelativeLayout>
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <co.yap.widgets.AlphaNumericEditText
                     android:id="@+id/etNote"
                     style="@style/ALarge"
                     android:layout_width="match_parent"
@@ -338,6 +337,8 @@
                     android:background="@drawable/bg_edit_text_disable_grey_under_line"
                     android:gravity="top"
                     android:inputType="text"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                    android:maxLength="@integer/notes_external_transfer_length"
                     android:minHeight="@dimen/_40sdp"
                     android:text="@={viewModel.state.transactionNote}"
                     android:textColorHint="@color/greyDark"

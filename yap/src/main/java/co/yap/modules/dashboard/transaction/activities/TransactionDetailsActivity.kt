@@ -82,7 +82,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     getBindings().tvTransactionSubheading.alpha = 0.5f
                     getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg()
+                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg(it)
                 }
                 else -> ""
             }
@@ -94,8 +94,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    private fun getCutOffMsg(): String {
-        return "Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer."
+    private fun getCutOffMsg(transaction: Transaction): String {
+        return if(transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
     }
 
     private fun setTotalAmount() {

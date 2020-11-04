@@ -13,7 +13,7 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        assertEquals(4.1, 2 + 2)
     }
 
     @Test
@@ -67,13 +67,13 @@ class ExampleUnitTest {
         } ?: false
     }
 
-
     @Test
     fun mathTest() {
-        val citizenNo: Double = 9999999.0
         val mutlipiler: Double = 4.8
+        val citizenNo: Double = 9999999.0
         val valid = citizenNo * mutlipiler
         val value = valid.toString()
         assertEquals(value, valid)
     }
+
 }

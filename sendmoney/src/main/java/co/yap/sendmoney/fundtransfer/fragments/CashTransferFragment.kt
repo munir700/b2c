@@ -256,7 +256,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         } ?: return false
     }
 
-
     private fun startFlows(productCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
             when (beneficiaryType) {
@@ -327,6 +326,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
     private fun setEditTextWatcher() {
         etAmount.afterTextChanged {
+            viewModel.state.amount = it
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()

@@ -67,7 +67,7 @@
                 android:id="@+id/ivPicture"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:alpha="@{viewModel.transaction.status.equals(TransactionStatus.CANCELLED.name) || viewModel.transaction.status.equals(TransactionStatus.FAILED.name)? 0.5f : 1.0f}"
                 android:background="@drawable/bg_round_purple_enabled"
@@ -78,7 +78,7 @@
                 android:id="@+id/clAmount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/margin_normal_large"
                 app:layout_constraintBottom_toBottomOf="@+id/vLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPicture"
@@ -186,9 +186,9 @@
 
             <View
                 android:id="@+id/vLine"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_normal_large"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="@id/clAmount"
                 app:layout_constraintStart_toStartOf="@+id/clAmount"
@@ -198,16 +198,18 @@
                 android:id="@+id/clEditIcon"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:background="@drawable/bg_round_purple_enabled"
                 android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vLine">
+                app:layout_constraintTop_toBottomOf="@+id/vLine"
+                android:visibility="gone"
+                >
 
                 <ImageView
-                    android:layout_width="33dp"
-                    android:layout_height="31dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:contentDescription="@string/empty_string"
                     android:src="@drawable/ic_edit"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -222,12 +224,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
                 app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPaymentDetail"
-                app:layout_constraintTop_toTopOf="@+id/clEditIcon">
+                app:layout_constraintTop_toTopOf="@+id/clEditIcon"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/tvNoteHeading"
@@ -262,13 +266,14 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
                 android:text="Payment details"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/clEditIcon"
                 app:layout_constraintTop_toBottomOf="@+id/clEditIcon"
-                tools:text="Payment detail" />
+                tools:text="Payment detail"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal_large"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clTransactionDetails"
@@ -404,8 +409,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginLeft="@dimen/small"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/small"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:lines="1"

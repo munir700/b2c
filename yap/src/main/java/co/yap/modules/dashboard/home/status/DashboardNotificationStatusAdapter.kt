@@ -14,7 +14,6 @@ class DashboardNotificationStatusAdapter(
     private val list: MutableList<StatusDataModel>
 ) :
     BaseBindingRecyclerAdapter<StatusDataModel, RecyclerView.ViewHolder>(list) {
-
     private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 45)
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
@@ -31,10 +30,8 @@ class DashboardNotificationStatusAdapter(
         }
     }
 
-
     class DashboardNotificationStatusViewHolder(private val itemDashboardNotificationStatusBinding: ItemDashboardNotificationStatusBinding) :
         RecyclerView.ViewHolder(itemDashboardNotificationStatusBinding.root) {
-
 
         fun onBind(
             position: Int,
