@@ -73,14 +73,20 @@
                 android:paddingEnd="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_large">
 
-                <ImageView
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/ivProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/empty_string"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/white"
+                    android:elevation="@dimen/margin_zero_dp"
+                    app:elevation="@dimen/margin_zero_dp"
+                    app:fabCustomSize="@dimen/_42sdp"
+                    app:fabSize="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:maxImageSize="@dimen/_20sdp"
                     app:srcCompat="@drawable/ic_profile" />
 
                 <TextView

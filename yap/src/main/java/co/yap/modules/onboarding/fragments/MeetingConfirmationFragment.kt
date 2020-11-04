@@ -13,6 +13,7 @@ import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.firebase.FirebaseEvents
 import co.yap.yapcore.firebase.FirebaseTagManagerModel
 import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import co.yap.yapcore.managers.SessionManager
@@ -29,7 +30,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SessionManager.getAccountInfo()
-        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(label = "delivery-started"))
+        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(label = FirebaseEvents.DELIVERY_STARTED.event))
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
             if (activity is FragmentPresenterActivity) {
                 setIntentData()
