@@ -84,7 +84,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         setupPager()
         addObservers()
         addListeners()
-      //  setupOldYapButtons()
+        //  setupOldYapButtons()
+        setupNewYapButtons()
 
         logEvent()
         initializeChatOverLayButton(Leanplum.getInbox().unreadCount())
@@ -144,6 +145,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
             }).build()
     }
+
     private fun setupNewYapButtons() {
         actionMenu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
@@ -178,7 +180,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     when (subActionButtonId) {
                         1 -> {
                             if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                openSendMoneyScreen()
+                                launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
+                                    putExtra(SendMoneyLandingActivity.searching, false)
+                                }
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }
@@ -204,13 +208,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .build()
     }
 
-    private fun openSendMoneyScreen() {
-        startActivity(
-            SendMoneyLandingActivity.newIntent(
-                this@YapDashboardActivity
-            )
-        )
-    }
+
     private fun setupPager() {
         SessionManager.card = MutableLiveData()
         adapter = YapDashboardAdaptor(supportFragmentManager)
