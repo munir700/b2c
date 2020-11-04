@@ -135,7 +135,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-        context!!.deleteTempFolder()
+        context?.deleteTempFolder()
     }
 
     private fun checkGalleryPermission() {
