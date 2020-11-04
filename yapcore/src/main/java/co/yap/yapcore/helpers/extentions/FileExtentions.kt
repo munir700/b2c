@@ -123,7 +123,7 @@ fun Context.shareImage(rootView: View) {
     shareIntent.action = Intent.ACTION_SEND
     shareIntent.putExtra(
         Intent.EXTRA_TEXT,
-        "Hi! this is ${SessionManager.user?.currentCustomer?.getFullName() ?: "YAP User"}  \nHere is my YAP QR Code, please scan it for money transactions."
+        "Hi! its ${SessionManager.user?.currentCustomer?.getFullName() ?: "YAP User"}  \nHere is my YAP QR Code, please scan it for money transactions."
     )
     shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri)
     shareIntent.type = "image/jpeg"
