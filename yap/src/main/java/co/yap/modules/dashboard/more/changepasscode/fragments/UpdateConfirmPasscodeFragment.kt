@@ -128,7 +128,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                activity?.finish()
+                activity?.onBackPressed()
             }
         }
     }

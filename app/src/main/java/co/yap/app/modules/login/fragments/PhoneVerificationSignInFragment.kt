@@ -162,7 +162,7 @@ class PhoneVerificationSignInFragment :
     override fun onToolBarClick(id: Int) {
         when (id) {
             co.yap.R.id.ivLeftIcon -> {
-                activity?.finish()
+                activity?.onBackPressed()
             }
         }
     }

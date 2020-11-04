@@ -134,8 +134,8 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                activity?.finish()
-            }
+                 activity?.onBackPressed()
+             }
         }
     }
 }
