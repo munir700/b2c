@@ -34,7 +34,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.managers.SessionManager
 
 

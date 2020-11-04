@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.generateQrCode
 import co.yap.yapcore.helpers.extentions.shareImage
 import co.yap.yapcore.helpers.extentions.storeBitmap
@@ -44,6 +45,32 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     }
 
     override fun requestPermissions() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ), 101
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                context?.shareImage(qrContainer)
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.common_permission_rejected_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onPermissionDenied() {
+
+            }
+
+            override fun onPermissionDeniedBySystem() {
+
+            }
+        })
     }
 
     override fun getString(resourceKey: String): String {
@@ -94,10 +121,10 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tvSaveToGallery -> {
-                checkPermission()
+                checkGalleryPermission()
             }
             R.id.tvShareMyCode -> {
-                context?.shareImage(qrContainer)
+                requestPermissions()
             }
             R.id.ivBack -> {
                 dismiss()
@@ -108,9 +135,10 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+        context!!.deleteTempFolder()
     }
 
-    private fun checkPermission() {
+    private fun checkGalleryPermission() {
         permissionHelper = PermissionHelper(
             this, arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
