@@ -204,7 +204,7 @@
                 android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vLine"
-                android:visibility="gone"
+                android:visibility="visible"
                 >
 
                 <ImageView
@@ -230,7 +230,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPaymentDetail"
                 app:layout_constraintTop_toTopOf="@+id/clEditIcon"
-                android:visibility="gone"
+                android:visibility="visible"
                 >
 
                 <TextView
@@ -272,7 +272,6 @@
                 app:layout_constraintStart_toStartOf="@id/clEditIcon"
                 app:layout_constraintTop_toBottomOf="@+id/clEditIcon"
                 tools:text="Payment detail"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_normal_large"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
