@@ -1,7 +1,5 @@
 package co.yap.modules.dashboard.yapit.topup.topupamount.activities
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
@@ -22,19 +20,6 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
     var topUpTransactionModel: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
     var successButtonLabel: String = ""
 
-    companion object {
-        fun newIntent(
-            context: Context,
-            card: TopUpCard,
-            successButtonLabel: String
-        ): Intent {
-            val intent = Intent(context, TopUpCardActivity::class.java)
-            intent.putExtra(Constants.CARD, card)
-            intent.putExtra("successButtonLabel", successButtonLabel)
-            return intent
-        }
-    }
-
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this, R.id.card_top_up_nav_host_fragment)
 
@@ -46,9 +31,4 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
         successButtonLabel =
             (intent?.getValue("successButtonLabel", ExtraType.STRING.name) as? String) ?: ""
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
-
 }

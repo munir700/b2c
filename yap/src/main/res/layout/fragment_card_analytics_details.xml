@@ -82,6 +82,7 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_normal_large"
                     app:cardBackgroundColor="@color/white"
+                    android:visibility="@{viewModel.state.percentCardVisibility ? View.VISIBLE : View.GONE}"
                     app:cardCornerRadius="@dimen/margin_extra_small"
                     app:cardElevation="@dimen/margin_extra_small">
 
@@ -92,7 +93,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/margin_normal"
-                        android:paddingBottom="@dimen/margin_normal">
+                        android:paddingBottom="@dimen/margin_normal"
+                        >
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -105,7 +107,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@{viewModel.transactionResponse.monthlyToTotal.toString()}"
+                                android:text="@{viewModel.state.monthlyTotalPercentage}"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/text_size_h4"
                                 tools:text="50%" />
@@ -137,7 +139,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@{viewModel.transactionResponse.currentToLastMonth.toString()}"
+                                android:text="@{viewModel.state.currToLast}"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/text_size_h4"
                                 tools:text="50%" />
@@ -169,7 +171,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@{viewModel.transactionResponse.averageSpending.toString()}"
+                                android:text="@{viewModel.state.avgSpending}"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/text_size_h4"
                                 tools:text="150" />
@@ -217,6 +219,5 @@
                     tools:listitem="@layout/item_transaction_list" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </co.yap.widgets.MultiStateView>
-
     </LinearLayout>
 </layout>

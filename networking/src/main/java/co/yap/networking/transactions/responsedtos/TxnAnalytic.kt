@@ -15,5 +15,7 @@ data class TxnAnalytic(
     @SerializedName("totalSpendingInPercentage")
     val totalSpendingInPercentage: Double? = null,
     @SerializedName("txnCount")
-    val txnCount: Int? = null
+    val txnCount: Int? = null,
+    @SerializedName("categories")
+    val categories: ArrayList<String>? = null
 ): Parcelable

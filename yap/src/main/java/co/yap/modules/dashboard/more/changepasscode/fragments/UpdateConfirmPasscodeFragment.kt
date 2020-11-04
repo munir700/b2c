@@ -15,6 +15,7 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -112,7 +113,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                         viewModel.token,
                         Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                     )
-                findNavController().navigate(action)
+            navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
+            findNavController().navigate(action)
         }
     }
 
@@ -125,4 +127,11 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
         return (viewDataBinding as FragmentPassCodeBinding)
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
+        }
+    }
 }

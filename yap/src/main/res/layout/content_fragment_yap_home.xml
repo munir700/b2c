@@ -269,7 +269,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:lineSpacingExtra="3sp"
-                android:minWidth="@dimen/_80sdp"
+                android:minWidth="@dimen/_100sdp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_h1"
                 tools:text="Tooltip" />

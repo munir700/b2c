@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentActivity
 import co.yap.R
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -15,6 +14,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
@@ -51,7 +51,7 @@ class DashboardNotificationStatusHelper(
                         openSetCardPinScreen()
                     }
                     PaymentCardOnboardingStage.TOP_UP == statusDataModel.stage && statusDataModel.progressStatus.name != StageProgress.INACTIVE.name -> {
-                        context.launchActivity<AddMoneyActivity>()
+                        openTopUpScreen()
                     }
                 }
             }
@@ -228,7 +228,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openTopUpScreen() {
-        context.startActivity(TopUpLandingActivity.getIntent(context))
+        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openSetCardPinScreen() {

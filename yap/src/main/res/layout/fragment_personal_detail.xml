@@ -236,68 +236,67 @@
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_large"
-                android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_large">
-                <FrameLayout
-                    android:id="@+id/ivProfile"
-                    android:layout_width="@dimen/_42sdp"
-                    android:layout_height="@dimen/_42sdp"
-                    android:background="@drawable/bg_round_white"
-                    android:backgroundTint="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/margin_medium"
+                    android:paddingTop="@dimen/margin_large"
+                    android:paddingEnd="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_large">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/ivProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:backgroundTint="@color/white"
+                        android:elevation="@dimen/margin_zero_dp"
+                        app:elevation="@dimen/margin_zero_dp"
+                        app:fabCustomSize="@dimen/_42sdp"
+                        app:fabSize="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:maxImageSize="@dimen/_20sdp"
+                        app:srcCompat="@drawable/ic_profile" />
+
+                    <TextView
+                        android:id="@+id/tvEid"
+                        style="@style/ALarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:textColor="@color/white"
+                        app:layout_constraintLeft_toRightOf="@+id/ivProfile"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_heading}"
+                        tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_heading" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        style="@style/ASmallGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="@dimen/_150sdp"
+                        android:text="@={viewModel.state.verificationText}"
+                        app:layout_constraintStart_toStartOf="@+id/tvEid"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEid" />
+
+
                     <ImageView
-                        android:layout_width="@dimen/_26sdp"
-                        android:layout_height="@dimen/_26sdp"
-                        android:layout_gravity="center_vertical|center"
-                        android:src="@drawable/ic_profile"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:foregroundGravity="center_vertical"
+                        android:paddingRight="@dimen/_2sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
-                </FrameLayout>
+                        app:layout_constraintHorizontal_bias="0.813"
+                        app:layout_constraintStart_toEndOf="@+id/textView5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:src="@{viewModel.state.drawbleRight}" />
 
-                <TextView
-                    android:id="@+id/tvEid"
-                    style="@style/ALarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:textColor="@color/white"
-                    app:layout_constraintLeft_toRightOf="@+id/ivProfile"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_heading}"
-                    tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_heading" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="@dimen/_150sdp"
-                    android:text="@={viewModel.state.verificationText}"
-                    app:layout_constraintStart_toStartOf="@+id/tvEid"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEid" />
-
-
-                <ImageView
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:foregroundGravity="center_vertical"
-                    android:paddingRight="@dimen/_2sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.813"
-                    app:layout_constraintStart_toEndOf="@+id/textView5"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:src="@{viewModel.state.drawbleRight}" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout></ScrollView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

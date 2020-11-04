@@ -73,8 +73,15 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun navigateDetails(pos: Int) {
-        Constants.MERCHANT_TYPE = "merchant-category"
+        Constants.MERCHANT_TYPE = "merchant-category-name"
         val selectedItem = getAdaptor().getDataForPosition(pos)
+        var category: ArrayList<String> = arrayListOf()
+        category.clear()
+        if (selectedItem.title?.contains("Other") == true) {
+            category = selectedItem.categories ?: arrayListOf()
+        } else {
+            category.add(selectedItem.title ?: "")
+        }
         navigate(
             R.id.cardAnalyticsDetailsFragment,
             bundleOf(
@@ -83,7 +90,8 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                     txnCount = selectedItem.txnCount,
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
-                    totalSpendingInPercentage = selectedItem.totalSpendingInPercentage
+                    totalSpendingInPercentage = selectedItem.totalSpendingInPercentage,
+                    categories = category
                 ),
                 Constants.TRANSACTION_POSITION to pos
             )
@@ -107,7 +115,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             }
         }
     }
-
 
     private val onScrollListener: RecyclerView.OnScrollListener =
         object : RecyclerView.OnScrollListener() {
@@ -135,5 +142,4 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     private fun getBinding(): FragmentCategoryAnalyticsBinding {
         return (viewDataBinding as FragmentCategoryAnalyticsBinding)
     }
-
 }

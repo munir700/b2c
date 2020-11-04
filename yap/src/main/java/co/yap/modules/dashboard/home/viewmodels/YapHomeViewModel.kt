@@ -18,6 +18,8 @@ import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
+import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
+import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
@@ -257,8 +259,8 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
-                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
+        if (accountInfo.getUserAccessRestrictions()
+                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
             && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             SessionManager.eidStatus = EIDStatus.EXPIRED
@@ -266,11 +268,25 @@ class YapHomeViewModel(application: Application) :
                 HomeNotification(
                     id = "4",
                     title = "Renewed ID",
-                    description = "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                    description = accountInfo.EIDExpiryMessage
+                        ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
                     action = NotificationAction.UPDATE_EMIRATES_ID
                 )
             )
         }
+
+        accountInfo.getUserAccessRestrictions().forEach {
+            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
+                list.add(
+                    HomeNotification(
+                        id = "5",
+                        description = description,
+                        action = NotificationAction.CARD_FEATURES_BLOCKED
+                    )
+                )
+            }
+        }
+
         return list
     }
 

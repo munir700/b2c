@@ -26,10 +26,12 @@ import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.hasBitmap
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -234,7 +236,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-
                     val action =
                         ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
@@ -249,13 +250,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    if (SessionManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        startActivity(Intent(requireContext(), ChangePasscodeActivity::class.java))
-                    }
+                    launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
                 }
-
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
