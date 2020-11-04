@@ -16,7 +16,6 @@ import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
@@ -34,9 +33,6 @@ open class FundActionsViewModel(application: Application) :
     override var error: String = ""
     override var cardSerialNumber: String = ""
     override var enteredAmount: MutableLiveData<String> = MutableLiveData()
-        set(value) {
-            field = MutableLiveData(value.value.getValueWithoutComa())
-        }
     override val transactionThreshold: MutableLiveData<TransactionThresholdModel> =
         MutableLiveData()
 

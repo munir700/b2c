@@ -1,7 +1,5 @@
 package co.yap.modules.dashboard.cards.reordercard.activities
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,13 +17,9 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class ReorderCardActivity : BaseBindingActivity<IReorderCard.ViewModel>(),
     INavigator,
     IFragmentHolder {
+
     companion object {
-        private const val CARD = "card"
-        fun newIntent(context: Context, card: Card): Intent {
-            val intent = Intent(context, ReorderCardActivity::class.java)
-            intent.putExtra(CARD, card)
-            return intent
-        }
+        const val CARD = "card"
     }
 
     override fun getBindingVariable(): Int = BR.viewModel

@@ -28,11 +28,9 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
@@ -240,7 +238,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         else -> {
-                            updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                            adapter.getDataList()
+                                .firstOrNull { it.cardSerialNumber == updatedCard?.cardSerialNumber }
+                                ?.let { card ->
+                                    val pos = adapter.getDataList().indexOf(card)
+                                    updatedCard?.let { adapter.setItemAt(pos, it) }
+                                } ?: showToast("Card not found")
                         }
                     }
                 }
@@ -339,16 +342,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun startReorderCardFlow(card: Card?) {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
-        } else {
-            card?.let {
-                startActivityForResult(
-                    ReorderCardActivity.newIntent(
-                        requireContext(),
-                        it
-                    ), RequestCodes.REQUEST_REORDER_CARD
-                )
+        card?.let {
+            launchActivity<ReorderCardActivity>(
+                type = FeatureSet.REORDER_DEBIT_CARD,
+                requestCode = RequestCodes.REQUEST_REORDER_CARD
+            ) {
+                putExtra(ReorderCardActivity.CARD, it)
             }
         }
     }
