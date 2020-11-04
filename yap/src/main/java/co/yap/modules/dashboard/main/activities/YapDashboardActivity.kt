@@ -86,7 +86,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         //  setupOldYapButtons()
         setupNewYapButtons()
-
         logEvent()
         initializeChatOverLayButton(Leanplum.getInbox().unreadCount())
     }
@@ -207,7 +206,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             })
             .build()
     }
-
 
     private fun setupPager() {
         SessionManager.card = MutableLiveData()
