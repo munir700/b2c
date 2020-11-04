@@ -44,7 +44,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         get() = ViewModelProviders.of(this).get(AddFundsViewModel::class.java)
 
     companion object {
-        private const val CARD = "card"
+         const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, AddFundsActivity::class.java)
             intent.putExtra(CARD, card)
@@ -59,6 +59,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
         val display = this.windowManager.defaultDisplay
         display.getRectSize(Rect())
         getBinding().clBottomNew.children.forEach { it.alpha = 0f }
+
     }
 
     override fun addObservers() {

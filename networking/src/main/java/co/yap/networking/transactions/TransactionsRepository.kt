@@ -238,7 +238,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         merchantType: String,
         cardSerialNo: String?,
         date: String?,
-        merchantName: String?
+        merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO> =
         executeSafely(call = {
             api.getTransactionsOfMerchant(
@@ -248,5 +248,5 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName
             )
         })
-
 }
+

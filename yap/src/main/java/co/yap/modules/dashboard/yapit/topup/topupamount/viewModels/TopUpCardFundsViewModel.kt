@@ -14,6 +14,7 @@ import co.yap.networking.transactions.requestdtos.Order
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
@@ -58,7 +59,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.createTransactionSession(
-                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.toString()))
+                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.getValueWithoutComa()))
             )) {
                 is RetroApiResponse.Success -> {
                     orderId = response.data.data.order.id
@@ -87,7 +88,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toIntOrNull(),
-                    Order(state.currencyType, enteredAmount.value.toString()),
+                    Order(state.currencyType, enteredAmount.value.getValueWithoutComa()),
                     Session(sessionId)
                 )
             )) {
@@ -124,7 +125,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             topUpTransactionModelLiveData?.value = TopUpTransactionModel(
                                 orderId,
                                 state.currencyType,
-                                enteredAmount.value.toString(),
+                                enteredAmount.value.getValueWithoutComa(),
                                 topupCrad.id?.toInt(),
                                 secureId
                             )

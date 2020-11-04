@@ -37,6 +37,7 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -57,12 +58,8 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.enums.NotificationAction
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -118,7 +115,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openYapForYou() {
-        startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+        launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
     }
 
     private fun initComponents() {
@@ -226,7 +223,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
 
                         }
-
                     }
                     viewModel.clickEvent.setPayload(null)
                 }
@@ -261,16 +257,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
-                R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
-                R.id.lyAdd -> {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        openTopUpScreen()
-                    } else {
-                        showToast("Account activation pending")
-
-                    }
+                R.id.lyAnalytics -> {
+                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
                 }
-
+                R.id.lyAdd -> {
+                    openTopUpScreen()
+                }
             }
         })
 
@@ -501,10 +493,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                         }
                     } else {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
+                        showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
                     }
                 } else {
-                    launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                    launchActivity<DocumentsDashboardActivity>(
+                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        type = FeatureSet.UPDATE_EID
+                    ) {
                         putExtra(
                             Constants.name,
                             SessionManager.user?.currentCustomer?.firstName.toString()
@@ -603,7 +598,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         SessionManager.getDebitCard()
                     } else {
                         SessionManager.getDebitCard()
-                        openTopUpScreen()
+                        launchActivity<AddMoneyActivity>()
                     }
                 }
             }
@@ -705,7 +700,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTopUpScreen() {
-        startActivity(TopUpLandingActivity.getIntent(requireContext()))
+        launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {

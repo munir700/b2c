@@ -21,7 +21,7 @@ import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-
+@Deprecated("Use EasyMoneyEditText")
 class CoreEditText : AppCompatEditText {
 
     private var mBackgroundColor: Int = 0

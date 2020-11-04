@@ -26,6 +26,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
@@ -36,7 +37,6 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
 class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
     ICashTransfer.View {
@@ -115,7 +115,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     getBindings().tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
                     getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvLabelSpinner.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
+                    getBindings().tvLabelSpinner.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.greyDark
+                        )
+                    )
                     checkOnTextChangeValidation()
                 }
 
@@ -193,7 +198,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
-        findNavController().navigate(action)
+        navigate(
+            action,
+            screenType = if (!viewModel.trxWillHold()) FeatureSet.CBWSI_TRANSFER else FeatureSet.NONE
+        )
     }
 
     private fun showBalanceNotAvailableError() {
@@ -325,7 +333,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun setEditTextWatcher() {
-        etAmount.afterTextChanged {
+        getBindings().etAmount.afterTextChanged {
+            viewModel.state.amount = it
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()

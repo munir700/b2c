@@ -14,10 +14,12 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.DEFAULT_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
@@ -185,11 +187,11 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.SHIPPING -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
                 StageProgress.COMPLETED -> "Your card was delivered on ${
-                    DateUtils.reformatStringDate(
-                        SessionManager.card.value?.shipmentDate ?: "",
-                        SERVER_DATE_FORMAT,
-                        DEFAULT_DATE_FORMAT
-                    )
+                DateUtils.reformatStringDate(
+                    SessionManager.card.value?.shipmentDate ?: "",
+                    SERVER_DATE_FORMAT,
+                    DEFAULT_DATE_FORMAT
+                )
                 }"
                 else -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
             })
@@ -202,11 +204,11 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
                 StageProgress.COMPLETED -> "Your PIN was successfully set on ${
-                    DateUtils.reformatStringDate(
-                        SessionManager.card.value?.activationDate ?: "",
-                        SERVER_DATE_FORMAT,
-                        DEFAULT_DATE_FORMAT
-                    )
+                DateUtils.reformatStringDate(
+                    SessionManager.card.value?.activationDate ?: "",
+                    SERVER_DATE_FORMAT,
+                    DEFAULT_DATE_FORMAT
+                )
                 }"
                 else -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
             })
@@ -226,7 +228,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openTopUpScreen() {
-        context.startActivity(TopUpLandingActivity.getIntent(context))
+        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openSetCardPinScreen() {

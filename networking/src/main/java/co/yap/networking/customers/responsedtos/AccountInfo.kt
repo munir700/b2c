@@ -68,5 +68,11 @@ class AccountInfo(
     @SerializedName("workItemCreated")
     var workItemCreated: Boolean? = false,
     @SerializedName("encryptedAccountUUID")
-    var encryptedAccountUUID: String? = null
+    var encryptedAccountUUID: String? = null,
+    @SerializedName("freezeCode")
+    var severityLevel: String? = null,
+    @SerializedName("freezeInitiator")
+    var freezeInitiator: String? = null,
+    @SerializedName("eidNotificationContent")
+    var EIDExpiryMessage: String? = null
 ) : Parcelable
