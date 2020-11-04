@@ -12,6 +12,7 @@ import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
+import co.yap.yapcore.firebase.FirebaseEvents
 import co.yap.yapcore.firebase.FirebaseTagManagerModel
 import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import co.yap.yapcore.leanplum.SignupEvents
@@ -35,7 +36,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.reverseTimer(10, requireContext())
-        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(label = "verify-number"))
+        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(label = FirebaseEvents.VERIFY_NUMBER.event))
     }
 
     override fun setObservers() {
