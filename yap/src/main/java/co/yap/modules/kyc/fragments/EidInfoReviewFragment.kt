@@ -22,6 +22,7 @@ import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.firebase.FirebaseEvents
 import co.yap.yapcore.firebase.FirebaseTagManagerModel
 import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
@@ -105,7 +106,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
                 viewModel.eventNext -> {
-                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(label = "confirm-id"))
+                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(label = FirebaseEvents.CONFIRM_ID.event))
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
