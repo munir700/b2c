@@ -38,6 +38,8 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             title = getString(Strings.screen_current_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
+        parentActivity.viewModel.state.toolbarVisibility.set(false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
