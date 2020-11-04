@@ -128,4 +128,14 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
     fun getBinding(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
     }
+
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
+    }
 }

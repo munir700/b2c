@@ -125,4 +125,11 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
         return (viewDataBinding as FragmentPassCodeBinding)
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
+    }
 }

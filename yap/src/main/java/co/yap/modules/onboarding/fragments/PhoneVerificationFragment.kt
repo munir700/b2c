@@ -123,4 +123,13 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
                 }
         }
     }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            co.yap.yapcore.R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
+    }
 }

@@ -17,10 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/layout_change_passcode_toolbar"
-            app:viewModel="@{viewModel}" />
+<!--        <include-->
+<!--            android:id="@+id/toolbar"-->
+<!--            layout="@layout/layout_change_passcode_toolbar"-->
+<!--            app:viewModel="@{viewModel}" />-->
 
         <fragment
             android:id="@+id/change_passcode_nav_host_fragment"
