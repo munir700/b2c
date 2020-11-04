@@ -115,7 +115,7 @@ fun Context.shareImage(rootView: View) {
         e.printStackTrace()
     }
     bmpUri = FileProvider.getUriForFile(
-        Objects.requireNonNull(getApplicationContext()),
+        this,
         YAPApplication.configManager?.applicationId + ".provider", file
     );
 
