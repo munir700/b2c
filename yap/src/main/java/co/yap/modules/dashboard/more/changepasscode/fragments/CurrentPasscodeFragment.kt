@@ -39,6 +39,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
         parentActivity.viewModel.state.toolbarVisibility.set(false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -126,5 +127,15 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
 
     fun getBinding(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
+    }
+
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                 activity?.onBackPressed()
+             }
+        }
     }
 }

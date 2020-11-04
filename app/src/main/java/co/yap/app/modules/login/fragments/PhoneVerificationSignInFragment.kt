@@ -159,4 +159,12 @@ class PhoneVerificationSignInFragment :
         super.onDestroy()
         removeObservers()
     }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            co.yap.R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
+        }
+    }
 }
