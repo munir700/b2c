@@ -309,7 +309,7 @@ class CoreDialerPad @JvmOverloads constructor(
         etPassCodeText?.setText("")
         inputEditText?.setText("")
         //editText.setText("")
-        removeError()
+//        removeError()
     }
 
     fun updateDialerLength(length: Int) {
