@@ -624,7 +624,7 @@
     <string name="screen_send_money_input_text_search_hint">Search</string>
     <string name="screen_send_money_display_text_all_beneficiaries">All beneficiaries</string>
     <string name="screen_send_money_display_bottom_sheet_label">Select reason for transfer"</string>
-
+    <string name="screen_fragment_yap_it_send_money_label">Who do you want to send money to?</string>
     <string name="screen_send_money_display_text_edit">Edit</string>
     <string name="screen_send_money_display_text_delete">Delete</string>
 

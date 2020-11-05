@@ -1034,6 +1034,8 @@ object Strings {
         "screen_edit_beneficiary_display_text_coonfirm"
     const val screen_send_money_display_bottom_sheet_label: String =
         "screen_send_money_display_bottom_sheet_label"
+    const val screen_fragment_yap_it_send_money_label: String =
+        "screen_fragment_yap_it_send_money_label"
 
 
     //     Add Beneficiary
