@@ -143,3 +143,14 @@ fun String?.getAvailableBalanceWithFormat(): SpannableString {
         }
     } ?: SpannableString("")
 }
+
+fun String?.getValueWithoutComa(): String {
+    var string = this
+    if (string?.contains(",") == true) {
+        string = string.replace(",", "")
+    }
+    if (string?.contains(" ") == true) {
+        string = string.substring(string.indexOf(" ") + 1, string.length)
+    }
+    return string ?: ""
+}

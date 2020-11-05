@@ -11,6 +11,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.yapcore.LocationCheckFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.openGoogleMapDirection
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import com.google.android.gms.maps.GoogleMap
@@ -37,12 +38,15 @@ class CdmMapFragment : LocationCheckFragment<ICdmMap.ViewModel>(), ICdmMap.View,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            viewModel.state.locationType?.value = it.getString(Constants.LOCATION_TYPE, "")
+        }
         initMap()
         viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
         viewModel.clickEvent.observe(this, Observer { handleClickEvent(it) })
         multiStateView.setOnReloadListener(object : MultiStateView.OnReloadListener {
             override fun onReload(view: View) {
-                viewModel.getCardsAtmCdm()
+                viewModel.getCardsAtmCdm(viewModel.state.locationType?.value)
             }
         })
 

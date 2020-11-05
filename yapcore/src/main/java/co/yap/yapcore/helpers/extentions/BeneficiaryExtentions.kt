@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 
@@ -15,6 +16,18 @@ fun Beneficiary?.getProductCode(): String {
             else -> ""
         }
     } ?: return ""
+}
+
+fun Beneficiary?.getBeneficiaryTransferType(): FeatureSet {
+    this?.let { beneficiary ->
+        return when (beneficiary.beneficiaryType) {
+            SendMoneyBeneficiaryType.UAEFTS.type -> FeatureSet.UAEFTS_TRANSFER
+            SendMoneyBeneficiaryType.DOMESTIC.type -> FeatureSet.DOMESTIC_TRANSFER
+            SendMoneyBeneficiaryType.RMT.type -> FeatureSet.RMT_TRANSFER
+            SendMoneyBeneficiaryType.SWIFT.type -> FeatureSet.SWIFT_TRANSFER
+            else -> FeatureSet.NONE
+        }
+    } ?: return FeatureSet.NONE
 }
 
 fun Beneficiary?.isRMTAndSWIFT(): Boolean {

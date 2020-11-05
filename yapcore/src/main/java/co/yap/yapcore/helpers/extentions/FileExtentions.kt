@@ -1,19 +1,25 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
+import co.yap.app.YAPApplication
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.SessionManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
+
 
 fun File.sizeInMb(): Int {
     return if (!exists()) 0 else {
@@ -66,18 +72,40 @@ fun File.deleteRecursivelyYap(): Boolean {
     return deleteRecursively()
 }
 
-fun storeBitmap(rootView: View, context: Context) {
+fun Context.storeBitmap(rootView: View, success: (filePath: String?) -> Unit) {
     val bitmap: Bitmap = takeScreenshotForView(rootView)
-    val image_date = "" + getCurrentDateTime()
-    val image_name = "YAP-" + image_date + "-qrCode"
+    val randomNum = (0..10).random()
+    val imageDate = "$randomNum " + getCurrentDateTime()
+    val imageName = "YAP-${imageDate}-qrCode"
     val root = Environment.getExternalStoragePublicDirectory(
         Environment.DIRECTORY_PICTURES
     ).toString()
     val myDir = File("$root/yap_qr_codes")
     myDir.mkdirs()
-    val fname = image_name + ".jpg"
-    val file = File(myDir, fname)
+    val fileName = "${imageName}.jpg"
+    val file = File(myDir, fileName)
     if (file.exists()) file.delete()
+    try {
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+        out.flush()
+        out.close()
+        success.invoke("$root/yap_qr_codes")
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    MediaScannerConnection.scanFile(
+        this, arrayOf(file.toString()), null
+    ) { _, _ ->
+    }
+}
+
+fun Context.shareImage(rootView: View) {
+    val bitmap: Bitmap = takeScreenshotForView(rootView)
+    val imageName = "YAP-qrCode"
+    var bmpUri: Uri? = null
+    val fileName = "${imageName}.jpg"
+    val file = createTempFile(fileName)
     try {
         val out = FileOutputStream(file)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
@@ -86,9 +114,21 @@ fun storeBitmap(rootView: View, context: Context) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null
-    ) { _, _ ->
-    }
+    bmpUri = FileProvider.getUriForFile(
+        this,
+        YAPApplication.configManager?.applicationId + ".provider", file
+    );
+
+    val shareIntent = Intent()
+    shareIntent.action = Intent.ACTION_SEND
+    shareIntent.putExtra(
+        Intent.EXTRA_TEXT,
+        "Hi! its ${SessionManager.user?.currentCustomer?.getFullName() ?: "YAP User"}  \nHere is my YAP QR Code, please scan it for money transactions."
+    )
+    shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri)
+    shareIntent.type = "image/jpeg"
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    startActivity(Intent.createChooser(shareIntent, "YAP QR code"))
 }
 
 fun takeScreenshotForView(view: View): Bitmap {

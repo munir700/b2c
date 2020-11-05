@@ -25,11 +25,11 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
-            android:text="@{viewModel.state.rankNoInList}"
+            android:text="You’re on our waiting list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Well done! You’re #20 on our waiting list" />
+            tools:text="You’re on our waiting list" />
 
         <TextView
             android:id="@+id/tvGuide"

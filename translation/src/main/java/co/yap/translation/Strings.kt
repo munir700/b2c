@@ -40,6 +40,8 @@ object Strings {
         "common_display_text_daily_limit_error"
     const val common_display_text_on_hold_limit_error: String =
         "common_display_text_on_hold_limit_error"
+    const val common_display_text_feature_blocked_error: String =
+        "common_display_text_feature_blocked_error"
     const val common_send_money: String =
         "common_send_money"
     const val common_add_money: String =
@@ -48,6 +50,8 @@ object Strings {
         "common_pay_bills"
     const val common_permission_rejected_error: String =
         "common_permission_rejected_error"
+    const val common_saved_image_to_gallery: String =
+        "common_saved_image_to_gallery"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -494,6 +498,8 @@ object Strings {
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
         "screen_fragment_home_transaction_time_category"
+    const val screen_fragment_yap_home_add_money: String =
+        "screen_fragment_yap_home_add_money"
 
     // spare cards Landing Screen
     const val screen_spare_card_landing_display_text_title: String =
@@ -1672,6 +1678,8 @@ object Strings {
         "screen_tax_info_display_text_have_tin_number"
     const val screen_tax_info_display_text_reason_no_tin_number: String =
         "screen_tax_info_display_text_reason_no_tin_number"
+    const val screen_tax_info_display_text_reason_no_tin_number_selected: String =
+        "screen_tax_info_display_text_reason_no_tin_number_selected"
     const val screen_tax_info_display_text_heading_tin_number: String =
         "screen_tax_info_display_text_heading_tin_number"
     const val screen_tax_info_display_text_country_no_tin_issue: String =
@@ -1694,10 +1702,6 @@ object Strings {
         "screen_waiting_list_display_dialog_text"
     const val screen_waiting_list_display_dialog_button_text: String =
         "screen_waiting_list_display_dialog_button_text"
-
-    //yap home fragment screen
-    const val screen_fragment_yap_home_add_money: String =
-        "screen_fragment_yap_home_add_money"
 
     //Change Card Pin screen
 
@@ -1744,10 +1748,10 @@ object Strings {
         "screen_time_line_display_text_status_card_top_up_action"
     const val screen_time_line_display_text_status_additional_requirements_title: String =
         "screen_time_line_display_text_status_additional_requirements_title"
-    const val screen_time_line_display_text_status_additional_requirements_description: String =
-        "screen_time_line_display_text_status_additional_requirements_description"
     const val screen_time_line_display_text_status_additional_requirements_action: String =
         "screen_time_line_display_text_status_additional_requirements_action"
+    const val screen_time_line_display_text_status_additional_requirements_description: String =
+        "screen_time_line_display_text_status_additional_requirements_description"
 
     // yap it add money screen
     const val screen_fragment_yap_it_add_money_title: String =
@@ -1779,4 +1783,14 @@ object Strings {
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
 
+
+    // Transaction Detail Screen
+    const val screen_transaction_detail_text_cut_off_msg: String =
+        "screen_transaction_detail_text_cut_off_msg"
+
+    const val screen_otp_blocked_display_text_details_card_blocked: String =
+        "screen_otp_blocked_display_text_details_card_blocked"
+
+    const val iban_or_debit_card_freeze_or_blocked_message: String =
+        "iban_or_debit_card_freeze_or_blocked_message"
 }

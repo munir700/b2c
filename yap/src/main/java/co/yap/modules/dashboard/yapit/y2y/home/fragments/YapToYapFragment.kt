@@ -19,10 +19,10 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.hideKeyboard
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
@@ -85,16 +85,10 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
-        } else {
-            findNavController().navigate(
-                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-//                data.beneficiaryPictureUrl!!
-//                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
-                )
-            )
-        }
+        navigate(
+            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(),
+            screenType = FeatureSet.Y2Y_TRANSFER
+        )
     }
 
     private fun setupAdaptor() {
@@ -152,19 +146,19 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
-                if (!viewModel.parentViewModel?.isSearching?.value!!) {
-                    startActivity(
-                        YapToYapDashboardActivity.getIntent(
-                            requireContext(),
-                            true,
-                            null
-                        )
-                    )
+                if (viewModel.parentViewModel?.isSearching?.value == false) {
+                    openY2YScreen()
                 }
             }
             R.id.tvCancel -> {
                 activity?.finish()
             }
+        }
+    }
+
+    private fun openY2YScreen() {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(YapToYapDashboardActivity.searching, true)
         }
     }
 

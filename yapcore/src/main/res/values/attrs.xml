@@ -425,6 +425,9 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
+        <attr name="em_setBackgroundColor" format="color" />
+        <attr name="em_custom_width" format="dimension" />
+        <attr name="em_custom_height" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">
@@ -534,6 +537,15 @@
             <flag name="to_left" value="2" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="ShapeOfView">
+        <attr name="shape_clip_drawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TriangleView">
+        <attr name="shape_triangle_percentLeft" format="float" />
+        <attr name="shape_triangle_percentBottom" format="float" />
+        <attr name="shape_triangle_percentRight" format="float" />
+    </declare-styleable>
 
     <declare-styleable name="CollapsedColoredHintTextInputLayout">
         <attr name="hintTextColorNormal" format="color" />
@@ -583,7 +595,6 @@
         <attr name="ce_custom_height" format="dimension" />
     </declare-styleable>
 
-
     <declare-styleable name="TimelineView">
         <attr name="marker" format="color|reference" />
         <attr name="markerSize" format="dimension" />
@@ -593,7 +604,7 @@
         <attr name="markerPaddingBottom" format="dimension" />
         <attr name="markerInCenter" format="boolean" />
         <attr name="startLineColor" format="color" />
-        <attr name="endLineColor" format="color" />
+        <attr name="endLineColor" format="color|reference" />
         <attr name="lineWidth" format="dimension" />
         <attr name="lineStyle" format="enum">
             <enum name="normal" value="0" />
@@ -607,7 +618,6 @@
         </attr>
         <attr name="linePadding" format="dimension" />
     </declare-styleable>
-
 
     <declare-styleable name="CoreCircleView">
     </declare-styleable>

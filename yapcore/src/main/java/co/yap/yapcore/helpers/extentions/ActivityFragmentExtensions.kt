@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
@@ -24,6 +25,10 @@ import co.yap.yapcore.constants.Constants.FRAGMENT_CLASS
 import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.managers.FeatureProvisioning
+import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 
@@ -33,44 +38,56 @@ import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 inline fun <reified T : Any> Activity.launchActivity(
     requestCode: Int = -1,
-    options: Bundle? = null,
+    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-
-    val intent = newIntent<T>(this)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this, type)
     } else {
-        startActivityForResult(intent, requestCode)
+        val intent = newIntent<T>(this)
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+        } else {
+            startActivityForResult(intent, requestCode)
+        }
     }
 }
 
 inline fun <reified T : Any> Fragment.launchActivity(
     requestCode: Int = -1,
     options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(requireContext())
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
     } else {
-        startActivityForResult(intent, requestCode)
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+        } else {
+            startActivityForResult(intent, requestCode)
+        }
     }
 }
 
 inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-
-    val intent = newIntent<T>(this)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivity(intent, options)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
-        startActivity(intent)
+        val intent = newIntent<T>(this)
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent, options)
+        } else {
+            startActivity(intent)
+        }
     }
 }
 
@@ -91,6 +108,18 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
     return intent
 }
 
+fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
+    val blockedMessage = SessionManager.user?.getBlockedMessage(
+        key = FeatureProvisioning.getUserAccessRestriction(type),
+        context = context
+    )
+    context.showAlertDialogAndExitApp(
+        message = blockedMessage,
+        isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,
+        closeActivity = false
+    )
+}
+
 inline fun <reified T : Any> Fragment.launchActivityForResult(
     requestCode: Int = -1,
     options: Bundle? = null,
@@ -107,7 +136,7 @@ inline fun <reified T : Any> Fragment.launchActivityForResult(
             it.invoke(result.resultCode, result.data)
         }
     } ?: run {
-        launchActivity<T>(requestCode, options, init)
+        launchActivity<T>(requestCode = requestCode, options = options, init = init)
     }
 }
 

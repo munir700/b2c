@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.addmoney.landing
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapItAddMoneyGooglePayBinding
@@ -17,17 +18,17 @@ class AddMoneyLandingAdapter(
 ) :
     BaseBindingRecyclerAdapter<AddMoneyLandingOptions, RecyclerView.ViewHolder>(list) {
 
-    private val type1 = 1
-    private val type2 = 2
+    private val iconType = 1
+    private val paymentType = 2
 
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 20)
     override fun getLayoutIdForViewType(viewType: Int): Int =
-        if (viewType == type1) R.layout.item_yap_it_add_money_landing else R.layout.item_yap_it_add_money_google_pay
+        if (viewType == iconType) R.layout.item_yap_it_add_money_landing else R.layout.item_yap_it_add_money_google_pay
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return if (binding is ItemYapItAddMoneyLandingBinding) ViewHolder(
             binding
-        ) else ViewHolderType2(
+        ) else PaymentTypeViewHolder(
             binding as ItemYapItAddMoneyGooglePayBinding
         )
     }
@@ -36,13 +37,13 @@ class AddMoneyLandingAdapter(
         super.onBindViewHolder(holder, position)
         if (holder is ViewHolder) {
             holder.onBind(list[position], position, dimensions, onItemClickListener)
-        } else if (holder is ViewHolderType2) {
+        } else if (holder is PaymentTypeViewHolder) {
             holder.onBind(list[position], position, dimensions, onItemClickListener)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position].id == Constants.ADD_MONEY_GOOGLE_PAY || list[position].id == Constants.ADD_MONEY_SAMSUNG_PAY) type2 else type1
+        return if (list[position].id == Constants.ADD_MONEY_GOOGLE_PAY || list[position].id == Constants.ADD_MONEY_SAMSUNG_PAY) paymentType else iconType
     }
 
     class ViewHolder(private val itemYapItAddMoneyBinding: ItemYapItAddMoneyLandingBinding) :
@@ -53,6 +54,11 @@ class AddMoneyLandingAdapter(
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?
         ) {
+            val params =
+                itemYapItAddMoneyBinding.clMain.layoutParams as GridLayoutManager.LayoutParams
+            params.width = dimensions[0]
+            params.height = dimensions[1]
+            itemYapItAddMoneyBinding.clMain.layoutParams = params
             itemYapItAddMoneyBinding.viewModel =
                 YapItAddMoneyLandingItemVM(
                     addMoneyOptions,
@@ -63,7 +69,7 @@ class AddMoneyLandingAdapter(
         }
     }
 
-    class ViewHolderType2(private val itemYapItAddMoneyGooglePayBinding: ItemYapItAddMoneyGooglePayBinding) :
+    class PaymentTypeViewHolder(private val itemYapItAddMoneyGooglePayBinding: ItemYapItAddMoneyGooglePayBinding) :
         RecyclerView.ViewHolder(itemYapItAddMoneyGooglePayBinding.root) {
 
         fun onBind(
@@ -72,7 +78,11 @@ class AddMoneyLandingAdapter(
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?
         ) {
-
+            val params =
+                itemYapItAddMoneyGooglePayBinding.clMain.layoutParams as GridLayoutManager.LayoutParams
+            params.width = dimensions[0]
+            params.height = dimensions[1]
+            itemYapItAddMoneyGooglePayBinding.clMain.layoutParams = params
             itemYapItAddMoneyGooglePayBinding.viewModel =
                 YapItAddMoneyLandingItemVM(
                     addMoneyOptions,
