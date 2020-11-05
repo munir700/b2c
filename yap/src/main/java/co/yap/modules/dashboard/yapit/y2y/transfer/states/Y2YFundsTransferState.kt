@@ -7,6 +7,7 @@ import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 
 class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
@@ -22,7 +23,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
     @get:Bindable
     override var amount: String = ""
         set(value) {
-            field = value
+            field = value.getValueWithoutComa()
             notifyPropertyChanged(BR.amount)
         }
 

@@ -61,6 +61,7 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:lineSpacingExtra="3sp"
                     android:layout_marginTop="@dimen/margin_extra_large"
                     android:gravity="center"
                     android:text="@string/screen_bank_details_label_content"

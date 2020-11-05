@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -12,11 +13,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.translation.Strings
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.deleteTempFolder
+import co.yap.yapcore.helpers.extentions.generateQrCode
+import co.yap.yapcore.helpers.extentions.shareImage
 import co.yap.yapcore.helpers.extentions.storeBitmap
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 
 class QRCodeFragment : DialogFragment(), IQRCode.View {
@@ -42,6 +45,32 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     }
 
     override fun requestPermissions() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ), 101
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                context?.shareImage(qrContainer)
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.common_permission_rejected_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onPermissionDenied() {
+
+            }
+
+            override fun onPermissionDeniedBySystem() {
+
+            }
+        })
     }
 
     override fun getString(resourceKey: String): String {
@@ -62,38 +91,40 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.lifecycleOwner = this
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewDataBinding.executePendingBindings()
-
         updateUI()
     }
 
-   private fun updateUI(){
-       ImageBinding.loadAvatar(
-           ivProfilePic,
-           viewModel.state.profilePictureUrl,
-           viewModel.state.fullName,
-           android.R.color.transparent,
-           R.dimen.text_size_h2
-       )
+    private fun updateUI() {
+        ImageBinding.loadAvatar(
+            ivProfilePic,
+            viewModel.state.profilePictureUrl,
+            viewModel.state.fullName,
+            android.R.color.transparent,
+            R.dimen.text_size_h2
+        )
+        SessionManager.user?.let { accountInfo ->
+            viewModel.state.qrBitmap =
+                context?.generateQrCode(accountInfo.encryptedAccountUUID ?: "")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.myDialog)
+        setStyle(STYLE_NO_FRAME, R.style.QRCodeTheme)
         viewModel.onCreate()
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tvSaveToGallery -> {
-                checkPermission()
+                checkGalleryPermission()
             }
             R.id.tvShareMyCode -> {
-                Utils.shareText(requireContext(), "QR Code")
+                requestPermissions()
             }
             R.id.ivBack -> {
                 dismiss()
@@ -104,9 +135,10 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+        context?.deleteTempFolder()
     }
 
-    private fun checkPermission() {
+    private fun checkGalleryPermission() {
         permissionHelper = PermissionHelper(
             this, arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -114,12 +146,22 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                storeBitmap(qrContainer, requireContext())
+                context?.storeBitmap(qrContainer) {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.common_saved_image_to_gallery),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                showToast(getString(Strings.common_permission_rejected_error))
-
+                Toast.makeText(
+                    context,
+                    getString(R.string.common_permission_rejected_error),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             override fun onPermissionDenied() {
@@ -131,5 +173,4 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
             }
         })
     }
-
 }

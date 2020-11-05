@@ -74,6 +74,13 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     private fun navigateDetails(pos: Int) {
         Constants.MERCHANT_TYPE = "merchant-name"
         val selectedItem = getAdaptor().getDataForPosition(pos)
+        var category: ArrayList<String> = arrayListOf()
+        category.clear()
+        if (selectedItem.title?.contains("Other") == true) {
+            category = selectedItem.categories ?: arrayListOf()
+        } else {
+            category.add(selectedItem.title ?: "")
+        }
         navigate(
             R.id.cardAnalyticsDetailsFragment,
             bundleOf(
@@ -82,7 +89,8 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                     txnCount = selectedItem.txnCount,
                     totalSpending = selectedItem.totalSpending,
                     logoUrl = selectedItem.logoUrl,
-                    totalSpendingInPercentage = selectedItem.totalSpendingInPercentage
+                    totalSpendingInPercentage = selectedItem.totalSpendingInPercentage,
+                    categories = category
                 ),
                 Constants.TRANSACTION_POSITION to pos
             )

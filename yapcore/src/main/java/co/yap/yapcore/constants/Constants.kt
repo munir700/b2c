@@ -61,10 +61,11 @@ object Constants {
     const val CATEGORY_AVERAGE_AMOUNT_VALUE: Int = 7
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
-
+    const val URL_YAP_WEBSITE = "https://www.yap.com/"
     const val URL_TERMS_CONDITION = "https://yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
+
 
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
@@ -169,4 +170,10 @@ object Constants {
     const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
     const val TRANSACTION_POSITION = "Transaction_Item_Position"
     var MERCHANT_TYPE: String = "merchant-name"
+
+    //ATM/CDM
+    const val LOCATION_TYPE = "ATM_OR_CDM"
+    const val LOCATION_ATM = "ATM"
+    const val LOCATION_CDM = "CDM"
+
 }

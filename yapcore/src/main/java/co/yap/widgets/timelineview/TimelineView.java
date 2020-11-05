@@ -32,19 +32,19 @@ public class TimelineView extends View {
     }
 
     @Retention(RetentionPolicy.SOURCE)
+    @IntDef({LineStyle.NORMAL, LineStyle.DASHED})
+    public @interface LineStyle {
+        int NORMAL = 0;
+        int DASHED = 1;
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
     @IntDef({LineType.NORMAL, LineType.START, LineType.END, LineType.ONLYONE})
     private @interface LineType {
         int NORMAL = 0;
         int START = 1;
         int END = 2;
         int ONLYONE = 3;
-    }
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LineStyle.NORMAL, LineStyle.DASHED})
-    public @interface LineStyle {
-        int NORMAL = 0;
-        int DASHED = 1;
     }
 
     private int mMarkerHeightSize;

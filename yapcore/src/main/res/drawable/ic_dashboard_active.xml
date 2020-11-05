@@ -3,6 +3,7 @@
     android:height="27dp"
     android:viewportWidth="27"
     android:viewportHeight="27">
+
     <path
         android:fillColor="#9391B1"
         android:fillType="nonZero"
@@ -18,4 +19,5 @@
             android:strokeWidth="1"
             android:strokeColor="#00000000" />
     </group>
+
 </vector>

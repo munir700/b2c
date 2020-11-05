@@ -49,7 +49,6 @@ project.ext {
             quickAction              : "me.piruin:quickaction:2.4.3",
             rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
 
-
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
             daggerAndroid            : "com.google.dagger:dagger-android:$daggerVersion",
@@ -115,10 +114,10 @@ project.ext {
 
             //Firebase Crashlytics
             creshlytics              : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
-            FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:9.0.0',
-            analytics                : 'com.google.firebase:firebase-analytics-ktx:17.5.0',
-            messagingFcm             : 'com.google.firebase:firebase-messaging:19.0.0',
-            playServicesLocation     : 'com.google.android.gms:play-services-location:16.0.0',
+            FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
+            analytics                : 'com.google.firebase:firebase-analytics-ktx:17.6.0',
+            messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
+            playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
 
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',

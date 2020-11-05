@@ -150,8 +150,7 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
-                SessionManager.getCardSerialNumber(),
-                currentMonth
+                SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     state.monthlyMerchantAvgAmount =

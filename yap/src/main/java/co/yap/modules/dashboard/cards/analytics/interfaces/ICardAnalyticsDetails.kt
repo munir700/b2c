@@ -12,7 +12,7 @@ interface ICardAnalyticsDetails {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent?
         fun handleOnClickEvent(id: Int)
-        val adapter: ObservableField<TransactionsListingAdapter>
+        val adapter: TransactionsListingAdapter
         var transactionResponse : TransactionAnalyticsDetailsResponse
         fun fetchMerchantTransactions(merchantType : String, currentDate : String)
     }
@@ -20,7 +20,12 @@ interface ICardAnalyticsDetails {
         var title : ObservableField<String>
         var totalSpendings : ObservableField<String>
         var countWithDate : ObservableField<String>
+        var avgSpending : ObservableField<String>
+        var currToLast : ObservableField<String>
+        var monthlyTotalPercentage : ObservableField<String>
         var ImageUrl : ObservableField<String>
         var position : Int
+        var percentCardVisibility : Boolean
+        var categories : ArrayList<String>?
     }
 }

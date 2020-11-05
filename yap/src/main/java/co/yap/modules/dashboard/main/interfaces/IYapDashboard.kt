@@ -38,5 +38,6 @@ interface IYapDashboard {
         fun openDrawer()
         fun toggleDrawer()
         fun enableDrawerSwipe(enable: Boolean)
+
     }
 }

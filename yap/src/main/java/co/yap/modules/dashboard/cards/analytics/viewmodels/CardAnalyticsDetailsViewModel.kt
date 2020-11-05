@@ -14,19 +14,16 @@ import co.yap.networking.transactions.responsedtos.transaction.TransactionAnalyt
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.SessionManager
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CardAnalyticsDetailsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalyticsDetails.State>(application),
     ICardAnalyticsDetails.ViewModel {
     override val state = CardAnalyticsDetailsState()
-    override val adapter: ObservableField<TransactionsListingAdapter> =
-        ObservableField<TransactionsListingAdapter>()
+    override val adapter: TransactionsListingAdapter = TransactionsListingAdapter(arrayListOf())
     override var transactionResponse: TransactionAnalyticsDetailsResponse =
         TransactionAnalyticsDetailsResponse()
     val repository: TransactionsRepository = TransactionsRepository
-    var list: MutableList<Transaction>? = ArrayList<Transaction>()
+    var list: MutableList<Transaction> = arrayListOf()
     var viewState: MutableLiveData<Int> = MutableLiveData(Constants.EVENT_LOADING)
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
@@ -47,24 +44,24 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     override fun fetchMerchantTransactions(merchantType: String, currentDate: String) {
         launch {
             state.loading = true
-            viewState.value = Constants.EVENT_EMPTY
             when (val response = repository.getTransactionsOfMerchant(
                 merchantType,
                 SessionManager.getCardSerialNumber(),
-                currentDate,
-                state.title.get() ?: ""
+                parentViewModel?.state?.currentSelectedDate,
+                state.categories
             )) {
                 is RetroApiResponse.Success -> {
-
                     response.data.data?.let { resp ->
                         transactionResponse = resp
+                        state.avgSpending.set("${transactionResponse.averageSpending}")
+                        state.currToLast.set("${transactionResponse.currentToLastMonth}%")
                         if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
-                            list = transactionResponse.txnAnalytics
-                            list?.let { transactionList ->
-                                adapter.get()?.setList(transactionList)
+                            list =transactionResponse.txnAnalytics?: arrayListOf()
+                            list.let { transactionList ->
+                                adapter.setList(transactionList)
                             }
-                        }
+                        } else viewState.value = Constants.EVENT_EMPTY
                         state.loading = false
                     }
                 }

@@ -15,6 +15,7 @@ class YapHomeState : BaseState(), IYapHome.State {
             notifyPropertyChanged(BR.availableBalance)
         }
     override var filterCount: ObservableField<Int> = ObservableField()
+    override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(true)
     override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)
-    override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(false)
+
 }

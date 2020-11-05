@@ -31,6 +31,9 @@
     <string name="common_send_money">Send money</string>
     <string name="common_add_money">Add money</string>
     <string name="common_pay_bills">Pay bills</string>
+    <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
+    <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
+    <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -1036,6 +1039,7 @@
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
+    <string name="screen_tax_info_display_text_reason_no_tin_number_selected">Reason for not having a TIN</string>
     <string name="screen_tax_info_display_text_country_no_tin_issue">The country does not issue a TIN</string>
     <string name="screen_tax_info_display_text_add_another_country">Add another country</string>
     <string name="screen_tax_info_display_text_not_us_national">I am not a US national/resident for tax purposes.</string>
@@ -1043,11 +1047,16 @@
     <string name="screen_tax_info_display_text_heading_tin_number">Enter your TIN number</string>
 
     <!--    Waiting list screen-->
-    <string name="screen_waiting_list_display_text_heading">Well done! You\’re #%1s on our waiting list</string>
-    <string name="screen_waiting_list_display_text_guide">We\’re currently in beta and only open to a limited number of users. Don\’t worry, you\’ll be the first to know when we\’re ready!</string>
+    <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
+    <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
     <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+    <!-- Blocked Screen-->
+
+    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
+    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>
+
 
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
@@ -1079,10 +1088,9 @@
     <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
     <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
     <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
-
     <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
     <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
 
     <!--  Yap It Add Money Screen-->
     <string name="screen_fragment_yap_it_add_money_title">Add money</string>
@@ -1098,9 +1106,9 @@
     <string name="screen_fragment_yap_it_qr_code_share_my_code">Share my code</string>
     <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
     <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
-    <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
-
     <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
 
-</resources>
+    <!-- Transaction Detail Screen -->
+    <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
 
+</resources>
