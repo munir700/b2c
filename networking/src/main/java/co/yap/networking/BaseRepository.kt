@@ -7,6 +7,7 @@ import co.yap.networking.models.RetroApiResponse
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
+import java.net.ConnectException
 import com.google.gson.stream.MalformedJsonException as MalformedJsonException1
 
 const val MALFORMED_JSON_EXCEPTION_CODE = 0
@@ -33,8 +34,20 @@ abstract class BaseRepository : IRepository {
                     exception.localizedMessage
                 )
             )
+        } catch (exception: ConnectException) {
+            return RetroApiResponse.Error(
+                ApiError(
+                    0,
+                    defaultErrorMessage
+                )
+            )
         } catch (exception: Exception) {
-            return RetroApiResponse.Error(ApiError(0, exception.localizedMessage ?: defaultErrorMessage))
+            return RetroApiResponse.Error(
+                ApiError(
+                    0,
+                    exception.localizedMessage ?: defaultErrorMessage
+                )
+            )
         }
     }
 
