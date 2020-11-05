@@ -217,3 +217,19 @@ fun Double?.roundVal(): Double {
     val floatingDivisor = (rounded ?: 0.0).div(100)
     return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
 }
+
+fun Double?.roundValHalfEven(): Double {
+//    this?.let {
+//        val floatingMultiplier = it * 100
+//        val rounded =
+//            floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble()
+//        val floatingDivisor = rounded ?: 0.0.div(100)
+//        return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_UP)?.toDouble() ?: 0.0
+//    } ?: return 0.0
+
+    val floatingMultiplier = (this ?: 0.0) * 100
+    val rounded =
+        floatingMultiplier.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble()
+    val floatingDivisor = (rounded ?: 0.0).div(100)
+    return floatingDivisor.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN)?.toDouble() ?: 0.0
+}
