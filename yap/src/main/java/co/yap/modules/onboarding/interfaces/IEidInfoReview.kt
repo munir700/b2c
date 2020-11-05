@@ -1,6 +1,8 @@
 package co.yap.modules.onboarding.interfaces
 
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
+import co.yap.widgets.State
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -48,7 +50,7 @@ interface IEidInfoReview {
         val eventEidUpdate: Int get() = 9
         val eventCitizenNumberIssue: Int get() = 10
         val eventEidExpiryDateIssue: Int get() = 11
-
+        var eidStateLiveData: MutableLiveData<co.yap.widgets.State>
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun updateLabels(title: String, body: String)
