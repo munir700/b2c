@@ -66,6 +66,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         onbackPressLogic()
         dialer.setNumberKeyboardListener(this)
         dialer.upDatedDialerPad(viewModel.state.passcode)
+        dialer.removeError()
     }
 
     private fun addObservers() {
