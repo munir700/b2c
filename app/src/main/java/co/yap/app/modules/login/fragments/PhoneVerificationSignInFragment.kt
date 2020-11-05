@@ -169,7 +169,7 @@ class PhoneVerificationSignInFragment :
                 handler.postDelayed({
                     activity?.onBackPressed()
 
-                }, 100.toLong())
+                }, 50L)
             }
         }
     }
