@@ -154,6 +154,7 @@ class InternationalFundsTransferFragment :
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
+        etNote.clearFocus()
         var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
         this.fragmentManager?.let {
             inviteFriendBottomSheet = PopListBottomSheet(object :

@@ -37,6 +37,7 @@ import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
 class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
     ICashTransfer.View {
@@ -104,6 +105,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun setupPOP(purposeCategories: Map<String?, List<PurposeOfPayment>>?) {
+        etNote.clearFocus()
         var inviteFriendBottomSheet: BottomSheetDialogFragment? = null
         this.fragmentManager?.let {
             inviteFriendBottomSheet = PopListBottomSheet(object :
