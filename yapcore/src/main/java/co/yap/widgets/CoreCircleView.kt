@@ -16,7 +16,19 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
     var icon: Drawable? = null
         set(value) {
             field = value
-            UIBinder.setImageResId(ivIcon, value)
+            icon?.let {
+                UIBinder.setImageResId(ivIcon, value)
+            }
+        }
+
+    var topLefticon: Drawable? = null
+        set(value) {
+            field = value
+            topLefticon?.let {
+                ivTopLeft.visibility = VISIBLE
+                UIBinder.setImageResId(ivTopLeft, value)
+            }
+
         }
 
     var iconWidth: Float? = null
@@ -48,8 +60,6 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
             field = value
             iconBgWidth?.let {
                 clBgIcon.layoutParams.width = it.toInt()
-                clBgIcon.backgroundTintList =
-                    ContextCompat.getColorStateList(clBgIcon.context, it.toInt())
             }
         }
 
