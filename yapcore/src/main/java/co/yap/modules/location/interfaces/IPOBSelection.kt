@@ -27,5 +27,6 @@ interface IPOBSelection {
         var cityOfBirth: String
         var valid: ObservableField<Boolean>
         var selectedCountry: Country?
+        var selectedCountryIndex: Int
     }
 }
