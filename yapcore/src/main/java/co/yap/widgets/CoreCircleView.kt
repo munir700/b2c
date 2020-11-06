@@ -20,6 +20,13 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 UIBinder.setImageResId(ivIcon, value)
             }
         }
+    var iconMain: Int? = null
+        set(value) {
+            field = value
+            iconMain?.let {
+                UIBinder.setImageResId(ivIcon, it)
+            }
+        }
 
     var topLefticon: Drawable? = null
         set(value) {

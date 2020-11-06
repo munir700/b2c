@@ -10,7 +10,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseViewMode
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLandingOptions
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 
 class SendMoneyLandingViewModel(application: Application) :
     SendMoneyBaseViewMode<ISendMoneyLanding.State>(application),
@@ -21,9 +20,11 @@ class SendMoneyLandingViewModel(application: Application) :
         context,
         mutableListOf()
     )
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
     override fun onCreate() {
         super.onCreate()
         setToolBarTitle(getString(Strings.common_send_money))

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapItSendMoneyLandingBinding
-import co.yap.modules.dashboard.yapit.addmoney.landing.AddMoneyLandingOptions
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingItemViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLandingOptions
 import co.yap.yapcore.BaseBindingRecyclerAdapter

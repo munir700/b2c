@@ -9,6 +9,6 @@ import kotlinx.android.parcel.Parcelize
 data class SendMoneyLandingOptions(
     var name: String,
     val image: Int,
-    val showFlag : Boolean,
-    var flag : Int? = null
+    val showFlag: Boolean,
+    var flag: Int? = null
 ) : Parcelable

@@ -10,8 +10,6 @@ import co.yap.databinding.FragmentSendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseFragment
 import co.yap.widgets.SpaceGridItemDecoration
-import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -71,5 +69,4 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
     override fun getBinding(): FragmentSendMoneyLandingBinding {
         return viewDataBinding as FragmentSendMoneyLandingBinding
     }
-
 }
