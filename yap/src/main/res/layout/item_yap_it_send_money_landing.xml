@@ -33,6 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_notification"
             app:icon="@{viewModel.addMoneyOptions.image}"
+            app:topLefticonInt ="@{viewModel.addMoneyOptions.flag}"
             android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintBottom_toTopOf="@+id/tvTitle"/>
 
