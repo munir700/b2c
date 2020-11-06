@@ -1793,4 +1793,20 @@ object Strings {
 
     const val iban_or_debit_card_freeze_or_blocked_message: String =
         "iban_or_debit_card_freeze_or_blocked_message"
+
+    // Send Money Home Screen
+    const val screen_send_money_home_display_text_send_money: String =
+            "screen_send_money_home_display_text_send_money"
+    const val screen_send_money_home_display_text_money: String =
+            "screen_send_money_home_display_text_money"
+    const val screen_send_money_home_display_text_recent_transfers: String =
+            "screen_send_money_home_display_text_recent_transfers"
+    const val screen_send_money_home_display_text_send_money_home: String =
+            "screen_send_money_home_display_text_send_money_home"
+    const val screen_send_money_home_display_text_get_best_rates: String =
+            "screen_send_money_home_display_text_get_best_rates"
+    const val screen_send_money_home_display_text_change_home_country: String =
+            "screen_send_money_home_display_text_change_home_country"
+    const val screen_send_money_home_display_text_hide: String =
+            "screen_send_money_home_display_text_hide"
 }
