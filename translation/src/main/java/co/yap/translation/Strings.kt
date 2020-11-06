@@ -1817,4 +1817,6 @@ object Strings {
             "screen_send_money_home_display_text_change_home_country"
     const val screen_send_money_home_display_text_hide: String =
             "screen_send_money_home_display_text_hide"
+    const val screen_send_money_home_title: String =
+            "screen_send_money_home_title"
 }

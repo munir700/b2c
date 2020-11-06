@@ -8,5 +8,18 @@
         android:id="@+id/sendMoneyLandingFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLandingFragment"
         android:label="Send Money Landing"
-        tools:layout="@layout/fragment_send_money_landing"/>
+        tools:layout="@layout/fragment_send_money_landing">
+        <action
+            android:id="@+id/action_sendMoneyLandingFragment_to_smHomeCountryFragment"
+            app:destination="@id/smHomeCountryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/smHomeCountryFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryFragment"
+        android:label="@string/screen_send_money_home_title"
+        tools:layout="@layout/fragment_send_money_home">
+
+
+    </fragment>
 </navigation>

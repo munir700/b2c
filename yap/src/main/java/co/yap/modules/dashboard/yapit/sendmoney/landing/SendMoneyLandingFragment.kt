@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSendMoneyLandingBinding
@@ -23,13 +24,18 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
     override val viewModel: SendMoneyLandingViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyLandingViewModel::class.java)
 
-    override fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
+    }
+
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, observer)
     }
 
     private fun setupRecycleView() {
@@ -57,6 +63,7 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
             SEND_MONEY_TO_INTERNATIONAL -> {
             }
             SEND_MONEY_TO_HOME_COUNTRY -> {
+                findNavController().navigate(R.id.action_sendMoneyLandingFragment_to_smHomeCountryFragment)
             }
             SEND_MONEY_QR_CODE -> {
 
