@@ -58,17 +58,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initComponents()
+        if (intent.hasExtra(TransferType)) {
+            viewModel.moneyTransferType.value = intent.getStringExtra(TransferType)
+            viewModel.getBeneficiariesOfType(viewModel.moneyTransferType.value ?: "")
+        }
         if (intent.hasExtra(searching)) {
             viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
             viewModel.isSearching.value?.let {
                 viewModel.state.isSearching.set(it)
             }
         }
-        if (intent.hasExtra(TransferType)) {
-            viewModel.moneyTransferType.value = intent.getStringExtra(TransferType)
-            viewModel.getBeneficiariesOfType(viewModel.moneyTransferType.value ?: "")
-        }
-
         setObservers()
     }
 
