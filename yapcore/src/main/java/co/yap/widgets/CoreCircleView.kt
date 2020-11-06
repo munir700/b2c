@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.binders.UIBinder
+import co.yap.yapcore.helpers.ImageBinding
 import kotlinx.android.synthetic.main.core_circle_view.view.*
 
 class CoreCircleView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
@@ -29,6 +30,23 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 UIBinder.setImageResId(ivTopLeft, value)
             }
 
+        }
+
+
+    var imageUrl: String? = null
+        set(value) {
+            field = value
+            imageUrl?.let {
+                ivIcon.visibility = GONE
+                ivProfilePic.visibility = VISIBLE
+                ImageBinding.loadAvatar(ivProfilePic, it, fullName)
+            }
+
+        }
+
+    var fullName: String? = null
+        set(value) {
+            field = value
         }
 
     var bottomRightIcon: Drawable? = null
@@ -70,6 +88,37 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
             field = value
             iconBgWidth?.let {
                 clBgIcon.layoutParams.width = it.toInt()
+            }
+        }
+    var  bottomRightIconHeight: Float? = null
+        set(value) {
+            field = value
+            bottomRightIconHeight?.let {
+                ivBottomRight.layoutParams.height = it.toInt()
+            }
+        }
+
+    var bottomRightIconWidth: Float? = null
+        set(value) {
+            field = value
+            bottomRightIconWidth?.let {
+                ivBottomRight.layoutParams.width = it.toInt()
+            }
+        }
+
+    var  topLeftIconHeight: Float? = null
+        set(value) {
+            field = value
+            topLeftIconHeight?.let {
+                ivTopLeft.layoutParams.height = it.toInt()
+            }
+        }
+
+    var  topLeftIconWidth: Float? = null
+        set(value) {
+            field = value
+            topLeftIconWidth?.let {
+                ivTopLeft.layoutParams.width = it.toInt()
             }
         }
 
