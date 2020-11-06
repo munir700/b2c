@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.main
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -14,9 +15,21 @@ class SendMoneyActivity : BaseBindingActivity<ISendMoneyMain.ViewModel>(), INavi
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money
 
-    override val viewModel: ISendMoneyMain.ViewModel = ViewModelProviders.of(this).get(
-        SendMoneyMainViewModel::class.java
-    )
+    override val viewModel: SendMoneyMainViewModel
+        get() = ViewModelProviders.of(this).get(SendMoneyMainViewModel::class.java)
+
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@SendMoneyActivity, R.id.send_money_nav_host_fragment_new)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+        }
+    }
 }

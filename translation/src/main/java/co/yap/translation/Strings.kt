@@ -1036,6 +1036,12 @@ object Strings {
         "screen_send_money_display_bottom_sheet_label"
     const val screen_fragment_yap_it_send_money_label: String =
         "screen_fragment_yap_it_send_money_label"
+    const val screen_send_money_local_bank_label: String =
+        "screen_send_money_local_bank_label"
+    const val screen_send_money_international_label: String =
+        "screen_send_money_international_label"
+    const val screen_send_money_home_label: String =
+        "screen_send_money_home_label"
 
 
     //     Add Beneficiary

@@ -8,20 +8,31 @@ import co.yap.R
 import co.yap.databinding.ItemYapItSendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.addmoney.landing.AddMoneyLandingOptions
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingItemViewModel
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLandingOptions
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class SendMoneyLandingAdapter(
     context: Context,
-    private val list: MutableList<AddMoneyLandingOptions>
+    private val list: MutableList<SendMoneyLandingOptions>
 ) :
-    BaseBindingRecyclerAdapter<AddMoneyLandingOptions, RecyclerView.ViewHolder>(list) {
+    BaseBindingRecyclerAdapter<SendMoneyLandingOptions, RecyclerView.ViewHolder>(list) {
     private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 20)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return ViewHolder(
             binding as ItemYapItSendMoneyLandingBinding
+        )
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        if (holder is ViewHolder) holder.onBind(
+            list[position],
+            position,
+            dimensions,
+            onItemClickListener
         )
     }
 
@@ -31,7 +42,7 @@ class SendMoneyLandingAdapter(
     class ViewHolder(private val itemYapItSendMoneyBinding: ItemYapItSendMoneyLandingBinding) :
         RecyclerView.ViewHolder(itemYapItSendMoneyBinding.root) {
         fun onBind(
-            addMoneyOptions: AddMoneyLandingOptions,
+            addMoneyOptions: SendMoneyLandingOptions,
             position: Int,
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?

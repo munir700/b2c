@@ -19,17 +19,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+       >
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal_large"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,25 +43,34 @@
             android:layout_height="wrap_content"
             android:text="Show Recent Transfers"
             style="@style/SmallGrey"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             android:layout_marginTop="@dimen/margin_large"
             />
+        <ViewStub
+            android:id="@+id/vsRecentBeneficiaries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/showrecentext"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerOptions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_small"
             android:dividerHeight="2dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/showrecentext"
+            app:layout_constraintTop_toBottomOf="@+id/vsRecentBeneficiaries"
             app:recycleViewAdapter="@{viewModel.landingAdapter}"
             app:spanCount="2"
             tools:itemCount="7"
-            tools:listitem="@layout/item_yap_it_add_money_landing" />
+            tools:listitem="@layout/item_yap_it_send_money_landing" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

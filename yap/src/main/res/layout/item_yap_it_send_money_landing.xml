@@ -25,13 +25,16 @@
 
         <co.yap.widgets.CoreCircleView
             android:id="@+id/imgIcon"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:padding="@dimen/margin_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.addMoneyOptions.image}"
-            tools:src="@drawable/ic_access_alarm" />
+            tools:src="@drawable/ic_notification"
+            app:icon="@{viewModel.addMoneyOptions.image}"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitle"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -39,9 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
-            android:paddingBottom="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:text="@{viewModel.addMoneyOptions.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"

@@ -26,13 +26,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
-            app:leftIconVisibility="@{viewModel.state.leftIconVisibility}"
+            app:leftIcon="@{R.drawable.ic_closenew}"
+            app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIcon="@{R.drawable.ic_iconprofile}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
             app:rightTitle="@{viewModel.state.rightButtonText}"
-            app:rightTitleVisibility="@{true}"
+            app:rightTitleVisibility="@{false}"
             app:titleString="@{viewModel.state.toolbarTitle}"
             app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
         <fragment
