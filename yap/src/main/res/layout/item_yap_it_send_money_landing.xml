@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cornor_edges_gery"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium">
+
+        <co.yap.widgets.CoreCircleView
+            android:id="@+id/imgIcon"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:padding="@dimen/margin_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_notification"
+            app:icon="@{viewModel.addMoneyOptions.image}"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitle"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/Micro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@{viewModel.addMoneyOptions.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgIcon"
+            tools:text="Top up via debit/credit card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
