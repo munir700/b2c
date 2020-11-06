@@ -9,4 +9,5 @@ class SendMoneyMainState : BaseState(), ISendMoneyMain.State {
     override var rightIconVisibility: ObservableBoolean = ObservableBoolean(true)
     override var leftIconVisibility: ObservableBoolean = ObservableBoolean(false)
     override var rightButtonText: ObservableField<String> = ObservableField("")
+    override var rightButtonTextVisibility: ObservableBoolean = ObservableBoolean(false)
 }
