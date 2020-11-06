@@ -21,13 +21,17 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
     override val viewModel: SendMoneyLandingViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyLandingViewModel::class.java)
 
-    override fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
+    }
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, observer)
     }
 
     private fun setupRecycleView() {
