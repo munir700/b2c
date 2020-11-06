@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.addbeneficiary.models.MoneyTransferType
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -31,8 +32,10 @@ interface ISendMoneyHome {
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries()
         fun requestAllBeneficiaries()
+        fun getBeneficiariesOfType(type : String)
         fun getState(): LiveData<PagingState>
         val searchQuery: MutableLiveData<String>
+        val moneyTransferType: MutableLiveData<String>
         val isSearching: MutableLiveData<Boolean>
     }
 

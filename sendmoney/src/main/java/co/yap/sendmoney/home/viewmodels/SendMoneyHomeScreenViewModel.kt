@@ -15,6 +15,7 @@ import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.managers.SessionManager
 
@@ -32,13 +33,14 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
+    override val moneyTransferType: MutableLiveData<String> = MutableLiveData()
     override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun onCreate() {
+  /*  override fun onCreate() {
         super.onCreate()
         requestAllBeneficiaries()
         SessionManager.getCurrenciesFromServer { _, _ -> }
@@ -46,7 +48,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             if (!it)
                 requestRecentBeneficiaries()
         }
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
@@ -70,6 +72,30 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+        }
+    }
+
+    override fun getBeneficiariesOfType(type: String) {
+        when (type) {
+            SendMoneyTransferType.HOME.type -> {
+                showToast("Process Under working")
+            }
+            SendMoneyTransferType.INTERNATIONAL.type -> {
+                requestAllBeneficiaries()
+                SessionManager.getCurrenciesFromServer { _, _ -> }
+                isSearching.value?.let {
+                    if (!it)
+                        requestRecentBeneficiaries()
+                }
+            }
+            SendMoneyTransferType.LOCAL.type -> {
+                requestAllBeneficiaries()
+                SessionManager.getCurrenciesFromServer { _, _ -> }
+                isSearching.value?.let {
+                    if (!it)
+                        requestRecentBeneficiaries()
                 }
             }
         }

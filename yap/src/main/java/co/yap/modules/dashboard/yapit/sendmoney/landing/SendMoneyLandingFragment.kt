@@ -9,8 +9,11 @@ import co.yap.R
 import co.yap.databinding.FragmentSendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseFragment
+import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -30,6 +33,7 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
     }
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
     }
@@ -52,16 +56,30 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
 
     private val observer = Observer<Int> {
         when (it) {
-            SEND_MONEY_TO_YAP_CONTACTS -> {
+            sendMoneyToYAPContacts -> {
+                showToast("Process under working")
             }
-            SEND_MONEY_TO_LOCALE_BANK -> {
+            sendMoneyToLocalBank -> {
+                launchActivity<SendMoneyLandingActivity> {
+                    putExtra(
+                        SendMoneyLandingActivity.TransferType,
+                        SendMoneyTransferType.LOCAL.type
+                    )
+                }
             }
-            SEND_MONEY_TO_INTERNATIONAL -> {
+            sendMoneyToInternational -> {
+                launchActivity<SendMoneyLandingActivity> {
+                    putExtra(
+                        SendMoneyLandingActivity.TransferType,
+                        SendMoneyTransferType.INTERNATIONAL.type
+                    )
+                }
             }
-            SEND_MONEY_TO_HOME_COUNTRY -> {
+            sendMoneyToHomeCountry -> {
+                showToast("Process under working")
             }
-            SEND_MONEY_QR_CODE -> {
-
+            sendMoneyQRCode -> {
+                showToast("Process under working")
             }
         }
     }

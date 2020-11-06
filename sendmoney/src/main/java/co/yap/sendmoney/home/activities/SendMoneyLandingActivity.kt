@@ -51,16 +51,24 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     companion object {
         const val searching = "searching"
+        const val TransferType = "TransferType"
         private var performedDeleteOperation: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initComponents()
-        viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-        viewModel.isSearching.value?.let {
-            viewModel.state.isSearching.set(it)
+        if (intent.hasExtra(searching)) {
+            viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
+            viewModel.isSearching.value?.let {
+                viewModel.state.isSearching.set(it)
+            }
         }
+        if (intent.hasExtra(TransferType)) {
+            viewModel.moneyTransferType.value = intent.getStringExtra(TransferType)
+            viewModel.getBeneficiariesOfType(viewModel.moneyTransferType.value ?: "")
+        }
+
         setObservers()
     }
 

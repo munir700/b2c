@@ -16,11 +16,11 @@ interface ISendMoneyLanding {
     }
 
     interface View : IBase.View<ViewModel> {
-        val SEND_MONEY_TO_YAP_CONTACTS get() = 0
-        val SEND_MONEY_TO_LOCALE_BANK get() = 1
-        val SEND_MONEY_TO_INTERNATIONAL get() = 2
-        val SEND_MONEY_TO_HOME_COUNTRY get() = 3
-        val SEND_MONEY_QR_CODE get() = 4
+        val sendMoneyToYAPContacts get() = 0
+        val sendMoneyToLocalBank get() = 1
+        val sendMoneyToInternational get() = 2
+        val sendMoneyToHomeCountry get() = 3
+        val sendMoneyQRCode get() = 4
         fun getBinding(): FragmentSendMoneyLandingBinding
         fun setObservers()
         fun removeObservers()
