@@ -35,8 +35,23 @@
         android:backgroundTint="@color/white"
         android:padding="@dimen/_4sdp"
         android:src="@drawable/flag_ae"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/clBgIcon"
         app:layout_constraintStart_toStartOf="@id/clBgIcon"
+        app:layout_constraintTop_toTopOf="@id/clBgIcon" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBottomRight"
+        android:layout_width="@dimen/_19sdp"
+        android:layout_height="@dimen/_19sdp"
+        android:layout_marginTop="@dimen/_27sdp"
+        android:background="@drawable/bg_core_circle_view"
+        android:backgroundTint="@color/white"
+        android:padding="@dimen/_4sdp"
+        android:src="@drawable/flag_ae"
+        app:layout_constraintBottom_toBottomOf="@id/clBgIcon"
+        app:layout_constraintEnd_toEndOf="@id/clBgIcon"
         app:layout_constraintTop_toTopOf="@id/clBgIcon" />
 
 

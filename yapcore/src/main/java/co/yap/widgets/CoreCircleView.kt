@@ -31,6 +31,16 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
 
         }
 
+    var bottomRightIcon: Drawable? = null
+        set(value) {
+            field = value
+            bottomRightIcon?.let {
+                ivBottomRight.visibility = VISIBLE
+                UIBinder.setImageResId(ivBottomRight, value)
+            }
+
+        }
+
     var iconWidth: Float? = null
         set(value) {
             field = value
