@@ -3,10 +3,7 @@ package co.yap.sendmoney.home.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
-import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.addbeneficiary.models.MoneyTransferType
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -19,6 +16,7 @@ interface ISendMoneyHome {
         var isNoRecentBeneficiary: ObservableField<Boolean>
         var isSearching: ObservableField<Boolean>
         var flagDrawableResId: ObservableField<Int>
+        var sendMoneyType: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -30,12 +28,10 @@ interface ISendMoneyHome {
         val adapter: ObservableField<RecentTransferAdaptor>
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
-        fun requestRecentBeneficiaries()
-        fun requestAllBeneficiaries()
-        fun getBeneficiariesOfType(type : String)
+        fun requestRecentBeneficiaries(sendMoneyType: String)
+        fun requestAllBeneficiaries(sendMoneyType: String)
         fun getState(): LiveData<PagingState>
         val searchQuery: MutableLiveData<String>
-        val moneyTransferType: MutableLiveData<String>
         val isSearching: MutableLiveData<Boolean>
     }
 

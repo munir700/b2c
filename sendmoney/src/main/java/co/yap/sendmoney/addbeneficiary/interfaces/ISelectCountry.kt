@@ -19,7 +19,6 @@ interface ISelectCountry {
         var countries: ArrayList<Country>
         val populateSpinnerData: MutableLiveData<List<Country>>
         fun onCountrySelected(pos: Int)
-
     }
 
     interface View : IBase.View<ViewModel>

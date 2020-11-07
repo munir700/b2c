@@ -15,6 +15,7 @@ import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.managers.SessionManager
@@ -33,22 +34,16 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
     override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
-    override val moneyTransferType: MutableLiveData<String> = MutableLiveData()
     override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
-  /*  override fun onCreate() {
+    override fun onCreate() {
         super.onCreate()
-        requestAllBeneficiaries()
         SessionManager.getCurrenciesFromServer { _, _ -> }
-        isSearching.value?.let {
-            if (!it)
-                requestRecentBeneficiaries()
-        }
-    }*/
+    }
 
     override fun onResume() {
         super.onResume()
@@ -60,13 +55,14 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
-    override fun requestAllBeneficiaries() {
+    override fun requestAllBeneficiaries(sendMoneyType: String) {
         launch {
             state.loading = true
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    allBeneficiariesLiveData.value = response.data.data
+                    allBeneficiariesLiveData.value =
+                        getBeneficiariesOfType(sendMoneyType, response.data.data)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -77,31 +73,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         }
     }
 
-    override fun getBeneficiariesOfType(type: String) {
-        when (type) {
-            SendMoneyTransferType.HOME.type -> {
-                showToast("Process Under working")
-            }
-            SendMoneyTransferType.INTERNATIONAL.type -> {
-                requestAllBeneficiaries()
-                SessionManager.getCurrenciesFromServer { _, _ -> }
-                isSearching.value?.let {
-                    if (!it)
-                        requestRecentBeneficiaries()
-                }
-            }
-            SendMoneyTransferType.LOCAL.type -> {
-                requestAllBeneficiaries()
-                SessionManager.getCurrenciesFromServer { _, _ -> }
-                isSearching.value?.let {
-                    if (!it)
-                        requestRecentBeneficiaries()
-                }
-            }
-        }
-    }
-
-    override fun requestRecentBeneficiaries() {
+    override fun requestRecentBeneficiaries(sendMoneyType: String) {
         launch {
             when (val response = repository.getRecentBeneficiaries()) {
                 is RetroApiResponse.Success -> {
@@ -111,7 +83,8 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                     else
                         state.isNoRecentBeneficiary.set(false)
 
-                    recentTransferData.value = response.data.data
+                    recentTransferData.value =
+                        getBeneficiariesOfType(sendMoneyType, response.data.data)
 
                 }
 
@@ -121,6 +94,21 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 }
             }
+        }
+    }
+
+    private fun getBeneficiariesOfType(type: String, list: List<Beneficiary>): List<Beneficiary> {
+        return when (type) {
+            SendMoneyTransferType.HOME_COUNTRY.name -> {
+                list
+            }
+            SendMoneyTransferType.INTERNATIONAL.name -> {
+                list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type }
+            }
+            SendMoneyTransferType.LOCAL.name -> {
+                list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type || it.beneficiaryType == SendMoneyBeneficiaryType.DOMESTIC.type }
+            }
+            else -> list
         }
     }
 
@@ -131,7 +119,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = "Deleted Successfully"
-                    requestRecentBeneficiaries()
+                    requestRecentBeneficiaries(state.sendMoneyType.get() ?: "")
                     onDeleteSuccess.setValue(111)
                 }
 

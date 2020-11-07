@@ -16,7 +16,6 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-
 class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewModel>(),
     ISendMoneyLanding.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -60,20 +59,10 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
                 showToast("Process under working")
             }
             sendMoneyToLocalBank -> {
-                launchActivity<SendMoneyLandingActivity> {
-                    putExtra(
-                        SendMoneyLandingActivity.TransferType,
-                        SendMoneyTransferType.LOCAL.type
-                    )
-                }
+                startSendMoneyFlow(SendMoneyTransferType.LOCAL.name)
             }
             sendMoneyToInternational -> {
-                launchActivity<SendMoneyLandingActivity> {
-                    putExtra(
-                        SendMoneyLandingActivity.TransferType,
-                        SendMoneyTransferType.INTERNATIONAL.type
-                    )
-                }
+                startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             sendMoneyToHomeCountry -> {
                 showToast("Process under working")
@@ -81,6 +70,16 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
             sendMoneyQRCode -> {
                 showToast("Process under working")
             }
+        }
+    }
+
+    private fun startSendMoneyFlow(sendMoneyType: String) {
+        launchActivity<SendMoneyLandingActivity> {
+            putExtra(
+                SendMoneyLandingActivity.TransferType,
+                sendMoneyType
+            )
+            putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
