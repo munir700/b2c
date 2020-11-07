@@ -311,6 +311,7 @@ class EasyMoneyEditText : AppCompatEditText {
                     //setting text after format to EditText
                     if (getValueInt() <= 0.0) {
                         setText("")
+                        textToDisplay = text.toString()
                         hint = "0.00"
                     } else {
                         textToDisplay = formattedString
@@ -319,10 +320,11 @@ class EasyMoneyEditText : AppCompatEditText {
                     setSelection(text?.length ?: 0)
                 } catch (nfe: java.lang.NumberFormatException) {
 //                    nfe.printStackTrace();
-                    setText(backupString)
+                    // setText(backupString)
                     val valStr = getValueString()
                     if (valStr.isEmpty() || getValueInt() <= 0.0) {
                         setText("")
+                        textToDisplay = text.toString()
                         hint = "0.00"
                     } else {
                         // Some decimal number
@@ -360,7 +362,13 @@ class EasyMoneyEditText : AppCompatEditText {
                 this@EasyMoneyEditText.addTextChangedListener(this)
             }
 
-            override fun afterTextChanged(editable: Editable) {}
+            override fun afterTextChanged(editable: Editable) {
+                this@EasyMoneyEditText.removeTextChangedListener(this)
+                if (editable.isNotEmpty())
+                    setText(textToDisplay)
+                setSelection(text?.length ?: 0)
+                this@EasyMoneyEditText.addTextChangedListener(this)
+            }
         })
     }
 
