@@ -18,6 +18,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     var isFeeReceived: MutableLiveData<Boolean> = MutableLiveData(false)
     var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData(false)
     var feeType: String = ""
+    private var feeCurrency: String = "AED"
+    private var fixedAmount: Double = 0.0
     var feeAmount: String = ""
     var vat: String = ""
     val updatedFee: MutableLiveData<String> = MutableLiveData("0.0")
@@ -31,6 +33,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
                 transactionRepository.getTransactionFeeWithProductCode(productCode, feeRequest)) {
                 is RetroApiResponse.Success -> {
                     feeType = response.data.data?.feeType ?: "FLAT"
+                    feeCurrency = response.data.data?.feeCurrency ?: "AED"
+                    fixedAmount = response.data.data?.fixedAmount ?: 0.0
                     response.data.data?.tierRateDTOList?.let {
                         feeTiers =
                             response.data.data?.tierRateDTOList as ArrayList<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
@@ -46,12 +50,12 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         }
     }
 
-    fun updateFees(enterAmount: String, isTopUpFee: Boolean = false) {
+    fun updateFees(enterAmount: String, isTopUpFee: Boolean = false, fxRate: Double = 1.0) {
         var result = "0.0"
         if (!feeTiers.isNullOrEmpty()) {
             result = when (feeType) {
-                FeeType.FLAT.name -> getFlatFee(enterAmount, isTopUpFee).toString()
-                FeeType.TIER.name -> getFeeFromTier(enterAmount, isTopUpFee).toString()
+                FeeType.FLAT.name -> getFlatFee(enterAmount, isTopUpFee, fxRate).toString()
+                FeeType.TIER.name -> getFeeFromTier(enterAmount, isTopUpFee, fxRate).toString()
                 else -> {
                     "0.0"
                 }
@@ -60,14 +64,24 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         updatedFee.value = result
     }
 
-    fun getFeeFromTier(enterAmount: String, isTopUpFee: Boolean = false): String? {
+    fun getFeeFromTier(
+        enterAmount: String,
+        isTopUpFee: Boolean = false,
+        fxRate: Double = 1.0
+    ): String? {
         return if (!enterAmount.isBlank()) {
             val fee = feeTiers.firstOrNull { item ->
                 item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
             } ?: return "0.0"
 
             if (fee.feeInPercentage == false) {
-                (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
+                if (feeCurrency.equals("EUR", true)) {
+                    ((fee.feeAmount ?: 0.0).times(fxRate)).plus(fee.vatAmount ?: 0.0)
+                        .plus(fixedAmount)
+                        .toString()
+                } else {
+                    (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).plus(fixedAmount).toString()
+                }
             } else {
                 if (isTopUpFee) getFeeInPercentageForTopup(
                     enterAmount,
@@ -82,12 +96,21 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         }
     }
 
-    fun getFlatFee(enterAmount: String, isTopUpFee: Boolean = false): String? {
+    fun getFlatFee(
+        enterAmount: String,
+        isTopUpFee: Boolean = false,
+        fxRate: Double = 1.0
+    ): String? {
         val fee = feeTiers.firstOrNull() ?: return "0.0"
         return if (fee.feeInPercentage == false) {
-            feeAmount = if (fee.feeAmount == null) "0.0" else fee.feeAmount.toString()
+            feeAmount = if (feeCurrency.equals("EUR", true)) {
+                if (fee.feeAmount == null) "0.0" else ((fee.feeAmount
+                    ?: 0.0).times(fxRate)).toString()
+            } else {
+                if (fee.feeAmount == null) "0.0" else fee.feeAmount.toString()
+            }
             vat = if (fee.vatAmount == null) "0.0" else fee.vatAmount.toString()
-            (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).toString()
+            (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).plus(fixedAmount).toString()
         } else {
             return if (isTopUpFee) getFeeInPercentageForTopup(
                 enterAmount,
@@ -101,17 +124,23 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     private fun calFeeInPercentage(
         enterAmount: String,
-        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
+        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO,
+        fxRate: Double = 1.0
     ): String? {
-        val feeAmount =
+        val feeAmount = if (feeCurrency.equals("EUR", true)) {
+            (enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
+                ?: 0.0).times(fxRate))
+        } else {
             enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
+        }
         val vatAmount = feeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
-        return (feeAmount + vatAmount).toString()
+        return (feeAmount + vatAmount + fixedAmount).toString()
     }
 
+    // Update only in remitience
     private fun getFeeInPercentageForTopup(
         enterAmount: String,
         fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
