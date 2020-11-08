@@ -619,6 +619,7 @@
         <attr name="linePadding" format="dimension" />
     </declare-styleable>
 
+
     <declare-styleable name="CoreCircleView">
     </declare-styleable>
 
