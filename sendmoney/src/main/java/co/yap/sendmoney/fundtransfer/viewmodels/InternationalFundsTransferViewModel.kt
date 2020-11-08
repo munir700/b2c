@@ -56,7 +56,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true
+                    ) ?: ""
                 )
             )
     }
@@ -177,17 +179,26 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        updateFees(state.etOutputAmount.toString())
+        updateFees(
+            enterAmount = state.etOutputAmount.toString(),
+            fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+        )
     }
 
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etOutputAmount.toString())
+                val transferFee = getFeeFromTier(
+                    enterAmount = state.etOutputAmount.toString(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = getFlatFee(state.etOutputAmount.toString())
+                val transferFee = getFlatFee(
+                    enterAmount = state.etOutputAmount.toString(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
