@@ -180,7 +180,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     fun updateFees() {
         updateFees(
-            enterAmount = state.etOutputAmount.toString(),
+            enterAmount = state.etInputAmount.toString(),
             fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
         )
     }
@@ -189,14 +189,14 @@ class InternationalFundsTransferViewModel(application: Application) :
         return (when (feeType) {
             FeeType.TIER.name -> {
                 val transferFee = getFeeFromTier(
-                    enterAmount = state.etOutputAmount.toString(),
+                    enterAmount = state.etInputAmount.toString(),
                     fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
                 )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
                 val transferFee = getFlatFee(
-                    enterAmount = state.etOutputAmount.toString(),
+                    enterAmount = state.etInputAmount.toString(),
                     fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
                 )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
