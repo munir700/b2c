@@ -249,6 +249,9 @@
     <bool name="enable_voice_sharing">false</bool>
     <integer name="max_number_stored_voice_files">20</integer>
 
+    <!-- Clear Chat History-->
+    <string name="lp_history_control_api_empty_state">@string/screen_live_chat_no_conversation_message</string>
+
     <!--  Start of scroll behavior settings.  -->
 
     <!--  LastPosition: Conversation will scroll to the previous position regardless if there are new messages or not.(Default) -->
