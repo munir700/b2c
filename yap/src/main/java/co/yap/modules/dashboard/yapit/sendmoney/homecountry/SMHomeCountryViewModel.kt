@@ -4,8 +4,15 @@ import android.app.Application
 import android.view.View
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseViewMode
+import co.yap.yapcore.SingleClickEvent
 
 class SMHomeCountryViewModel (application: Application) : SendMoneyBaseViewMode<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel {
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override val state: SMHomeCountryState = SMHomeCountryState()
 
     override fun onCreate() {

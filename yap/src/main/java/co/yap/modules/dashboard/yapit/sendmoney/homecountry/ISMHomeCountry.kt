@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface ISMHomeCountry {
     interface State: IBase.State {
@@ -13,7 +14,8 @@ interface ISMHomeCountry {
     }
 
     interface ViewModel: IBase.ViewModel<State> {
-
+        val clickEvent: SingleClickEvent
+        fun handlePressOnView(id: Int)
     }
 
     interface View: IBase.View<ViewModel> {

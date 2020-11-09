@@ -63,7 +63,7 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
             SEND_MONEY_TO_INTERNATIONAL -> {
             }
             SEND_MONEY_TO_HOME_COUNTRY -> {
-                findNavController().navigate(R.id.action_sendMoneyLandingFragment_to_smHomeCountryFragment)
+                navigate(R.id.action_sendMoneyLandingFragment_to_smHomeCountryFragment)
             }
             SEND_MONEY_QR_CODE -> {
 
