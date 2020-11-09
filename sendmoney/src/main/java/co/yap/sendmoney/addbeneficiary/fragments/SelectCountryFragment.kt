@@ -5,13 +5,18 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.Currency
+import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.adapters.CountryAdapter
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.SendMoneyTransferType
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
@@ -23,8 +28,22 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_select_country
 
-    override val viewModel: ISelectCountry.ViewModel
+    override val viewModel: SelectCountryViewModel
         get() = ViewModelProviders.of(this).get(SelectCountryViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (viewModel.parentViewModel?.sendMoneyType == SendMoneyTransferType.LOCAL.name) {
+           viewModel.parentViewModel?.selectedCountry?.value = Country(
+                isoCountryCode2Digit = "AE",
+                name = "United Arab Emirates",
+                currency = Currency(code = "AED")
+            )
+            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                SendMoneyBeneficiaryType.DOMESTIC.name
+            skipCountrySelectionFragment()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,5 +114,17 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             countryAdapter =
                 context?.let { CountryAdapter(it, viewModel.countries) }
         return countryAdapter
+    }
+
+    private fun skipCountrySelectionFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.selectCountryFragment, true) // starting destination skiped
+            .build()
+
+        findNavController().navigate(
+            R.id.action_selectCountryFragment_to_DomesticFragment,
+            null,
+            navOptions
+        )
     }
 }

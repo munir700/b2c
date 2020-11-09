@@ -82,7 +82,6 @@ class SelectCountryViewModel(application: Application) :
     }
 
     private fun getAllCountries() {
-
         if (!countries.isNullOrEmpty()) {
             populateSpinnerData.setValue(countries)
         } else {
@@ -91,6 +90,7 @@ class SelectCountryViewModel(application: Application) :
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
                         val sortedList = response.data.data?.sortedWith(compareBy { it.name })
+                            ?.filter { it.isoCountryCode2Digit != "AE" }
                         sortedList?.let { it ->
                             countries.clear()
                             countries.add(

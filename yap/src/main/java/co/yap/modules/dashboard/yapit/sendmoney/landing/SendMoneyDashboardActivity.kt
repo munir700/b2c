@@ -57,20 +57,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 showToast("Process under working")
             }
             sendMoneyToLocalBank -> {
-                launchActivity<SendMoneyLandingActivity> {
-                    putExtra(
-                        SendMoneyLandingActivity.TransferType,
-                        SendMoneyTransferType.LOCAL.type
-                    )
-                }
+                startSendMoneyFlow(SendMoneyTransferType.LOCAL.name)
             }
             sendMoneyToInternational -> {
-                launchActivity<SendMoneyLandingActivity> {
-                    putExtra(
-                        SendMoneyLandingActivity.TransferType,
-                        SendMoneyTransferType.INTERNATIONAL.type
-                    )
-                }
+                startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             sendMoneyToHomeCountry -> {
                 showToast("Process under working")
@@ -78,6 +68,16 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             sendMoneyQRCode -> {
                 showToast("Process under working")
             }
+        }
+    }
+
+    private fun startSendMoneyFlow(sendMoneyType: String) {
+        launchActivity<SendMoneyLandingActivity> {
+            putExtra(
+                SendMoneyLandingActivity.TransferType,
+                sendMoneyType
+            )
+            putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
