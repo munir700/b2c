@@ -20,7 +20,7 @@
             android:id="@+id/ivFlag"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:src="@drawable/flag_ca"
             app:src="@{viewModel.state.flagDrawableResId}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
             style="@style/Title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivFlag"
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_normal"
             android:background="@drawable/cornor_edges_grey_less_radius"
@@ -146,6 +146,7 @@
             android:layout_marginEnd="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/containerCurrency"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewRecents"
             app:text="@{Strings.screen_send_money_home_display_text_hide}"
             tools:text="@string/screen_send_money_home_display_text_hide" />
 
@@ -161,6 +162,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvHide"
             tools:listitem="@layout/item_recent_beneficiaries_transfer"
+            app:layout_constraintBottom_toTopOf="@+id/ivTick1"
             tools:itemCount="10" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -168,7 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_large"
             android:src="@drawable/ic_achievement_complete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerViewRecents" />
@@ -220,7 +222,7 @@
             android:textColor="?attr/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_extra_large"
+            app:layout_constraintTop_toBottomOf="@+id/tvGetBestRates"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
