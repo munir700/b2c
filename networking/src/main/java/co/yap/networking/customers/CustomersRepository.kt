@@ -354,6 +354,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.removeProfilePicture() })
 
-    override suspend fun getCustomerInfo(uuid: String): RetroApiResponse<CustomerInfoResponse> =
-        executeSafely(call = { api.getCustomerInfo(uuid) })
+    override suspend fun getCustomerInfo(uuid: String?): RetroApiResponse<CustomerInfoResponse> =
+        executeSafely(call = { api.getCustomerInfo(uuid ?: "") })
 }

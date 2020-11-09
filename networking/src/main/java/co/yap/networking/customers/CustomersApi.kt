@@ -97,5 +97,5 @@ interface CustomersApi {
     suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse>
     suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse>
     suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
-
+    suspend fun getCustomerInfo(uuid: String?): RetroApiResponse<CustomerInfoResponse>
 }
