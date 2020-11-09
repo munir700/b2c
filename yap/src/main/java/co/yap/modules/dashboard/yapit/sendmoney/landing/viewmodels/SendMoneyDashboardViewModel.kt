@@ -32,6 +32,8 @@ class SendMoneyDashboardViewModel(application: Application) :
         super.onCreate()
         state.toolbarTitle = getString(Strings.common_send_money)
         dashboardAdapter.setList(geSendMoneyOptions())
+        toggleRightIconVisibility(true)
+        landingAdapter.setList(geSendMoneyOptions())
     }
 
     override fun geSendMoneyOptions(): MutableList<SendMoneyOptions> {
