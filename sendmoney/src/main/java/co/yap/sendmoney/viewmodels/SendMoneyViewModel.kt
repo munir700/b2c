@@ -20,6 +20,8 @@ class SendMoneyViewModel(application: Application) :
     override var otpSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override var countriesList: List<Country>? = null
     override var selectedResidenceCountry: Country? = null
+    override var sendMoneyType: String = ""
+
 
     override fun onCreate() {
         super.onCreate()

@@ -1,4 +1,4 @@
-package co.yap.sendmoney.scanqrcode
+package co.yap.widgets.scanqrcode
 
 import android.Manifest
 import android.graphics.PointF
@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import co.yap.sendmoney.BR
-import co.yap.sendmoney.R
-import co.yap.sendmoney.databinding.FragmentScanQrCodeBinding
-import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.R
+import co.yap.yapcore.databinding.FragmentScanQrCodeBinding
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 
-class ScanQRCodeFragment : SendMoneyBaseFragment<IScanQRCode.ViewModel>(),
+class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     IScanQRCode.View, QRCodeReaderView.OnQRCodeReadListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_scan_qr_code

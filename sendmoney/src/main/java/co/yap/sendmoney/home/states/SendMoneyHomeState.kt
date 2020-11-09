@@ -10,4 +10,5 @@ class SendMoneyHomeState : BaseState(), ISendMoneyHome.State {
     override var hasBeneficiary: ObservableField<Boolean> = ObservableField(false)
     override var flagDrawableResId: ObservableField<Int> = ObservableField(-1)
     override var isNoRecentBeneficiary: ObservableField<Boolean> = ObservableField(true)
+    override var sendMoneyType: ObservableField<String> = ObservableField()
 }

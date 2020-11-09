@@ -1,10 +1,6 @@
-package co.yap.sendmoney.scanqrcode
+package co.yap.widgets.scanqrcode
 
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 
 interface IScanQRCode {
     interface State : IBase.State {
