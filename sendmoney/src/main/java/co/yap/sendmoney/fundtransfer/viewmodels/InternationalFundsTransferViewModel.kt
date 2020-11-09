@@ -180,8 +180,11 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     fun updateFees() {
         updateFees(
-            enterAmount = state.etInputAmount.toString(),
-            fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+            enterAmount = if (feeCurrency.equals(
+                    parentViewModel?.beneficiary?.value?.currency,
+                    true
+                )
+            ) state.etInputAmount.toString() else state.etOutputAmount.toString()
         )
     }
 
@@ -189,15 +192,21 @@ class InternationalFundsTransferViewModel(application: Application) :
         return (when (feeType) {
             FeeType.TIER.name -> {
                 val transferFee = getFeeFromTier(
-                    enterAmount = state.etInputAmount.toString(),
-                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                    enterAmount = if (feeCurrency.equals(
+                            parentViewModel?.beneficiary?.value?.currency,
+                            true
+                        )
+                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
                 )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
                 val transferFee = getFlatFee(
-                    enterAmount = state.etInputAmount.toString(),
-                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                    enterAmount = if (feeCurrency.equals(
+                            parentViewModel?.beneficiary?.value?.currency,
+                            true
+                        )
+                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
                 )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
