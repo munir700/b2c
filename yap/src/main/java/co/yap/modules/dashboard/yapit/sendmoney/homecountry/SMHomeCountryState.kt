@@ -14,4 +14,6 @@ class SMHomeCountryState: BaseState(), ISMHomeCountry.State {
     override var symbol: ObservableField<String>? = ObservableField()
     override var time: ObservableField<String>? = ObservableField()
     override var flagDrawableResId: ObservableInt? = ObservableInt()
+    override var rightButtonText: ObservableField<String> = ObservableField("")
+
 }

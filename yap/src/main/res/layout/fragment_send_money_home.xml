@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="co.yap.R" />
 
         <variable
             name="viewModel"
@@ -15,6 +16,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_closeicon}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightTitle="@{viewModel.state.rightButtonText}"
+            app:rightTitleVisibility="@{true}"
+            app:titleString="@{viewModel.state.toolbarTitle}"
+            app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
+
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivFlag"
@@ -25,7 +41,7 @@
             app:src="@{viewModel.state.flagDrawableResId}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCountryName"
