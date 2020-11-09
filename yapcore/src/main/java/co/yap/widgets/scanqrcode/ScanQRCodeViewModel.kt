@@ -1,4 +1,4 @@
-package co.yap.sendmoney.scanqrcode
+package co.yap.widgets.scanqrcode
 
 import android.app.Application
 import co.yap.yapcore.BaseViewModel

@@ -1,6 +1,5 @@
-package co.yap.sendmoney.scanqrcode
+package co.yap.widgets.scanqrcode
 
-import co.yap.sendmoney.interfaces.ISendMoney
 import co.yap.yapcore.BaseState
 
 class ScanQRCodeState : BaseState(), IScanQRCode.State {

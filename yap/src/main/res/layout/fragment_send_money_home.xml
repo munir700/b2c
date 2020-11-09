@@ -36,7 +36,7 @@
             android:id="@+id/ivFlag"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_large"
             android:src="@drawable/flag_ca"
             app:src="@{viewModel.state.flagDrawableResId}"
             app:layout_constraintEnd_toEndOf="parent"

@@ -12,10 +12,12 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDash
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -64,10 +66,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             sendMoneyToHomeCountry -> {
-                launchActivity<SMHomeCountryActivity> {  }
+                launchActivity<SMHomeCountryActivity> { }
             }
             sendMoneyQRCode -> {
-                showToast("Process under working")
+
+               // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
             }
         }
     }
