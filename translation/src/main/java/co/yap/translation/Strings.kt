@@ -1782,6 +1782,12 @@ object Strings {
         "screen_fragment_yap_it_qr_code_save_to_gallery"
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
+    const val screen_fragment_yap_it_qr_code_text_scan_to_proceed: String =
+        "screen_fragment_yap_it_qr_code_text_scan_to_proceed"
+    const val screen_fragment_yap_it_qr_code_text_image_library: String =
+        "screen_fragment_yap_it_qr_code_text_image_library"
+    const val screen_fragment_yap_it_qr_code_text_my_qr_code: String =
+        "screen_fragment_yap_it_qr_code_text_my_qr_code"
 
 
     // Transaction Detail Screen

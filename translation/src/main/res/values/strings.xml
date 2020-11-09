@@ -1107,6 +1107,10 @@
     <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
     <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
     <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
+    <string name="screen_fragment_yap_it_qr_code_text_scan_to_proceed">Scan a YAP QR payments code to proceed</string>
+    <string name="screen_fragment_yap_it_qr_code_text_image_library">Image Library</string>
+    <string name="screen_fragment_yap_it_qr_code_text_my_qr_code">My QR Code</string>
+
 
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
