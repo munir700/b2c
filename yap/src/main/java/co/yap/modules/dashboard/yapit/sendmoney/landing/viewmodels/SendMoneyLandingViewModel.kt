@@ -6,13 +6,13 @@ import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.dashboard.yapit.sendmoney.landing.ISendMoneyLanding
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLandingAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.landing.states.SendMoneyLandingState
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseViewMode
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseVM
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLandingOptions
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class SendMoneyLandingViewModel(application: Application) :
-    SendMoneyBaseViewMode<ISendMoneyLanding.State>(application),
+    SendMoneyBaseVM<ISendMoneyLanding.State>(application),
     ISendMoneyLanding.ViewModel {
     override val state: SendMoneyLandingState = SendMoneyLandingState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -44,7 +44,7 @@ class SendMoneyLandingViewModel(application: Application) :
         list.add(
             SendMoneyLandingOptions(
                 getString(Strings.screen_send_money_local_bank_label),
-                R.drawable.ic_banknew,
+                R.drawable.ic_bankicon,
                 true,
                 CurrencyUtils.getFlagDrawable(context, "AE")
             )
@@ -52,7 +52,7 @@ class SendMoneyLandingViewModel(application: Application) :
         list.add(
             SendMoneyLandingOptions(
                 getString(Strings.screen_send_money_international_label),
-                R.drawable.ic_banknew,
+                R.drawable.ic_bankicon,
                 true,
                 CurrencyUtils.getFlagDrawable(context, "AE")
             )
@@ -60,7 +60,7 @@ class SendMoneyLandingViewModel(application: Application) :
         list.add(
             SendMoneyLandingOptions(
                 getString(Strings.screen_send_money_home_label),
-                R.drawable.ic_housenew,
+                R.drawable.ic_houseicon,
                 false,
                 null
             )
