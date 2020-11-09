@@ -614,21 +614,29 @@
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
-    <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
+    <string name="screen_send_money_no_contacts_display_text_sub_heading">Who would you like to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">​You can send money to people around the world through your YAP account. Click below to start adding a beneficiary. You can also do this using the + button anytime.</string>
     <string name="screen_send_money_no_contacts_button_title_add_now">Add now</string>
 
     <!--  Send Money Screen-->
     <string name="screen_send_money_display_text_title">Send money</string>
+    <string name="screen_send_money_display_text_title_local">Send money locally</string>
+    <string name="screen_send_money_display_text_title_international">Send money internationally</string>
     <string name="screen_send_money_display_text_recent_transfer">Recent transfers</string>
     <string name="screen_send_money_input_text_search_hint">Search</string>
     <string name="screen_send_money_display_text_all_beneficiaries">All beneficiaries</string>
     <string name="screen_send_money_display_bottom_sheet_label">Select reason for transfer"</string>
-
+    <string name="screen_fragment_yap_it_send_money_label">Who do you want to send money to?</string>
     <string name="screen_send_money_display_text_edit">Edit</string>
     <string name="screen_send_money_display_text_delete">Delete</string>
+    <string name="screen_send_money_local_bank_label">Local Bank</string>
+    <string name="screen_send_money_international_label">International transfer</string>
+    <string name="screen_send_money_home_label">Home Country</string>
+    <string name="screen_send_show_recent">Show Recent Transfers</string>
 
     <string name="screen_send_money_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
+    <string name="screen_send_money_display_text_all_local_beneficiaries">All local beneficiaries</string>
+
 
     <!--  Edit Beneficiary Money Screen-->
     <string name="screen_edit_beneficiary_display_text_title">Edit beneficiary</string>
@@ -1107,8 +1115,24 @@
     <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
     <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
     <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
+    <string name="screen_fragment_yap_it_qr_code_text_scan_to_proceed">Scan a YAP QR payments code to proceed</string>
+    <string name="screen_fragment_yap_it_qr_code_text_image_library">Image Library</string>
+    <string name="screen_fragment_yap_it_qr_code_text_my_qr_code">My QR Code</string>
+
 
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
+
+    <!-- Send Money Home -->
+    <string name="screen_send_money_home_title">Send Money Home</string>
+    <string name="screen_send_money_home_display_text_send_money">Send Money</string>
+    <string name="screen_send_money_home_display_text_money">1 AED = </string>
+    <string name="screen_send_money_home_display_text_recent_transfers">Recent %s transfers</string>
+    <string name="screen_send_money_home_display_text_send_money_home">Send money home to your friends and family quickly</string>
+    <string name="screen_send_money_home_display_text_get_best_rates">Get the best rates to your home country</string>
+    <string name="screen_send_money_home_display_text_change_home_country">Change home country</string>
+    <string name="screen_send_money_home_display_text_hide">Hide</string>
+    <string name="screen_send_money_home_display_text_compare">Compare</string>
+
 
 </resources>

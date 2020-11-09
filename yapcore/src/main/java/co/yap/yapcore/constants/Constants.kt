@@ -175,5 +175,4 @@ object Constants {
     const val LOCATION_TYPE = "ATM_OR_CDM"
     const val LOCATION_ATM = "ATM"
     const val LOCATION_CDM = "CDM"
-
 }

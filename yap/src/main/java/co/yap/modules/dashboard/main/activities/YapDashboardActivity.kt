@@ -41,6 +41,7 @@ import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -179,9 +180,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     when (subActionButtonId) {
                         1 -> {
                             if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                                launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
-                                    putExtra(SendMoneyLandingActivity.searching, false)
-                                }
+                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             } else {
                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
                             }

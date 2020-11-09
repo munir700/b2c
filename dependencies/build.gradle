@@ -19,15 +19,16 @@ project.ext {
     arch = "2.1.0"
     paging_version = "2.1.0"
     modules = [
-            app        : ':app',
-            networking : ':networking',
-            translation: ':translation',
-            yap        : ':yap',
-            household  : ':household',
-            yapcore    : ':yapcore',
-            kyc        : ':identityscanner_v2',
-            sendmoney  : ':sendmoney',
-            security   : ':security'
+            app             : ':app',
+            networking      : ':networking',
+            translation     : ':translation',
+            yap             : ':yap',
+            household       : ':household',
+            yapcore         : ':yapcore',
+            kyc             : ':identityscanner_v2',
+            sendmoney       : ':sendmoney',
+            security        : ':security',
+            qrcodereaderview: ':qrcodereaderview'
     ]
 
     // All libraries that any module can contain
@@ -208,6 +209,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.household)],
             [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.sendmoney)],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.creshlytics],
@@ -282,6 +284,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "api", dependency: libraries.leanplumFcm],
             //[configuration: "api", dependency: libraries.leanplumCore],
             [configuration: "api", dependency: libraries.leanplumLocation],
