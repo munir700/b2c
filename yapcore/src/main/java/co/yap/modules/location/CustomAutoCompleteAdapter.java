@@ -79,7 +79,7 @@ public class CustomAutoCompleteAdapter extends BaseAdapter implements Filterable
     }
 
     public View getCustomView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        LayoutInflater inflater = LayoutInflater.from(context);
         View rowView = inflater.inflate(R.layout.item_list_country_code, parent, false);
         itemName = (AppCompatTextView) rowView.findViewById(R.id.tvCountryName);
         ivCountry = (CoreCircularImageView) rowView.findViewById(R.id.ivCountry);
