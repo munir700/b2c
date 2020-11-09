@@ -235,4 +235,7 @@ interface CustomersRetroService {
     // delete profile picture
     @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
     suspend fun removeProfilePicture(): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_GET_CUSTOMER_INFO)
+    suspend fun getCustomerInfo(uuid: String): Response<CustomerInfoResponse>
 }

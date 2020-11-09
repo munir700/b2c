@@ -96,6 +96,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
+    const val URL_GET_CUSTOMER_INFO = "customers/api/customers-info"
 
     /*
    * Url's that comes from admin repo
@@ -352,4 +353,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.removeProfilePicture() })
+
+    override suspend fun getCustomerInfo(uuid: String): RetroApiResponse<CustomerInfoResponse> =
+        executeSafely(call = { api.getCustomerInfo(uuid) })
 }
