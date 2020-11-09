@@ -144,8 +144,9 @@
     <!--Clear History-->
     <bool name="clear_history_show_confirm_dialog">true</bool>
 
-    <!--Photo sharing-->
-    <bool name="enable_photo_sharing">false</bool>
+    <!--Photo/File sharing-->
+    <bool name="enable_photo_sharing">true</bool>
+    <bool name="enable_file_sharing">true</bool>
     <bool name="upload_photo_using_service">true</bool>
     <integer name="max_number_stored_images">20</integer>
     <integer name="max_number_stored_documents">20</integer>
@@ -270,7 +271,7 @@
     <string name="lp_scroll_when_scroll_down" translatable="false">Bottom</string>
 
 
-<!--    <string name="brand_name" templateMergeStrategy="preserve" translatable="false">YAP Support</string>-->
+    <!--    <string name="brand_name" templateMergeStrategy="preserve" translatable="false">YAP Support</string>-->
 
     <!--  End of scroll behavior settings.  -->
 
