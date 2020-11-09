@@ -32,7 +32,7 @@
             app:rightIcon="@{R.drawable.ic_iconprofile}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
             app:rightTitle="@{viewModel.state.rightButtonText}"
-            app:rightTitleVisibility="@{false}"
+            app:rightTitleVisibility="@{viewModel.state.rightButtonTextVisibility}"
             app:titleString="@{viewModel.state.toolbarTitle}"
             app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
         <fragment

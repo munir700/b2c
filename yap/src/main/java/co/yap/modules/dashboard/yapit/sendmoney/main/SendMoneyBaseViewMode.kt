@@ -11,4 +11,15 @@ abstract class SendMoneyBaseViewMode<S : IBase.State>(application: Application) 
     fun setToolBarTitle(title: String) {
         parentViewModel?.state?.toolbarTitle = title
     }
+
+    fun setRightText(text: String){
+        parentViewModel?.state?.rightButtonTextVisibility?.set(true)
+        parentViewModel?.state?.rightIconVisibility?.set(false)
+        parentViewModel?.state?.rightButtonText?.set(text)
+    }
+
+    fun toggleRightIconVisibility(visible: Boolean){
+        parentViewModel?.state?.rightIconVisibility?.set(visible)
+        parentViewModel?.state?.rightButtonTextVisibility?.set(!visible)
+    }
 }

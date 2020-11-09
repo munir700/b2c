@@ -1123,6 +1123,7 @@
     <string name="screen_send_money_home_display_text_get_best_rates">Get the best rates to your home country</string>
     <string name="screen_send_money_home_display_text_change_home_country">Change home country</string>
     <string name="screen_send_money_home_display_text_hide">Hide</string>
+    <string name="screen_send_money_home_display_text_compare">Compare</string>
 
 
 </resources>

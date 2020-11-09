@@ -12,6 +12,7 @@ interface ISendMoneyMain {
         var rightIconVisibility: ObservableBoolean
         var leftIconVisibility: ObservableBoolean
         var rightButtonText: ObservableField<String>
+        var rightButtonTextVisibility: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

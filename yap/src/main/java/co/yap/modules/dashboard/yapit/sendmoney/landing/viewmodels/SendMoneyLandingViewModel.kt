@@ -27,6 +27,7 @@ class SendMoneyLandingViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setToolBarTitle(getString(Strings.common_send_money))
+        toggleRightIconVisibility(true)
         landingAdapter.setList(geSendMoneyOptions())
     }
 

@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivFlag"
-            android:text="Canada"
+            android:text="@{viewModel.state.name}"
             tools:text="Canada" />
 
         <co.yap.widgets.CoreButton
@@ -55,7 +55,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerCurrency"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_90sdp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:layout_marginEnd="@dimen/margin_medium"
@@ -64,6 +64,7 @@
             android:orientation="horizontal"
             android:paddingStart="@dimen/margin_normal"
             android:paddingTop="@dimen/margin_normal"
+            android:paddingBottom="@dimen/margin_medium"
             android:paddingEnd="@dimen/margin_normal_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +87,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLabel"
-                android:text="0.357014"
+                android:text="@{viewModel.state.rate}"
                 tools:text="0.357014" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -98,7 +99,7 @@
                 android:layout_marginBottom="@dimen/margin_extra_small"
                 app:layout_constraintBottom_toBottomOf="@+id/tvConversionRate"
                 app:layout_constraintStart_toEndOf="@id/tvConversionRate"
-                android:text="CAD"
+                android:text="@{viewModel.state.symbol}"
                 tools:text="CAD" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -108,7 +109,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvConversionRate"
-                android:text="04/10/2020, 2:30 PM"
+                android:text="@{viewModel.state.time}"
                 tools:text="04/10/2020, 2:30 PM" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -172,12 +173,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyHome"
-            style="@style/ARegular2Grey"
+            style="@style/ASmallGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
-            android:textSize="@dimen/text_size_h2"
             android:ellipsize="end"
             android:lines="2"
             app:layout_constraintStart_toEndOf="@+id/ivTick1"
@@ -201,11 +201,10 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvGetBestRates"
-            style="@style/ARegular2Grey"
+            style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
-            android:textSize="@dimen/text_size_h2"
             app:layout_constraintStart_toEndOf="@+id/ivTick2"
             app:layout_constraintTop_toTopOf="@+id/ivTick2"
             app:text="@{Strings.screen_send_money_home_display_text_get_best_rates}"
@@ -218,7 +217,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_extra_large"
-            android:textSize="@dimen/text_size_h4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
