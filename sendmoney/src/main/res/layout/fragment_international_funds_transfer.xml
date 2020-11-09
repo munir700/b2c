@@ -355,6 +355,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_c1"
+                    android:text="@{viewModel.state.transferFeeSpannable}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     tools:text="@string/screen_international_funds_transfer_display_text_fee" />
 
