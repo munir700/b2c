@@ -41,24 +41,26 @@
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="Recent transfers"
+            android:text="@{Strings.screen_send_money_display_text_recent_transfer}"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="@string/screen_send_money_display_text_recent_transfer"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/showrecentext"
             style="@style/SmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="Show Recent Transfers"
+            android:text="@{Strings.screen_send_show_recent}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/tvrecentTransfer"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="@string/screen_send_show_recent"/>
 
         <ViewStub
             android:id="@+id/vsRecentBeneficiaries"
@@ -75,7 +77,6 @@
             android:dividerHeight="2dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vsRecentBeneficiaries"
             app:recycleViewAdapter="@{viewModel.landingAdapter}"
