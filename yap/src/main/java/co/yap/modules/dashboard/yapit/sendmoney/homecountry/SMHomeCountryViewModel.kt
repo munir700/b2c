@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 import android.app.Application
 import android.view.View
 import co.yap.R
+import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseViewMode
 import co.yap.yapcore.SingleClickEvent
 
@@ -25,5 +27,6 @@ class SMHomeCountryViewModel (application: Application) : SendMoneyBaseViewMode<
         state.rate?.set("0.357014")
         state.symbol?.set("CAD")
         state.time?.set("04/10/2020, 2:30 PM")
+        state.flagDrawableResId?.set(CurrencyUtils.getFlagDrawable(context, "flag_ca"))
     }
 }
