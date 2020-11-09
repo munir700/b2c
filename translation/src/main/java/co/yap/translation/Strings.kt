@@ -1034,6 +1034,14 @@ object Strings {
         "screen_edit_beneficiary_display_text_coonfirm"
     const val screen_send_money_display_bottom_sheet_label: String =
         "screen_send_money_display_bottom_sheet_label"
+    const val screen_fragment_yap_it_send_money_label: String =
+        "screen_fragment_yap_it_send_money_label"
+    const val screen_send_money_local_bank_label: String =
+        "screen_send_money_local_bank_label"
+    const val screen_send_money_international_label: String =
+        "screen_send_money_international_label"
+    const val screen_send_money_home_label: String =
+        "screen_send_money_home_label"
 
 
     //     Add Beneficiary
@@ -1799,4 +1807,24 @@ object Strings {
 
     const val iban_or_debit_card_freeze_or_blocked_message: String =
         "iban_or_debit_card_freeze_or_blocked_message"
+
+    // Send Money Home Screen
+    const val screen_send_money_home_display_text_send_money: String =
+            "screen_send_money_home_display_text_send_money"
+    const val screen_send_money_home_display_text_money: String =
+            "screen_send_money_home_display_text_money"
+    const val screen_send_money_home_display_text_recent_transfers: String =
+            "screen_send_money_home_display_text_recent_transfers"
+    const val screen_send_money_home_display_text_send_money_home: String =
+            "screen_send_money_home_display_text_send_money_home"
+    const val screen_send_money_home_display_text_get_best_rates: String =
+            "screen_send_money_home_display_text_get_best_rates"
+    const val screen_send_money_home_display_text_change_home_country: String =
+            "screen_send_money_home_display_text_change_home_country"
+    const val screen_send_money_home_display_text_hide: String =
+            "screen_send_money_home_display_text_hide"
+    const val screen_send_money_home_title: String =
+            "screen_send_money_home_title"
+    const val screen_send_money_home_display_text_compare: String =
+        "screen_send_money_home_display_text_compare"
 }
