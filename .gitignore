@@ -42,3 +42,4 @@ app/~/tmp/full-r8-config.txt
 /multicurrency/build/*
 /app/yapinternal/release
 /multicurrency
+/qrcodereaderview/build/*

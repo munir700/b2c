@@ -51,6 +51,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:textColor="?attr/colorPrimary"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
