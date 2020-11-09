@@ -5,10 +5,10 @@ import android.view.View
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseViewMode
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class SMHomeCountryViewModel (application: Application) : SendMoneyBaseViewMode<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel {
+class SMHomeCountryViewModel (application: Application) : BaseViewModel<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnView(id: Int) {
@@ -19,9 +19,8 @@ class SMHomeCountryViewModel (application: Application) : SendMoneyBaseViewMode<
 
     override fun onCreate() {
         super.onCreate()
-        setToolBarTitle(getString(R.string.screen_send_money_home_title))
-        setRightText(getString(R.string.screen_send_money_home_display_text_compare))
-
+        state.toolbarTitle = getString(R.string.screen_send_money_home_title)
+        state.rightButtonText.set(getString(R.string.screen_send_money_home_display_text_compare))
         state.name?.set("Canada")
         state.countryCode?.set("")
         state.rate?.set("0.357014")

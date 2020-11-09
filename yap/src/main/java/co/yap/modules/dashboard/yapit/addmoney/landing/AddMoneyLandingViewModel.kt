@@ -36,7 +36,7 @@ class AddMoneyLandingViewModel(application: Application) :
             AddMoneyLandingOptions(
                 Constants.ADD_MONEY_TOP_UP_VIA_CARD,
                 getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
-                R.drawable.ic_icon_card_transfer
+                R.drawable.ic_topupnew
             )
         )
       /*  list.add(

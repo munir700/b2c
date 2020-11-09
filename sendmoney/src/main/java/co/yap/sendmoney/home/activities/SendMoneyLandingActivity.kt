@@ -27,6 +27,7 @@ import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -51,15 +52,25 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     companion object {
         const val searching = "searching"
+        const val TransferType = "TransferType"
         private var performedDeleteOperation: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initComponents()
-        viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-        viewModel.isSearching.value?.let {
-            viewModel.state.isSearching.set(it)
+        if (intent.hasExtra(TransferType)) {
+            viewModel.state.sendMoneyType.set(intent.getStringExtra(TransferType))
+        }
+        viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+        if (intent.hasExtra(searching)) {
+            viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
+            viewModel.isSearching.value?.let {
+                viewModel.state.isSearching.set(it)
+                if (!it) {
+                    viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+                }
+            }
         }
         setObservers()
     }
@@ -76,7 +87,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             getAdaptor().removeItemAt(positionToDelete)
             performedDeleteOperation = true
             if (positionToDelete == 0)
-                viewModel.requestAllBeneficiaries()
+                viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         })
         //Beneficiaries list observer
         viewModel.allBeneficiariesLiveData.observe(this, Observer {
@@ -259,7 +270,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.state.isSearching.notifyChange()
         if (performedDeleteOperation) {
             performedDeleteOperation = false
-            viewModel.requestAllBeneficiaries()
+            viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         }
     }
 
@@ -360,12 +371,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                 isMoneyTransfer == true -> {
                                     beneficiary?.let {
                                         startMoneyTransfer(it, 0)
-                                        viewModel.requestAllBeneficiaries()
+                                        viewModel.requestAllBeneficiaries(
+                                            viewModel.state.sendMoneyType.get() ?: ""
+                                        )
                                     }
                                 }
                                 isDismissFlow == true -> {
                                 }
-                                else -> viewModel.requestAllBeneficiaries()
+                                else -> viewModel.requestAllBeneficiaries(
+                                    viewModel.state.sendMoneyType.get() ?: ""
+                                )
                             }
                         } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
                             finish()
@@ -401,7 +416,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 launchActivity<SendMoneyHomeActivity>(
                     requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
                     type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
-                )
+                ){
+                    putExtra(
+                        ExtraKeys.SEND_MONEY_TYPE.name,
+                        viewModel.state.sendMoneyType.get()
+                    )
+                }
             }
         }
     }

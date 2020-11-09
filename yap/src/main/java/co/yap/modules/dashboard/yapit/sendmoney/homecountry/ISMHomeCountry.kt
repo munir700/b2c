@@ -13,6 +13,7 @@ interface ISMHomeCountry {
         var symbol: ObservableField<String>?
         var time: ObservableField<String>?
         var flagDrawableResId: ObservableInt?
+        var rightButtonText: ObservableField<String>
     }
 
     interface ViewModel: IBase.ViewModel<State> {

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.scanqrcode.ScanQRCodeViewModel" />
+            type="co.yap.widgets.scanqrcode.ScanQRCodeViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>

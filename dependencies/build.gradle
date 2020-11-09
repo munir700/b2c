@@ -284,6 +284,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "api", dependency: libraries.leanplumFcm],
             //[configuration: "api", dependency: libraries.leanplumCore],
             [configuration: "api", dependency: libraries.leanplumLocation],
@@ -297,7 +298,6 @@ project.ext {
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
     sendmoneyDependencies = [
             [configuration: "implementation", dependency: project(modules.networking)],
-            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.networking)],
