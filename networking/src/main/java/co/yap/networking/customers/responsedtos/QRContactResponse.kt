@@ -3,9 +3,9 @@ package co.yap.networking.customers.responsedtos
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
-data class CustomerInfoResponse(
+data class QRContactResponse(
     @SerializedName("data")
-    var cardLimits: Customer? = null,
+    var qrContact: QRContact? = null,
     @SerializedName("errors")
     var errors: Any? = null
 ): ApiResponse()

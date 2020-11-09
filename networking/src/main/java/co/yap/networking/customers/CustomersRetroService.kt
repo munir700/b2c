@@ -236,6 +236,6 @@ interface CustomersRetroService {
     @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
     suspend fun removeProfilePicture(): Response<ApiResponse>
 
-    @POST(CustomersRepository.URL_GET_CUSTOMER_INFO)
-    suspend fun getCustomerInfo(uuid: String): Response<CustomerInfoResponse>
+    @POST(CustomersRepository.URL_GET_QR_CONTACT)
+    suspend fun getQRContact(uuid: String): Response<QRContactResponse>
 }
