@@ -11,6 +11,7 @@ interface ISendMoneyMain {
         var toolbarVisibility: ObservableBoolean
         var rightIconVisibility: ObservableBoolean
         var leftIconVisibility: ObservableBoolean
+        var rightButtonTextVisibility: ObservableBoolean
         var rightButtonText: ObservableField<String>
     }
 

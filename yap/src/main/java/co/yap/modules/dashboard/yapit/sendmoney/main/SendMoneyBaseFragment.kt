@@ -8,8 +8,8 @@ import co.yap.yapcore.IBase
 abstract class SendMoneyBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel is SendMoneyBaseViewMode<*>) {
-            (viewModel as SendMoneyBaseViewMode<*>).parentViewModel =
+        if (viewModel is SendMoneyBaseVM<*>) {
+            (viewModel as SendMoneyBaseVM<*>).parentViewModel =
                 ViewModelProviders.of(activity!!).get(SendMoneyMainViewModel::class.java)
         }
     }
