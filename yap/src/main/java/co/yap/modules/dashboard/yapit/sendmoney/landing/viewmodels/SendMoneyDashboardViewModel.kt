@@ -9,7 +9,9 @@ import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyDashboardState
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.translation.Strings
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -23,6 +25,10 @@ class SendMoneyDashboardViewModel(application: Application) :
         context,
         mutableListOf()
     )
+    override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
+        context,
+        mutableListOf()
+    )
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -31,7 +37,13 @@ class SendMoneyDashboardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.toolbarTitle = getString(Strings.common_send_money)
+        recentsAdapter.setList(getBeneficiaries())
         dashboardAdapter.setList(geSendMoneyOptions())
+    }
+
+    private fun getBeneficiaries(): List<CoreRecentBeneficiaryItem> {
+        var recentBeneficiaries: List<CoreRecentBeneficiaryItem> = arrayListOf()
+        return recentBeneficiaries
     }
 
     override fun geSendMoneyOptions(): MutableList<SendMoneyOptions> {

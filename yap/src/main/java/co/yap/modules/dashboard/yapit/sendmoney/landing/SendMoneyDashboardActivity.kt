@@ -39,6 +39,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun setupRecycleView() {
+        getBinding().rvRecentBeneficiaries.adapter = viewModel.recentsAdapter
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true

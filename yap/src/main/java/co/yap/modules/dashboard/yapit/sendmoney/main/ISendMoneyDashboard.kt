@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -21,6 +22,7 @@ interface ISendMoneyDashboard {
     interface ViewModel : IBase.ViewModel<State> {
         var recentTransfers: MutableLiveData<Beneficiary>
         var dashboardAdapter: SendMoneyDashboardAdapter
+        var recentsAdapter: CoreRecentTransferAdapter
         fun geSendMoneyOptions(): MutableList<SendMoneyOptions>
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
