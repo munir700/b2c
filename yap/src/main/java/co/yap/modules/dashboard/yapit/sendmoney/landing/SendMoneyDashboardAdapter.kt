@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapItSendMoneyLandingBinding
-import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingItemViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLandingOptions
+import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardItemViewModel
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class SendMoneyLandingAdapter(
+class SendMoneyDashboardAdapter(
     context: Context,
-    private val list: MutableList<SendMoneyLandingOptions>
+    private val list: MutableList<SendMoneyOptions>
 ) :
-    BaseBindingRecyclerAdapter<SendMoneyLandingOptions, RecyclerView.ViewHolder>(list) {
+    BaseBindingRecyclerAdapter<SendMoneyOptions, RecyclerView.ViewHolder>(list) {
     private var dimensions: IntArray = Utils.getCardDimensions(context, 43, 20)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -41,7 +41,7 @@ class SendMoneyLandingAdapter(
     class ViewHolder(private val itemYapItSendMoneyBinding: ItemYapItSendMoneyLandingBinding) :
         RecyclerView.ViewHolder(itemYapItSendMoneyBinding.root) {
         fun onBind(
-            addMoneyOptions: SendMoneyLandingOptions,
+            addMoneyOptions: SendMoneyOptions,
             position: Int,
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?
@@ -52,7 +52,7 @@ class SendMoneyLandingAdapter(
             params.height = dimensions[1]
             itemYapItSendMoneyBinding.clMain.layoutParams = params
             itemYapItSendMoneyBinding.viewModel =
-                SendMoneyLandingItemViewModel(
+                SendMoneyDashboardItemViewModel(
                     addMoneyOptions,
                     position,
                     onItemClickListener

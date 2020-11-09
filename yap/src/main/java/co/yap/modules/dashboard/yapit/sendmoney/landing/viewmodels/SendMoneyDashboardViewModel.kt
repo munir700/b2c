@@ -1,22 +1,25 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.modules.dashboard.yapit.sendmoney.landing.ISendMoneyLanding
-import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyLandingAdapter
-import co.yap.modules.dashboard.yapit.sendmoney.landing.states.SendMoneyLandingState
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseVM
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyLandingOptions
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyDashboardState
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Strings
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class SendMoneyLandingViewModel(application: Application) :
-    SendMoneyBaseVM<ISendMoneyLanding.State>(application),
-    ISendMoneyLanding.ViewModel {
-    override val state: SendMoneyLandingState = SendMoneyLandingState()
+class SendMoneyDashboardViewModel(application: Application) :
+    BaseViewModel<ISendMoneyDashboard.State>(application),
+    ISendMoneyDashboard.ViewModel {
+    override val state: SendMoneyDashboardState = SendMoneyDashboardState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override var landingAdapter: SendMoneyLandingAdapter = SendMoneyLandingAdapter(
+    override var recentTransfers: MutableLiveData<Beneficiary> = MutableLiveData()
+    override var dashboardAdapter: SendMoneyDashboardAdapter = SendMoneyDashboardAdapter(
         context,
         mutableListOf()
     )
@@ -27,14 +30,14 @@ class SendMoneyLandingViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        setToolBarTitle(getString(Strings.common_send_money))
-        landingAdapter.setList(geSendMoneyOptions())
+        state.toolbarTitle = getString(Strings.common_send_money)
+        dashboardAdapter.setList(geSendMoneyOptions())
     }
 
-    override fun geSendMoneyOptions(): MutableList<SendMoneyLandingOptions> {
-        val list = mutableListOf<SendMoneyLandingOptions>()
+    override fun geSendMoneyOptions(): MutableList<SendMoneyOptions> {
+        val list = mutableListOf<SendMoneyOptions>()
         list.add(
-            SendMoneyLandingOptions(
+            SendMoneyOptions(
                 getString(Strings.screen_y2y_display_button_yap_contacts),
                 R.drawable.ic_iconprofile,
                 false,
@@ -42,7 +45,7 @@ class SendMoneyLandingViewModel(application: Application) :
             )
         )
         list.add(
-            SendMoneyLandingOptions(
+            SendMoneyOptions(
                 getString(Strings.screen_send_money_local_bank_label),
                 R.drawable.ic_bankicon,
                 true,
@@ -50,7 +53,7 @@ class SendMoneyLandingViewModel(application: Application) :
             )
         )
         list.add(
-            SendMoneyLandingOptions(
+            SendMoneyOptions(
                 getString(Strings.screen_send_money_international_label),
                 R.drawable.ic_bankicon,
                 true,
@@ -58,7 +61,7 @@ class SendMoneyLandingViewModel(application: Application) :
             )
         )
         list.add(
-            SendMoneyLandingOptions(
+            SendMoneyOptions(
                 getString(Strings.screen_send_money_home_label),
                 R.drawable.ic_houseicon,
                 false,
@@ -66,7 +69,7 @@ class SendMoneyLandingViewModel(application: Application) :
             )
         )
         list.add(
-            SendMoneyLandingOptions(
+            SendMoneyOptions(
                 getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
                 R.drawable.ic_qr_code,
                 false,

@@ -6,31 +6,28 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentSendMoneyLandingBinding
-import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingViewModel
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseFragment
+import co.yap.databinding.ActivitySendMoneyDashboardBinding
+import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
+import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewModel>(),
-    ISendMoneyLanding.View {
+class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewModel>(),
+    ISendMoneyDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_send_money_landing
-    override val viewModel: SendMoneyLandingViewModel
-        get() = ViewModelProviders.of(this).get(SendMoneyLandingViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.activity_send_money_dashboard
+    override val viewModel: SendMoneyDashboardViewModel
+        get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
     }
 
@@ -44,8 +41,8 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true
             )
         )
-        viewModel.landingAdapter.allowFullItemClickListener = true
-        viewModel.landingAdapter.setItemListener(itemClickListener)
+        viewModel.dashboardAdapter.allowFullItemClickListener = true
+        viewModel.dashboardAdapter.setItemListener(itemClickListener)
     }
 
     private val itemClickListener = object : OnItemClickListener {
@@ -88,7 +85,20 @@ class SendMoneyLandingFragment : SendMoneyBaseFragment<ISendMoneyLanding.ViewMod
         viewModel.clickEvent.removeObservers(this)
     }
 
-    override fun getBinding(): FragmentSendMoneyLandingBinding {
-        return viewDataBinding as FragmentSendMoneyLandingBinding
+    override fun getBinding(): ActivitySendMoneyDashboardBinding {
+        return viewDataBinding as ActivitySendMoneyDashboardBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
     }
 }

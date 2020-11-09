@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Keep
 @Parcelize
-data class SendMoneyLandingOptions(
+data class SendMoneyOptions(
     var name: String,
     val image: Int,
     val showFlag: Boolean,

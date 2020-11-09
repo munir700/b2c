@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingViewModel" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel" />
 
         <import type="co.yap.R" />
 
@@ -20,6 +20,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_closenew}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_iconprofile}"
+            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
+            app:rightTitle="@{viewModel.state.rightButtonText}"
+            app:rightTitleVisibility="@{viewModel.state.rightButtonTextVisibility}"
+            app:titleString="@{viewModel.state.toolbarTitle}"
+            app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -32,7 +48,7 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:text="@{Strings.screen_fragment_yap_it_add_money_how_do_you_want_to_add_money}"
             tools:text="@string/screen_fragment_yap_it_send_money_label" />
 
@@ -56,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="@{Strings.screen_send_show_recent}"
+            app:text="@{Strings.screen_send_show_recent}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/tvrecentTransfer"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -79,7 +95,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vsRecentBeneficiaries"
-            app:recycleViewAdapter="@{viewModel.landingAdapter}"
+            app:recycleViewAdapter="@{viewModel.dashboardAdapter}"
             app:spanCount="2"
             tools:itemCount="7"
             tools:listitem="@layout/item_yap_it_send_money_landing" />
