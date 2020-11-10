@@ -78,7 +78,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getRecentBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    if (response.data.data.isNullOrEmpty())
+                    if (getBeneficiariesOfType(sendMoneyType, response.data.data).isNullOrEmpty())
                         state.isNoRecentBeneficiary.set(true)
                     else
                         state.isNoRecentBeneficiary.set(false)
@@ -100,7 +100,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     private fun getBeneficiariesOfType(type: String, list: List<Beneficiary>): List<Beneficiary> {
         return when (type) {
             SendMoneyTransferType.HOME_COUNTRY.name -> {
-                list
+                list.filter { it.country == SessionManager.user?.currentCustomer?.homeCountry }
             }
             SendMoneyTransferType.INTERNATIONAL.name -> {
                 list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type }

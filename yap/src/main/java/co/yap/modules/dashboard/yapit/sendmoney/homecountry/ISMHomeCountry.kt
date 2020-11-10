@@ -13,7 +13,6 @@ interface ISMHomeCountry {
         var rate: ObservableField<String>?
         var symbol: ObservableField<String>?
         var time: ObservableField<String>?
-        var flagDrawableResId: ObservableInt?
         var rightButtonText: ObservableField<String>
     }
 
