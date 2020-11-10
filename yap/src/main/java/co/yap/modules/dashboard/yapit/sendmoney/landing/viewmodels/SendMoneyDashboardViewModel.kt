@@ -56,6 +56,8 @@ class SendMoneyDashboardViewModel(application: Application) :
                         sendMoneyRecentsBeneficiariesResponse.data.data.forEach {
                             it.name = it.fullName()
                             it.profilePictureUrl = it.beneficiaryPictureUrl
+                            it.type = it.beneficiaryType
+                            it.isoCountryCode = it.country
                         }
                         recentTransfers.addAll(sendMoneyRecentsBeneficiariesResponse.data.data)
                         recentTransfers.sortedByDescending { it.lastUsedDate }

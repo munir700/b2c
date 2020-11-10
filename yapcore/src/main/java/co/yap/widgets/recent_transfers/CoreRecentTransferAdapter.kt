@@ -3,14 +3,17 @@ package co.yap.widgets.recent_transfers
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemCoreRecentBeneficiaryBinding
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
+
 class CoreRecentTransferAdapter(
-    context: Context,
+    var context: Context,
     private val list: MutableList<CoreRecentBeneficiaryItem>
 ) :
     BaseBindingRecyclerAdapter<CoreRecentBeneficiaryItem, RecyclerView.ViewHolder>(list) {
@@ -37,6 +40,23 @@ class CoreRecentTransferAdapter(
             position: Int,
             onItemClickListener: OnItemClickListener?
         ) {
+
+            when (coreRecentBeneficiary.type) {
+                SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> {
+
+                }
+            }
+            itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
+                CurrencyUtils.getFlagDrawable(
+                    itemCoreRecentBeneficiaryBinding.root.context,
+                    coreRecentBeneficiary.isoCountryCode!!
+                )
+            itemCoreRecentBeneficiaryBinding.coreView.bottomRightIcon =
+                itemCoreRecentBeneficiaryBinding.root.context.resources.getDrawable(
+                    R.drawable.ic_package_standered,
+                    null
+                )
+            itemCoreRecentBeneficiaryBinding.coreView.position = position
             itemCoreRecentBeneficiaryBinding.viewModel =
                 CoreRecentBeneficiaryItemViewModel(
                     coreRecentBeneficiary,
