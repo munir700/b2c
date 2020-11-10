@@ -237,5 +237,5 @@ interface CustomersRetroService {
     suspend fun removeProfilePicture(): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_GET_QR_CONTACT)
-    suspend fun getQRContact(uuid: String): Response<QRContactResponse>
+    suspend fun getQRContact(@Body qrContactRequest: QRContactRequest): Response<QRContactResponse>
 }

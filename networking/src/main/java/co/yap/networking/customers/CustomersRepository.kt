@@ -354,6 +354,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.removeProfilePicture() })
 
-    override suspend fun getQRContact(uuid: String?): RetroApiResponse<QRContactResponse> =
-        executeSafely(call = { api.getQRContact(uuid ?: "") })
+    override suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse> =
+        executeSafely(call = { api.getQRContact(qrContactRequest) })
 }

@@ -3,5 +3,5 @@ package co.yap.networking.customers.requestdtos
 import com.google.gson.annotations.SerializedName
 
 data class QRContactRequest(
-    @SerializedName("uuid") val mobileNo: String
+    @SerializedName("uuid") val uuid: String
 )
