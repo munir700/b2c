@@ -28,7 +28,6 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
         clickEvent.setValue(id)
     }
 
-
     override fun onResume() {
         super.onResume()
         if (parentViewModel?.isSearching?.value != null)
@@ -36,7 +35,7 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
         else {
             toggleToolBarVisibility(false)
         }
-        setToolBarTitle("YAP to YAP")
+        setToolBarTitle("Send to a YAP contact")
     }
 
     override fun getRecentBeneficiaries() {

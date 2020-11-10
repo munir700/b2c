@@ -47,12 +47,15 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                 getBinding().recycler.visibility = View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+                getBinding().ivNoYapContact.visibility =
+                    if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value == true) View.GONE else View.VISIBLE else View.GONE
                 getBinding().btnInvite.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value!!) View.GONE else View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
             } else {
+                getBinding().ivNoYapContact.visibility = View.GONE
                 getBinding().txtError.visibility = View.GONE
                 getBinding().btnInvite.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
@@ -68,6 +71,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
             getBinding().txtError.visibility = View.GONE
+            getBinding().ivNoYapContact.visibility = View.GONE
             getBinding().tvContactListDescription.visibility =
                 if (it.isEmpty()) View.GONE else View.VISIBLE
 
@@ -95,6 +99,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                             if (it == 0) View.GONE else View.VISIBLE
                         getBinding().txtError.visibility =
                             if (it == 0 && viewModel.getState().value != PagingState.LOADING) View.VISIBLE else View.GONE
+                        getBinding().ivNoYapContact.visibility = View.GONE
                         getBinding().txtError.text =
                             if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                                 requireContext(),
