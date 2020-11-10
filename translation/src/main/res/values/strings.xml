@@ -634,7 +634,6 @@
     <string name="screen_send_money_international_label">International transfer</string>
     <string name="screen_send_money_home_label">Home Country</string>
     <string name="screen_send_show_recent">Show Recent Transfers</string>
-
     <string name="screen_send_money_display_text_delete_message">Are you sure you want to delete beneficiary?</string>
     <string name="screen_send_money_display_text_all_local_beneficiaries">All local beneficiaries</string>
 

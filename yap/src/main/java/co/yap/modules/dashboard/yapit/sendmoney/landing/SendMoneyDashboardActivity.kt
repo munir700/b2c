@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing
 import android.Manifest
 import android.os.Bundle
 import android.view.View
+import android.view.ViewStub
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -31,11 +32,19 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override val viewModel: SendMoneyDashboardViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
+    val vs: ViewStub by lazy {
+        findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initViewStub()
         setObservers()
         setupRecycleView()
+    }
+
+    private fun initViewStub() {
+        vs.layoutResource = R.layout.layout_recent_beneficiaries_recylcerview
     }
 
     override fun setObservers() {
@@ -73,7 +82,12 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 launchActivity<SMHomeCountryActivity>()
             }
             sendMoneyQRCode -> {
-               // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
+                // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
+            }
+            R.id.tvrecentTransfer, R.id.hiderecentext -> {
+                viewModel.state.isRecentsVisible.set(getBinding().hiderecentext.visibility == View.VISIBLE)
+                vs.visibility =
+                    if (getBinding().hiderecentext.visibility == View.GONE) View.VISIBLE else View.GONE
             }
         }
     }
