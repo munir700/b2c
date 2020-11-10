@@ -51,10 +51,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         if (viewModel.parentViewModel?.isSearching?.value == true) {
             layoutRecent.visibility = View.GONE
         } else {
-            //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
-            //viewModel.adapter.set(adapter)
-            //viewModel.adapter.get()?.onItemClickListener = this
-            //adapter.onItemClickListener = this
             if (viewModel.adapter.get() == null) {
                 viewModel.getRecentBeneficiaries()
                 viewModel.recentTransferData.observe(this, Observer {
@@ -152,6 +148,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             }
             R.id.tvCancel -> {
                 activity?.finish()
+            }
+            R.id.tvHideRecents, R.id.recents -> {
+                viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
             }
         }
     }
