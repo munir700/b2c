@@ -2,8 +2,10 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewStub
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyDashboardBinding
@@ -39,6 +41,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun setupRecycleView() {
+        val viewStub = findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
+        viewStub.inflate()
+        val recycler = viewStub.findViewById<RecyclerView>(R.id.rvRecentBeneficiaries)
+     //   getBinding().rvRecentBeneficiaries.adapter = viewModel.recentsAdapter
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true
