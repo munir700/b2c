@@ -1,12 +1,12 @@
-package co.yap.modules.dashboard.yapit.recent_transfers
+package co.yap.widgets.recent_transfers
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.R
-import co.yap.databinding.ItemCoreRecentBeneficiaryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.R
+import co.yap.yapcore.databinding.ItemCoreRecentBeneficiaryBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CoreRecentTransferAdapter(

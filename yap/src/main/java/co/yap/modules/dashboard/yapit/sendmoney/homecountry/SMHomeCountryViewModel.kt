@@ -4,7 +4,7 @@ import android.app.Application
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
-import co.yap.modules.dashboard.yapit.recent_transfers.CoreRecentTransferAdapter
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 

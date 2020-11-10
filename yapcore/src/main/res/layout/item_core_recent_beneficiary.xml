@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.recent_transfers.CoreRecentBeneficiaryItemViewModel" />
+            type="co.yap.widgets.recent_transfers.CoreRecentBeneficiaryItemViewModel" />
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
 
@@ -20,38 +20,32 @@
         android:layout_gravity="center_horizontal"
         android:background="@color/white"
         android:orientation="vertical">
-<!--This hard coded is intentional. but need to remove this before merging in sprint9-->
+
         <co.yap.widgets.CoreCircleView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:bottomRightIcon="@{@drawable/ic_add}"
             android:layout_gravity="center"
             app:bottomRightIconHeight="@{@dimen/_15sdp}"
             app:bottomRightIconWidth="@{@dimen/_15sdp}"
             app:topLeftIconHeight="@{@dimen/_35sdp}"
             app:topLeftIconWidth="@{@dimen/_35sdp}"
             app:fullName="@{viewModel.coreRecentBeneficiary.name}"
+            app:imageUrl="@{viewModel.coreRecentBeneficiary.profilePictureUrl}"
          />
-<!--
 
-            app:imageUrl="@{viewModel.state.profilePictureUrl}"
--->
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/AppFontRegular"
+            style="@style/MicroGrey"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
             android:ellipsize="end"
             android:gravity="center"
             android:lineSpacingExtra="2sp"
             android:lines="2"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_10sdp"
             android:text="@{viewModel.coreRecentBeneficiary.name}"
-            android:textColor="@color/greyDark"
-            android:textSize="@dimen/_10sdp"
-            android:textStyle="normal"
             tools:text="Arshad Ali hussain mirza " />
+
+<!--        android:paddingStart="@dimen/_10sdp"-->
+<!--        android:paddingEnd="@dimen/_10sdp"-->
 
     </LinearLayout>
 </layout>

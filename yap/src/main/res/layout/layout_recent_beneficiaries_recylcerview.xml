@@ -8,6 +8,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:adapter="@{adapter}"
         />
 </FrameLayout>
