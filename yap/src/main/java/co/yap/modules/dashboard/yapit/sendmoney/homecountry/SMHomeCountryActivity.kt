@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.yapcore.BaseBindingActivity
+import kotlinx.android.synthetic.main.fragment_send_money_home.*
 
 class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -18,6 +19,11 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
+        setupRecycler()
+    }
+
+    private fun setupRecycler() {
+        recyclerViewRecents.adapter = viewModel.recentsAdapter
     }
 
     private fun addObservers() {

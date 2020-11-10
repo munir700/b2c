@@ -1,15 +1,20 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import android.app.Application
-import android.view.View
 import co.yap.R
-import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class SMHomeCountryViewModel (application: Application) : BaseViewModel<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel {
+class SMHomeCountryViewModel(application: Application) :
+    BaseViewModel<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
+        context,
+        mutableListOf()
+    )
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -27,5 +32,11 @@ class SMHomeCountryViewModel (application: Application) : BaseViewModel<ISMHomeC
         state.symbol?.set("CAD")
         state.time?.set("04/10/2020, 2:30 PM")
         state.flagDrawableResId?.set(CurrencyUtils.getFlagDrawable(context, "flag_ca"))
+        recentsAdapter.setList(getBeneficiaries())
+    }
+
+    private fun getBeneficiaries(): List<CoreRecentBeneficiaryItem> {
+        var recentBeneficiaries: List<CoreRecentBeneficiaryItem> = arrayListOf()
+        return recentBeneficiaries
     }
 }
