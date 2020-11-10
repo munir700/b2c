@@ -74,7 +74,9 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
                 when (data.beneficiaryType) {
-                    SendMoneyBeneficiaryType.YAP2YAP.type -> launchActivity<YapToYapDashboardActivity>()
+                    SendMoneyBeneficiaryType.YAP2YAP.type -> launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+                        putExtra(Beneficiary::class.java.name, data)
+                    }
                     else -> startMoneyTransfer(data, pos)
                 }
             } else {

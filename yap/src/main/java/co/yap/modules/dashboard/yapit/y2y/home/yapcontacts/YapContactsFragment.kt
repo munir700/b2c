@@ -34,7 +34,6 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     }
 
     private fun initComponents() {
-
         getBinding().recycler.adapter = YapContactsAdaptor(mutableListOf())
         (getBinding().recycler.adapter as YapContactsAdaptor).setItemListener(listener)
     }
