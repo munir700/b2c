@@ -71,10 +71,10 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:textColor="@{viewModel.state.isRecentsVisible == false ? @color/greyDark: @color/colorPrimary}"
+                android:textColor="@{viewModel.state.isRecentsVisible == true ? @color/greyDark: @color/colorPrimary}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:text="@{viewModel.state.isRecentsVisible == false ? Strings.screen_send_money_display_text_recent_transfer : Strings.screen_send_show_recent }"
+                app:text="@{viewModel.state.isRecentsVisible == true ? Strings.screen_send_money_display_text_recent_transfer : Strings.screen_send_show_recent }"
                 tools:text="@string/screen_send_money_display_text_recent_transfer" />
 
             <androidx.appcompat.widget.AppCompatTextView

@@ -28,12 +28,29 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
+        viewModel.state.viewState.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = it
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        })
     }
 
     override fun onDestroyView() {
         unregisterStateListeners()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroyView()
     }
 
