@@ -53,6 +53,10 @@ class SendMoneyDashboardViewModel(application: Application) :
             launch(Dispatcher.Main) {
                 when (sendMoneyRecentsBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
+                        sendMoneyRecentsBeneficiariesResponse.data.data.forEach {
+                            it.name = it.fullName()
+                            it.profilePictureUrl = it.beneficiaryPictureUrl
+                        }
                         recentTransfers.addAll(sendMoneyRecentsBeneficiariesResponse.data.data)
                         recentTransfers.sortedByDescending { it.lastUsedDate }
                         recentsAdapter.setList(recentTransfers)
@@ -64,6 +68,10 @@ class SendMoneyDashboardViewModel(application: Application) :
                 }
                 when (y2yRecentBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
+                        y2yRecentBeneficiariesResponse.data.data?.forEach {
+                            it.name = it.fullName()
+                            it.profilePictureUrl = it.beneficiaryPictureUrl
+                        }
                         recentTransfers.addAll(
                             y2yRecentBeneficiariesResponse.data.data ?: emptyList()
                         )
