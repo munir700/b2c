@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
@@ -36,7 +37,10 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.parentViewModel?.beneficiary?.let {
+            skipYapHomeFragment()
+        } ?: viewModel.clickEvent.observe(this, clickEventObserver)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,10 +55,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         if (viewModel.parentViewModel?.isSearching?.value == true) {
             layoutRecent.visibility = View.GONE
         } else {
-            //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
-            //viewModel.adapter.set(adapter)
-            //viewModel.adapter.get()?.onItemClickListener = this
-            //adapter.onItemClickListener = this
             if (viewModel.adapter.get() == null) {
                 viewModel.getRecentBeneficiaries()
                 viewModel.recentTransferData.observe(this, Observer {
@@ -153,6 +153,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             R.id.tvCancel -> {
                 activity?.finish()
             }
+            R.id.tvHideRecents, R.id.recents -> {
+                viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
+            }
         }
     }
 
@@ -175,6 +178,20 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             )
             else -> null
         }
+    }
+
+    private fun skipYapHomeFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.yapToYapHome, true) // starting destination skiped
+            .build()
+
+        navigate(
+            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                viewModel.parentViewModel?.beneficiary?.beneficiaryPictureUrl ?: "",
+                viewModel.parentViewModel?.beneficiary?.beneficiaryUuid ?: "",
+                viewModel.parentViewModel?.beneficiary?.title ?: "", 0
+            ), screenType = FeatureSet.Y2Y_TRANSFER, navOptions = navOptions
+        )
     }
 
     override fun onDestroy() {

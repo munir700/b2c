@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewStub
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -12,13 +13,21 @@ import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -29,14 +38,27 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     ISendMoneyDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_dashboard
-    var permissionHelper: PermissionHelper? = null
+    override var permissionHelper: PermissionHelper? = null
+    val contactPer = 1
+    val cameraPer = 2
+
+
     override val viewModel: SendMoneyDashboardViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
+    private val vs: ViewStub by lazy {
+        findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initViewStub()
         setObservers()
         setupRecycleView()
+    }
+
+    private fun initViewStub() {
+        vs.layoutResource = R.layout.layout_recent_beneficiaries_recylcerview
+        vs.visibility = View.VISIBLE
     }
 
     override fun setObservers() {
@@ -51,18 +73,31 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         )
         viewModel.dashboardAdapter.allowFullItemClickListener = true
         viewModel.dashboardAdapter.setItemListener(itemClickListener)
+        viewModel.recentsAdapter.allowFullItemClickListener = true
+        viewModel.recentsAdapter.setItemListener(itemClickListener)
     }
 
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.clickEvent.setValue(pos)
+            if (data is Beneficiary) {
+                when (data.beneficiaryType) {
+                    SendMoneyBeneficiaryType.YAP2YAP.type -> launchActivity<YapToYapDashboardActivity>(
+                        type = FeatureSet.Y2Y_TRANSFER
+                    ) {
+                        putExtra(Beneficiary::class.java.name, data)
+                    }
+                    else -> startMoneyTransfer(data, pos)
+                }
+            } else {
+                viewModel.clickEvent.setValue(pos)
+            }
         }
     }
 
     private val observer = Observer<Int> {
         when (it) {
             sendMoneyToYAPContacts -> {
-                showToast("Process under working")
+                checkPermission(contactPer)
             }
             sendMoneyToLocalBank -> {
                 startSendMoneyFlow(SendMoneyTransferType.LOCAL.name)
@@ -71,10 +106,15 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             sendMoneyToHomeCountry -> {
-                launchActivity<SMHomeCountryActivity> { }
+                launchActivity<SMHomeCountryActivity>()
             }
             sendMoneyQRCode -> {
-                checkPermission()
+                checkPermission(cameraPer)
+            }
+            R.id.tvrecentTransfer, R.id.hiderecentext -> {
+                viewModel.state.isRecentsVisible.set(getBinding().hiderecentext.visibility == View.VISIBLE)
+                vs.visibility =
+                    if (getBinding().hiderecentext.visibility == View.GONE) View.VISIBLE else View.GONE
             }
         }
     }
@@ -86,6 +126,76 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 sendMoneyType
             )
             putExtra(SendMoneyLandingActivity.searching, false)
+        }
+    }
+
+    private fun checkPermission(type: Int) {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.CAMERA
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                if (type == cameraPer) {
+                    startQrFragment()
+                } else
+                    openY2YScreen()
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                if (grantedPermission.contains(Manifest.permission.CAMERA))
+                    startQrFragment()
+                else
+                    openY2YScreen()
+            }
+
+            override fun onPermissionDenied() {
+                if (type == cameraPer) {
+                    showToast("Can't proceed without permissions")
+                } else
+                    openY2YScreen()
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                if (type == cameraPer) {
+                    showToast("Can't proceed without permissions")
+                } else
+                    openY2YScreen()
+            }
+        })
+    }
+
+    private fun openY2YScreen() {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(YapToYapDashboardActivity.searching, false)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissionHelper != null) {
+            permissionHelper?.onRequestPermissionsResult(
+                requestCode,
+                permissions as Array<String>,
+                grantResults
+            )
+        }
+    }
+
+    private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
+        launchActivity<BeneficiaryFundTransferActivity>(
+            requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
+            type = beneficiary.getBeneficiaryTransferType()
+        ) {
+            putExtra(Constants.BENEFICIARY, beneficiary)
+            putExtra(Constants.POSITION, position)
+            putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
     }
 
@@ -118,42 +228,31 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         }
     }
 
-    private fun checkPermission() {
-        permissionHelper = PermissionHelper(
-            this, arrayOf(
-                Manifest.permission.CAMERA
-            ), 100
-        )
-        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
-            override fun onPermissionGranted() {
-                startQrFragment()
-            }
+//    private fun checkPermission() {
+//        permissionHelper = PermissionHelper(
+//            this, arrayOf(
+//                Manifest.permission.CAMERA
+//            ), 100
+//        )
+//        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+//            override fun onPermissionGranted() {
+//                startQrFragment()
+//            }
+//
+//            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+//                if (grantedPermission.contains(Manifest.permission.CAMERA))
+//                    startQrFragment()
+//            }
+//
+//            override fun onPermissionDenied() {
+//                showToast("Can't proceed without permissions")
+//            }
+//
+//            override fun onPermissionDeniedBySystem() {
+//                showToast("Can't proceed without permissions")
+//
+//            }
+//        })
+//    }
 
-            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                if (grantedPermission.contains(Manifest.permission.CAMERA))
-                    startQrFragment()
-            }
-
-            override fun onPermissionDenied() {
-                showToast("Can't proceed without permissions")
-            }
-
-            override fun onPermissionDeniedBySystem() {
-                showToast("Can't proceed without permissions")
-
-            }
-        })
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionHelper?.onRequestPermissionsResult(
-            requestCode,
-            permissions as Array<String>, grantResults
-        )
-    }
 }

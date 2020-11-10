@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.home.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
@@ -17,6 +18,7 @@ interface IYapToYap {
     }
 
     interface State : IBase.State {
+        var isRecentsVisible: ObservableBoolean
 
     }
 }
