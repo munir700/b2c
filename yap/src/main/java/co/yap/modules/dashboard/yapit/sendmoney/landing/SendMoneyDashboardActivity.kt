@@ -45,6 +45,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     private fun initViewStub() {
         vs.layoutResource = R.layout.layout_recent_beneficiaries_recylcerview
+        vs.visibility =View.VISIBLE
     }
 
     override fun setObservers() {
