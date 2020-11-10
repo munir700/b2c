@@ -32,9 +32,13 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     lateinit var viewstub: ViewStub
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewstub = findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
+        initViewStub()
         setObservers()
         setupRecycleView()
+    }
+
+    private fun initViewStub() {
+        viewstub = findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
     }
 
     override fun setObservers() {
