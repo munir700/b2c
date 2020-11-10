@@ -22,12 +22,13 @@ interface ISendMoneyDashboard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var recentTransfers: MutableLiveData<Beneficiary>
+        var recentTransfers: ArrayList<Beneficiary>
         var dashboardAdapter: SendMoneyDashboardAdapter
         var recentsAdapter: CoreRecentTransferAdapter
+        val clickEvent: SingleClickEvent
         fun geSendMoneyOptions(): MutableList<SendMoneyOptions>
         fun handlePressOnView(id: Int)
-        val clickEvent: SingleClickEvent
+        fun getAllRecentsBeneficiariesParallel()
     }
 
     interface View : IBase.View<ViewModel> {

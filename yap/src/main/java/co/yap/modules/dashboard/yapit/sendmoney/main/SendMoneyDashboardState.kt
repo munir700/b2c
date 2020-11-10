@@ -10,5 +10,5 @@ class SendMoneyDashboardState : BaseState(), ISendMoneyDashboard.State {
     override var leftIconVisibility: ObservableBoolean = ObservableBoolean(false)
     override var rightButtonText: ObservableField<String> = ObservableField("")
     override var rightButtonTextVisibility: ObservableBoolean = ObservableBoolean(false)
-    override var isRecentsVisible: ObservableBoolean = ObservableBoolean(true)
+    override var isRecentsVisible: ObservableBoolean = ObservableBoolean(false)
 }
