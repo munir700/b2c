@@ -47,6 +47,19 @@
                 tools:visibility="visible" />
 
             <!-- Your Desired landing design-->
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivNoYapContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.557"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.110000014"
+                app:srcCompat="@drawable/ic_no_transaction" />
+
             <TextView
                 android:id="@+id/txt_error"
                 style="@style/RegularGrey"
@@ -58,7 +71,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivNoYapContact"
                 app:text="@{Strings.screen_y2y_display_text_no_yap_contacts}"
                 tools:text="@string/screen_y2y_display_text_no_yap_contacts"
                 tools:visibility="visible" />

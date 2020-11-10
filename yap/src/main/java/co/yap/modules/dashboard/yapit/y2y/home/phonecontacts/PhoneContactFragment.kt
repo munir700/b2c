@@ -68,7 +68,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
                 getBinding().tvContactListDescription.visibility = View.VISIBLE
-                viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
+                viewModel.parentViewModel?.yapContactLiveData?.postValue(emptyList())
             }
         })
     }

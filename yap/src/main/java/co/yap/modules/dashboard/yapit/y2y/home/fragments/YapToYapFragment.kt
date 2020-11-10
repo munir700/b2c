@@ -153,6 +153,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             R.id.tvCancel -> {
                 activity?.finish()
             }
+            R.id.tvHideRecents, R.id.recents -> {
+                viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
+            }
         }
     }
 
