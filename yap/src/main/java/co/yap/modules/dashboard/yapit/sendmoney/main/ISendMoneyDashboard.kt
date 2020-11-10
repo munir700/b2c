@@ -17,7 +17,7 @@ interface ISendMoneyDashboard {
         var leftIconVisibility: ObservableBoolean
         var rightButtonTextVisibility: ObservableBoolean
         var rightButtonText: ObservableField<String>
-        var labelTextVisibility: Boolean
+        var isRecentsVisible: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

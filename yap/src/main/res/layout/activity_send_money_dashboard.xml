@@ -20,6 +20,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <co.yap.widgets.CoreToolbar
@@ -53,66 +54,58 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:text="@{Strings.screen_fragment_yap_it_add_money_how_do_you_want_to_add_money}"
             tools:text="@string/screen_fragment_yap_it_send_money_label" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_normal_large">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvrecentTransfer"
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                app:text="@{Strings.screen_send_money_display_text_recent_transfer}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="@{viewModel.state.labelTextVisibility ? View.VISIBLE : View.GONE}"
-                tools:text="@string/screen_send_money_display_text_recent_transfer" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/showrecentext"
-                style="@style/SmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
                 android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
-                android:textColor="@color/colorPrimary"
-                android:visibility="@{viewModel.state.labelTextVisibility ? View.GONE : View.VISIBLE}"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColor="@{viewModel.state.isRecentsVisible == false ? @color/greyDark: @color/colorPrimary}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_send_show_recent}"
-                tools:text="@string/screen_send_show_recent"
-           />
+                app:text="@{viewModel.state.isRecentsVisible == false ? Strings.screen_send_money_display_text_recent_transfer : Strings.screen_send_show_recent }"
+                tools:text="@string/screen_send_money_display_text_recent_transfer" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/hiderecentext"
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal_large"
-                android:layout_marginTop="@dimen/margin_large"
                 android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="@{viewModel.state.isRecentsVisible ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="@{viewModel.state.labelTextVisibility ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toTopOf="parent"
                 app:text="@{Strings.screen_send_money_home_display_text_hide}"
-                tools:text="@string/screen_send_money_home_display_text_hide"
-           />
+                tools:text="@string/screen_send_money_home_display_text_hide" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         <ViewStub
             android:id="@+id/vsRecentBeneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
             android:inflatedId="@+id/content_import"
             android:layout="@layout/layout_recent_beneficiaries_recylcerview"
             app:adapter="@{viewModel.recentsAdapter}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/showrecentext"
-            android:layout_marginStart="@dimen/margin_normal_large"
-            android:layout_marginEnd="@dimen/margin_normal_large"/>
+            app:layout_constraintTop_toBottomOf="@+id/showrecentext" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerOptions"
