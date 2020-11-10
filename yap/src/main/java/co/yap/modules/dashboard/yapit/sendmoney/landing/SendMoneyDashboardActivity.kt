@@ -38,7 +38,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override val viewModel: SendMoneyDashboardViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
-    val vs: ViewStub by lazy {
+    private val vs: ViewStub by lazy {
         findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
     }
 
@@ -51,6 +51,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     private fun initViewStub() {
         vs.layoutResource = R.layout.layout_recent_beneficiaries_recylcerview
+        vs.visibility = View.VISIBLE
     }
 
     override fun setObservers() {
