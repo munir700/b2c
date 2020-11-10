@@ -29,7 +29,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         }
 
         itemTaxInfoBinding.viewModel =
-            TaxInfoItemViewModel(taxModel, position, onItemClickListener)
+            TaxInfoItemViewModel(taxModel, position,itemTaxInfoBinding, onItemClickListener)
         itemTaxInfoBinding.etTinNumber.afterTextChanged {
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
         }
