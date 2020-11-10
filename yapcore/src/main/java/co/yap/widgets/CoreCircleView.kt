@@ -46,7 +46,6 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 ivTopLeft.visibility = VISIBLE
                 UIBinder.setImageResId(ivTopLeft, it)
             }
-
         }
 
     var imageUrl: String? = null
@@ -78,7 +77,15 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 ivBottomRight.visibility = VISIBLE
                 UIBinder.setImageResId(ivBottomRight, value)
             }
+        }
 
+    var bottomRightIconInt: Int? = null
+        set(value) {
+            field = value
+            bottomRightIconInt?.let {
+                ivBottomRight.visibility = VISIBLE
+                UIBinder.setImageResId(ivBottomRight, it)
+            }
         }
 
     var iconWidth: Float? = null

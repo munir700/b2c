@@ -41,18 +41,18 @@ class CoreRecentTransferAdapter(
         ) {
             when (coreRecentBeneficiary.type) {
                 SendMoneyBeneficiaryType.YAP2YAP.type -> {
-                    itemCoreRecentBeneficiaryBinding.coreView.bottomRightIcon =
-                        itemCoreRecentBeneficiaryBinding.root.context.resources.getDrawable(
-                            R.drawable.ic_package_standered,
-                            null
-                        )
+                    itemCoreRecentBeneficiaryBinding.coreView.bottomRightIconInt =
+                        R.drawable.ic_package_standered
                 }
                 else -> {
-                    itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
-                        CurrencyUtils.getFlagDrawable(
-                            itemCoreRecentBeneficiaryBinding.root.context,
-                            coreRecentBeneficiary.isoCountryCode ?: ""
-                        )
+                    coreRecentBeneficiary.isoCountryCode?.let { isoCode ->
+                        itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
+                            CurrencyUtils.getFlagDrawable(
+                                itemCoreRecentBeneficiaryBinding.root.context,
+                                isoCode
+                            )
+                    }
+
                 }
             }
 
