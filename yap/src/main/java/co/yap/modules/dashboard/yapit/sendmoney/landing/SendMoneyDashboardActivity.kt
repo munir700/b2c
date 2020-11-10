@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing
 
 import android.Manifest
+import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import androidx.lifecycle.Observer
@@ -13,6 +15,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivit
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseBindingActivity
@@ -21,6 +24,8 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -82,7 +87,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 launchActivity<SMHomeCountryActivity>()
             }
             sendMoneyQRCode -> {
-                // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
+                startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        val contact = data?.getParcelableExtra<Contact>("contact")
+                    }
+                }
             }
             R.id.tvrecentTransfer, R.id.hiderecentext -> {
                 viewModel.state.isRecentsVisible.set(getBinding().hiderecentext.visibility == View.VISIBLE)
