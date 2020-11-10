@@ -13,12 +13,18 @@ import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivit
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -59,11 +65,20 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         )
         viewModel.dashboardAdapter.allowFullItemClickListener = true
         viewModel.dashboardAdapter.setItemListener(itemClickListener)
+        viewModel.recentsAdapter.allowFullItemClickListener = true
+        viewModel.recentsAdapter.setItemListener(itemClickListener)
     }
 
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.clickEvent.setValue(pos)
+            if (data is Beneficiary) {
+                when (data.beneficiaryType) {
+                    SendMoneyBeneficiaryType.YAP2YAP.type -> launchActivity<YapToYapDashboardActivity>()
+                    else -> startMoneyTransfer(data, pos)
+                }
+            } else {
+                viewModel.clickEvent.setValue(pos)
+            }
         }
     }
 
@@ -145,6 +160,17 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 permissions as Array<String>,
                 grantResults
             )
+        }
+    }
+
+    private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
+        launchActivity<BeneficiaryFundTransferActivity>(
+            requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
+            type = beneficiary.getBeneficiaryTransferType()
+        ) {
+            putExtra(Constants.BENEFICIARY, beneficiary)
+            putExtra(Constants.POSITION, position)
+            putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
     }
 

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels
 
 import android.app.Application
+import android.view.View
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
@@ -18,6 +19,8 @@ import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
