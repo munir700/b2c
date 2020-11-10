@@ -17,6 +17,10 @@ abstract class BaseRepository : IRepository {
     private val defaultErrorMessage =
         "Sorry, that doesn't look right. We’re working on fixing it now. Please try again in sometime."
 
+    private val defaultConnectionErrorMessage =
+        "Looks like you're offline. Please reconnect and refresh to continue using YAP."
+
+
     override suspend fun <T : ApiResponse> executeSafely(call: suspend () -> Response<T>): RetroApiResponse<T> {
         try {
             val response: Response<T> = call.invoke()
@@ -38,7 +42,7 @@ abstract class BaseRepository : IRepository {
             return RetroApiResponse.Error(
                 ApiError(
                     0,
-                    defaultErrorMessage
+                    exception.localizedMessage ?: defaultConnectionErrorMessage
                 )
             )
         } catch (exception: Exception) {
@@ -129,11 +133,11 @@ abstract class BaseRepository : IRepository {
 
             is NetworkErrors.NoInternet -> ServerError(
                 code,
-                "Looks like you're offline. Please reconnect and refresh to continue using YAP."
+                defaultConnectionErrorMessage
             )
             is NetworkErrors.RequestTimedOut -> ServerError(
                 code,
-                "Looks like you're offline. Please reconnect and refresh to continue using YAP."
+                defaultConnectionErrorMessage
             )
             is NetworkErrors.BadGateway -> ServerError(code, defaultErrorMessage)
             is NetworkErrors.NotFound -> ServerError(code, defaultErrorMessage)
