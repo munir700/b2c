@@ -3,9 +3,10 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing
 import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils.makeInAnimation
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyDashboardBinding
@@ -14,12 +15,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDash
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
-import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -30,8 +29,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     override val viewModel: SendMoneyDashboardViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
 
+    lateinit var viewstub: ViewStub
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewstub = findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
         setObservers()
         setupRecycleView()
     }
@@ -41,10 +42,8 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun setupRecycleView() {
-        val viewStub = findViewById<ViewStub>(R.id.vsRecentBeneficiaries)
-        viewStub.inflate()
-        val recycler = viewStub.findViewById<RecyclerView>(R.id.rvRecentBeneficiaries)
-     //   getBinding().rvRecentBeneficiaries.adapter = viewModel.recentsAdapter
+        // val recycler = viewStub.findViewById<RecyclerView>(R.id.rvRecentBeneficiaries)
+        //   getBinding().rvRecentBeneficiaries.adapter = viewModel.recentsAdapter
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
                 dimen(R.dimen.margin_normal_large) ?: 16, 2, true
@@ -75,8 +74,13 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 launchActivity<SMHomeCountryActivity> { }
             }
             sendMoneyQRCode -> {
-
-               // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
+                // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
+            }
+            R.id.showrecentext -> {
+                handleViewStub(true)
+            }
+            R.id.hiderecentext -> {
+                handleViewStub(false)
             }
         }
     }
@@ -88,6 +92,26 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 sendMoneyType
             )
             putExtra(SendMoneyLandingActivity.searching, false)
+        }
+    }
+
+    fun handleViewStub(show: Boolean) {
+        viewstub.layoutResource = R.layout.layout_recent_beneficiaries_recylcerview
+        when (show) {
+            true -> {
+                viewstub.visibility = View.VISIBLE
+                val animation: Animation = makeInAnimation(context, true)
+                animation.setDuration(300)
+                viewstub.startAnimation(animation)
+                viewModel.state.labelTextVisibility = true
+            }
+            else -> {
+                viewstub.visibility = View.GONE
+                val animation: Animation = makeInAnimation(context, true)
+                animation.setDuration(300)
+                viewstub.startAnimation(animation)
+                viewModel.state.labelTextVisibility = false
+            }
         }
     }
 

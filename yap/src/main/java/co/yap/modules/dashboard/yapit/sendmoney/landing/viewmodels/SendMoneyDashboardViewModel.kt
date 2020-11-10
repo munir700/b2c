@@ -41,8 +41,11 @@ class SendMoneyDashboardViewModel(application: Application) :
         dashboardAdapter.setList(geSendMoneyOptions())
     }
 
-    private fun getBeneficiaries(): List<CoreRecentBeneficiaryItem> {
-        var recentBeneficiaries: List<CoreRecentBeneficiaryItem> = arrayListOf()
+    private fun getBeneficiaries(): MutableList<CoreRecentBeneficiaryItem> {
+        var recentBeneficiaries: MutableList<CoreRecentBeneficiaryItem> = arrayListOf()
+        recentBeneficiaries.add(CoreRecentBeneficiaryItem("this is item"))
+        recentBeneficiaries.add(CoreRecentBeneficiaryItem("this is item1"))
+        recentBeneficiaries.add(CoreRecentBeneficiaryItem("this is item2"))
         return recentBeneficiaries
     }
 
