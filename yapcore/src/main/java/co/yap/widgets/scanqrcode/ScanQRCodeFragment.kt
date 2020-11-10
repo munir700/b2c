@@ -7,9 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -36,6 +34,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_scan_qr_code
     val cameraPer = 1
+    var oneTimeCall = true;
     lateinit var qrCodeReaderView: QRCodeReaderView
     var permissionHelper: PermissionHelper? = null
 
@@ -48,7 +47,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         viewDataBinding as FragmentScanQrCodeBinding
 
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
-        if(!viewModel.state.loading) {
+        if (!viewModel.state.loading) {
             qrCodeReaderView.setQRDecodingEnabled(false)
             viewModel.uploadQRCode(text?.getQRCode())
         }
@@ -107,6 +106,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         } catch (e: Exception) {
 //            Log.e("QrTest", "Error decoding barcode", e)
             showToast("Error decoding QRCode")
+            qrCodeReaderView.setQRDecodingEnabled(true)
         }
         return contents
     }
@@ -126,6 +126,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                     EasyImage.openGallery(this@ScanQRCodeFragment, 2)
                 }
             }
+
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
                 if (type == cameraPer) {
                     if (grantedPermission.contains(Manifest.permission.CAMERA))
@@ -135,15 +136,21 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                         EasyImage.openGallery(this@ScanQRCodeFragment, 2)
                 }
             }
+
             override fun onPermissionDenied() {
                 showToast("Can't proceed without permissions")
+                qrCodeReaderView.setQRDecodingEnabled(true)
             }
+
             override fun onPermissionDeniedBySystem() {
                 showToast("Can't proceed without permissions")
+                qrCodeReaderView.setQRDecodingEnabled(true)
+
 //                permissionHelper?.openAppDetailsActivity()
             }
         })
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity,
@@ -155,15 +162,18 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 ) {
                     onPhotosReturned(imageFile, type, source)
                 }
+
                 override fun onImagePickerError(
                     e: Exception?,
                     source: EasyImage.ImageSource?,
                     type: Int
                 ) {
+                    qrCodeReaderView.setQRDecodingEnabled(true)
                     viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                 }
             })
     }
+
     private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
         path?.let {
             val ext = path.extension
@@ -172,17 +182,22 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                     "png", "jpg", "jpeg" -> {
                         val inputStream: InputStream = BufferedInputStream(FileInputStream(path))
                         val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
-                        scanQRImage(bitmap)
+                        scanQRImage(bitmap)?.let {
+                            viewModel.uploadQRCode(it.getQRCode())
+                        }
                     }
                     else -> {
                         viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                        qrCodeReaderView.setQRDecodingEnabled(true)
                     }
                 }
             } else {
                 viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                qrCodeReaderView.setQRDecodingEnabled(true)
             }
         }
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         @NonNull permissions: Array<String>,
@@ -198,6 +213,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 requireActivity().onBackPressed()
             }
             R.id.ivLibrary -> {
+                qrCodeReaderView.setQRDecodingEnabled(false)
                 checkPermission(2)
             }
             R.id.ivMyQrCode -> {

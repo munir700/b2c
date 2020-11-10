@@ -1,8 +1,8 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing
 
+import android.Manifest
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,8 +20,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -29,6 +29,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     ISendMoneyDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_dashboard
+    var permissionHelper: PermissionHelper? = null
     override val viewModel: SendMoneyDashboardViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
 
@@ -73,11 +74,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 launchActivity<SMHomeCountryActivity> { }
             }
             sendMoneyQRCode -> {
-                startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
-                    if (resultCode == Activity.RESULT_OK) {
-                        val contact = data?.getParcelableExtra<Contact>("contact")
-                    }
-                }
+                checkPermission()
             }
         }
     }
@@ -111,5 +108,52 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    private fun startQrFragment() {
+        startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                val contact = data?.getParcelableExtra<Contact>("contact")
+            }
+        }
+    }
+
+    private fun checkPermission() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.CAMERA
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                startQrFragment()
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                if (grantedPermission.contains(Manifest.permission.CAMERA))
+                    startQrFragment()
+            }
+
+            override fun onPermissionDenied() {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                showToast("Can't proceed without permissions")
+
+            }
+        })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionHelper?.onRequestPermissionsResult(
+            requestCode,
+            permissions as Array<String>, grantResults
+        )
     }
 }

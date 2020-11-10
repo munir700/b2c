@@ -226,6 +226,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.kyc)],
             [configuration: "implementation", dependency: project(modules.sendmoney)],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
