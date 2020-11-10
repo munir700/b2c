@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
@@ -11,12 +12,15 @@ import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -24,6 +28,8 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     ISendMoneyDashboard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_dashboard
+    override var permissionHelper: PermissionHelper? = null
+
     override val viewModel: SendMoneyDashboardViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyDashboardViewModel::class.java)
     val vs: ViewStub by lazy {
@@ -64,7 +70,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     private val observer = Observer<Int> {
         when (it) {
             sendMoneyToYAPContacts -> {
-                showToast("Process under working")
+                checkPermission()
             }
             sendMoneyToLocalBank -> {
                 startSendMoneyFlow(SendMoneyTransferType.LOCAL.name)
@@ -73,7 +79,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             sendMoneyToHomeCountry -> {
-                launchActivity<SMHomeCountryActivity> { }
+                launchActivity<SMHomeCountryActivity>()
             }
             sendMoneyQRCode -> {
                 // startFragment<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name)
@@ -93,6 +99,52 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 sendMoneyType
             )
             putExtra(SendMoneyLandingActivity.searching, false)
+        }
+    }
+
+    private fun checkPermission() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.READ_CONTACTS
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                openY2YScreen()
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                openY2YScreen()
+            }
+
+            override fun onPermissionDenied() {
+                openY2YScreen()
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                openY2YScreen()
+            }
+        })
+    }
+
+    private fun openY2YScreen() {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(YapToYapDashboardActivity.searching, false)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissionHelper != null) {
+            permissionHelper?.onRequestPermissionsResult(
+                requestCode,
+                permissions as Array<String>,
+                grantResults
+            )
         }
     }
 

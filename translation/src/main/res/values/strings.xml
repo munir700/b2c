@@ -34,6 +34,7 @@
     <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
     <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
     <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
+    <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>

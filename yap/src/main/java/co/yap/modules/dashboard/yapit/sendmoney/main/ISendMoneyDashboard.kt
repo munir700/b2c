@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.permissions.PermissionHelper
 
 interface ISendMoneyDashboard {
     interface State : IBase.State {
@@ -35,6 +36,7 @@ interface ISendMoneyDashboard {
         val sendMoneyToInternational get() = 2
         val sendMoneyToHomeCountry get() = 3
         val sendMoneyQRCode get() = 4
+        var permissionHelper: PermissionHelper?
         fun getBinding(): ActivitySendMoneyDashboardBinding
         fun setObservers()
         fun removeObservers()
