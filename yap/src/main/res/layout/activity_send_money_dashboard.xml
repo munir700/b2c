@@ -61,7 +61,7 @@
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="@string/screen_send_money_display_text_recent_transfer"/>
+            tools:text="@string/screen_send_money_display_text_recent_transfer" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/showrecentext"
@@ -98,6 +98,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/showrecentext"
             android:visibility="gone"
+            tools:itemCount="3" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecentBeneficiaries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/showrecentext"
             tools:itemCount="3" />
 
         <androidx.recyclerview.widget.RecyclerView
