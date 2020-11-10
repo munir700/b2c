@@ -42,9 +42,11 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
     var topLefticonInt: Int? = null
         set(value) {
             field = value
-            topLefticonInt?.let {
+            if(topLefticonInt !=null){
                 ivTopLeft.visibility = VISIBLE
-                UIBinder.setImageResId(ivTopLeft, it)
+                UIBinder.setImageResId(ivTopLeft, topLefticonInt?:0)
+            }else{
+                ivTopLeft.visibility = View.GONE
             }
         }
 
@@ -82,9 +84,11 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
     var bottomRightIconInt: Int? = null
         set(value) {
             field = value
-            bottomRightIconInt?.let {
+            if(bottomRightIconInt !=null){
                 ivBottomRight.visibility = VISIBLE
-                UIBinder.setImageResId(ivBottomRight, it)
+                UIBinder.setImageResId(ivBottomRight, bottomRightIconInt?:0)
+            }else{
+                ivBottomRight.visibility = View.GONE
             }
         }
 

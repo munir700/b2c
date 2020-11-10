@@ -41,10 +41,12 @@ class CoreRecentTransferAdapter(
         ) {
             when (coreRecentBeneficiary.type) {
                 SendMoneyBeneficiaryType.YAP2YAP.type -> {
+                    itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt = null
                     itemCoreRecentBeneficiaryBinding.coreView.bottomRightIconInt =
                         R.drawable.ic_package_standered
                 }
                 else -> {
+                    itemCoreRecentBeneficiaryBinding.coreView.bottomRightIconInt = null
                     coreRecentBeneficiary.isoCountryCode?.let { isoCode ->
                         itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
                             CurrencyUtils.getFlagDrawable(
@@ -52,7 +54,6 @@ class CoreRecentTransferAdapter(
                                 isoCode
                             )
                     }
-
                 }
             }
 
