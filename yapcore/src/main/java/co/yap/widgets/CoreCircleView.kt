@@ -56,7 +56,7 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 ivIcon.visibility = GONE
                 ivProfilePic.visibility = VISIBLE
                 position?.let { position ->
-                    ImageBinding.loadAvatar(ivProfilePic, it, fullName, position = position)
+                    ImageBinding.loadAvatar(ivProfilePic, it, fullName, position = position, colorType = "Beneficiary")
                 } ?: ImageBinding.loadAvatar(ivProfilePic, it, fullName)
             }
 

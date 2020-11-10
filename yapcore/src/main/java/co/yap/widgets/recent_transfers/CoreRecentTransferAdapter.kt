@@ -40,22 +40,24 @@ class CoreRecentTransferAdapter(
             position: Int,
             onItemClickListener: OnItemClickListener?
         ) {
-
             when (coreRecentBeneficiary.type) {
-                SendMoneyBeneficiaryType.RMT.type, SendMoneyBeneficiaryType.SWIFT.type -> {
-
+                SendMoneyBeneficiaryType.YAP2YAP.type -> {
+                    itemCoreRecentBeneficiaryBinding.coreView.bottomRightIcon =
+                        itemCoreRecentBeneficiaryBinding.root.context.resources.getDrawable(
+                            R.drawable.ic_package_standered,
+                            null
+                        )
+                }
+                else -> {
+                    itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
+                        CurrencyUtils.getFlagDrawable(
+                            itemCoreRecentBeneficiaryBinding.root.context,
+                            coreRecentBeneficiary.isoCountryCode ?: ""
+                        )
                 }
             }
-            itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
-                CurrencyUtils.getFlagDrawable(
-                    itemCoreRecentBeneficiaryBinding.root.context,
-                    coreRecentBeneficiary.isoCountryCode!!
-                )
-            itemCoreRecentBeneficiaryBinding.coreView.bottomRightIcon =
-                itemCoreRecentBeneficiaryBinding.root.context.resources.getDrawable(
-                    R.drawable.ic_package_standered,
-                    null
-                )
+
+
             itemCoreRecentBeneficiaryBinding.coreView.position = position
             itemCoreRecentBeneficiaryBinding.viewModel =
                 CoreRecentBeneficiaryItemViewModel(
