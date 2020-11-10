@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActiv
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
