@@ -36,7 +36,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         viewDataBinding as FragmentScanQrCodeBinding
 
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
-        getBindings().tvQrCode.text = text
         qrCodeReaderView.setQRDecodingEnabled(false)
         viewModel.uploadQRCode(text?.getQRCode())
     }
@@ -101,7 +100,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     }
 
     private val onFetchContactInfo = Observer<Contact> {
-        it?.run {
+        it?.let {
             val intent = Intent()
             intent.putExtra("contact", it)
             activity?.setResult(Activity.RESULT_OK, intent)
