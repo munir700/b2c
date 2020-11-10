@@ -11,7 +11,6 @@ import co.yap.yapcore.databinding.ItemCoreRecentBeneficiaryBinding
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-
 class CoreRecentTransferAdapter(
     var context: Context,
     private val list: MutableList<CoreRecentBeneficiaryItem>
@@ -56,7 +55,6 @@ class CoreRecentTransferAdapter(
                         )
                 }
             }
-
 
             itemCoreRecentBeneficiaryBinding.coreView.position = position
             itemCoreRecentBeneficiaryBinding.viewModel =
