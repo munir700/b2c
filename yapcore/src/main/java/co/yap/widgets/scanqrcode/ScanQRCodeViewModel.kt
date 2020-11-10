@@ -11,6 +11,7 @@ import co.yap.networking.customers.responsedtos.QRContactResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleLiveEvent
 
 class ScanQRCodeViewModel(application: Application) :
     BaseViewModel<IScanQRCode.State>(application),
@@ -18,6 +19,7 @@ class ScanQRCodeViewModel(application: Application) :
     override val state: IScanQRCode.State = ScanQRCodeState()
     private val customerRepository: CustomersRepository = CustomersRepository
     override var contactInfo: MutableLiveData<Contact> = MutableLiveData()
+    override val noContactFoundEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override fun uploadQRCode(uuid: String?) {
         launch {
@@ -37,6 +39,7 @@ class ScanQRCodeViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading=false
+                    noContactFoundEvent.value = true
                 }
             }
         }
