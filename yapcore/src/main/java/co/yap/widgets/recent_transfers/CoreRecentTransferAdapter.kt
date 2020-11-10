@@ -3,14 +3,16 @@ package co.yap.widgets.recent_transfers
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemCoreRecentBeneficiaryBinding
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class CoreRecentTransferAdapter(
-    context: Context,
+    var context: Context,
     private val list: MutableList<CoreRecentBeneficiaryItem>
 ) :
     BaseBindingRecyclerAdapter<CoreRecentBeneficiaryItem, RecyclerView.ViewHolder>(list) {
@@ -37,6 +39,25 @@ class CoreRecentTransferAdapter(
             position: Int,
             onItemClickListener: OnItemClickListener?
         ) {
+            when (coreRecentBeneficiary.type) {
+                SendMoneyBeneficiaryType.YAP2YAP.type -> {
+                    itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt = null
+                    itemCoreRecentBeneficiaryBinding.coreView.bottomRightIconInt =
+                        R.drawable.ic_package_standered
+                }
+                else -> {
+                    itemCoreRecentBeneficiaryBinding.coreView.bottomRightIconInt = null
+                    coreRecentBeneficiary.isoCountryCode?.let { isoCode ->
+                        itemCoreRecentBeneficiaryBinding.coreView.topLefticonInt =
+                            CurrencyUtils.getFlagDrawable(
+                                itemCoreRecentBeneficiaryBinding.root.context,
+                                isoCode
+                            )
+                    }
+                }
+            }
+
+            itemCoreRecentBeneficiaryBinding.coreView.position = position
             itemCoreRecentBeneficiaryBinding.viewModel =
                 CoreRecentBeneficiaryItemViewModel(
                     coreRecentBeneficiary,

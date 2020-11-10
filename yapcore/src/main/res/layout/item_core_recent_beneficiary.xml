@@ -14,32 +14,33 @@
         <import type="co.yap.yapcore.R" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:background="@color/white">
 
         <co.yap.widgets.CoreCircleView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:bottomRightIconHeight="@{@dimen/_15sdp}"
-            app:bottomRightIconWidth="@{@dimen/_15sdp}"
-            app:topLeftIconHeight="@{@dimen/_35sdp}"
-            app:topLeftIconWidth="@{@dimen/_35sdp}"
+            android:id="@+id/coreView"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:fullName="@{viewModel.coreRecentBeneficiary.name}"
             app:imageUrl="@{viewModel.coreRecentBeneficiary.profilePictureUrl}"
          />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/MicroGrey"
-            android:layout_width="@dimen/_60sdp"
+            android:layout_width="@dimen/_45sdp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
-            android:lineSpacingExtra="2sp"
+            android:lineSpacingExtra="0sp"
+            app:layout_constraintStart_toStartOf="@+id/coreView"
+            app:layout_constraintEnd_toEndOf="@+id/coreView"
+            app:layout_constraintTop_toBottomOf="@+id/coreView"
             android:lines="2"
             android:text="@{viewModel.coreRecentBeneficiary.name}"
             tools:text="Arshad Ali hussain mirza " />
@@ -47,5 +48,5 @@
 <!--        android:paddingStart="@dimen/_10sdp"-->
 <!--        android:paddingEnd="@dimen/_10sdp"-->
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
