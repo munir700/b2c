@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
-import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
+import co.yap.modules.dashboard.yapit.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 

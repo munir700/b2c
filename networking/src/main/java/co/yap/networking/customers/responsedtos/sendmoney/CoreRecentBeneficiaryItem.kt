@@ -1,3 +1,3 @@
 package co.yap.networking.customers.responsedtos.sendmoney
 
-open class CoreRecentBeneficiaryItem(var name: String? = null)
+open class CoreRecentBeneficiaryItem(val name: String? = null, val profilePictureUrl: String?)

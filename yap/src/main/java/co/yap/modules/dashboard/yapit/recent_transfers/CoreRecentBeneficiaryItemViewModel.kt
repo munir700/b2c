@@ -1,4 +1,4 @@
-package co.yap.widgets.recent_transfers
+package co.yap.modules.dashboard.yapit.recent_transfers
 
 import android.view.View
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem

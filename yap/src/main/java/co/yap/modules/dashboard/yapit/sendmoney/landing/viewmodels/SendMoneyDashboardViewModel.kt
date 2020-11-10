@@ -11,7 +11,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.translation.Strings
-import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
+import co.yap.modules.dashboard.yapit.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
