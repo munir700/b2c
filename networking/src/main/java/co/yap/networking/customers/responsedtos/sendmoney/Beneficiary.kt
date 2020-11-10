@@ -57,7 +57,9 @@ data class Beneficiary(
     @SerializedName("countryOfResidence")
     var countryOfResidence: String? = null,
     @SerializedName("countryOfResidenceName")
-    var countryOfResidenceName: String? = null
+    var countryOfResidenceName: String? = null,
+    @Transient
+    var countryCode: String? = null
 ) : CoreRecentBeneficiaryItem(name = "$firstName $lastName"), Parcelable {
     fun fullName() = "$firstName $lastName"
 }

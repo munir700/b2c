@@ -14,6 +14,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -79,10 +80,10 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         qrCodeReaderView.stopCamera()
     }
 
-    private val onFetchContactInfo = Observer<Contact> {
+    private val onFetchContactInfo = Observer<Beneficiary> {
         it?.let {
             val intent = Intent()
-            intent.putExtra("contact", it)
+            intent.putExtra("beneficiary", it)
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         }

@@ -1,7 +1,7 @@
 package co.yap.widgets.scanqrcode
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -11,7 +11,7 @@ interface IScanQRCode {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var contactInfo: MutableLiveData<Contact>
+        var contactInfo: MutableLiveData<Beneficiary>
         val noContactFoundEvent: SingleLiveEvent<Boolean>
         fun uploadQRCode(uuid: String?)
     }

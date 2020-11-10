@@ -16,6 +16,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDash
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
@@ -90,7 +91,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             sendMoneyQRCode -> {
                 startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
-                        val contact = data?.getParcelableExtra<Contact>("contact")
+                        val beneficiary = data?.getParcelableExtra<Beneficiary>("beneficiary")
                     }
                 }
             }

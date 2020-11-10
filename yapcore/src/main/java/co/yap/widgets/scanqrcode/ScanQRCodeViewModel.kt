@@ -1,15 +1,11 @@
 package co.yap.widgets.scanqrcode
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.requestdtos.QRContactRequest
-import co.yap.networking.customers.responsedtos.QRContact
-import co.yap.networking.customers.responsedtos.QRContactResponse
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 
@@ -18,7 +14,7 @@ class ScanQRCodeViewModel(application: Application) :
     IScanQRCode.ViewModel {
     override val state: IScanQRCode.State = ScanQRCodeState()
     private val customerRepository: CustomersRepository = CustomersRepository
-    override var contactInfo: MutableLiveData<Contact> = MutableLiveData()
+    override var contactInfo: MutableLiveData<Beneficiary> = MutableLiveData()
     override val noContactFoundEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override fun uploadQRCode(uuid: String?) {
@@ -29,10 +25,13 @@ class ScanQRCodeViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading=false
                     response.data.qrContact.let {
-                        contactInfo.value = Contact(
+                        contactInfo.value = Beneficiary(
+                            accountUuid = it?.uuid,
+                            mobileNo = it?.mobileNo,
+                            firstName = it?.firstName,
+                            lastName = it?.lastName,
                             beneficiaryPictureUrl = it?.profilePictureName,
-                            countryCode = it?.countryCode,
-                            mobileNo = it?.mobileNo
+                            countryCode = it?.countryCode
                         )
                     }
                 }

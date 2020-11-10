@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class QRContact (
+    @SerializedName("uuid")
+    var uuid: String?,
     @SerializedName("profilePictureName")
     var profilePictureName: String?,
     @SerializedName("countryCode")
