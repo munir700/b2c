@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import co.yap.countryutils.country.Country
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -21,6 +22,7 @@ interface ISMHomeCountry {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var recentsAdapter: CoreRecentTransferAdapter
+        var homeCountry:Country?
         fun handlePressOnView(id: Int)
     }
 
