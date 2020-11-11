@@ -18,6 +18,7 @@ import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -54,12 +55,7 @@ class SendMoneyDashboardViewModel(application: Application) :
             launch(Dispatcher.Main) {
                 when (sendMoneyRecentsBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
-                        sendMoneyRecentsBeneficiariesResponse.data.data.forEach {
-                            it.name = it.fullName()
-                            it.profilePictureUrl = it.beneficiaryPictureUrl
-                            it.type = it.beneficiaryType
-                            it.isoCountryCode = it.country
-                        }
+                        sendMoneyRecentsBeneficiariesResponse.data.data.parseRecentItems()
                         recentTransfers.addAll(sendMoneyRecentsBeneficiariesResponse.data.data)
                         recentTransfers.sortedByDescending { it.lastUsedDate }
                         recentsAdapter.setList(recentTransfers)
@@ -71,12 +67,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 }
                 when (y2yRecentBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
-                        y2yRecentBeneficiariesResponse.data.data?.forEach {
-                            it.name = it.fullName()
-                            it.profilePictureUrl = it.beneficiaryPictureUrl
-                            it.type = it.beneficiaryType
-                            it.isoCountryCode = it.country
-                        }
+                        y2yRecentBeneficiariesResponse.data.data?.parseRecentItems()
                         recentTransfers.addAll(
                             y2yRecentBeneficiariesResponse.data.data ?: emptyList()
                         )
