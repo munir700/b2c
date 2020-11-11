@@ -6,17 +6,16 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.PHONE_CONTACTS
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.YAP_CONTACTS
 import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
 import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
@@ -55,45 +54,22 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         if (viewModel.parentViewModel?.isSearching?.value == true) {
             layoutRecent.visibility = View.GONE
         } else {
-            if (viewModel.adapter.get() == null) {
-                viewModel.getRecentBeneficiaries()
-                viewModel.recentTransferData.observe(this, Observer {
-                    if (it.isNullOrEmpty()) {
-                        layoutRecent?.visibility = View.GONE
-                    } else {
-                        viewModel.adapter.set(
-                            RecentTransferAdaptor(
-                                it.toMutableList(),
-                                findNavController()
-                            )
-                        )
-                        layoutRecent?.visibility = View.VISIBLE
-                    }
-                })
-            } else {
-                if (viewModel.recentTransferData.value != null && !viewModel.recentTransferData.value.isNullOrEmpty()) {
-                    viewModel.adapter.set(
-                        RecentTransferAdaptor(
-                            viewModel.recentTransferData.value?.toMutableList() ?: mutableListOf(),
-                            findNavController()
-                        )
-                    )
-                    layoutRecent?.visibility = View.VISIBLE
-                }
-            }
+            viewModel.getRecentBeneficiaries()
         }
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        navigate(
-            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(),
-            screenType = FeatureSet.Y2Y_TRANSFER
-        )
+        if (data is Beneficiary) {
+            viewModel.parentViewModel?.beneficiary = data
+            navigateToTransferFunds()
+        }
     }
 
     private fun setupAdaptor() {
         val adaptor = TransferLandingAdaptor(this)
         getBindingView().viewPager.adapter = adaptor
+        viewModel.recentsAdapter.allowFullItemClickListener = true
+        viewModel.recentsAdapter.setItemListener(this)
     }
 
     private fun setupTabs() {
@@ -106,7 +82,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     private fun setSearchView(show: Boolean) {
-
         getBindingView().layoutSearchView.ivSearch.visibility =
             if (!show) View.VISIBLE else View.GONE
         getBindingView().layoutSearchView.tvSearch.visibility =
@@ -135,11 +110,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                 }
             })
             getBindingView().layoutSearchView.svContacts.onFocusChangeListener =
-                object : View.OnFocusChangeListener {
-                    override fun onFocusChange(view: View?, hasFoucs: Boolean) {
-                        if (!hasFoucs) view.hideKeyboard()
-                    }
-                }
+                View.OnFocusChangeListener { view, hasFoucs -> if (!hasFoucs) view.hideKeyboard() }
         }
     }
 
@@ -165,7 +136,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         }
     }
 
-
     private fun getTabTitle(position: Int): String? {
         return when (position) {
             YAP_CONTACTS -> Translator.getString(
@@ -184,8 +154,12 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.yapToYapHome, true) // starting destination skiped
             .build()
+        navigateToTransferFunds(navOptions)
+    }
 
+    private fun navigateToTransferFunds(navOptions: NavOptions? = null) {
         navigate(
+
             YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                 viewModel.parentViewModel?.beneficiary?.beneficiaryPictureUrl ?: "",
                 viewModel.parentViewModel?.beneficiary?.beneficiaryUuid ?: "",
