@@ -50,23 +50,19 @@ class CoreBottomSheet(
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.setVariable(BR.viewModel, viewModel)
         viewDataBinding.executePendingBindings()
+        val adapter: CoreBottomSheetAdapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
         viewModel.state.searchBarVisibility.set(viewType != Constants.VIEW_WITHOUT_FLAG)
         headingLabel?.let {
             getBinding().tvlabel.text = it
         }
-        initAdaptor()
         getBinding().lySearchView.etSearch.afterTextChanged {
             adapter.filter.filter(it)
         }
-
-    }
-
-    private fun initAdaptor() {
-        val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
+        adapter.onItemClickListener = myListener
+        adapter.allowFullItemClickListener = true
         getBinding().rvBottomSheet.adapter = adapter
-        (getBinding().rvBottomSheet.adapter as CoreBottomSheetAdapter).setItemListener(myListener)
-        (getBinding().rvBottomSheet.adapter as CoreBottomSheetAdapter).allowFullItemClickListener = true
+
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
