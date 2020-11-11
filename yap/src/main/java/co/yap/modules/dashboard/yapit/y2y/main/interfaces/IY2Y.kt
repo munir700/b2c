@@ -23,6 +23,7 @@ interface IY2Y {
         val searchQuery: MutableLiveData<String>
         var errorEvent: MutableLiveData<String>
         var beneficiary: Beneficiary?
+        var position: Int
     }
 
     interface View : IBase.View<ViewModel>

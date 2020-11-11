@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{viewModel.itemBottomSheet.isSelected ? @color/greyDark : @color/white}"
         android:gravity="center_vertical"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
         android:orientation="horizontal">

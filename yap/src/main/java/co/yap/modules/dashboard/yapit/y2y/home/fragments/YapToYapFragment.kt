@@ -163,7 +163,8 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                 viewModel.parentViewModel?.beneficiary?.beneficiaryPictureUrl ?: "",
                 viewModel.parentViewModel?.beneficiary?.beneficiaryUuid ?: "",
-                viewModel.parentViewModel?.beneficiary?.title ?: "", 0
+                viewModel.parentViewModel?.beneficiary?.title ?: "",
+                viewModel.parentViewModel?.position?:0+
             ), screenType = FeatureSet.Y2Y_TRANSFER, navOptions = navOptions
         )
     }
