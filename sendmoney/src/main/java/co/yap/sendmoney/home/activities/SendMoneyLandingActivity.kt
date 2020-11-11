@@ -273,10 +273,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val clickListener = Observer<Int> {
         when (it) {
             R.id.addContactsButton -> {
-                launchActivity<SendMoneyHomeActivity>(
-                    requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
-                    type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
-                )
+                startAddBeneficiaryFlow()
             }
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
@@ -407,16 +404,20 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         when (id) {
             R.id.ivLeftIcon -> finish()
             R.id.ivRightIcon -> {
-                launchActivity<SendMoneyHomeActivity>(
-                    requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
-                    type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
-                ){
-                    putExtra(
-                        ExtraKeys.SEND_MONEY_TYPE.name,
-                        viewModel.state.sendMoneyType.get()
-                    )
-                }
+                startAddBeneficiaryFlow()
             }
+        }
+    }
+
+    private fun startAddBeneficiaryFlow() {
+        launchActivity<SendMoneyHomeActivity>(
+            requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
+            type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
+        ) {
+            putExtra(
+                ExtraKeys.SEND_MONEY_TYPE.name,
+                viewModel.state.sendMoneyType.get()
+            )
         }
     }
 }

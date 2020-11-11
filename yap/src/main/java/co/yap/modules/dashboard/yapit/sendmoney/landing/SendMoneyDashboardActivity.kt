@@ -86,7 +86,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
                 when (data.beneficiaryType) {
-                    SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, pos, false)
+                    SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, false)
                     else -> startMoneyTransfer(data, pos)
                 }
             } else if (data is SendMoneyOptions) {
@@ -202,7 +202,6 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     private fun startY2YTransfer(
         beneficiary: Beneficiary?,
-        position: Int = 0,
         fromQR: Boolean = false
     ) {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
@@ -229,7 +228,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.dashboardAdapter.getDataList().isNullOrEmpty()) {
+        viewModel.dashboardAdapter.setList(viewModel.geSendMoneyOptions())
+        if (!viewModel.dashboardAdapter.getDataList()
+                .isNullOrEmpty() && SessionManager.user?.currentCustomer?.homeCountry != "AE"
+        ) {
             viewModel.dashboardAdapter.getDataList()
                 .find { it.name == getString(Strings.screen_send_money_home_label) }?.let {
                     val index = viewModel.dashboardAdapter.getDataList().indexOf(it)
@@ -237,7 +239,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                         context,
                         SessionManager.user?.currentCustomer?.homeCountry ?: ""
                     )
-                    viewModel.dashboardAdapter.setItemAt(index,it)
+                    viewModel.dashboardAdapter.setItemAt(index, it)
                 }
         }
     }
@@ -253,7 +255,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             if (resultCode == Activity.RESULT_OK) {
                 val beneficiary =
                     data?.getParcelableExtra<Beneficiary>(Beneficiary::class.java.name)
-                startY2YTransfer(beneficiary, 0, true)
+                startY2YTransfer(beneficiary, true)
             }
         }
     }

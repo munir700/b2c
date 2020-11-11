@@ -42,13 +42,14 @@ class SMHomeCountryViewModel(application: Application) :
         benefitsList.add(getString(R.string.screen_send_money_home_display_text_get_best_rates))
     }
 
-    fun populateData(hc: Country) {
-        getHomeCountryRecentBeneficiaries()
-        state.name?.set(hc?.getName())
-        state.rate?.set("0.357014")
-        state.symbol?.set(hc?.getCurrency()?.code)
-        state.time?.set("04/10/2020, 2:30 PM")
-    }
+   override fun populateData(hc: Country) {
+       getHomeCountryRecentBeneficiaries()
+       state.name?.set(hc.getName())
+       state.countryCode?.set(hc.isoCountryCode2Digit)
+       state.rate?.set("0.357014")
+       state.symbol?.set(hc.getCurrency()?.code)
+       state.time?.set("04/10/2020, 2:30 PM")
+   }
 
     private fun getHomeCountryRecentBeneficiaries() {
         launch(Dispatcher.Background) {
@@ -63,7 +64,7 @@ class SMHomeCountryViewModel(application: Application) :
                             it.type = it.beneficiaryType
                             it.isoCountryCode = it.country
                         }
-                        recentsAdapter.setList(response.data.data.filter { it.country == "AE" })
+                        recentsAdapter.setList(response.data.data.filter { it.country == homeCountry?.isoCountryCode2Digit })
                         state.isNoRecentsBeneficiries.set(
                             recentsAdapter.getDataList().isNullOrEmpty()
                         )

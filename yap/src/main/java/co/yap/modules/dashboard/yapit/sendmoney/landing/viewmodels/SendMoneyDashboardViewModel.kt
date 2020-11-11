@@ -47,7 +47,6 @@ class SendMoneyDashboardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.toolbarTitle = getString(Strings.common_send_money)
-        dashboardAdapter.setList(geSendMoneyOptions())
         getAllRecentsBeneficiariesParallel()
     }
 
@@ -125,7 +124,10 @@ class SendMoneyDashboardViewModel(application: Application) :
                 null, SendMoneyType.sendMoneyToInternational
             )
         )
-        if (!SessionManager.user?.currentCustomer?.homeCountry.equals("AE"))
+        if ( !SessionManager.user?.currentCustomer?.homeCountry.equals(
+                "AE"
+            ) && SessionManager.user?.currentCustomer?.homeCountry != null
+        )
             list.add(
                 SendMoneyOptions(
                     getString(Strings.screen_send_money_home_label),
@@ -137,6 +139,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                     ), SendMoneyType.sendMoneyToHomeCountry
                 )
             )
+
         list.add(
             SendMoneyOptions(
                 getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
