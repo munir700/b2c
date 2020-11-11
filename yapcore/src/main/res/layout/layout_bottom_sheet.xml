@@ -13,13 +13,7 @@
         <import type="android.view.View" />
     </data>
 
-<!--    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">-->
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -51,6 +45,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/sepretorTop" />
 
             <include
+                android:id="@+id/lySearchView"
                 layout="@layout/layout_core_bottomsheet_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +73,4 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 app:layout_constraintTop_toBottomOf="@+id/vsSearchBar" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-<!--
-    </androidx.core.widget.NestedScrollView>
--->
 </layout>

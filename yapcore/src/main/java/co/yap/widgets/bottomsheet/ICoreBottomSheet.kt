@@ -1,7 +1,6 @@
 package co.yap.widgets.bottomsheet
 
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -9,7 +8,7 @@ import co.yap.yapcore.SingleClickEvent
 interface ICoreBottomSheet {
     interface State : IBase.State {
         var searchText : MutableLiveData<String>
-        var searchBarVisibility : MutableLiveData<Boolean>
+        var searchBarVisibility : ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

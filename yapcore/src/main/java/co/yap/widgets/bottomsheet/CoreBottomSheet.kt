@@ -1,21 +1,24 @@
 package co.yap.widgets.bottomsheet
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.SearchView
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatEditText
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.LayoutBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class CoreBottomSheet(
     private val mListener: OnItemClickListener,
@@ -23,8 +26,11 @@ class CoreBottomSheet(
     private val headingLabel: String? = null,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
 ) : BottomSheetDialogFragment(), ICoreBottomSheet.View {
+    lateinit var viewDataBinding: ViewDataBinding
+    override val viewModel: CoreBottomSheetViewModel
+        get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
 
-    val adapter : CoreBottomSheetAdapter by lazy {
+    val adapter: CoreBottomSheetAdapter by lazy {
         CoreBottomSheetAdapter(bottomSheetItems, viewType)
     }
 
@@ -35,34 +41,57 @@ class CoreBottomSheet(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.layout_bottom_sheet, container, false)
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvBottomSheet)
-        val tvHeading: TextView = view.findViewById(R.id.tvlabel)
-        val svListing: AppCompatEditText = view.findViewById(R.id.etSearch)
-         if (viewType == Constants.VIEW_WITHOUT_FLAG) viewModel.state.searchBarVisibility.value = false
+        viewDataBinding =
+            DataBindingUtil.inflate(inflater, R.layout.layout_bottom_sheet, container, false)
+        return viewDataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.setVariable(BR.viewModel, viewModel)
+        viewDataBinding.executePendingBindings()
+        viewModel.state.searchBarVisibility.set(viewType != Constants.VIEW_WITHOUT_FLAG)
         headingLabel?.let {
-            tvHeading.text = it
+            getBinding().tvlabel.text = it
         }
-        svListing.afterTextChanged {
+        initAdaptor()
+        getBinding().lySearchView.etSearch.afterTextChanged {
             adapter.filter.filter(it)
-            adapter.notifyDataSetChanged()
         }
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter.allowFullItemClickListener = true
-        adapter.onItemClickListener = myListener
-        recyclerView.adapter = adapter
-        return view
+
+    }
+
+    private fun initAdaptor() {
+        val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
+        getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
+        getBinding().rvBottomSheet.adapter = adapter
+        (getBinding().rvBottomSheet.adapter as CoreBottomSheetAdapter).setItemListener(myListener)
+        (getBinding().rvBottomSheet.adapter as CoreBottomSheetAdapter).allowFullItemClickListener = true
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             mListener.onItemClick(view, this@CoreBottomSheet, pos)
-     /*       mListener.onItemClick(view, data, pos)
-            dismiss()*/
         }
     }
-    override val viewModel: CoreBottomSheetViewModel
-        get() = ViewModelProviders.of(this).get(CoreBottomSheetViewModel::class.java)
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog =
+            super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        bottomSheetDialog.setOnShowListener { dialog ->
+            /* val d = dialog as BottomSheetDialog
+             val bottomSheetInternal =
+                 d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+             BottomSheetBehavior.from<View?>(bottomSheetInternal!!).state =
+                 BottomSheetBehavior.STATE_EXPANDED*/
+
+            val modalBottomSheetBehavior = bottomSheetDialog.behavior
+            modalBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            modalBottomSheetBehavior.saveFlags = BottomSheetBehavior.SAVE_SKIP_COLLAPSED
+        }
+        return bottomSheetDialog
+
+    }
 
     override fun showLoader(isVisible: Boolean) {
     }
@@ -87,5 +116,6 @@ class CoreBottomSheet(
     override fun onNetworkStateChanged(isConnected: Boolean) {
     }
 
+    private fun getBinding() = viewDataBinding as LayoutBottomSheetBinding
 
 }

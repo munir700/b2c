@@ -13,7 +13,6 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.bottomsheet.CoreBottomSheet
-import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -22,7 +21,10 @@ import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
+
 
 class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -71,7 +73,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                         (data as? CoreBottomSheet)?.dismiss()
                     }
                 },
-                bottomSheetItems = getCountries(countries),
+                bottomSheetItems = getCountries(countries).toMutableList(),
                 headingLabel = "Change home country",
                 viewType = Constants.VIEW_WITH_FLAG
             )
@@ -80,22 +82,15 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
     }
 
-    private fun getCountries(countries: ArrayList<Country>): MutableList<CoreBottomSheetData> {
-        val list: MutableList<CoreBottomSheetData> = arrayListOf()
-        countries?.forEach { country ->
-            list.add(
-                CoreBottomSheetData(
-                    content = country.getName(),
-                    subTitle = country.getName(),
-                    sheetImage = CurrencyUtils.getFlagDrawable(
-                        context,
-                        country.isoCountryCode2Digit.toString()
-                    )
-                )
+    private fun getCountries(countries: ArrayList<Country>): ArrayList<Country> {
+        countries.forEach {
+            it.subTitle = it.getName()
+            it.sheetImage = CurrencyUtils.getFlagDrawable(
+                context,
+                it.isoCountryCode2Digit.toString()
             )
         }
-        return list
-
+        return countries
     }
 
 
