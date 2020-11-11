@@ -103,7 +103,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 list.filter { it.country == SessionManager.user?.currentCustomer?.homeCountry }
             }
             SendMoneyTransferType.INTERNATIONAL.name -> {
-                list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type }
+                list.filter { (it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) && it.country != SessionManager.user?.currentCustomer?.homeCountry  }
             }
             SendMoneyTransferType.LOCAL.name -> {
                 list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type || it.beneficiaryType == SendMoneyBeneficiaryType.DOMESTIC.type }

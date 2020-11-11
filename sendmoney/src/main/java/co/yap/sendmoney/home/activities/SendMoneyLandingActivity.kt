@@ -297,6 +297,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             type = FeatureSet.SEND_MONEY,
                             requestCode = REQUEST_TRANSFER_MONEY
                         ) {
+                            putExtra(
+                                TransferType,
+                                viewModel.state.sendMoneyType.get()
+                            )
                             putExtra(searching, true)
                         }
                     }

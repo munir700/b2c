@@ -9,7 +9,6 @@ import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.managers.SessionManager
 
 class SMHomeCountryViewModel(application: Application) :
     BaseViewModel<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel,
@@ -47,7 +46,16 @@ class SMHomeCountryViewModel(application: Application) :
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        recentsAdapter.setList(response.data.data.filter { it.country == SessionManager.user?.currentCustomer?.homeCountry })
+                        response.data.data.forEach {
+                            it.name = it.fullName()
+                            it.profilePictureUrl = it.beneficiaryPictureUrl
+                            it.type = it.beneficiaryType
+                            it.isoCountryCode = it.country
+                        }
+                        recentsAdapter.setList(response.data.data.filter { it.country == "AE" })
+                        state.isNoRecentsBeneficiries.set(
+                            recentsAdapter.getDataList().isNullOrEmpty()
+                        )
                         state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {

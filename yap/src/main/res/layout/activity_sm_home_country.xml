@@ -14,11 +14,14 @@
         <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -41,10 +44,10 @@
             android:layout_height="@dimen/_64sdp"
             android:layout_marginTop="@dimen/margin_large"
             android:src="@drawable/flag_ca"
-            app:setFlagDrawable="@{SessionManager.INSTANCE.getUser().currentCustomer.homeCountry}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:setFlagDrawable="@{SessionManager.INSTANCE.getUser().currentCustomer.homeCountry}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCountryName"
@@ -52,10 +55,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:text="@{viewModel.state.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivFlag"
-            android:text="@{viewModel.state.name}"
             tools:text="Canada" />
 
         <co.yap.widgets.CoreButton
@@ -64,12 +67,12 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_22sdp"
             android:layout_marginTop="@dimen/margin_normal"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:padding="@dimen/margin_medium"
             app:btn_enable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCountryName"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:text="@{Strings.screen_send_money_home_display_text_send_money}"
             tools:text="@string/screen_send_money_home_display_text_send_money" />
 
@@ -85,8 +88,8 @@
             android:orientation="horizontal"
             android:paddingStart="@dimen/margin_normal"
             android:paddingTop="@dimen/margin_normal"
-            android:paddingBottom="@dimen/margin_medium"
             android:paddingEnd="@dimen/margin_normal_large"
+            android:paddingBottom="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnSendMoney">
@@ -106,9 +109,9 @@
                 style="@style/Title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.state.rate}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLabel"
-                android:text="@{viewModel.state.rate}"
                 tools:text="0.357014" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -118,9 +121,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_extra_small"
                 android:layout_marginBottom="@dimen/margin_extra_small"
+                android:text="@{viewModel.state.symbol}"
                 app:layout_constraintBottom_toBottomOf="@+id/tvConversionRate"
                 app:layout_constraintStart_toEndOf="@id/tvConversionRate"
-                android:text="@{viewModel.state.symbol}"
                 tools:text="CAD" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -128,9 +131,9 @@
                 style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.state.time}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvConversionRate"
-                android:text="@{viewModel.state.time}"
                 tools:text="04/10/2020, 2:30 PM" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -143,44 +146,74 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRecentTransferLbl"
-            style="@style/AMicroGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerCurrency"
-            app:text="@{Strings.screen_send_money_home_display_text_recent_transfers}"
-            tools:text="@string/screen_send_money_home_display_text_recent_transfers" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvHide"
-            style="@style/AMicro"
-            android:textColor="?attr/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_medium_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerCurrency"
-            app:text="@{Strings.screen_send_money_home_display_text_hide}"
-            tools:text="@string/screen_send_money_home_display_text_hide" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRecents"
+        <LinearLayout
+            android:id="@+id/llRecentsParent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginStart="@dimen/margin_medium_large"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.state.isNoRecentsBeneficiries ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHide"
-            tools:listitem="@layout/item_recent_beneficiaries_transfer"
-            tools:itemCount="10" />
+            app:layout_constraintTop_toBottomOf="@+id/containerCurrency">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/recentsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/recents"
+                    style="@style/AppFontRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:enabled="@{viewModel.state.isRecentsVisible?true:false}"
+                    android:lineSpacingExtra="6sp"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/small"
+                    android:text="@{viewModel.state.isRecentsVisible == false ? @string/screen_y2y_display_text_recent_transfer : @string/common_display_text_show_recent_transfer}"
+                    android:textColor="@{viewModel.state.isRecentsVisible == false? @color/greyDark : @color/colorPrimary}"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/screen_y2y_display_text_recent_transfer" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvHideRecents"
+                    style="@style/AppFontRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/small"
+                    android:text="Hide"
+                    android:textColor="?attr/colorPrimaryAttr"
+                    android:textSize="12sp"
+                    android:visibility="@{viewModel.state.isRecentsVisible ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.93"
+                    app:layout_constraintStart_toEndOf="@+id/recents"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:textColor="@color/colorPrimary" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewRecents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:recycleViewAdapter="@{viewModel.recentsAdapter}"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_recent_beneficiaries_transfer" />
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivTick1"
@@ -190,7 +223,7 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             android:src="@drawable/ic_achievement_complete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerViewRecents" />
+            app:layout_constraintTop_toBottomOf="@+id/llRecentsParent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyHome"
@@ -201,10 +234,10 @@
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:ellipsize="end"
             android:lines="2"
-            app:layout_constraintStart_toEndOf="@+id/ivTick1"
-            app:layout_constraintTop_toTopOf="@+id/ivTick1"
             app:layout_constraintBottom_toBottomOf="@+id/ivTick1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivTick1"
+            app:layout_constraintTop_toTopOf="@+id/ivTick1"
             app:text="@{Strings.screen_send_money_home_display_text_send_money_home}"
             tools:text="@string/screen_send_money_home_display_text_send_money_home" />
 
@@ -212,11 +245,11 @@
             android:id="@+id/ivTick2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="2"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_normal_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
+            android:ellipsize="end"
+            android:lines="2"
             android:src="@drawable/ic_achievement_complete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSendMoneyHome" />
@@ -227,23 +260,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTick2"
             app:layout_constraintStart_toEndOf="@+id/ivTick2"
             app:layout_constraintTop_toTopOf="@+id/ivTick2"
-            app:layout_constraintBottom_toBottomOf="@+id/ivTick2"
             app:text="@{Strings.screen_send_money_home_display_text_get_best_rates}"
             tools:text="@string/screen_send_money_home_display_text_get_best_rates" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvChangeHomeCountry"
             style="@style/ALarge"
-            android:textColor="?attr/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_extra_large"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:text="@{Strings.screen_send_money_home_display_text_change_home_country}"
             tools:text="@string/screen_send_money_home_display_text_change_home_country" />
 
