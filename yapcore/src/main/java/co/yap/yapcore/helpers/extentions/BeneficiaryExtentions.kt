@@ -38,3 +38,21 @@ fun Beneficiary?.isRMTAndSWIFT(): Boolean {
         }
     } ?: return false
 }
+
+fun ArrayList<Beneficiary>?.parseRecentItems() {
+    this?.forEach {
+        it.name = it.fullName()
+        it.profilePictureUrl = it.beneficiaryPictureUrl
+        it.type = it.beneficiaryType
+        it.isoCountryCode = it.country
+    }
+}
+
+fun List<Beneficiary>?.parseRecentItems() {
+    this?.forEach {
+        it.name = it.fullName()
+        it.profilePictureUrl = it.beneficiaryPictureUrl
+        it.type = it.beneficiaryType
+        it.isoCountryCode = it.country
+    }
+}

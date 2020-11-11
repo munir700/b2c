@@ -13,11 +13,13 @@ import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -32,9 +34,12 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
     override var onDeleteSuccess: MutableLiveData<Int> = MutableLiveData()
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
-    override val adapter = ObservableField<RecentTransferAdaptor>()
     override val searchQuery: MutableLiveData<String> = MutableLiveData()
     override val isSearching: MutableLiveData<Boolean> = MutableLiveData()
+    override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
+        context,
+        mutableListOf()
+    )
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -61,8 +66,9 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    allBeneficiariesLiveData.value =
-                        getBeneficiariesOfType(sendMoneyType, response.data.data)
+                    val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
+                    filteredList.parseRecentItems()
+                    allBeneficiariesLiveData.value = filteredList
                 }
 
                 is RetroApiResponse.Error -> {
@@ -78,20 +84,19 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getRecentBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    if (response.data.data.isNullOrEmpty())
+                    val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
+                    if (filteredList.isNullOrEmpty())
                         state.isNoRecentBeneficiary.set(true)
                     else
                         state.isNoRecentBeneficiary.set(false)
 
-                    recentTransferData.value =
-                        getBeneficiariesOfType(sendMoneyType, response.data.data)
-
+                    filteredList.parseRecentItems()
+                    recentsAdapter.setList(filteredList)
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-
                 }
             }
         }
@@ -100,10 +105,10 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     private fun getBeneficiariesOfType(type: String, list: List<Beneficiary>): List<Beneficiary> {
         return when (type) {
             SendMoneyTransferType.HOME_COUNTRY.name -> {
-                list
+                list.filter { it.country == SessionManager.user?.currentCustomer?.homeCountry }
             }
             SendMoneyTransferType.INTERNATIONAL.name -> {
-                list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type }
+                list.filter { (it.beneficiaryType == SendMoneyBeneficiaryType.RMT.type || it.beneficiaryType == SendMoneyBeneficiaryType.SWIFT.type) && it.country != SessionManager.user?.currentCustomer?.homeCountry  }
             }
             SendMoneyTransferType.LOCAL.name -> {
                 list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type || it.beneficiaryType == SendMoneyBeneficiaryType.DOMESTIC.type }

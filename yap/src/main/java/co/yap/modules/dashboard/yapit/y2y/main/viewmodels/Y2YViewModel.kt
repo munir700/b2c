@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.states.Y2YState
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.managers.SessionManager
 
@@ -15,6 +17,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
     override var isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
     override val searchQuery: MutableLiveData<String> = MutableLiveData("")
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
+    override var beneficiary: Beneficiary? = null
     override val state: Y2YState = Y2YState()
 
     override fun onCreate() {

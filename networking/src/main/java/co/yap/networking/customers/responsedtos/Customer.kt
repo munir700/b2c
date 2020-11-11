@@ -45,7 +45,10 @@ class Customer(
     @SerializedName("emailVerified")
     var emailVerified: Boolean? = false,
     @SerializedName("mobileNoVerified")
-    var mobileNoVerified: Boolean? = false
+    var mobileNoVerified: Boolean? = false,
+    @SerializedName("homeCountry")
+    var homeCountry: String? = null
+
 ) : Parcelable {
 
     fun getFullName(): String {

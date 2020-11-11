@@ -8,5 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 open class CoreRecentBeneficiaryItem(
     var name: String? = null,
-    var profilePictureUrl: String?=""
+    var profilePictureUrl: String? = "",
+    var type: String? = "",
+    var isoCountryCode: String? = ""
 ) : Parcelable

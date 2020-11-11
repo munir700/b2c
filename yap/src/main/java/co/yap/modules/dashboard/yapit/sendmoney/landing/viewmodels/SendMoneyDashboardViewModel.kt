@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels
 
 import android.app.Application
-import android.view.View
 import co.yap.R
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapter
@@ -19,8 +18,8 @@ import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.helpers.extentions.parseRecentItems
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
@@ -56,10 +55,7 @@ class SendMoneyDashboardViewModel(application: Application) :
             launch(Dispatcher.Main) {
                 when (sendMoneyRecentsBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
-                        sendMoneyRecentsBeneficiariesResponse.data.data.forEach {
-                            it.name = it.fullName()
-                            it.profilePictureUrl = it.beneficiaryPictureUrl
-                        }
+                        sendMoneyRecentsBeneficiariesResponse.data.data.parseRecentItems()
                         recentTransfers.addAll(sendMoneyRecentsBeneficiariesResponse.data.data)
                         recentTransfers.sortedByDescending { it.lastUsedDate }
                         recentsAdapter.setList(recentTransfers)
@@ -71,10 +67,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 }
                 when (y2yRecentBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
-                        y2yRecentBeneficiariesResponse.data.data?.forEach {
-                            it.name = it.fullName()
-                            it.profilePictureUrl = it.beneficiaryPictureUrl
-                        }
+                        y2yRecentBeneficiariesResponse.data.data?.parseRecentItems()
                         recentTransfers.addAll(
                             y2yRecentBeneficiariesResponse.data.data ?: emptyList()
                         )
@@ -128,7 +121,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 getString(Strings.screen_send_money_international_label),
                 R.drawable.ic_bankicon,
                 true,
-                CurrencyUtils.getFlagDrawable(context, "AE")
+                null
             )
         )
         list.add(
@@ -136,7 +129,10 @@ class SendMoneyDashboardViewModel(application: Application) :
                 getString(Strings.screen_send_money_home_label),
                 R.drawable.ic_houseicon,
                 false,
-                null
+                CurrencyUtils.getFlagDrawable(
+                    context,
+                    SessionManager.user?.currentCustomer?.homeCountry ?: ""
+                )
             )
         )
         list.add(
