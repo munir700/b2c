@@ -42,10 +42,10 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
     var topLefticonInt: Int? = null
         set(value) {
             field = value
-            if(topLefticonInt !=null){
+            if (topLefticonInt != null && topLefticonInt != 0) {
                 ivTopLeft.visibility = VISIBLE
-                UIBinder.setImageResId(ivTopLeft, topLefticonInt?:0)
-            }else{
+                UIBinder.setImageResId(ivTopLeft, topLefticonInt ?: 0)
+            } else {
                 ivTopLeft.visibility = View.GONE
             }
         }
@@ -54,10 +54,17 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
         set(value) {
             field = value
             imageUrl?.let {
+                clBgIcon.backgroundTintList = null
                 ivIcon.visibility = GONE
                 ivProfilePic.visibility = VISIBLE
                 position?.let { position ->
-                    ImageBinding.loadAvatar(ivProfilePic, it, fullName, position = position, colorType = "Beneficiary")
+                    ImageBinding.loadAvatar(
+                        ivProfilePic,
+                        it,
+                        fullName,
+                        position = position,
+                        colorType = "Beneficiary"
+                    )
                 } ?: ImageBinding.loadAvatar(ivProfilePic, it, fullName)
             }
 
@@ -84,10 +91,10 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
     var bottomRightIconInt: Int? = null
         set(value) {
             field = value
-            if(bottomRightIconInt !=null){
+            if (bottomRightIconInt != null && bottomRightIconInt != 0) {
                 ivBottomRight.visibility = VISIBLE
-                UIBinder.setImageResId(ivBottomRight, bottomRightIconInt?:0)
-            }else{
+                UIBinder.setImageResId(ivBottomRight, bottomRightIconInt ?: 0)
+            } else {
                 ivBottomRight.visibility = View.GONE
             }
         }
