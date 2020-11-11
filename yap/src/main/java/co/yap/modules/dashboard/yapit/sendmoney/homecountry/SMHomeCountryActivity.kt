@@ -70,9 +70,9 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (viewModel.homeCountry != (data as Country)) {
                             viewModel.homeCountry = data
-                            viewModel.updateHomeCountry() {
+                            viewModel.updateHomeCountry {
                                 SessionManager.getAccountInfo()
-                                // update UI according to new UI
+                                viewModel.populateData(data)
                             }
                         }
                     }
