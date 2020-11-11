@@ -15,7 +15,6 @@ import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.translation.Translator
@@ -78,7 +77,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
             AllBeneficiariesAdapter(mutableListOf())
+        viewModel.recentsAdapter.allowFullItemClickListener = true
+        viewModel.recentsAdapter.setItemListener(recentItemClickListener)
         initSwipeListener()
+
     }
 
     private fun setObservers() {
@@ -107,17 +109,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             getAdaptor().filter.filter(it)
         })
 
-        //Recent Beneficiaries list observer
-        viewModel.recentTransferData.observe(this, Observer {
-            if (it.isNullOrEmpty()) return@Observer
-            val adapter = RecentTransferAdaptor(
-                it.toMutableList(),
-                null
-            )
-            adapter.onItemClickListener = recentItemClickListener
-            viewModel.adapter.set(adapter)
-
-        })
         //Searching Beneficiaries list Results Count observer
         viewModel.isSearching.value?.let { isSearching ->
             if (isSearching) {
@@ -160,7 +151,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 startMoneyTransfer(data, pos)
         }
     }
-
 
     private fun initSwipeListener() {
         onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
