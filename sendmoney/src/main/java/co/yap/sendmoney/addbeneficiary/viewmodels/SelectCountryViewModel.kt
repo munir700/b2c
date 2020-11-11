@@ -36,33 +36,9 @@ class SelectCountryViewModel(application: Application) :
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value = state.selectedCountry
             parentViewModel?.selectedCountry?.value?.let { country ->
-                if (country.isoCountryCode2Digit == "AE") {
-                    parentViewModel?.beneficiary?.value?.beneficiaryType =
-                        SendMoneyBeneficiaryType.DOMESTIC.name
-                    clickEvent.setValue(id)
-                } else {
-                    if (country.getCurrency() != null) {
-                        country.getCurrency()?.cashPickUp?.let { it ->
-                            if (!it) {
-                                country.getCurrency()?.rmtCountry?.let { isRmt ->
-                                    if (isRmt) {
-                                        parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                            SendMoneyBeneficiaryType.RMT.name
-                                        clickEvent.setValue(id)
-                                    } else {
-                                        parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                            SendMoneyBeneficiaryType.SWIFT.name
-                                        clickEvent.setValue(id)
-                                    }
-                                }
-                            } else {
-                                clickEvent.setValue(id)
-                            }
-                        }
-                    } else {
-                        state.toast = ("Invalid country found")
-                    }
-                }
+                parentViewModel?.beneficiary?.value?.beneficiaryType =
+                    getBeneficiaryTypeFromCurrency(country)
+                clickEvent.setValue(id)
             }
         } else {
             clickEvent.setValue(id)
@@ -81,6 +57,25 @@ class SelectCountryViewModel(application: Application) :
         parentViewModel?.state?.toolbarVisibility?.set(true)
         parentViewModel?.state?.leftIconVisibility?.set(true)
 
+    }
+
+    override fun getBeneficiaryTypeFromCurrency(country: Country?): String? {
+        country?.let {
+            if (country.isoCountryCode2Digit == "AE") return SendMoneyBeneficiaryType.DOMESTIC.name
+            return country.getCurrency()?.cashPickUp?.let { it ->
+                if (!it) {
+                    country.getCurrency()?.rmtCountry?.let { isRmt ->
+                        if (isRmt) {
+                            SendMoneyBeneficiaryType.RMT.name
+                        } else {
+                            SendMoneyBeneficiaryType.SWIFT.name
+                        }
+                    }
+                } else {
+                    SendMoneyBeneficiaryType.CASHPAYOUT.name
+                }
+            }
+        } ?: return ""
     }
 
     private fun getAllCountries() {
@@ -214,6 +209,7 @@ class SelectCountryViewModel(application: Application) :
             SendMoneyTransferType.HOME_COUNTRY.name -> SessionManager.user?.currentCustomer?.homeCountry
                 ?: ""
             SendMoneyTransferType.LOCAL.name -> "AE"
+
             else -> {
                 ""
             }

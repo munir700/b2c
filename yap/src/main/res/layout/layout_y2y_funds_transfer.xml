@@ -22,10 +22,10 @@
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/lyUserImage"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

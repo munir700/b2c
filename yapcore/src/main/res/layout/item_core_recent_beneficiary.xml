@@ -17,34 +17,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/margin_extra_small"
         android:background="@color/white">
 
         <co.yap.widgets.CoreCircleView
             android:id="@+id/coreView"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            app:imageUrl="@{viewModel.coreRecentBeneficiary.profilePictureUrl}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:fullName="@{viewModel.coreRecentBeneficiary.name}"
-            app:layout_constraintBottom_toTopOf="@+id/tvTitle" />
+            app:imageUrl="@{viewModel.coreRecentBeneficiary.profilePictureUrl}"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/MicroGrey"
             android:id="@+id/tvTitle"
+            style="@style/MicroGrey"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:gravity="center"
-            android:layout_width="@dimen/_65sdp"
+            android:gravity="center_horizontal"
             android:lineSpacingExtra="0sp"
-            app:layout_constraintStart_toStartOf="@+id/coreView"
-            app:layout_constraintEnd_toEndOf="@+id/coreView"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:lines="2"
             android:text="@{viewModel.coreRecentBeneficiary.name}"
-            tools:text="Arshad Ali hussain mirza " />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/coreView"
+            app:layout_constraintStart_toStartOf="@+id/coreView"
+            tools:text="Arshad Ali hussain mirza" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

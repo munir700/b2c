@@ -14,6 +14,8 @@ import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
@@ -87,27 +89,27 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                     SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, pos, false)
                     else -> startMoneyTransfer(data, pos)
                 }
-            } else {
-                viewModel.clickEvent.setValue(pos)
+            } else if (data is SendMoneyOptions) {
+                viewModel.clickEvent.setValue(data.type.ordinal)
             }
         }
     }
 
     private val observer = Observer<Int> {
         when (it) {
-            sendMoneyToYAPContacts -> {
+            SendMoneyType.sendMoneyToYAPContacts.ordinal -> {
                 checkPermission(contactPer)
             }
-            sendMoneyToLocalBank -> {
+            SendMoneyType.sendMoneyToLocalBank.ordinal -> {
                 startSendMoneyFlow(SendMoneyTransferType.LOCAL.name)
             }
-            sendMoneyToInternational -> {
+            SendMoneyType.sendMoneyToInternational.ordinal -> {
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
-            sendMoneyToHomeCountry -> {
+            SendMoneyType.sendMoneyToHomeCountry.ordinal -> {
                 launchActivity<SMHomeCountryActivity>()
             }
-            sendMoneyQRCode -> {
+            SendMoneyType.sendMoneyQRCode.ordinal -> {
                 checkPermission(cameraPer)
             }
             R.id.tvrecentTransfer, R.id.hiderecentext -> {
@@ -198,7 +200,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         }
     }
 
-    private fun startY2YTransfer(beneficiary: Beneficiary?, position: Int = 0, fromQR: Boolean = false) {
+    private fun startY2YTransfer(
+        beneficiary: Beneficiary?,
+        position: Int = 0,
+        fromQR: Boolean = false
+    ) {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
@@ -245,7 +251,8 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     private fun startQrFragment() {
         startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
-                val beneficiary = data?.getParcelableExtra<Beneficiary>(Beneficiary::class.java.name)
+                val beneficiary =
+                    data?.getParcelableExtra<Beneficiary>(Beneficiary::class.java.name)
                 startY2YTransfer(beneficiary, 0, true)
             }
         }

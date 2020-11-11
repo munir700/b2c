@@ -25,8 +25,8 @@
 
         <co.yap.widgets.CoreCircleView
             android:id="@+id/imgIcon"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
             android:padding="@dimen/margin_small"
             app:iconMain="@{viewModel.sendMoneyOptions.image}"

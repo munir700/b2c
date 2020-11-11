@@ -57,9 +57,7 @@ data class Beneficiary(
     @SerializedName("countryOfResidence")
     var countryOfResidence: String? = null,
     @SerializedName("countryOfResidenceName")
-    var countryOfResidenceName: String? = null,
-    @Transient
-    var countryCode: String? = null
+    var countryOfResidenceName: String? = null
 ) : CoreRecentBeneficiaryItem(
     name = "$firstName $lastName",
     profilePictureUrl = beneficiaryPictureUrl,

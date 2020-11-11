@@ -67,7 +67,11 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
                 onBackPressed()
             }
             R.id.ivRightIcon -> {
-                Utils.shareText(this, getBody())
+                if (getBindings().toolbar.rightIcon == R.drawable.ic_close) {
+                   finish()
+                } else {
+                    Utils.shareText(this, getBody())
+                }
             }
         }
     }
