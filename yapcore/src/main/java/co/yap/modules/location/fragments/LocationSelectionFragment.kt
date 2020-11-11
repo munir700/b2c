@@ -245,7 +245,6 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
         }
     }
-
     private fun setupCitiesList(citiesList: ArrayList<City>?) {
         /*   citiesList?.let { cities ->
                this.childFragmentManager.let {
@@ -262,64 +261,35 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
                }
            } ?: viewModel.showMessage("No city found")*/
         this.childFragmentManager.let {
-            val coreBottomSheet = CoreBottomSheet(object :
-                OnItemClickListener {
-                override fun onItemClick(view: View, data: Any, pos: Int) {
-                    
-                }
-            }, getDummyList(),"Change home country",Constants.VIEW_WITH_FLAG)
+            val coreBottomSheet = CoreBottomSheet(
+                object :
+                    OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        (data as? CoreBottomSheet)?.dismiss()
+                        viewModel.state.city.set(citiesList?.get(pos)?.name)
+                    }
+                },
+                bottomSheetItems = getCities(citiesList),
+                headingLabel = "Select the emirate you live in",
+                viewType = Constants.VIEW_WITHOUT_FLAG
+            )
 
             coreBottomSheet.show(it, "")
         }
     }
 
-    private fun getDummyList(): MutableList<CoreBottomSheetData> {
-        var list: MutableList<CoreBottomSheetData> = arrayListOf()
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "United Arab Emirates"
+    private fun getCities(citiesList: ArrayList<City>?): MutableList<CoreBottomSheetData> {
+
+        val list: MutableList<CoreBottomSheetData> = arrayListOf()
+        citiesList?.forEach { cities ->
+            list.add(
+                CoreBottomSheetData(
+                    content = cities.name,
+                    subTitle = cities.name,
+                    sheetImage = null
+                )
             )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "PK"), "Main title", "Pakistan"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "US"), "Main title", "United States"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "PK"), "Main title", "sub title"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "PK"), "Main title", "sub title"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "US"), "Main title", "sub title"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "sub title"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "sub title"
-            )
-        )
-        list.add(
-            CoreBottomSheetData(
-                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "sub title"
-            )
-        )
+        }
         return list
 
     }

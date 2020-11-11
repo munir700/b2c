@@ -56,8 +56,9 @@ class CoreBottomSheet(
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            mListener.onItemClick(view, data, pos)
-            dismiss()
+            mListener.onItemClick(view, this@CoreBottomSheet, pos)
+     /*       mListener.onItemClick(view, data, pos)
+            dismiss()*/
         }
     }
     override val viewModel: CoreBottomSheetViewModel
