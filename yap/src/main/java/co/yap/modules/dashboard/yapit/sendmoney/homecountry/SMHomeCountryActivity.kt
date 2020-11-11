@@ -6,10 +6,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -17,6 +21,8 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
+import java.util.*
 
 class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -44,7 +50,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                     startSendMoneyFlow()
                 }
                 R.id.tvChangeHomeCountry -> {
-
+                    setupCountriesList()
                 }
                 R.id.tvHideRecents, R.id.recents -> {
                     viewModel.state.isRecentsVisible.set(getBinding().recyclerViewRecents.visibility == View.VISIBLE)
@@ -54,6 +60,44 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             }
         })
     }
+
+    private fun setupCountriesList() {
+        val countries: ArrayList<Country> = SessionManager.getCountries()
+        this.supportFragmentManager.let {
+            val coreBottomSheet = CoreBottomSheet(
+                object :
+                    OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                        (data as? CoreBottomSheet)?.dismiss()
+                    }
+                },
+                bottomSheetItems = getCountries(countries),
+                headingLabel = "Change home country",
+                viewType = Constants.VIEW_WITH_FLAG
+            )
+
+            coreBottomSheet.show(it, "")
+        }
+    }
+
+    private fun getCountries(countries: ArrayList<Country>): MutableList<CoreBottomSheetData> {
+        val list: MutableList<CoreBottomSheetData> = arrayListOf()
+        countries?.forEach { country ->
+            list.add(
+                CoreBottomSheetData(
+                    content = country.getName(),
+                    subTitle = country.getName(),
+                    sheetImage = CurrencyUtils.getFlagDrawable(
+                        context,
+                        country.isoCountryCode2Digit.toString()
+                    )
+                )
+            )
+        }
+        return list
+
+    }
+
 
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
