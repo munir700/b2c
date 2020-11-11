@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardAdapte
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyDashboardState
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
+import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -105,7 +106,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 getString(Strings.screen_y2y_display_button_yap_contacts),
                 R.drawable.ic_iconprofile,
                 false,
-                null
+                null, SendMoneyType.sendMoneyToYAPContacts
             )
         )
         list.add(
@@ -113,7 +114,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 getString(Strings.screen_send_money_local_bank_label),
                 R.drawable.ic_bankicon,
                 true,
-                CurrencyUtils.getFlagDrawable(context, "AE")
+                CurrencyUtils.getFlagDrawable(context, "AE"), SendMoneyType.sendMoneyToLocalBank
             )
         )
         list.add(
@@ -121,26 +122,27 @@ class SendMoneyDashboardViewModel(application: Application) :
                 getString(Strings.screen_send_money_international_label),
                 R.drawable.ic_bankicon,
                 true,
-                null
+                null, SendMoneyType.sendMoneyToInternational
             )
         )
-        list.add(
-            SendMoneyOptions(
-                getString(Strings.screen_send_money_home_label),
-                R.drawable.ic_houseicon,
-                false,
-                CurrencyUtils.getFlagDrawable(
-                    context,
-                    SessionManager.user?.currentCustomer?.homeCountry ?: ""
+        if (!SessionManager.user?.currentCustomer?.homeCountry.equals("AE"))
+            list.add(
+                SendMoneyOptions(
+                    getString(Strings.screen_send_money_home_label),
+                    R.drawable.ic_houseicon,
+                    false,
+                    CurrencyUtils.getFlagDrawable(
+                        context,
+                        SessionManager.user?.currentCustomer?.homeCountry ?: ""
+                    ), SendMoneyType.sendMoneyToHomeCountry
                 )
             )
-        )
         list.add(
             SendMoneyOptions(
                 getString(Strings.screen_fragment_yap_it_add_money_text_qr_code),
                 R.drawable.ic_qr_code,
                 false,
-                null
+                null, SendMoneyType.sendMoneyQRCode
             )
         )
         return list
