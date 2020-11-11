@@ -8,7 +8,7 @@
 
         <variable
             name="adapter"
-            type="co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor" />
+            type="co.yap.widgets.recent_transfers.CoreRecentTransferAdapter" />
 
         <variable
             name="viewModel"
@@ -89,7 +89,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:paddingStart="@dimen/_16sdp"
-            app:adapter="@{adapter}"
+            app:recycleViewAdapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recent_transfer" />
 

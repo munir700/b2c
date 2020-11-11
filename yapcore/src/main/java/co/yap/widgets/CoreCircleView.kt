@@ -42,11 +42,12 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
     var topLefticonInt: Int? = null
         set(value) {
             field = value
-            topLefticonInt?.let {
+            if(topLefticonInt !=null){
                 ivTopLeft.visibility = VISIBLE
-                UIBinder.setImageResId(ivTopLeft, it)
+                UIBinder.setImageResId(ivTopLeft, topLefticonInt?:0)
+            }else{
+                ivTopLeft.visibility = View.GONE
             }
-
         }
 
     var imageUrl: String? = null
@@ -55,12 +56,18 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
             imageUrl?.let {
                 ivIcon.visibility = GONE
                 ivProfilePic.visibility = VISIBLE
-                ImageBinding.loadAvatar(ivProfilePic, it, fullName)
+                position?.let { position ->
+                    ImageBinding.loadAvatar(ivProfilePic, it, fullName, position = position, colorType = "Beneficiary")
+                } ?: ImageBinding.loadAvatar(ivProfilePic, it, fullName)
             }
 
         }
 
     var fullName: String? = null
+        set(value) {
+            field = value
+        }
+    var position: Int? = null
         set(value) {
             field = value
         }
@@ -72,7 +79,17 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 ivBottomRight.visibility = VISIBLE
                 UIBinder.setImageResId(ivBottomRight, value)
             }
+        }
 
+    var bottomRightIconInt: Int? = null
+        set(value) {
+            field = value
+            if(bottomRightIconInt !=null){
+                ivBottomRight.visibility = VISIBLE
+                UIBinder.setImageResId(ivBottomRight, bottomRightIconInt?:0)
+            }else{
+                ivBottomRight.visibility = View.GONE
+            }
         }
 
     var iconWidth: Float? = null
@@ -106,7 +123,7 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 clBgIcon.layoutParams.width = it.toInt()
             }
         }
-    var  bottomRightIconHeight: Float? = null
+    var bottomRightIconHeight: Float? = null
         set(value) {
             field = value
             bottomRightIconHeight?.let {
@@ -122,7 +139,7 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
         }
 
-    var  topLeftIconHeight: Float? = null
+    var topLeftIconHeight: Float? = null
         set(value) {
             field = value
             topLeftIconHeight?.let {
@@ -130,7 +147,7 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
         }
 
-    var  topLeftIconWidth: Float? = null
+    var topLeftIconWidth: Float? = null
         set(value) {
             field = value
             topLeftIconWidth?.let {

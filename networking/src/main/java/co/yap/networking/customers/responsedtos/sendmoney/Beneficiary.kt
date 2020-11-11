@@ -60,6 +60,10 @@ data class Beneficiary(
     var countryOfResidenceName: String? = null,
     @Transient
     var countryCode: String? = null
-) : CoreRecentBeneficiaryItem(name = "$firstName $lastName"), Parcelable {
+) : CoreRecentBeneficiaryItem(
+    name = "$firstName $lastName",
+    profilePictureUrl = beneficiaryPictureUrl,
+    type = beneficiaryType,isoCountryCode = country
+), Parcelable {
     fun fullName() = "$firstName $lastName"
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
@@ -25,7 +26,7 @@ interface ISendMoneyHome {
         val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>>
         val onDeleteSuccess: MutableLiveData<Int>
         val recentTransferData: MutableLiveData<List<Beneficiary>>
-        val adapter: ObservableField<RecentTransferAdaptor>
+        var recentsAdapter: CoreRecentTransferAdapter
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries(sendMoneyType: String)
@@ -33,6 +34,7 @@ interface ISendMoneyHome {
         fun getState(): LiveData<PagingState>
         val searchQuery: MutableLiveData<String>
         val isSearching: MutableLiveData<Boolean>
+
     }
 
     interface View : IBase.View<ViewModel>
