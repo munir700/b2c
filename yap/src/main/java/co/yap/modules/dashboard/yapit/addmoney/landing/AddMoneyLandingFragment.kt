@@ -95,7 +95,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 )
             }
             Constants.ADD_MONEY_QR_CODE -> {
-                QRCodeFragment().let { fragment ->
+                QRCodeFragment {}.let { fragment ->
                     if (isAdded)
                         fragment.show(requireActivity().supportFragmentManager, "")
                 }

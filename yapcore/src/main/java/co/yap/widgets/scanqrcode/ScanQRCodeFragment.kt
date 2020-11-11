@@ -7,11 +7,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.os.Bundle
-import android.view.View
 import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
@@ -60,11 +58,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         viewModel.contactInfo.observe(this, onFetchContactInfo)
         viewModel.noContactFoundEvent.observe(this, onNoContactInfo)
     }
-
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        checkPermission(cameraPer)
-    }*/
 
     override fun onResume() {
         super.onResume()
@@ -227,9 +220,12 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 checkPermission(2)
             }
             R.id.ivMyQrCode -> {
-                QRCodeFragment().let { fragment ->
+                QRCodeFragment {
+                    qrCodeReaderView.setQRDecodingEnabled(true)
+                }.let { fragment ->
                     if (isAdded)
-                        fragment.show(requireActivity().supportFragmentManager, "")
+                        qrCodeReaderView.setQRDecodingEnabled(false)
+                    fragment.show(requireActivity().supportFragmentManager, "")
                 }
             }
         }

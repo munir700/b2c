@@ -19,24 +19,38 @@ class SMHomeCountryViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override var homeCountry: Country? = null
     override val state: SMHomeCountryState = SMHomeCountryState()
+    override var benefitsList: ArrayList<String> = ArrayList()
     override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
         context,
         mutableListOf()
     )
+    override var benefitsAdapter: SMHomeCountryBenefitsAdapter = SMHomeCountryBenefitsAdapter(
+        benefitsList
+    )
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
+    override val state: SMHomeCountryState = SMHomeCountryState()
+
     override fun onCreate() {
         super.onCreate()
-        homeCountry = SessionManager.getCountries()
-            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
-        getHomeCountryRecentBeneficiaries()
         state.toolbarTitle = getString(R.string.screen_send_money_home_title)
         state.rightButtonText.set(getString(R.string.screen_send_money_home_display_text_compare))
-        state.name?.set(homeCountry?.getName())
+        homeCountry = SessionManager.getCountries()
+            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+        homeCountry?.let { populateData(it) }
+        benefitsList.add(getString(R.string.screen_send_money_home_display_text_send_money_home))
+        benefitsList.add(getString(R.string.screen_send_money_home_display_text_get_best_rates))
+    }
+
+    fun populateData(hc: Country) {
+        getHomeCountryRecentBeneficiaries()
+
+        state.name?.set(hc?.getName())
         state.rate?.set("0.357014")
-        state.symbol?.set(homeCountry?.getCurrency()?.code)
+        state.symbol?.set(hc?.getCurrency()?.code)
         state.time?.set("04/10/2020, 2:30 PM")
     }
 

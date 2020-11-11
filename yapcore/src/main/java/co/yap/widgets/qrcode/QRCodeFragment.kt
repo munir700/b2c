@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 
-class QRCodeFragment : DialogFragment(), IQRCode.View {
+class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
     lateinit var viewDataBinding: ViewDataBinding
     fun getBindingVariable(): Int = BR.viewModel
     fun getLayoutId(): Int = R.layout.fragment_qr_code
@@ -127,6 +127,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
                 requestPermissions()
             }
             R.id.ivBack -> {
+                callBack()
                 dismiss()
             }
         }
