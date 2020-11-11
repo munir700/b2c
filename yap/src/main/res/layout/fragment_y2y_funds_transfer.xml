@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:visibility="@{viewModel.parentViewModel.state.fromQR?View.GONE: View.VISIBLE}"
             app:viewModel="@{viewModel}"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <include
             android:id="@+id/lyQrY2Y"
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:visibility="@{viewModel.parentViewModel.state.fromQR?View.VISIBLE: View.GONE}"
             app:viewModel="@{viewModel}"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -105,7 +105,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
             val result: Result = reader.decode(bitmap)
             contents = result.text
         } catch (e: Exception) {
-//            Log.e("QrTest", "Error decoding barcode", e)
             showToast("Error decoding QRCode")
             qrCodeReaderView.setQRDecodingEnabled(true)
         }
@@ -147,7 +146,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 showToast("Can't proceed without permissions")
                 qrCodeReaderView.setQRDecodingEnabled(true)
 
-//                permissionHelper?.openAppDetailsActivity()
             }
         })
     }

@@ -233,32 +233,4 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
         }
     }
-
-//    private fun checkPermission() {
-//        permissionHelper = PermissionHelper(
-//            this, arrayOf(
-//                Manifest.permission.CAMERA
-//            ), 100
-//        )
-//        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
-//            override fun onPermissionGranted() {
-//                startQrFragment()
-//            }
-//
-//            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-//                if (grantedPermission.contains(Manifest.permission.CAMERA))
-//                    startQrFragment()
-//            }
-//
-//            override fun onPermissionDenied() {
-//                showToast("Can't proceed without permissions")
-//            }
-//
-//            override fun onPermissionDeniedBySystem() {
-//                showToast("Can't proceed without permissions")
-//
-//            }
-//        })
-//    }
-
 }
