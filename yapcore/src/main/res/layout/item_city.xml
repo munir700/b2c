@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.location.CityItemViewModel" />
+            type="co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel"  />
 
     </data>
 
@@ -47,7 +47,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_weight="6"
                 android:padding="@dimen/_2sdp"
-                android:text="@{viewModel.city.name}"
+                android:text="@{viewModel.itemBottomSheet.subTitle}"
                 android:textColor="?attr/colorPrimaryDarkAttr" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

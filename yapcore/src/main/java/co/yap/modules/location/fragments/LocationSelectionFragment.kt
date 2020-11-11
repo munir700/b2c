@@ -14,12 +14,14 @@ import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import co.yap.modules.location.CitiesListBottomSheet
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
@@ -245,18 +247,80 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     private fun setupCitiesList(citiesList: ArrayList<City>?) {
-        citiesList?.let { cities ->
-            this.childFragmentManager.let {
-                val citiesListBottomSheet = CitiesListBottomSheet(object :
-                    OnItemClickListener {
-                    override fun onItemClick(view: View, data: Any, pos: Int) {
-                        (data as? CitiesListBottomSheet)?.dismiss()
-                        viewModel.state.city.set(cities[pos].name)
-                    }
-                }, cities)
-                citiesListBottomSheet.show(it, "")
-            }
-        } ?: viewModel.showMessage("No city found")
+        /*   citiesList?.let { cities ->
+               this.childFragmentManager.let {
+                   val citiesListBottomSheet = CitiesListBottomSheet(object :
+                       OnItemClickListener {
+                       override fun onItemClick(view: View, data: Any, pos: Int) {
+                           (data as? CitiesListBottomSheet)?.dismiss()
+                           viewModel.state.city.set(cities[pos].name)
+                       }
+                   }, cities)
+                   citiesListBottomSheet.show(it, "")
+
+
+               }
+           } ?: viewModel.showMessage("No city found")*/
+        this.childFragmentManager.let {
+            val coreBottomSheet = CoreBottomSheet(object :
+                OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    
+                }
+            }, getDummyList(),"Change home country",Constants.VIEW_WITH_FLAG)
+
+            coreBottomSheet.show(it, "")
+        }
+    }
+
+    private fun getDummyList(): MutableList<CoreBottomSheetData> {
+        var list: MutableList<CoreBottomSheetData> = arrayListOf()
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "United Arab Emirates"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "PK"), "Main title", "Pakistan"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "US"), "Main title", "United States"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "PK"), "Main title", "sub title"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "PK"), "Main title", "sub title"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "US"), "Main title", "sub title"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "sub title"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "sub title"
+            )
+        )
+        list.add(
+            CoreBottomSheetData(
+                CurrencyUtils.getFlagDrawable(requireContext(), "AE"), "Main title", "sub title"
+            )
+        )
+        return list
 
     }
 
