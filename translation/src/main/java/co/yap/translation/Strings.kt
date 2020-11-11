@@ -1835,4 +1835,10 @@ object Strings {
             "screen_send_money_home_title"
     const val screen_send_money_home_display_text_compare: String =
         "screen_send_money_home_display_text_compare"
+
+    // QR Code Funds Transfer
+    const val screen_qr_transfer_display_text_button: String =
+        "screen_qr_transfer_display_text_button"
+    const val screen_qr_transfer_display_text_note_hint: String =
+        "screen_qr_transfer_display_text_note_hint"
 }

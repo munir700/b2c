@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.main.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -11,6 +12,7 @@ interface IY2Y {
         var tootlBarVisibility: Int
         var rightButtonVisibility: Boolean
         var leftButtonVisibility: Boolean
+        var fromQR: ObservableBoolean?
     }
 
     interface ViewModel : IBase.ViewModel<State> {

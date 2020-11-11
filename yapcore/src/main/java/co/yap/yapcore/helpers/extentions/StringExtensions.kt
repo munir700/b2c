@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.text.TextUtils
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.NonNull
@@ -67,3 +68,10 @@ fun shortName(cardFullName: String): String {
 
 @SuppressLint("DefaultLocale")
 fun String.toCamelCase(): String = split(" ").joinToString(" ") { it.toLowerCase().capitalize() }
+
+fun String.getQRCode(): String {
+    if(("yap-app:") in this) {
+        return this.take(this.length - this.indexOf("yap-app:"))
+    }
+    return this
+}
