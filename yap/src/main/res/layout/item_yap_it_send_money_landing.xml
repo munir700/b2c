@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyLandingItemViewModel" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -25,16 +25,17 @@
 
         <co.yap.widgets.CoreCircleView
             android:id="@+id/imgIcon"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
             android:padding="@dimen/margin_small"
+            app:iconMain="@{viewModel.sendMoneyOptions.image}"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_notification"
-            app:icon="@{viewModel.addMoneyOptions.image}"
-            android:layout_marginBottom="@dimen/margin_small"
-            app:layout_constraintBottom_toTopOf="@+id/tvTitle"/>
+            app:topLefticonInt="@{viewModel.sendMoneyOptions.flag}"
+            tools:src="@drawable/ic_notification" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
@@ -42,9 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:text="@{viewModel.addMoneyOptions.name}"
+            android:gravity="center"
+            android:text="@{viewModel.sendMoneyOptions.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="Top up via debit/credit card" />

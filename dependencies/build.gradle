@@ -39,7 +39,7 @@ project.ext {
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinreflect            : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
-            material                 : 'com.google.android.material:material:1.2.0-alpha01',
+            material                 : 'com.google.android.material:material:1.3.0-alpha02',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2',
             otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.12.10',
@@ -226,6 +226,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.kyc)],
             [configuration: "implementation", dependency: project(modules.sendmoney)],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
@@ -284,6 +285,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "api", dependency: libraries.leanplumFcm],
             //[configuration: "api", dependency: libraries.leanplumCore],
             [configuration: "api", dependency: libraries.leanplumLocation],
@@ -297,7 +299,6 @@ project.ext {
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
     sendmoneyDependencies = [
             [configuration: "implementation", dependency: project(modules.networking)],
-            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.networking)],

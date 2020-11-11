@@ -1,9 +1,7 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,10 +16,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.Utils.getAdjustURL
 import co.yap.yapcore.helpers.Utils.getBody
 import co.yap.yapcore.interfaces.OnItemClickListener
 

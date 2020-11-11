@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.y2y.main.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import co.yap.BR
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.yapcore.BaseState
@@ -28,4 +29,5 @@ class Y2YState : BaseState(), IY2Y.State {
             field = value
             notifyPropertyChanged(BR.leftButtonVisibility)
         }
+    override var fromQR: ObservableBoolean? = ObservableBoolean()
 }

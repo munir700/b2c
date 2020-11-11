@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import co.yap.yapcore.binders.UIBinder
+import co.yap.yapcore.helpers.ImageBinding
 import kotlinx.android.synthetic.main.core_circle_view.view.*
 
 class CoreCircleView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
@@ -20,6 +21,13 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 UIBinder.setImageResId(ivIcon, value)
             }
         }
+    var iconMain: Int? = null
+        set(value) {
+            field = value
+            iconMain?.let {
+                UIBinder.setImageResId(ivIcon, it)
+            }
+        }
 
     var topLefticon: Drawable? = null
         set(value) {
@@ -29,6 +37,66 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                 UIBinder.setImageResId(ivTopLeft, value)
             }
 
+        }
+
+    var topLefticonInt: Int? = null
+        set(value) {
+            field = value
+            if (topLefticonInt != null && topLefticonInt != 0) {
+                ivTopLeft.visibility = VISIBLE
+                UIBinder.setImageResId(ivTopLeft, topLefticonInt ?: 0)
+            } else {
+                ivTopLeft.visibility = View.GONE
+            }
+        }
+
+    var imageUrl: String? = null
+        set(value) {
+            field = value
+            imageUrl?.let {
+                clBgIcon.backgroundTintList = null
+                ivIcon.visibility = GONE
+                ivProfilePic.visibility = VISIBLE
+                position?.let { position ->
+                    ImageBinding.loadAvatar(
+                        ivProfilePic,
+                        it,
+                        fullName,
+                        position = position,
+                        colorType = "Beneficiary"
+                    )
+                } ?: ImageBinding.loadAvatar(ivProfilePic, it, fullName)
+            }
+
+        }
+
+    var fullName: String? = null
+        set(value) {
+            field = value
+        }
+    var position: Int? = null
+        set(value) {
+            field = value
+        }
+
+    var bottomRightIcon: Drawable? = null
+        set(value) {
+            field = value
+            bottomRightIcon?.let {
+                ivBottomRight.visibility = VISIBLE
+                UIBinder.setImageResId(ivBottomRight, value)
+            }
+        }
+
+    var bottomRightIconInt: Int? = null
+        set(value) {
+            field = value
+            if (bottomRightIconInt != null && bottomRightIconInt != 0) {
+                ivBottomRight.visibility = VISIBLE
+                UIBinder.setImageResId(ivBottomRight, bottomRightIconInt ?: 0)
+            } else {
+                ivBottomRight.visibility = View.GONE
+            }
         }
 
     var iconWidth: Float? = null
@@ -60,6 +128,37 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
             field = value
             iconBgWidth?.let {
                 clBgIcon.layoutParams.width = it.toInt()
+            }
+        }
+    var bottomRightIconHeight: Float? = null
+        set(value) {
+            field = value
+            bottomRightIconHeight?.let {
+                ivBottomRight.layoutParams.height = it.toInt()
+            }
+        }
+
+    var bottomRightIconWidth: Float? = null
+        set(value) {
+            field = value
+            bottomRightIconWidth?.let {
+                ivBottomRight.layoutParams.width = it.toInt()
+            }
+        }
+
+    var topLeftIconHeight: Float? = null
+        set(value) {
+            field = value
+            topLeftIconHeight?.let {
+                ivTopLeft.layoutParams.height = it.toInt()
+            }
+        }
+
+    var topLeftIconWidth: Float? = null
+        set(value) {
+            field = value
+            topLeftIconWidth?.let {
+                ivTopLeft.layoutParams.width = it.toInt()
             }
         }
 

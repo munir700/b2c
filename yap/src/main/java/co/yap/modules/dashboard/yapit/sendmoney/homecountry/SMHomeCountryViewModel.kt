@@ -1,15 +1,27 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import android.app.Application
-import android.view.View
 import co.yap.R
 import co.yap.countryutils.country.Country
-import co.yap.countryutils.country.utils.CurrencyUtils
-import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyBaseViewMode
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
+import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.SessionManager
 
-class SMHomeCountryViewModel (application: Application) : SendMoneyBaseViewMode<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel {
+class SMHomeCountryViewModel(application: Application) :
+    BaseViewModel<ISMHomeCountry.State>(application), ISMHomeCountry.ViewModel,
+    IRepositoryHolder<CustomersRepository> {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override val repository: CustomersRepository = CustomersRepository
+    override var homeCountry: Country? = null
+    override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
+        context,
+        mutableListOf()
+    )
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -19,14 +31,42 @@ class SMHomeCountryViewModel (application: Application) : SendMoneyBaseViewMode<
 
     override fun onCreate() {
         super.onCreate()
-        setToolBarTitle(getString(R.string.screen_send_money_home_title))
-        setRightText(getString(R.string.screen_send_money_home_display_text_compare))
-
-        state.name?.set("Canada")
-        state.countryCode?.set("")
+        homeCountry = SessionManager.getCountries()
+            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+        getHomeCountryRecentBeneficiaries()
+        state.toolbarTitle = getString(R.string.screen_send_money_home_title)
+        state.rightButtonText.set(getString(R.string.screen_send_money_home_display_text_compare))
+        state.name?.set(homeCountry?.getName())
         state.rate?.set("0.357014")
-        state.symbol?.set("CAD")
+        state.symbol?.set(homeCountry?.getCurrency()?.code)
         state.time?.set("04/10/2020, 2:30 PM")
-        state.flagDrawableResId?.set(CurrencyUtils.getFlagDrawable(context, "flag_ca"))
+    }
+
+    private fun getHomeCountryRecentBeneficiaries() {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.getRecentBeneficiaries()
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data.forEach {
+                            it.name = it.fullName()
+                            it.profilePictureUrl = it.beneficiaryPictureUrl
+                            it.type = it.beneficiaryType
+                            it.isoCountryCode = it.country
+                        }
+                        recentsAdapter.setList(response.data.data.filter { it.country == "AE" })
+                        state.isNoRecentsBeneficiries.set(
+                            recentsAdapter.getDataList().isNullOrEmpty()
+                        )
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        state.viewState.value = response.error.message
+                    }
+                }
+            }
+        }
     }
 }

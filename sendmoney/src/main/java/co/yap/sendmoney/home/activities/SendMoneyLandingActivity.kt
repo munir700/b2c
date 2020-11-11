@@ -15,7 +15,6 @@ import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.translation.Translator
@@ -27,6 +26,7 @@ import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -51,15 +51,25 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     companion object {
         const val searching = "searching"
+        const val TransferType = "TransferType"
         private var performedDeleteOperation: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initComponents()
-        viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-        viewModel.isSearching.value?.let {
-            viewModel.state.isSearching.set(it)
+        if (intent.hasExtra(TransferType)) {
+            viewModel.state.sendMoneyType.set(intent.getStringExtra(TransferType))
+        }
+        viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+        if (intent.hasExtra(searching)) {
+            viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
+            viewModel.isSearching.value?.let {
+                viewModel.state.isSearching.set(it)
+                if (!it) {
+                    viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+                }
+            }
         }
         setObservers()
     }
@@ -67,7 +77,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
             AllBeneficiariesAdapter(mutableListOf())
+        viewModel.recentsAdapter.allowFullItemClickListener = true
+        viewModel.recentsAdapter.setItemListener(recentItemClickListener)
         initSwipeListener()
+
     }
 
     private fun setObservers() {
@@ -76,7 +89,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             getAdaptor().removeItemAt(positionToDelete)
             performedDeleteOperation = true
             if (positionToDelete == 0)
-                viewModel.requestAllBeneficiaries()
+                viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         })
         //Beneficiaries list observer
         viewModel.allBeneficiariesLiveData.observe(this, Observer {
@@ -96,17 +109,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             getAdaptor().filter.filter(it)
         })
 
-        //Recent Beneficiaries list observer
-        viewModel.recentTransferData.observe(this, Observer {
-            if (it.isNullOrEmpty()) return@Observer
-            val adapter = RecentTransferAdaptor(
-                it.toMutableList(),
-                null
-            )
-            adapter.onItemClickListener = recentItemClickListener
-            viewModel.adapter.set(adapter)
-
-        })
         //Searching Beneficiaries list Results Count observer
         viewModel.isSearching.value?.let { isSearching ->
             if (isSearching) {
@@ -149,7 +151,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 startMoneyTransfer(data, pos)
         }
     }
-
 
     private fun initSwipeListener() {
         onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
@@ -259,7 +260,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.state.isSearching.notifyChange()
         if (performedDeleteOperation) {
             performedDeleteOperation = false
-            viewModel.requestAllBeneficiaries()
+            viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         }
     }
 
@@ -286,6 +287,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             type = FeatureSet.SEND_MONEY,
                             requestCode = REQUEST_TRANSFER_MONEY
                         ) {
+                            putExtra(
+                                TransferType,
+                                viewModel.state.sendMoneyType.get()
+                            )
                             putExtra(searching, true)
                         }
                     }
@@ -360,12 +365,16 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                 isMoneyTransfer == true -> {
                                     beneficiary?.let {
                                         startMoneyTransfer(it, 0)
-                                        viewModel.requestAllBeneficiaries()
+                                        viewModel.requestAllBeneficiaries(
+                                            viewModel.state.sendMoneyType.get() ?: ""
+                                        )
                                     }
                                 }
                                 isDismissFlow == true -> {
                                 }
-                                else -> viewModel.requestAllBeneficiaries()
+                                else -> viewModel.requestAllBeneficiaries(
+                                    viewModel.state.sendMoneyType.get() ?: ""
+                                )
                             }
                         } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
                             finish()
@@ -401,7 +410,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 launchActivity<SendMoneyHomeActivity>(
                     requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST,
                     type = FeatureSet.ADD_SEND_MONEY_BENEFICIARY
-                )
+                ){
+                    putExtra(
+                        ExtraKeys.SEND_MONEY_TYPE.name,
+                        viewModel.state.sendMoneyType.get()
+                    )
+                }
             }
         }
     }

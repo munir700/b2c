@@ -10,7 +10,11 @@
             type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
         <import type="co.yap.translation.Strings" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.enums.SendMoneyTransferType" />
+
 
     </data>
 
@@ -47,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.state.isSearching || viewModel.state.isNoRecentBeneficiary? View.GONE : View.VISIBLE}"
-            app:adapter="@{viewModel.adapter}"
+            app:adapter="@{viewModel.recentsAdapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSendMoneyTo" />
@@ -109,7 +113,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutSearchView"
-            app:text="@{Strings.screen_send_money_display_text_all_beneficiaries}" />
+            app:text="@{viewModel.state.sendMoneyType.equals(SendMoneyTransferType.LOCAL.name) ? Strings.screen_send_money_display_text_all_local_beneficiaries : Strings.screen_send_money_display_text_all_beneficiaries}" />
 
 
         <androidx.recyclerview.widget.RecyclerView

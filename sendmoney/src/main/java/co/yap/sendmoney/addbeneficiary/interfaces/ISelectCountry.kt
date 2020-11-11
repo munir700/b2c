@@ -19,7 +19,7 @@ interface ISelectCountry {
         var countries: ArrayList<Country>
         val populateSpinnerData: MutableLiveData<List<Country>>
         fun onCountrySelected(pos: Int)
-
+        fun getBeneficiaryTypeFromCurrency(country: Country?): String?
     }
 
     interface View : IBase.View<ViewModel>

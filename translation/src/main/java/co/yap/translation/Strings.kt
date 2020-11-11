@@ -1009,6 +1009,12 @@ object Strings {
         "screen_send_money_display_text_delete"
     const val screen_send_money_display_text_delete_message: String =
         "screen_send_money_display_text_delete_message"
+    const val screen_send_money_display_text_title_local: String =
+        "screen_send_money_display_text_title_local"
+    const val screen_send_money_display_text_title_international: String =
+        "screen_send_money_display_text_title_international"
+    const val screen_send_money_display_text_all_local_beneficiaries: String =
+        "screen_send_money_display_text_all_local_beneficiaries"
 
 
     //    Send Money Screen
@@ -1042,6 +1048,8 @@ object Strings {
         "screen_send_money_international_label"
     const val screen_send_money_home_label: String =
         "screen_send_money_home_label"
+    const val screen_send_show_recent: String =
+        "screen_send_show_recent"
 
 
     //     Add Beneficiary
@@ -1827,4 +1835,10 @@ object Strings {
             "screen_send_money_home_title"
     const val screen_send_money_home_display_text_compare: String =
         "screen_send_money_home_display_text_compare"
+
+    // QR Code Funds Transfer
+    const val screen_qr_transfer_display_text_button: String =
+        "screen_qr_transfer_display_text_button"
+    const val screen_qr_transfer_display_text_note_hint: String =
+        "screen_qr_transfer_display_text_note_hint"
 }
