@@ -52,6 +52,8 @@ object Strings {
         "common_permission_rejected_error"
     const val common_saved_image_to_gallery: String =
         "common_saved_image_to_gallery"
+    const val common_display_text_search_hint: String =
+        "common_display_text_search_hint"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"

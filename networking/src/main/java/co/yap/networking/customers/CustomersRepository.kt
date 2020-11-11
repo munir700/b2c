@@ -112,6 +112,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
+    const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -356,4 +358,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse> =
         executeSafely(call = { api.getQRContact(qrContactRequest) })
+
+    override suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
+
 }

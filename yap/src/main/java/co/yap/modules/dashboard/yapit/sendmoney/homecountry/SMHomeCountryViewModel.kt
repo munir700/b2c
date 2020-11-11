@@ -18,6 +18,7 @@ class SMHomeCountryViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CustomersRepository = CustomersRepository
     override var homeCountry: Country? = null
+    override val state: SMHomeCountryState = SMHomeCountryState()
     override var benefitsList: ArrayList<String> = ArrayList()
     override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
         context,
@@ -78,6 +79,28 @@ class SMHomeCountryViewModel(application: Application) :
                     }
                 }
             }
+        }
+    }
+
+    override fun updateHomeCountry(success: () -> Unit) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response =
+                repository.updateHomeCountry(homeCountry = homeCountry?.isoCountryCode2Digit ?: "")
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.viewState.value = false
+                        success.invoke()
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        state.viewState.value = response.error.message
+                    }
+                }
+            }
+
         }
     }
 }

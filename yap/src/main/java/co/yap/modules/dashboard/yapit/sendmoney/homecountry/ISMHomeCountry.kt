@@ -27,6 +27,7 @@ interface ISMHomeCountry {
         var homeCountry:Country?
         var benefitsList: ArrayList<String>
         fun handlePressOnView(id: Int)
+        fun updateHomeCountry(success: () -> Unit)
     }
 
     interface View : IBase.View<ViewModel> {
