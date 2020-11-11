@@ -83,7 +83,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     private val onFetchContactInfo = Observer<Beneficiary> {
         it?.let {
             val intent = Intent()
-            intent.putExtra("beneficiary", it)
+            intent.putExtra(Beneficiary::class.java.name, it)
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         }

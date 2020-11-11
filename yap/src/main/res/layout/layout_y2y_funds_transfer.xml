@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel" />
-
         <import type="co.yap.translation.Strings" />
-
     </data>
 
     <ScrollView
@@ -23,22 +20,20 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-            <LinearLayout
-                android:id="@+id/lnUserImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/lyUserImage"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <include
-                    android:id="@+id/lyUserImage"
-                    layout="@layout/layout_y_to_y_transfer_initial_image"
-                    app:image="@{viewModel.state.imageUrl}"
-                    app:name="@{viewModel.state.fullName}" />
-            </LinearLayout>
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/empty_string"
+                app:imageUrl="@{viewModel.state.imageUrl}"
+                app:colorType="@{``}"
+                app:fullName="@{viewModel.state.fullName}"
+                app:position="@{viewModel.state.position}"/>
 
             <TextView
                 android:id="@+id/tvFullName"
@@ -50,32 +45,28 @@
                 android:text="@{viewModel.state.fullName}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
-                tools:text="Sufyan Shabbir" />
+                app:layout_constraintTop_toBottomOf="@+id/lyUserImage"
+                tools:text="Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir  Sufyan Shabbir" />
 
-            <TextView
-                android:id="@+id/tvMobileNumber"
-                style="@style/AMicro"
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:gravity="center"
-                android:text="@{viewModel.state.fullName}"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:src="@drawable/ic_uae_flag"
+                app:layout_constraintBottom_toBottomOf="@+id/etAmount"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-                tools:text="+9715 6211 1111" />
+                app:layout_constraintTop_toTopOf="@+id/etAmount" />
 
             <TextView
                 android:id="@+id/tvCurrencyType"
-                style="@style/AMicro"
+                style="@style/ATitle2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small"
-                android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvMobileNumber"
+                app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
+                app:layout_constraintLeft_toRightOf="@+id/ivFlag"
+                app:layout_constraintTop_toTopOf="@+id/ivFlag"
                 app:text="@{Strings.common_text_currency_type}"
                 tools:text="@string/common_text_currency_type" />
 
@@ -86,12 +77,10 @@
                 style="@style/ATitle2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_xxxl"
-                android:layout_marginStart="@dimen/margin_xxxl"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCurrencyType"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
                 tools:text="1234567891" />
 
 
@@ -126,6 +115,18 @@
                     tools:text="AED 500" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/tvFee"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@{viewModel.state.transferFee}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
+                tools:text="Fee: AED 500" />
+
             <co.yap.widgets.AlphaNumericEditText
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
@@ -140,7 +141,7 @@
                 android:text="@={viewModel.state.noteValue}"
                 android:textColorHint="@color/colorPrimaryDarkFadedLight"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
+                app:layout_constraintTop_toBottomOf="@+id/tvFee"
                 tools:hint="@string/screen_y2y_funds_transfer_display_text_note_placeholder" />
 
             <View
@@ -170,7 +171,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etNote"
                 app:layout_constraintVertical_bias="0.987"
-                app:text="@{Strings.screen_qr_transfer_display_text_button}"/>
+                app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </layout>

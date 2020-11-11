@@ -1839,5 +1839,6 @@ object Strings {
     // QR Code Funds Transfer
     const val screen_qr_transfer_display_text_button: String =
         "screen_qr_transfer_display_text_button"
-
+    const val screen_qr_transfer_display_text_note_hint: String =
+        "screen_qr_transfer_display_text_note_hint"
 }

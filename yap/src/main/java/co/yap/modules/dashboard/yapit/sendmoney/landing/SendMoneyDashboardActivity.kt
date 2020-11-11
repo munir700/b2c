@@ -17,8 +17,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.networking.customers.requestdtos.Contact
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
@@ -28,12 +26,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
-import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -81,9 +76,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
                 when (data.beneficiaryType) {
-                    SendMoneyBeneficiaryType.YAP2YAP.type -> launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
-                        putExtra(Beneficiary::class.java.name, data)
-                    }
+                    SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, pos, false)
                     else -> startMoneyTransfer(data, pos)
                 }
             } else {
@@ -109,7 +102,8 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             sendMoneyQRCode -> {
                 startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
-                        val beneficiary = data?.getParcelableExtra<Beneficiary>("beneficiary")
+                        val beneficiary = data?.getParcelableExtra<Beneficiary>(Beneficiary::class.java.name)
+                        startY2YTransfer(beneficiary, 0, true)
                     }
                 }
             }
@@ -185,6 +179,13 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             putExtra(Constants.BENEFICIARY, beneficiary)
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
+        }
+    }
+
+    private fun startY2YTransfer(beneficiary: Beneficiary?, position: Int = 0, fromQR: Boolean = false) {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+            putExtra(Beneficiary::class.java.name, beneficiary)
+            putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
         }
     }
 

@@ -186,6 +186,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             .build()
 
         navigate(
+
             YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                 viewModel.parentViewModel?.beneficiary?.beneficiaryPictureUrl ?: "",
                 viewModel.parentViewModel?.beneficiary?.beneficiaryUuid ?: "",
