@@ -61,8 +61,13 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         viewModel.noContactFoundEvent.observe(this, onNoContactInfo)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkPermission(cameraPer)
+    }*/
+
+    override fun onResume() {
+        super.onResume()
         checkPermission(cameraPer)
     }
 
@@ -73,6 +78,11 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         qrCodeReaderView.setBackCamera()
         qrCodeReaderView.startCamera()
         qrCodeReaderView.setQRDecodingEnabled(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        qrCodeReaderView.stopCamera()
     }
 
     override fun onDestroy() {
