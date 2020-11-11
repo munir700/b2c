@@ -24,6 +24,7 @@
             android:id="@+id/coreView"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
+            app:colorType="@{viewModel.coreRecentBeneficiary.type.equals(`Y2Y`) ? `Y2Y` : `Beneficiary` }"
             app:fullName="@{viewModel.coreRecentBeneficiary.name}"
             app:imageUrl="@{viewModel.coreRecentBeneficiary.profilePictureUrl}"
             app:layout_constraintBottom_toTopOf="@+id/tvTitle"

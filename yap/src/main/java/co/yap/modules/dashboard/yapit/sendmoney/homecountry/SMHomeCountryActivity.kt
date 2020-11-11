@@ -26,12 +26,10 @@ import java.util.*
 
 class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), ISMHomeCountry.View {
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.activity_sm_home_country
-
     override val viewModel: ISMHomeCountry.ViewModel
         get() = ViewModelProviders.of(this).get(SMHomeCountryViewModel::class.java)
-
+    var oldPosition = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addObservers()
@@ -93,6 +91,18 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                 it.isoCountryCode2Digit.toString()
             )
         }
+
+        val position =
+            countries.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
+        if (oldPosition == -1) {
+            oldPosition = position
+            countries[oldPosition].isSelected = true
+        } else {
+            countries[oldPosition].isSelected = false
+            oldPosition = position
+            countries[oldPosition].isSelected = true
+        }
+
         return countries
     }
 

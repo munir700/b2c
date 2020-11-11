@@ -86,7 +86,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
                 when (data.beneficiaryType) {
-                    SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, false)
+                    SendMoneyBeneficiaryType.YAP2YAP.type -> startY2YTransfer(data, false, pos)
                     else -> startMoneyTransfer(data, pos)
                 }
             } else if (data is SendMoneyOptions) {
@@ -202,11 +202,13 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     private fun startY2YTransfer(
         beneficiary: Beneficiary?,
-        fromQR: Boolean = false
+        fromQR: Boolean = false,
+        position: Int = 0
     ) {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
+            putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
         }
     }
 

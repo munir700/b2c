@@ -11,5 +11,7 @@ open class CoreBottomSheetData(
     @SerializedName("content")
     var content: String? = "",
     @SerializedName("subTitle")
-    var subTitle: String? = ""
+    var subTitle: String? = "",
+    @Transient
+    var isSelected: Boolean? = false
 ) : Parcelable

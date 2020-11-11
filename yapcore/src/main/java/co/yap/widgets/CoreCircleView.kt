@@ -63,11 +63,15 @@ class CoreCircleView @JvmOverloads constructor(context: Context, attrs: Attribut
                         it,
                         fullName,
                         position = position,
-                        colorType = "Beneficiary"
+                        colorType = colorType?:""
                     )
                 } ?: ImageBinding.loadAvatar(ivProfilePic, it, fullName)
             }
+        }
 
+    var colorType: String? = null
+        set(value) {
+            field = value
         }
 
     var fullName: String? = null

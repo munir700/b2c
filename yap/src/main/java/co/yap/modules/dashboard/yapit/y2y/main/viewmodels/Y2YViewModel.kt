@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.states.Y2YState
@@ -18,11 +17,11 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
     override val searchQuery: MutableLiveData<String> = MutableLiveData("")
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override var beneficiary: Beneficiary? = null
+    override var position: Int = 0
     override val state: Y2YState = Y2YState()
 
     override fun onCreate() {
         super.onCreate()
         SessionManager.getCurrenciesFromServer { _, _ -> }
     }
-
 }
