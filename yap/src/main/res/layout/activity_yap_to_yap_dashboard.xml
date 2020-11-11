@@ -30,7 +30,7 @@
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
             app:leftIconVisibility="@{viewModel.state.leftButtonVisibility}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_gift_vector}"
+            app:rightIcon="@{viewModel.state.rightIcon}"
             app:rightIconVisibility="@{viewModel.state.rightButtonVisibility}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 

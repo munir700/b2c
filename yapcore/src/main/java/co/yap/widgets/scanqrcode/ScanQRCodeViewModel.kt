@@ -33,7 +33,8 @@ class ScanQRCodeViewModel(application: Application) :
                             firstName = it?.firstName,
                             lastName = it?.lastName,
                             beneficiaryPictureUrl = it?.profilePictureName,
-                            country = it?.countryCode
+                            country = it?.countryCode,
+                            title = it?.fullName()
                         )
                     }
                 }

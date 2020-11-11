@@ -1841,4 +1841,6 @@ object Strings {
         "screen_qr_transfer_display_text_button"
     const val screen_qr_transfer_display_text_note_hint: String =
         "screen_qr_transfer_display_text_note_hint"
+    const val screen_qr_transfer_display_title: String =
+        "screen_qr_transfer_display_title"
 }
