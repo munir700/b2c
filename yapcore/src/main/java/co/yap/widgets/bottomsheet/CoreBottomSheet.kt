@@ -14,6 +14,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.LayoutBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -50,7 +51,9 @@ class CoreBottomSheet(
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.setVariable(BR.viewModel, viewModel)
         viewDataBinding.executePendingBindings()
-        val adapter: CoreBottomSheetAdapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
+        val adapter = CoreBottomSheetAdapter(bottomSheetItems, viewType)
+        adapter.onItemClickListener = myListener
+        adapter.allowFullItemClickListener = true
         viewModel.state.searchBarVisibility.set(viewType != Constants.VIEW_WITHOUT_FLAG)
         headingLabel?.let {
             getBinding().tvlabel.text = it
@@ -59,15 +62,14 @@ class CoreBottomSheet(
             adapter.filter.filter(it)
         }
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
-        adapter.onItemClickListener = myListener
-        adapter.allowFullItemClickListener = true
         getBinding().rvBottomSheet.adapter = adapter
 
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            mListener.onItemClick(view, this@CoreBottomSheet, pos)
+            this@CoreBottomSheet.dismiss()
+            mListener.onItemClick(view, data, pos)
         }
     }
 

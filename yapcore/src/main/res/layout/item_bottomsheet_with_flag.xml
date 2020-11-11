@@ -13,6 +13,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
     android:paddingStart="@dimen/margin_extra_small"
     android:paddingEnd="@dimen/margin_extra_small"
    >

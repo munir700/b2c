@@ -21,8 +21,6 @@ import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 
 
@@ -70,14 +68,19 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                 object :
                     OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
-                        (data as? CoreBottomSheet)?.dismiss()
+                        if (viewModel.homeCountry != (data as Country)) {
+                            viewModel.homeCountry = data
+                            viewModel.updateHomeCountry() {
+                                SessionManager.getAccountInfo()
+                                // update UI according to new UI
+                            }
+                        }
                     }
                 },
                 bottomSheetItems = getCountries(countries).toMutableList(),
                 headingLabel = "Change home country",
                 viewType = Constants.VIEW_WITH_FLAG
             )
-
             coreBottomSheet.show(it, "")
         }
     }
@@ -92,7 +95,6 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
         return countries
     }
-
 
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {

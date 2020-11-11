@@ -98,4 +98,5 @@ interface CustomersApi {
     suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse>
     suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
     suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
+    suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
 }

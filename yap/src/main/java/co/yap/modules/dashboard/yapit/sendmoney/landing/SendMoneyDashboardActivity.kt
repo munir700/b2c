@@ -1,10 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing
 
-import co.yap.widgets.scanqrcode.ScanQRCodeFragment
-import co.yap.yapcore.helpers.ExtraKeys
-
-import android.app.Activity
 import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
@@ -12,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
@@ -20,19 +18,23 @@ import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActiv
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.scanqrcode.ScanQRCodeFragment
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 
 class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewModel>(),
@@ -219,10 +221,26 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (!viewModel.dashboardAdapter.getDataList().isNullOrEmpty()) {
+            viewModel.dashboardAdapter.getDataList()
+                .find { it.name == getString(Strings.screen_send_money_home_label) }?.let {
+                    val index = viewModel.dashboardAdapter.getDataList().indexOf(it)
+                    it.flag = CurrencyUtils.getFlagDrawable(
+                        context,
+                        SessionManager.user?.currentCustomer?.homeCountry ?: ""
+                    )
+                    viewModel.dashboardAdapter.setItemAt(index,it)
+                }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
     }
+
 
     private fun startQrFragment() {
         startFragmentForResult<ScanQRCodeFragment>(ScanQRCodeFragment::class.java.name) { resultCode, data ->
@@ -230,7 +248,6 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 val beneficiary = data?.getParcelableExtra<Beneficiary>(Beneficiary::class.java.name)
                 startY2YTransfer(beneficiary, 0, true)
             }
-
         }
     }
 }

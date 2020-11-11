@@ -24,6 +24,7 @@ interface ISMHomeCountry {
         var recentsAdapter: CoreRecentTransferAdapter
         var homeCountry:Country?
         fun handlePressOnView(id: Int)
+        fun updateHomeCountry(success: () -> Unit)
     }
 
     interface View : IBase.View<ViewModel> {
