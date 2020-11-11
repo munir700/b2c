@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.states.Y2YState
