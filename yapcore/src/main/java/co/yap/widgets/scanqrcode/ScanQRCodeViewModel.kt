@@ -28,7 +28,7 @@ class ScanQRCodeViewModel(application: Application) :
                     state.loading=false
                     response.data.qrContact.let {
                         contactInfo.value = Beneficiary(
-                            accountUuid = it?.uuid,
+                            beneficiaryUuid = it?.uuid,
                             mobileNo = it?.mobileNo,
                             firstName = it?.firstName,
                             lastName = it?.lastName,
