@@ -17,22 +17,19 @@ class SMHomeCountryViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: CustomersRepository = CustomersRepository
-    override var homeCountry: Country? = null
     override val state: SMHomeCountryState = SMHomeCountryState()
+    override var homeCountry: Country? = null
     override var benefitsList: ArrayList<String> = ArrayList()
     override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
         context,
         mutableListOf()
     )
-    override var benefitsAdapter: SMHomeCountryBenefitsAdapter = SMHomeCountryBenefitsAdapter(
-        benefitsList
-    )
+    override var benefitsAdapter: SMHomeCountryBenefitsAdapter =
+        SMHomeCountryBenefitsAdapter(benefitsList)
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
-    override val state: SMHomeCountryState = SMHomeCountryState()
 
     override fun onCreate() {
         super.onCreate()
@@ -47,7 +44,6 @@ class SMHomeCountryViewModel(application: Application) :
 
     fun populateData(hc: Country) {
         getHomeCountryRecentBeneficiaries()
-
         state.name?.set(hc?.getName())
         state.rate?.set("0.357014")
         state.symbol?.set(hc?.getCurrency()?.code)
