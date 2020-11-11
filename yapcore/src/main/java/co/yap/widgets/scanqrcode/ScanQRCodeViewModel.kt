@@ -8,6 +8,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import kotlinx.coroutines.delay
 
 class ScanQRCodeViewModel(application: Application) :
     BaseViewModel<IScanQRCode.State>(application),
@@ -20,6 +21,7 @@ class ScanQRCodeViewModel(application: Application) :
     override fun uploadQRCode(uuid: String?) {
         launch {
             state.loading=true
+            delay(1000L)
             when (val response = customerRepository.getQRContact(
                 QRContactRequest(uuid = uuid?:""))) {
                 is RetroApiResponse.Success -> {
