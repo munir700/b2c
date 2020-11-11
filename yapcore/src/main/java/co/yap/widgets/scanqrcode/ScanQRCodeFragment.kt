@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -216,6 +217,10 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 checkPermission(2)
             }
             R.id.ivMyQrCode -> {
+                QRCodeFragment().let { fragment ->
+                    if (isAdded)
+                        fragment.show(requireActivity().supportFragmentManager, "")
+                }
             }
         }
     }
