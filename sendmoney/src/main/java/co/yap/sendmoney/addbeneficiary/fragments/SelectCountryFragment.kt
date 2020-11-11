@@ -33,24 +33,31 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.parentViewModel?.sendMoneyType == SendMoneyTransferType.LOCAL.name) {
-            viewModel.parentViewModel?.selectedCountry?.value = Country(
-                isoCountryCode2Digit = "AE",
-                name = "United Arab Emirates",
-                currency = Currency(code = "AED")
-            )
-            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
-                SendMoneyBeneficiaryType.DOMESTIC.name
-            skipCountrySelectionFragment(R.id.action_selectCountryFragment_to_DomesticFragment)
-        } else if (viewModel.parentViewModel?.sendMoneyType == SendMoneyTransferType.HOME_COUNTRY.name) {
-            val homeCountry = SessionManager.getCountries()
-                .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
-            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
-                viewModel.getBeneficiaryTypeFromCurrency(homeCountry)
-            viewModel.parentViewModel?.selectedCountry?.value = homeCountry
-            viewModel.parentViewModel?.countriesList = SessionManager.getCountries()
-            skipCountrySelectionFragment(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+        when (viewModel.parentViewModel?.sendMoneyType) {
+            SendMoneyTransferType.LOCAL.name -> skipToAddDomestic()
+            SendMoneyTransferType.HOME_COUNTRY.name -> skipToAddBeneficiary()
         }
+    }
+
+    private fun skipToAddBeneficiary() {
+        val homeCountry = SessionManager.getCountries()
+            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+            viewModel.getBeneficiaryTypeFromCurrency(homeCountry)
+        viewModel.parentViewModel?.selectedCountry?.value = homeCountry
+        viewModel.parentViewModel?.countriesList = SessionManager.getCountries()
+        skipCountrySelectionFragment(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+    }
+
+    private fun skipToAddDomestic() {
+        viewModel.parentViewModel?.selectedCountry?.value = Country(
+            isoCountryCode2Digit = "AE",
+            name = "United Arab Emirates",
+            currency = Currency(code = "AED")
+        )
+        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+            SendMoneyBeneficiaryType.DOMESTIC.name
+        skipCountrySelectionFragment(R.id.action_selectCountryFragment_to_DomesticFragment)
     }
 
 
