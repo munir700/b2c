@@ -12,6 +12,7 @@ interface IY2Y {
         var tootlBarVisibility: Int
         var rightButtonVisibility: Boolean
         var leftButtonVisibility: Boolean
+        var rightIcon: Int
         var fromQR: ObservableBoolean?
     }
 

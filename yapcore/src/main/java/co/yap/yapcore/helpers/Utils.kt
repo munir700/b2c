@@ -945,5 +945,18 @@ object Utils {
         )
     }
 
-
+    fun getFormattedPhoneNo(mobileNumber: String): String {
+        return when {
+            mobileNumber.startsWith("00") ->
+                Utils.getFormattedPhone(
+                    mobileNumber.replaceRange(
+                        0,
+                        2,
+                        "+"
+                    )
+                )
+            mobileNumber.startsWith("+") -> Utils.getFormattedPhone(mobileNumber)
+            else -> Utils.formatePhoneWithPlus(mobileNumber)
+        }
+    }
 }

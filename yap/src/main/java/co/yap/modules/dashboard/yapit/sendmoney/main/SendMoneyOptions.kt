@@ -10,5 +10,10 @@ data class SendMoneyOptions(
     var name: String,
     val image: Int,
     val showFlag: Boolean,
-    var flag: Int? = null
+    var flag: Int? = null,
+    var type: SendMoneyType = SendMoneyType.none
 ) : Parcelable
+
+enum class SendMoneyType {
+    sendMoneyToYAPContacts, sendMoneyToLocalBank, sendMoneyToHomeCountry, sendMoneyQRCode, sendMoneyToInternational, none
+}

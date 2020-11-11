@@ -32,11 +32,6 @@ interface ISendMoneyDashboard {
     }
 
     interface View : IBase.View<ViewModel> {
-        val sendMoneyToYAPContacts get() = 0
-        val sendMoneyToLocalBank get() = 1
-        val sendMoneyToInternational get() = 2
-        val sendMoneyToHomeCountry get() = 3
-        val sendMoneyQRCode get() = 4
         var permissionHelper: PermissionHelper?
         fun getBinding(): ActivitySendMoneyDashboardBinding
         fun setObservers()

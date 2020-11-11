@@ -33,4 +33,8 @@ abstract class Y2YBaseViewModel<S : IBase.State>(application: Application) :
         parentViewModel?.state?.leftButtonVisibility = visibility
     }
 
+    fun setRightIcon(rightIcon: Int) {
+        parentViewModel?.state?.rightIcon = rightIcon
+    }
+
 }

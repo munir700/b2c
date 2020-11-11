@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
@@ -60,8 +61,13 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         viewModel.noContactFoundEvent.observe(this, onNoContactInfo)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkPermission(cameraPer)
+    }*/
+
+    override fun onResume() {
+        super.onResume()
         checkPermission(cameraPer)
     }
 
@@ -72,6 +78,11 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         qrCodeReaderView.setBackCamera()
         qrCodeReaderView.startCamera()
         qrCodeReaderView.setQRDecodingEnabled(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        qrCodeReaderView.stopCamera()
     }
 
     override fun onDestroy() {
@@ -216,6 +227,10 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 checkPermission(2)
             }
             R.id.ivMyQrCode -> {
+                QRCodeFragment().let { fragment ->
+                    if (isAdded)
+                        fragment.show(requireActivity().supportFragmentManager, "")
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YFundsTransferState
@@ -31,6 +32,7 @@ class Y2YFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        setUpToolBar()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
         state.currencyType = "AED"
@@ -117,11 +119,18 @@ class Y2YFundsTransferViewModel(application: Application) :
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        toggleToolBarVisibility(true)
-        setToolBarTitle(getString(Strings.screen_y2y_funds_transfer_display_text_title))
-        setRightButtonVisibility(false)
-        setLeftButtonVisibility(true)
+    fun setUpToolBar() {
+        if(parentViewModel?.state?.fromQR?.get() == true) {
+            toggleToolBarVisibility(true)
+            setToolBarTitle(getString(Strings.screen_qr_transfer_display_title))
+            setRightButtonVisibility(true)
+            setLeftButtonVisibility(false)
+            setRightIcon(R.drawable.ic_close)
+        } else{
+            toggleToolBarVisibility(true)
+            setToolBarTitle(getString(Strings.screen_y2y_funds_transfer_display_text_title))
+            setRightButtonVisibility(false)
+            setLeftButtonVisibility(true)
+        }
     }
 }
