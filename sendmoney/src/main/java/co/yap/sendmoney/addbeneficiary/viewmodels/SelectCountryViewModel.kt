@@ -14,7 +14,9 @@ import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 class SelectCountryViewModel(application: Application) :
     SendMoneyBaseViewModel<ISelectCountry.State>(application), ISelectCountry.ViewModel,
@@ -90,29 +92,30 @@ class SelectCountryViewModel(application: Application) :
                 when (val response = repository.getAllCountries()) {
                     is RetroApiResponse.Success -> {
                         val sortedList = response.data.data?.sortedWith(compareBy { it.name })
-                            ?.filter { it.isoCountryCode2Digit != "AE" }
+                            ?.filter { it.isoCountryCode2Digit != getExcludedCountryIsoCode() }
                         sortedList?.let { it ->
                             countries.clear()
                             countries.add(
                                 0,
                                 Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
                             )
-                            populateSpinnerData.value =  Utils.parseCountryList(it)
+                            populateSpinnerData.value = Utils.parseCountryList(it)
                             countries.addAll(it.map {
                                 Country(
                                     id = it.id,
                                     isoCountryCode3Digit = it.isoCountryCode2Digit,
                                     isoCountryCode2Digit = it.isoCountryCode2Digit,
-                                    supportedCurrencies = it.currencyList?.filter { curr -> curr.active == true }?.map { cur ->
-                                        Currency(
-                                            code = cur.code,
-                                            default = cur.default,
-                                            name = cur.name,
-                                            active = cur.active,
-                                            cashPickUp = cur.cashPickUp,
-                                            rmtCountry = cur.rmtCountry
-                                        )
-                                    },
+                                    supportedCurrencies = it.currencyList?.filter { curr -> curr.active == true }
+                                        ?.map { cur ->
+                                            Currency(
+                                                code = cur.code,
+                                                default = cur.default,
+                                                name = cur.name,
+                                                active = cur.active,
+                                                cashPickUp = cur.cashPickUp,
+                                                rmtCountry = cur.rmtCountry
+                                            )
+                                        },
                                     active = it.active,
                                     isoNum = it.isoNum,
                                     signUpAllowed = it.signUpAllowed,
@@ -204,5 +207,16 @@ class SelectCountryViewModel(application: Application) :
             state.selectedCountry = country
         }
         parentViewModel?.selectedResidenceCountry = null
+    }
+
+    private fun getExcludedCountryIsoCode(): String {
+        return when (parentViewModel?.sendMoneyType) {
+            SendMoneyTransferType.HOME_COUNTRY.name -> SessionManager.user?.currentCustomer?.homeCountry
+                ?: ""
+            SendMoneyTransferType.LOCAL.name -> "AE"
+            else -> {
+                ""
+            }
+        }
     }
 }
