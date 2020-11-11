@@ -75,7 +75,8 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
 
     override fun onPause() {
         super.onPause()
-        qrCodeReaderView.stopCamera()
+        if (this::qrCodeReaderView.isInitialized)
+            qrCodeReaderView.stopCamera()
     }
 
     override fun onDestroy() {
@@ -206,8 +207,8 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         @NonNull permissions: Array<String>,
         @NonNull grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onToolBarClick(id: Int) {
