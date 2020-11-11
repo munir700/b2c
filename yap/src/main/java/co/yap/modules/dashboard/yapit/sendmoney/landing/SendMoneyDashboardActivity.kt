@@ -1,14 +1,11 @@
 package co.yap.modules.dashboard.yapit.sendmoney.landing
 
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
+import co.yap.yapcore.helpers.ExtraKeys
 
-<<<<<<<<< Temporary merge branch 1
 import android.app.Activity
-=========
 import android.Manifest
->>>>>>>>> Temporary merge branch 2
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import androidx.lifecycle.Observer
@@ -19,13 +16,9 @@ import co.yap.databinding.ActivitySendMoneyDashboardBinding
 import co.yap.modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDashboardViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
-<<<<<<<<< Temporary merge branch 1
-import co.yap.networking.customers.requestdtos.Contact
-=========
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
->>>>>>>>> Temporary merge branch 2
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.yapcore.BaseBindingActivity
@@ -37,7 +30,6 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
