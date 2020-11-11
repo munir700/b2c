@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
@@ -43,6 +44,7 @@ class CoreBottomSheet(
     ): View? {
         viewDataBinding =
             DataBindingUtil.inflate(inflater, R.layout.layout_bottom_sheet, container, false)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return viewDataBinding.root
     }
 
@@ -80,10 +82,8 @@ class CoreBottomSheet(
                  d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
              BottomSheetBehavior.from<View?>(bottomSheetInternal!!).state =
                  BottomSheetBehavior.STATE_EXPANDED*/
-
-            val modalBottomSheetBehavior = bottomSheetDialog.behavior
-            modalBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            modalBottomSheetBehavior.saveFlags = BottomSheetBehavior.SAVE_SKIP_COLLAPSED
+            bottomSheetDialog.behavior.saveFlags = BottomSheetBehavior.SAVE_SKIP_COLLAPSED
+            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return bottomSheetDialog
 
