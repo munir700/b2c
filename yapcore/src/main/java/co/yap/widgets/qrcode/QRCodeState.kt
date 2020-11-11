@@ -1,10 +1,10 @@
-package co.yap.modules.dashboard.yapit.addmoney.qrcode
+package co.yap.widgets.qrcode
 
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import co.yap.BR
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 
 class QRCodeState : BaseState(), IQRCode.State {

@@ -53,7 +53,6 @@ class SplashViewModel(application: Application) : MainChildViewModel<ISplash.Sta
                     appUpdate.value = null
                 }
                 is RetroApiResponse.Error -> {
-                    appUpdate.value = null
                     showToast(response.error.message)
                 }
             }

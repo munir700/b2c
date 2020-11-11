@@ -20,4 +20,6 @@ class QRContact (
     var lastName: String,
     @SerializedName("usNationalForTax")
     var usNationalForTax: Boolean? = false
-    ) : Parcelable
+    ) : Parcelable {
+    fun fullName() = "$firstName $lastName"
+}

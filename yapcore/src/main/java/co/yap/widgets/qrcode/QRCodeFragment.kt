@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.qrcode
+package co.yap.widgets.qrcode
 
 import android.Manifest
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
-import co.yap.R
+import co.yap.yapcore.BR
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.deleteTempFolder
 import co.yap.yapcore.helpers.extentions.generateQrCode
