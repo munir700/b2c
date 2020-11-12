@@ -88,7 +88,19 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun setEditTextWatcher() {
-        etAmount.afterTextChanged {
+        getBinding().lyY2Y.etAmount.afterTextChanged {
+            viewModel.state.amount = it
+            if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
+                checkOnTextChangeValidation()
+            } else {
+                viewModel.state.valid = false
+                cancelAllSnackBar()
+            }
+
+            viewModel.updateFees(it)
+        }
+
+        getBinding().lyQrY2Y.etAmountQR.afterTextChanged {
             viewModel.state.amount = it
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
@@ -202,18 +214,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.fullName = args.beneficiaryName
         viewModel.receiverUUID = args.receiverUUID
         viewModel.state.imageUrl = args.imagePath
-        getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
-            getBinding().lyUserImage.tvNameInitials.context,
-            args.position
-        )
-
-
-        getBinding().lyUserImage.tvNameInitials.setTextColor(
-            Utils.getContactColors(
-                getBinding().lyUserImage.tvNameInitials.context, args.position
-            )
-        )
-
+        viewModel.state.position = args.position
         viewModel.state.availableBalanceText =
             " " + viewModel.state.availableBalance?.toFormattedCurrency(
                 showCurrency = true,

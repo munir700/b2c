@@ -10,7 +10,7 @@ import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
-import co.yap.modules.dashboard.yapit.addmoney.qrcode.QRCodeFragment
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
@@ -95,7 +95,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 )
             }
             Constants.ADD_MONEY_QR_CODE -> {
-                QRCodeFragment().let { fragment ->
+                QRCodeFragment {}.let { fragment ->
                     if (isAdded)
                         fragment.show(requireActivity().supportFragmentManager, "")
                 }

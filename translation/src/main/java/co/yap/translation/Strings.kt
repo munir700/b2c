@@ -52,6 +52,8 @@ object Strings {
         "common_permission_rejected_error"
     const val common_saved_image_to_gallery: String =
         "common_saved_image_to_gallery"
+    const val common_display_text_search_hint: String =
+        "common_display_text_search_hint"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1835,4 +1837,12 @@ object Strings {
             "screen_send_money_home_title"
     const val screen_send_money_home_display_text_compare: String =
         "screen_send_money_home_display_text_compare"
+
+    // QR Code Funds Transfer
+    const val screen_qr_transfer_display_text_button: String =
+        "screen_qr_transfer_display_text_button"
+    const val screen_qr_transfer_display_text_note_hint: String =
+        "screen_qr_transfer_display_text_note_hint"
+    const val screen_qr_transfer_display_title: String =
+        "screen_qr_transfer_display_title"
 }

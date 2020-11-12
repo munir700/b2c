@@ -82,6 +82,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SessionManager.getCountriesFromServer { _, _ -> }
         setupPager()
         addObservers()
         addListeners()

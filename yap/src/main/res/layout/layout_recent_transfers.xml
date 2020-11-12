@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="adapter"
-            type="co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor" />
+            type="co.yap.widgets.recent_transfers.CoreRecentTransferAdapter" />
 
         <variable
             name="viewModel"
@@ -51,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
+                android:enabled="@{viewModel.state.isRecentsVisible?true:false}"
                 android:lineSpacingExtra="6sp"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:padding="@dimen/small"
@@ -84,23 +84,23 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:visibility="@{viewModel.state.isRecentsVisible ? View.GONE : View.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:paddingStart="@dimen/_16sdp"
-            app:adapter="@{adapter}"
+            android:visibility="@{viewModel.state.isRecentsVisible ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:recycleViewAdapter="@{adapter}"
             tools:listitem="@layout/item_recent_transfer" />
 
         <View
             android:id="@+id/seprator"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="#1e979797"
-            android:visibility="@{viewModel.state.isRecentsVisible ? View.GONE : View.VISIBLE}"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"/>
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="#1e979797"
+            android:visibility="@{viewModel.state.isRecentsVisible ? View.GONE : View.VISIBLE}" />
     </LinearLayout>
 </layout>

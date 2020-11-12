@@ -175,4 +175,8 @@ object Constants {
     const val LOCATION_TYPE = "ATM_OR_CDM"
     const val LOCATION_ATM = "ATM"
     const val LOCATION_CDM = "CDM"
+
+    //Core Bottom Sheet
+    const val VIEW_WITHOUT_FLAG = 1
+    const val VIEW_WITH_FLAG = 2
 }

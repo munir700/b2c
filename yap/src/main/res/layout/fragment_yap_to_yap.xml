@@ -9,6 +9,7 @@
             type="co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel" />
 
         <import type="co.yap.translation.Strings" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,8 +25,8 @@
             layout="@layout/layout_recent_transfers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:adapter="@{viewModel.adapter}"
+            android:visibility="@{viewModel.state.isNoRecents ? View.GONE : View.VISIBLE}"
+            app:adapter="@{viewModel.recentsAdapter}"
             app:viewModel="@{viewModel}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

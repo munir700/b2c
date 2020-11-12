@@ -112,4 +112,18 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             notifyPropertyChanged(BR.transferFee)
         }
 
+    @get:Bindable
+    override var mobileNumber: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.mobileNumber)
+        }
+
+    @get:Bindable
+    override var position: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
+
 }

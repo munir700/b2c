@@ -11,6 +11,7 @@ import co.yap.R
 import co.yap.databinding.ActivityYapToYapDashboardBinding
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YViewModel
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -44,6 +45,9 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
+        viewModel.beneficiary = intent.getParcelableExtra(Beneficiary::class.java.name)
+        viewModel.state.fromQR?.set(intent.getBooleanExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, false))
+        viewModel.position = intent.getIntExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name,0)
         viewModel.errorEvent.observe(this, errorEvent)
         main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -64,7 +68,11 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
                 onBackPressed()
             }
             R.id.ivRightIcon -> {
-                Utils.shareText(this, getBody())
+                if (getBindings().toolbar.rightIcon == R.drawable.ic_close) {
+                   finish()
+                } else {
+                    Utils.shareText(this, getBody())
+                }
             }
         }
     }
