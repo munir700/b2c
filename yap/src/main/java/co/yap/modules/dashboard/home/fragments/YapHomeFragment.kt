@@ -304,8 +304,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (!shouldAppend)
                         listToAppend.add(parentItem)
                 }
-                getGraphRecycleViewAdapter()?.addList(listToAppend)
-                getRecycleViewAdaptor()?.addList(listToAppend)
+                if(oldData?.size?.plus(listToAppend.size)!! >= 5 ) {
+                    getGraphRecycleViewAdapter()?.addList(listToAppend)
+                    getRecycleViewAdaptor()?.addList(listToAppend)
+                } else {
+                    viewModel.state.isTransEmpty.set(true)
+                    getRecycleViewAdaptor()?.addList(listToAppend)
+                }
             } else {
                 if (it.isEmpty()) {
                     //if transaction is empty and filter is applied then state would be Error where no transaction image show
@@ -321,6 +326,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
+                } else if (it.size < 5) {
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        viewModel.state.isUserAccountActivated.set(true)
+                        showTransactions()
+                        viewModel.state.isTransEmpty.set(true)
+                    } else {
+                        viewModel.state.isTransEmpty.set(true)
+                    }
+                    getRecycleViewAdaptor()?.setList(it)
                 } else {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                         viewModel.state.isUserAccountActivated.set(true)
@@ -429,6 +443,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
+
+    private fun showTransactions() {
+        if (viewModel.transactionsLiveData.value.isNullOrEmpty()) {
+            if (0 >= viewModel.state.filterCount.get() ?: 0) {
+                viewModel.state.isTransEmpty.set(true)
+            }
+        } else {
+            getBindings().lyInclude.multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            viewModel.state.isTransEmpty.set(false)
+            view?.let {
+                transactionViewHelper = TransactionsViewHelper(
+                    requireContext(),
+                    it,
+                    viewModel
+                )
+            }
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()
