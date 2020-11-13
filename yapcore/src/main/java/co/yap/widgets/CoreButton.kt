@@ -298,6 +298,9 @@ class CoreButton : AppCompatButton {
     private fun setButtonDimension() {
         var dimensions: IntArray = intArrayOf()
         when (btnSize) {
+            ButtonSize.EXTRA_MIN_SMALL.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 30, 4)
+            }
             ButtonSize.EXTRA_SMALL.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 50, 7)
             }
@@ -326,6 +329,7 @@ class CoreButton : AppCompatButton {
         EXTRA_SMALL(1),
         MEDIUM(2),
         LARGE(3),
-        REGULAR(4)
+        REGULAR(4),
+        EXTRA_MIN_SMALL(5),
     }
 }
