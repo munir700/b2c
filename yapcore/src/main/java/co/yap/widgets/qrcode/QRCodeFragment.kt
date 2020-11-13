@@ -14,10 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.deleteTempFolder
-import co.yap.yapcore.helpers.extentions.generateQrCode
-import co.yap.yapcore.helpers.extentions.shareImage
-import co.yap.yapcore.helpers.extentions.storeBitmap
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
@@ -108,7 +105,7 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
         )
         SessionManager.user?.let { accountInfo ->
             viewModel.state.qrBitmap =
-                context?.generateQrCode(accountInfo.encryptedAccountUUID ?: "")
+                context?.generateQrCode(accountInfo.encryptedAccountUUID?.generateQRCode() ?: "")
         }
     }
 
