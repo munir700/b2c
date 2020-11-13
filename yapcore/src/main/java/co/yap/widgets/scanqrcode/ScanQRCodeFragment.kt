@@ -53,16 +53,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
         if (!viewModel.state.loading) {
             qrCodeReaderView.setQRDecodingEnabled(false)
-            val qrCode = text?.getQRCode()
-            SessionManager.user?.let { accountInfo ->
-                if(qrCode.equals(accountInfo.encryptedAccountUUID)){
-                    showToast(getString(Strings.screen_qr_code_own_uuid_error_message))
-                } else {
-                    viewModel.uploadQRCode(qrCode)
-                }
-            }
-
-
+            sendQrRequest(text?.getQRCode())
         }
     }
 
@@ -200,7 +191,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                         val inputStream: InputStream = BufferedInputStream(FileInputStream(path))
                         val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
                         scanQRImage(bitmap)?.let {
-                            viewModel.uploadQRCode(it.getQRCode())
+                            sendQrRequest(it.getQRCode())
                         }
                     }
                     else -> {
@@ -241,6 +232,16 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                         qrCodeReaderView.setQRDecodingEnabled(false)
                     fragment.show(requireActivity().supportFragmentManager, "")
                 }
+            }
+        }
+    }
+
+    private fun sendQrRequest(qrCode: String?) {
+        SessionManager.user?.let { accountInfo ->
+            if (qrCode == accountInfo.encryptedAccountUUID) {
+                showToast(getString(Strings.screen_qr_code_own_uuid_error_message))
+            } else {
+                viewModel.uploadQRCode(qrCode)
             }
         }
     }
