@@ -110,15 +110,15 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     private fun calFeeInPercentage(
         enterAmount: String,
-        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO,
-        fxRate: Double = 1.0
+        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
     ): String? {
         val feeAmount =
             enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)
-        val vatAmount = feeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+        val vatAmount =
+            (feeAmount + fixedAmount) * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
-        return (feeAmount + vatAmount + fixedAmount).toString()
+        return (feeAmount + vatAmount).toString()
     }
 
     // Update only in remitience fixedAmount
