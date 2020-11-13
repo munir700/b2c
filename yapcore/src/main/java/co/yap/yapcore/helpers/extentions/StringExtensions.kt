@@ -70,8 +70,12 @@ fun shortName(cardFullName: String): String {
 fun String.toCamelCase(): String = split(" ").joinToString(" ") { it.toLowerCase().capitalize() }
 
 fun String.getQRCode(): String {
-    if(("yap-app:") in this) {
-        return this.take(this.length - this.indexOf("yap-app:"))
+    if((this.contains("yap-app:"))) {
+        return this.replace("yap-app:", "")
     }
     return this
+}
+
+fun String.generateQRCode(): String {
+    return "yap-app:$this"
 }

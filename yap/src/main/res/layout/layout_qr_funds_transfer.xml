@@ -40,7 +40,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFullName"
-                style="@style/Regular"
+                style="@style/Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -55,7 +55,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMobileNumber"
-                style="@style/AMicro"
+                style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -68,7 +68,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCurrencyType"
-                style="@style/AMicro"
+                style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small"
@@ -127,6 +127,7 @@
                 android:id="@+id/etNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/ALargeGrey"
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
@@ -154,9 +155,9 @@
                 style="@style/RectangleBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_80sdp"
-                android:layout_marginTop="@dimen/_18sdp"
-                android:layout_marginRight="@dimen/_80sdp"
+                android:layout_marginLeft="@dimen/margin_xxxl"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_xxxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:paddingVertical="@dimen/_16sdp"

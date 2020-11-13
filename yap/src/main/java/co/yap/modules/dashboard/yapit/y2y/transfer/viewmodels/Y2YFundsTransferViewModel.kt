@@ -33,8 +33,7 @@ class Y2YFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setUpToolBar()
-        state.availableBalanceGuide =
-            getString(Strings.screen_add_funds_display_text_available_balance)
+
         state.currencyType = "AED"
         getTransactionThresholds()
         getTransactionLimits()
@@ -119,18 +118,22 @@ class Y2YFundsTransferViewModel(application: Application) :
     }
 
 
-    fun setUpToolBar() {
+    private fun setUpToolBar() {
         if(parentViewModel?.state?.fromQR?.get() == true) {
             toggleToolBarVisibility(true)
             setToolBarTitle(getString(Strings.screen_qr_transfer_display_title))
             setRightButtonVisibility(true)
             setLeftButtonVisibility(false)
             setRightIcon(R.drawable.ic_close)
+            state.availableBalanceGuide =
+                getString(Strings.screen_qr_funds_transfer_display_text_available_balance)
         } else{
             toggleToolBarVisibility(true)
             setToolBarTitle(getString(Strings.screen_y2y_funds_transfer_display_text_title))
             setRightButtonVisibility(false)
             setLeftButtonVisibility(true)
+            state.availableBalanceGuide =
+                getString(Strings.screen_add_funds_display_text_available_balance)
         }
     }
 }
