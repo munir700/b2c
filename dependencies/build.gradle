@@ -114,9 +114,9 @@ project.ext {
             easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
 
             //Firebase Crashlytics
-            creshlytics              : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
+            FirebaseCrashlyticsSdk   :'com.google.firebase:firebase-crashlytics:17.2.2',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
-            analytics                : 'com.google.firebase:firebase-analytics-ktx:17.6.0',
+            analytics                : 'com.google.firebase:firebase-analytics:18.0.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
             playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
 
@@ -212,7 +212,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.sendmoney)],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
-            [configuration: "implementation", dependency: libraries.creshlytics],
+            [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.androidanimations],
