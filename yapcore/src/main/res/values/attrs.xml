@@ -46,6 +46,14 @@
             <enum name="right" value="1" />
             <enum name="center" value="2" />
         </attr>
+
+        <attr name="btn_size" format="enum">
+            <enum name="small" value="0" />
+            <enum name="extra_small" value="1" />
+            <enum name="medium" value="2" />
+            <enum name="large" value="3" />
+            <enum name="regular" value="4" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CustomImageButton">

@@ -97,8 +97,7 @@
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_gravity="center_horizontal"
                     android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
                     android:text="@{Translator.INSTANCE.getString(context,Strings.screen_sign_in_button_sign_in)}"
                     app:enableCoreButton="@{viewModel.state.valid}" />
