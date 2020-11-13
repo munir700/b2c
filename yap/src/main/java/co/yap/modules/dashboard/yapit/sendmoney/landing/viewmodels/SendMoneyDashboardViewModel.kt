@@ -47,7 +47,6 @@ class SendMoneyDashboardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.toolbarTitle = getString(Strings.common_send_money)
-        getAllRecentsBeneficiariesParallel()
     }
 
     override fun getAllRecentsBeneficiariesParallel() {

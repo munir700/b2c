@@ -41,7 +41,7 @@ fun Beneficiary?.isRMTAndSWIFT(): Boolean {
 
 fun ArrayList<Beneficiary>?.parseRecentItems() {
     this?.forEach {
-        it.name = it.fullName()
+        it.name = if (it.fullName() == "null null") it.title else it.fullName()
         it.profilePictureUrl = it.beneficiaryPictureUrl
         it.type = it.beneficiaryType
         it.isoCountryCode = it.country
@@ -50,7 +50,7 @@ fun ArrayList<Beneficiary>?.parseRecentItems() {
 
 fun List<Beneficiary>?.parseRecentItems() {
     this?.forEach {
-        it.name = it.fullName()
+        it.name = if (it.fullName() == "null null") it.title else it.fullName()
         it.profilePictureUrl = it.beneficiaryPictureUrl
         it.type = it.beneficiaryType
         it.isoCountryCode = it.country

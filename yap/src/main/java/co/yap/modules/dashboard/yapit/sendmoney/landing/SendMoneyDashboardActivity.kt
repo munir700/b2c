@@ -230,6 +230,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onResume() {
         super.onResume()
+        viewModel.getAllRecentsBeneficiariesParallel()
         viewModel.dashboardAdapter.setList(viewModel.geSendMoneyOptions())
         if (!viewModel.dashboardAdapter.getDataList()
                 .isNullOrEmpty() && SessionManager.user?.currentCustomer?.homeCountry != "AE"
