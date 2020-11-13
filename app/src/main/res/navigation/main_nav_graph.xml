@@ -34,7 +34,7 @@
         <action
             android:id="@+id/action_accountSelectionFragment_to_welcomeFragment"
 
-            app:destination="@id/welcomeFragment"
+            app:destination="@id/onboardingActivity"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
