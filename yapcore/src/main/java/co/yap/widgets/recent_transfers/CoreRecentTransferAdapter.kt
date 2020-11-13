@@ -67,4 +67,9 @@ class CoreRecentTransferAdapter(
             itemCoreRecentBeneficiaryBinding.executePendingBindings()
         }
     }
+
+    override fun getItemCount(): Int = if (list.size > 15) {
+        15
+    } else list.size
+
 }
