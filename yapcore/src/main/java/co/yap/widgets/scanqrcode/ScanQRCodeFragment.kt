@@ -11,14 +11,18 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.translation.Strings
 import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentScanQrCodeBinding
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.extentions.generateQRCode
+import co.yap.yapcore.helpers.extentions.generateQrCode
 import co.yap.yapcore.helpers.extentions.getQRCode
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.managers.SessionManager
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
@@ -49,7 +53,16 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
         if (!viewModel.state.loading) {
             qrCodeReaderView.setQRDecodingEnabled(false)
-            viewModel.uploadQRCode(text?.getQRCode())
+            val qrCode = text?.getQRCode()
+            SessionManager.user?.let { accountInfo ->
+                if(qrCode.equals(accountInfo.encryptedAccountUUID)){
+                    showToast(getString(Strings.screen_qr_code_own_uuid_error_message))
+                } else {
+                    viewModel.uploadQRCode(qrCode)
+                }
+            }
+
+
         }
     }
 

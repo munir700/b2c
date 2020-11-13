@@ -1847,4 +1847,6 @@ object Strings {
         "screen_qr_transfer_display_title"
     const val screen_qr_funds_transfer_display_text_available_balance: String =
         "screen_qr_funds_transfer_display_text_available_balance"
+    const val screen_qr_code_own_uuid_error_message: String =
+        "screen_qr_code_own_uuid_error_message"
 }

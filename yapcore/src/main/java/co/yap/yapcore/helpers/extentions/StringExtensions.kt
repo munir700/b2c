@@ -75,3 +75,7 @@ fun String.getQRCode(): String {
     }
     return this
 }
+
+fun String.generateQRCode(): String {
+    return "yap-app:$this"
+}
