@@ -165,7 +165,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         emailOtp = false,
                         toolBarData = OtpToolBarData()
                     )
-                ), true
+                ), false
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.createBeneficiaryRequest()
