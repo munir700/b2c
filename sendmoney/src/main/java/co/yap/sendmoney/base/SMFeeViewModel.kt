@@ -118,7 +118,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             (feeAmount + fixedAmount) * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
-        return (feeAmount + vatAmount).toString()
+        return (feeAmount + vatAmount+ fixedAmount).toString()
     }
 
     // Update only in remitience fixedAmount
