@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -37,6 +38,7 @@ interface ISendMoneyHome {
         fun getY2YBeneficiaries()
         fun listIsEmpty(): Boolean
         val phoneContactLiveData: MutableLiveData<List<Contact>>
+        var beneficiariesAdapter: AllBeneficiariesAdapter
     }
 
     interface View : IBase.View<ViewModel>

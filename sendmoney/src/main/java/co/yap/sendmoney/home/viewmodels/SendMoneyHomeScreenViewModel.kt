@@ -12,14 +12,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.Y2YBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -31,6 +36,7 @@ import co.yap.yapcore.managers.SessionManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.isActive
 import kotlin.math.ceil
 
@@ -51,6 +57,9 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
     override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
         context,
+        mutableListOf()
+    )
+    override var beneficiariesAdapter: AllBeneficiariesAdapter = AllBeneficiariesAdapter(
         mutableListOf()
     )
 
@@ -78,20 +87,26 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     }
 
     override fun requestAllBeneficiaries(sendMoneyType: String) {
-        launch {
-            state.loading = true
-            when (val response = repository.getAllBeneficiaries()) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
-                    filteredList.parseRecentItems()
+        if (sendMoneyType == SendMoneyTransferType.ALL_Y2Y_SM.name) {
+            getY2YAndSMBeneficiaries {
+                beneficiariesAdapter.setList(it)
+            }
+        } else {
+            launch {
+                state.loading = true
+                when (val response = repository.getAllBeneficiaries()) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
+                        filteredList.parseRecentItems()
 
-                    allBeneficiariesLiveData.value = filteredList
-                }
+                        allBeneficiariesLiveData.value = filteredList
+                    }
 
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    }
                 }
             }
         }
@@ -132,6 +147,52 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type || it.beneficiaryType == SendMoneyBeneficiaryType.DOMESTIC.type }
             }
             else -> list
+        }
+    }
+
+    private fun getY2YAndSMBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit) {
+        fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse, y2yBeneficiariesResponse ->
+            launch(Dispatcher.Main) {
+                val combinedList: ArrayList<IBeneficiary> = arrayListOf()
+                when (sendMoneyBeneficiariesResponse) {
+                    is RetroApiResponse.Success -> {
+                        combinedList.addAll(
+                            sendMoneyBeneficiariesResponse.data.data as ArrayList<IBeneficiary>
+                        )
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                    }
+                }
+                when (y2yBeneficiariesResponse) {
+                    is RetroApiResponse.Success -> {
+                        y2yBeneficiariesResponse.data.data?.forEach {
+                            it.mobileNo =
+                                Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
+                        }
+                        combinedList.addAll(y2yBeneficiariesResponse.data.data?.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                    }
+                }
+                success(combinedList)
+            }
+        }
+    }
+
+    private fun fetchCombinedBeneficiariesApis(
+        responses: (RetroApiResponse<GetAllBeneficiaryResponse>?, RetroApiResponse<Y2YBeneficiariesResponse>?) -> Unit
+    ) {
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            coroutineScope {
+                val deferredSM = async { repository.getAllBeneficiaries() }
+                val deferredY2Y = async { repository.getY2YBeneficiaries(getLocalContacts()) }
+                responses(deferredSM.await(), deferredY2Y.await())
+            }
         }
     }
 

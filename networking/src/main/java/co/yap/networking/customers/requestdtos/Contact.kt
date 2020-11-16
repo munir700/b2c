@@ -1,9 +1,10 @@
 package co.yap.networking.customers.requestdtos
 
 import android.os.Parcelable
-import co.yap.networking.customers.responsedtos.sendmoney.SearchBeneficiaryData
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -22,22 +23,22 @@ data class Contact(
     var yapUser: Boolean? = false,
     @SerializedName("accountDetailList")
     val accountDetailList: List<Data>? = null
-) : ApiResponse(), SearchBeneficiaryData, Parcelable {
-    override var searchableTitle: String?
+) : ApiResponse(), IBeneficiary, Parcelable {
+
+    @IgnoredOnParcel
+    override val fullName: String?
         get() = title
-        set(value) {}
-    override var searchableSubTitle: String?
+
+    @IgnoredOnParcel
+    override val subtitle: String?
         get() = mobileNo
-        set(value) {}
-    override var searchableIcon: String?
-        get() = TODO("Not yet implemented")
-        set(value) {}
-    override var searchableIndicator: String?
-        get() = TODO("Not yet implemented")
-        set(value) {}
-    override var searchableTransferType: String?
+
+    @IgnoredOnParcel
+    override val userType: String?
         get() = if (yapUser == true) "Y2Y" else ""
-        set(value) {}
+
+    override val imgUrl: String?
+        get() = beneficiaryPictureUrl
 
     @Parcelize
     data class Data(

@@ -2,6 +2,7 @@ package co.yap.networking.customers.responsedtos.sendmoney
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -62,30 +63,30 @@ data class Beneficiary(
     name = "$firstName $lastName",
     profilePictureUrl = beneficiaryPictureUrl,
     type = beneficiaryType, isoCountryCode = country
-), SearchBeneficiaryData, Parcelable {
-    override var searchableTitle: String?
-        get() = fullName()
-        set(value) {}
-    override var searchableSubTitle: String?
+), IBeneficiary, Parcelable {
+    @IgnoredOnParcel
+    override val fullName: String?
         get() = title
-        set(value) {}
-    override var searchableIcon: String?
-        get() = TODO("Not yet implemented")
-        set(value) {}
-    override var searchableIndicator: String?
-        get() = TODO("Not yet implemented")
-        set(value) {}
-    override var searchableTransferType: String?
+
+    @IgnoredOnParcel
+    override val subtitle: String?
+        get() = fullName()
+
+    @IgnoredOnParcel
+    override val userType: String?
         get() = beneficiaryType
-        set(value) {}
+
+    override val flag: String?
+        get() = country
 
     fun fullName() = "$firstName $lastName"
 }
 
-interface SearchBeneficiaryData {
-    var searchableTitle: String?
-    var searchableSubTitle: String?
-    var searchableIcon: String?
-    var searchableIndicator: String?
-    var searchableTransferType: String?
+interface IBeneficiary {
+    val fullName: String? get() = null
+    val subtitle: String? get() = null
+    val icon: String? get() = null
+    val flag: String? get() = null
+    val userType: String? get() = null
+    val imgUrl: String? get() = null
 }

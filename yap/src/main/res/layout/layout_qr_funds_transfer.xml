@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@{Utils.INSTANCE.getFormattedPhoneNo(viewModel.parentViewModel.beneficiary.country + viewModel.parentViewModel.beneficiary.mobileNo)}"
+                android:text="@{Utils.INSTANCE.getFormattedPhoneNumber(context,viewModel.parentViewModel.beneficiary.country + viewModel.parentViewModel.beneficiary.mobileNo)}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName"

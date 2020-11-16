@@ -230,10 +230,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                     type = FeatureSet.SEND_MONEY,
                     requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
                 ) {
-                    /*putExtra(
+                    putExtra(
                         SendMoneyLandingActivity.TransferType,
-                        SendMoneyTransferType.INTERNATIONAL.name
-                    )*/
+                        SendMoneyTransferType.ALL_Y2Y_SM.name
+                    )
                     putExtra(SendMoneyLandingActivity.searching, true)
                 }
             }

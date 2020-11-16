@@ -7,6 +7,8 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -35,8 +37,8 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.item_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
+import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
@@ -71,14 +73,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
             }
         }
-        //new call for getting y2y ben.
-        viewModel.getY2YBeneficiaries()
         setObservers()
     }
 
     private fun initComponents() {
-        getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiariesAdapter(mutableListOf())
         viewModel.recentsAdapter.allowFullItemClickListener = true
         viewModel.recentsAdapter.setItemListener(recentItemClickListener)
         initSwipeListener()
@@ -87,24 +85,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickListener)
-        //new observer
-        viewModel.phoneContactLiveData.observe(this, Observer {
-            /*var listSearch: ArrayList<SearchBeneficiaryData> = arrayListOf()
-            val list = viewModel.phoneContactLiveData.value?.filter { it.yapUser!! }
-            list?.let {contactList->
-                for (i in 0..contactList.size){
-                    if (contactList[i] is Contact){
-                        listSearch.add()
-                    }
-                }
-            }
-
-            list?.forEach { contact ->
-                (contact as SearchBeneficiaryData).searchableTitle = contact.title
-            }*/
-            //    viewModel.allBeneficiariesLiveData.value = list
-
-        })
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
             performedDeleteOperation = true
@@ -219,6 +199,17 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
     }
+    private fun startY2YTransfer(
+        beneficiary: Beneficiary?,
+        fromQR: Boolean = false,
+        position: Int = 0
+    ) {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+            putExtra(Beneficiary::class.java.name, beneficiary)
+            putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
+            putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
+        }
+    }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
@@ -317,6 +308,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
+                    }else if(payload.itemData is Contact){
+                        startMoneyTransfer()
                     }
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -348,7 +341,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun getAdaptor(): AllBeneficiariesAdapter {
-        return getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiariesAdapter
+        return viewModel.beneficiariesAdapter
     }
 
     private fun getSearchView(): SearchView {
