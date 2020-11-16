@@ -7,6 +7,7 @@ import co.yap.sendmoney.fundtransfer.interfaces.IInternationalFundsTransfer
 import co.yap.sendmoney.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
@@ -38,7 +39,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     @get:Bindable
     override var etInputAmount: String? = ""
         set(value) {
-            field = value
+            field = value.getValueWithoutComa()
             notifyPropertyChanged(BR.etInputAmount)
         }
 

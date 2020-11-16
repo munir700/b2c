@@ -91,6 +91,7 @@
             app:layout_constraintRight_toLeftOf="@id/clRightContainer"
             app:layout_constraintStart_toEndOf="@id/ivLeftIcon"
             app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
             tools:text="title" />
 
         <View

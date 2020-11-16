@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:enabled="@{viewModel.state.isUserAccountActivated}"
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -132,7 +133,6 @@
                     </androidx.appcompat.widget.Toolbar>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
-
             </com.google.android.material.appbar.AppBarLayout>
 
             <include
@@ -142,6 +142,5 @@
                 app:viewModel="@{viewModel}" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
     </co.yap.widgets.OnlyVerticalSwipeRefreshLayout>
 </layout>

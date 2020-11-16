@@ -189,4 +189,12 @@ interface TransactionsRetroService {
         @Query("beneficiaryName") beneficiaryName: String?,
         @Query("amount") amount: String?
     ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_GET_MERCHANT_TRANSACTIONS)
+    suspend fun getTransactionsOfMerchant(
+        @Path("merchant-type") merchantType: String,
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?,
+        @Body merchantName : ArrayList<String>?
+    ): Response<AnalyticsDetailResponseDTO>
 }

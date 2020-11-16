@@ -16,7 +16,6 @@
     <color name="colorDisabledBtn">#dae0f0</color>
     <color name="colorPressedBtnState">#272262</color>
     <color name="colorPrimaryDarkIcons">#272262</color>
-
     <color name="grey">#c9c8d8</color>
     <color name="red">#d32f2f</color>
     <color name="greyDark">#9391b1</color>
@@ -26,7 +25,6 @@
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
     <color name="greyNormalDarkFaded">#80D8D8D8</color>
-
     <color name="error">#ff3b30</color>
     <color name="errorLightBackground">#fde9ee</color>
     <color name="white">#ffffff</color>
@@ -63,15 +61,13 @@
     <color name="bg_round_light_secondary_blue">#29478DF4</color>
     <color name="bg_round_light_primary">#295E35B1</color>
 
-
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
     <color name="textGreyDark">#979797</color>
 
-
     <color name="colorLightGreyGradient">#eff2f9</color>
-    <color name="colorDarkGreyGradient">#dbe1f0</color>
+    <color name="colorDarkGreyGradient">#DAE0F0</color>
 
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>
@@ -97,7 +93,6 @@
         <item>?attr/colorPrimaryAttr</item>
     </array>
 
-
     <color name="textDarkColor">#1a1423</color>
     <color name="colorLightPinkBackground">#FFE3E0</color>
 
@@ -120,7 +115,6 @@
 
     <color name="grey88848d">#c9c8d8</color>
 
-
     <color name="colorBlue">#478df4</color>
     <color name="lightYellow">#40f57f17</color>
     <color name="lightAqua">#4000b9ae</color>
@@ -138,6 +132,7 @@
     <color name="colorCoachMarkOverlay">#4D272262</color>
     <color name="colorLightGrey">#59D8D8D8</color>
     <color name="colorPlaceHolderGrey">#9391B3</color>
-
+    <color name="colorOpaquAqua">#2400B9AE</color>
+    <color name="colorOpaquSecondaryOrange">#24F57F17</color>
 
 </resources>

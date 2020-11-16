@@ -30,6 +30,12 @@
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
     <string name="common_display_text_cooling_period_limit_consumed_error">You have consumed the limit for the amount you can send at this time. To send money, please wait for %1s from the time you added %2s.</string>
     <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
+    <string name="common_send_money">Send money</string>
+    <string name="common_add_money">Add money</string>
+    <string name="common_pay_bills">Pay bills</string>
+    <string name="common_permission_rejected_error">Can\'t proceed without permissions</string>
+    <string name="common_saved_image_to_gallery">Your image has been saved to your gallery.</string>
+    <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -579,7 +585,7 @@
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Type a note here</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark here</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
@@ -730,7 +736,7 @@
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
-    <string name="screen_international_funds_transfer_input_text_note_hint">Type a note here</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark here</string>
     <string name="screen_international_funds_transfer_input_text_reason">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
@@ -1035,6 +1041,7 @@
     <string name="screen_tax_info_display_text_select_country">Select country of tax residence</string>
     <string name="screen_tax_info_display_text_have_tin_number">Do you have a Tax Identification Number (TIN)?</string>
     <string name="screen_tax_info_display_text_reason_no_tin_number">Select the reason for not having a TIN</string>
+    <string name="screen_tax_info_display_text_reason_no_tin_number_selected">Reason for not having a TIN</string>
     <string name="screen_tax_info_display_text_country_no_tin_issue">The country does not issue a TIN</string>
     <string name="screen_tax_info_display_text_add_another_country">Add another country</string>
     <string name="screen_tax_info_display_text_not_us_national">I am not a US national/resident for tax purposes.</string>
@@ -1043,10 +1050,15 @@
 
     <!--    Waiting list screen-->
     <string name="screen_waiting_list_display_text_heading">Well done! You’re #%1s on our waiting list</string>
-    <string name="screen_waiting_list_display_text_guide">We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready!</string>
+    <string name="screen_waiting_list_display_text_guide"> We’re currently in beta and only open to a limited number of users. Don’t worry, you’ll be the first to know when we’re ready. Should you wish to find out more in the meantime, our website has more information for you.</string>
     <string name="screen_waiting_list_display_button_text">Keep me posted!</string>
-    <string name="screen_waiting_list_display_dialog_text">Awesome! We’re as excited as you are. We’ll send you an SMS as soon as we’ve launched!</string>
+    <string name="screen_waiting_list_display_dialog_text">Awesome! We\’re as excited as you are. We\’ll send you an SMS as soon as we\’ve launched!</string>
     <string name="screen_waiting_list_display_dialog_button_text">CLOSE</string>
+    <!-- Blocked Screen-->
+
+    <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
+    <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>
+
 
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
@@ -1063,5 +1075,46 @@
     <!-- Transaction narration strings -->
     <string name="transaction_narration_y2y_transfer_detail">YTY transfer</string>
 
-</resources>
+    <!--   Status Time line  -->
+    <string name="screen_time_line_display_text_status_card_on_the_way_title">Your card is on the way</string>
+    <string name="screen_time_line_display_text_status_card_on_the_way_description">Give us up to 48 hours for it to reach you</string>
+    <string name="screen_time_line_display_text_status_card_on_the_way_action">Track your delivery</string>
 
+    <string name="screen_time_line_display_text_status_card_delivered_title">Your card is delivered</string>
+    <string name="screen_time_line_display_text_status_card_delivered_description">Your EID scan has been carried out</string>
+
+    <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_description">You\’ll need this to begin using your card</string>
+    <string name="screen_time_line_display_text_status_set_card_pin_action">Set PIN</string>
+
+    <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
+    <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
+    <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
+    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
+
+    <!--  Yap It Add Money Screen-->
+    <string name="screen_fragment_yap_it_add_money_title">Add money</string>
+    <string name="screen_fragment_yap_it_add_money_how_do_you_want_to_add_money">How do you want to add money?</string>
+    <string name="screen_fragment_yap_it_add_money_text_top_via_card">Top up via debit/credit card</string>
+    <string name="screen_fragment_yap_it_add_money_text_samsung_pay">Samsung Pay</string>
+    <string name="screen_fragment_yap_it_add_money_text_google_pay">Google Pay</string>
+    <string name="screen_fragment_yap_it_add_money_text_bank_transfer">Bank Transfer</string>
+    <string name="screen_fragment_yap_it_add_money_text_cash_or_cheque">Cash or Cheque</string>
+    <string name="screen_fragment_yap_it_add_money_text_qr_code">QR code</string>
+
+    <!--  Yap It QR Code Screen-->
+    <string name="screen_fragment_yap_it_qr_code_share_my_code">Share my code</string>
+    <string name="screen_fragment_yap_it_qr_code_save_to_gallery">Save to Gallery</string>
+    <string name="screen_fragment_yap_it_qr_code_text_share_to_proceed">Share your unique YAP QR payments code to proceed</string>
+    <string name="screen_yap_analytics_detail_transaction_count">transactions</string>
+
+    <!-- Transaction Detail Screen -->
+    <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
+
+    <!-- Live Chat Strings-->
+    <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
+
+
+</resources>

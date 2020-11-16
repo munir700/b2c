@@ -46,6 +46,7 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
         viewModel.state.title = getString(Strings.screen_create_passcode_display_text_title)
         viewModel.state.buttonTitle =
             getString(Strings.screen_create_passcode_button_create_passcode)
+
         val isSettingPin = intent.getValue(
             "isSettingPin",
             ExtraType.BOOLEAN.name
@@ -85,5 +86,13 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
 
     fun getBinding(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                super.onBackPressed()
+            }
+        }
     }
 }

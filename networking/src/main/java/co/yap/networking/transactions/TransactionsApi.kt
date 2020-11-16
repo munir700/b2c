@@ -77,4 +77,9 @@ interface TransactionsApi {
         beneficiaryName: String?,
         amount: String?
     ): RetroApiResponse<ApiResponse>
+    suspend fun getTransactionsOfMerchant(
+        merchantType: String,
+        cardSerialNo: String?,
+        date: String?, merchantName: ArrayList<String>?
+    ): RetroApiResponse<AnalyticsDetailResponseDTO>
 }

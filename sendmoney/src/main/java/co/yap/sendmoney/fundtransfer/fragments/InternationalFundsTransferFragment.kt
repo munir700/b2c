@@ -148,8 +148,8 @@ class InternationalFundsTransferFragment :
                             viewModel.state.etOutputAmount ?: "0.0"
                         ) == true -> {
                             viewModel.checkCoolingPeriodRequest(
-                                beneficiaryId = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryId,
-                                beneficiaryCreationDate = viewModel.parentViewModel?.beneficiary?.value?.lastUsedDate,
+                                beneficiaryId = viewModel.parentViewModel?.beneficiary?.value?.id.toString(),
+                                beneficiaryCreationDate = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryCreationDate,
                                 beneficiaryName = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
                                 amount = viewModel.state.etOutputAmount
                             ) {
@@ -307,9 +307,10 @@ class InternationalFundsTransferFragment :
 
     private fun setEditTextWatcher() {
         etSenderAmount.afterTextChanged {
+            viewModel.state.etInputAmount = it
             viewModel.state.clearError()
             viewModel.setDestinationAmount()
-            if (it.isNotBlank() && it.parseToDouble() > 0.0)
+            if (it.isNotBlank() && viewModel.state.etInputAmount.parseToDouble() > 0.0)
                 checkOnTextChangeValidation()
             else {
                 viewModel.state.valid = false

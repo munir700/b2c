@@ -72,6 +72,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
 
+    const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
+
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
 
@@ -249,4 +251,19 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             )
         })
 
+    override suspend fun getTransactionsOfMerchant(
+        merchantType: String,
+        cardSerialNo: String?,
+        date: String?,
+        merchantName: ArrayList<String>?
+    ): RetroApiResponse<AnalyticsDetailResponseDTO> =
+        executeSafely(call = {
+            api.getTransactionsOfMerchant(
+                merchantType,
+                cardSerialNo,
+                date,
+                merchantName
+            )
+        })
 }
+

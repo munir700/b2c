@@ -13,6 +13,9 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
+import co.yap.yapcore.firebase.FirebaseEvents
+import co.yap.yapcore.firebase.FirebaseTagManagerModel
+import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import java.io.File
@@ -30,7 +33,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onActivityCreated(savedInstanceState)
         shouldSkipScreen()
         addObservers()
+        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding",action = FirebaseEvents.SCAN_ID.event))
     }
+
 
     private fun addObservers() {
         viewModel.state.addOnPropertyChangedCallback(stateObserver)

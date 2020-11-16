@@ -44,11 +44,12 @@ class Y2YFundsTransferViewModel(application: Application) :
 
     override fun proceedToTransferAmount(success: () -> Unit) {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
-            receiverUUID,
-            state.fullName,
-            state.amount,
-            false,
-            if (state.noteValue.isBlank()) null else state.noteValue
+            receiverUUID = receiverUUID,
+            beneficiaryName = state.fullName,
+            amount = state.amount,
+            otpVerificationReq = false,
+            transactionNote = if (state.noteValue.isBlank()) null else state.noteValue.trim(),
+            remarks = if (state.noteValue.isBlank()) null else state.noteValue.trim()
         )
         launch {
             state.loading = true
@@ -74,12 +75,6 @@ class Y2YFundsTransferViewModel(application: Application) :
         amount: String?,
         success: () -> Unit
     ) {
-        /*val coolingPeriodRequestData = CoolingPeriodRequest(
-            beneficiaryId = receiverUUID,
-            beneficiaryCreationDate = state.fullName,
-            beneficiaryName = state.amount,
-            amount = "500"
-        )*/
         launch {
             state.loading = true
             when (val response =

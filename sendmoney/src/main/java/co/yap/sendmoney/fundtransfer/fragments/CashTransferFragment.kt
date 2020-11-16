@@ -26,17 +26,18 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 
 class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.ViewModel>(),
     ICashTransfer.View {
@@ -115,7 +116,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                     getBindings().tvSelectReason.text =
                         viewModel.parentViewModel?.selectedPop?.purposeDescription
                     getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvLabelSpinner.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
+                    getBindings().tvLabelSpinner.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.greyDark
+                        )
+                    )
                     checkOnTextChangeValidation()
                 }
 
@@ -130,15 +136,32 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
-                        viewModel.showUpperLowerLimitError()
-                    } else {
-                        if (viewModel.isUaeftsBeneficiary()) {
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                            viewModel.showUpperLowerLimitError()
+                        }
+                        viewModel.parentViewModel?.isInCoolingPeriod() == true && viewModel.parentViewModel?.isCPAmountConsumed(
+                            viewModel.state.amount
+                        ) == true -> {
+                            viewModel.checkCoolingPeriodRequest(
+                                beneficiaryId = viewModel.parentViewModel?.beneficiary?.value?.id.toString(),
+                                beneficiaryCreationDate = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryCreationDate,
+                                beneficiaryName = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                                amount = viewModel.state.amount
+                            ) {
+                                requireActivity().showAlertCustomDialog(
+                                    title = "Psst...",
+                                    message = viewModel.parentViewModel?.showCoolingPeriodLimitError(),
+                                    buttonText = "OK, got it!"
+                                )
+                            }
+                        }
+                        viewModel.isUaeftsBeneficiary() -> {
                             if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
                                 "Select a reason ^${AlertType.DIALOG.name}"
                             )
-                        } else
-                            startOtpFragment()
+                        }
+                        else -> startOtpFragment()
                     }
                 }
             }
@@ -193,7 +216,10 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
 
         val action =
             CashTransferFragmentDirections.actionCashTransferFragmentToCashTransferConfirmationFragment()
-        findNavController().navigate(action)
+        navigate(
+            action,
+            screenType = if (!viewModel.trxWillHold()) FeatureSet.CBWSI_TRANSFER else FeatureSet.NONE
+        )
     }
 
     private fun showBalanceNotAvailableError() {
@@ -255,7 +281,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             } ?: return false
         } ?: return false
     }
-
 
     private fun startFlows(productCode: String) {
         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
@@ -326,7 +351,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     }
 
     private fun setEditTextWatcher() {
-        etAmount.afterTextChanged {
+        getBindings().etAmount.afterTextChanged {
+            viewModel.state.amount = it
             viewModel.state.clearError()
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
@@ -349,11 +375,11 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.state.valid = false
             }
 
-            viewModel.parentViewModel?.isInCoolingPeriod() == true
-                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
-                viewModel.parentViewModel?.showCoolingPeriodLimitError()
-                viewModel.state.valid = false
-            }
+//            viewModel.parentViewModel?.isInCoolingPeriod() == true
+//                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
+//                viewModel.parentViewModel?.showCoolingPeriodLimitError()
+//                viewModel.state.valid = false
+//            }
 
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true

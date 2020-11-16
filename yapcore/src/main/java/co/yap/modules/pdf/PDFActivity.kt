@@ -78,5 +78,13 @@ class PDFActivity : BaseBindingActivity<IPDFActivity.ViewModel>(), IPDFActivity.
         context.deleteTempFolder()
         super.onDestroy()
     }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+          R.id.ivLeftIcon -> {
+              finish()
+            }
+        }
+    }
 }
 

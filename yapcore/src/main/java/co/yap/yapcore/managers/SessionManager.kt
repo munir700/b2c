@@ -13,11 +13,10 @@ import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.enums.AccountType
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
+import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
@@ -45,6 +44,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
+        /* feature disable for later enabling as RAK permit.
         GlobalScope.launch(Dispatchers.IO) {
             when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
@@ -56,7 +56,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     response.invoke(false, arrayListOf())
                 }
             }
-        }
+        }*/
     }
 
     fun getCurrencies(): ArrayList<CurrencyData> {
@@ -77,6 +77,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 is RetroApiResponse.Success -> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
+                    setupDataSetForBlockedFeatures()
                     onAccountInfoSuccess.postValue(true)
                 }
 
@@ -84,6 +85,20 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     onAccountInfoSuccess.postValue(false)
                 }
             }
+        }
+    }
+
+    fun setupDataSetForBlockedFeatures() {
+        user?.getUserAccessRestrictions()?.let {
+            val featuresList = arrayListOf<FeatureSet>()
+            it.forEach { userAccessRestriction ->
+                featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))
+            }
+            FeatureProvisioning.configure(
+                featuresList,
+                it
+            )
+
         }
     }
 
@@ -121,6 +136,29 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
                 }
             }
+        }
+    }
+
+    fun getDebitCard(success: (card: Card) -> Unit = {}) {
+        GlobalScope.launch {
+            when (val response = repository.getDebitCards("DEBIT")) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        getDebitFromList(it)?.let { debitCard ->
+                            card.postValue(debitCard)
+                            success.invoke(debitCard)
+                        } ?: "Debit card not found"
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+    fun getDebitFromList(it: ArrayList<Card>?): Card? {
+        return it?.firstOrNull {
+            it.cardType == CardType.DEBIT.type
         }
     }
 
@@ -163,9 +201,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
-
             override fun onLogoutFailed() {
-
             }
         })
     }

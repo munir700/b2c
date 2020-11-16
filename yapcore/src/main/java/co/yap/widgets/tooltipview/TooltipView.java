@@ -14,11 +14,11 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleableRes;
-import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 
 import co.yap.yapcore.R;
 
-public class TooltipView extends AppCompatTextView {
+public class TooltipView extends CardView {
 
     private static final int NOT_PRESENT = Integer.MIN_VALUE;
     private int arrowHeight;
@@ -34,6 +34,7 @@ public class TooltipView extends AppCompatTextView {
     private int arrowPositioning;
     private Paint paint;
     private Path tooltipPath;
+    public TriangleView arrowView;
 
     private float arrowX = 0f;
 
@@ -59,7 +60,7 @@ public class TooltipView extends AppCompatTextView {
         try {
 
             anchoredViewId = a.getResourceId(R.styleable.TooltipView_anchoredView, View.NO_ID);
-            tooltipColor = a.getInt(R.styleable.TooltipView_tooltipColor, R.color.white);
+            tooltipColor = a.getInt(R.styleable.TooltipView_tooltipColor, R.color.colorPrimaryDark);
             // tooltipColor = getContext().getResources().getColor(R.styleable.TooltipView_tooltipColor, Color.TRANSPARENT);
             cornerRadius = getDimension(a, R.styleable.TooltipView_cornerRadius,
                     R.dimen.tooltip_default_corner_radius);
@@ -85,7 +86,7 @@ public class TooltipView extends AppCompatTextView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight() + arrowHeight);
+        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
     }
 
     @Override
@@ -96,12 +97,25 @@ public class TooltipView extends AppCompatTextView {
     }
 
     @Override
-    protected void onDraw(@NonNull Canvas canvas) {
-        if (tooltipPath == null || paint == null) {
-            arrowLocation.configureDraw(this, canvas);
+    public void setTranslationX(float translationX) {
+        super.setTranslationX(translationX);
+    }
+
+    @Override
+    public void setY(float y) {
+        super.setY(y);
+        if (arrowView != null) {
+            arrowView.setY(y + getHeight());
         }
+    }
+
+    @Override
+    protected void onDraw(@NonNull Canvas canvas) {
+//        if (tooltipPath == null || paint == null) {
+//            arrowLocation.configureDraw(this, canvas);
+//        }
         //paint.setShadowLayer(1, 6, 5, R.color.greyDark);
-        canvas.drawPath(tooltipPath, paint);
+        //canvas.drawPath(tooltipPath, paint);
         super.onDraw(canvas);
     }
 

@@ -28,19 +28,17 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     private val EVENT_CARD_ADDED: Int get() = 12
+    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     private var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -130,7 +128,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         viewModel.clickEvent.setValue(view.id)
                     }
             }
-
         })
     }
 
@@ -206,8 +203,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 //                    adapter.setItemAt(selectedCardPosition, card)
 //                }
             }
-        } else {
-
         }
     }
 
@@ -243,7 +238,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         else -> {
-                            updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                            adapter.getDataList()
+                                .firstOrNull { it.cardSerialNumber == updatedCard?.cardSerialNumber }
+                                ?.let { card ->
+                                    val pos = adapter.getDataList().indexOf(card)
+                                    updatedCard?.let { adapter.setItemAt(pos, it) }
+                                } ?: showToast("Card not found")
                         }
                     }
                 }
@@ -261,10 +261,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
             Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    viewModel.getDebitCard()
+                    SessionManager.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-
                     val cardSerialNumber: String? =
                         data?.getStringExtra(Constants.CARD_SERIAL_NUMBER)
 
@@ -312,8 +311,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         card?.let {
             gotoPaymentCardDetailScreen(it)
         } ?: gotoPaymentCardDetailScreen(getCard(pos))
-
-
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
@@ -344,6 +341,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
+    private fun startReorderCardFlow(card: Card?) {
+        card?.let {
+            launchActivity<ReorderCardActivity>(
+                type = FeatureSet.REORDER_DEBIT_CARD,
+                requestCode = RequestCodes.REQUEST_REORDER_CARD
+            ) {
+                putExtra(ReorderCardActivity.CARD, it)
+            }
+        }
+    }
+
     private fun openSetPinScreen(card: Card) {
         context?.let { context ->
             startActivityForResult(
@@ -353,21 +361,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     skipWelcomeScreen = true
                 ), Constants.EVENT_CREATE_CARD_PIN
             )
-        }
-    }
-
-    private fun startReorderCardFlow(card: Card?) {
-        if (SessionManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
-        } else {
-            card?.let {
-                startActivityForResult(
-                    ReorderCardActivity.newIntent(
-                        requireContext(),
-                        it
-                    ), RequestCodes.REQUEST_REORDER_CARD
-                )
-            }
         }
     }
 

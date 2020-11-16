@@ -66,6 +66,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         onbackPressLogic()
         dialer.setNumberKeyboardListener(this)
         dialer.upDatedDialerPad(viewModel.state.passcode)
+        dialer.removeError()
     }
 
     private fun addObservers() {
@@ -337,7 +338,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     )
                     activity?.finish()
                 } else {
-                    if (it.otpBlocked == true)
+                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)

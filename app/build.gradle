@@ -1,7 +1,7 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     defaultConfig {
@@ -51,8 +51,8 @@ android {
         }
 
         stg {
-            versionCode 196
-            versionName "0.19.6"
+            versionCode 198
+            versionName "0.19.8"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"
@@ -64,8 +64,8 @@ android {
         }
 
         yapinternal {
-            versionCode 26
-            versionName "0.2.6"
+            versionCode 30
+            versionName "0.3.0"
             applicationIdSuffix ".internal"
             resValue "string", "app_name", "YAP Internal"
             resValue "string", "google_maps_key", "AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4"

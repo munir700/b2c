@@ -168,7 +168,7 @@ class CashTransferViewModel(application: Application) :
                         amount = state.amount,
                         currency = "AED",
                         purposeCode = "8",
-                        remarks = state.noteValue
+                        remarks = state.noteValue?.trim()
                     )
                 )
                 ) {
@@ -353,5 +353,35 @@ class CashTransferViewModel(application: Application) :
         )
         parentViewModel?.errorEvent?.value = state.errorDescription
 
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.amount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
+        }
     }
 }
