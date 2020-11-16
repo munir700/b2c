@@ -54,6 +54,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger

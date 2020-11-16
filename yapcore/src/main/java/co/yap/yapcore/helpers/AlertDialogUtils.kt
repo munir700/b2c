@@ -181,12 +181,13 @@ fun Activity.showAlertCustomDialog(
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    title?.let { builder.setTitle(title) }
+   // title?.let { builder.setTitle(title) }
     val dialogLayout: View =
         inflater.inflate(R.layout.alert_dialogue_custom, null)
     val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
+    dialogTitle.text = title
     val ok = dialogLayout.findViewById<CoreButton>(R.id.btnAction)
     ok.text = buttonText
     ok.setOnClickListener {
