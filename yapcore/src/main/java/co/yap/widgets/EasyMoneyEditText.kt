@@ -16,6 +16,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
+import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getConfiguredDecimals
@@ -27,17 +28,21 @@ import java.util.*
 
 class EasyMoneyEditText : AppCompatEditText {
     private var _currencySymbol: String? = null
+    private var currency: String? = null
+        set(value) {
+            field = value
+            decimalDigits = getConfiguredDecimals(currency ?: "AED")
+        }
     private var _showCurrency = false
     private var _showCommas = false
-    private val decimalDigits = getConfiguredDecimals("AED")
+    private var decimalDigits: Int = getConfiguredDecimals("AED")
     private var textToDisplay: String? = null
     private var mBackgroundColor: Int = 0
     private var mCornerRadius: Float = Utils.dpToFloat(context, 10f)
     private var mStrokeWidth = Utils.dpToFloat(context, 0f)
     private var customWidth: Int = 0
     private var customHeight: Int = 0
-    var units: Int = resources.getInteger(R.integer.unitsCount)
-    private var removeTextWatcher:Boolean = false
+    private var maxLength: Int = resources.getInteger(R.integer.unitsCount)
 
     constructor(context: Context) : super(context) {
         initView(context, null)
@@ -78,6 +83,18 @@ class EasyMoneyEditText : AppCompatEditText {
                 _showCurrency =
                     attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_currency, false)
                 _showCommas = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_commas, true)
+                if (attrArray.hasValue(R.styleable.EasyMoneyWidgets_em_currency))
+                    currency = attrArray.getString(R.styleable.EasyMoneyWidgets_em_currency)
+                decimalDigits = attrArray.getInteger(
+                    R.styleable.EasyMoneyWidgets_decimalDigits,
+                    getConfiguredDecimals(currency ?: "AED")
+                )
+                if (attrArray.hasValue(R.styleable.EasyMoneyWidgets_android_maxLength)) {
+                    maxLength = attrArray.getInteger(
+                        R.styleable.EasyMoneyWidgets_android_maxLength,
+                        resources.getInteger(R.integer.unitsCount)
+                    )
+                }
 
                 mBackgroundColor =
                     attrArray.getColor(
@@ -115,7 +132,7 @@ class EasyMoneyEditText : AppCompatEditText {
         setSingleLine()
         maxLines = 1
 
-        filters = arrayOf(LengthFilter(units))//arrayOf<InputFilter>(LengthFilter(units))
+        filters = arrayOf(LengthFilter(maxLength))//arrayOf<InputFilter>(LengthFilter(units))
         // Add Text Watcher for Decimal formatting
         initTextWatchers()
     }
@@ -283,7 +300,6 @@ class EasyMoneyEditText : AppCompatEditText {
                 i2: Int
             ) {
                 this@EasyMoneyEditText.removeTextChangedListener(this)
-                removeTextWatcher = true
                 val backupString = charSequence.toString()
                 try {
                     var originalString: String? = charSequence.toString()
@@ -295,6 +311,7 @@ class EasyMoneyEditText : AppCompatEditText {
                     //setting text after format to EditText
                     if (getValueInt() <= 0.0) {
                         setText("")
+                        textToDisplay = text.toString()
                         hint = "0.00"
                     } else {
                         textToDisplay = formattedString
@@ -303,10 +320,11 @@ class EasyMoneyEditText : AppCompatEditText {
                     setSelection(text?.length ?: 0)
                 } catch (nfe: java.lang.NumberFormatException) {
 //                    nfe.printStackTrace();
-                    setText(backupString)
+                    // setText(backupString)
                     val valStr = getValueString()
                     if (valStr.isEmpty() || getValueInt() <= 0.0) {
                         setText("")
+                        textToDisplay = text.toString()
                         hint = "0.00"
                     } else {
                         // Some decimal number
@@ -342,10 +360,15 @@ class EasyMoneyEditText : AppCompatEditText {
                     setSelection(text?.length ?: 0)
                 }
                 this@EasyMoneyEditText.addTextChangedListener(this)
-                removeTextWatcher = false
             }
 
-            override fun afterTextChanged(editable: Editable) {}
+            override fun afterTextChanged(editable: Editable) {
+                this@EasyMoneyEditText.removeTextChangedListener(this)
+                if (editable.isNotEmpty())
+                    setText(textToDisplay)
+                setSelection(text?.length ?: 0)
+                this@EasyMoneyEditText.addTextChangedListener(this)
+            }
         })
     }
 
@@ -371,7 +394,16 @@ class EasyMoneyEditText : AppCompatEditText {
         shape.setStroke(mStrokeWidth.toInt(), color)
         return shape
     }
+
     public override fun onTextChanged(s: CharSequence, i: Int, i1: Int, i2: Int) {
+    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("app:em_currency")
+        fun setCurrency(view: EasyMoneyEditText, currency: String?) {
+            currency?.let { view.currency = it }
+        }
     }
 
 }

@@ -11,23 +11,24 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.extentions.parseRecentItems
 
 class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.State>(application),
     IYapToYap.ViewModel, IRepositoryHolder<CustomersRepository> {
-    val adapter = ObservableField<RecentTransferAdaptor>()
-
-    override val recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
-
     override val state: IYapToYap.State = YapToYapState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var recentsAdapter: CoreRecentTransferAdapter = CoreRecentTransferAdapter(
+        context,
+        mutableListOf()
+    )
     override val repository: CustomersRepository
         get() = CustomersRepository
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -36,14 +37,18 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
         else {
             toggleToolBarVisibility(false)
         }
-        setToolBarTitle("YAP to YAP")
+        setToolBarTitle("Send to a YAP contact")
     }
 
     override fun getRecentBeneficiaries() {
         launch {
             when (val response = repository.getRecentY2YBeneficiaries()) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let { recentTransferData.value = it }
+                    state.isNoRecents.set(response.data.data.isNullOrEmpty())
+                    response.data.data?.let {
+                        it.parseRecentItems()
+                        recentsAdapter.setList(it)
+                    }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

@@ -31,26 +31,26 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
-    }
-
-    val clickEvent = Observer<Int> {
-        when (it) {
-            R.id.tbIvClose -> onBackPressed()
-
-        }
-    }
+     }
 
     override fun onBackPressed() {
-        val fragment =
-            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
+//        val fragment =
+//            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
+//        if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-        }
+//        }
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                super.onBackPressed()
+            }
+        }
+    }
+
 }

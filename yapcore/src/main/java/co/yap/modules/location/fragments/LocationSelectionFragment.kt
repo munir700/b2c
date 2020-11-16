@@ -14,12 +14,14 @@ import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import co.yap.modules.location.CitiesListBottomSheet
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.City
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
@@ -243,20 +245,52 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
         }
     }
-
     private fun setupCitiesList(citiesList: ArrayList<City>?) {
-        citiesList?.let { cities ->
-            this.childFragmentManager.let {
-                val citiesListBottomSheet = CitiesListBottomSheet(object :
+        /*   citiesList?.let { cities ->
+               this.childFragmentManager.let {
+                   val citiesListBottomSheet = CitiesListBottomSheet(object :
+                       OnItemClickListener {
+                       override fun onItemClick(view: View, data: Any, pos: Int) {
+                           (data as? CitiesListBottomSheet)?.dismiss()
+                           viewModel.state.city.set(cities[pos].name)
+                       }
+                   }, cities)
+                   citiesListBottomSheet.show(it, "")
+
+
+               }
+           } ?: viewModel.showMessage("No city found")*/
+        this.childFragmentManager.let {
+            val coreBottomSheet = CoreBottomSheet(
+                object :
                     OnItemClickListener {
                     override fun onItemClick(view: View, data: Any, pos: Int) {
-                        (data as? CitiesListBottomSheet)?.dismiss()
-                        viewModel.state.city.set(cities[pos].name)
+                        (data as? CoreBottomSheet)?.dismiss()
+                        viewModel.state.city.set(citiesList?.get(pos)?.name)
                     }
-                }, cities)
-                citiesListBottomSheet.show(it, "")
-            }
-        } ?: viewModel.showMessage("No city found")
+                },
+                bottomSheetItems = getCities(citiesList),
+                headingLabel = "Select the emirate you live in",
+                viewType = Constants.VIEW_WITHOUT_FLAG
+            )
+
+            coreBottomSheet.show(it, "")
+        }
+    }
+
+    private fun getCities(citiesList: ArrayList<City>?): MutableList<CoreBottomSheetData> {
+
+        val list: MutableList<CoreBottomSheetData> = arrayListOf()
+        citiesList?.forEach { cities ->
+            list.add(
+                CoreBottomSheetData(
+                    content = cities.name,
+                    subTitle = cities.name,
+                    sheetImage = null
+                )
+            )
+        }
+        return list
 
     }
 

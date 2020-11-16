@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.qrcode
+package co.yap.widgets.qrcode
 
 import android.Manifest
 import android.os.Bundle
@@ -11,18 +11,15 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
-import co.yap.R
+import co.yap.yapcore.BR
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.deleteTempFolder
-import co.yap.yapcore.helpers.extentions.generateQrCode
-import co.yap.yapcore.helpers.extentions.shareImage
-import co.yap.yapcore.helpers.extentions.storeBitmap
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_qr_code.*
 
-class QRCodeFragment : DialogFragment(), IQRCode.View {
+class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
     lateinit var viewDataBinding: ViewDataBinding
     fun getBindingVariable(): Int = BR.viewModel
     fun getLayoutId(): Int = R.layout.fragment_qr_code
@@ -108,7 +105,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
         )
         SessionManager.user?.let { accountInfo ->
             viewModel.state.qrBitmap =
-                context?.generateQrCode(accountInfo.encryptedAccountUUID ?: "")
+                context?.generateQrCode(accountInfo.encryptedAccountUUID?.generateQRCode() ?: "")
         }
     }
 
@@ -127,6 +124,7 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
                 requestPermissions()
             }
             R.id.ivBack -> {
+                callBack()
                 dismiss()
             }
         }

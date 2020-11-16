@@ -15,8 +15,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startSmsConsent
-import com.google.android.gms.auth.api.phone.SmsRetriever
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.gms.auth.api.phone.SmsRetriever
 
 class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGenericOtp.View {
     private var intentFilter: IntentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
@@ -142,5 +142,13 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
+        }
     }
 }

@@ -235,4 +235,10 @@ interface CustomersRetroService {
     // delete profile picture
     @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
     suspend fun removeProfilePicture(): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_GET_QR_CONTACT)
+    suspend fun getQRContact(@Body qrContactRequest: QRContactRequest): Response<QRContactResponse>
+
+    @PATCH(CustomersRepository.URL_UPDATE_HOME_COUNTRY)
+    suspend fun updateHomeCountry(@Body homeCountry: UpdateHomeCountryRequest): Response<ApiResponse>
 }

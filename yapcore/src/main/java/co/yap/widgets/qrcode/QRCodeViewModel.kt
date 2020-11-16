@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.qrcode
+package co.yap.widgets.qrcode
 
 import android.app.Application
 import co.yap.yapcore.BaseViewModel
@@ -9,7 +9,8 @@ class QRCodeViewModel(application: Application) :
     BaseViewModel<IQRCode.State>(application),
     IQRCode.ViewModel {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: QRCodeState = QRCodeState()
+    override val state: QRCodeState =
+        QRCodeState()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

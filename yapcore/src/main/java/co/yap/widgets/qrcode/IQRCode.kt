@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.addmoney.qrcode
+package co.yap.widgets.qrcode
 
 import android.graphics.drawable.Drawable
 import android.net.Uri

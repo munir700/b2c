@@ -1,5 +1,6 @@
 package co.yap.yapcore
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -18,14 +19,13 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.enums.UserAccessRestriction
 import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.logEvent
+
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -43,7 +43,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
-        setUpFirebaseAnalytics()
+//        setUpFirebaseAnalytics()
 
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -59,15 +59,53 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = it
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        })
     }
 
+    //    private fun setUpFirebaseAnalytics() {
+//        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+//            param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
+//            param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
+//            param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+//        }
+//    }
+    @SuppressLint("MissingPermission")
     private fun setUpFirebaseAnalytics() {
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
-            param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
-            param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
-            param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
-        }
+//                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+//                      param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
+//                       param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
+//                       param(FirebaseAnalytics.Param.CONTENT_TYPE, "text") }
+        val bundle = Bundle()
+////        bundle.putString("Tag-Type", "Google Analytics: Universal Analytics")
+//
+        bundle.putString("TrackType", "Event")
+        bundle.putString("Category", "onboarding")
+        bundle.putString("Action", "deliveryconfirmed")
+        bundle.putString("Label", "Android")
+        firebaseAnalytics.logEvent("deliveryconfirmed",bundle)
+//        val bundle = Bundle()
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "delivery-confirmed")
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "delivery-confirmed")
+//        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "delivery-confirmed")
+//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
     }
 
 
@@ -108,7 +146,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
                     AlertType.DIALOG.name -> {
-                        showAlertDialogAndExitApp("", message = messages.first(), closeActivity = false)
+                        showAlertDialogAndExitApp(
+                            "",
+                            message = messages.first(),
+                            closeActivity = false
+                        )
                     }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
@@ -117,7 +159,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                     )
                     AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
                         "",
-                       message =  messages.first(),
+                        message = messages.first(),
                         rightButtonText = "CLOSE",
                         closeActivity = true
                     )
@@ -207,6 +249,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         cancelAllSnackBar()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroy()
     }
 

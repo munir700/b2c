@@ -19,6 +19,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.roundVal
+import co.yap.yapcore.helpers.extentions.roundValHalfEven
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -201,8 +202,13 @@ class InternationalFundsTransferViewModel(application: Application) :
                 ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
             totalDestinationAmount?.let {
                 state.etOutputAmount =
-                    it.roundVal().toString()
-                        .toFormattedCurrency(false, state.sourceCurrency.get(), false)
+                    if (parentViewModel?.beneficiary?.value?.beneficiaryType == SendMoneyBeneficiaryType.RMT.type) {
+                        it.roundValHalfEven().toString()
+                            .toFormattedCurrency(false, state.sourceCurrency.get(), false)
+                    } else {
+                        it.roundVal().toString()
+                            .toFormattedCurrency(false, state.sourceCurrency.get(), false)
+                    }
             }
         } else {
             state.etOutputAmount = ""
