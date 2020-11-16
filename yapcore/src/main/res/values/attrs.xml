@@ -53,6 +53,7 @@
             <enum name="medium" value="2" />
             <enum name="large" value="3" />
             <enum name="regular" value="4" />
+            <enum name="extra_min_small" value="5" />
         </attr>
     </declare-styleable>
 
