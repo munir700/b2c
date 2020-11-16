@@ -61,7 +61,31 @@ data class Beneficiary(
 ) : CoreRecentBeneficiaryItem(
     name = "$firstName $lastName",
     profilePictureUrl = beneficiaryPictureUrl,
-    type = beneficiaryType,isoCountryCode = country
-), Parcelable {
+    type = beneficiaryType, isoCountryCode = country
+), SearchBeneficiaryData, Parcelable {
+    override var searchableTitle: String?
+        get() = fullName()
+        set(value) {}
+    override var searchableSubTitle: String?
+        get() = title
+        set(value) {}
+    override var searchableIcon: String?
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var searchableIndicator: String?
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var searchableTransferType: String?
+        get() = beneficiaryType
+        set(value) {}
+
     fun fullName() = "$firstName $lastName"
+}
+
+interface SearchBeneficiaryData {
+    var searchableTitle: String?
+    var searchableSubTitle: String?
+    var searchableIcon: String?
+    var searchableIndicator: String?
+    var searchableTransferType: String?
 }

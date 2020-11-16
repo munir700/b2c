@@ -3,8 +3,8 @@ package co.yap.sendmoney.home.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -34,7 +34,9 @@ interface ISendMoneyHome {
         fun getState(): LiveData<PagingState>
         val searchQuery: MutableLiveData<String>
         val isSearching: MutableLiveData<Boolean>
-
+        fun getY2YBeneficiaries()
+        fun listIsEmpty(): Boolean
+        val phoneContactLiveData: MutableLiveData<List<Contact>>
     }
 
     interface View : IBase.View<ViewModel>

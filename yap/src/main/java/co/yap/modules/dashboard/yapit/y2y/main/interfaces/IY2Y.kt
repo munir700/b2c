@@ -24,6 +24,7 @@ interface IY2Y {
         var errorEvent: MutableLiveData<String>
         var beneficiary: Beneficiary?
         var position: Int
+
     }
 
     interface View : IBase.View<ViewModel>

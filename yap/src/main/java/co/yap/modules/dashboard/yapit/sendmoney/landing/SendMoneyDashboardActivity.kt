@@ -225,6 +225,18 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             R.id.ivLeftIcon -> {
                 finish()
             }
+            R.id.ivRightIcon -> {
+                launchActivity<SendMoneyLandingActivity>(
+                    type = FeatureSet.SEND_MONEY,
+                    requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
+                ) {
+                    /*putExtra(
+                        SendMoneyLandingActivity.TransferType,
+                        SendMoneyTransferType.INTERNATIONAL.name
+                    )*/
+                    putExtra(SendMoneyLandingActivity.searching, true)
+                }
+            }
         }
     }
 

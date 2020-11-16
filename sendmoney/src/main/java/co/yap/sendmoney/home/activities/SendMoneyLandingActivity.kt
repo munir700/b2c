@@ -71,6 +71,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
             }
         }
+        //new call for getting y2y ben.
+        viewModel.getY2YBeneficiaries()
         setObservers()
     }
 
@@ -85,6 +87,24 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickListener)
+        //new observer
+        viewModel.phoneContactLiveData.observe(this, Observer {
+            /*var listSearch: ArrayList<SearchBeneficiaryData> = arrayListOf()
+            val list = viewModel.phoneContactLiveData.value?.filter { it.yapUser!! }
+            list?.let {contactList->
+                for (i in 0..contactList.size){
+                    if (contactList[i] is Contact){
+                        listSearch.add()
+                    }
+                }
+            }
+
+            list?.forEach { contact ->
+                (contact as SearchBeneficiaryData).searchableTitle = contact.title
+            }*/
+            //    viewModel.allBeneficiariesLiveData.value = list
+
+        })
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
             performedDeleteOperation = true
