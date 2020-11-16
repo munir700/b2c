@@ -374,13 +374,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-
-//            viewModel.parentViewModel?.isInCoolingPeriod() == true
-//                    && viewModel.parentViewModel?.isCPAmountConsumed(viewModel.state.amount) == true -> {
-//                viewModel.parentViewModel?.showCoolingPeriodLimitError()
-//                viewModel.state.valid = false
-//            }
-
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
