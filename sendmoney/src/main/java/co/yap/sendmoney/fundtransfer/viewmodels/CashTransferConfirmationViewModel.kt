@@ -12,6 +12,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferConfirmationViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransferConfirmation.State>(application),
@@ -53,7 +54,7 @@ class CashTransferConfirmationViewModel(application: Application) :
             when (val response =
                 repository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
-                    currency = "AED",
+                    currency = SessionManager.getDefaultCurrency(),
                     amount = parentViewModel?.transferData?.value?.transferAmount,
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
                         ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant

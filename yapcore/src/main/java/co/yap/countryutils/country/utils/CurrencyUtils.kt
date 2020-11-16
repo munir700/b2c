@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.R
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 
@@ -40,7 +41,7 @@ object CurrencyUtils {
             R.drawable.flag_tr
         ),
         Currency(
-            "AED",
+            SessionManager.getDefaultCurrency(),
             "Emirati Dirham",
             "د.إ",
             R.drawable.flag_ae
