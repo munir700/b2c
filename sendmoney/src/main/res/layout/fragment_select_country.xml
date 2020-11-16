@@ -100,18 +100,18 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/nextButton"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+            app:btn_size="small"
             android:layout_marginTop="@dimen/_60sdp"
-            android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}"
             app:btn_enable="false"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_add_beneficiary_button_next}"
-            tools:ignore="MissingConstraints"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/screen_add_beneficiary_display_text_select_country" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

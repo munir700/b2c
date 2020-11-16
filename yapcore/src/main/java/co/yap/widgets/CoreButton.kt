@@ -81,7 +81,7 @@ class CoreButton : AppCompatButton {
         drawable = typedArray.getDrawable(
             R.styleable.CoreButton_btn_drawable
         )
-        btnSize = typedArray.getInt(R.styleable.CoreButton_btn_size, ButtonSize.MEDIUM.type)
+        btnSize = typedArray.getInt(R.styleable.CoreButton_btn_size, ButtonSize.SMALL.type)
         drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
         enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
         hasBoldText = typedArray.getBoolean(R.styleable.CoreButton_btn_has_bold_text, hasBoldText)
@@ -302,16 +302,13 @@ class CoreButton : AppCompatButton {
                 dimensions = Utils.getDimensionsByPercentage(context, 50, 7)
             }
             ButtonSize.SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 60, 8)
+                dimensions = Utils.getDimensionsByPercentage(context, 60, 8) // 54 on Zeplin design
             }
             ButtonSize.MEDIUM.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 70, 8)
+                dimensions = Utils.getDimensionsByPercentage(context, 70, 8) // 67 on Zeplin design
             }
             ButtonSize.LARGE.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 90, 8)
-            }
-            ButtonSize.REGULAR.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 80, 8)
+                dimensions = Utils.getDimensionsByPercentage(context, 80, 8) // 82 on Zeplin design
             }
             else -> throw IllegalStateException("Invalid button type found $btnSize")
         }

@@ -65,9 +65,9 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnPersonal"
                 style="@style/RectangleBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:btn_size="medium"
+                app:btn_size="small"
                 android:clickable="false"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:paddingTop="@dimen/margin_normal_large"

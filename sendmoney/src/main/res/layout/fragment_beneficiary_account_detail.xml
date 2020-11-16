@@ -175,20 +175,19 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/_60sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnAddBank(v.id)}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llMain"
                 app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.common_button_next}"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@string/common_button_next" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

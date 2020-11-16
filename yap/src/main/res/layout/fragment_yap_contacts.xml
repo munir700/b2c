@@ -66,11 +66,10 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnInvite"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                 android:text="Invite now"

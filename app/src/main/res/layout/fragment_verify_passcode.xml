@@ -82,7 +82,7 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnVerifyPasscode"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:btn_size="small"
             android:layout_marginBottom="@dimen/margin_medium_large"

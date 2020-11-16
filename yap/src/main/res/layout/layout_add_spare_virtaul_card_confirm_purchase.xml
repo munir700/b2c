@@ -81,18 +81,18 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirmVirtualCardPurchase"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/margin_btn_side_paddings"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_add_spare_card_button_confirm_purchase"
                 android:textAllCaps="false"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/glContent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
 
             <androidx.constraintlayout.widget.Guideline

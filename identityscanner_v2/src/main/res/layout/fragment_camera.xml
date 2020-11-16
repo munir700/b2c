@@ -136,15 +136,15 @@
                 android:id="@+id/camFab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="150dp"
+                app:btn_size="small"
                 android:layout_gravity="center"
                 android:text="@{model.state.submitButtonTitle}"
-                android:layout_margin="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
                 style="@style/RectangleBtnStyle"
                 tools:text="Scan"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:padding="8dp"
                 android:enabled="false"
                 android:clickable="@{!model.state.capturing}"/>
 

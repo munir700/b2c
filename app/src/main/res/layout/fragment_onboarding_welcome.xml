@@ -43,7 +43,7 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/close_btn_one"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:btn_size="small"
             android:enabled="true"
@@ -52,7 +52,7 @@
             android:textColor="@color/colorWhite"
             android:onClick="@{(v)->viewModel.handlePressOnGetStarted()}"
             app:text="@{Strings.screen_welcome_button_get_started}"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_extra_large"
             android:gravity="center"/>
 
