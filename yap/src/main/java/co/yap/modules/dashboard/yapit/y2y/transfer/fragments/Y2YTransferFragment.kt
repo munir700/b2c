@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferVi
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -27,6 +28,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
@@ -58,14 +60,12 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-//        viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
         viewModel.isFeeReceived.observe(this, Observer {
-            if (it) viewModel.updateFees(viewModel.state.amount ?: "")
+            if (it) viewModel.updateFees(viewModel.state.amount)
         })
         viewModel.updatedFee.observe(this, Observer {
             if (it.isNotBlank()) setSpannableFee(it)
         })
-
     }
 
     private fun setSpannableFee(feeAmount: String?) {
@@ -80,12 +80,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 )
             )
     }
-
-    /* private val transferFundSuccessObserver = Observer<Boolean> {
-         if (it) {
-             moveToFundTransferSuccess()
-         }
-     }*/
 
     private fun setEditTextWatcher() {
         etAmount.afterTextChanged {
@@ -161,6 +155,20 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                             showUpperLowerLimitError()
                         }
+                        viewModel.isInCoolingPeriod() && viewModel.isCPAmountConsumed(viewModel.state.amount) -> {
+                            viewModel.checkCoolingPeriodRequest(
+                                beneficiaryId = viewModel.receiverUUID,
+                                beneficiaryCreationDate = args.beneficiaryCreationDate,
+                                beneficiaryName = viewModel.state.fullName,
+                                amount = viewModel.state.amount
+                            ) {
+                                requireActivity().showAlertCustomDialog(
+                                    title = "Psst...",
+                                    message = viewModel.showCoolingPeriodLimitError(),
+                                    buttonText = "OK, got it!"
+                                )
+                            }
+                        }
                         isOtpRequired() -> {
                             startOtpFragment()
                         }
@@ -221,6 +229,12 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 showCurrency = true,
                 currency = "AED"
             )
+       viewModel.getCoolingPeriod(
+            SMCoolingPeriodRequest(
+                beneficiaryId = viewModel.receiverUUID,
+                productCode = TransactionProductCode.Y2Y_TRANSFER.pCode
+            )
+        )
     }
 
     private fun isDailyLimitReached(): Boolean {
