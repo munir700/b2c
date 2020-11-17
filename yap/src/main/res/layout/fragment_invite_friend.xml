@@ -106,7 +106,7 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 android:text="@{viewModel.state.buttonTitle}"
                 app:btn_drawable="@drawable/ic_share_white"
-                app:btn_drawable_padding_left="10"
+                app:btn_drawable_padding_right="1.26"
                 app:btn_drawable_padding_top="4"
                 app:btn_drawable_position="right"
                 app:enableCoreButton="@{true}"
