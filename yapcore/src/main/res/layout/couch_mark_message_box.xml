@@ -57,7 +57,7 @@
             style="@style/AddressBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="small"
+            app:btn_size="mini_small"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:text="@string/common_button_next"
             android:textAllCaps="false"
