@@ -30,7 +30,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SessionManager.getAccountInfo()
-        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(label = FirebaseEvents.DELIVERY_STARTED.event))
+        requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding",action = FirebaseEvents.DELIVERY_STARTED.event))
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
             if (activity is FragmentPresenterActivity) {
                 setIntentData()
