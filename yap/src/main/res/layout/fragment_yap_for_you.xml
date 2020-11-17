@@ -88,7 +88,7 @@
             style="@style/RectangleBtnSmallStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="small"
+            app:btn_size="mini_small"
             android:layout_marginTop="@dimen/margin_medium"
             android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"

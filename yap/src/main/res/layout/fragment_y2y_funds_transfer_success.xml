@@ -94,7 +94,7 @@
             style="@style/RectangleBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="small"
+            app:btn_size="medium"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v)-> viewModel.handlePressOnDashboardButton(v.id)}"

@@ -100,7 +100,7 @@
             style="@style/RectangleBtnStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:btn_size="small"
+            app:btn_size="medium"
             android:layout_marginBottom="@dimen/small"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.permissionGranted()}"

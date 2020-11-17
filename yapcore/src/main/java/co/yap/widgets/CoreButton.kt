@@ -308,7 +308,7 @@ class CoreButton : AppCompatButton {
                 dimensions = Utils.getDimensionsByPercentage(context, 60, 5)  // used in Maps
             }
             ButtonSize.SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 60, 8)
+                dimensions = Utils.getDimensionsByPercentage(context, 55, 8)
             }
             ButtonSize.MEDIUM.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 70, 8)
