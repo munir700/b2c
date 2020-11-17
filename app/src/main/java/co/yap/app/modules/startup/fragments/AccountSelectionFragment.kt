@@ -158,7 +158,7 @@ class AccountSelectionFragment : BaseBindingFragment<IAccountSelection.ViewModel
                 }
                 R.id.btnPersonal -> {
                     findNavController().navigate(
-                        R.id.action_accountSelectionFragment_to_welcomeFragment,
+                        R.id.action_accountSelectionFragment_to_onBaordingActivity,
                         Bundle().apply {
                             putSerializable(
                                 getString(R.string.arg_account_type),
