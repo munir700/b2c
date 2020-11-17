@@ -298,20 +298,23 @@ class CoreButton : AppCompatButton {
     private fun setButtonDimension() {
         var dimensions: IntArray = intArrayOf()
         when (btnSize) {
-            ButtonSize.EXTRA_MIN_SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 30, 4)
+            ButtonSize.MINI_SMALL.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 36, 4) // used in card details
             }
-            ButtonSize.EXTRA_SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 50, 7)
+            ButtonSize.MINI_MEDIUM.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
+            }
+            ButtonSize.MINI_LARGE.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 60, 5)  // used in Maps
             }
             ButtonSize.SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 60, 8) // 54 on Zeplin design
+                dimensions = Utils.getDimensionsByPercentage(context, 60, 8)
             }
             ButtonSize.MEDIUM.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 70, 8) // 67 on Zeplin design
+                dimensions = Utils.getDimensionsByPercentage(context, 70, 8)
             }
             ButtonSize.LARGE.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 80, 8) // 82 on Zeplin design
+                dimensions = Utils.getDimensionsByPercentage(context, 80, 8)
             }
             else -> throw IllegalStateException("Invalid button type found $btnSize")
         }
@@ -323,10 +326,10 @@ class CoreButton : AppCompatButton {
 
     enum class ButtonSize(val type: Int) {
         SMALL(0),
-        EXTRA_SMALL(1),
-        MEDIUM(2),
-        LARGE(3),
-        REGULAR(4),
-        EXTRA_MIN_SMALL(5),
+        MEDIUM(1),
+        LARGE(2),
+        MINI_SMALL(3),
+        MINI_MEDIUM(4),
+        MINI_LARGE(5)
     }
 }

@@ -109,7 +109,7 @@
                             style="@style/AddressBtnStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:btn_size="small"
+                            app:btn_size="mini_small"
                             android:layout_marginTop="12dp"
                             android:onClick="@{(v)-> cdmMapViewModel.handleClickEvent(v.id)}"
                             android:text="@string/screen_more_atm_cdm_custom_button_get_direction"
