@@ -351,7 +351,7 @@
             android:text="Share"
             android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
             app:btn_drawable="@drawable/ic_share_white"
-            app:btn_drawable_padding_left="10"
+            app:btn_drawable_padding_right="1.26"
             app:btn_drawable_padding_top="4"
             app:btn_drawable_position="right"
             app:enableCoreButton="@{true}"
