@@ -39,7 +39,7 @@
                 app:leftIconVisibility="@{true}"
                 app:onClick="@{viewModel::onToolBarClick}"
                 app:rightTitle="@{viewModel.state.rightButtonText}"
-                app:rightTitleVisibility="@{true}"
+                app:rightTitleVisibility="@{false}"
                 app:titleString="@{viewModel.state.toolbarTitle}"
                 app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
 

@@ -59,6 +59,11 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getHomeCountryRecentBeneficiaries()
+    }
+
     private fun setupCountriesList() {
         val countries: ArrayList<Country> = SessionManager.getCountries()
         this.supportFragmentManager.let {
@@ -71,6 +76,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                             viewModel.updateHomeCountry {
                                 SessionManager.getAccountInfo()
                                 viewModel.populateData(data)
+                                viewModel.getHomeCountryRecentBeneficiaries()
                             }
                         }
                     }

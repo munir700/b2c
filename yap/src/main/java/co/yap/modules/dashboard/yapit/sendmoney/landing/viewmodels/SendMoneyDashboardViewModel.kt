@@ -52,12 +52,11 @@ class SendMoneyDashboardViewModel(application: Application) :
     override fun getAllRecentsBeneficiariesParallel() {
         fetchRecentsApis { sendMoneyRecentsBeneficiariesResponse, y2yRecentBeneficiariesResponse ->
             launch(Dispatcher.Main) {
+                recentTransfers.clear()
                 when (sendMoneyRecentsBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
                         sendMoneyRecentsBeneficiariesResponse.data.data.parseRecentItems()
                         recentTransfers.addAll(sendMoneyRecentsBeneficiariesResponse.data.data)
-                        recentTransfers.sortedByDescending { it.lastUsedDate }
-                        recentsAdapter.setList(recentTransfers)
                         state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {
@@ -70,14 +69,17 @@ class SendMoneyDashboardViewModel(application: Application) :
                         recentTransfers.addAll(
                             y2yRecentBeneficiariesResponse.data.data ?: emptyList()
                         )
-                        recentTransfers.sortedByDescending { it.lastUsedDate }
-                        recentsAdapter.setList(recentTransfers)
                         state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {
                         state.viewState.value = false
                     }
                 }
+                var jointList: List<Beneficiary> = ArrayList()
+                jointList = recentTransfers.sortedByDescending {
+                    it.lastUsedDate
+                }
+                recentsAdapter.setList(jointList)
             }
         }
 
@@ -95,7 +97,6 @@ class SendMoneyDashboardViewModel(application: Application) :
             }
         }
     }
-
 
     override fun geSendMoneyOptions(): MutableList<SendMoneyOptions> {
         val list = mutableListOf<SendMoneyOptions>()
@@ -123,7 +124,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 null, SendMoneyType.sendMoneyToInternational
             )
         )
-        if ( !SessionManager.user?.currentCustomer?.homeCountry.equals(
+        if (!SessionManager.user?.currentCustomer?.homeCountry.equals(
                 "AE"
             ) && SessionManager.user?.currentCustomer?.homeCountry != null
         )

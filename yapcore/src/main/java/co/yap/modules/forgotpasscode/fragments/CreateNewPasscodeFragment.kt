@@ -34,8 +34,10 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
             title = getString(Strings.screen_create_passcode_display_text_title),
             buttonTitle = getString(Strings.screen_create_new_passcode_button_text)
         )
+
         viewModel.mobileNumber = args.mobileNumber
         viewModel.token = args.token
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvTermsAndConditions -> {
@@ -76,4 +78,11 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
         return viewDataBinding as FragmentPassCodeBinding
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
+    }
 }
