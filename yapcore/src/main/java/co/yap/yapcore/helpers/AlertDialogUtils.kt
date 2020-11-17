@@ -1,10 +1,14 @@
 package co.yap.yapcore.helpers
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -173,17 +177,16 @@ fun Context.showYapAlertDialog(
     alertDialog.show()
 
 }
+
 fun Activity.showAlertCustomDialog(
     title: String? = "",
-    message: String?="",
-    buttonText:String?="OK"
+    message: String? = "",
+    buttonText: String? = "OK"
 ) {
-    val builder = android.app.AlertDialog.Builder(this)
-    var alertDialog: android.app.AlertDialog? = null
-    val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-   // title?.let { builder.setTitle(title) }
-    val dialogLayout: View =
-        inflater.inflate(R.layout.alert_dialogue_custom, null)
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.alert_dialogue_custom)
     val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
@@ -191,21 +194,16 @@ fun Activity.showAlertCustomDialog(
     val ok = dialogLayout.findViewById<CoreButton>(R.id.btnAction)
     ok.text = buttonText
     ok.setOnClickListener {
-        alertDialog?.dismiss()
+        dialogLayout.dismiss()
     }
-
-    builder.setView(dialogLayout)
-    builder.setCancelable(false)
-    alertDialog = builder.create()
-
-    alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-    alertDialog.show()
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
 
 }
 
 fun Activity.showAlertDialogAndExitApp(
     Title: String? = null,
-    dialogTitle: String? ="",
+    dialogTitle: String? = "",
     message: String?,
     leftButtonText: String = "OK",
     rightButtonText: String = "Cancel",
