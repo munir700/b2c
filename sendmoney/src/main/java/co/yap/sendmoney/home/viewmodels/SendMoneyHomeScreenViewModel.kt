@@ -31,6 +31,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.getLocalContacts
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -89,7 +90,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun requestAllBeneficiaries(sendMoneyType: String) {
         if (sendMoneyType == SendMoneyTransferType.ALL_Y2Y_SM.name) {
             getY2YAndSMBeneficiaries {
-                beneficiariesAdapter.setList(it)
+                beneficiariesAdapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })
             }
         } else {
             launch {
@@ -190,13 +191,14 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             state.viewState.postValue(true)
             coroutineScope {
                 val deferredSM = async { repository.getAllBeneficiaries() }
-                val deferredY2Y = async { repository.getY2YBeneficiaries(getLocalContacts()) }
+                val deferredY2Y =
+                    async { repository.getY2YBeneficiaries(getLocalContacts(context)) }
                 responses(deferredSM.await(), deferredY2Y.await())
             }
         }
     }
 
-    private suspend fun getLocalContacts() = viewModelBGScope.async(Dispatchers.IO) {
+    private suspend fun getLocalContacts2() = viewModelBGScope.async(Dispatchers.IO) {
         fetchContacts(context)
     }.await()
 
@@ -326,11 +328,9 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     }
 
     override fun getY2YBeneficiaries() {
-
-        pagingState.value = PagingState.LOADING
         if (listIsEmpty()) {
-            launch {
-                val localContacts = getLocalContacts()
+            launch(Dispatcher.LongOperation) {
+                val localContacts = getLocalContacts(context)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     localContacts.removeIf { it.mobileNo == SessionManager.user?.currentCustomer?.mobileNo }
                 } else {
@@ -339,7 +339,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 if (localContacts.isEmpty()) {
                     phoneContactLiveData.value = mutableListOf()
-                    pagingState.value = PagingState.DONE
+                    state.viewState.postValue(false)
                 } else {
                     val combineContacts = arrayListOf<Contact>()
                     val threshold = 3000
@@ -351,7 +351,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                             lastCount,
                             if ((x * threshold) > localContacts.size) localContacts.size else x * threshold
                         )
-                        viewModelBGScope.async(Dispatchers.IO) {
                             when (val response =
                                 repository.getY2YBeneficiaries(itemsToPost)) {
                                 is RetroApiResponse.Success -> {
@@ -363,12 +362,9 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                                     }
                                 }
                                 is RetroApiResponse.Error -> {
-                                    //state.toast = response.error.message
-                                    pagingState.postValue(PagingState.ERROR)
-                                    viewModelBGScope.close()
+                                    state.viewState.postValue(response.error.message)
                                 }
                             }
-                        }
                         lastCount = x * threshold
                     }
                 }

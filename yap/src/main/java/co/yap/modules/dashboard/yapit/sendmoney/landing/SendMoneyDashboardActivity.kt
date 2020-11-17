@@ -16,7 +16,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDash
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity

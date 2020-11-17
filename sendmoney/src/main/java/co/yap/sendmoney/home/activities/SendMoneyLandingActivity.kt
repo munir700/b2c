@@ -7,7 +7,6 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
@@ -19,6 +18,7 @@ import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
@@ -201,12 +201,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
     private fun startY2YTransfer(
         beneficiary: Beneficiary?,
-        fromQR: Boolean = false,
         position: Int = 0
     ) {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
             putExtra(Beneficiary::class.java.name, beneficiary)
-            putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
         }
     }
@@ -308,8 +306,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
-                    }else if(payload.itemData is Contact){
-                        startMoneyTransfer()
+                    } else if (payload.itemData is Contact) {
+                        val beneficiary = Beneficiary(
+                            beneficiaryUuid = (payload.itemData as Contact).accountDetailList?.get(0)?.accountUuid,
+                            beneficiaryPictureUrl = (payload.itemData as Contact).beneficiaryPictureUrl,
+                            title = (payload.itemData as Contact).title
+                        )
+                        startY2YTransfer(beneficiary, payload.position)
                     }
                 }
                 viewModel.clickEvent.setPayload(null)
