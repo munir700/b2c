@@ -61,7 +61,7 @@ class PhoneContactViewModel(application: Application) :
                 pagingState.value = PagingState.DONE
             } else {
                 val combineContacts = arrayListOf<Contact>()
-                val threshold = 100
+                val threshold = 3000
                 var lastCount = 0
                 val numberOfIteration =
                     ceil((localContacts.size.toDouble()) / threshold.toDouble()).toInt()

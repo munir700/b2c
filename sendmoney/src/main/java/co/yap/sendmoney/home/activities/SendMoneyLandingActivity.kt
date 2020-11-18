@@ -383,8 +383,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                         )
                                     }
                                 }
-                                isDismissFlow == true -> {
-                                }
+                                isDismissFlow == true -> { }
                                 else -> viewModel.requestAllBeneficiaries(
                                     viewModel.state.sendMoneyType.get() ?: ""
                                 )

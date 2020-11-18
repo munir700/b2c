@@ -28,17 +28,14 @@ interface ISendMoneyHome {
         val onDeleteSuccess: MutableLiveData<Int>
         val recentTransferData: MutableLiveData<List<Beneficiary>>
         var recentsAdapter: CoreRecentTransferAdapter
+        var beneficiariesAdapter: AllBeneficiariesAdapter
+        val searchQuery: MutableLiveData<String>
+        val isSearching: MutableLiveData<Boolean>
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries(sendMoneyType: String)
         fun requestAllBeneficiaries(sendMoneyType: String)
-        fun getState(): LiveData<PagingState>
-        val searchQuery: MutableLiveData<String>
-        val isSearching: MutableLiveData<Boolean>
-        fun getY2YBeneficiaries()
-        fun listIsEmpty(): Boolean
-        val phoneContactLiveData: MutableLiveData<List<Contact>>
-        var beneficiariesAdapter: AllBeneficiariesAdapter
+        fun getY2YBeneficiaries(): List<Contact>
     }
 
     interface View : IBase.View<ViewModel>
