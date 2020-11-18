@@ -5,5 +5,4 @@ import co.yap.yapcore.BaseState
 
 class SMBeneficiaryParentState : BaseState(), ISMBeneficiaryParent.State {
     override var sendMoneyType: MutableLiveData<String>? = MutableLiveData("")
-    override var isSearching: MutableLiveData<Boolean>? = MutableLiveData(false)
 }

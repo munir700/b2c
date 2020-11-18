@@ -13,6 +13,7 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseViewModel
 import co.yap.sendmoney.home.states.SMSearchBeneficiaryState
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getLocalContacts
 import co.yap.yapcore.helpers.extentions.removeOwnContact
@@ -34,8 +35,12 @@ class SMSearchBeneficiaryViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getY2YAndSMBeneficiaries {
-            adapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })
+        if (parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
+            getY2YAndSMBeneficiaries {
+                adapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })
+            }
+        } else {
+            adapter.setList(parentViewModel?.beneficiariesList ?: arrayListOf())
         }
     }
 
@@ -59,6 +64,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
                         Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
                 }
                 combinedList.addAll(y2yBeneficiaries?.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
+                state.viewState.value = false
                 success(combinedList)
             }
         }

@@ -66,26 +66,20 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     }
 
     override fun requestAllBeneficiaries(sendMoneyType: String) {
-        if (sendMoneyType == SendMoneyTransferType.ALL_Y2Y_SM.name) {
-            getY2YAndSMBeneficiaries {
-                beneficiariesAdapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })
-            }
-        } else {
-            launch {
-                state.loading = true
-                when (val response = repository.getAllBeneficiaries()) {
-                    is RetroApiResponse.Success -> {
-                        state.loading = false
-                        val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
-                        filteredList.parseRecentItems()
+        launch {
+            state.loading = true
+            when (val response = repository.getAllBeneficiaries()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
+                    filteredList.parseRecentItems()
+                    parentViewModel?.beneficiariesList = filteredList
+                    allBeneficiariesLiveData.value = filteredList
+                }
 
-                        allBeneficiariesLiveData.value = filteredList
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
         }

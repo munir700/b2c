@@ -53,6 +53,7 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.state.sendMoneyType.set(viewModel.parentViewModel?.state?.sendMoneyType?.value)
         viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         setObservers()
@@ -287,23 +288,7 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                 startAddBeneficiaryFlow()
             }
             R.id.layoutSearchView -> {
-                viewModel.isSearching.value?.let { isSearching ->
-                    if (isSearching) {
-                        setSearchView(isSearching)
-                    } else {
-                        //TODO start searching fragment navigation from here
-                        /*launchActivity<SendMoneyLandingActivity>(
-                            type = FeatureSet.SEND_MONEY,
-                            requestCode = REQUEST_TRANSFER_MONEY
-                        ) {
-                            putExtra(
-                                TransferType,
-                                viewModel.state.sendMoneyType.get()
-                            )
-                            putExtra(searching, true)
-                        }*/
-                    }
-                }
+                navigate(R.id.action_sendMoneyLandingActivity_to_searchBeneficiariesFragment)
             }
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->

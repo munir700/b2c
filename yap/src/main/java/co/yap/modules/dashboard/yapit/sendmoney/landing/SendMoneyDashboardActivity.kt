@@ -123,10 +123,9 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     private fun startSendMoneyFlow(sendMoneyType: String) {
         launchActivity<SMBeneficiaryParentActivity> {
             putExtra(
-                SMBeneficiaryParentActivity.TransferType,
+                ExtraKeys.SEND_MONEY_TYPE.name,
                 sendMoneyType
             )
-//            putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
@@ -226,24 +225,15 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 finish()
             }
             R.id.ivRightIcon -> {
-                //Temp code
                 launchActivity<SMBeneficiaryParentActivity>(
                     type = FeatureSet.SEND_MONEY,
                     requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
                 ) {
-                    //putExtra(SendMoneyLandingActivity.searching, true)
+                    putExtra(
+                        ExtraKeys.SEND_MONEY_TYPE.name,
+                        SendMoneyTransferType.ALL_Y2Y_SM.name
+                    )
                 }
-
-                /*   launchActivity<SendMoneyLandingActivity>(
-                       type = FeatureSet.SEND_MONEY,
-                       requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
-                   ) {
-                       putExtra(
-                           SendMoneyLandingActivity.TransferType,
-                           SendMoneyTransferType.ALL_Y2Y_SM.name
-                       )
-                       putExtra(SendMoneyLandingActivity.searching, true)
-                   }*/
             }
         }
     }

@@ -8,6 +8,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -15,10 +16,6 @@ class SMBeneficiaryParentActivity : BaseBindingActivity<ISMBeneficiaryParent.Vie
     INavigator,
     IFragmentHolder {
 
-    companion object {
-        const val TransferType = "TransferType"
-        private var performedDeleteOperation: Boolean = false
-    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -29,8 +26,8 @@ class SMBeneficiaryParentActivity : BaseBindingActivity<ISMBeneficiaryParent.Vie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent.hasExtra(TransferType)) {
-            viewModel.state.sendMoneyType?.value = intent.getStringExtra(TransferType)
+        if (intent.hasExtra(ExtraKeys.SEND_MONEY_TYPE.name)) {
+            viewModel.state.sendMoneyType?.value = intent.getStringExtra(ExtraKeys.SEND_MONEY_TYPE.name)
         }
     }
 

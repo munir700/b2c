@@ -17,6 +17,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -123,10 +124,9 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     private fun startSendMoneyFlow() {
         launchActivity<SMBeneficiaryParentActivity> {
             putExtra(
-                SMBeneficiaryParentActivity.TransferType,
+                ExtraKeys.SEND_MONEY_TYPE.name,
                 SendMoneyTransferType.HOME_COUNTRY.name
             )
-            //  putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
