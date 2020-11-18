@@ -97,24 +97,16 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         when (eventType) {
 
             Constants.EVENT_ADD_PHOTO -> {
-
                 initEasyImage(takePhoto)
-
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
-
                 initEasyImage(pickPhoto)
             }
 
             Constants.EVENT_REMOVE_PHOTO -> {
-
                 viewModel.requestRemoveProfilePicture {
-
-                    if (it)
-
-                        ivProfilePic.setImageDrawable(null)
-
+                    if (it) ivProfilePic.setImageDrawable(null)
                 }
 
             }
