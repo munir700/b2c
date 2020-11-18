@@ -11,8 +11,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseViewModel
 import co.yap.sendmoney.home.states.SendMoneyHomeState
-import co.yap.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.translation.Strings
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.Dispatcher
@@ -31,7 +31,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlin.math.ceil
 
 class SendMoneyHomeScreenViewModel(application: Application) :
-    SendMoneyBaseViewModel<ISendMoneyHome.State>(application), ISendMoneyHome.ViewModel,
+    SMBeneficiaryParentBaseViewModel<ISendMoneyHome.State>(application), ISendMoneyHome.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository

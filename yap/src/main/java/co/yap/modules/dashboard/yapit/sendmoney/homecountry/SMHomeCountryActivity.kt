@@ -11,7 +11,7 @@ import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -121,12 +121,12 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     }
 
     private fun startSendMoneyFlow() {
-        launchActivity<SendMoneyLandingActivity> {
+        launchActivity<SMBeneficiaryParentActivity> {
             putExtra(
-                SendMoneyLandingActivity.TransferType,
+                SMBeneficiaryParentActivity.TransferType,
                 SendMoneyTransferType.HOME_COUNTRY.name
             )
-            putExtra(SendMoneyLandingActivity.searching, false)
+            //  putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
