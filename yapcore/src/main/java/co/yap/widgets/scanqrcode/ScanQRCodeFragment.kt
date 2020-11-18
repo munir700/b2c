@@ -188,7 +188,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
 
     }
 
-
     private fun handleImagePickerResult(
         requestCode: Int,
         resultCode: Int,
@@ -249,29 +248,6 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        @NonNull permissions: Array<String>,
-        @NonNull grantResults: IntArray
-    ) {
-        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).build().show()
-        }
-    }
-
-    private fun hasCameraPermission(): Boolean {
-        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
-    }
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivBack -> {
@@ -300,6 +276,29 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
             } else {
                 viewModel.uploadQRCode(qrCode)
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        @NonNull permissions: Array<String>,
+        @NonNull grantResults: IntArray
+    ) {
+        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun hasCameraPermission(): Boolean {
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
         }
     }
 }
