@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.os.Bundle
 import androidx.annotation.NonNull
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -17,11 +16,9 @@ import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants.CAMERA_PERMISSION_REQUEST
+import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.databinding.FragmentScanQrCodeBinding
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.extentions.generateQRCode
-import co.yap.yapcore.helpers.extentions.generateQrCode
 import co.yap.yapcore.helpers.extentions.getQRCode
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -32,7 +29,6 @@ import pl.aprilapps.easyphotopicker.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.BufferedInputStream
-import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
 
@@ -129,7 +125,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
             this, arrayOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), CAMERA_PERMISSION_REQUEST
+            ), REQUEST_CAMERA_PERMISSION
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
@@ -174,10 +170,9 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         } else {
             EasyPermissions.requestPermissions(
                 this, "This app needs access to your camera so you can take pictures.",
-                CAMERA_PERMISSION_REQUEST, Manifest.permission.CAMERA
+                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
             )
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

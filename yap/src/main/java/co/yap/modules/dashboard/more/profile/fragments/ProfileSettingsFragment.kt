@@ -23,9 +23,9 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
-import co.yap.yapcore.constants.Constants.CAMERA_PERMISSION_REQUEST
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
+import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -38,7 +38,10 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
-import pl.aprilapps.easyphotopicker.*
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
+import pl.aprilapps.easyphotopicker.MediaFile
+import pl.aprilapps.easyphotopicker.MediaSource
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -134,7 +137,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         } else {
             EasyPermissions.requestPermissions(
                 this, "This app needs access to your camera so you can take pictures.",
-                CAMERA_PERMISSION_REQUEST, Manifest.permission.CAMERA
+                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
             )
         }
 
