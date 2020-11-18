@@ -230,11 +230,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.rlAddNewProfilePic -> {
                     this.fragmentManager?.let {
-
                         updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
-
                         updatePhotoBottomSheet.show(it, "")
-
                     }
                 }
 
