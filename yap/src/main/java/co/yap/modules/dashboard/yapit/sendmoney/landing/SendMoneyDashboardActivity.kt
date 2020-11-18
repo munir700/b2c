@@ -16,10 +16,11 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDash
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
-import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
@@ -226,16 +227,24 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 finish()
             }
             R.id.ivRightIcon -> {
-                launchActivity<SendMoneyLandingActivity>(
+                //Temp code
+                launchActivity<SMBeneficiaryParentActivity>(
                     type = FeatureSet.SEND_MONEY,
                     requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
                 ) {
-                    putExtra(
-                        SendMoneyLandingActivity.TransferType,
-                        SendMoneyTransferType.ALL_Y2Y_SM.name
-                    )
-                    putExtra(SendMoneyLandingActivity.searching, true)
+                    //putExtra(SendMoneyLandingActivity.searching, true)
                 }
+
+                /*   launchActivity<SendMoneyLandingActivity>(
+                       type = FeatureSet.SEND_MONEY,
+                       requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
+                   ) {
+                       putExtra(
+                           SendMoneyLandingActivity.TransferType,
+                           SendMoneyTransferType.ALL_Y2Y_SM.name
+                       )
+                       putExtra(SendMoneyLandingActivity.searching, true)
+                   }*/
             }
         }
     }

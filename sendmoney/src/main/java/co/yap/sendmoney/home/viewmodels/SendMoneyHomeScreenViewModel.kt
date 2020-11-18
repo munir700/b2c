@@ -192,48 +192,48 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override fun getY2YBeneficiaries() = getLocalContactsFromServer()
 
-    private fun getLocalContactsFromServer() = launch(Dispatcher.LongOperation) {
-            var list: List<Contact> = arrayListOf()
-            val localContacts = getLocalContacts(context).removeOwnContact()
-            if (localContacts.isEmpty()) {
-                list = arrayListOf()
-            } else {
-                val combineContacts = arrayListOf<Contact>()
-                val threshold = 3000
-                var lastCount = 0
-                val numberOfIteration =
-                    ceil((localContacts.size.toDouble()) / threshold.toDouble()).toInt()
-                for (x in 1..numberOfIteration) {
-                    val itemsToPost = localContacts.subList(
-                        lastCount,
-                        if ((x * threshold) > localContacts.size) localContacts.size else x * threshold
-                    )
-                    getY2YFromServer(itemsToPost) { contacts ->
-                        contacts?.let { combineContacts.addAll(it) }
-                        if (combineContacts.size >= localContacts.size) {
-                            combineContacts.sortBy { it.title }
-                            list = combineContacts
-                        }
-                    }
+    private fun getLocalContactsFromServer(): List<Contact> {
+        var list: List<Contact> = arrayListOf()
+        val localContacts = getLocalContacts(context).removeOwnContact()
+        if (localContacts.isEmpty()) {
+            list = arrayListOf()
+        } else {
+            val combineContacts = arrayListOf<Contact>()
+            val threshold = 3000
+            var lastCount = 0
+            val numberOfIteration =
+                ceil((localContacts.size.toDouble()) / threshold.toDouble()).toInt()
+            for (x in 1..numberOfIteration) {
+                val itemsToPost = localContacts.subList(
+                    lastCount,
+                    if ((x * threshold) > localContacts.size) localContacts.size else x * threshold
+                )
+//                    getY2YFromServer(itemsToPost) { contacts ->
+//                        contacts?.let { combineContacts.addAll(it) }
+//                        if (combineContacts.size >= localContacts.size) {
+//                            combineContacts.sortBy { it.title }
+//                            list = combineContacts
+//                        }
+//                    }
 
-                    lastCount = x * threshold
-                }
+                lastCount = x * threshold
             }
         }
+        return arrayListOf()
     }
+}
 
-    private suspend fun getY2YFromServer(
-        localList: MutableList<Contact>,
-        success: (List<Contact>?) -> Unit
-    ) {
-        when (val response =
-            repository.getY2YBeneficiaries(localList)) {
+/*   private fun getY2YFromServer(
+       localList: MutableList<Contact>,
+       success: (List<Contact>?) -> Unit
+   ) {
+*//*       when (val response =
+            getY2YBeneficiaries(localList)) {
             is RetroApiResponse.Success -> {
                 success.invoke(response.data.data)
             }
             is RetroApiResponse.Error -> {
 
             }
-        }
-    }
-}
+        }*//*
+    }*/
