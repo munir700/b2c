@@ -42,7 +42,6 @@ import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import java.io.File
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener, EasyPermissions.PermissionCallbacks {
@@ -50,7 +49,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getLayoutId(): Int = R.layout.fragment_profile
     internal var permissionHelper: PermissionHelper? = null
     lateinit var easyImage: EasyImage
-
+    private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
+    private val takePhoto = 1
+    private val pickPhoto = 2
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
 
@@ -92,17 +93,53 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     override fun onClick(eventType: Int) {
+        updatePhotoBottomSheet.dismiss()
+
+        when (eventType) {
+
+            Constants.EVENT_ADD_PHOTO -> {
+
+                initEasyImage(takePhoto)
+
+            }
+
+            Constants.EVENT_CHOOSE_PHOTO -> {
+
+                initEasyImage(pickPhoto)
+            }
+
+            Constants.EVENT_REMOVE_PHOTO -> {
+
+                viewModel.requestRemoveProfilePicture {
+
+                    if (it)
+
+                        ivProfilePic.setImageDrawable(null)
+
+                }
+
+            }
+
+        }
     }
 
-    private fun initEasyImage() {
+    private fun initEasyImage(type: Int) {
         if (hasCameraPermission()) {
             easyImage = EasyImage.Builder(requireContext())
                 .setChooserTitle("Pick Image")
-                .setChooserType(ChooserType.CAMERA_AND_GALLERY)
                 .setFolderName("YAPImage")
                 .allowMultiple(false)
                 .build()
-            easyImage.openChooser(this)
+            when (type) {
+                1 -> {
+                    easyImage.openCameraForImage(this)
+
+                }
+                2 -> {
+                    easyImage.openGallery(this)
+                }
+            }
+            //  easyImage.openChooser(this)
         } else {
             EasyPermissions.requestPermissions(
                 this, "This app needs access to your camera so you can take pictures.",
@@ -201,7 +238,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
-                    initEasyImage()
+                    this.fragmentManager?.let {
+
+                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
+
+                        updatePhotoBottomSheet.show(it, "")
+
+                    }
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
@@ -212,6 +255,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
             }
         })
+    }
+
+    private fun showRemovePhoto(): Boolean {
+
+        return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -285,7 +333,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        initEasyImage()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
