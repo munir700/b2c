@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
@@ -28,6 +29,7 @@ import co.yap.yapcore.constants.Constants.OVERVIEW_BENEFICIARY
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
@@ -54,9 +56,14 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.sendMoneyType.set(viewModel.parentViewModel?.state?.sendMoneyType?.value)
-        viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-        viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-        setObservers()
+        if (viewModel.state.sendMoneyType.get() == SendMoneyTransferType.ALL_Y2Y_SM.name) {
+            skipCurrentFragment()
+        } else {
+            viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+            viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+            setObservers()
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -428,5 +435,17 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                 viewModel.state.sendMoneyType.get()
             )
         }
+    }
+
+    private fun skipCurrentFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.sendMoneyLandingActivity, true) // starting destination skiped
+            .build()
+
+        navigate(
+            destinationId = R.id.action_sendMoneyLandingActivity_to_searchBeneficiariesFragment,
+            args = null,
+            navOptions = navOptions
+        )
     }
 }

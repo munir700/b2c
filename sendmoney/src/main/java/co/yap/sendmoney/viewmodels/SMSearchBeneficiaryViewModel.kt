@@ -45,6 +45,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
     }
 
     private fun getY2YAndSMBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit) {
+        state.viewState.value = true
         fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse, y2yBeneficiaries ->
             launch(Dispatcher.Main) {
                 val combinedList: ArrayList<IBeneficiary> = arrayListOf()
@@ -74,7 +75,6 @@ class SMSearchBeneficiaryViewModel(application: Application) :
         responses: (RetroApiResponse<GetAllBeneficiaryResponse>?, List<Contact>?) -> Unit
     ) {
         launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
             coroutineScope {
                 val deferredSM = async { repository.getAllBeneficiaries() }
                 getLocalContactsFromServer {
@@ -126,7 +126,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
                 success.invoke(response.data.data)
             }
             is RetroApiResponse.Error -> {
-
+                success.invoke(emptyList())
             }
         }
     }

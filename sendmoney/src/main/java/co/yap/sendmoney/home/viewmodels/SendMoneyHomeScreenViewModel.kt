@@ -3,10 +3,7 @@ package co.yap.sendmoney.home.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
-import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
@@ -15,20 +12,13 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseViewModel
 import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.translation.Strings
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
-import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getLocalContacts
 import co.yap.yapcore.helpers.extentions.parseRecentItems
-import co.yap.yapcore.helpers.extentions.removeOwnContact
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlin.math.ceil
 
 class SendMoneyHomeScreenViewModel(application: Application) :
     SMBeneficiaryParentBaseViewModel<ISendMoneyHome.State>(application), ISendMoneyHome.ViewModel,
@@ -139,92 +129,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 list.filter { it.beneficiaryType == SendMoneyBeneficiaryType.UAEFTS.type || it.beneficiaryType == SendMoneyBeneficiaryType.DOMESTIC.type }
             }
             else -> list
-        }
-    }
-
-    private fun getY2YAndSMBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit) {
-        fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse, y2yBeneficiaries ->
-            launch(Dispatcher.Main) {
-                val combinedList: ArrayList<IBeneficiary> = arrayListOf()
-                when (sendMoneyBeneficiariesResponse) {
-                    is RetroApiResponse.Success -> {
-                        combinedList.addAll(
-                            sendMoneyBeneficiariesResponse.data.data as ArrayList<IBeneficiary>
-                        )
-                        state.viewState.value = false
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.viewState.value = false
-                    }
-                }
-                y2yBeneficiaries?.forEach {
-                    it.mobileNo =
-                        Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
-                }
-                combinedList.addAll(y2yBeneficiaries?.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
-                success(combinedList)
-            }
-        }
-    }
-
-    private fun fetchCombinedBeneficiariesApis(
-        responses: (RetroApiResponse<GetAllBeneficiaryResponse>?, List<Contact>?) -> Unit
-    ) {
-        launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            coroutineScope {
-                val deferredSM = async { repository.getAllBeneficiaries() }
-                getLocalContactsFromServer {
-                    async {
-                        responses(deferredSM.await(), it)
-                    }
-                }
-            }
-        }
-    }
-
-    private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {
-        launch(Dispatcher.LongOperation) {
-            val localContacts = getLocalContacts(context).removeOwnContact()
-            if (localContacts.isEmpty()) {
-                contactsList.invoke(mutableListOf())
-            } else {
-                val combineContacts = arrayListOf<Contact>()
-                val threshold = 3000
-                var lastCount = 0
-                val numberOfIteration =
-                    ceil((localContacts.size.toDouble()) / threshold.toDouble()).toInt()
-                for (x in 1..numberOfIteration) {
-                    val itemsToPost = localContacts.subList(
-                        lastCount,
-                        if ((x * threshold) > localContacts.size) localContacts.size else x * threshold
-                    )
-                    getY2YFromServer(itemsToPost) { contacts ->
-                        contacts?.let { combineContacts.addAll(it) }
-                        if (combineContacts.size >= localContacts.size) {
-                            combineContacts.sortBy { it.title }
-                            contactsList.invoke(combineContacts)
-                        }
-                    }
-
-                    lastCount = x * threshold
-                }
-            }
-        }
-    }
-
-    private suspend fun getY2YFromServer(
-        localList: MutableList<Contact>,
-        success: (List<Contact>?) -> Unit
-    ) {
-        when (val response =
-            repository.getY2YBeneficiaries(localList)) {
-            is RetroApiResponse.Success -> {
-                success.invoke(response.data.data)
-            }
-            is RetroApiResponse.Error -> {
-
-            }
         }
     }
 }
