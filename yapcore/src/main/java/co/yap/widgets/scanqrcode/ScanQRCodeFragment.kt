@@ -170,7 +170,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                 .setFolderName("YAPImage")
                 .allowMultiple(false)
                 .build()
-            easyImage.openChooser(this)
+            easyImage.openGallery(this)
         } else {
             EasyPermissions.requestPermissions(
                 this, "This app needs access to your camera so you can take pictures.",
