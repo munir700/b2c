@@ -1,5 +1,6 @@
 package co.yap.sendmoney.home.main
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -14,6 +15,11 @@ class SMBeneficiaryParentActivity : BaseBindingActivity<ISMBeneficiaryParent.Vie
     INavigator,
     IFragmentHolder {
 
+    companion object {
+        const val TransferType = "TransferType"
+        private var performedDeleteOperation: Boolean = false
+    }
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_sm_beneficiary_parent
@@ -21,19 +27,18 @@ class SMBeneficiaryParentActivity : BaseBindingActivity<ISMBeneficiaryParent.Vie
     override val viewModel: ISMBeneficiaryParent.ViewModel
         get() = ViewModelProviders.of(this).get(SMBeneficiaryParentViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (intent.hasExtra(TransferType)) {
+            viewModel.state.sendMoneyType?.value = intent.getStringExtra(TransferType)
+        }
+    }
+
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
             this@SMBeneficiaryParentActivity,
             R.id.sm_beneficiary_parent_nav_host_fragment
         )
-
-    override fun onToolBarClick(id: Int) {
-        when (id) {
-            R.id.ivLeftIcon -> onBackPressed()
-            R.id.ivRightIcon -> {
-            }
-        }
-    }
 
     override fun onBackPressed() {
         val fragment =

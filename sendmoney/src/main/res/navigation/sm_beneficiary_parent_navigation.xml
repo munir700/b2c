@@ -5,7 +5,7 @@
     android:id="@+id/sm_beneficiary_parent_navigation"
     app:startDestination="@id/sendMoneyLandingActivity">
 
-    <activity
+    <fragment
         android:id="@+id/sendMoneyLandingActivity"
         android:name="co.yap.sendmoney.home.activities.SendMoneyLandingActivity"
         android:label="SendMoneyLandingActivity"

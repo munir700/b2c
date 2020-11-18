@@ -17,10 +17,10 @@ import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseFragment
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
@@ -40,7 +40,7 @@ import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
-class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>(),
+class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
 
     private var positionToDelete = 0
@@ -51,30 +51,16 @@ class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>()
     override val viewModel: SendMoneyHomeScreenViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
 
-    companion object {
-        const val searching = "searching"
-        const val TransferType = "TransferType"
-        private var performedDeleteOperation: Boolean = false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initComponents()
-        //TODO work in progress
-        /*     if (intent.hasExtra(TransferType)) {
-                 viewModel.state.sendMoneyType.set(intent.getStringExtra(TransferType))
-             }
-             viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-             if (intent.hasExtra(searching)) {
-                 viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-                 viewModel.isSearching.value?.let {
-                     viewModel.state.isSearching.set(it)
-                     if (!it) {
-                         viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-                     }
-                 }
-             }*/
+        viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+        viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         setObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initComponents()
     }
 
     private fun initComponents() {
@@ -88,7 +74,9 @@ class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>()
         viewModel.clickEvent.observe(this, clickListener)
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
-            performedDeleteOperation = true
+            /*
+            TODO take understanding for this param
+            performedDeleteOperation = true*/
             if (positionToDelete == 0)
                 viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
         })
@@ -155,39 +143,40 @@ class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>()
 
     private fun initSwipeListener() {
         activity?.let { activity ->
-            onTouchListener = RecyclerTouchListener(activity, rvAllBeneficiaries)
-                .setClickable(
-                    object : RecyclerTouchListener.OnRowClickListener {
-                        override fun onRowClicked(position: Int) {
-                            viewModel.clickEvent.setPayload(
-                                SingleClickEvent.AdaptorPayLoadHolder(
-                                    foregroundContainer,
-                                    getAdaptor().getDataForPosition(position),
-                                    position
+            onTouchListener =
+                RecyclerTouchListener(activity, getBinding().layoutBeneficiaries.rvAllBeneficiaries)
+                    .setClickable(
+                        object : RecyclerTouchListener.OnRowClickListener {
+                            override fun onRowClicked(position: Int) {
+                                viewModel.clickEvent.setPayload(
+                                    SingleClickEvent.AdaptorPayLoadHolder(
+                                        foregroundContainer,
+                                        getAdaptor().getDataForPosition(position),
+                                        position
+                                    )
                                 )
-                            )
-                            viewModel.clickEvent.setValue(foregroundContainer.id)
-                        }
+                                viewModel.clickEvent.setValue(foregroundContainer.id)
+                            }
 
-                        override fun onIndependentViewClicked(
-                            independentViewID: Int,
-                            position: Int
-                        ) {
-                        }
-                    }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
-                .setSwipeable(
-                    R.id.foregroundContainer, R.id.swipe
-                )
-                { viewID, position ->
-                    viewModel.clickEvent.setPayload(
-                        SingleClickEvent.AdaptorPayLoadHolder(
-                            activity.findViewById(viewID),
-                            getAdaptor().getDataForPosition(position),
-                            position
-                        )
+                            override fun onIndependentViewClicked(
+                                independentViewID: Int,
+                                position: Int
+                            ) {
+                            }
+                        }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
+                    .setSwipeable(
+                        R.id.foregroundContainer, R.id.swipe
                     )
-                    viewModel.clickEvent.setValue(viewID)
-                }
+                    { viewID, position ->
+                        viewModel.clickEvent.setPayload(
+                            SingleClickEvent.AdaptorPayLoadHolder(
+                                activity.findViewById(viewID),
+                                getAdaptor().getDataForPosition(position),
+                                position
+                            )
+                        )
+                        viewModel.clickEvent.setValue(viewID)
+                    }
         }
     }
 
@@ -278,10 +267,12 @@ class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>()
         super.onResume()
         rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
         viewModel.state.isSearching.notifyChange()
+        /*
+        TODO take understanding of this below param
         if (performedDeleteOperation) {
             performedDeleteOperation = false
             viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-        }
+        }*/
     }
 
     override fun onDestroy() {
@@ -300,7 +291,8 @@ class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>()
                     if (isSearching) {
                         setSearchView(isSearching)
                     } else {
-                        launchActivity<SendMoneyLandingActivity>(
+                        //TODO start searching fragment navigation from here
+                        /*launchActivity<SendMoneyLandingActivity>(
                             type = FeatureSet.SEND_MONEY,
                             requestCode = REQUEST_TRANSFER_MONEY
                         ) {
@@ -309,7 +301,7 @@ class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>()
                                 viewModel.state.sendMoneyType.get()
                             )
                             putExtra(searching, true)
-                        }
+                        }*/
                     }
                 }
             }

@@ -18,7 +18,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
@@ -122,12 +121,12 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun startSendMoneyFlow(sendMoneyType: String) {
-        launchActivity<SendMoneyLandingActivity> {
+        launchActivity<SMBeneficiaryParentActivity> {
             putExtra(
-                SendMoneyLandingActivity.TransferType,
+                SMBeneficiaryParentActivity.TransferType,
                 sendMoneyType
             )
-            putExtra(SendMoneyLandingActivity.searching, false)
+//            putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
