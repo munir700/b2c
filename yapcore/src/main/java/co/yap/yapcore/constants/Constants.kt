@@ -180,4 +180,8 @@ object Constants {
     //Core Bottom Sheet
     const val VIEW_WITHOUT_FLAG = 1
     const val VIEW_WITH_FLAG = 2
+
+    //Camera permissions
+    const val CAMERA_PERMISSION_REQUEST = 111
+
 }
