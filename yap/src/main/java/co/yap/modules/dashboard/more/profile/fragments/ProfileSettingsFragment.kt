@@ -122,11 +122,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 .allowMultiple(false)
                 .build()
             when (type) {
-                1 -> {
+                takePhoto -> {
                     easyImage.openCameraForImage(this)
 
                 }
-                2 -> {
+                pickPhoto -> {
                     easyImage.openGallery(this)
                 }
             }
