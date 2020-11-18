@@ -35,7 +35,6 @@ interface ISendMoneyHome {
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries(sendMoneyType: String)
         fun requestAllBeneficiaries(sendMoneyType: String)
-        fun getY2YBeneficiaries(): List<Contact>
     }
 
     interface View : IBase.View<ViewModel>

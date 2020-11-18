@@ -182,17 +182,11 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 val deferredSM = async { repository.getAllBeneficiaries() }
                 getLocalContactsFromServer {
                     async {
-                        responses(deferredSM.await(), )
+                        responses(deferredSM.await(), it)
                     }
                 }
             }
         }
-    }
-
-
-    override fun getY2YBeneficiaries(): List<Contact> {
-        var list: List<Contact> = arrayListOf()
-        return list
     }
 
     private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {
