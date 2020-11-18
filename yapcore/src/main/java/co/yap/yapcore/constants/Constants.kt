@@ -182,6 +182,6 @@ object Constants {
     const val VIEW_WITH_FLAG = 2
 
     //Camera permissions
-    const val CAMERA_PERMISSION_REQUEST = 111
+    const val CAMERA_PERMISSION_REQUEST: Int = 111
 
 }
