@@ -20,7 +20,7 @@ import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
@@ -40,7 +40,7 @@ import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
-class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
+class SendMoneyLandingActivity : BaseBindingFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
 
     private var positionToDelete = 0
@@ -60,19 +60,20 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initComponents()
-        if (intent.hasExtra(TransferType)) {
-            viewModel.state.sendMoneyType.set(intent.getStringExtra(TransferType))
-        }
-        viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-        if (intent.hasExtra(searching)) {
-            viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-            viewModel.isSearching.value?.let {
-                viewModel.state.isSearching.set(it)
-                if (!it) {
-                    viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-                }
-            }
-        }
+        //TODO work in progress
+        /*     if (intent.hasExtra(TransferType)) {
+                 viewModel.state.sendMoneyType.set(intent.getStringExtra(TransferType))
+             }
+             viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+             if (intent.hasExtra(searching)) {
+                 viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
+                 viewModel.isSearching.value?.let {
+                     viewModel.state.isSearching.set(it)
+                     if (!it) {
+                         viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+                     }
+                 }
+             }*/
         setObservers()
     }
 
@@ -153,39 +154,41 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun initSwipeListener() {
-        onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
-            .setClickable(
-                object : RecyclerTouchListener.OnRowClickListener {
-                    override fun onRowClicked(position: Int) {
-                        viewModel.clickEvent.setPayload(
-                            SingleClickEvent.AdaptorPayLoadHolder(
-                                foregroundContainer,
-                                getAdaptor().getDataForPosition(position),
-                                position
+        activity?.let { activity ->
+            onTouchListener = RecyclerTouchListener(activity, rvAllBeneficiaries)
+                .setClickable(
+                    object : RecyclerTouchListener.OnRowClickListener {
+                        override fun onRowClicked(position: Int) {
+                            viewModel.clickEvent.setPayload(
+                                SingleClickEvent.AdaptorPayLoadHolder(
+                                    foregroundContainer,
+                                    getAdaptor().getDataForPosition(position),
+                                    position
+                                )
                             )
-                        )
-                        viewModel.clickEvent.setValue(foregroundContainer.id)
-                    }
+                            viewModel.clickEvent.setValue(foregroundContainer.id)
+                        }
 
-                    override fun onIndependentViewClicked(
-                        independentViewID: Int,
-                        position: Int
-                    ) {
-                    }
-                }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
-            .setSwipeable(
-                R.id.foregroundContainer, R.id.swipe
-            )
-            { viewID, position ->
-                viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                        findViewById(viewID),
-                        getAdaptor().getDataForPosition(position),
-                        position
-                    )
+                        override fun onIndependentViewClicked(
+                            independentViewID: Int,
+                            position: Int
+                        ) {
+                        }
+                    }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
+                .setSwipeable(
+                    R.id.foregroundContainer, R.id.swipe
                 )
-                viewModel.clickEvent.setValue(viewID)
-            }
+                { viewID, position ->
+                    viewModel.clickEvent.setPayload(
+                        SingleClickEvent.AdaptorPayLoadHolder(
+                            activity.findViewById(viewID),
+                            getAdaptor().getDataForPosition(position),
+                            position
+                        )
+                    )
+                    viewModel.clickEvent.setValue(viewID)
+                }
+        }
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
@@ -199,6 +202,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
     }
+
     private fun startY2YTransfer(
         beneficiary: Beneficiary?,
         position: Int = 0
@@ -226,33 +230,40 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun confirmDeleteBeneficiary(beneficiary: Beneficiary) {
-        androidx.appcompat.app.AlertDialog.Builder(this)
+        androidx.appcompat.app.AlertDialog.Builder(context ?: requireContext())
             .setTitle(
-                Translator.getString(
-                    this,
-                    R.string.screen_send_money_display_text_delete
-                )
+                context?.let { context ->
+                    Translator.getString(
+                        context,
+                        R.string.screen_send_money_display_text_delete
+                    )
+                }
             )
             .setMessage(
-                Translator.getString(
-                    this,
-                    R.string.screen_send_money_display_text_delete_message
-                )
+                context?.let { context ->
+                    Translator.getString(
+                        context,
+                        R.string.screen_send_money_display_text_delete_message
+                    )
+                }
             )
             .setPositiveButton(
-                Translator.getString(
-                    this,
-                    R.string.common_button_yes
-                )
+                context?.let { context ->
+                    Translator.getString(
+                        context,
+                        R.string.common_button_yes
+                    )
+                }
+
             ) { dialog, which ->
                 viewModel.requestDeleteBeneficiary(beneficiary.id ?: 0)
-            }
-
-            .setNegativeButton(
-                Translator.getString(
-                    this,
-                    R.string.common_button_cancel
-                ),
+            }.setNegativeButton(
+                context?.let { context ->
+                    Translator.getString(
+                        context,
+                        R.string.common_button_cancel
+                    )
+                },
                 null
             )
             .show()
@@ -330,7 +341,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     if (payload.itemData is Beneficiary) {
                         if (SessionManager.user?.otpBlocked == true) {
-                            showBlockedFeatureAlert(this, FeatureSet.DELETE_SEND_MONEY_BENEFICIARY)
+                            activity?.let {
+                                showBlockedFeatureAlert(
+                                    it,
+                                    FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
+                                )
+                            }
                         } else {
                             positionToDelete = payload.position
                             confirmDeleteBeneficiary(payload.itemData as Beneficiary)
@@ -339,7 +355,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
                 viewModel.clickEvent.setPayload(null)
             }
-            R.id.tvCancel, R.id.tbBtnBack -> finish()
+            R.id.tvCancel, R.id.tbBtnBack -> activity?.finish()
         }
     }
 
@@ -383,13 +399,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                         )
                                     }
                                 }
-                                isDismissFlow == true -> { }
+                                isDismissFlow == true -> {
+                                }
                                 else -> viewModel.requestAllBeneficiaries(
                                     viewModel.state.sendMoneyType.get() ?: ""
                                 )
                             }
                         } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
-                            finish()
+                            activity?.finish()
                         }
                     }
                     REQUEST_TRANSFER_MONEY -> {
@@ -402,10 +419,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                                 if (it) {
                                     val intent = Intent()
                                     intent.putExtra(Constants.MONEY_TRANSFERED, true)
-                                    setResult(Activity.RESULT_OK, intent)
-                                    finish()
+                                    activity?.setResult(Activity.RESULT_OK, intent)
+                                    activity?.finish()
                                 } else {
-                                    finish()
+                                    activity?.finish()
                                 }
                             }
                         }
@@ -417,7 +434,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     override fun onToolBarClick(id: Int) {
         when (id) {
-            R.id.ivLeftIcon -> finish()
+            R.id.ivLeftIcon -> activity?.finish()
             R.id.ivRightIcon -> {
                 startAddBeneficiaryFlow()
             }
