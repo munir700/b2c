@@ -180,23 +180,26 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             state.viewState.postValue(true)
             coroutineScope {
                 val deferredSM = async { repository.getAllBeneficiaries() }
-                val deferredY2Y =
+                getLocalContactsFromServer {
                     async {
-                        getY2YBeneficiaries()
+                        responses(deferredSM.await(), )
                     }
-                responses(deferredSM.await(), deferredY2Y.await())
+                }
             }
         }
     }
 
 
-    override fun getY2YBeneficiaries() = getLocalContactsFromServer()
+    override fun getY2YBeneficiaries(): List<Contact> {
+        var list: List<Contact> = arrayListOf()
+        return list
+    }
 
-    private fun getLocalContactsFromServer() = launch(Dispatcher.LongOperation) {
-            var list: List<Contact> = arrayListOf()
+    private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {
+        launch(Dispatcher.LongOperation) {
             val localContacts = getLocalContacts(context).removeOwnContact()
             if (localContacts.isEmpty()) {
-                list = arrayListOf()
+                contactsList.invoke(mutableListOf())
             } else {
                 val combineContacts = arrayListOf<Contact>()
                 val threshold = 3000
@@ -212,7 +215,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                         contacts?.let { combineContacts.addAll(it) }
                         if (combineContacts.size >= localContacts.size) {
                             combineContacts.sortBy { it.title }
-                            list = combineContacts
+                            contactsList.invoke(combineContacts)
                         }
                     }
 
