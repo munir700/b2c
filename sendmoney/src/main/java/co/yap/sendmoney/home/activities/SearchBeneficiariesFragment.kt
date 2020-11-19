@@ -143,7 +143,7 @@ class SearchBeneficiariesFragment :
                 FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
             )
         } else {
-            confirmDeleteBeneficiary(beneficiary.beneficiaryId.toString())
+            confirmDeleteBeneficiary(beneficiary.id.toString())
         }
     }
 
