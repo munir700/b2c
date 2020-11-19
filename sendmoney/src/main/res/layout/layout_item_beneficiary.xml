@@ -8,20 +8,9 @@
         <variable
             name="viewModel"
             type="co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel" />
-
         <import type="android.view.View" />
-
-        <import type="co.yap.yapcore.helpers.Utils" />
-
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
-
-        <import type="co.yap.yapcore.R" />
-
-        <variable
-            name="dataCountry"
-            type="co.yap.countryutils.country.Country" />
     </data>
 
     <RelativeLayout
