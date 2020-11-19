@@ -112,11 +112,12 @@ class TransactionsHeaderAdapter(
             var value: String
             when {
                 total.toString().startsWith("-") -> {
-                    value = ((total * -1).toString().toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())) ?: ""
+                    value =
+                        ((total * -1).toString().toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency()))
                     value = "- ${SessionManager.getDefaultCurrency()} $value"
                 }
                 else -> {
-                    value = (total.toString().toFormattedCurrency(false,currency =SessionManager.getDefaultCurrency())) ?: ""
+                    value = (total.toString().toFormattedCurrency(false,currency = SessionManager.getDefaultCurrency()))
                     value = "+ ${SessionManager.getDefaultCurrency()} $value"
                 }
             }
