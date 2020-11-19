@@ -10,6 +10,7 @@ import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
     override var rightButtonText: ObservableField<String> = ObservableField("Cancel")
@@ -29,7 +30,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             // beneficiary?.beneficiaryType = field
         }
     @get:Bindable
-    override var currency: String? = "AED"
+    override var currency: String? = SessionManager.getDefaultCurrency()
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)

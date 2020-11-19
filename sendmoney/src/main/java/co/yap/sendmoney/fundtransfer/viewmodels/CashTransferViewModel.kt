@@ -166,7 +166,7 @@ class CashTransferViewModel(application: Application) :
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId,
                         amount = state.amount,
-                        currency = "AED",
+                        currency = SessionManager.getDefaultCurrency(),
                         purposeCode = "8",
                         remarks = state.noteValue?.trim()
                     )
@@ -315,7 +315,7 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
-                    currency = "AED",
+                    currency = SessionManager.getDefaultCurrency(),
                     amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1)
                         .toString(),
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi

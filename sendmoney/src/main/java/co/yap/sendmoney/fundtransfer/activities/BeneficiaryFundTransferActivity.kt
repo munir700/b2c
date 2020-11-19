@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
@@ -76,7 +77,7 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
                 intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
             viewModel.transferData.value = TransferFundData()
             viewModel.transferData.value?.position = intent.getIntExtra(Constants.POSITION, 0)
-            viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == "AED"
+            viewModel.isSameCurrency = viewModel.beneficiary.value?.currency == SessionManager.getDefaultCurrency()
         }
     }
 

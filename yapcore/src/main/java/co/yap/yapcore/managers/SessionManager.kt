@@ -39,6 +39,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
+    private const val DEFAULT_CURRENCY : String = "AED"
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -206,4 +207,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             }
         })
     }
+
+    fun getDefaultCurrency() = DEFAULT_CURRENCY
 }

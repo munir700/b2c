@@ -25,6 +25,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -113,8 +114,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValue.text =
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
                 showCurrency = false,
-                currency = "AED"
-            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = "AED")}"
+                currency = SessionManager.getDefaultCurrency()
+            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())}"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {

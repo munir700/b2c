@@ -8,6 +8,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 fun Transaction?.getTransactionTitle(): String {
@@ -253,7 +254,7 @@ fun Transaction?.getSpentLabelText(): String {
                                     "Amount"
                                 }
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                                    if (transaction.currency == "AED") "Amount" else "Amount"
+                                    if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
                                 else -> "Amount"
                             }
@@ -274,7 +275,7 @@ fun Transaction?.getCurrency(): String {
             }
             else -> transaction.currency.toString()
         })
-    } ?: return "AED"
+    } ?: return SessionManager.getDefaultCurrency()
 }
 
 fun Transaction?.getLabelValues(): TransactionLabelsCode? {
