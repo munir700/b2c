@@ -85,8 +85,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     if (parentViewModel?.isSameCurrency == true) {
-                        state.sourceCurrency.set("AED")
-                        state.destinationCurrency.set("AED")
+                        state.sourceCurrency.set(SessionManager.getDefaultCurrency())
+                        state.destinationCurrency.set(SessionManager.getDefaultCurrency())
                         parentViewModel?.transferData?.value?.rate = "1.0"
                     } else {
                         isAPIFailed.value = true

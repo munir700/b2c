@@ -10,6 +10,7 @@ import androidx.databinding.ObservableField
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.R
+import co.yap.yapcore.managers.SessionManager
 
 class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State {
     @get:Bindable
@@ -85,7 +86,7 @@ class GenericOtpState(application: Application) : BaseState(), IGenericOtp.State
         }
 
     @get:Bindable
-    override var currencyType: String? = "AED"
+    override var currencyType: String? = SessionManager.getDefaultCurrency()
         set(value) {
             field = value
             notifyPropertyChanged(BR.currencyType)

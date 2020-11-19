@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.extentions.toast
+import co.yap.yapcore.managers.SessionManager
 
 class GenericOtpViewModel(application: Application) :
     BaseViewModel<IGenericOtp.State>(application = application), IGenericOtp.ViewModel {
@@ -64,7 +65,7 @@ class GenericOtpViewModel(application: Application) :
                         state.currencyType,
                         state.otpDataModel?.amount?.toFormattedCurrency(
                             showCurrency = false,
-                            currency = state.currencyType ?: "AED"
+                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                         ),
                         state.otpDataModel?.username
                     )

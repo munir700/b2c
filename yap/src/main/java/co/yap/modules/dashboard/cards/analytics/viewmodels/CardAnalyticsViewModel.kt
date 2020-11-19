@@ -127,7 +127,7 @@ class CardAnalyticsViewModel(application: Application) :
                         state.totalCategorySpent = response.data.data?.totalTxnAmount.toString()
                             .toFormattedCurrency(
                                 showCurrency = true,
-                                currency = state.currencyType ?: "AED"
+                                currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
@@ -158,7 +158,7 @@ class CardAnalyticsViewModel(application: Application) :
                     state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
                         .toFormattedCurrency(
                             showCurrency = true,
-                            currency = state.currencyType ?: "AED"
+                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                         )
                     state.setUpStringForMerchant(
                         state.currencyType,

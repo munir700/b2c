@@ -110,7 +110,7 @@ class InternationalFundsTransferFragment :
             viewModel.state.toFxRate =
                 fxRate.value?.amount?.toFormattedCurrency(
                     showCurrency = true,
-                    currency = fxRate.toCurrencyCode ?: "AED"
+                    currency = fxRate.toCurrencyCode ?: SessionManager.getDefaultCurrency()
                 )
             viewModel.state.sourceCurrency.set(fxRate.fromCurrencyCode)
             viewModel.state.destinationCurrency.set(fxRate.toCurrencyCode)
@@ -122,7 +122,7 @@ class InternationalFundsTransferFragment :
         viewModel.parentViewModel?.transferData?.value?.transferFee = feeAmount
         viewModel.state.transferFeeSpannable = resources.getText(
             getString(Strings.screen_international_funds_transfer_display_text_fee),
-            requireContext().color(R.color.colorPrimaryDark, "AED"),
+            requireContext().color(R.color.colorPrimaryDark, SessionManager.getDefaultCurrency()),
             requireContext().color(
                 R.color.colorPrimaryDark,
                 if (feeAmount.isNullOrBlank()) "0".toFormattedCurrency(

@@ -24,6 +24,7 @@ import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.updateSnackBarText
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
@@ -67,7 +68,6 @@ class BeneficiaryFundTransferActivity : BaseBindingActivity<IBeneficiaryFundTran
             colorOfMessage = R.color.error, duration = Snackbar.LENGTH_INDEFINITE, marginTop = 0
         )
     }
-
 
     private fun hideErrorSnackBar() {
         cancelAllSnackBar()
