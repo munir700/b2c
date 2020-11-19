@@ -14,4 +14,5 @@ abstract class SMBeneficiaryParentBaseFragment<V : IBase.ViewModel<*>> : BaseBin
                 ViewModelProviders.of(activity!!).get(SMBeneficiaryParentViewModel::class.java)
         }
     }
+
 }

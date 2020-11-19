@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -21,7 +20,7 @@ import co.yap.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseFragment
 import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
-import co.yap.translation.Translator
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.EXTRA
@@ -31,7 +30,7 @@ import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -45,7 +44,6 @@ import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
 
-    private var positionToDelete = 0
     private lateinit var onTouchListener: RecyclerTouchListener
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
@@ -59,7 +57,7 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
         if (viewModel.state.sendMoneyType.get() == SendMoneyTransferType.ALL_Y2Y_SM.name) {
             skipCurrentFragment()
         } else {
-            viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+            viewModel.parentViewModel?.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
             viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
             setObservers()
         }
@@ -82,16 +80,8 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickListener)
-        viewModel.onDeleteSuccess.observe(this, Observer {
-            getAdaptor().removeItemAt(positionToDelete)
-            /*
-            TODO take understanding for this param
-            performedDeleteOperation = true*/
-            if (positionToDelete == 0)
-                viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-        })
         //Beneficiaries list observer
-        viewModel.allBeneficiariesLiveData.observe(this, Observer {
+        viewModel.parentViewModel?.beneficiariesList?.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 // show and hide views for no beneficiary
                 viewModel.state.isNoBeneficiary.set(true)
@@ -101,47 +91,8 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
             }
-            setSearchView(viewModel.isSearching.value ?: false)
-        })
-        //Beneficiaries list Search Query observer
-        viewModel.searchQuery.observe(this, Observer {
-            getAdaptor().filter.filter(it)
         })
 
-        //Searching Beneficiaries list Results Count observer
-        viewModel.isSearching.value?.let { isSearching ->
-            if (isSearching) {
-                getAdaptor().filterCount.observe(this, Observer {
-                    getBinding().layoutBeneficiaries.txtError.visibility =
-                        if (it == 0) View.VISIBLE else View.GONE
-                })
-            }
-        }
-    }
-
-    private fun setSearchView(show: Boolean) {
-        if (!show) {
-            getSearchView().isIconified = true
-            getBinding().run {
-                getSearchView().setIconifiedByDefault(false)
-            }
-        } else {
-            getSearchView().isIconified = false
-            getBinding().run { getSearchView().setIconifiedByDefault(false) }
-            getSearchView().setOnQueryTextListener(object :
-                SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    viewModel.searchQuery.value = query
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.searchQuery.value = newText
-                    return true
-                }
-            })
-
-        }
     }
 
     private val recentItemClickListener = object : OnItemClickListener {
@@ -191,7 +142,6 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
-        Utils.hideKeyboard(getSearchView())
         launchActivity<BeneficiaryFundTransferActivity>(
             requestCode = REQUEST_TRANSFER_MONEY,
             type = beneficiary.getBeneficiaryTransferType()
@@ -213,7 +163,6 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
-        Utils.hideKeyboard(getSearchView())
         beneficiary?.let {
             val bundle = Bundle()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
@@ -228,45 +177,6 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
         }
     }
 
-    private fun confirmDeleteBeneficiary(beneficiary: Beneficiary) {
-        androidx.appcompat.app.AlertDialog.Builder(context ?: requireContext())
-            .setTitle(
-                context?.let { context ->
-                    Translator.getString(
-                        context,
-                        R.string.screen_send_money_display_text_delete
-                    )
-                }
-            )
-            .setMessage(
-                context?.let { context ->
-                    Translator.getString(
-                        context,
-                        R.string.screen_send_money_display_text_delete_message
-                    )
-                }
-            )
-            .setPositiveButton(
-                context?.let { context ->
-                    Translator.getString(
-                        context,
-                        R.string.common_button_yes
-                    )
-                }
-
-            ) { dialog, which ->
-                viewModel.requestDeleteBeneficiary(beneficiary.id ?: 0)
-            }.setNegativeButton(
-                context?.let { context ->
-                    Translator.getString(
-                        context,
-                        R.string.common_button_cancel
-                    )
-                },
-                null
-            )
-            .show()
-    }
 
     override fun onPause() {
         rvAllBeneficiaries.removeOnItemTouchListener(onTouchListener)
@@ -276,19 +186,11 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
     override fun onResume() {
         super.onResume()
         rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
-        viewModel.state.isSearching.notifyChange()
-        /*
-        TODO take understanding of this below param
-        if (performedDeleteOperation) {
-            performedDeleteOperation = false
-            viewModel.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
-        }*/
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-        viewModel.onDeleteSuccess.removeObservers(this)
     }
 
     private val clickListener = Observer<Int> {
@@ -301,15 +203,16 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
             }
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
-                    if (payload.itemData is Beneficiary) {
-                        startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
-                    } else if (payload.itemData is Contact) {
-                        val beneficiary = Beneficiary(
-                            beneficiaryUuid = (payload.itemData as Contact).accountDetailList?.get(0)?.accountUuid,
-                            beneficiaryPictureUrl = (payload.itemData as Contact).beneficiaryPictureUrl,
-                            title = (payload.itemData as Contact).title
-                        )
-                        startY2YTransfer(beneficiary, payload.position)
+                    when (payload.itemData) {
+                        is Beneficiary -> {
+                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
+                        }
+                        is Contact -> {
+                            startY2YTransfer(
+                                viewModel.parentViewModel?.getBeneficiaryFromContact(payload.itemData as Contact),
+                                payload.position
+                            )
+                        }
                     }
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -323,21 +226,14 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                 }
                 viewModel.clickEvent.setPayload(null)
             }
+
             R.id.btnDelete -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
-                    if (payload.itemData is Beneficiary) {
-                        if (SessionManager.user?.otpBlocked == true) {
-                            activity?.let {
-                                showBlockedFeatureAlert(
-                                    it,
-                                    FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
-                                )
-                            }
-                        } else {
-                            positionToDelete = payload.position
-                            confirmDeleteBeneficiary(payload.itemData as Beneficiary)
-                        }
-                    }
+                    if (payload.itemData is Beneficiary) deleteBeneficiary(
+                        payload.itemData as Beneficiary,
+                        payload.position
+                    )
+
                 }
                 viewModel.clickEvent.setPayload(null)
             }
@@ -345,12 +241,33 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
         }
     }
 
-    private fun getAdaptor(): AllBeneficiariesAdapter {
-        return viewModel.beneficiariesAdapter
+    private fun deleteBeneficiary(beneficiary: Beneficiary, position: Int) {
+        if (SessionManager.user?.otpBlocked == true) {
+            showBlockedFeatureAlert(
+                requireActivity(),
+                FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
+            )
+        } else {
+            confirmDeleteBeneficiary(beneficiary, position)
+        }
     }
 
-    private fun getSearchView(): SearchView {
-        return getBinding().layoutBeneficiaries.layoutSearchView.svBeneficiary
+    private fun confirmDeleteBeneficiary(beneficiary: Beneficiary, position: Int) {
+        confirm(
+            message = getString(Strings.screen_send_money_display_text_delete_message),
+            title = getString(Strings.screen_send_money_display_text_delete),
+            positiveButton = getString(Strings.common_button_yes),
+            negativeButton = getString(Strings.common_button_cancel)
+        ) {
+            viewModel.parentViewModel?.requestDeleteBeneficiary(beneficiary.id.toString()) {
+                viewModel.parentViewModel?.beneficiariesList?.value?.remove(beneficiary)
+                viewModel.beneficiariesAdapter.removeItemAt(position)
+            }
+        }
+    }
+
+    private fun getAdaptor(): AllBeneficiariesAdapter {
+        return viewModel.beneficiariesAdapter
     }
 
     private fun getBinding(): ActivitySendMoneyLandingBinding {
@@ -380,14 +297,14 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                                 isMoneyTransfer == true -> {
                                     beneficiary?.let {
                                         startMoneyTransfer(it, 0)
-                                        viewModel.requestAllBeneficiaries(
+                                        viewModel.parentViewModel?.requestAllBeneficiaries(
                                             viewModel.state.sendMoneyType.get() ?: ""
                                         )
                                     }
                                 }
                                 isDismissFlow == true -> {
                                 }
-                                else -> viewModel.requestAllBeneficiaries(
+                                else -> viewModel.parentViewModel?.requestAllBeneficiaries(
                                     viewModel.state.sendMoneyType.get() ?: ""
                                 )
                             }
@@ -401,22 +318,14 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                                 false
                             )
                         ) {
-                            viewModel.isSearching.value?.let {
-                                if (it) {
-                                    val intent = Intent()
-                                    intent.putExtra(Constants.MONEY_TRANSFERED, true)
-                                    activity?.setResult(Activity.RESULT_OK, intent)
-                                    activity?.finish()
-                                } else {
-                                    activity?.finish()
-                                }
-                            }
+                            activity?.finish()
                         }
                     }
                 }
             }
         }
     }
+
 
     override fun onToolBarClick(id: Int) {
         when (id) {

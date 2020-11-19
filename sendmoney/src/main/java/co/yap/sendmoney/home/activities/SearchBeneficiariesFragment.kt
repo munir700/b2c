@@ -1,5 +1,6 @@
 package co.yap.sendmoney.home.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -20,6 +21,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.confirm
@@ -40,7 +42,6 @@ class SearchBeneficiariesFragment :
 
     override val viewModel: SMSearchBeneficiaryViewModel
         get() = ViewModelProviders.of(this).get(SMSearchBeneficiaryViewModel::class.java)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,6 +92,8 @@ class SearchBeneficiariesFragment :
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
+
+            onTouchListener.setEnabled(viewModel.parentViewModel?.state?.sendMoneyType?.value != SendMoneyTransferType.ALL_Y2Y_SM.name)
         }
     }
 
@@ -108,7 +111,7 @@ class SearchBeneficiariesFragment :
                         }
                         is Contact -> {
                             startY2YTransfer(
-                                viewModel.getBeneficiaryFromContact(payload.itemData as Contact),
+                                viewModel.parentViewModel?.getBeneficiaryFromContact(payload.itemData as Contact),
                                 payload.position
                             )
                         }
@@ -128,7 +131,10 @@ class SearchBeneficiariesFragment :
 
             R.id.btnDelete -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
-                    if (payload.itemData is Beneficiary) deleteBeneficiary(payload.itemData as Beneficiary)
+                    if (payload.itemData is Beneficiary) deleteBeneficiary(
+                        payload.itemData as Beneficiary,
+                        payload.position
+                    )
 
                 }
                 viewModel.clickEvent.setPayload(null)
@@ -136,25 +142,29 @@ class SearchBeneficiariesFragment :
         }
     }
 
-    private fun deleteBeneficiary(beneficiary: Beneficiary) {
+    private fun deleteBeneficiary(beneficiary: Beneficiary, position: Int) {
         if (SessionManager.user?.otpBlocked == true) {
             showBlockedFeatureAlert(
                 requireActivity(),
                 FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
             )
         } else {
-            confirmDeleteBeneficiary(beneficiary.id.toString())
+            confirmDeleteBeneficiary(beneficiary, position)
         }
     }
 
-    private fun confirmDeleteBeneficiary(beneficiaryId: String) {
+    private fun confirmDeleteBeneficiary(beneficiary: Beneficiary, position: Int) {
         confirm(
             message = getString(Strings.screen_send_money_display_text_delete_message),
             title = getString(Strings.screen_send_money_display_text_delete),
             positiveButton = getString(Strings.common_button_yes),
             negativeButton = getString(Strings.common_button_cancel)
         ) {
-            viewModel.requestDeleteBeneficiary(beneficiaryId) {
+            viewModel.parentViewModel?.requestDeleteBeneficiary(beneficiary.id.toString()) {
+                viewModel.parentViewModel?.beneficiariesList?.value?.remove(beneficiary)
+                viewModel.parentViewModel?.beneficiariesList?.value =
+                    viewModel.parentViewModel?.beneficiariesList?.value
+                viewModel.adapter.removeItemAt(position)
             }
         }
     }
@@ -197,10 +207,26 @@ class SearchBeneficiariesFragment :
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                if (data?.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false) == true) {
+                    viewModel.parentViewModel?.requestAllBeneficiaries(
+                        viewModel.parentViewModel?.state?.sendMoneyType?.value ?: ""
+                    ) {
+                        viewModel.adapter.setList(
+                            viewModel.parentViewModel?.beneficiariesList?.value ?: arrayListOf()
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         getBindings().rvAllBeneficiaries.removeOnItemTouchListener(onTouchListener)
-
     }
 
     override fun onResume() {
@@ -212,7 +238,6 @@ class SearchBeneficiariesFragment :
         viewModel.clickEvent.removeObservers(this)
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         removeObservers()
@@ -221,5 +246,4 @@ class SearchBeneficiariesFragment :
     private fun getBindings(): FragmentSearchBeneficiaryBinding {
         return viewDataBinding as FragmentSearchBeneficiaryBinding
     }
-
 }

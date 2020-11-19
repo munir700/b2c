@@ -2,8 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-
     <data>
 
         <import type="co.yap.translation.Strings" />
@@ -77,15 +75,17 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAllBeneficiaries"
-            app:recycleViewAdapter="@{viewModel.adapter}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lySearchView"
+            app:layout_constraintVertical_bias="0.0"
+            app:recycleViewAdapter="@{viewModel.adapter}"
             tools:listitem="@layout/layout_item_beneficiary"
             tools:visibility="visible" />
 

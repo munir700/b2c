@@ -3,7 +3,6 @@ package co.yap.sendmoney.viewmodels
 import android.app.Application
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -14,7 +13,6 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseViewModel
 import co.yap.sendmoney.home.states.SMSearchBeneficiaryState
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getLocalContacts
@@ -43,7 +41,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
                 state.viewState.value = false
             }
         } else {
-            adapter.setList(parentViewModel?.beneficiariesList ?: arrayListOf())
+            adapter.setList(parentViewModel?.beneficiariesList?.value ?: arrayListOf())
         }
     }
 
@@ -129,34 +127,5 @@ class SMSearchBeneficiaryViewModel(application: Application) :
                 success.invoke(emptyList())
             }
         }
-    }
-
-    override fun requestDeleteBeneficiary(beneficiaryId: String, completion: () -> Unit) {
-        launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            val response = repository.deleteBeneficiaryFromList(beneficiaryId)
-            launch(Dispatcher.Main) {
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        state.viewState.value = false
-                        state.viewState.value = "Deleted Successfully"
-                        completion.invoke()
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.viewState.value = false
-                        state.viewState.value = "${response.error.message}^${AlertType.DIALOG.name}"
-                    }
-                }
-            }
-        }
-    }
-
-    override fun getBeneficiaryFromContact(contact: Contact): Beneficiary {
-        return Beneficiary(
-            beneficiaryUuid = contact.accountDetailList?.get(0)?.accountUuid,
-            beneficiaryPictureUrl = contact.beneficiaryPictureUrl,
-            title = contact.title
-        )
     }
 }
