@@ -89,4 +89,5 @@ interface IBeneficiary {
     val flag: String? get() = null
     val userType: String? get() = null
     val imgUrl: String? get() = null
+    val sendMoneyType: String? get() = null
 }

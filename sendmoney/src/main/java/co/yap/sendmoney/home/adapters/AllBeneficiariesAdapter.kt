@@ -13,7 +13,7 @@ class AllBeneficiariesAdapter(
 ) : BaseBindingSearchRecylerAdapter<IBeneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
     list
 ) {
-
+    var sendMoneyType: String?=null
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_beneficiary
 
     override fun onCreateViewHolder(binding: ViewDataBinding): AllBeneficiariesItemViewHolder {
@@ -22,7 +22,7 @@ class AllBeneficiariesAdapter(
 
     override fun onBindViewHolder(holder: AllBeneficiariesItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-            holder.onBind(list[position], position, onItemClickListener)
+        holder.onBind(list[position], position, onItemClickListener, sendMoneyType)
     }
 
     class AllBeneficiariesItemViewHolder(
@@ -33,9 +33,11 @@ class AllBeneficiariesAdapter(
         fun onBind(
             beneficiary: IBeneficiary?,
             position: Int,
-            onItemClickListener: OnItemClickListener?
+            onItemClickListener: OnItemClickListener?,
+            sendMoneyType: String? = ""
         ) {
-            itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
+            itemContactsBinding.viewModel =
+                BeneficiaryItemViewModel(beneficiary, position, sendMoneyType, onItemClickListener)
             itemContactsBinding.executePendingBindings()
         }
     }

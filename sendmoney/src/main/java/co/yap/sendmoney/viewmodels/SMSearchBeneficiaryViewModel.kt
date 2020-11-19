@@ -35,6 +35,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        adapter.sendMoneyType = parentViewModel?.state?.sendMoneyType?.value
         if (parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
             getY2YAndSMBeneficiaries {
                 adapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })

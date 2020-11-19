@@ -150,7 +150,7 @@
                 android:layout_height="0dp"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
-                android:visibility="@{viewModel.beneficiary.flag.equals(`AE`) ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{viewModel.beneficiary.flag.equals(`AE`) &amp;&amp; viewModel.sendMoneyType.equals(`LOCAL`) ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

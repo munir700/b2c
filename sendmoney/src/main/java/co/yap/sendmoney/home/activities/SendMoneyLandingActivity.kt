@@ -31,10 +31,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
-import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -57,11 +54,14 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
         if (viewModel.state.sendMoneyType.get() == SendMoneyTransferType.ALL_Y2Y_SM.name) {
             skipCurrentFragment()
         } else {
-            viewModel.parentViewModel?.requestAllBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
+            viewModel.beneficiariesAdapter.sendMoneyType =
+                viewModel.parentViewModel?.state?.sendMoneyType?.value
+            viewModel.parentViewModel?.requestAllBeneficiaries(
+                viewModel.state.sendMoneyType.get() ?: ""
+            )
             viewModel.requestRecentBeneficiaries(viewModel.state.sendMoneyType.get() ?: "")
             setObservers()
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +75,6 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
         viewModel.recentsAdapter.allowFullItemClickListener = true
         viewModel.recentsAdapter.setItemListener(recentItemClickListener)
         initSwipeListener()
-
     }
 
     private fun setObservers() {
@@ -142,7 +141,7 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
-        launchActivity<BeneficiaryFundTransferActivity>(
+        launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = REQUEST_TRANSFER_MONEY,
             type = beneficiary.getBeneficiaryTransferType()
         ) {
@@ -308,17 +307,6 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
                                     viewModel.state.sendMoneyType.get() ?: ""
                                 )
                             }
-                        } else if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
-                            activity?.finish()
-                        }
-                    }
-                    REQUEST_TRANSFER_MONEY -> {
-                        if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                                Constants.MONEY_TRANSFERED,
-                                false
-                            )
-                        ) {
-                            activity?.finish()
                         }
                     }
                 }

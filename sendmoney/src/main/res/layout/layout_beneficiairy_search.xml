@@ -27,14 +27,14 @@
             android:id="@+id/svBeneficiary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/bg_search_widget"
             android:theme="@style/AppSearchView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
-            app:searchIcon="@drawable/ic_search_grey" />
+            android:background="@null"
+            app:searchIcon="@null" />
 
         <ImageView
             android:id="@+id/ivSearch"

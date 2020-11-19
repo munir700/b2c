@@ -25,10 +25,7 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.confirm
-import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_item_beneficiary.*
@@ -93,7 +90,7 @@ class SearchBeneficiariesFragment :
                         viewModel.clickEvent.setValue(viewID)
                     }
 
-            onTouchListener.setEnabled(viewModel.parentViewModel?.state?.sendMoneyType?.value != SendMoneyTransferType.ALL_Y2Y_SM.name)
+            onTouchListener.setSwipeable(viewModel.parentViewModel?.state?.sendMoneyType?.value != SendMoneyTransferType.ALL_Y2Y_SM.name)
         }
     }
 
@@ -101,7 +98,11 @@ class SearchBeneficiariesFragment :
         when (it) {
             R.id.tvCancel -> {
                 Utils.hideKeyboard(getBindings().etSearch)
-                navigateBack()
+                if (viewModel.parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
+                    requireActivity().finish()
+                } else {
+                    navigateBack()
+                }
             }
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
@@ -171,7 +172,7 @@ class SearchBeneficiariesFragment :
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getBindings().etSearch)
-        launchActivity<BeneficiaryFundTransferActivity>(
+        launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
             type = beneficiary.getBeneficiaryTransferType()
         ) {

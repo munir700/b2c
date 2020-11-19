@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
@@ -71,5 +70,4 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
-
 }

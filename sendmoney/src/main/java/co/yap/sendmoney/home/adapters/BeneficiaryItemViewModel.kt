@@ -7,6 +7,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class BeneficiaryItemViewModel(
     val beneficiary: IBeneficiary?,
     val position: Int,
+    val sendMoneyType: String?,
     private val onItemClickListener: OnItemClickListener?
 ) {
 

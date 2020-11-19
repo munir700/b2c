@@ -12,7 +12,6 @@ import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
-import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
 
 class SMBeneficiaryParentViewModel(application: Application) :
@@ -50,7 +49,6 @@ class SMBeneficiaryParentViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     val filteredList = getBeneficiariesOfType(sendMoneyType, response.data.data)
-                    filteredList.parseRecentItems()
                     beneficiariesList.value =
                         filteredList as ArrayList<IBeneficiary>
                     completion.invoke()

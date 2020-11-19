@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
@@ -121,7 +122,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun startSendMoneyFlow(sendMoneyType: String) {
-        launchActivity<SMBeneficiaryParentActivity> {
+        launchActivity<SMBeneficiaryParentActivity>(requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
             putExtra(
                 ExtraKeys.SEND_MONEY_TYPE.name,
                 sendMoneyType
@@ -208,6 +209,17 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                    finish()
+                }
+            }
         }
     }
 
