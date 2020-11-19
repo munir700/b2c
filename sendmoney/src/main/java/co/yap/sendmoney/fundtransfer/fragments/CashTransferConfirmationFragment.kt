@@ -116,7 +116,7 @@ class CashTransferConfirmationFragment :
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency(
                         true,
-                        "AED"
+                        SessionManager.getDefaultCurrency()
                     ) ?: ""
                 )
             )

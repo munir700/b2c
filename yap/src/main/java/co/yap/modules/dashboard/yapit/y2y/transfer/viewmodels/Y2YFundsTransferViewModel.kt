@@ -16,6 +16,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.managers.SessionManager
 
 class Y2YFundsTransferViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransfer.State>(application),
@@ -33,7 +34,7 @@ class Y2YFundsTransferViewModel(application: Application) :
         super.onCreate()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
-        state.currencyType = "AED"
+        state.currencyType = SessionManager.getDefaultCurrency()
         getTransactionThresholds()
         getTransactionLimits()
     }

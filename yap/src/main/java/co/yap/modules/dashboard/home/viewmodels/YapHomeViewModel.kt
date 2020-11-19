@@ -102,7 +102,7 @@ class YapHomeViewModel(application: Application) :
 
                             var transactionModel = HomeTransactionListData(
                                 "Type",
-                                "AED",
+                                SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
                                 transactionList[0].getFormattedDate(),
                                 transactionList[0].totalAmount.toString(),
@@ -185,7 +185,7 @@ class YapHomeViewModel(application: Application) :
 
             val transactionModel = HomeTransactionListData(
                 "Type",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 mapEntry.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,

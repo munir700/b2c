@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.Utils.getConfiguredDecimals
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
+import co.yap.yapcore.managers.SessionManager
 import java.text.DecimalFormat
 import java.util.*
 
@@ -31,11 +32,11 @@ class EasyMoneyEditText : AppCompatEditText {
     private var currency: String? = null
         set(value) {
             field = value
-            decimalDigits = getConfiguredDecimals(currency ?: "AED")
+            decimalDigits = getConfiguredDecimals(currency ?: SessionManager.getDefaultCurrency())
         }
     private var _showCurrency = false
     private var _showCommas = false
-    private var decimalDigits: Int = getConfiguredDecimals("AED")
+    private var decimalDigits: Int = getConfiguredDecimals(SessionManager.getDefaultCurrency())
     private var textToDisplay: String? = null
     private var mBackgroundColor: Int = 0
     private var mCornerRadius: Float = Utils.dpToFloat(context, 10f)
@@ -87,7 +88,7 @@ class EasyMoneyEditText : AppCompatEditText {
                     currency = attrArray.getString(R.styleable.EasyMoneyWidgets_em_currency)
                 decimalDigits = attrArray.getInteger(
                     R.styleable.EasyMoneyWidgets_decimalDigits,
-                    getConfiguredDecimals(currency ?: "AED")
+                    getConfiguredDecimals(currency ?: SessionManager.getDefaultCurrency())
                 )
                 if (attrArray.hasValue(R.styleable.EasyMoneyWidgets_android_maxLength)) {
                     maxLength = attrArray.getInteger(

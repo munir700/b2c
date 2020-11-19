@@ -83,7 +83,7 @@ class InternationalTransactionConfirmationFragment :
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency(
                         false,
-                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: "AED"
+                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: SessionManager.getDefaultCurrency()
                     )
                         ?: ""
                 ),
@@ -111,7 +111,7 @@ class InternationalTransactionConfirmationFragment :
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency(
                         showCurrency = true,
-                        currency = "AED"
+                        currency = SessionManager.getDefaultCurrency()
                     ) ?: ""
                 )
             )
