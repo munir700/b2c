@@ -63,6 +63,10 @@ object Strings {
         "screen_home_display_text_sign_in_title"
     const val screen_home_display_text_sign_in_action: String =
         "screen_home_display_text_sign_in_action"
+    const val common_display_text_cooling_period_limit_consumed_error: String =
+        "common_display_text_cooling_period_limit_consumed_error"
+    const val common_display_text_cooling_period_limit_error: String =
+        "common_display_text_cooling_period_limit_error"
 
     //Welcome screen
     const val screen_welcome_b2c_display_text_page1_title: String =

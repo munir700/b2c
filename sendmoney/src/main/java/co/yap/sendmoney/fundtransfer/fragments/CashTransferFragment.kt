@@ -32,6 +32,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -137,15 +138,32 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
-                        viewModel.showUpperLowerLimitError()
-                    } else {
-                        if (viewModel.isUaeftsBeneficiary()) {
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                            viewModel.showUpperLowerLimitError()
+                        }
+                        viewModel.parentViewModel?.isInCoolingPeriod() == true && viewModel.parentViewModel?.isCPAmountConsumed(
+                            viewModel.state.amount
+                        ) == true -> {
+                            viewModel.checkCoolingPeriodRequest(
+                                beneficiaryId = viewModel.parentViewModel?.beneficiary?.value?.id.toString(),
+                                beneficiaryCreationDate = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryCreationDate,
+                                beneficiaryName = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                                amount = viewModel.state.amount
+                            ) {
+                                requireActivity().showAlertCustomDialog(
+                                    title = "Psst...",
+                                    message = viewModel.parentViewModel?.showCoolingPeriodLimitError(),
+                                    buttonText = "OK, got it!"
+                                )
+                            }
+                        }
+                        viewModel.isUaeftsBeneficiary() -> {
                             if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
                                 "Select a reason ^${AlertType.DIALOG.name}"
                             )
-                        } else
-                            startOtpFragment()
+                        }
+                        else -> startOtpFragment()
                     }
                 }
             }
@@ -358,7 +376,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
@@ -373,7 +390,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         }
     }
 
-    fun getBindings(): FragmentCashTransferBinding {
+   private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
 }

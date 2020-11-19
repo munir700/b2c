@@ -235,6 +235,36 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.etOutputAmount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
+        }
+    }
+
     override fun getCutOffTimeConfiguration() {
         parentViewModel?.beneficiary?.value?.run {
             beneficiaryType?.let { beneficiaryType ->
