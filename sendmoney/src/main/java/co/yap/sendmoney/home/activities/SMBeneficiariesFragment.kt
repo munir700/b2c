@@ -16,9 +16,9 @@ import co.yap.sendmoney.databinding.ActivitySendMoneyLandingBinding
 import co.yap.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.interfaces.ISMBeneficiaries
 import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseFragment
-import co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
+import co.yap.sendmoney.home.viewmodels.SMBeneficiariesViewModel
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -38,15 +38,15 @@ import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 
-class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.ViewModel>(),
-    ISendMoneyHome.View {
+class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries.ViewModel>(),
+    ISMBeneficiaries.View {
 
     private lateinit var onTouchListener: RecyclerTouchListener
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
 
-    override val viewModel: SendMoneyHomeScreenViewModel
-        get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
+    override val viewModel: SMBeneficiariesViewModel
+        get() = ViewModelProviders.of(this).get(SMBeneficiariesViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +79,6 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickListener)
-        //Beneficiaries list observer
         viewModel.parentViewModel?.beneficiariesList?.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 // show and hide views for no beneficiary

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+            type="co.yap.sendmoney.home.viewmodels.SMBeneficiariesViewModel" />
 
         <import type="android.view.View" />
 

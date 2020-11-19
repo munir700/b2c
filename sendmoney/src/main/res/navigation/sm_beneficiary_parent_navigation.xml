@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/sendMoneyLandingActivity"
-        android:name="co.yap.sendmoney.home.activities.SendMoneyLandingActivity"
+        android:name="co.yap.sendmoney.home.activities.SMBeneficiariesFragment"
         android:label="SendMoneyLandingActivity"
         tools:layout="@layout/activity_send_money_landing">
         <action

@@ -7,7 +7,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
-import co.yap.sendmoney.home.interfaces.ISendMoneyHome
+import co.yap.sendmoney.home.interfaces.ISMBeneficiaries
 import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseViewModel
 import co.yap.sendmoney.home.states.SendMoneyHomeState
 import co.yap.translation.Strings
@@ -17,8 +17,8 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.managers.SessionManager
 
-class SendMoneyHomeScreenViewModel(application: Application) :
-    SMBeneficiaryParentBaseViewModel<ISendMoneyHome.State>(application), ISendMoneyHome.ViewModel,
+class SMBeneficiariesViewModel(application: Application) :
+    SMBeneficiaryParentBaseViewModel<ISMBeneficiaries.State>(application), ISMBeneficiaries.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository

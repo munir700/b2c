@@ -11,7 +11,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 
-interface ISendMoneyHome {
+interface ISMBeneficiaries {
     interface State : IBase.State {
         var isNoBeneficiary: ObservableField<Boolean>
         var hasBeneficiary: ObservableField<Boolean>
