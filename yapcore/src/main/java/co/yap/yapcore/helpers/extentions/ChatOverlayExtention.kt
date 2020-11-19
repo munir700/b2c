@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
+import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -9,15 +10,13 @@ import co.yap.widgets.CounterFloatingActionButton
 import co.yap.yapcore.R
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
-import com.liveperson.infra.ConversationViewParams
-import com.liveperson.infra.InitLivePersonProperties
-import com.liveperson.infra.LPAuthenticationParams
-import com.liveperson.infra.LPConversationsHistoryStateToDisplay
+import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
 
 const val BRAND_ID: String = "17038977"
+private val appInstallId = SessionManager.user?.uuid
 
 fun Activity.initializeChatOverLayButton(unreadCount: Int) {
     if (unreadCount <= 0) return
@@ -38,6 +37,7 @@ fun Activity.initializeChatOverLayButton(unreadCount: Int) {
     ) as? CounterFloatingActionButton
     (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
         .addView(view, param)
+    view?.visibility = if (unreadCount > 0) View.VISIBLE else View.GONE
     view?.count = unreadCount
     view?.setOnClickListener { chatSetup() }
 }
@@ -84,4 +84,19 @@ private fun Activity.openChatActivity() {
             .build()
         LivePerson.setUserProfile(consumerProfile)
     }
+}
+
+fun Activity.getCountUnreadMessage(contxt: Context) {
+    LivePerson.getUnreadMessagesCount(
+        appInstallId,
+        object : ICallback<Int, java.lang.Exception> {
+            override fun onSuccess(count: Int?) {
+                initializeChatOverLayButton(count ?: 0)
+                makeToast(contxt, "Unread Messages :${count}", 3000)
+            }
+
+            override fun onError(p0: java.lang.Exception?) {
+            }
+
+        })
 }

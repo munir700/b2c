@@ -486,6 +486,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
+        getCountUnreadMessage(this)
         if (bottomNav.selectedItemId == R.id.yapHome) {
             SessionManager.getAccountInfo()
         }
