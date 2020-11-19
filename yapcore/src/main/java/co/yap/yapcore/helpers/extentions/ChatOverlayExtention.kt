@@ -14,12 +14,21 @@ import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.model.ConsumerProfile
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 const val BRAND_ID: String = "17038977"
 private val appInstallId = SessionManager.user?.uuid
 
-fun Activity.initializeChatOverLayButton(unreadCount: Int) {
-    if (unreadCount <= 0) return
+fun Activity.initializeChatOverLayButton(unreadCount: Int, fab: CounterFloatingActionButton) {
+    if (unreadCount <= 0) {
+        fab.visibility = View.GONE
+        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
+            .removeView(fab)
+        return
+    }
+
     val param = FrameLayout.LayoutParams(
         FrameLayout.LayoutParams.WRAP_CONTENT,
         FrameLayout.LayoutParams.WRAP_CONTENT
@@ -31,15 +40,16 @@ fun Activity.initializeChatOverLayButton(unreadCount: Int) {
         dimen(R.dimen.margin_btn_side_paddings_xl)
     )
     param.gravity = Gravity.END or Gravity.BOTTOM
-    val view = layoutInflater.inflate(
-        R.layout.layout_overlay_live_chat,
-        null
-    ) as? CounterFloatingActionButton
-    (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
-        .addView(view, param)
-    view?.visibility = if (unreadCount > 0) View.VISIBLE else View.GONE
-    view?.count = unreadCount
-    view?.setOnClickListener { chatSetup() }
+    GlobalScope.launch {
+        delay(3000)
+        fab.visibility = View.VISIBLE
+        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
+            .removeView(fab)
+        (window.decorView as FrameLayout).findViewById<FrameLayout>(android.R.id.content)
+            .addView(fab, param)
+    }
+    fab.count = unreadCount
+    fab.setOnClickListener { chatSetup() }
 }
 
 fun Activity.overLayButtonVisibility(visibility: Int) {
@@ -86,17 +96,17 @@ private fun Activity.openChatActivity() {
     }
 }
 
-fun Activity.getCountUnreadMessage(contxt: Context) {
+fun Activity.getCountUnreadMessage( fab: CounterFloatingActionButton) {
     LivePerson.getUnreadMessagesCount(
         appInstallId,
         object : ICallback<Int, java.lang.Exception> {
             override fun onSuccess(count: Int?) {
-                initializeChatOverLayButton(count ?: 0)
-                makeToast(contxt, "Unread Messages :${count}", 3000)
+                initializeChatOverLayButton(count ?: 0, fab)
             }
 
             override fun onError(p0: java.lang.Exception?) {
             }
 
-        })
+        }
+    )
 }

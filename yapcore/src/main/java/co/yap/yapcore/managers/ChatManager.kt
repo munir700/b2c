@@ -33,6 +33,7 @@ object ChatManager {
                     override fun onInitSucceed() {
                         openChatConversation()
                     }
+
                     override fun onInitFailed(e: Exception) {
                         activity?.get()?.toast("Unable to open chat")
                     }
