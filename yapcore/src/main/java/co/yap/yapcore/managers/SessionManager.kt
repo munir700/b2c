@@ -90,7 +90,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun setupDataSetForBlockedFeatures() {
-        user?.getUserAccessRestrictions()?.let {
+        user?.getUserAccessRestrictions {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
                 featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))
@@ -99,7 +99,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 featuresList,
                 it
             )
-
         }
     }
 
@@ -202,6 +201,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })
