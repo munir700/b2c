@@ -30,7 +30,7 @@ class TopUpCardSuccessViewModel(application: Application) :
         state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
                 state.currencyType,
-                state.amount.toFormattedCurrency(showCurrency = false,currency = "AED")
+                state.amount.toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())
             )
 
     }

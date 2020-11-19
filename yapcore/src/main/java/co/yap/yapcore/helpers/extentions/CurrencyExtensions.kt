@@ -10,13 +10,13 @@ import java.text.DecimalFormat
 
 fun String?.toFormattedCurrency(
     showCurrency: Boolean = true,
-    currency: String? = "AED",
+    currency: String? = SessionManager.getDefaultCurrency(),
     withComma: Boolean = true
 ): String {
     return try {
         if (this?.isNotBlank() == true) {
             val formattedAmount = getDecimalFormatUpTo(
-                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency ?: "AED"),
+                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency ?: SessionManager.getDefaultCurrency()),
                 amount = this,
                 withComma = withComma
             )

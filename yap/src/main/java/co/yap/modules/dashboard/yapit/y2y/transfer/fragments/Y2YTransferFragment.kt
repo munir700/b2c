@@ -217,7 +217,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.availableBalanceText =
             " " + viewModel.state.availableBalance?.toFormattedCurrency(
                 showCurrency = true,
-                currency = "AED"
+                currency = SessionManager.getDefaultCurrency()
             )
     }
 
@@ -262,7 +262,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         val action =
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                 viewModel.state.fullName, viewModel.state.imageUrl,
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 viewModel.state.amount ?: "", args.position
             )
         findNavController().navigate(action)

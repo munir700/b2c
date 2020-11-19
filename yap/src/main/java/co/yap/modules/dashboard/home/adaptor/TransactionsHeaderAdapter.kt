@@ -16,6 +16,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionsHeaderAdapter(
     private val list: MutableList<HomeTransactionListData>,
@@ -111,12 +112,12 @@ class TransactionsHeaderAdapter(
             var value: String
             when {
                 total.toString().startsWith("-") -> {
-                    value = ((total * -1).toString().toFormattedCurrency(showCurrency = false,currency = "AED")) ?: ""
-                    value = "- AED $value"
+                    value = ((total * -1).toString().toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())) ?: ""
+                    value = "- ${SessionManager.getDefaultCurrency()} $value"
                 }
                 else -> {
-                    value = (total.toString().toFormattedCurrency(false,currency = "AED")) ?: ""
-                    value = "+ AED $value"
+                    value = (total.toString().toFormattedCurrency(false,currency =SessionManager.getDefaultCurrency())) ?: ""
+                    value = "+ ${SessionManager.getDefaultCurrency()} $value"
                 }
             }
 

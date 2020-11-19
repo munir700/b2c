@@ -92,12 +92,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferFee = totalFeeAmount
         viewModel.state.feeAmountSpannableString = resources.getText(
             getString(Strings.screen_cash_pickup_funds_display_text_fee),
-            requireContext().color(R.color.colorPrimaryDark, "AED"),
+            requireContext().color(R.color.colorPrimaryDark, SessionManager.getDefaultCurrency()),
             requireContext().color(
                 R.color.colorPrimaryDark,
                 if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency(
                     showCurrency = false,
-                    currency = "AED"
+                    currency = SessionManager.getDefaultCurrency()
                 )
             )
         )
@@ -152,8 +152,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
-                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()
+                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = SessionManager.getDefaultCurrency()
                 viewModel.parentViewModel?.transferData?.value?.transferAmount =
                     viewModel.state.amount
                 val action =
@@ -189,8 +189,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun moveToConfirmationScreen() {
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
-        viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
-        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()
+        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = SessionManager.getDefaultCurrency()
         viewModel.parentViewModel?.transferData?.value?.feeAmount =
             if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
         viewModel.parentViewModel?.transferData?.value?.vat =

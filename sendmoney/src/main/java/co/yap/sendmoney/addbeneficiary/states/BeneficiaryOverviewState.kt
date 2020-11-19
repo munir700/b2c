@@ -7,6 +7,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils.formateIbanString
+import co.yap.yapcore.managers.SessionManager
 
 class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
 
@@ -86,7 +87,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
 
 
     @get:Bindable
-    override var currency: String = "AED"
+    override var currency: String = SessionManager.getDefaultCurrency()
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)
