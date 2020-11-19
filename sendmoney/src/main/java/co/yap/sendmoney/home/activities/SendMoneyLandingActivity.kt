@@ -68,7 +68,9 @@ class SendMoneyLandingActivity : SMBeneficiaryParentBaseFragment<ISendMoneyHome.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initComponents()
+        if (viewModel.state.sendMoneyType.get() != SendMoneyTransferType.ALL_Y2Y_SM.name) {
+            initComponents()
+        }
     }
 
     private fun initComponents() {

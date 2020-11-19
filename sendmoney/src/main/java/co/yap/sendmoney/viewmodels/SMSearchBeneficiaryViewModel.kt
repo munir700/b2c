@@ -38,6 +38,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
         if (parentViewModel?.state?.sendMoneyType?.value == SendMoneyTransferType.ALL_Y2Y_SM.name) {
             getY2YAndSMBeneficiaries {
                 adapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })
+                state.viewState.value = false
             }
         } else {
             adapter.setList(parentViewModel?.beneficiariesList ?: arrayListOf())
@@ -45,8 +46,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
     }
 
     private fun getY2YAndSMBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit) {
-        state.viewState.value = true
-        fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse, y2yBeneficiaries ->
+        fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse ->
             launch(Dispatcher.Main) {
                 val combinedList: ArrayList<IBeneficiary> = arrayListOf()
                 when (sendMoneyBeneficiariesResponse) {
@@ -54,34 +54,32 @@ class SMSearchBeneficiaryViewModel(application: Application) :
                         combinedList.addAll(
                             sendMoneyBeneficiariesResponse.data.data as ArrayList<IBeneficiary>
                         )
-                        state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {
-                        state.viewState.value = false
                     }
                 }
-                y2yBeneficiaries?.forEach {
-                    it.mobileNo =
-                        Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
+                getLocalContactsFromServer { y2yBeneficiaries ->
+                    launch {
+                        y2yBeneficiaries.forEach {
+                            it.mobileNo =
+                                Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
+                        }
+                        combinedList.addAll(y2yBeneficiaries?.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
+                        success(combinedList)
+                    }
                 }
-                combinedList.addAll(y2yBeneficiaries?.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
-                state.viewState.value = false
-                success(combinedList)
             }
         }
     }
 
     private fun fetchCombinedBeneficiariesApis(
-        responses: (RetroApiResponse<GetAllBeneficiaryResponse>?, List<Contact>?) -> Unit
+        responses: (RetroApiResponse<GetAllBeneficiaryResponse>?) -> Unit
     ) {
         launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
             coroutineScope {
                 val deferredSM = async { repository.getAllBeneficiaries() }
-                getLocalContactsFromServer {
-                    async {
-                        responses(deferredSM.await(), it)
-                    }
-                }
+                responses(deferredSM.await())
             }
         }
     }
