@@ -235,4 +235,10 @@ interface CustomersRetroService {
     // delete profile picture
     @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
     suspend fun removeProfilePicture(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
 }

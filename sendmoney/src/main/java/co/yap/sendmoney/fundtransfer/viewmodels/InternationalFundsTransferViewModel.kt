@@ -56,7 +56,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true
+                    ) ?: ""
                 )
             )
     }
@@ -212,6 +214,36 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
         } else {
             state.etOutputAmount = ""
+        }
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.etOutputAmount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
         }
     }
 

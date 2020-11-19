@@ -182,6 +182,14 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_PURPOSE_OF_PAYMENT)
     suspend fun getPurposeOfPayment(@Path("product-code") productCode: String): Response<PaymentPurposeResponseDTO>
 
+    @GET(TransactionsRepository.URL_CHECK_COOLING_PERIOD)
+    suspend fun checkCoolingPeriodRequest(
+        @Query("beneficiaryId") beneficiaryId: String?,
+        @Query("beneficiaryCreationDate") beneficiaryCreationDate: String?,
+        @Query("beneficiaryName") beneficiaryName: String?,
+        @Query("amount") amount: String?
+    ): Response<ApiResponse>
+
     @POST(TransactionsRepository.URL_GET_MERCHANT_TRANSACTIONS)
     suspend fun getTransactionsOfMerchant(
         @Path("merchant-type") merchantType: String,
