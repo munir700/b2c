@@ -16,31 +16,31 @@ import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.databinding.FragmentScanQrCodeBinding
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.extentions.generateQRCode
-import co.yap.yapcore.helpers.extentions.generateQrCode
 import co.yap.yapcore.helpers.extentions.getQRCode
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
-import pl.aprilapps.easyphotopicker.DefaultCallback
-import pl.aprilapps.easyphotopicker.EasyImage
+import pl.aprilapps.easyphotopicker.*
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import java.io.BufferedInputStream
-import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
 
 class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
-    IScanQRCode.View, QRCodeReaderView.OnQRCodeReadListener {
+    IScanQRCode.View, QRCodeReaderView.OnQRCodeReadListener, EasyPermissions.PermissionCallbacks {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_scan_qr_code
     val cameraPer = 1
     var oneTimeCall = true;
     lateinit var qrCodeReaderView: QRCodeReaderView
     var permissionHelper: PermissionHelper? = null
+    lateinit var easyImage: EasyImage
 
     override val viewModel: ScanQRCodeViewModel
         get() = ViewModelProviders.of(this).get(
@@ -125,14 +125,14 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
             this, arrayOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ), 100
+            ), REQUEST_CAMERA_PERMISSION
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
                 if (type == cameraPer) {
                     initQRCodeReaderView()
                 } else {
-                    EasyImage.openGallery(this@ScanQRCodeFragment, 2)
+                    initEasyImage()
                 }
             }
 
@@ -141,8 +141,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                     if (grantedPermission.contains(Manifest.permission.CAMERA))
                         initQRCodeReaderView()
                 } else {
-                    if (grantedPermission.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                        EasyImage.openGallery(this@ScanQRCodeFragment, 2)
+                    if (grantedPermission.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) initEasyImage()
                 }
             }
 
@@ -159,36 +158,73 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
         })
     }
 
+    private fun initEasyImage() {
+        if (hasCameraPermission()) {
+            easyImage = EasyImage.Builder(requireContext())
+                .setChooserTitle("Pick Image")
+                .setChooserType(ChooserType.CAMERA_AND_GALLERY)
+                .setFolderName("YAPImage")
+                .allowMultiple(false)
+                .build()
+            easyImage.openGallery(this)
+        } else {
+            EasyPermissions.requestPermissions(
+                this, "This app needs access to your camera so you can take pictures.",
+                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
+            )
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        EasyImage.handleActivityResult(requestCode, resultCode, data, activity,
+        if (resultCode == Activity.RESULT_OK) {
+            handleImagePickerResult(requestCode, resultCode, data)
+        }
+
+    }
+
+    private fun handleImagePickerResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        easyImage.handleActivityResult(
+            requestCode,
+            resultCode,
+            data,
+            requireActivity(),
             object : DefaultCallback() {
-                override fun onImagePicked(
-                    imageFile: File?,
-                    source: EasyImage.ImageSource?,
-                    type: Int
+                override fun onMediaFilesPicked(
+                    imageFiles: Array<MediaFile>,
+                    source: MediaSource
                 ) {
-                    onPhotosReturned(imageFile, type, source)
+                    onPhotosReturned(imageFiles, source)
                 }
 
                 override fun onImagePickerError(
-                    e: Exception?,
-                    source: EasyImage.ImageSource?,
-                    type: Int
+                    @NonNull error: Throwable,
+                    @NonNull source: MediaSource
                 ) {
                     qrCodeReaderView.setQRDecodingEnabled(true)
                     viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                    error.printStackTrace()
+                }
+
+                override fun onCanceled(@NonNull source: MediaSource) {
+                    qrCodeReaderView.setQRDecodingEnabled(true)
+                    viewModel.state.toast = "No Image Selected^${AlertType.DIALOG.name}"
                 }
             })
     }
 
-    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
-        path?.let {
-            val ext = path.extension
+    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
+        path.firstOrNull()?.let { mediaFile ->
+            val ext = mediaFile.file.extension
             if (!ext.isBlank()) {
                 when (ext) {
                     "png", "jpg", "jpeg" -> {
-                        val inputStream: InputStream = BufferedInputStream(FileInputStream(path))
+                        val inputStream: InputStream =
+                            BufferedInputStream(FileInputStream(mediaFile.file))
                         val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
                         scanQRImage(bitmap)?.let {
                             sendQrRequest(it.getQRCode())
@@ -198,21 +234,13 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                         viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                         qrCodeReaderView.setQRDecodingEnabled(true)
                     }
+
                 }
             } else {
                 viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                 qrCodeReaderView.setQRDecodingEnabled(true)
             }
         }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        @NonNull permissions: Array<String>,
-        @NonNull grantResults: IntArray
-    ) {
-        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onToolBarClick(id: Int) {
@@ -243,6 +271,29 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
             } else {
                 viewModel.uploadQRCode(qrCode)
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        @NonNull permissions: Array<String>,
+        @NonNull grantResults: IntArray
+    ) {
+        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun hasCameraPermission(): Boolean {
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
         }
     }
 }

@@ -111,10 +111,11 @@ project.ext {
 
             //phone lib
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:8.12.10',
-            easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
+            easyImage                : 'com.github.jkwiecien:EasyImage:3.0.4',
+            easyPermission           : 'pub.devrel:easypermissions:3.0.0',
 
             //Firebase Crashlytics
-            FirebaseCrashlyticsSdk   :'com.google.firebase:firebase-crashlytics:17.2.2',
+            FirebaseCrashlyticsSdk   : 'com.google.firebase:firebase-crashlytics:17.2.2',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
             analytics                : 'com.google.firebase:firebase-analytics:18.0.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
@@ -184,6 +185,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.livechat],
             [configuration: "implementation", dependency: libraries.phoneLib],
             [configuration: "implementation", dependency: libraries.easyImage],
+            [configuration: "implementation", dependency: libraries.easyPermission],
             [configuration: "implementation", dependency: libraries.timber],
             [configuration: "implementation", dependency: libraries.inline_activity_result],
             [configuration: "implementation", dependency: libraries.rxAndroid],

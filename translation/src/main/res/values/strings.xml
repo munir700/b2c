@@ -1124,6 +1124,10 @@
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
 
+    <!-- Live Chat Strings-->
+    <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
+
+
     <!-- Send Money Home -->
     <string name="screen_send_money_home_title">Send Money Home</string>
     <string name="screen_send_money_home_display_text_send_money">Send Money</string>
@@ -1136,7 +1140,7 @@
     <string name="screen_send_money_home_display_text_compare">Compare</string>
 
     <!-- QR Code Funds Transfer -->
-    <string name="screen_qr_transfer_display_text_button">pay</string>
+    <string name="screen_qr_transfer_display_text_button">Pay</string>
     <string name="screen_qr_transfer_display_text_note_hint">Type a note here (Optional)</string>
     <string name="screen_qr_transfer_display_title">Enter amount to send</string>
 
