@@ -126,8 +126,6 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         enterAmount: String,
         fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
     ): String? {
-        // Fee double taxation removal ticket YM-7999
-        //return calFeeInPercentage(enterAmount, fee)
         val feeAmount =
             enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
                 ?: 0.0)
