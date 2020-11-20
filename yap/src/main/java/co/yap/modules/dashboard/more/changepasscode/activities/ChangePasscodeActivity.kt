@@ -12,7 +12,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -32,27 +31,26 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preventTakeScreenShot(true)
-        viewModel.clickEvent.observe(this, clickEvent)
-    }
-
-    val clickEvent = Observer<Int> {
-        when (it) {
-            R.id.tbIvClose -> onBackPressed()
-
-        }
-    }
+     }
 
     override fun onBackPressed() {
-        val fragment =
-            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
+//        val fragment =
+//            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
+//        if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-        }
+//        }
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                super.onBackPressed()
+            }
+        }
+    }
+
 }

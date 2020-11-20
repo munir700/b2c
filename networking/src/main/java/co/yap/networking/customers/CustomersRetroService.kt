@@ -229,4 +229,16 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_BY_CURRENCY_CODE)
     suspend fun getCurrencyByCode(@Path("currencyCode") currencyCode: String): Response<CurrenciesByCodeResponse>
 
+    @POST(CustomersRepository.URL_RESEND_EMAIL)
+    suspend fun resendVerificationEmail(): Response<ApiResponse>
+
+    // delete profile picture
+    @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
+    suspend fun removeProfilePicture(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
 }

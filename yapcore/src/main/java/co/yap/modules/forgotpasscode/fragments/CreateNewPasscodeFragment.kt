@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity
 import co.yap.modules.passcode.IPassCode
 import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
@@ -17,7 +16,6 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 
 class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
@@ -31,12 +29,15 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.forgotTextVisibility = false
+        viewModel.setLayoutVisibility(false)
         viewModel.setTitles(
             title = getString(Strings.screen_create_passcode_display_text_title),
             buttonTitle = getString(Strings.screen_create_new_passcode_button_text)
         )
+
         viewModel.mobileNumber = args.mobileNumber
         viewModel.token = args.token
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvTermsAndConditions -> {
@@ -65,11 +66,6 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.passCode)
-        if (activity is ForgotPasscodeActivity) {
-            (activity as ForgotPasscodeActivity).preventTakeDeviceScreenShot.value = true
-        } else {
-            preventTakeScreenShot(true)
-        }
     }
 
 
@@ -82,4 +78,11 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
         return viewDataBinding as FragmentPassCodeBinding
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.finish()
+            }
+        }
+    }
 }

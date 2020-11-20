@@ -10,13 +10,15 @@ import java.text.DecimalFormat
 
 fun String?.toFormattedCurrency(
     showCurrency: Boolean = true,
-    currency: String? = "AED",
+    currency: String? = SessionManager.getDefaultCurrency(),
     withComma: Boolean = true
 ): String {
     return try {
         if (this?.isNotBlank() == true) {
             val formattedAmount = getDecimalFormatUpTo(
-                selectedCurrencyDecimal = Utils.getConfiguredDecimals(currency ?: "AED"),
+                selectedCurrencyDecimal = Utils.getConfiguredDecimalsDashboard(
+                    currency ?: SessionManager.getDefaultCurrency()
+                ) ?: getDecimalFromValue(this),
                 amount = this,
                 withComma = withComma
             )
@@ -74,14 +76,28 @@ private fun getDecimalFormatUpTo(
             }
             else -> {
                 if (withComma)
-                    DecimalFormat("###,###,##0.00").format(amountInDouble)
+                    DecimalFormat("###,###,##0.00").format(
+                        amountInDouble
+                    )
                 else
-                    DecimalFormat("########0.00").format(amountInDouble)
+                    DecimalFormat("########0.00").format(
+                        amountInDouble
+                    )
             }
         }
     } catch (e: Exception) {
         e.printStackTrace()
         ""
+    }
+}
+
+fun getDecimalDigits(digits: Int): String {
+    val sb = StringBuilder()
+    return if (digits > 1) {
+        for (i in 1..digits) sb.append("0")
+        sb.toString()
+    } else {
+        "00"
     }
 }
 
@@ -142,4 +158,28 @@ fun String?.getAvailableBalanceWithFormat(): SpannableString {
             return SpannableString("")
         }
     } ?: SpannableString("")
+}
+
+fun String?.getValueWithoutComa(): String {
+    var string = this
+    if (string?.contains(",") == true) {
+        string = string.replace(",", "")
+    }
+    if (string?.contains(" ") == true) {
+        string = string.substring(string.indexOf(" ") + 1, string.length)
+    }
+    return string ?: ""
+}
+
+fun getDecimalFromValue(amount: String): Int {
+    val splitAmount = amount.split(".")
+    return if (splitAmount.size > 1) {
+        if (splitAmount[1].length < 2) {
+            2
+        } else {
+            splitAmount[1].length
+        }
+    } else {
+        2
+    }
 }

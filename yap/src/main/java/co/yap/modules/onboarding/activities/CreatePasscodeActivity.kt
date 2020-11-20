@@ -9,17 +9,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.passcode.IPassCode
 import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.startFragment
 
 
@@ -47,6 +46,7 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
         viewModel.state.title = getString(Strings.screen_create_passcode_display_text_title)
         viewModel.state.buttonTitle =
             getString(Strings.screen_create_passcode_button_create_passcode)
+
         val isSettingPin = intent.getValue(
             "isSettingPin",
             ExtraType.BOOLEAN.name
@@ -70,8 +70,6 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                 }
             }
         })
-        preventTakeScreenShot(true)
-
     }
 
     private fun setIntentResults() {
@@ -88,5 +86,13 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
 
     fun getBinding(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                super.onBackPressed()
+            }
+        }
     }
 }

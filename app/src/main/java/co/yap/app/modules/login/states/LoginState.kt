@@ -1,13 +1,20 @@
 package co.yap.app.modules.login.states
 
+import android.app.Application
+import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.BR
+import co.yap.app.R
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.isValidPhoneNumber
 
-class LoginState : BaseState(), ILogin.State {
+class LoginState(application: Application) : BaseState(), ILogin.State {
+    var context: Context = application.applicationContext
 
     @get:Bindable
     override var email: String = ""
@@ -28,7 +35,7 @@ class LoginState : BaseState(), ILogin.State {
 
 
     fun validate(): Boolean {
-        return (email.length > 5 && emailError.value?.isEmpty()?:false)
+        return (email.length > 5 && emailError.value?.isEmpty() ?: false)
     }
 
     @get:Bindable
@@ -59,10 +66,12 @@ class LoginState : BaseState(), ILogin.State {
             notifyPropertyChanged(BR.refreshField)
         }
 
-
     private fun setTwoWayTextWatcher() {
-
-        if (!twoWayTextWatcher.isEmpty() && twoWayTextWatcher.length >= 6) {
+        if ((Utils.isUsernameNumeric(twoWayTextWatcher) && isValidPhoneNumber(
+                twoWayTextWatcher,
+                "AE"
+            )) || Utils.validateEmail(twoWayTextWatcher)
+        ) {
             setSuccessUI()
         } else {
             setDefaultUI()
@@ -79,7 +88,7 @@ class LoginState : BaseState(), ILogin.State {
         refreshField = true
         valid = true
         emailError.value = ""
-        drawbleRight = null
+        drawbleRight = context.resources.getDrawable(R.drawable.path, null)
     }
 
 }

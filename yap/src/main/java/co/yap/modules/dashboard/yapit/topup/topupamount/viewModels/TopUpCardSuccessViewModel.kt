@@ -21,7 +21,7 @@ class TopUpCardSuccessViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.toolBarTitle = getString(Strings.screen_topup_success_display_text_title)
+        state.toolbarTitle = getString(Strings.screen_topup_success_display_text_title)
         state.buttonTitle =
             getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
         state.topUpSuccess =
@@ -30,7 +30,7 @@ class TopUpCardSuccessViewModel(application: Application) :
         state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
                 state.currencyType,
-                state.amount.toFormattedCurrency(showCurrency = false,currency = "AED")
+                state.amount.toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())
             )
 
     }

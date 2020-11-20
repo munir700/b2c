@@ -69,10 +69,10 @@ class CashTransferViewModel(application: Application) :
         parentViewModel?.state?.rightIcon?.set(true)
         parentViewModel?.beneficiary?.value?.let { beneficiary ->
             if (beneficiary.beneficiaryType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-                parentViewModel?.state?.toolBarTitle =
+                parentViewModel?.state?.toolbarTitle =
                     getString(Strings.screen_cash_pickup_funds_display_text_header)
             } else {
-                parentViewModel?.state?.toolBarTitle =
+                parentViewModel?.state?.toolbarTitle =
                     getString(Strings.screen_funds_local_toolbar_header)
             }
         }
@@ -166,7 +166,7 @@ class CashTransferViewModel(application: Application) :
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId,
                         amount = state.amount,
-                        currency = "AED",
+                        currency = SessionManager.getDefaultCurrency(),
                         purposeCode = "8",
                         remarks = state.noteValue?.trim()
                     )
@@ -315,7 +315,7 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
-                    currency = "AED",
+                    currency = SessionManager.getDefaultCurrency(),
                     amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1)
                         .toString(),
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
@@ -353,5 +353,35 @@ class CashTransferViewModel(application: Application) :
         )
         parentViewModel?.errorEvent?.value = state.errorDescription
 
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.amount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
+        }
     }
 }

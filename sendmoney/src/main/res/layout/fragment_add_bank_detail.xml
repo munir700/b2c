@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtTitle"
                 style="@style/Large"
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     android:visibility="@{viewModel.state.isRmt ? View.GONE : View.VISIBLE}"
                     tools:visibility="visible">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -72,22 +72,23 @@
                         app:textColor="@{viewModel.state.bankName.empty ? true : false}"
                         tools:text="@string/screen_bank_details_display_text_bank_name" />
 
-
                     <EditText
                         android:id="@+id/etBankName"
-                        style="@style/Regular"
+                        style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
+                        android:layout_marginTop="@dimen/_3sdp"
                         android:importantForAutofill="no"
+                        android:background="@drawable/bg_edit_text_under_line_light"
                         android:maxLength="@integer/swift_bank_name_length"
                         android:singleLine="true"
                         android:text="@={viewModel.state.bankName}"
                         app:hint="@{Strings.screen_bank_details_display_text_bank_name}"
                         tools:hint="@string/screen_bank_details_display_text_bank_name" />
 
-                    <TextView
+
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -102,19 +103,21 @@
 
                     <EditText
                         android:id="@+id/etBranch"
-                        style="@style/Regular"
+                        style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
                         android:imeOptions="actionNext"
+                        android:layout_marginTop="@dimen/_3sdp"
                         android:importantForAutofill="no"
                         android:maxLength="@integer/swift_branch_name_length"
                         android:singleLine="true"
+                        tools:hint="@string/screen_bank_details_input_text_branch_hint"
+                        android:background="@drawable/bg_edit_text_under_line_light"
                         android:text="@={viewModel.state.bankBranch}"
                         app:hint="@{Strings.screen_bank_details_input_text_branch_hint}" />
 
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -128,14 +131,16 @@
 
                     <EditText
                         android:id="@+id/etBankCity"
-                        style="@style/Regular"
+                        style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
+                        android:background="@drawable/bg_edit_text_under_line_light"
                         android:imeOptions="actionNext"
+                        android:layout_marginTop="@dimen/_3sdp"
                         android:importantForAutofill="no"
                         android:maxLength="@integer/swift_city_name_length"
                         android:singleLine="true"
+                        tools:hint="@string/screen_bank_details_input_text_city_hint"
                         android:text="@={viewModel.state.bankCity}"
                         app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />
                     <!-- this will vary according the transfer type-->
@@ -147,7 +152,7 @@
                         android:orientation="vertical"
                         android:visibility="@{viewModel.state.hideSwiftSection?View.VISIBLE:View.GONE}">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Small"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -159,18 +164,24 @@
                             app:textColor="@{viewModel.state.swiftCode.empty ? true : false}"
                             tools:text="@string/screen_bank_details_display_text_swift_code" />
 
-                        <EditText
+                        <co.yap.widgets.DrawableClickEditText
                             android:id="@+id/etSwiftCode"
-                            style="@style/Regular"
+                            style="@style/Large"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/greyLight"
+                            android:background="@drawable/bg_edit_text_under_line_light"
+                            android:drawableEnd="@drawable/ic_support"
+                            android:drawableRight="@drawable/ic_support"
+                            android:layout_marginTop="@dimen/_3sdp"
                             android:imeOptions="actionDone"
                             android:importantForAutofill="no"
                             android:singleLine="true"
                             android:text="@={viewModel.state.swiftCode}"
                             app:capitalise="@{true}"
-                            app:hint="@{Strings.screen_bank_details_display_text_swift_code}" />
+                            tools:hint="@string/screen_bank_details_display_text_swift_code"
+                            app:hint="@{Strings.screen_bank_details_display_text_swift_code}"
+                            app:isDrawableShownWhenTextIsEmpty="true"
+                            app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
 
                     </LinearLayout>
                 </LinearLayout>

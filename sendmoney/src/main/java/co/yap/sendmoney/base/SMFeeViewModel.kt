@@ -116,19 +116,20 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         enterAmount: String,
         fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
     ): String? {
-        return calFeeInPercentage(enterAmount, fee)
-//        val feeAmount =
-//            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
-//                ?: 0.0)
-//
-//        val totalFeeAmount =
-//            (feeAmount * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(feeAmount)
-//
-//        val vatAmount =
-//            totalFeeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
-//
-//        this.feeAmount = totalFeeAmount.toString()
-//        this.vat = vatAmount.toString()
-//        return (totalFeeAmount + vatAmount).toString()
+        // Fee double taxation removal ticket YM-7999
+        //return calFeeInPercentage(enterAmount, fee)
+        val feeAmount =
+            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
+                ?: 0.0)
+
+        val totalFeeAmount =
+            (feeAmount * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(feeAmount)
+
+        val vatAmount =
+            totalFeeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+
+        this.feeAmount = totalFeeAmount.toString()
+        this.vat = vatAmount.toString()
+        return (totalFeeAmount + vatAmount).toString()
     }
 }

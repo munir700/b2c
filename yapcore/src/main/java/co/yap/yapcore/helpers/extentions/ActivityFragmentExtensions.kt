@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
+import co.yap.modules.frame.FrameDialogActivity
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
@@ -119,6 +120,26 @@ fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
     )
 }
 
+inline fun <reified T : Any> Fragment.launchActivityForResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {},
+    noinline completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    completionHandler?.let {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        intent.putExtra(EXTRA, options)
+        this.startForResult(intent) { result ->
+            it.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            it.invoke(result.resultCode, result.data)
+        }
+    } ?: run {
+        launchActivity<T>(requestCode = requestCode, options = options, init = init)
+    }
+}
+
 /**
  * Extension method to startActivity for Context.
  */
@@ -127,6 +148,9 @@ inline fun <reified T : Activity> Context?.startActivity() =
 
 
 fun <T : Fragment> FrameActivity.instantiateFragment(fragmentName: String) =
+    Fragment.instantiate(this, fragmentName)
+
+fun <T : Fragment> FrameDialogActivity.instantiateFragment(fragmentName: String) =
     Fragment.instantiate(this, fragmentName)
 
 fun Fragment.instantiateFragment(fragmentName: String) {
@@ -228,6 +252,7 @@ fun <T : Fragment> FragmentActivity.startFragment(
     }
 }
 
+
 fun Fragment.startFragment(
     fragmentName: String,
     clearAllPrevious: Boolean = false,
@@ -295,6 +320,29 @@ fun <T : Fragment> Fragment.startFragmentForResult(
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        this.startForResult(intent) { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }
+
+    } catch (e: Exception) {
+        if (e is ClassNotFoundException) {
+            toast("Something went wrong")
+            startActivity(intent)
+        }
+    }
+}
+
+fun <T : Fragment> Fragment.startFragmentDialogForResult(
+    fragmentName: String,
+    bundle: Bundle = Bundle(),
+    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    val intent = Intent(requireActivity(), FrameDialogActivity::class.java)
+    try {
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(EXTRA, bundle)
         this.startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }.onFailed { result ->

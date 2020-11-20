@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferVi
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -27,6 +28,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
@@ -58,14 +60,12 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        viewModel.transferFundSuccess.observe(this, transferFundSuccessObserver)
         viewModel.isFeeReceived.observe(this, Observer {
-            if (it) viewModel.updateFees(viewModel.state.amount ?: "")
+            if (it) viewModel.updateFees(viewModel.state.amount)
         })
         viewModel.updatedFee.observe(this, Observer {
             if (it.isNotBlank()) setSpannableFee(it)
         })
-
     }
 
     private fun setSpannableFee(feeAmount: String?) {
@@ -81,21 +81,15 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             )
     }
 
-    private val transferFundSuccessObserver = Observer<Boolean> {
-        if (it) {
-            moveToFundTransferSuccess()
-        }
-    }
-
     private fun setEditTextWatcher() {
         etAmount.afterTextChanged {
+            viewModel.state.amount = it
             if (viewModel.state.amount.isNotEmpty() && viewModel.state.amount.parseToDouble() > 0.0) {
                 checkOnTextChangeValidation()
             } else {
                 viewModel.state.valid = false
                 cancelAllSnackBar()
             }
-
             viewModel.updateFees(it)
         }
     }
@@ -132,7 +126,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
         viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
-
     }
 
     private fun showBalanceNotAvailableError() {
@@ -162,11 +155,27 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                             showUpperLowerLimitError()
                         }
+                        viewModel.isInCoolingPeriod() && viewModel.isCPAmountConsumed(viewModel.state.amount) -> {
+                            viewModel.checkCoolingPeriodRequest(
+                                beneficiaryId = viewModel.receiverUUID,
+                                beneficiaryCreationDate = args.beneficiaryCreationDate,
+                                beneficiaryName = viewModel.state.fullName,
+                                amount = viewModel.state.amount
+                            ) {
+                                requireActivity().showAlertCustomDialog(
+                                    title = "Psst...",
+                                    message = viewModel.showCoolingPeriodLimitError(),
+                                    buttonText = "OK, got it!"
+                                )
+                            }
+                        }
                         isOtpRequired() -> {
                             startOtpFragment()
                         }
                         else -> {
-                            viewModel.proceedToTransferAmount()
+                            viewModel.proceedToTransferAmount {
+                                moveToFundTransferSuccess()
+                            }
                         }
                     }
                 }
@@ -192,7 +201,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             )
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.proceedToTransferAmount()
+
+                viewModel.proceedToTransferAmount {
+                    moveToFundTransferSuccess()
+                }
             }
         }
     }
@@ -206,7 +218,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             args.position
         )
 
-
         getBinding().lyUserImage.tvNameInitials.setTextColor(
             Utils.getContactColors(
                 getBinding().lyUserImage.tvNameInitials.context, args.position
@@ -216,8 +227,14 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.state.availableBalanceText =
             " " + viewModel.state.availableBalance?.toFormattedCurrency(
                 showCurrency = true,
-                currency = "AED"
+                currency = SessionManager.getDefaultCurrency()
             )
+       viewModel.getCoolingPeriod(
+            SMCoolingPeriodRequest(
+                beneficiaryId = viewModel.receiverUUID,
+                productCode = TransactionProductCode.Y2Y_TRANSFER.pCode
+            )
+        )
     }
 
     private fun isDailyLimitReached(): Boolean {
@@ -261,7 +278,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         val action =
             Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                 viewModel.state.fullName, viewModel.state.imageUrl,
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 viewModel.state.amount ?: "", args.position
             )
         findNavController().navigate(action)
@@ -271,7 +288,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.removeObservers(this)
         cancelAllSnackBar()
         super.onDestroy()
-
     }
 
     override fun getBinding(): FragmentY2yFundsTransferBinding {
@@ -279,8 +295,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     override fun onBackPressed(): Boolean {
-        viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
+        viewModel.parentViewModel?.state?.rightButtonVisibility = true
         return super.onBackPressed()
     }
-
 }

@@ -38,11 +38,14 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
+    var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
+    private const val DEFAULT_CURRENCY : String = "AED"
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
+        /* feature disable for later enabling as RAK permit.
         GlobalScope.launch(Dispatchers.IO) {
             when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
@@ -54,7 +57,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     response.invoke(false, arrayListOf())
                 }
             }
-        }
+        }*/
     }
 
     fun getCurrencies(): ArrayList<CurrencyData> {
@@ -137,6 +140,29 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    fun getDebitCard(success: (card: Card) -> Unit = {}) {
+        GlobalScope.launch {
+            when (val response = repository.getDebitCards("DEBIT")) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        getDebitFromList(it)?.let { debitCard ->
+                            card.postValue(debitCard)
+                            success.invoke(debitCard)
+                        } ?: "Debit card not found"
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                }
+            }
+        }
+    }
+
+    fun getDebitFromList(it: ArrayList<Card>?): Card? {
+        return it?.firstOrNull {
+            it.cardType == CardType.DEBIT.type
+        }
+    }
+
     fun getCardSerialNumber(): String {
         card.value?.let {
             if (it.cardType == CardType.DEBIT.type) {
@@ -176,10 +202,10 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
-
             override fun onLogoutFailed() {
-
             }
         })
     }
+
+    fun getDefaultCurrency() = DEFAULT_CURRENCY
 }

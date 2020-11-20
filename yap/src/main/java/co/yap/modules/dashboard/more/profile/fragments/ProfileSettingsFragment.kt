@@ -22,6 +22,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
+import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
@@ -29,6 +30,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.helpers.extentions.hasBitmap
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -56,10 +58,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity) {
             (context as MoreActivity).visibleToolbar()
-            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
         }
-
-
+        viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
             SharedPreferenceManager(requireContext())
 
@@ -93,13 +93,19 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onClick(eventType: Int) {
         updatePhotoBottomSheet.dismiss()
+
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
                 checkPermission(takePhoto)
             }
-
             Constants.EVENT_CHOOSE_PHOTO -> {
                 checkPermission(pickPhoto)
+            }
+            Constants.EVENT_REMOVE_PHOTO -> {
+                viewModel.requestRemoveProfilePicture {
+                    if(it)
+                        ivProfilePic.setImageDrawable(null)
+                }
             }
         }
     }
@@ -254,6 +260,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     )
                 }
 
+                R.id.tvFeesAndPricingPlansView -> {
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_FEES_AND_PRICING_PLAN
+                        ), showToolBar = false
+                    )
+                }
                 R.id.tvFollowOnInstagram -> {
                     Utils.openInstagram(requireContext())
                 }
@@ -276,7 +289,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.rlAddNewProfilePic -> {
                     this.fragmentManager?.let {
-                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
+                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
                         updatePhotoBottomSheet.show(it, "")
                     }
                 }
@@ -289,6 +302,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
             }
         })
-
     }
+
+    private fun showRemovePhoto(): Boolean {
+        return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
+    }
+
 }

@@ -50,13 +50,15 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
+        parentViewModel?.state?.toolbarTitle = getString(Strings.screen_funds_toolbar_header)
         state.availableBalanceString =
             context.resources.getText(
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true
+                    ) ?: ""
                 )
             )
     }
@@ -83,8 +85,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     if (parentViewModel?.isSameCurrency == true) {
-                        state.sourceCurrency.set("AED")
-                        state.destinationCurrency.set("AED")
+                        state.sourceCurrency.set(SessionManager.getDefaultCurrency())
+                        state.destinationCurrency.set(SessionManager.getDefaultCurrency())
                         parentViewModel?.transferData?.value?.rate = "1.0"
                     } else {
                         isAPIFailed.value = true
@@ -212,6 +214,36 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
         } else {
             state.etOutputAmount = ""
+        }
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.etOutputAmount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
         }
     }
 

@@ -21,23 +21,32 @@ import co.yap.modules.dummy.ActivityNavigator
 import co.yap.modules.dummy.NavigatorProvider
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
+import co.yap.modules.location.fragments.POBSelectionFragment
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS
+import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.FeatureProvisioning
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.ExtraType
+import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.managers.SessionManager
 
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
 
+    private var photoPlacesId: String = " "
     private var changeAddress: Boolean = false
     private lateinit var mNavigator: ActivityNavigator
 
@@ -82,7 +91,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                             bundleOf(Constants.VERIFY_PASS_CODE_BTN_TEXT to getString(Strings.screen_verify_passcode_button_verify))
                         ) { resultCode, data ->
                             if (resultCode == Activity.RESULT_OK) {
-                                preventTakeScreenShot(false)
                                 findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                             }
                         }
@@ -156,7 +164,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 val action =
                     PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
                         getString(R.string.screen_address_success_display_text_sub_heading_update),
-                        " "
+                        " ", placesPhotoId = photoPlacesId
                     )
                 findNavController().navigate(action)
             }
@@ -224,9 +232,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             val action =
                 PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToSuccessFragment(
                     getString(R.string.screen_address_success_display_text_sub_heading_update),
-                    " "
+                    " ", placesPhotoId = photoPlacesId
                 )
             findNavController().navigate(action)
+
         }
     }
 
@@ -235,8 +244,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_FOR_LOCATION -> {
-
-                    val isUpdatedAddress = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+                    val isUpdatedAddress = data?.getBooleanExtra(ADDRESS_SUCCESS, false)
+                    photoPlacesId = data?.getStringExtra(Constants.PLACES_PHOTO_ID).toString()
                     if (isUpdatedAddress == true) {
                         val address: Address? = data.getParcelableExtra(ADDRESS)
                         address?.let {
@@ -289,6 +298,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     private fun handleLocationRequestResult(data: Intent?) {
         data?.let {
             val result = it.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
+            photoPlacesId = it.getStringExtra(Constants.PLACES_PHOTO_ID)
             if (result) {
                 val address = it.getParcelableExtra<Address>(ADDRESS)
                 SessionManager.userAddress = address

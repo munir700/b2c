@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activitie
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -15,7 +14,6 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
@@ -28,7 +26,7 @@ class ForgotCardPinActivity : BaseBindingActivity<IForgotCardPin.ViewModel>(), I
             return intent
         }
     }
-    var preventTakeDeviceScreenShot: MutableLiveData<Boolean> = MutableLiveData(false)
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_forgot_card_pin
@@ -46,10 +44,6 @@ class ForgotCardPinActivity : BaseBindingActivity<IForgotCardPin.ViewModel>(), I
         viewModel.backButtonPressEvent.observe(this, Observer {
             onBackPressed()
         })
-        preventTakeDeviceScreenShot.observe(this, Observer {
-            preventTakeScreenShot(it)
-        })
-
     }
 
     fun getCardSerialNumber(): String {
@@ -57,16 +51,11 @@ class ForgotCardPinActivity : BaseBindingActivity<IForgotCardPin.ViewModel>(), I
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.main_forgot_card_pin_nav_host_fragment)
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.main_forgot_card_pin_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        preventTakeDeviceScreenShot.removeObservers(this)
     }
 
 }

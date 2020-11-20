@@ -56,8 +56,8 @@ class VerifyPasscodeViewModel(application: Application) :
                 state.isAccountFreeze.set(true)
                 showAccountBlockedError(error.message)
             }
-            else ->{
-                showToast(error.message)
+            else -> {
+                state.dialerError = error.message
                 loginSuccess.postValue(false)
             }
         }
@@ -171,7 +171,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }
@@ -193,7 +193,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }
@@ -217,7 +217,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }

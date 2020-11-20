@@ -42,5 +42,11 @@ class SystemPermissionState : BaseState(), ISystemPermission.State {
             field = value
             notifyPropertyChanged(BR.buttonTitle)
         }
+    @get:Bindable
+    override var denied: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.denied)
+        }
 
 }

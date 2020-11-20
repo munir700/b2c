@@ -13,7 +13,6 @@ interface IBankDetail {
         var account: ObservableField<String>
         var bank: ObservableField<String>
         var addresse: ObservableField<String>
-        var title: ObservableField<String>
         var image: ObservableField<String>
         var initials: ObservableField<String>
     }

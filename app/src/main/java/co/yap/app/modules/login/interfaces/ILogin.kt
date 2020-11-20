@@ -2,6 +2,7 @@ package co.yap.app.modules.login.interfaces
 
 import android.graphics.drawable.Drawable
 import android.widget.TextView
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent

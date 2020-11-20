@@ -21,6 +21,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -126,28 +127,33 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                if (viewModel.enteredAmount.value?.parseToDouble() ?: 0.0 < viewModel.state.minLimit) {
+                if (viewModel.enteredAmount.value?.getValueWithoutComa().parseToDouble() ?: 0.0 < viewModel.state.minLimit) {
                     viewModel.state.amountBackground =
                         resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     showUpperLowerLimitError()
                 } else
                     viewModel.createTransactionSession()
             }
-            R.id.tbIvClose -> activity?.finish()
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> activity?.finish()
         }
     }
 
     private val enterAmountObserver = Observer<String> {
-        parentViewModel?.updateFees(it, isTopUpFee = true)
+        parentViewModel?.updateFees(it.getValueWithoutComa(), isTopUpFee = true)
         if (it.isNotBlank()) {
             when {
-                isMaxMinLimitReached(it) -> {
+                isMaxMinLimitReached(it.getValueWithoutComa()) -> {
                     viewModel.state.valid = false
                     viewModel.state.amountBackground =
                         resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                     showUpperLowerLimitError()
                 }
-                it.toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit -> {
+                it.getValueWithoutComa().toDoubleOrNull() ?: 0.0 < viewModel.state.minLimit -> {
                     viewModel.state.valid = true
                 }
                 else -> {
@@ -218,7 +224,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                     .format(
                         viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency(
                             showCurrency = false,
-                            currency = "AED"
+                            currency = SessionManager.getDefaultCurrency()
                         )
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(

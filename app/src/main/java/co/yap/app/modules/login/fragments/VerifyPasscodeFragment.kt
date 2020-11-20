@@ -59,7 +59,6 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        preventTakeScreenShot(true)
         dialer.hideFingerprintView()
         receiveData()
         updateUUID()
@@ -67,6 +66,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         onbackPressLogic()
         dialer.setNumberKeyboardListener(this)
         dialer.upDatedDialerPad(viewModel.state.passcode)
+        dialer.removeError()
     }
 
     private fun addObservers() {

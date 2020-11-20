@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
-import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
@@ -26,28 +25,24 @@ class CardAnalyticsViewModel(application: Application) :
     override val state: CardAnalyticsState = CardAnalyticsState(application)
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
-    override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     var currentCalendar: Calendar = Calendar.getInstance()
     var creationCalender: Calendar = Calendar.getInstance()
 
     override fun onCreate() {
         super.onCreate()
-        parentVM?.let {
-            parentViewModel = it
-        }
+        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        fetchCardCategoryAnalytics(DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
         state.nextMonth = false
-        SessionManager.user?.creationDate?.let {
+        SessionManager.user?.creationDate?.let {str ->
             val date =
                 DateUtils.stringToDate(
-                    it,
+                    str,
                     DateUtils.SERVER_DATE_FORMAT
                 )
             state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-            date?.let { it ->
-                creationCalender.time = it
+            date?.let { dates ->
+                creationCalender.time = dates
                 if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
                     state.previousMonth = false
                 } else {
@@ -57,13 +52,7 @@ class CardAnalyticsViewModel(application: Application) :
                 }
             }
 
-
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
     }
 
     override fun handlePressOnView(id: Int) {
@@ -90,6 +79,8 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
+                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
             }
             R.id.ivNext -> {
                 val tempCalendar = Calendar.getInstance()
@@ -110,6 +101,8 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
+                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
             }
         }
         clickEvent.setValue(id)
@@ -124,7 +117,7 @@ class CardAnalyticsViewModel(application: Application) :
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
+                    response.data.data?.let {analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
                         state.setUpString(
@@ -134,11 +127,11 @@ class CardAnalyticsViewModel(application: Application) :
                         state.totalCategorySpent = response.data.data?.totalTxnAmount.toString()
                             .toFormattedCurrency(
                                 showCurrency = true,
-                                currency = state.currencyType ?: "AED"
+                                currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value = analyticsDTO.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
@@ -157,8 +150,7 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
-                SessionManager.getCardSerialNumber(),
-                currentMonth
+                SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     state.monthlyMerchantAvgAmount =
@@ -166,13 +158,13 @@ class CardAnalyticsViewModel(application: Application) :
                     state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
                         .toFormattedCurrency(
                             showCurrency = true,
-                            currency = state.currencyType ?: "AED"
+                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                         )
                     state.setUpStringForMerchant(
                         state.currencyType,
                         state.monthlyMerchantAvgAmount?.toFormattedCurrency()
                     )
-                    parentVM?.merchantAnalyticsItemLiveData?.value =
+                    parentViewModel?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics
                     state.loading = false
                 }

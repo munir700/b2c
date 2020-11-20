@@ -24,5 +24,6 @@ interface ISystemPermission {
         var subTitle: String
         var termsAndConditionsVisibility: Boolean
         var buttonTitle: String
+        var denied: String
     }
 }

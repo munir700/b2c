@@ -8,7 +8,6 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
-import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
@@ -33,8 +32,6 @@ class YapHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
-
-    private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
@@ -45,7 +42,6 @@ class YapHomeViewModel(application: Application) :
     override var MAX_CLOSING_BALANCE: Double = 0.0
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
-
     init {
         YAPApplication.clearFilters()
     }
@@ -53,7 +49,7 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
-        getDebitCards()
+        SessionManager.getDebitCard()
     }
 
     override fun filterTransactions() {
@@ -106,7 +102,7 @@ class YapHomeViewModel(application: Application) :
 
                             var transactionModel = HomeTransactionListData(
                                 "Type",
-                                "AED",
+                                SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
                                 transactionList[0].getFormattedDate(),
                                 transactionList[0].totalAmount.toString(),
@@ -126,7 +122,6 @@ class YapHomeViewModel(application: Application) :
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
-
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
@@ -190,7 +185,7 @@ class YapHomeViewModel(application: Application) :
 
             val transactionModel = HomeTransactionListData(
                 "Type",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 mapEntry.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
@@ -212,25 +207,6 @@ class YapHomeViewModel(application: Application) :
                 closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
-    }
-
-    override fun getDebitCards() {
-        launch {
-            when (val response = cardsRepository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            SessionManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
-                        }
-                    }
-                }
-                is RetroApiResponse.Error ->
-                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
-            }
-        }
     }
 
     private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
@@ -318,4 +294,3 @@ class YapHomeViewModel(application: Application) :
         return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 }
-

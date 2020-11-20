@@ -21,7 +21,7 @@
 
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -90,13 +90,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvIban"
                 tools:text="AED" />
 
-            <co.yap.widgets.currency.CoreEditText
+            <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->
+
+            <co.yap.widgets.EasyMoneyEditText
                 android:id="@+id/etAmount"
                 style="@style/ATitle2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="@={viewModel.state.amount}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
@@ -148,28 +149,41 @@
                 tools:hint="Type a note here" />
 
             <!--            android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLabelSpinner"
+                style="@style/Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:gravity="start"
+                android:text="@string/screen_add_beneficiary_display_text_transfer_type"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:text="@{Strings.screen_international_funds_transfer_display_text_reson}"
+                tools:text="@string/screen_international_funds_transfer_display_text_reson" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:visibility="@{viewModel.parentViewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`) ?View.GONE : View.VISIBLE}"
-                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:layout_constraintTop_toBottomOf="@+id/tvLabelSpinner"
                 tools:ignore="NotSibling">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSelectReason"
-                    style="@style/Small"
+                    style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_toStartOf="@+id/ivSelector"
+                    android:alpha=".5"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
-                    android:text="Select a reason for transfer"
-                    tools:text="Select a reason " />
+                    app:text="@{Strings.screen_international_funds_transfer_dropdown_text_reason_hint}"
+                    tools:text="@string/screen_international_funds_transfer_dropdown_text_reason_hint" />
 
                 <ImageView
                     android:id="@+id/ivSelector"
@@ -179,13 +193,14 @@
                     android:layout_centerInParent="true"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:src="@drawable/ic_chevron_down"
-                    android:tint="@color/colorPrimaryDark" />
+                    app:tint="@color/colorPrimaryDark" />
 
                 <View
                     android:id="@+id/breakLine"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_below="@+id/ivSelector"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:background="@color/greySoft"
                     tools:ignore="MissingConstraints" />
 
@@ -196,11 +211,12 @@
                 style="@style/RectangleBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginLeft="@dimen/_80sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_80sdp"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                android:paddingVertical="@dimen/_16sdp"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -210,5 +226,5 @@
                 app:layout_constraintVertical_bias="0.987"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

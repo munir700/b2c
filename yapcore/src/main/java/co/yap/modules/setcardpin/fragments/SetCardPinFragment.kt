@@ -5,15 +5,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.modules.setcardpin.activities.SetPinChildFragment
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.FragmentPinBinding
 
-open class SetCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
+class SetCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -33,9 +32,6 @@ open class SetCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
         viewModel.setCardPinFragmentData()
-        if (activity is SetCardPinWelcomeActivity) {
-            (activity as SetCardPinWelcomeActivity).preventTakeDeviceScreenShot.value = true
-        }
     }
 
     override fun setObservers() {

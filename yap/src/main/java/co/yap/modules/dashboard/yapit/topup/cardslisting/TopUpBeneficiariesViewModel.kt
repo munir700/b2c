@@ -22,18 +22,14 @@ class TopUpBeneficiariesViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val topUpCards: MutableLiveData<List<TopUpCard>> = MutableLiveData()
 
+    override fun onCreate() {
+        super.onCreate()
+        getPaymentCards()
+    }
 
     override fun onResume() {
         super.onResume()
         getCardsLimit()
-
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        getPaymentCards()
-
-
     }
 
     override fun handlePressOnBackButton(id: Int) {
@@ -61,13 +57,22 @@ class TopUpBeneficiariesViewModel(application: Application) :
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     if (state.enableAddCard.get())
-                        response.data.data?.add(TopUpCard(alias = "addCard"))
+                        response.data.data?.add(
+                            TopUpCard(
+                                alias = "addCard",
+                                id = if (response.data.data.isNullOrEmpty()) "+ Add card" else "+ Add a new card"
+                            )
+                        )
                     response.data.data?.let { topUpCards.value = it }
+                    state.responseReceived.set(true)
+                    state.loading = false
                 }
 
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
             }
-            state.loading = false
         }
     }
 
@@ -80,8 +85,8 @@ class TopUpBeneficiariesViewModel(application: Application) :
             ).replace("%d", size.toString())
             when (size) {
                 0 -> {
-                    state.noOfCard.set("No cards added yet")
-                    state.message.set("Add a card to top up")
+                    state.noOfCard.set("Start by adding a card")
+                    state.message.set("No cards are connected to this account yet")
                 }
                 1 -> state.noOfCard.set(message.substring(0, message.length - 1))
                 else -> state.noOfCard.set(message)

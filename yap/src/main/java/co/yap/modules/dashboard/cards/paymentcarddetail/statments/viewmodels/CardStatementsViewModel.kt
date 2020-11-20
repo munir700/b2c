@@ -20,7 +20,6 @@ class CardStatementsViewModel(application: Application) :
 
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: CardStatementsState = CardStatementsState()
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override lateinit var card: Card
     override val adapter: ObservableField<CardStatementsAdaptor> = ObservableField()
     private val currentCalendar = Calendar.getInstance()
@@ -138,7 +137,4 @@ class CardStatementsViewModel(application: Application) :
 //        }
     }
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
 }

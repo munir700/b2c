@@ -32,6 +32,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
     }
 
     override fun setObservers() {
+
         viewModel.success.observe(this, Observer {
             if (it) {
                 startOtpFragment()
@@ -50,6 +51,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                 )
             findNavController().navigate(action)
         })
+
     }
 
     private fun startOtpFragment() {

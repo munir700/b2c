@@ -126,6 +126,10 @@
             android:defaultValue=" "
             app:argType="string"
             />
+        <argument
+            android:name="placesPhotoId"
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
 
     <fragment

@@ -57,7 +57,7 @@ class InternationalTransactionConfirmationFragment :
         viewModel.parentViewModel?.state?.toolbarVisibility?.set(true)
         viewModel.parentViewModel?.state?.rightIcon?.set(false)
         viewModel.parentViewModel?.state?.leftIcon?.set(true)
-        viewModel.parentViewModel?.state?.toolBarTitle = viewModel.state.confirmHeading
+        viewModel.parentViewModel?.state?.toolbarTitle = viewModel.state.confirmHeading ?: ""
     }
 
     override fun setData() {
@@ -75,22 +75,19 @@ class InternationalTransactionConfirmationFragment :
             )
         } else {
             viewModel.state.transferDescription = resources.getText(
-                getString(Strings.screen_funds_confirmation_success_description)
-                ,
+                getString(Strings.screen_funds_confirmation_success_description),
                 requireContext().color(
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: ""
-                )
-                , requireContext().color(
+                ), requireContext().color(
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency(
                         false,
-                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: "AED"
+                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: SessionManager.getDefaultCurrency()
                     )
                         ?: ""
                 ),
-                viewModel.parentViewModel?.beneficiary?.value?.firstName
-                ,
+                viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
                     "${viewModel.parentViewModel?.transferData?.value?.toFxRate} to ${viewModel.parentViewModel?.transferData?.value?.fromFxRate}"
@@ -100,8 +97,7 @@ class InternationalTransactionConfirmationFragment :
 
             viewModel.state.receivingAmountDescription =
                 resources.getText(
-                    getString(Strings.screen_funds_receive_description)
-                    ,
+                    getString(Strings.screen_funds_receive_description),
                     requireContext().color(
                         R.color.colorPrimaryDark,
                         "${viewModel.parentViewModel?.transferData?.value?.sourceCurrency} ${viewModel.parentViewModel?.transferData?.value?.sourceAmount}"
@@ -115,7 +111,7 @@ class InternationalTransactionConfirmationFragment :
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency(
                         showCurrency = true,
-                        currency = "AED"
+                        currency = SessionManager.getDefaultCurrency()
                     ) ?: ""
                 )
             )

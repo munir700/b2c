@@ -20,6 +20,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 
 class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
     val args: VerifyCardCvvFragmentArgs by navArgs()
@@ -42,7 +43,7 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
         viewModel.state.cvvSpanableString.set(
             getString(Strings.screen_topup_card_cvv_display_text_cvv).format(
                 args.currencyType,
-                args.amount.toFormattedCurrency(showCurrency = false,currency = "AED")
+                args.amount.toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())
             )
         )
         getBindings().tvTopUpDescription.text = Utils.getSppnableStringForAmount(
@@ -77,7 +78,6 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
                 args.currencyType
             )
         when (it) {
-            R.id.ivCross -> findNavController().navigateUp()
             R.id.btnAction ->
                 if (context is TopUpCardActivity) {
                     viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
@@ -92,6 +92,12 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
             }
         }
 
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> findNavController().navigateUp()
+        }
     }
 
     private fun getBindings(): FragmentVerifyCardCvvBinding {

@@ -12,7 +12,7 @@ data class Card(
     val uuid: String,
     var physical: Boolean,
     val active: Boolean,
-    var cardName: String,
+    var cardName: String?,
     var nameUpdated: Boolean?,
     var status: String,
     val shipmentStatus: String?,
@@ -32,7 +32,9 @@ data class Card(
     val currentBalance: String,
     var availableBalance: String,
     val customerId: String,
+    var pinCreated: Boolean,
     val accountNumber: String,
     val productCode: String,
-    var pinCreated: Boolean
+    var shipmentDate: String? = null,
+    var activationDate: String? = null
 ) : Parcelable
