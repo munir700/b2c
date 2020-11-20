@@ -546,6 +546,13 @@
         <item name="strokeWidth">@dimen/_1sdp</item>
     </style>
 
+    <style name="Theme.AutoCompleteTextView.GreyLight" parent="CoreAppTheme">
+        <item name="colorControlNormal">@color/greyLight</item>
+        <item name="colorControlActivated">@color/greyLight</item>
+        <item name="colorControlHighlight">@color/greyLight</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
     <!--    <style name="Yap.App.Widget.TextInputEditText.Name" parent="Yap.App.Widget.TextInputEditText">-->
     <!--        <item name="android:layout_width">match_parent</item>-->
     <!--        <item name="android:layout_height">wrap_content</item>-->

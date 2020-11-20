@@ -138,10 +138,10 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         try {
             // todo temporary logic added to fix a bug, balance should be stored as double in view model
             val virtualCardFee =
-                viewModel.state.virtualCardFee.replace("AED ", "").replace(",", "")
+                viewModel.state.virtualCardFee.replace("${SessionManager.getDefaultCurrency()} ", "").replace(",", "")
                     .toDouble()
             val availableCardBalance =
-                viewModel.state.avaialableCardBalance.replace("AED ", "")
+                viewModel.state.avaialableCardBalance.replace("${SessionManager.getDefaultCurrency()} ", "")
                     .replace(",", "")
                     .toDouble()
             if (virtualCardFee > availableCardBalance) {
@@ -158,12 +158,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         // todo temporary logic added to fix a bug, balance should be stored as double in view model
         try {
             val physicalCardFee =
-                viewModel.state.physicalCardFee.replace("AED ", "").replace(
+                viewModel.state.physicalCardFee.replace("${SessionManager.getDefaultCurrency()} ", "").replace(
                     ",",
                     ""
                 ).toDouble()
             val availableCardBalance =
-                viewModel.state.avaialableCardBalance.replace("AED ", "").replace(
+                viewModel.state.avaialableCardBalance.replace("${SessionManager.getDefaultCurrency()} ", "").replace(
                     ",",
                     ""
                 ).toDouble()

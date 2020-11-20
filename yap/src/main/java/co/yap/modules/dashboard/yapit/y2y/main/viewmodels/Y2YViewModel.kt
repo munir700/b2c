@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.modules.dashboard.yapit.y2y.main.states.Y2YState
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.managers.SessionManager
 

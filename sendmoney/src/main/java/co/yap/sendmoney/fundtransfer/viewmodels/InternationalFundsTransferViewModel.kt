@@ -85,8 +85,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     if (parentViewModel?.isSameCurrency == true) {
-                        state.sourceCurrency.set("AED")
-                        state.destinationCurrency.set("AED")
+                        state.sourceCurrency.set(SessionManager.getDefaultCurrency())
+                        state.destinationCurrency.set(SessionManager.getDefaultCurrency())
                         parentViewModel?.transferData?.value?.rate = "1.0"
                     } else {
                         isAPIFailed.value = true
@@ -232,6 +232,36 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
         } else {
             state.etOutputAmount = ""
+        }
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.etOutputAmount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
         }
     }
 

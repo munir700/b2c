@@ -32,6 +32,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -92,12 +93,12 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         viewModel.parentViewModel?.transferData?.value?.transferFee = totalFeeAmount
         viewModel.state.feeAmountSpannableString = resources.getText(
             getString(Strings.screen_cash_pickup_funds_display_text_fee),
-            requireContext().color(R.color.colorPrimaryDark, "AED"),
+            requireContext().color(R.color.colorPrimaryDark, SessionManager.getDefaultCurrency()),
             requireContext().color(
                 R.color.colorPrimaryDark,
                 if (totalFeeAmount.isNullOrBlank()) "0.00" else totalFeeAmount.toFormattedCurrency(
                     showCurrency = false,
-                    currency = "AED"
+                    currency = SessionManager.getDefaultCurrency()
                 )
             )
         )
@@ -135,15 +136,32 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    if (viewModel.state.amount.parseToDouble() < viewModel.state.minLimit) {
-                        viewModel.showUpperLowerLimitError()
-                    } else {
-                        if (viewModel.isUaeftsBeneficiary()) {
+                    when {
+                        viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
+                            viewModel.showUpperLowerLimitError()
+                        }
+                        viewModel.parentViewModel?.isInCoolingPeriod() == true && viewModel.parentViewModel?.isCPAmountConsumed(
+                            viewModel.state.amount
+                        ) == true -> {
+                            viewModel.checkCoolingPeriodRequest(
+                                beneficiaryId = viewModel.parentViewModel?.beneficiary?.value?.id.toString(),
+                                beneficiaryCreationDate = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryCreationDate,
+                                beneficiaryName = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                                amount = viewModel.state.amount
+                            ) {
+                                requireActivity().showAlertCustomDialog(
+                                    title = "Psst...",
+                                    message = viewModel.parentViewModel?.showCoolingPeriodLimitError(),
+                                    buttonText = "OK, got it!"
+                                )
+                            }
+                        }
+                        viewModel.isUaeftsBeneficiary() -> {
                             if (viewModel.parentViewModel?.selectedPop != null) moveToConfirmationScreen() else showToast(
                                 "Select a reason ^${AlertType.DIALOG.name}"
                             )
-                        } else
-                            startOtpFragment()
+                        }
+                        else -> startOtpFragment()
                     }
                 }
             }
@@ -152,8 +170,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
-                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
-                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
+                viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()
+                viewModel.parentViewModel?.transferData?.value?.destinationCurrency = SessionManager.getDefaultCurrency()
                 viewModel.parentViewModel?.transferData?.value?.transferAmount =
                     viewModel.state.amount
                 val action =
@@ -189,8 +207,8 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
     private fun moveToConfirmationScreen() {
         viewModel.parentViewModel?.transferData?.value?.transferAmount = viewModel.state.amount
         viewModel.parentViewModel?.transferData?.value?.noteValue = viewModel.state.noteValue
-        viewModel.parentViewModel?.transferData?.value?.sourceCurrency = "AED"
-        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = "AED"
+        viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()
+        viewModel.parentViewModel?.transferData?.value?.destinationCurrency = SessionManager.getDefaultCurrency()
         viewModel.parentViewModel?.transferData?.value?.feeAmount =
             if (viewModel.shouldFeeApply()) viewModel.feeAmount else "0.0"
         viewModel.parentViewModel?.transferData?.value?.vat =
@@ -356,7 +374,6 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 viewModel.parentViewModel?.errorEvent?.value = viewModel.state.errorDescription
                 viewModel.state.valid = false
             }
-
             viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                 viewModel.state.valid = true
             }
@@ -371,7 +388,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
         }
     }
 
-    fun getBindings(): FragmentCashTransferBinding {
+   private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
 }

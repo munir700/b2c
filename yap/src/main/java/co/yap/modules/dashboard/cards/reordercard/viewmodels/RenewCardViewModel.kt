@@ -36,7 +36,7 @@ class RenewCardViewModel(application: Application) :
         super.onCreate()
         state.availableCardBalance.set(
             SessionManager.cardBalance.value?.availableBalance.toString()
-                .toFormattedCurrency(showCurrency = true, currency = "AED")
+                .toFormattedCurrency(showCurrency = true, currency = SessionManager.getDefaultCurrency())
         )
         requestReorderCardFee(parentViewModel?.card?.cardType)
         requestGetAddressForPhysicalCard()
@@ -94,15 +94,21 @@ class RenewCardViewModel(application: Application) :
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             fee =
                                 feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedCurrency(showCurrency = false, currency = "AED")
+                                    .toFormattedCurrency(
+                                        showCurrency = false,
+                                        currency = SessionManager.getDefaultCurrency()
+                                    )
                                     ?: "0.0"
                         }
                     } else {
-                        fee = "0.0".toFormattedCurrency(showCurrency = false, currency = "AED")
+                        fee = "0.0".toFormattedCurrency(
+                            showCurrency = false,
+                            currency = SessionManager.getDefaultCurrency()
+                        )
                             ?: "0.0"
                     }
 
-                    state.cardFee.set("AED $fee")
+                    state.cardFee.set("${SessionManager.getDefaultCurrency()} $fee")
                 }
 
                 is RetroApiResponse.Error -> {
@@ -122,14 +128,14 @@ class RenewCardViewModel(application: Application) :
                             val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                             fee =
                                 feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedCurrency(showCurrency = false, currency = "AED")
+                                    .toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())
                                     ?: "0.0"
                         }
                     } else {
-                        fee = "0.0".toFormattedCurrency(showCurrency = false,currency = "AED") ?: "0.0"
+                        fee = "0.0".toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency()) ?: "0.0"
                     }
 
-                    state.cardFee.set("AED $fee")
+                    state.cardFee.set("${SessionManager.getDefaultCurrency()} $fee")
                 }
 
                 is RetroApiResponse.Error -> {

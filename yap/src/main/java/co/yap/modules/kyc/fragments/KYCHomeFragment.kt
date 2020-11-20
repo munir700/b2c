@@ -33,7 +33,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onActivityCreated(savedInstanceState)
         shouldSkipScreen()
         addObservers()
-        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(label = FirebaseEvents.SCAN_ID.event))
+        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding",action = FirebaseEvents.SCAN_ID.event))
     }
 
 

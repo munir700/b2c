@@ -931,6 +931,14 @@ object Utils {
         return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
     }
 
+    @JvmStatic
+    fun getConfiguredDecimalsDashboard(currencyCode: String): Int? {
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt()
+    }
+
     fun dpToFloat(context: Context, dp: Float): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, dp,
