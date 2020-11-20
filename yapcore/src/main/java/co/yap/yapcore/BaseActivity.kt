@@ -59,6 +59,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = it
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        })
     }
 
     //    private fun setUpFirebaseAnalytics() {
@@ -233,6 +249,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         cancelAllSnackBar()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroy()
     }
 

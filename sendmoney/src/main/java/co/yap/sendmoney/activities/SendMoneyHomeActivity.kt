@@ -2,6 +2,7 @@ package co.yap.sendmoney.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -13,6 +14,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
@@ -37,9 +39,13 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.sendMoneyType = intent.getStringExtra(ExtraKeys.SEND_MONEY_TYPE.name) ?: ""
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         data?.let {
             when (requestCode) {
                 RequestCodes.REQUEST_TRANSFER_MONEY -> {

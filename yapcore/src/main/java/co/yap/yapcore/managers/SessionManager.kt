@@ -3,6 +3,7 @@ package co.yap.yapcore.managers
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.countryutils.country.Country
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -15,6 +16,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import com.liveperson.infra.LPAuthenticationParams
@@ -38,6 +40,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
+    private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY : String = "AED"
 
@@ -60,8 +63,32 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }*/
     }
 
+    fun getCountriesFromServer(response: (success: Boolean, countries: ArrayList<Country>) -> Unit) {
+        GlobalScope.launch(Dispatchers.IO) {
+            when (val apiResponse = customerRepository.getAllCountries()) {
+                is RetroApiResponse.Success -> {
+                    countries.postValue(
+                        Utils.parseCountryList(
+                            apiResponse.data.data,
+                            addOIndex = false
+                        )
+                    )
+                    response.invoke(true, countries.value ?: arrayListOf())
+                }
+
+                is RetroApiResponse.Error -> {
+                    response.invoke(false, arrayListOf())
+                }
+            }
+        }
+    }
+
     fun getCurrencies(): ArrayList<CurrencyData> {
         return currencies.value ?: arrayListOf()
+    }
+
+    fun getCountries(): ArrayList<Country> {
+        return countries.value ?: arrayListOf()
     }
 
     fun getDefaultCurrencyDecimals(): Int = 2

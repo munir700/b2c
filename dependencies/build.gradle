@@ -19,15 +19,16 @@ project.ext {
     arch = "2.1.0"
     paging_version = "2.1.0"
     modules = [
-            app        : ':app',
-            networking : ':networking',
-            translation: ':translation',
-            yap        : ':yap',
-            household  : ':household',
-            yapcore    : ':yapcore',
-            kyc        : ':identityscanner_v2',
-            sendmoney  : ':sendmoney',
-            security   : ':security'
+            app             : ':app',
+            networking      : ':networking',
+            translation     : ':translation',
+            yap             : ':yap',
+            household       : ':household',
+            yapcore         : ':yapcore',
+            kyc             : ':identityscanner_v2',
+            sendmoney       : ':sendmoney',
+            security        : ':security',
+            qrcodereaderview: ':qrcodereaderview'
     ]
 
     // All libraries that any module can contain
@@ -38,7 +39,7 @@ project.ext {
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinreflect            : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
-            material                 : 'com.google.android.material:material:1.2.0-alpha01',
+            material                 : 'com.google.android.material:material:1.3.0-alpha02',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2',
             otpView                  : 'com.github.aabhasr1:OtpView:v1.1.2',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.12.10',
@@ -110,10 +111,11 @@ project.ext {
 
             //phone lib
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:8.12.10',
-            easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
+            easyImage                : 'com.github.jkwiecien:EasyImage:3.0.4',
+            easyPermission           : 'pub.devrel:easypermissions:3.0.0',
 
             //Firebase Crashlytics
-            FirebaseCrashlyticsSdk   :'com.google.firebase:firebase-crashlytics:17.2.2',
+            FirebaseCrashlyticsSdk   : 'com.google.firebase:firebase-crashlytics:17.2.2',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
             analytics                : 'com.google.firebase:firebase-analytics:18.0.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
@@ -183,6 +185,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.livechat],
             [configuration: "implementation", dependency: libraries.phoneLib],
             [configuration: "implementation", dependency: libraries.easyImage],
+            [configuration: "implementation", dependency: libraries.easyPermission],
             [configuration: "implementation", dependency: libraries.timber],
             [configuration: "implementation", dependency: libraries.inline_activity_result],
             [configuration: "implementation", dependency: libraries.rxAndroid],
@@ -208,6 +211,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.household)],
             [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.sendmoney)],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
@@ -224,6 +228,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: project(modules.kyc)],
             [configuration: "implementation", dependency: project(modules.sendmoney)],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.glideTransformation],
@@ -282,6 +287,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: project(modules.qrcodereaderview)],
             [configuration: "api", dependency: libraries.leanplumFcm],
             //[configuration: "api", dependency: libraries.leanplumCore],
             [configuration: "api", dependency: libraries.leanplumLocation],

@@ -52,6 +52,8 @@ object Strings {
         "common_permission_rejected_error"
     const val common_saved_image_to_gallery: String =
         "common_saved_image_to_gallery"
+    const val common_display_text_search_hint: String =
+        "common_display_text_search_hint"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -1013,6 +1015,12 @@ object Strings {
         "screen_send_money_display_text_delete"
     const val screen_send_money_display_text_delete_message: String =
         "screen_send_money_display_text_delete_message"
+    const val screen_send_money_display_text_title_local: String =
+        "screen_send_money_display_text_title_local"
+    const val screen_send_money_display_text_title_international: String =
+        "screen_send_money_display_text_title_international"
+    const val screen_send_money_display_text_all_local_beneficiaries: String =
+        "screen_send_money_display_text_all_local_beneficiaries"
 
 
     //    Send Money Screen
@@ -1038,6 +1046,16 @@ object Strings {
         "screen_edit_beneficiary_display_text_coonfirm"
     const val screen_send_money_display_bottom_sheet_label: String =
         "screen_send_money_display_bottom_sheet_label"
+    const val screen_fragment_yap_it_send_money_label: String =
+        "screen_fragment_yap_it_send_money_label"
+    const val screen_send_money_local_bank_label: String =
+        "screen_send_money_local_bank_label"
+    const val screen_send_money_international_label: String =
+        "screen_send_money_international_label"
+    const val screen_send_money_home_label: String =
+        "screen_send_money_home_label"
+    const val screen_send_show_recent: String =
+        "screen_send_show_recent"
 
 
     //     Add Beneficiary
@@ -1786,6 +1804,12 @@ object Strings {
         "screen_fragment_yap_it_qr_code_save_to_gallery"
     const val screen_fragment_yap_it_qr_code_text_share_to_proceed: String =
         "screen_fragment_yap_it_qr_code_text_share_to_proceed"
+    const val screen_fragment_yap_it_qr_code_text_scan_to_proceed: String =
+        "screen_fragment_yap_it_qr_code_text_scan_to_proceed"
+    const val screen_fragment_yap_it_qr_code_text_image_library: String =
+        "screen_fragment_yap_it_qr_code_text_image_library"
+    const val screen_fragment_yap_it_qr_code_text_my_qr_code: String =
+        "screen_fragment_yap_it_qr_code_text_my_qr_code"
 
 
     // Transaction Detail Screen
@@ -1797,4 +1821,36 @@ object Strings {
 
     const val iban_or_debit_card_freeze_or_blocked_message: String =
         "iban_or_debit_card_freeze_or_blocked_message"
+
+    // Send Money Home Screen
+    const val screen_send_money_home_display_text_send_money: String =
+            "screen_send_money_home_display_text_send_money"
+    const val screen_send_money_home_display_text_money: String =
+            "screen_send_money_home_display_text_money"
+    const val screen_send_money_home_display_text_recent_transfers: String =
+            "screen_send_money_home_display_text_recent_transfers"
+    const val screen_send_money_home_display_text_send_money_home: String =
+            "screen_send_money_home_display_text_send_money_home"
+    const val screen_send_money_home_display_text_get_best_rates: String =
+            "screen_send_money_home_display_text_get_best_rates"
+    const val screen_send_money_home_display_text_change_home_country: String =
+            "screen_send_money_home_display_text_change_home_country"
+    const val screen_send_money_home_display_text_hide: String =
+            "screen_send_money_home_display_text_hide"
+    const val screen_send_money_home_title: String =
+            "screen_send_money_home_title"
+    const val screen_send_money_home_display_text_compare: String =
+        "screen_send_money_home_display_text_compare"
+
+    // QR Code Funds Transfer
+    const val screen_qr_transfer_display_text_button: String =
+        "screen_qr_transfer_display_text_button"
+    const val screen_qr_transfer_display_text_note_hint: String =
+        "screen_qr_transfer_display_text_note_hint"
+    const val screen_qr_transfer_display_title: String =
+        "screen_qr_transfer_display_title"
+    const val screen_qr_funds_transfer_display_text_available_balance: String =
+        "screen_qr_funds_transfer_display_text_available_balance"
+    const val screen_qr_code_own_uuid_error_message: String =
+        "screen_qr_code_own_uuid_error_message"
 }

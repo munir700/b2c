@@ -211,5 +211,12 @@
             android:name=".modules.dashboard.more.notification.activities.NotificationsActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".modules.dashboard.yapit.sendmoney.homecountry.SMHomeCountryActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".sendmoney.home.main.SMBeneficiaryParentActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

@@ -40,10 +40,12 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
+import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -51,7 +53,9 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.helpers.showAlertCustomDialog
@@ -79,10 +83,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SessionManager.getCountriesFromServer { _, _ -> }
         setupPager()
         addObservers()
         addListeners()
-        setupYapButton()
+        //  setupOldYapButtons()
+        setupNewYapButtons()
         logEvent()
         initializeChatOverLayButton(Leanplum.getInbox().unreadCount())
     }
@@ -92,7 +98,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP)
     }
 
-    private fun setupYapButton() {
+    private fun setupOldYapButtons() {
         actionMenu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
@@ -133,13 +139,74 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
                         }
                         3 -> {
-                            launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
-                                putExtra(SendMoneyLandingActivity.searching, false)
+                            launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY) {
+                                //TODO check this call with faheem
+                                // putExtra(SMBeneficiaryParentActivity.searching, false)
                             }
                         }
                     }
                 }
             }).build()
+    }
+
+    private fun setupNewYapButtons() {
+        actionMenu = FloatingActionMenu.Builder(this)
+            .setStartAngle(0)
+            .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
+            .setAnimationHandler(SlideInAnimationHandler())
+            .addSubActionView(
+                getString(Strings.common_send_money),
+                R.drawable.ic_send_money,
+                R.layout.component_yap_menu_sub_button,
+                this, 1
+            )/*.addSubActionView(
+                getString(Strings.common_pay_bills),
+                R.drawable.ic_bill,
+                R.layout.component_yap_menu_sub_button,
+                this, 2
+            )*/.addSubActionView(
+                getString(Strings.common_add_money),
+                R.drawable.ic_add_sign_white,
+                R.layout.component_yap_menu_sub_button,
+                this, 3
+            )
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .setTxtYapIt(getViewBinding().txtYapIt)
+            .setStateChangeListener(object :
+                FloatingActionMenu.MenuStateChangeListener {
+                override fun onMenuOpened(menu: FloatingActionMenu) {
+                    overLayButtonVisibility(View.GONE)
+                }
+
+                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
+                    Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
+                    when (subActionButtonId) {
+                        1 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                            } else {
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            }
+                            /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                checkPermission()
+                            } else {
+                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                            }*/
+                        }
+                        2 -> {
+                            /* if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                                 openTopUpScreen()
+                             } else {
+                                 showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
+                             }*/
+                        }
+                        3 -> {
+                            launchActivity<AddMoneyActivity>()
+                        }
+                    }
+                }
+            })
+            .build()
     }
 
     private fun setupPager() {

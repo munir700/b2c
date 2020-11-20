@@ -12,9 +12,9 @@ interface IAddMoneyLanding {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickEvent: SingleClickEvent
         val landingAdapter: AddMoneyLandingAdapter
         fun handlePressOnView(id: Int)
+        val clickEvent: SingleClickEvent
         fun getAddMoneyOptions(): MutableList<AddMoneyLandingOptions>
     }
 

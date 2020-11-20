@@ -4,6 +4,8 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.customers.responsedtos.City
+import co.yap.widgets.bottomsheet.CoreBottomSheetData
+import co.yap.widgets.bottomsheet.CoreBottomSheetItemViewModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemCityBinding
@@ -27,7 +29,7 @@ class CityItemViewHolder(private val itemCityBinding: ItemCityBinding) :
     RecyclerView.ViewHolder(itemCityBinding.root) {
 
     fun onBind(city: City, position: Int, onItemClickListener: OnItemClickListener?) {
-        itemCityBinding.viewModel = CityItemViewModel(city, position, onItemClickListener)
+        itemCityBinding.viewModel = CoreBottomSheetItemViewModel(city as CoreBottomSheetData, position, onItemClickListener)
         itemCityBinding.executePendingBindings()
     }
 }
