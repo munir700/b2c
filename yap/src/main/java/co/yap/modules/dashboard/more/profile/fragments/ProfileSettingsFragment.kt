@@ -98,7 +98,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         updatePhotoBottomSheet.dismiss()
 
         when (eventType) {
-
             Constants.EVENT_ADD_PHOTO -> {
                 initEasyImage(takePhoto)
             }
@@ -111,9 +110,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 viewModel.requestRemoveProfilePicture {
                     if (it) ivProfilePic.setImageDrawable(null)
                 }
-
             }
-
         }
     }
 
@@ -249,7 +246,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun showRemovePhoto(): Boolean {
-
         return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 

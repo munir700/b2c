@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+            type="co.yap.sendmoney.home.viewmodels.SMBeneficiariesViewModel" />
 
         <import type="android.view.View" />
 
@@ -27,15 +27,14 @@
             android:id="@+id/svBeneficiary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/bg_search_widget"
             android:theme="@style/AppSearchView"
-            android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
-            app:searchIcon="@drawable/ic_search_grey" />
+            android:background="@null"
+            app:searchIcon="@null" />
 
         <ImageView
             android:id="@+id/ivSearch"
@@ -48,7 +47,6 @@
             android:layout_toStartOf="@id/tvSearch"
             android:paddingTop="@dimen/_2sdp"
             android:src="@drawable/ic_search_grey"
-            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/tvSearch"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +57,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
-            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
