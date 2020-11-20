@@ -4,10 +4,6 @@ import android.content.Context
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.enums.AccountBlockSeverityLevel
-import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.UserAccessRestriction
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.managers.SessionManager
 
@@ -23,7 +19,7 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
             "MOBILE_APP_HOSTLIST" -> {
                 UserAccessRestriction.CARD_HOTLISTED_BY_APP
             }
-            "CUSTOMER_REQUEST_HOSTLISTED" -> {
+            "CUSTOMER_REQUEST" -> {
                 UserAccessRestriction.CARD_HOTLISTED_BY_CSR
             }
             "BANK_REQUEST" -> {
