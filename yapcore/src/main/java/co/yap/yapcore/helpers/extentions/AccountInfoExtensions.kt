@@ -4,18 +4,16 @@ import android.content.Context
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.enums.UserAccessRestriction
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.managers.SessionManager
 
-fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
+fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestriction>) -> Unit = {}): ArrayList<UserAccessRestriction> {
     val restrictions: ArrayList<UserAccessRestriction> = arrayListOf()
 
     if (partnerBankStatus?.equals(PartnerBankStatus.ACTIVATED.status) == false) {
         restrictions.add(UserAccessRestriction.ACCOUNT_INACTIVE)
     }
-    /*
+
     restrictions.add(
         when (this.freezeInitiator) {
             "MOBILE_APP_HOSTLIST" -> {
@@ -56,9 +54,23 @@ fun AccountInfo.getUserAccessRestrictions(): ArrayList<UserAccessRestriction> {
 
             else -> UserAccessRestriction.NONE
         }
-    )*/
+    )
     if (otpBlocked == true) {
         restrictions.add(UserAccessRestriction.OTP_BLOCKED)
+    }
+
+    if (SessionManager.card.value != null) {
+        if (SessionManager.card.value?.status == CardStatus.PIN_BLOCKED.name) {
+            restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
+            completion.invoke(restrictions)
+        }
+    } else {
+        SessionManager.getDebitCard { card ->
+            if (card.status == CardStatus.PIN_BLOCKED.name) {
+                restrictions.add(UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED)
+                completion.invoke(restrictions)
+            }
+        }
     }
 
     return restrictions
@@ -178,6 +190,9 @@ fun AccountInfo?.getBlockedFeaturesList(key: UserAccessRestriction): ArrayList<F
         }
         UserAccessRestriction.ACCOUNT_INACTIVE -> {
             arrayListOf(FeatureSet.SEND_MONEY, FeatureSet.YAP_TO_YAP, FeatureSet.TOP_UP)
+        }
+        UserAccessRestriction.DEBIT_CARD_PIN_BLOCKED -> {
+            arrayListOf(FeatureSet.CHANGE_PIN, FeatureSet.FORGOT_PIN)
         }
         UserAccessRestriction.NONE -> {
             arrayListOf()
