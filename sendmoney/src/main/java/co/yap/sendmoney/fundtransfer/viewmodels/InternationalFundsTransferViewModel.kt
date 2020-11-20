@@ -179,17 +179,35 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        updateFees(state.etOutputAmount.toString())
+        updateFees(
+            enterAmount = if (feeCurrency.equals(
+                    parentViewModel?.beneficiary?.value?.currency,
+                    true
+                )
+            ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+        )
     }
 
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etOutputAmount.toString())
+                val transferFee = getFeeFromTier(
+                    enterAmount = if (feeCurrency.equals(
+                            parentViewModel?.beneficiary?.value?.currency,
+                            true
+                        )
+                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = getFlatFee(state.etOutputAmount.toString())
+                val transferFee = getFlatFee(
+                    enterAmount = if (feeCurrency.equals(
+                            parentViewModel?.beneficiary?.value?.currency,
+                            true
+                        )
+                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
