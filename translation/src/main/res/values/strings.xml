@@ -1114,5 +1114,8 @@
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
 
+    <!-- Additional Information Strings-->
+    <string name="screen_additional_info_label_text_do_it_later">Do it later</string>
+
 
 </resources>

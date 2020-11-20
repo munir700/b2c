@@ -1793,4 +1793,7 @@ object Strings {
 
     const val iban_or_debit_card_freeze_or_blocked_message: String =
         "iban_or_debit_card_freeze_or_blocked_message"
+
+    const val screen_additional_info_label_text_do_it_later: String =
+        "screen_additional_info_label_text_do_it_later"
 }

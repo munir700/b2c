@@ -590,7 +590,7 @@ public class StepView extends View {
     private void measureLines() {
         startLinesX = new int[getStepCount() - 1];
         endLinesX = new int[getStepCount() - 1];
-        int padding = stepPadding + selectedCircleRadius - 10;
+        int padding = stepPadding + selectedCircleRadius - 20;
 
         for (int i = 1; i < getStepCount(); i++) {
             if (isRtl()) {
@@ -722,7 +722,6 @@ public class StepView extends View {
                     paint.setColor(nextTextColor);
                     drawNumber(canvas, number, circleCenterX, paint);
                 }
-
                 textPaint.setTextSize(textSize);
                 textPaint.setColor(nextTextColor);
                 int alpha = (int) Math.max(Color.alpha(nextTextColor), animatedFraction * 255);
@@ -749,6 +748,7 @@ public class StepView extends View {
     private void drawNumber(Canvas canvas, String number, int circleCenterX, Paint paint) {
         paint.getTextBounds(number, 0, number.length(), bounds);
         float y = circlesY + bounds.height() / 2f - bounds.bottom;
+        paint.setColor(selectedStepNumberColor);
         canvas.drawText(number, circleCenterX, y, paint);
     }
 
@@ -985,4 +985,7 @@ public class StepView extends View {
             }
         }
     }
+
 }
+
+

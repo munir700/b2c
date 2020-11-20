@@ -30,7 +30,7 @@
             app:sv_doneStepMarkColor="@color/white"
             app:sv_nextStepCircleColor="@color/colorPrimaryDark"
             app:sv_nextStepCircleEnabled="true"
-            app:sv_nextStepLineColor="@color/colorPrimaryDarkFadedLight"
+            app:sv_nextStepLineColor="@color/stepview_line_done"
             app:sv_selectedCircleRadius="@dimen/_16sdp"
             app:sv_selectedStepNumberColor="@color/white"
             app:sv_stepLineWidth="@dimen/_1sdp"
@@ -46,7 +46,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_normal_large"
             android:gravity="center"
-            android:text="Additional Information"
+            android:text="@{viewModel.state.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/step_view"
@@ -61,10 +61,11 @@
             android:layout_marginTop="@dimen/margin_normal_large"
             android:layout_marginEnd="@dimen/margin_normal_large"
             android:gravity="center"
+            android:text="@{viewModel.state.subTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            android:text="You have successfully uploaded your documents. Please click Next to continue" />
+            tools:text="You have successfully uploaded your documents. Please click Next to continue" />
 
         <fragment
             android:id="@+id/additional_info_host_fragment"

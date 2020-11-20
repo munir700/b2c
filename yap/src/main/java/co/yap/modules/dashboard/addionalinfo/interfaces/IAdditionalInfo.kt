@@ -1,13 +1,16 @@
 package co.yap.modules.dashboard.addionalinfo.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 
 interface IAdditionalInfo {
     interface View : IBase.View<ViewModel>
 
-    interface ViewModel : IBase.ViewModel<State> {
-        val stepList: ArrayList<String>
-    }
+    interface ViewModel : IBase.ViewModel<State>
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        val title: ObservableField<String>
+        val subTitle: ObservableField<String>
+
+    }
 }

@@ -138,7 +138,7 @@
 
 <!--    StepView-->
 
-    <color name="stepview_line_done">@android:color/white</color>
+    <color name="stepview_line_done">#4D272262</color>
     <color name="stepview_line_next">#26ffffff</color>
     <color name="stepview_text_next">#40ffffff</color>
     <color name="stepview_text_done">#40ffffff</color>
