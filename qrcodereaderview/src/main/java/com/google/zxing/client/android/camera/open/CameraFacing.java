@@ -15,7 +15,7 @@
  */
 package com.google.zxing.client.android.camera.open;
 
-public enum CameraFacing {
+public enum CameraFacing  {
 
   BACK,  // must be value 0!
   FRONT, // must be value 1!
