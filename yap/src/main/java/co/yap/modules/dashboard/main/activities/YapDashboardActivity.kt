@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.main.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -80,6 +81,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
     var view: CounterFloatingActionButton? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -236,11 +238,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         })
     }
 
+    @SuppressLint("InflateParams")
     private fun inflateFloatingActonButton() {
-        view = layoutInflater.inflate(
-            co.yap.yapcore.R.layout.layout_overlay_live_chat,
-            null
-        ) as? CounterFloatingActionButton
+        val layoutInflater =
+            layoutInflater.inflate(co.yap.yapcore.R.layout.layout_overlay_live_chat,
+                null)
+        if (layoutInflater is CounterFloatingActionButton) view = layoutInflater
     }
 
     private fun addObservers() {
