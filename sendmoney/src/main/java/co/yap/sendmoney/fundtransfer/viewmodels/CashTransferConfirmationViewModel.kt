@@ -128,7 +128,7 @@ class CashTransferConfirmationViewModel(application: Application) :
                         settlementAmount = 0.0,
                         purposeCode = parentViewModel?.selectedPop?.purposeCode,
                         purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue?.trim()
                     )
 
                 )

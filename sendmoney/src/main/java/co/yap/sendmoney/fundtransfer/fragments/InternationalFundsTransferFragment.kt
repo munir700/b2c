@@ -26,6 +26,7 @@ import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.roundVal
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -126,7 +127,7 @@ class InternationalFundsTransferFragment :
                 R.color.colorPrimaryDark,
                 if (feeAmount.isNullOrBlank()) "0".toFormattedCurrency(
                     showCurrency = false
-                )else feeAmount.toFormattedCurrency(
+                ) else feeAmount.toFormattedCurrency(
                     showCurrency = false
                 )
             )
@@ -143,9 +144,24 @@ class InternationalFundsTransferFragment :
                         viewModel.state.etOutputAmount.parseToDouble() < viewModel.state.minLimit ?: 0.0 -> {
                             showLowerAndUpperLimitError()
                         }
+                        viewModel.parentViewModel?.isInCoolingPeriod() == true && viewModel.parentViewModel?.isCPAmountConsumed(
+                            viewModel.state.etOutputAmount ?: "0.0"
+                        ) == true -> {
+                            viewModel.checkCoolingPeriodRequest(
+                                beneficiaryId = viewModel.parentViewModel?.beneficiary?.value?.id.toString(),
+                                beneficiaryCreationDate = viewModel.parentViewModel?.beneficiary?.value?.beneficiaryCreationDate,
+                                beneficiaryName = viewModel.parentViewModel?.beneficiary?.value?.fullName(),
+                                amount = viewModel.state.etOutputAmount
+                            ) {
+                                activity?.showAlertCustomDialog(
+                                    title = "Psst...",
+                                    message = viewModel.parentViewModel?.showCoolingPeriodLimitError(),
+                                    buttonText = "OK, got it!"
+                                )
+                            }
+                        }
                         viewModel.parentViewModel?.selectedPop != null -> moveToConfirmTransferScreen()
                         else -> showToast("Select a reason ^${AlertType.DIALOG.name}")
-
                     }
                 }
             }
@@ -162,9 +178,15 @@ class InternationalFundsTransferFragment :
                     inviteFriendBottomSheet?.dismiss()
                     viewModel.parentViewModel?.selectedPop = data as PurposeOfPayment
                     viewModel.updateFees()
-                    getBindings().tvSelectReason.text = viewModel.parentViewModel?.selectedPop?.purposeDescription
+                    getBindings().tvSelectReason.text =
+                        viewModel.parentViewModel?.selectedPop?.purposeDescription
                     getBindings().tvSelectReason.alpha = 1.0f
-                    getBindings().tvReasonLbl.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark))
+                    getBindings().tvReasonLbl.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.greyDark
+                        )
+                    )
                 }
 
             }, purposeCategories)
@@ -294,7 +316,6 @@ class InternationalFundsTransferFragment :
                 viewModel.state.valid = false
                 cancelAllSnackBar()
             }
-
             viewModel.updateFees()
         }
     }

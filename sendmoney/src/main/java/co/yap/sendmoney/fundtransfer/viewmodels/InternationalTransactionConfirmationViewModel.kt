@@ -85,7 +85,7 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                             settlementAmount = it.sourceAmount.parseToDouble(),
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue?.trim(),
                             fxRate = it.rate ?: "1.0"
                         )
                     )

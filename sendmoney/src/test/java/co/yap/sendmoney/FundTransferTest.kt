@@ -17,6 +17,70 @@ class FundTransferTest {
             empty == "0000"
         )
     }
+
+    @Test
+    fun getDecimalFromValue() {
+        Assert.assertEquals(
+            2,
+            getDecimalFromValue("100.0")
+        )
+        Assert.assertEquals(
+            3,
+            getDecimalFromValue("100.000")
+        )
+        Assert.assertEquals(
+            5,
+            getDecimalFromValue("100.66655")
+        )
+        Assert.assertEquals(
+            2,
+            getDecimalFromValue("100,000.00")
+        )
+        Assert.assertEquals(
+            2,
+            getDecimalFromValue(".0")
+        )
+        Assert.assertEquals(
+            3,
+            getDecimalFromValue(".000")
+        )
+        Assert.assertEquals(
+            2,
+            getDecimalFromValue("0000")
+        )
+        Assert.assertEquals(
+            2,
+            getDecimalFromValue("1432,25")
+        )
+    }
+
+    fun getDecimalFromValue(amount: String): Int {
+        val splitAmount = amount.split(".")
+        return if (splitAmount.size > 1) {
+            if (splitAmount[1].length < 2) {
+                2
+            } else {
+                splitAmount[1].length
+            }
+        } else {
+            2
+        }
+    }
+
+    @Test
+    fun getDecimalDigits() {
+        Assert.assertEquals(
+            "000000",
+            getDecimalDigits(6)
+        )
+    }
+    fun getDecimalDigits(digits: Int): String {
+        val sb = StringBuilder()
+        for (i in 1..digits) {
+            sb.append("0")
+        }
+        return sb.toString()
+    }
 //
 //    @Test
 //    fun isAmountDecimalConfigured() {

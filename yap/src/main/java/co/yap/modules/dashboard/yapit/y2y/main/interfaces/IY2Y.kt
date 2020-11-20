@@ -2,8 +2,8 @@ package co.yap.modules.dashboard.yapit.y2y.main.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 
 interface IY2Y {
 
