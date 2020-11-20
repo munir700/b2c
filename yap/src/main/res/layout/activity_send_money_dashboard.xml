@@ -33,7 +33,7 @@
             app:leftIcon="@{R.drawable.ic_closeicon}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_iconprofile}"
+            app:rightIcon="@{R.drawable.ic_beneficiary_search}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
             app:rightTitle="@{viewModel.state.rightButtonText}"
             app:rightTitleVisibility="@{viewModel.state.rightButtonTextVisibility}"

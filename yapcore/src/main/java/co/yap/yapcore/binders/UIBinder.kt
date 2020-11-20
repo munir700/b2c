@@ -785,10 +785,16 @@ object UIBinder {
     @JvmStatic
     fun setImageSrc(imageView: ImageView, transferType: String) {
 
-        if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-            imageView.setImageResource(R.drawable.ic_cash)
-        } else {
-            imageView.setImageResource(R.drawable.ic_bank)
+        when (transferType) {
+            SendMoneyBeneficiaryType.CASHPAYOUT.type -> {
+                imageView.setImageResource(R.drawable.ic_cash)
+            }
+            SendMoneyBeneficiaryType.YAP2YAP.type -> {
+                imageView.setImageResource(0)
+            }
+            else -> {
+                imageView.setImageResource(R.drawable.ic_bank)
+            }
         }
     }
 

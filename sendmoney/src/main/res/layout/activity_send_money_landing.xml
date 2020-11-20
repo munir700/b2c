@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+            type="co.yap.sendmoney.home.viewmodels.SMBeneficiariesViewModel" />
 
         <import type="android.view.View" />
 
@@ -27,7 +27,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

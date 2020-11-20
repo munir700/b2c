@@ -40,7 +40,7 @@
             android:layout_marginStart="@dimen/margin_normal_large"
             app:recycleViewAdapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_recent_beneficiaries_transfer" />
+            tools:listitem="@layout/item_core_recent_beneficiary" />
 
         <View
             android:layout_width="match_parent"
