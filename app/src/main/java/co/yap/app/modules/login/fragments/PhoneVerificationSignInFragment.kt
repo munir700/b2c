@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.view.WindowManager
 import androidx.databinding.Observable
@@ -30,6 +29,10 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
@@ -165,11 +168,10 @@ class PhoneVerificationSignInFragment :
         when (id) {
             R.id.ivLeftIcon -> {
                 Utils.hideKeyboard(requireView())
-                val handler = Handler()
-                handler.postDelayed({
-                    activity?.onBackPressed()
-
-                }, 50L)
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(100)
+                    navigateBack()
+                }
             }
         }
     }
