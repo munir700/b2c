@@ -21,6 +21,7 @@ import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -198,7 +199,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     requireContext(),
                     viewModel.state.monthlyAverageString,
                     viewModel.state.currencyType.toString(),
-                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
+                    viewModel.state.monthlyCategoryAvgAmount.toFormattedCurrency(false)
                 )
             }
         }
@@ -316,7 +317,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     requireContext(),
                     viewModel.state.monthlyMerchantAverageString,
                     viewModel.state.currencyType.toString(),
-                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyMerchantAvgAmount.toString())
+                    viewModel.state.monthlyMerchantAvgAmount.toString().toFormattedCurrency(false)
                 )
             }
         }
