@@ -103,6 +103,7 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                         ?: ""
                 )
             )
+        ,showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =

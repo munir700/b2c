@@ -38,7 +38,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             title = getString(Strings.screen_current_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
-        parentActivity.viewModel.state.toolbarVisibility.set(false)
+        parentActivity.viewModel.state.toolbarVisibility.set(true)
 
     }
 
@@ -83,7 +83,8 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
