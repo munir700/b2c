@@ -1,6 +1,7 @@
 package co.yap.modules.passcode
 
 import android.text.TextWatcher
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -31,7 +32,8 @@ interface IPassCode {
         var title: String
         var buttonTitle: String
         var forgotTextVisibility: Boolean
-        var needTermsConditions : Boolean?
+        var needTermsConditions: Boolean?
+        var toolbarVisibility: ObservableBoolean
 
     }
 }
