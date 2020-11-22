@@ -309,7 +309,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
                             Constants.TOUCH_ID_SCREEN_TYPE
                         )
-                    findNavController().navigate(action)
+                    navigate(action)
                     viewModel.parentViewModel?.shardPrefs?.save(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
@@ -323,7 +323,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
                             Constants.NOTIFICATION_SCREEN_TYPE
                         )
-                    findNavController().navigate(action)
+                    navigate(action)
                 }
             } else {
                 if (accountType == AccountType.B2C_HOUSEHOLD.name) {
@@ -342,7 +342,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                        navigate(R.id.action_goto_yapDashboardActivity)
 
                     activity?.finish()
                 }
@@ -356,7 +356,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 viewModel.state.username,
                 viewModel.state.passcode
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     private fun setUsername() {

@@ -71,7 +71,7 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
             }
         }
     }
-
+    completion.invoke(restrictions)
     return restrictions
 }
 
