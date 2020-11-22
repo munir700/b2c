@@ -209,7 +209,8 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         position = args.position
                     )
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.proceedToTransferAmount {

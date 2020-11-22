@@ -21,6 +21,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
@@ -932,5 +933,13 @@ object UIBinder {
             autoCompleteTextView.isFocusable = true
             autoCompleteTextView.isFocusableInTouchMode = true
         }
+    }
+
+    @BindingAdapter("android:layout_marginTop")
+    @JvmStatic
+    fun setLayoutMarginTop(view: View, margin: Float) {
+        val lp = view.layoutParams as MarginLayoutParams
+        lp.setMargins(lp.leftMargin, margin.toInt(), lp.rightMargin, lp.bottomMargin)
+        view.layoutParams = lp
     }
 }

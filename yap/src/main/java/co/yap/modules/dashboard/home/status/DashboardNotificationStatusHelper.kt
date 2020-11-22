@@ -217,6 +217,10 @@ class DashboardNotificationStatusHelper(
         })
     }
 
+    private fun openTopUpScreen() {
+        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+    }
+
     private fun openCardDeliveryStatusScreen() {
         fragment?.startActivityForResult(
             FragmentPresenterActivity.getIntent(
@@ -227,10 +231,6 @@ class DashboardNotificationStatusHelper(
         )
     }
 
-    private fun openTopUpScreen() {
-        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
-    }
-
     private fun openSetCardPinScreen() {
         fragment?.startActivityForResult(
             SessionManager.getPrimaryCard()?.let {
@@ -239,7 +239,6 @@ class DashboardNotificationStatusHelper(
                     it
                 )
             }, RequestCodes.REQUEST_FOR_SET_PIN
-
         )
     }
 }

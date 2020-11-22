@@ -888,7 +888,7 @@ object Strings {
         "screen_change_phone_number_display_text_text_field_title"
     const val screen_change_phone_number_display_text_text_description: String =
         "screen_change_phone_number_display_text_text_description"
-    const val screen_change_phone_number_display_text_country_code:String=
+    const val screen_change_phone_number_display_text_country_code: String =
         "screen_change_phone_number_display_text_country_code"
 
 
@@ -1305,7 +1305,6 @@ object Strings {
     const val screen_add_topup_card_limit_text_title: String =
         "screen_add_topup_card_limit_text_title"
 
-
     // Screen Card Analytics
     const val screen_card_analytics_display_tab_title_category: String =
         "screen_card_analytics_display_tab_title_category"
@@ -1330,7 +1329,6 @@ object Strings {
         "screen_cash_pickup_funds_success_toolbar_header"
     const val screen_funds_local_toolbar_header: String =
         "screen_funds_local_toolbar_header"
-
 
     //success Transfer flow
     const val screen_funds_success_header: String =
@@ -1744,6 +1742,12 @@ object Strings {
     const val transaction_narration_y2y_transfer_detail: String =
         "transaction_narration_y2y_transfer_detail"
 
+    const val screen_otp_blocked_display_text_details_card_blocked: String =
+        "screen_otp_blocked_display_text_details_card_blocked"
+
+    const val iban_or_debit_card_freeze_or_blocked_message: String =
+        "iban_or_debit_card_freeze_or_blocked_message"
+
 
     //  Status Time line
     const val screen_time_line_display_text_status_card_on_the_way_title: String =
@@ -1815,12 +1819,6 @@ object Strings {
     // Transaction Detail Screen
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
-
-    const val screen_otp_blocked_display_text_details_card_blocked: String =
-        "screen_otp_blocked_display_text_details_card_blocked"
-
-    const val iban_or_debit_card_freeze_or_blocked_message: String =
-        "iban_or_debit_card_freeze_or_blocked_message"
 
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =

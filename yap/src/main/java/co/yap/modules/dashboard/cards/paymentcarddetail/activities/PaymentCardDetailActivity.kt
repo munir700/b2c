@@ -648,7 +648,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             "Primary card"
         } else {
-            if (viewModel.card.value?.physical!!) {
+            if (viewModel.card.value?.physical == true) {
                 Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
                 getString(
