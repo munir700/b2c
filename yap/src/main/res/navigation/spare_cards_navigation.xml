@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/spareCardLandingFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.SpareCardLandingFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.SpareCardLandingFragment"
         android:label="@string/screen_spare_card_landing_display_text_title"
         tools:layout="@layout/fragment_spare_card_landing">
 
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/addSpareCardFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.AddSpareCardFragment"
         tools:layout="@layout/fragment_add_spare_card">
         <argument
             android:name="cardType"
@@ -134,7 +134,7 @@
 
     <fragment
         android:id="@+id/benefitsFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.CardsBenefitsFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.CardsBenefitsFragment"
         tools:layout="@layout/fragment_card_benefit">
 
         <argument
