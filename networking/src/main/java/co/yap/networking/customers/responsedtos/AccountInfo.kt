@@ -67,12 +67,12 @@ class AccountInfo(
     var csrDocumentTimeStamp: String? = null,
     @SerializedName("workItemCreated")
     var workItemCreated: Boolean? = false,
-    @SerializedName("encryptedAccountUUID")
-    var encryptedAccountUUID: String? = null,
     @SerializedName("freezeCode")
     var severityLevel: String? = null,
     @SerializedName("freezeInitiator")
     var freezeInitiator: String? = null,
     @SerializedName("eidNotificationContent")
-    var EIDExpiryMessage: String? = null
+    var EIDExpiryMessage: String? = null,
+    @SerializedName("encryptedAccountUUID")
+    var encryptedAccountUUID: String? = null
 ) : Parcelable

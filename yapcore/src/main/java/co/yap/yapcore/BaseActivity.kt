@@ -1,6 +1,5 @@
 package co.yap.yapcore
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -24,7 +23,6 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.analytics.FirebaseAnalytics
 
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
@@ -60,38 +58,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             onToolBarClick(it)
         })
     }
-
-    //    private fun setUpFirebaseAnalytics() {
-//        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
-//            param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
-//            param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
-//            param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
-//        }
-//    }
-    @SuppressLint("MissingPermission")
-    private fun setUpFirebaseAnalytics() {
-        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-//                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
-//                      param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
-//                       param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
-//                       param(FirebaseAnalytics.Param.CONTENT_TYPE, "text") }
-        val bundle = Bundle()
-////        bundle.putString("Tag-Type", "Google Analytics: Universal Analytics")
-//
-        bundle.putString("TrackType", "Event")
-        bundle.putString("Category", "onboarding")
-        bundle.putString("Action", "deliveryconfirmed")
-        bundle.putString("Label", "Android")
-        firebaseAnalytics.logEvent("deliveryconfirmed",bundle)
-//        val bundle = Bundle()
-//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "delivery-confirmed")
-//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "delivery-confirmed")
-//        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "delivery-confirmed")
-//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-
-    }
-
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
         when (prefs.getThemeValue()) {

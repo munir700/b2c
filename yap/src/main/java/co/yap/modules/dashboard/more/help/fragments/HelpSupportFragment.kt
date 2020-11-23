@@ -66,9 +66,10 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
-                activity?.let { activity ->
-                    ChatManager.config(activity)
-                }
+                requireActivity().chatSetup()
+//                activity?.let { activity ->
+//                    ChatManager.config(activity)
+//                }
             }
             R.id.lyLiveWhatsApp -> {
                 if (requireContext().isWhatsAppInstalled()) {

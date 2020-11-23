@@ -20,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLeftIcon"
             android:layout_width="@dimen/_40sdp"
@@ -82,17 +81,19 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toolbarTitle"
             style="@style/Regular"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:drawablePadding="@dimen/margin_extra_small"
+            android:gravity="center"
+            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/clRightContainer"
             app:layout_constraintLeft_toRightOf="parent"
             app:layout_constraintRight_toLeftOf="@id/clRightContainer"
             app:layout_constraintStart_toEndOf="@id/ivLeftIcon"
             app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            tools:text="title" />
+            tools:text="titledasdasd a" />
 
         <View
             android:id="@+id/vBottomLine"
