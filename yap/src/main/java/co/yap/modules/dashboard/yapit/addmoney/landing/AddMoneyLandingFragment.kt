@@ -10,13 +10,15 @@ import co.yap.R
 import co.yap.databinding.FragmentAddMoneyLandingBinding
 import co.yap.modules.dashboard.more.cdm.CdmMapFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseFragment
-import co.yap.modules.dashboard.yapit.addmoney.qrcode.QRCodeFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.dashboard.yapit.topup.topupbankdetails.TopUpBankDetailsFragment
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.qrcode.QRCodeFragment
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.SUCCESS_BUTTON_LABEL
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -70,8 +72,12 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
         when (it) {
             Constants.ADD_MONEY_TOP_UP_VIA_CARD -> {
 //                RequestCodes.REQUEST_SHOW_BENEFICIARY
-                launchActivityForResult<TopUpBeneficiariesActivity>(completionHandler = { resultCode, data ->
-                })
+                launchActivity<TopUpBeneficiariesActivity> {
+                    putExtra(
+                        SUCCESS_BUTTON_LABEL,
+                        getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
+                    )
+                }
             }
             Constants.ADD_MONEY_SAMSUNG_PAY -> {
                 showToast(getString(Strings.screen_fragment_yap_it_add_money_text_samsung_pay))
@@ -95,7 +101,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
                 )
             }
             Constants.ADD_MONEY_QR_CODE -> {
-                QRCodeFragment().let { fragment ->
+                QRCodeFragment {}.let { fragment ->
                     if (isAdded)
                         fragment.show(requireActivity().supportFragmentManager, "")
                 }

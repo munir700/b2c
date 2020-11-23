@@ -68,7 +68,6 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             getBinding().bcountries.setSelection(
                 viewModel.state.selectedCountryIndex
             )
-
         }
     }
 

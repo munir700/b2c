@@ -19,12 +19,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
-import com.liveperson.infra.ConversationViewParams
-import com.liveperson.infra.LPAuthenticationParams
-import com.liveperson.infra.LPConversationsHistoryStateToDisplay
-import com.liveperson.messaging.sdk.api.LivePerson
-import com.liveperson.messaging.sdk.api.model.ConsumerProfile
-import co.yap.yapcore.managers.ChatManager
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 

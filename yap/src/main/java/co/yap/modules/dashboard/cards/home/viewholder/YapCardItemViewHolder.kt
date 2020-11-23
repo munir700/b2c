@@ -6,6 +6,8 @@ import co.yap.databinding.ItemYapCardBinding
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
+import co.yap.translation.Translator.getString
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -26,31 +28,38 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
 
         var cardName: String
 
-        if(Constants.CARD_TYPE_DEBIT==paymentCard?.cardType){
+        if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
             cardName = Constants.TEXT_PRIMARY_CARD
-        }else{
-            if (null!=paymentCard?.nameUpdated) {
-                if(paymentCard.nameUpdated!!){
-                    cardName = paymentCard.cardName?: ""
-                }else {
-                    if(paymentCard.physical){
+        } else {
+            if (null != paymentCard?.nameUpdated) {
+                if (paymentCard.nameUpdated!!) {
+                    cardName = paymentCard.cardName ?: ""
+                } else {
+                    if (paymentCard.physical) {
                         cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-                    }else{
-                        cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
+                    } else {
+                        cardName = getString(
+                            itemYapCardBinding.tvCardName.context,
+                            screen_spare_card_landing_display_text_virtual_card
+                        )
                     }
                 }
             } else {
-                if(paymentCard?.physical!!){
+                if (paymentCard?.physical!!) {
                     cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-                }else{
-                    cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
+                } else {
+                    cardName = getString(
+                        itemYapCardBinding.tvCardName.context,
+                        screen_spare_card_landing_display_text_virtual_card
+                    )
                 }
 
             }
 
         }
         itemYapCardBinding.tvCardName.text = cardName
-        itemYapCardBinding.viewModel = YapCardItemViewModel(paymentCard,position, onItemClickListener)
+        itemYapCardBinding.viewModel =
+            YapCardItemViewModel(paymentCard, position, onItemClickListener)
         itemYapCardBinding.executePendingBindings()
     }
 }

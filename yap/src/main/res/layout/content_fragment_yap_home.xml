@@ -10,7 +10,6 @@
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
         <import type="android.view.View" />
-
     </data>
 
     <RelativeLayout

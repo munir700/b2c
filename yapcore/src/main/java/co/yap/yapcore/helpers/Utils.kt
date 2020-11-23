@@ -413,10 +413,6 @@ object Utils {
         }
     }
 
-    fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
-        return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
-    }
-
     fun openTwitter(context: Context) {
         var intent: Intent?
         try {
@@ -952,6 +948,4 @@ object Utils {
             context.resources.displayMetrics
         )
     }
-
-
 }

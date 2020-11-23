@@ -4,7 +4,6 @@ import android.app.Application
 import co.yap.R
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyBaseViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
@@ -36,7 +35,7 @@ class AddMoneyLandingViewModel(application: Application) :
             AddMoneyLandingOptions(
                 Constants.ADD_MONEY_TOP_UP_VIA_CARD,
                 getString(Strings.screen_fragment_yap_it_add_money_text_top_via_card),
-                R.drawable.ic_icon_card_transfer
+                R.drawable.ic_topupnew
             )
         )
       /*  list.add(

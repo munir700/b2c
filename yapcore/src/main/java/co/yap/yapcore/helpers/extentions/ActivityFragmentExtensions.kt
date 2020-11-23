@@ -72,6 +72,24 @@ inline fun <reified T : Any> Fragment.launchActivity(
         }
     }
 }
+inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
+    noinline init: Intent.() -> Unit = {}
+) {
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
+    } else {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            requireActivity().startActivityForResult(intent, requestCode, options)
+        } else {
+            requireActivity().startActivityForResult(intent, requestCode)
+        }
+    }
+}
 
 inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,

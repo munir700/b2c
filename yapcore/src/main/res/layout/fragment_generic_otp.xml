@@ -64,6 +64,8 @@
                     android:id="@+id/clDescriptionContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle">
@@ -76,6 +78,7 @@
                         android:lineSpacingExtra="1dp"
                         android:text="@{viewModel.state.verificationDescription}"
                         android:textAlignment="center"
+                        android:gravity="center"
                         android:visibility="@{viewModel.state.otpDataModel.logoData==null?View.VISIBLE:View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

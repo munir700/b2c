@@ -195,7 +195,7 @@ class AddBeneficiaryInternationlTransferFragment :
                         ?: ""
                 )
             ),
-            showToolBar = true,
+            showToolBar = false,
             toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {

@@ -18,4 +18,5 @@ object RequestCodes {
     const val REQUEST_FOR_SET_PIN = 10014
     const val REQUEST_FOR_CURRENCY_SELECTED=10015
     const val REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT=10016
+    const val REQUEST_CAMERA_PERMISSION: Int = 111
 }

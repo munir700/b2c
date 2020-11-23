@@ -54,7 +54,6 @@ import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.helpers.*
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
@@ -343,7 +342,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             if (viewModel.card.value?.physical!!) {
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_VIRTUAL
+                viewModel.state.cardTypeText =
+                    getString(Strings.screen_spare_card_landing_display_text_virtual_card)
             }
             viewModel.getCardBalance { balance ->
                 llAddFunds.alpha = 1f
@@ -651,7 +651,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             if (viewModel.card.value?.physical == true) {
                 Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                Constants.TEXT_SPARE_CARD_VIRTUAL
+                getString(
+                    Strings.screen_spare_card_landing_display_text_virtual_card
+                )
             }
         }
 
