@@ -8,8 +8,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 class AddVirtualCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
-    override val state: IAddVirtualCard.State
-        get() = TODO("Not yet implemented")
+    override val state: AddVirtualCardState = AddVirtualCardState()
     override val repository: CardsRepository
         get() = TODO("Not yet implemented")
 }
