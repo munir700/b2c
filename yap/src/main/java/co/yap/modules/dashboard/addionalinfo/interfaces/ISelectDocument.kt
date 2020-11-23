@@ -8,6 +8,7 @@ interface ISelectDocument {
 
     interface ViewModel : IBase.ViewModel<State> {
         val uploadAdditionalDocumentAdapter: UploadAdditionalDocumentAdapter
+        fun moveToNext()
     }
 
     interface State : IBase.State

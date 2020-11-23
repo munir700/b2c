@@ -8,5 +8,27 @@
         android:id="@+id/selectDocumentFragment"
         android:name="co.yap.modules.dashboard.addionalinfo.fragments.SelectDocumentFragment"
         android:label="SelectDocumentFragment"
-        tools:layout="@layout/fragment_select_document" />
+        tools:layout="@layout/fragment_select_document">
+
+        <action
+            android:id="@+id/action_selectDocumentFragment_to_additionalInfoEmployment"
+            app:destination="@id/additionalInfoEmployment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/additionalInfoEmployment"
+        android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoEmploymentFragment"
+        android:label="AdditionalInfoEmployment"
+        tools:layout="@layout/fragment_additional_info_employment">
+
+        <action
+            android:id="@+id/action_additionalInfoEmployment_to_additionalInfoQuestion"
+            app:destination="@id/additionalInfoQuestion" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/additionalInfoQuestion"
+        android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoQuestionFragment"
+        android:label="AdditionalInfoQuestion"
+        tools:layout="@layout/fragment_additional_info_question"/>
 </navigation>

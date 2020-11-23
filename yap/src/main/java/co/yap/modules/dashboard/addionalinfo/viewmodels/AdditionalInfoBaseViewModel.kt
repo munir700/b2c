@@ -17,4 +17,8 @@ abstract class AdditionalInfoBaseViewModel<S : IBase.State>(application: Applica
         parentViewModel?.state?.subTitle?.set(title)
     }
 
+    public fun moveStep() {
+        parentViewModel?.stepCount?.value = parentViewModel?.stepCount?.value?.plus(1)
+    }
+
 }

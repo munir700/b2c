@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.addionalinfo.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
@@ -31,9 +32,19 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
 //            if (data is AdditionalDocument) {
-            viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded = !viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded
+            viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded =
+                !viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded
             viewModel.uploadAdditionalDocumentAdapter.notifyItemChanged(pos)
 //            }
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.btnNext -> {
+                viewModel.moveToNext()
+                findNavController().navigate(R.id.action_selectDocumentFragment_to_additionalInfoEmployment)
+            }
         }
     }
 }

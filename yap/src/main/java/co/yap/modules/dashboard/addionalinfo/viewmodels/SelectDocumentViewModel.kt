@@ -11,6 +11,11 @@ class SelectDocumentViewModel(application: Application) :
     ISelectDocument.ViewModel {
     override val uploadAdditionalDocumentAdapter: UploadAdditionalDocumentAdapter =
         UploadAdditionalDocumentAdapter(context, mutableListOf())
+
+    override fun moveToNext() {
+        moveStep()
+    }
+
     override val state: ISelectDocument.State = SelectDocumentState(application)
     override fun onCreate() {
         super.onCreate()

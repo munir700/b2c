@@ -11,9 +11,11 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.openPlayStore
 
 class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
