@@ -56,7 +56,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true
+                    ) ?: ""
                 )
             )
     }
@@ -177,17 +179,35 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        updateFees(state.etOutputAmount.toString())
+        updateFees(
+            enterAmount = if (feeCurrency.equals(
+                    parentViewModel?.beneficiary?.value?.currency,
+                    true
+                )
+            ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+        )
     }
 
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etOutputAmount.toString())
+                val transferFee = getFeeFromTier(
+                    enterAmount = if (feeCurrency.equals(
+                            parentViewModel?.beneficiary?.value?.currency,
+                            true
+                        )
+                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = getFlatFee(state.etOutputAmount.toString())
+                val transferFee = getFlatFee(
+                    enterAmount = if (feeCurrency.equals(
+                            parentViewModel?.beneficiary?.value?.currency,
+                            true
+                        )
+                    ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
@@ -212,6 +232,36 @@ class InternationalFundsTransferViewModel(application: Application) :
             }
         } else {
             state.etOutputAmount = ""
+        }
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.etOutputAmount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
         }
     }
 

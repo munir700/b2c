@@ -66,7 +66,8 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
                     OTPActions.CHANGE_MOBILE_NO.name,
                     "+${viewModel.state.countryCode + " " + viewModel.state.mobile}"
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.changePhoneNumber()

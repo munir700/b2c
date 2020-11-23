@@ -17,20 +17,7 @@ fun Context?.firebaseTagManagerEvent(tagModel: FirebaseTagManagerModel) {
                 bundle.putString("Action", tagModel.action)
                 bundle.putString("Label", "Android")
                 firebaseAnalytics.logEvent(tagModel.action ?: FirebaseAnalytics.Param.ITEMS, bundle)
-//                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, label)
-//                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, label)
-//                firebaseAnalytics.logEvent(FirebaseAnalytics.Param.ITEM_NAME, bundle)
             }
         }
     }
 }
-
-//Old method
-//private fun setUpFirebaseAnalytics() {
-//    val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-//    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
-//        param(FirebaseAnalytics.Param.ITEM_ID, "yapTestID")
-//        param(FirebaseAnalytics.Param.ITEM_NAME, "SOME_TEST")
-//        param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
-//    }
-//}

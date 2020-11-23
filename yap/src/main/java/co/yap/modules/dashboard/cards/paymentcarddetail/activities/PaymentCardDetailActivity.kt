@@ -56,9 +56,11 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
@@ -646,7 +648,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         cardType = if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             "Primary card"
         } else {
-            if (viewModel.card.value?.physical!!) {
+            if (viewModel.card.value?.physical == true) {
                 Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
                 Constants.TEXT_SPARE_CARD_VIRTUAL

@@ -40,9 +40,10 @@ interface IYapHome {
     }
 
     interface State : IBase.State {
-        var availableBalance: String
+        var availableBalance: String?
         var filterCount: ObservableField<Int>
-        var isTransEmpty:ObservableField<Boolean>
+        var showTxnShimmer: MutableLiveData<co.yap.widgets.State>
+        var isTransEmpty: ObservableField<Boolean>
         var isUserAccountActivated: ObservableField<Boolean>
     }
 }
