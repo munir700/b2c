@@ -2,14 +2,11 @@ package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableBoolean
-
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.yapcore.BaseState
 import com.digitify.identityscanner.BR
-import java.util.*
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
-    private var date: Date? = null
 
     @get:Bindable
     override var citizenNumber: String = ""
@@ -34,8 +31,8 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
         }
 
     @get:Bindable
-    override var middleName: String=""
-         set(value) {
+    override var middleName: String = ""
+        set(value) {
             field = value
             notifyPropertyChanged(BR.middleName)
         }

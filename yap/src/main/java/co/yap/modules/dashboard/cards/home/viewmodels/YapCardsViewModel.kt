@@ -112,7 +112,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             deliveryStatus = "BOOKED",
             blocked = false,
             delivered = false,
-            cardSerialNumber = "1000000000612",
+            cardSerialNumber = "100",
             maskedCardNo = "5384",
             atmAllowed = true,
             onlineBankingAllowed = true,
@@ -124,8 +124,8 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             cardScheme = "Master Card",
             currentBalance = "0.00",
             availableBalance = "0.00",
-            customerId = "1100000000071",
-            accountNumber = "1199999000000071",
+            customerId = "10",
+            accountNumber = "100",
             productCode = "CD",
             pinCreated = true
         )

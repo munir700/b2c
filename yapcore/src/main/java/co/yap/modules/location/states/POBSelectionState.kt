@@ -38,4 +38,5 @@ class POBSelectionState : BaseState(), IPOBSelection.State {
         )
     }
 
+    override var selectedCountryIndex: Int = -1
 }
