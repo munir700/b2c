@@ -20,7 +20,7 @@
     <color name="red">#d32f2f</color>
     <color name="greyDark">#9391b1</color>
     <color name="greyDarkOpacity16">#299391B1</color>
-    <color name="greyLight">#DAE0F0</color>
+    <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
@@ -76,7 +76,7 @@
     <color name="card_gradient_bottom_color">#5a2fb1</color>
     <color name="master_card_gradient_bottom_color">#4bdcd8</color>
     <color name="master_card_gradient_top_color">#1caaa1</color>
-    <color name="purple">#7C4DFF</color>
+    <color name="purple">#7c4dff</color>
     <color name="light_grey">#D8D7D7</color>
     <color name="transparent_grey">#77000000</color>
     <color name="purpleLightCard">#f1edff</color>
@@ -135,5 +135,7 @@
     <color name="colorOpaquAqua">#2400B9AE</color>
     <color name="colorOpaquSecondaryOrange">#24F57F17</color>
     <color name="colorLightGreyWithOpacity">#f8f9fc</color>
+    <color name="skeleton_mask">#E8ECF6</color>
+    <color name="skeleton_shimmer">#d5d5d5</color>
 
 </resources>

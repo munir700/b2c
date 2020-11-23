@@ -34,6 +34,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -194,7 +195,7 @@ class AddBeneficiaryInternationlTransferFragment :
                         ?: ""
                 )
             ),
-            showToolBar = true,
+            showToolBar = false,
             toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {

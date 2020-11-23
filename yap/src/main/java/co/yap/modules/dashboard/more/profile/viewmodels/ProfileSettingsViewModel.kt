@@ -161,6 +161,7 @@ class ProfileSettingsViewModel(application: Application) :
                     } else {
                         SessionManager.eidStatus =
                             EIDStatus.NOT_SET
+                        state.isShowErrorIcon.set(true)
                     }
                     state.loading = false
                 }

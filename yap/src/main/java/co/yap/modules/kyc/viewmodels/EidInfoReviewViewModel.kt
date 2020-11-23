@@ -2,8 +2,8 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
@@ -45,6 +46,7 @@ class EidInfoReviewViewModel(application: Application) :
     override var errorTitle: String = ""
     override var errorBody: String = ""
     private val eidLength = 15
+    override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -177,9 +179,11 @@ class EidInfoReviewViewModel(application: Application) :
                         if (null == parentViewModel?.identity)
                             state.toast =
                                 "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-                        else
-                            state.toast =
-                                "${response.error.message}^${AlertType.DIALOG.name}"
+                        else {
+                            eidStateLiveData.postValue(State.error(response.error.message))
+//                            state.toast =
+//                                "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+                        }
                         parentViewModel?.paths?.forEach { filePath ->
                             File(filePath).deleteRecursively()
                         }
@@ -222,8 +226,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
-                            .toString() else it.citizenNumber,
+                        identityNo = it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
@@ -393,6 +396,26 @@ class EidInfoReviewViewModel(application: Application) :
                 builder.append(it.subSequence(14..14))
             return@let builder.toString()
         } ?: ""
+    }
+
+    fun invalidateFields() {
+        state.firstName = ""
+        state.middleName = ""
+        state.lastName = ""
+        state.nationality = ""
+        state.dateOfBirth = ""
+        state.gender = ""
+        state.citizenNumber = ""
+        state.caption = ""
+        state.valid = false
+        state.fullNameValid = false
+        state.nationalityValid = false
+        state.dateOfBirthValid = false
+        state.genderValid = false
+        state.expiryDateValid = true
+        state.expiryDate = ""
+        //state.isShowMiddleName = false
+        //state.isShowLastName = false
     }
 
     private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {

@@ -20,7 +20,9 @@ import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -194,11 +196,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             R.id.ivPrevious -> {
             }
             Constants.CATEGORY_AVERAGE_AMOUNT_VALUE -> {
-                getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
-                    requireContext(),
-                    viewModel.state.monthlyAverageString,
-                    viewModel.state.currencyType.toString(),
-                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
+                getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
+                    getString(Strings.screen_card_analytics_display_month_average_text),
+                    requireContext().color(
+                        R.color.colorPrimaryDark,
+                        viewModel.state.monthlyCategoryAvgAmount.toString()
+                            .toFormattedCurrency(true)
+                    )
                 )
             }
         }
@@ -302,21 +306,25 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             CATEGORY_ANALYTICS -> {
                 setPieView(viewModel.parentViewModel?.categoryAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalCategorySpent
-                getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
-                    requireContext(),
-                    viewModel.state.monthlyAverageString,
-                    viewModel.state.currencyType.toString(),
-                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
+                getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
+                    getString(Strings.screen_card_analytics_display_month_average_text),
+                    requireContext().color(
+                        R.color.colorPrimaryDark,
+                        viewModel.state.monthlyCategoryAvgAmount.toString()
+                            .toFormattedCurrency(true)
+                    )
                 )
             }
             MERCHANT_ANALYTICS -> {
                 setPieView(viewModel.parentViewModel?.merchantAnalyticsItemLiveData?.value)
                 viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
-                getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
-                    requireContext(),
-                    viewModel.state.monthlyMerchantAverageString,
-                    viewModel.state.currencyType.toString(),
-                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyMerchantAvgAmount.toString())
+                getBindingView().tvMonthlyAverage.text = requireContext().resources.getText(
+                    getString(Strings.screen_card_analytics_display_month_average_text),
+                    requireContext().color(
+                        R.color.colorPrimaryDark,
+                        viewModel.state.monthlyMerchantAvgAmount.toString()
+                            .toFormattedCurrency(true)
+                    )
                 )
             }
         }

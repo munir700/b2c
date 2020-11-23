@@ -22,13 +22,17 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
-import com.google.android.gms.auth.api.phone.SmsRetriever
-
 import co.yap.yapcore.managers.SessionManager
+import com.google.android.gms.auth.api.phone.SmsRetriever
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PhoneVerificationSignInFragment :
     MainChildFragment<IPhoneVerificationSignIn.ViewModel>(), IPhoneVerificationSignIn.View {
@@ -56,7 +60,7 @@ class PhoneVerificationSignInFragment :
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (viewModel.isValidOtpLength(viewModel.state.otp.get()?:"")) {
+            if (viewModel.isValidOtpLength(viewModel.state.otp.get() ?: "")) {
                 viewModel.clickEvent.call()
             }
         }
@@ -88,6 +92,7 @@ class PhoneVerificationSignInFragment :
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            SessionManager.updateCardBalance {  }
             if (accountType == AccountType.B2C_HOUSEHOLD.name) {
                 val bundle = Bundle()
                 SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
@@ -103,7 +108,7 @@ class PhoneVerificationSignInFragment :
                             false
                         )
                     ) {
-                        if (it.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
+                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         else
                             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
@@ -118,7 +123,7 @@ class PhoneVerificationSignInFragment :
                     }
 
                 } else {
-                    if (it.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
+                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                         startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
                         findNavController().navigate(R.id.action_goto_yapDashboardActivity)
@@ -158,5 +163,17 @@ class PhoneVerificationSignInFragment :
     override fun onDestroy() {
         super.onDestroy()
         removeObservers()
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                Utils.hideKeyboard(requireView())
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(100)
+                    navigateBack()
+                }
+            }
+        }
     }
 }

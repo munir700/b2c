@@ -4,11 +4,12 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.managers.SessionManager
 
 class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
 
     @get:Bindable
-    override var monthlyFee: String = "AED 0.00"
+    override var monthlyFee: String = "${SessionManager.getDefaultCurrency()} 0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.monthlyFee)
@@ -16,7 +17,7 @@ class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
         }
 
     @get:Bindable
-    override var annuallyFee: String = "AED 0.00"
+    override var annuallyFee: String = "${SessionManager.getDefaultCurrency()} 0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.annuallyFee)
@@ -24,7 +25,7 @@ class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
         }
 
     @get:Bindable
-    override var subscriptionFee: String = "AED 19.99/month"
+    override var subscriptionFee: String = "${SessionManager.getDefaultCurrency()} 19.99/month"
         set(value) {
             field = value
             notifyPropertyChanged(BR.subscriptionFee)

@@ -137,6 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    app:em_currency="@{viewModel.state.destinationCurrency}"
                     android:layout_margin="0dp"
                     tools:text="1234567891" />
 
@@ -170,6 +171,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:focusable="false"
+                    app:em_currency="@{viewModel.state.sourceCurrency}"
                     android:focusableInTouchMode="false"
                     android:text="@{viewModel.state.etOutputAmount}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
@@ -340,11 +342,11 @@
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:maxLength="@integer/notes_external_transfer_length"
                     android:minHeight="@dimen/_40sdp"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.transactionNote}"
                     android:textColorHint="@color/greyDark"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:hint="Type a note here" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
@@ -353,6 +355,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_c1"
+                    android:text="@{viewModel.state.transferFeeSpannable}"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     tools:text="@string/screen_international_funds_transfer_display_text_fee" />
 

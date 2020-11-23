@@ -12,6 +12,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="co.yap.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
             android:padding="@dimen/margin_small"
+            app:iconBgTint="@{R.color.disabledPurple}"
             app:iconMain="@{viewModel.sendMoneyOptions.image}"
             app:layout_constraintBottom_toTopOf="@+id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"

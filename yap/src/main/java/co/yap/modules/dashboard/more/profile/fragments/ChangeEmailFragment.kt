@@ -63,7 +63,8 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                     SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.changeEmail()

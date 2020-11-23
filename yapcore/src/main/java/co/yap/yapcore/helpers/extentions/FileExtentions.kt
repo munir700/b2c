@@ -20,7 +20,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
-
 fun File.sizeInMb(): Int {
     return if (!exists()) 0 else {
         val size = length().toDouble()

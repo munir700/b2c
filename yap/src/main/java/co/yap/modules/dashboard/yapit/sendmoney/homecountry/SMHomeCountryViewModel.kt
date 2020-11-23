@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
@@ -43,7 +44,6 @@ class SMHomeCountryViewModel(application: Application) :
     }
 
    override fun populateData(hc: Country) {
-       getHomeCountryRecentBeneficiaries()
        state.name?.set(hc.getName())
        state.countryCode?.set(hc.isoCountryCode2Digit)
        state.rate?.set("0.357014")
@@ -51,7 +51,7 @@ class SMHomeCountryViewModel(application: Application) :
        state.time?.set("04/10/2020, 2:30 PM")
    }
 
-    private fun getHomeCountryRecentBeneficiaries() {
+    override fun getHomeCountryRecentBeneficiaries() {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             val response = repository.getRecentBeneficiaries()
@@ -64,7 +64,8 @@ class SMHomeCountryViewModel(application: Application) :
                             it.type = it.beneficiaryType
                             it.isoCountryCode = it.country
                         }
-                        recentsAdapter.setList(response.data.data.filter { it.country == homeCountry?.isoCountryCode2Digit })
+                        val homeCountryList:List<Beneficiary> =response.data.data.filter { it.country == homeCountry?.isoCountryCode2Digit }
+                        recentsAdapter.setList(homeCountryList)
                         state.isNoRecentsBeneficiries.set(
                             recentsAdapter.getDataList().isNullOrEmpty()
                         )

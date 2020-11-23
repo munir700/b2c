@@ -70,6 +70,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/cut-off-time-configuration"
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
+    const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
+
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
 
     // Household
@@ -233,6 +235,21 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO> =
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
+
+    override suspend fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.checkCoolingPeriodRequest(
+                beneficiaryId,
+                beneficiaryCreationDate,
+                beneficiaryName,
+                amount
+            )
+        })
 
     override suspend fun getTransactionsOfMerchant(
         merchantType: String,

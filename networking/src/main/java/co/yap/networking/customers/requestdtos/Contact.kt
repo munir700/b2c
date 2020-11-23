@@ -1,8 +1,10 @@
 package co.yap.networking.customers.requestdtos
 
 import android.os.Parcelable
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -20,8 +22,26 @@ data class Contact(
     @SerializedName("yapUser")
     var yapUser: Boolean? = false,
     @SerializedName("accountDetailList")
-    val accountDetailList: List<Data>? = null
-) : ApiResponse(), Parcelable {
+    val accountDetailList: List<Data>? = null,
+    @SerializedName("beneficiaryCreationDate")
+    var beneficiaryCreationDate: String? = ""
+) : ApiResponse(), IBeneficiary, Parcelable {
+
+    @IgnoredOnParcel
+    override val fullName: String?
+        get() = title
+
+    @IgnoredOnParcel
+    override val subtitle: String?
+        get() = mobileNo
+
+    @IgnoredOnParcel
+    override val userType: String?
+        get() = if (yapUser == true) "Y2Y" else ""
+
+    override val imgUrl: String?
+        get() = beneficiaryPictureUrl
+
     @Parcelize
     data class Data(
         @SerializedName("accountNo")

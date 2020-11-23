@@ -83,7 +83,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
@@ -127,4 +128,11 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
         return (viewDataBinding as FragmentPassCodeBinding)
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
+        }
+    }
 }

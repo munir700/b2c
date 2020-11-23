@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.landing
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
@@ -16,10 +17,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.landing.viewmodels.SendMoneyDash
 import co.yap.modules.dashboard.yapit.sendmoney.main.ISendMoneyDashboard
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyOptions
 import co.yap.modules.dashboard.yapit.sendmoney.main.SendMoneyType
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
 import co.yap.widgets.scanqrcode.ScanQRCodeFragment
@@ -121,12 +122,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun startSendMoneyFlow(sendMoneyType: String) {
-        launchActivity<SendMoneyLandingActivity> {
+        launchActivity<SMBeneficiaryParentActivity>(requestCode = RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST) {
             putExtra(
-                SendMoneyLandingActivity.TransferType,
+                ExtraKeys.SEND_MONEY_TYPE.name,
                 sendMoneyType
             )
-            putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 
@@ -212,6 +212,17 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                    finish()
+                }
+            }
+        }
+    }
+
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
     }
@@ -225,11 +236,23 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             R.id.ivLeftIcon -> {
                 finish()
             }
+            R.id.ivRightIcon -> {
+                launchActivity<SMBeneficiaryParentActivity>(
+                    type = FeatureSet.SEND_MONEY,
+                    requestCode = RequestCodes.REQUEST_TRANSFER_MONEY
+                ) {
+                    putExtra(
+                        ExtraKeys.SEND_MONEY_TYPE.name,
+                        SendMoneyTransferType.ALL_Y2Y_SM.name
+                    )
+                }
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
+        viewModel.getAllRecentsBeneficiariesParallel()
         viewModel.dashboardAdapter.setList(viewModel.geSendMoneyOptions())
         if (!viewModel.dashboardAdapter.getDataList()
                 .isNullOrEmpty() && SessionManager.user?.currentCustomer?.homeCountry != "AE"

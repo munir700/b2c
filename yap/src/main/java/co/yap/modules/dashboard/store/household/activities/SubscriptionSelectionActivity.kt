@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.*
@@ -125,7 +126,7 @@ class SubscriptionSelectionActivity :
 
     private fun confirmationDialog() {
         Utils.confirmationDialog(this,
-            "AED 59.99 per month",
+            "${SessionManager.getDefaultCurrency()} 59.99 per month",
             "The monthly plan is a minimum 12 month contract. By choosing this plan you agree to our terms and conditions.",
             Translator.getString(
                 this,

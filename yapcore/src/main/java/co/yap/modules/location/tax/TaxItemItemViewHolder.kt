@@ -29,18 +29,23 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         }
 
         itemTaxInfoBinding.viewModel =
-            TaxInfoItemViewModel(taxModel, position, onItemClickListener)
-        itemTaxInfoBinding.spinner.setItemSelectedListener(selectedItemListener)
+            TaxInfoItemViewModel(taxModel, position,itemTaxInfoBinding, onItemClickListener)
         itemTaxInfoBinding.etTinNumber.afterTextChanged {
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
         }
-        itemTaxInfoBinding.spinner.setEnabledSpinner(position != 0)
-        itemTaxInfoBinding.spinner.showDropDownArrow(position != 0)
-
+        itemTaxInfoBinding.bcountries.setUpCountryAutoCompleteTextView(
+            if (position == 0) taxModel.countries else taxModel.countries.filterNot { it.isoCountryCode2Digit == "AE" },
+            selectedItemListener
+        )
+        if (position == 0) {
+            itemTaxInfoBinding.bcountries.setTextSelection(
+                taxModel.countries.find { it.isoCountryCode2Digit == "AE" },
+                position
+            )
+        }
+        itemTaxInfoBinding.bcountries.isEnabled = position != 0
 //        taxModel.countries.partition { it.isoCountryCode2Digit == "AE" }.let {
-        itemTaxInfoBinding.spinner.setAdapter(if (position == 0) taxModel.countries else taxModel.countries.filterNot { it.isoCountryCode2Digit == "AE" })
         itemTaxInfoBinding.executePendingBindings()
-        itemTaxInfoBinding.spinner.setSelectedItem(if (position == 0) taxModel.countries.indexOfFirst { it.isoCountryCode2Digit == "AE" } else 0)
 //        }
 
         //Disable TIN for UAE

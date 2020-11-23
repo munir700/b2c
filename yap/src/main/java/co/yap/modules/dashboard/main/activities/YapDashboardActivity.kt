@@ -43,9 +43,9 @@ import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -58,6 +58,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
@@ -138,8 +139,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
                         }
                         3 -> {
-                            launchActivity<SendMoneyLandingActivity>(type = FeatureSet.SEND_MONEY) {
-                                putExtra(SendMoneyLandingActivity.searching, false)
+                            launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY) {
+                                //TODO check this call with faheem
+                                // putExtra(SMBeneficiaryParentActivity.searching, false)
                             }
                         }
                     }

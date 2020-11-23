@@ -13,6 +13,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.R
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.firebase.FirebaseEvents
 import co.yap.yapcore.firebase.FirebaseTagManagerModel
 import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -47,7 +48,7 @@ class SetCardPinWelcomeActivity : BaseBindingActivity<ISetCardPinWelcomeActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupData()
-        firebaseTagManagerEvent(FirebaseTagManagerModel(label = "delivery-confirmed"))
+        firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding", action = FirebaseEvents.DELIVERY_CONFIRMED.event))
 
     }
 
