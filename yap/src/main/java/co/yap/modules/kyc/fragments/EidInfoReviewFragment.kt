@@ -46,6 +46,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding",action = FirebaseEvents.CONFIRM_ID.event))
         if (viewModel.parentViewModel?.skipFirstScreen?.value == true) {
             openCardScanner()
             tbBtnBack.setOnClickListener {
@@ -112,7 +113,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                         DocumentsResponse(false, KYCAction.ACTION_EID_FAILED.name)
                 }
                 viewModel.eventNext -> {
-                    requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding",action = FirebaseEvents.CONFIRM_ID.event))
                     SessionManager.getAccountInfo()
                     SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
                         if (isSuccess) {
