@@ -9,13 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
-import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.widgets.CircleView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_virtual_card.*
 
-class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewModel>(), TabLayout.OnTabSelectedListener {
+class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewModel>(),
+    TabLayout.OnTabSelectedListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card
     override val viewModel: IAddVirtualCard.ViewModel
@@ -29,16 +29,11 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupPager()
     }
 
     private fun setupPager() {
         viewPager?.apply {
-//            this.setPageTransformer(
-//                SimplePageOffsetTransformer(
-//                    resources.getDimensionPixelOffset(R.dimen._30sdp),
-//                    resources.getDimensionPixelOffset(R.dimen._40sdp)
-//                )
-//            )
             viewModel.state.cardDesigns?.observe(this@AddVirtualCardFragment, Observer {
                 TabLayoutMediator(tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
@@ -67,16 +62,18 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.let {
             viewModel.state.designCode?.value =
-                adapter.getDataList()[it.position].designCode// (tab.tag as HouseHoldCardsDesign).designCode
+                adapter.getDataList()[it.position].designCode
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
-        }    }
+        }
+    }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
         tab?.let {
             tabViews[it.position].borderWidth = 0f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
-        }    }
+        }
+    }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }

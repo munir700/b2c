@@ -1,16 +1,13 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
 import co.yap.databinding.ItemVirtualCardBinding
-import co.yap.databinding.ItemYapCardEmptyBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AddVirtualCardAdapter(
-    private val list: MutableList<VirtualCardModel>) :
+    private val list: MutableList<VirtualCardModel>
+) :
     BaseBindingRecyclerAdapter<VirtualCardModel, VirtualCardViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): VirtualCardViewHolder {
         return VirtualCardViewHolder(binding as ItemVirtualCardBinding)

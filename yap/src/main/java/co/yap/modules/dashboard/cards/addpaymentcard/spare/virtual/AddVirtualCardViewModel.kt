@@ -1,13 +1,9 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
-import co.yap.networking.cards.CardsRepository
-import co.yap.networking.interfaces.IRepositoryHolder
 import java.util.*
-import kotlin.random.Random.Default.nextInt
 
 class AddVirtualCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel {
@@ -16,7 +12,8 @@ class AddVirtualCardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
     }
-fun getCardThemesOption(){
+
+    fun getCardThemesOption() {
         val cards: MutableList<VirtualCardModel> = mutableListOf()
         for (x in 0 until 5) {
             cards.add(
