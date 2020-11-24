@@ -47,9 +47,8 @@ class SetCardPinWelcomeActivity : BaseBindingActivity<ISetCardPinWelcomeActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupData()
         firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding", action = FirebaseEvents.DELIVERY_CONFIRMED.event))
-
+        setupData()
     }
 
     override fun onBackPressed() {
