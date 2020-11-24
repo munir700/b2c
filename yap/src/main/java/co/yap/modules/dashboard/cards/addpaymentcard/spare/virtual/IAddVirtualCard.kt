@@ -14,7 +14,7 @@ interface IAddVirtualCard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val adapter: AddVirtualCardAdapter
+        var adapter: AddVirtualCardAdapter
     }
 
     interface View : IBase.View<ViewModel>

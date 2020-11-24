@@ -7,13 +7,14 @@ import java.util.*
 
 class AddVirtualCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel {
-    override val adapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
+    override var adapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
     override val state: AddVirtualCardState = AddVirtualCardState()
     override fun onCreate() {
         super.onCreate()
+        adapter = AddVirtualCardAdapter(getCardThemesOption())
     }
 
-    fun getCardThemesOption() {
+    fun getCardThemesOption(): MutableList<VirtualCardModel> {
         val cards: MutableList<VirtualCardModel> = mutableListOf()
         for (x in 0 until 5) {
             cards.add(
@@ -32,5 +33,6 @@ class AddVirtualCardViewModel(application: Application) :
                 )
             )
         }
+        return cards
     }
 }
