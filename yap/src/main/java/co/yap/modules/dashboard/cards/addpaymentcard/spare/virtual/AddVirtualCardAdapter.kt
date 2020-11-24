@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.databinding.ItemVirtualCardBinding
 import co.yap.databinding.ItemYapCardEmptyBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
 import co.yap.networking.cards.responsedtos.Card
