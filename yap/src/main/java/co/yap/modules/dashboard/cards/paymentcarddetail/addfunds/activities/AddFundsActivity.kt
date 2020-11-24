@@ -24,7 +24,9 @@ import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
@@ -54,6 +56,7 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
         viewModel.state.card.set(intent.getParcelableExtra(CARD))
         addObservers()
         val display = this.windowManager.defaultDisplay
@@ -296,7 +299,8 @@ class AddFundsActivity : BaseBindingActivity<IAddFunds.ViewModel>(), IAddFunds.V
                         ?: "",
                     amount = viewModel.state.amount
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.addFunds {

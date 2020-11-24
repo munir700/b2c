@@ -22,7 +22,9 @@ data class Contact(
     @SerializedName("yapUser")
     var yapUser: Boolean? = false,
     @SerializedName("accountDetailList")
-    val accountDetailList: List<Data>? = null
+    val accountDetailList: List<Data>? = null,
+    @SerializedName("beneficiaryCreationDate")
+    var beneficiaryCreationDate: String? = ""
 ) : ApiResponse(), IBeneficiary, Parcelable {
 
     @IgnoredOnParcel

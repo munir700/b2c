@@ -55,9 +55,7 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -142,10 +140,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
                         }
                         3 -> {
-                            launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY) {
-                                //TODO check this call with faheem
-                                // putExtra(SMBeneficiaryParentActivity.searching, false)
-                            }
+                            launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY)
                         }
                     }
                 }
@@ -185,11 +180,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
-                            if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
-                            } else {
-                                showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                            }
                             /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
@@ -204,7 +195,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                              }*/
                         }
                         3 -> {
-                            launchActivity<AddMoneyActivity>()
+                            launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
                         }
                     }
                 }

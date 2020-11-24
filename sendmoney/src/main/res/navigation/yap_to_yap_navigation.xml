@@ -38,6 +38,10 @@
             android:name="position"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="beneficiaryCreationDate"
+            android:defaultValue=" "
+            app:argType="string" />
         <action
             android:id="@+id/action_y2YTransferFragment_to_y2YFundsTransferSuccessFragment"
             app:destination="@id/y2YFundsTransferSuccessFragment"

@@ -120,7 +120,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl ?: "",
                                     data.accountDetailList?.get(0)?.accountUuid ?: "",
-                                    data.title ?: "", pos
+                                    data.title ?: "", pos,data.beneficiaryCreationDate?:""
                                 ), screenType = FeatureSet.Y2Y_TRANSFER
                             )
                         }

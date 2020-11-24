@@ -121,7 +121,7 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
                 checkGalleryPermission()
             }
             R.id.tvShareMyCode -> {
-                requestPermissions()
+                context?.shareImage(qrContainer)
             }
             R.id.ivBack -> {
                 callBack()

@@ -1,13 +1,11 @@
 package co.yap.modules.location.fragments
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -66,13 +64,10 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     private val countriesListObserver = Observer<List<Country>> {
         setAutoCompleteText(it as ArrayList<Country>)
-        if (viewModel.state.selectedCountry != null) {
+        if (viewModel.state.selectedCountryIndex >= 0) {
             getBinding().bcountries.setSelection(
-                viewModel.parentViewModel?.countries?.indexOf(
-                    viewModel.state.selectedCountry ?: Country()
-                ) ?: 0
+                viewModel.state.selectedCountryIndex
             )
-
         }
     }
 
@@ -94,17 +89,17 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
                 getBinding().bcountries.showDropDown()
             }
-          /*  if (mCustomAutoTextAdapter?.getFilteredCount()?:0 <=3){
-                getBinding().bcountries.dropDownHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
-            }
-            else{
-                getBinding().bcountries.dropDownHeight = resources.getDimensionPixelSize(R.dimen._80sdp)
-            }*/
+            /*  if (mCustomAutoTextAdapter?.getFilteredCount()?:0 <=3){
+                  getBinding().bcountries.dropDownHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
+              }
+              else{
+                  getBinding().bcountries.dropDownHeight = resources.getDimensionPixelSize(R.dimen._80sdp)
+              }*/
         }
         getBinding().bcountries.onItemClickListener = itemClickListener
 
 
-        setTextSelection(getDefaultCuntry())
+//        setTextSelection(getDefaultCuntry())
     }
 
     private fun getDefaultCuntry(): Country {
@@ -121,11 +116,13 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     private val itemClickListener =
         AdapterView.OnItemClickListener { adapter, _, position, _ ->
+            viewModel.state.selectedCountryIndex = position
             val country: Country = adapter?.getItemAtPosition(position) as Country
             setTextSelection(country)
         }
 
     private fun setTextSelection(country: Country) {
+        viewModel.state.selectedCountry = country
         getBinding().bcountries.setText(country.getName())
         getBinding().bcountries.setSelection(country.getName().length)
         val drawable: Drawable? =

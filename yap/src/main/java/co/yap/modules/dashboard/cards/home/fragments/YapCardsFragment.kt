@@ -31,14 +31,16 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    private val EVENT_CARD_ADDED: Int get() = 12
     private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    private val EVENT_CARD_ADDED: Int get() = 12
     private var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -109,24 +111,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is Card)
-                    if (data.status == CardStatus.BLOCKED.name) {
-                        viewModel.unFreezeCard(data.cardSerialNumber) {
-                            viewModel.getUpdatedCard(pos) {
-                                it?.let {
-                                    adapter.setItemAt(pos, it)
-                                }
-                            }
-                        }
-                    } else {
-                        viewModel.clickEvent.setPayload(
-                            SingleClickEvent.AdaptorPayLoadHolder(
-                                view,
-                                data,
-                                pos
-                            )
+                    viewModel.clickEvent.setPayload(
+                        SingleClickEvent.AdaptorPayLoadHolder(
+                            view,
+                            data,
+                            pos
                         )
-                        viewModel.clickEvent.setValue(view.id)
-                    }
+                    )
+                viewModel.clickEvent.setValue(view.id)
             }
         })
     }
@@ -151,7 +143,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 } else
                                     openDetailScreen(pos)
                             }
-                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(pos)
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name, CardStatus.PIN_BLOCKED.name -> openDetailScreen(
+                                pos
+                            )
                             CardStatus.INACTIVE.name -> {
                                 getCard(pos).deliveryStatus?.let {
                                     openStatusScreen(view, pos)
@@ -168,7 +162,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.tvCardStatusAction -> {
                     when (getCard(pos).status) {
                         CardStatus.BLOCKED.name -> {
-                            openDetailScreen(pos)
+                            if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
+                                showBlockedFeatureAlert(requireActivity(), FeatureSet.UNFREEZE_CARD)
+                            } else {
+                                viewModel.unFreezeCard(getCard(pos).cardSerialNumber) {
+                                    viewModel.getUpdatedCard(pos) { card ->
+                                        card?.let {
+                                            adapter.setItemAt(pos, card)
+                                        }
+                                    }
+                                }
+                            }
                         }
                         CardStatus.HOTLISTED.name -> {
                             startReorderCardFlow(getCard(pos))
@@ -195,13 +199,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                     }
                 }
-//                viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
-//                    var card: Card = adapter.getDataForPosition(selectedCardPosition)
-//                    card.status = "ACTIVE"
-//                    card.blocked = false
-//                    viewModel.cards.value?.set(selectedCardPosition, card)
-//                    adapter.setItemAt(selectedCardPosition, card)
-//                }
             }
         }
     }
@@ -341,17 +338,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun startReorderCardFlow(card: Card?) {
-        card?.let {
-            launchActivity<ReorderCardActivity>(
-                type = FeatureSet.REORDER_DEBIT_CARD,
-                requestCode = RequestCodes.REQUEST_REORDER_CARD
-            ) {
-                putExtra(ReorderCardActivity.CARD, it)
-            }
-        }
-    }
-
     private fun openSetPinScreen(card: Card) {
         context?.let { context ->
             startActivityForResult(
@@ -361,6 +347,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     skipWelcomeScreen = true
                 ), Constants.EVENT_CREATE_CARD_PIN
             )
+        }
+    }
+
+    private fun startReorderCardFlow(card: Card?) {
+        card?.let {
+            launchActivity<ReorderCardActivity>(
+                type = FeatureSet.REORDER_DEBIT_CARD,
+                requestCode = RequestCodes.REQUEST_REORDER_CARD
+            ) {
+                putExtra(ReorderCardActivity.CARD, it)
+            }
         }
     }
 

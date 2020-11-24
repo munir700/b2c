@@ -57,8 +57,8 @@ class PhoneContactViewModel(application: Application) :
         launch(Dispatcher.LongOperation) {
             val localContacts = getLocalContacts(context).removeOwnContact()
             if (localContacts.isEmpty()) {
-                phoneContactLiveData.value = mutableListOf()
-                pagingState.value = PagingState.DONE
+                phoneContactLiveData.postValue(mutableListOf())
+                pagingState.postValue(PagingState.DONE)
             } else {
                 val combineContacts = arrayListOf<Contact>()
                 val threshold = 3000

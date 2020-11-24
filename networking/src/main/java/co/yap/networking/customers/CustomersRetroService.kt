@@ -236,6 +236,12 @@ interface CustomersRetroService {
     @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
     suspend fun removeProfilePicture(): Response<ApiResponse>
 
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
+
     @POST(CustomersRepository.URL_GET_QR_CONTACT)
     suspend fun getQRContact(@Body qrContactRequest: QRContactRequest): Response<QRContactResponse>
 
