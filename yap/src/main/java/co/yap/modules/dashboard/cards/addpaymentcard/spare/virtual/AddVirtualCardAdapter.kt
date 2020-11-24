@@ -15,8 +15,7 @@ class AddVirtualCardAdapter(
 
     override fun onBindViewHolder(holder: VirtualCardViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        holder.onBind(position, list[position]
-        )
+        holder.onBind(position, list[position])
     }
 
     override fun getLayoutIdForViewType(viewType: Int): Int = getViewModel(viewType).layoutRes()
