@@ -14,7 +14,7 @@ interface IAddVirtualCard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val adapter: ObservableField<AddVirtualCardAdapter>?
+        val adapter: AddVirtualCardAdapter
     }
 
     interface View : IBase.View<ViewModel>

@@ -1,40 +1,26 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
-import co.yap.databinding.ItemYapCardEmptyBinding
+import co.yap.databinding.ItemVirtualCardBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AddVirtualCardAdapter(
-    private val list: MutableList<VirtualCardModel>,
-    private val adaptorClick: OnItemClickListener
-) :
-    BaseBindingRecyclerAdapter<VirtualCardModel, RecyclerView.ViewHolder>(list) {
-    override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+    private val list: MutableList<VirtualCardModel>) :
+    BaseBindingRecyclerAdapter<VirtualCardModel, VirtualCardViewHolder>(list) {
+    override fun onCreateViewHolder(binding: ViewDataBinding): VirtualCardViewHolder {
+        return VirtualCardViewHolder(binding as ItemVirtualCardBinding)
     }
 
-    override fun getLayoutIdForViewType(viewType: Int): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VirtualCardViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
+        holder.onBind(position, list[position]
+        )
     }
 
-    class ViewHolder(private val itemYapCardEmptyBinding: ItemYapCardEmptyBinding) :
-        RecyclerView.ViewHolder(itemYapCardEmptyBinding.root) {
-        fun onBind(
-            position: Int,
-            paymentCard: Card?,
-            dimensions: IntArray,
-            onItemClickListener: OnItemClickListener?
-        ) {
+    override fun getLayoutIdForViewType(viewType: Int): Int = getViewModel(viewType).layoutRes()
 
-        }
-    }
+    fun getViewModel(viewType: Int) = VirtualCardItemViewModel()
 
 }

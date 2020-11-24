@@ -11,11 +11,10 @@ import kotlin.random.Random.Default.nextInt
 
 class AddVirtualCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel {
-    override val adapter: ObservableField<AddVirtualCardAdapter>? = ObservableField()
+    override val adapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
     override val state: AddVirtualCardState = AddVirtualCardState()
     override fun onCreate() {
         super.onCreate()
-
     }
 fun getCardThemesOption(){
         val cards: MutableList<VirtualCardModel> = mutableListOf()
