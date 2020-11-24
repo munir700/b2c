@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import android.graphics.Color
+import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
+import co.yap.widgets.CircleView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_virtual_card.*
@@ -17,9 +20,16 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card
     override val viewModel: IAddVirtualCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddVirtualCardViewModel::class.java)
-    private var tabViews = ArrayList<String>()
+    private var tabViews = ArrayList<CircleView>()
     lateinit var adapter: AddVirtualCardAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
 
     private fun setupPager() {
         viewPager?.apply {
@@ -33,7 +43,7 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
                 TabLayoutMediator(tabLayout, this,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                         val view =
-                            layoutInflater.inflate(R.layout.item_circle_view, null) as String
+                            layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
                         view.layoutParams = ViewGroup.LayoutParams(
                             R.dimen._24sdp,
                             R.dimen._24sdp
@@ -55,14 +65,19 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        TODO("Not yet implemented")
-    }
+        tab?.let {
+            viewModel.state.designCode?.value =
+                adapter.getDataList()[it.position].designCode// (tab.tag as HouseHoldCardsDesign).designCode
+            tabViews[it.position].borderWidth = 6f
+            tabViews[it.position].borderColor = Color.parseColor("#88848D")
+        }    }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-        TODO("Not yet implemented")
-    }
+        tab?.let {
+            tabViews[it.position].borderWidth = 0f
+            tabViews[it.position].borderColor = Color.parseColor("#88848D")
+        }    }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
-        TODO("Not yet implemented")
     }
 }
