@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces
 
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.yapcore.IBase

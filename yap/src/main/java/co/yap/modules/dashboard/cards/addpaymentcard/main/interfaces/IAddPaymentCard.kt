@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.interfaces
+package co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent

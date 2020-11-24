@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.ICardBenefit
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.CardBenefitState
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ICardBenefit
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.CardBenefitState
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
 
 import android.os.Bundle
@@ -9,12 +9,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
+import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
+import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.SpareCardLandingViewModel
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*

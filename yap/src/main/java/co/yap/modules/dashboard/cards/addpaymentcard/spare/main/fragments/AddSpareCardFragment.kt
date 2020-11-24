@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -12,12 +12,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
-import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
-import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
+import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity.Companion.onBackPressCheck
+import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.location.activities.LocationSelectionActivity

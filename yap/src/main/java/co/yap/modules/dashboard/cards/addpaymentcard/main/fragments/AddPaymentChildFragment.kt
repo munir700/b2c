@@ -1,10 +1,9 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.fragments
+package co.yap.modules.dashboard.cards.addpaymentcard.main.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 

@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical
 
 import android.content.Context
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 
 class AddSparePhysicalCardLogicHelper(
     val context: Context,

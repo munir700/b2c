@@ -1,8 +1,8 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.states
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states
 
 import androidx.databinding.Bindable
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.ICardBenefit
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ICardBenefit
 import co.yap.BR
 import co.yap.yapcore.BaseState
 

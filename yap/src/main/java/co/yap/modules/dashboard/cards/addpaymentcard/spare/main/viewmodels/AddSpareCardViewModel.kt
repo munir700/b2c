@@ -1,12 +1,12 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.AddSpareCardState
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.AddSpareCardState
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.responsedtos.Address

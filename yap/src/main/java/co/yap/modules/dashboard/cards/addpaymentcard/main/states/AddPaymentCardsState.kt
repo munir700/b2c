@@ -1,8 +1,8 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.states
+package co.yap.modules.dashboard.cards.addpaymentcard.main.states
 
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.IAddPaymentCard
+import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
 import co.yap.yapcore.BaseState
 
 class AddPaymentCardsState : BaseState(), IAddPaymentCard.State {

@@ -1,8 +1,8 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.spare.states
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states
 
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
+import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.ISpareCards
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.managers.SessionManager
 

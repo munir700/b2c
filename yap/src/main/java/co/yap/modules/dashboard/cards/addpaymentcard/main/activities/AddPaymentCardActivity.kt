@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.activities
+package co.yap.modules.dashboard.cards.addpaymentcard.main.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,15 +8,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.IAddPaymentCard
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import kotlinx.android.synthetic.main.activity_add_payment_cards.*
 
 class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(), INavigator,
     IFragmentHolder {

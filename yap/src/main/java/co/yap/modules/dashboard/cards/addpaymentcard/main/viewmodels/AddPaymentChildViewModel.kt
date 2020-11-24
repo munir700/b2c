@@ -1,7 +1,7 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.viewmodels
+package co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.IAddPaymentCard
+import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
 import co.yap.sendmoney.base.SMFeeViewModel
 import co.yap.yapcore.IBase
 

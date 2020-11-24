@@ -1,10 +1,9 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.viewmodels
+package co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.IAddPaymentCard
-import co.yap.modules.dashboard.cards.addpaymentcard.states.AddPaymentCardsState
+import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.IAddPaymentCard
+import co.yap.modules.dashboard.cards.addpaymentcard.main.states.AddPaymentCardsState
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
