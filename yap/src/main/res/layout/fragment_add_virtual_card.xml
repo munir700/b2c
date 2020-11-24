@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.helpers.Utils" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.translation.Translator" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/card_spare"
+                 />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:orientation="horizontal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvYoungCardText"
+                style="@style/SmallGrey"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_normal_large"
+                android:textColor="@color/colorPrimaryDark"
+                tools:text="Choose a colour"
+                android:text="Choose a colour"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_extra_large"
+                android:layout_gravity="center_horizontal"
+                app:tabGravity="center"
+                app:tabIndicator="@null"
+                app:tabPaddingEnd="6dp"
+                app:tabPaddingStart="6dp"
+                app:tabRippleColor="@color/dialogBtnColor">
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <co.yap.widgets.CollapsedColoredHintTextInputLayout
+                android:id="@+id/ctcCardEdit"
+                style="@style/Yap.App.Widget.TextInputLayout"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                app:layout_constraintTop_toBottomOf="@+id/tvConfirmRelation"
+                tools:ignore="MissingConstraints"
+                android:hint="Name your virtual card"
+                tools:hint="Name your virtual card">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etCardName"
+                    style="@style/Yap.App.Widget.TextInputEditText.Email"
+                    android:imeOptions="actionDone"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal"
+                    android:singleLine="true"
+                    app:validateType='@{"firstname"}'
+                    tools:hint="Name your virtual card"
+                    />
+            </co.yap.widgets.CollapsedColoredHintTextInputLayout>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                style="@style/FragmentsBtnStyle"
+                enableCoreButton="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_btn_side_paddings"
+                android:layout_marginTop="@dimen/margin_xxl"
+                android:layout_marginEnd="@dimen/margin_btn_side_paddings"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+</layout>
