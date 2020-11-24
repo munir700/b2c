@@ -1,14 +1,40 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import java.util.*
+import kotlin.random.Random.Default.nextInt
 
 class AddVirtualCardViewModel(application: Application) :
-    AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel,
-    IRepositoryHolder<CardsRepository> {
+    AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel {
+    override val adapter: ObservableField<AddVirtualCardAdapter>? = ObservableField()
     override val state: AddVirtualCardState = AddVirtualCardState()
-    override val repository: CardsRepository
-        get() = TODO("Not yet implemented")
+    override fun onCreate() {
+        super.onCreate()
+
+    }
+fun getCardThemesOption(){
+        val cards: MutableList<VirtualCardModel> = mutableListOf()
+        for (x in 0 until 5) {
+            cards.add(
+                VirtualCardModel(
+                    "2019-09-19",
+                    "https://s3-eu-west-1.amazonaws.com/dev-a-yap-documents-public/1568890204540_Error_Message.png",
+                    "3567b3e6-0836-4316-84ee-0f02fa1177ca",
+                    "qq",
+                    "qq",
+                    "",
+                    "ACTIVE",
+                    String.format("#%06x", Random().nextInt(0xffffff + 1)),
+                    "cd",
+                    "aq",
+                    true
+                )
+            )
+        }
+    }
 }

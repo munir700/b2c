@@ -1,31 +1,18 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.models
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.annotation.Keep
 
 @Keep
-data class VirtualCardModel (
-val cardName : String
-) : Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readString().toString()) {
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(cardName)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<VirtualCardModel> {
-        override fun createFromParcel(parcel: Parcel): VirtualCardModel {
-            return VirtualCardModel(parcel)
-        }
-
-        override fun newArray(size: Int): Array<VirtualCardModel?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+data class VirtualCardModel(
+    val uploadDate: String? = null,
+    val backSideDesignImage: String? = null,
+    val designCodeUUID: String? = null,
+    val designCodeName: String? = null,
+    val designCode: String? = null,
+    val frontSideDesignImage: String? = null,
+    val status: String? = null,
+    val designColorCode: String? = null,
+    val productCode: String? = null,
+    val designCodeDescription: String? = null,
+    val editAndDelete: Boolean? = null
+)
