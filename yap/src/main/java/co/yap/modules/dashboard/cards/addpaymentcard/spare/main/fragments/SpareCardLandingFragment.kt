@@ -11,10 +11,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.ISpareCards
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
-import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
@@ -81,7 +81,8 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.addSpareCard -> {
-                    gotoAddSpareVirtualCardConfirmScreen()
+                    //gotoAddSpareVirtualCardConfirmScreen()
+                    gotoAddVirtualCardScreen()
                 }
                 R.id.llAddVirtualCard -> {
                     gotoAddSpareVirtualCardConfirmScreen()
@@ -113,6 +114,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             viewModel.state.virtualCardFee = it
             viewModel.parentViewModel?.virtualCardFee = it
         })
+    }
+
+    private fun gotoAddVirtualCardScreen() {
+        val action =
+            SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddVirtualCardFragment()
+        navigate(action)
     }
 
     override fun removeObservers() {

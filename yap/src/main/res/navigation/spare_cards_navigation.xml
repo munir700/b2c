@@ -23,6 +23,9 @@
             app:destination="@id/addSpareCardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_to_bottom" />
+        <action
+            android:id="@+id/action_spareCardLandingFragment_to_addVirtualCardFragment"
+            app:destination="@id/addVirtualCardFragment" />
 
     </fragment>
 
@@ -153,6 +156,11 @@
         android:id="@+id/addSparePhysicalCardSuccessFragment"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.physical.AddSparePhysicalCardSuccessFragment"
         tools:layout="@layout/fragment_add_physical_spare_card_success" />
+    <fragment
+        android:id="@+id/addVirtualCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardFragment"
+        android:label="AddVirtualCardFragment"
+        tools:layout="@layout/fragment_add_virtual_card"/>
 
 
 </navigation>
