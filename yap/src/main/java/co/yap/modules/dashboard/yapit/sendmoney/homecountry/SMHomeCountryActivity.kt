@@ -91,7 +91,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     }
 
     private fun getCountries(countries: ArrayList<Country>): ArrayList<Country> {
-        countries.forEach {
+        countries.filter { it.isoCountryCode2Digit != "AE" }.forEach {
             it.subTitle = it.getName()
             it.sheetImage = CurrencyUtils.getFlagDrawable(
                 context,
