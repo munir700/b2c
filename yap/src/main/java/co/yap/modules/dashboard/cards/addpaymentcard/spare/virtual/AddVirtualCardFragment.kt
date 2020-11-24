@@ -22,14 +22,12 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     override val viewModel: IAddVirtualCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddVirtualCardViewModel::class.java)
     private var tabViews = ArrayList<CircleView>()
-    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.adapter = AddVirtualCardAdapter(mutableListOf())
         viewPager.adapter = viewModel.adapter
         setupPager()
     }
-
     @SuppressLint("FragmentLiveDataObserve")
     private fun setupPager() {
         viewPager?.apply {
