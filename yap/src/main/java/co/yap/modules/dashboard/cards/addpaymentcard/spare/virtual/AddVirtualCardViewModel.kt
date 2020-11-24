@@ -14,7 +14,7 @@ class AddVirtualCardViewModel(application: Application) :
         adapter = AddVirtualCardAdapter(getCardThemesOption())
     }
 
-    fun getCardThemesOption(): MutableList<VirtualCardModel> {
+    private fun getCardThemesOption(): MutableList<VirtualCardModel> {
         val cards: MutableList<VirtualCardModel> = mutableListOf()
         for (x in 0 until 5) {
             cards.add(

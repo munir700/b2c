@@ -16,6 +16,5 @@ interface IAddVirtualCard {
     interface ViewModel : IBase.ViewModel<State> {
         var adapter: AddVirtualCardAdapter
     }
-
     interface View : IBase.View<ViewModel>
 }

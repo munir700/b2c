@@ -15,7 +15,6 @@ class VirtualCardViewHolder (private val itemYapVirtualCardBinding: ItemVirtualC
         position: Int,
         virtualCard: VirtualCardModel?) {
         itemYapVirtualCardBinding.viewModel = VirtualCardItemViewModel()
-
         itemYapVirtualCardBinding.executePendingBindings()
     }
 }

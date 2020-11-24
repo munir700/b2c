@@ -24,10 +24,15 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     private var tabViews = ArrayList<CircleView>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initiateAdapter()
+    }
+
+    private fun initiateAdapter() {
         viewModel.adapter = AddVirtualCardAdapter(mutableListOf())
         viewPager.adapter = viewModel.adapter
         setupPager()
     }
+
     @SuppressLint("FragmentLiveDataObserve")
     private fun setupPager() {
         viewPager?.apply {

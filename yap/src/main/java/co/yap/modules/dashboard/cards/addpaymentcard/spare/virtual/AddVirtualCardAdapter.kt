@@ -5,9 +5,7 @@ import co.yap.databinding.ItemVirtualCardBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class AddVirtualCardAdapter(
-    private val list: MutableList<VirtualCardModel>
-) :
+class AddVirtualCardAdapter(private val list: MutableList<VirtualCardModel>) :
     BaseBindingRecyclerAdapter<VirtualCardModel, VirtualCardViewHolder>(list) {
     override fun onCreateViewHolder(binding: ViewDataBinding): VirtualCardViewHolder {
         return VirtualCardViewHolder(binding as ItemVirtualCardBinding)
@@ -18,9 +16,6 @@ class AddVirtualCardAdapter(
         holder.onBind(position, list[position]
         )
     }
-
     override fun getLayoutIdForViewType(viewType: Int): Int = getViewModel(viewType).layoutRes()
-
     fun getViewModel(viewType: Int) = VirtualCardItemViewModel()
-
 }
