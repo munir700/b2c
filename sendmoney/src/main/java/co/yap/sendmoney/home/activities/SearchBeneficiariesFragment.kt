@@ -17,6 +17,9 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseFragment
 import co.yap.sendmoney.viewmodels.SMSearchBeneficiaryViewModel
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -51,6 +54,11 @@ class SearchBeneficiariesFragment :
         getBindings().etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
+        viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
+        viewModel.adapter.filterCount.observe(this, Observer {
+            viewModel.state.stateLiveData.value =
+                if (it == 0) State.empty("") else State.success("")
+        })
     }
 
     private fun initSwipeListener() {
@@ -208,6 +216,21 @@ class SearchBeneficiariesFragment :
         }
     }
 
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.EMPTY -> {
+                getBindings().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            }
+            Status.ERROR -> {
+                getBindings().multiStateView.viewState = MultiStateView.ViewState.ERROR
+            }
+            Status.SUCCESS -> {
+                getBindings().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            }
+            else -> throw IllegalStateException("Provided multi state is not handled $state")
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -237,6 +260,7 @@ class SearchBeneficiariesFragment :
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.state.stateLiveData.removeObservers(this)
     }
 
     override fun onDestroyView() {
