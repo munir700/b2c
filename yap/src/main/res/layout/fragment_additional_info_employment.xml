@@ -17,6 +17,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerUploadAdditionalDocuments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:dividerHeight="2dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/btnNext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:recycleViewAdapter="@{viewModel.additionalInfoEmploymentAdapter}"
+            app:spanCount="2"
+            tools:itemCount="4"
+
+            tools:listitem="@layout/item_additional_info_employment" />
+
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             style="@style/FragmentsBtnStyle"

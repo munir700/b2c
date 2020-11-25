@@ -50,6 +50,10 @@ class AdditionalInfoActivity : BaseBindingActivity<IAdditionalInfo.ViewModel>(),
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+//        val step = viewModel.stepCount.value ?: 0
+//        if (step > 0) {
+//            viewModel.stepCount.value = step - 1
+//        }
+//        super.onBackPressed()
     }
 }

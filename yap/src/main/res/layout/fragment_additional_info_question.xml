@@ -17,6 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+<!--        <co.yap.widgets.CoreInputField-->
+<!--            android:id="@+id/etEmailField"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/margin_medium_large"-->
+<!--            android:layout_marginTop="@dimen/margin_xl"-->
+<!--            android:layout_marginEnd="@dimen/margin_medium_large"-->
+<!--            app:showKeyboard="false"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:view_hint_input_field="Answer to question goes here"-->
+<!--             />-->
+
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
@@ -31,7 +43,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintVertical_bias="0.75"
-            app:text="@{Strings.screen_add_beneficiary_button_next}"
+            app:text="@{Strings.common_button_submit}"
             tools:text="@string/screen_add_beneficiary_button_next" />
 
 
