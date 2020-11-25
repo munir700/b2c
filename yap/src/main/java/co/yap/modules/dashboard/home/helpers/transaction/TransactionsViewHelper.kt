@@ -130,9 +130,7 @@ class TransactionsViewHelper(
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
-        transactionsView.tvTransactionDate.visibility = View.VISIBLE
-        tooltip?.arrowView = transactionsView.findViewById(R.id.arrowView)
-        tooltip?.arrowView?.visibility = View.VISIBLE
+        setTooltipVisibility(View.VISIBLE)
         transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
             data.originalDate ?: "",
             "yyyy-MM-dd",
