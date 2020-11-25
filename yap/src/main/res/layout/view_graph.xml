@@ -15,7 +15,7 @@
     <co.yap.widgets.HorizontalNonScrollRecyclerView
         android:id="@+id/rvTransactionsBarChart"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_height="@dimen/_90sdp"
         android:layout_gravity="bottom"
         android:gravity="bottom|center"
         android:layoutDirection="ltr"
