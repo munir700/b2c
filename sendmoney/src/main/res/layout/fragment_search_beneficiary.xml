@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_medium"
+            android:padding="@dimen/margin_normal"
             android:weightSum="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,14 +76,13 @@
         <co.yap.widgets.MultiStateView
             android:id="@+id/multiStateView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lySearchView"
-            app:layout_constraintVertical_bias="0.13"
             app:emptyViewText="@{@string/common_display_text_no_results}"
-            app:msv_emptyView="@layout/layout_empty_view_no_results"
+            app:msv_emptyView="@layout/layout_beneficiaries_no_results"
             app:msv_errorView="@layout/layout_error_view"
             app:msv_viewState="content">
 
@@ -95,6 +94,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:recycleViewAdapter="@{viewModel.adapter}"
                 tools:listitem="@layout/layout_item_beneficiary"
+                tools:itemCount="1"
                 tools:visibility="visible" />
         </co.yap.widgets.MultiStateView>
 
