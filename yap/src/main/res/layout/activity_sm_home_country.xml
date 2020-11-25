@@ -39,7 +39,7 @@
                 app:leftIconVisibility="@{true}"
                 app:onClick="@{viewModel::onToolBarClick}"
                 app:rightTitle="@{viewModel.state.rightButtonText}"
-                app:rightTitleVisibility="@{true}"
+                app:rightTitleVisibility="@{false}"
                 app:titleString="@{viewModel.state.toolbarTitle}"
                 app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
 
@@ -217,7 +217,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:recycleViewAdapter="@{viewModel.recentsAdapter}"
                     tools:itemCount="10"
-                    tools:listitem="@layout/item_recent_beneficiaries_transfer" />
+                    tools:listitem="@layout/item_core_recent_beneficiary" />
 
             </LinearLayout>
 

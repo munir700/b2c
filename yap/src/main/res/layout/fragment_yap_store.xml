@@ -33,8 +33,7 @@
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_shopping_store_new}"
             app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
-            app:titleString="@{viewModel.state.toolbarTitle}"
-            app:rightIconPading="@{true}"/>
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"

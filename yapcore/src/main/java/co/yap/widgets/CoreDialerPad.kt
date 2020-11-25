@@ -153,7 +153,6 @@ class CoreDialerPad @JvmOverloads constructor(
         buttonRemove = view.findViewById(R.id.buttonRemove)
         // editText = etPassCodeText
 
-
         attrs?.let { it ->
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
             dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
@@ -292,7 +291,7 @@ class CoreDialerPad @JvmOverloads constructor(
         return inputEditText?.text.toString()
     }
 
-    private fun clearAllData() {
+    fun clearAllData() {
         etPassCodeText?.setText("")
         inputEditText?.setText("")
         list.clear()
@@ -310,6 +309,7 @@ class CoreDialerPad @JvmOverloads constructor(
         etPassCodeText?.setText("")
         inputEditText?.setText("")
         //editText.setText("")
+//        removeError()
     }
 
     fun updateDialerLength(length: Int) {

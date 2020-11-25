@@ -224,7 +224,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                     .format(
                         viewModel.state.currencyType + " " + transactionFee.toFormattedCurrency(
                             showCurrency = false,
-                            currency = "AED"
+                            currency = SessionManager.getDefaultCurrency()
                         )
                     )
             getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(

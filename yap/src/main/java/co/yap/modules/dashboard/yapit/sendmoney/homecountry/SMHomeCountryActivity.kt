@@ -11,12 +11,13 @@ import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -59,6 +60,11 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getHomeCountryRecentBeneficiaries()
+    }
+
     private fun setupCountriesList() {
         val countries: ArrayList<Country> = SessionManager.getCountries()
         this.supportFragmentManager.let {
@@ -71,6 +77,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                             viewModel.updateHomeCountry {
                                 SessionManager.getAccountInfo()
                                 viewModel.populateData(data)
+                                viewModel.getHomeCountryRecentBeneficiaries()
                             }
                         }
                     }
@@ -115,12 +122,11 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     }
 
     private fun startSendMoneyFlow() {
-        launchActivity<SendMoneyLandingActivity> {
+        launchActivity<SMBeneficiaryParentActivity> {
             putExtra(
-                SendMoneyLandingActivity.TransferType,
+                ExtraKeys.SEND_MONEY_TYPE.name,
                 SendMoneyTransferType.HOME_COUNTRY.name
             )
-            putExtra(SendMoneyLandingActivity.searching, false)
         }
     }
 

@@ -28,6 +28,8 @@
     <string name="common_display_text_daily_limit_error">Sorry, you\'ve reached your daily limit. Let\'s try again tomorrow.</string>
     <string name="sm_display_text_min_max_limit_error_transaction">Your entered amount should be between %1s and %2s</string>
     <string name="common_display_text_on_hold_limit_error">You have exceeded your limit for held on transactions, please enter an amount less than %1s</string>
+    <string name="common_display_text_cooling_period_limit_consumed_error">You have consumed the limit for the amount you can send at this time. To send money, please wait for %1s from the time you added %2s.</string>
+    <string name="common_display_text_cooling_period_limit_error">You can only send up to %1s at this time. To transfer bigger amounts, please wait for %2s from the time you added %3s.</string>
     <string name="common_send_money">Send money</string>
     <string name="common_add_money">Add money</string>
     <string name="common_pay_bills">Pay bills</string>
@@ -585,7 +587,7 @@
 
     <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Type a note here</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Add a remark here</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
@@ -743,7 +745,7 @@
     <string name="screen_international_funds_transfer_display_text_yap_rate">YAP rate: </string>
     <string name="screen_international_funds_transfer_display_text_reson">Reason for transfer</string>
     <string name="screen_international_funds_transfer_dropdown_text_reason_hint">Transferring amount to a friend</string>
-    <string name="screen_international_funds_transfer_input_text_note_hint">Type a note here</string>
+    <string name="screen_international_funds_transfer_input_text_note_hint">Add a remark here</string>
     <string name="screen_international_funds_transfer_input_text_reason">Select a reason for transfer</string>
     <string name="screen_international_funds_transfer_display_text_fee">International transfer fee: %1s %2s</string>
     <string name="screen_international_funds_transfer_display_text_note">Note that the recipient\'s bank may have its own charges.</string>
@@ -808,7 +810,7 @@
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
     <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
-    <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s %2s</string>
+    <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
 
     <!--    Edit -->
@@ -1066,7 +1068,6 @@
     <string name="screen_otp_blocked_display_text_details_card_blocked">Some of your card\'s feature may not work at this time. This is because  your card or account may have been blocked temporarily.\n\nGet in touch by calling our agents at %1s or message us via the Live Chat so we can unblock your account right away!</string>
     <string name="iban_or_debit_card_freeze_or_blocked_message">Some of your card\'s features are temporarily disabled. Get in touch with us at %1s for assistance.</string>
 
-
     <!--  Yap home fragment screen-->
     <string name="screen_fragment_yap_home_add_money">Add money</string>
 
@@ -1124,6 +1125,10 @@
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
 
+    <!-- Live Chat Strings-->
+    <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
+
+
     <!-- Send Money Home -->
     <string name="screen_send_money_home_title">Send Money Home</string>
     <string name="screen_send_money_home_display_text_send_money">Send Money</string>
@@ -1136,10 +1141,11 @@
     <string name="screen_send_money_home_display_text_compare">Compare</string>
 
     <!-- QR Code Funds Transfer -->
-    <string name="screen_qr_transfer_display_text_button">pay</string>
+    <string name="screen_qr_transfer_display_text_button">Pay</string>
     <string name="screen_qr_transfer_display_text_note_hint">Type a note here (Optional)</string>
     <string name="screen_qr_transfer_display_title">Enter amount to send</string>
 
-
+    <string name="screen_qr_funds_transfer_display_text_available_balance">Your available balance is:</string>
+    <string name="screen_qr_code_own_uuid_error_message">Scanned QR code belongs to your own YAP account. Please scan another QR code.</string>
 
 </resources>

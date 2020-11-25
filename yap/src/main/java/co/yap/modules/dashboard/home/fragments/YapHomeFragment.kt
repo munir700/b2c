@@ -52,7 +52,11 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.skeletonlayout.Skeleton
+import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
@@ -77,6 +81,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
+    private lateinit var skeleton: Skeleton
+    private lateinit var tvBalanceSkeleton: Skeleton
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -124,7 +130,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
-
+        skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
+            R.layout.item_transaction_list_shimmer,
+            5
+        )
+        viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
@@ -141,11 +151,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             } else {
                 if (Math.abs(verticalOffset) > 0)
-                    getBindings().lyInclude.lyHomeAction.alpha = 10 / abs(verticalOffset).toFloat()
+                    getBindings().lyInclude.lyHomeAction.alpha =
+                        10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
+    }
+
+    private fun handleShimmerState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> skeleton.showSkeleton()
+            else -> skeleton.showOriginal()
+        }
     }
 
     override fun onRefresh() {
@@ -318,7 +336,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         getBindings().lyInclude.multiStateView.viewState =
                             MultiStateView.ViewState.ERROR
                     } else {
-                        //if transaction is empty and filer is not applied then state would be Empty where a single row appears welcome to yap
+                        //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
 //                        getBindings().lyInclude.multiStateView.viewState =
 //                            MultiStateView.ViewState.EMPTY
                         viewModel.state.isUserAccountActivated.set(false)
@@ -482,7 +500,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     }
 
-    private fun setAvailableBalance(balance: String) {
+    private fun setAvailableBalance(balance: String?) {
+        getBindings().skeletonLayout.apply {
+            if (balance.isNullOrEmpty()) showSkeleton() else showOriginal()
+        }
         getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
@@ -780,6 +801,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
+    private fun getParentActivity(): ActivityYapDashboardBinding {
+        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
+    }
+
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
             requireContext(),
@@ -788,9 +813,5 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             activity
         )
 
-    }
-
-    private fun getParentActivity(): ActivityYapDashboardBinding {
-        return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
     }
 }

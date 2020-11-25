@@ -21,6 +21,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants.SUCCESS_BUTTON_LABEL
 import co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
@@ -40,7 +41,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     companion object {
         fun newIntent(context: Context, successButtonLabel: String): Intent {
             val intent = Intent(context, TopUpBeneficiariesActivity::class.java)
-            intent.putExtra("successButtonLabel", successButtonLabel)
+            intent.putExtra(SUCCESS_BUTTON_LABEL, successButtonLabel)
             return intent
         }
     }
@@ -59,7 +60,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
         addObservers()
         setupCards()
         successButtonLabel =
-            (intent?.getValue("successButtonLabel", ExtraType.STRING.name) as? String) ?: ""
+            (intent?.getValue(SUCCESS_BUTTON_LABEL, ExtraType.STRING.name) as? String) ?: ""
 
     }
 
@@ -299,7 +300,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             type = FeatureSet.TOP_UP_BY_EXTERNAL_CARD
         ) {
             putExtra(co.yap.yapcore.constants.Constants.CARD, item)
-            putExtra("successButtonLabel", successButtonLabel)
+            putExtra(SUCCESS_BUTTON_LABEL, successButtonLabel)
         }
     }
 

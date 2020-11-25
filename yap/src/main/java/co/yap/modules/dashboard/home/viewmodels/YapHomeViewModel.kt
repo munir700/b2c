@@ -15,6 +15,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -24,6 +25,7 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.SessionManager.getDebitCard
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -64,8 +66,10 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestAccountTransactions() {
         launch {
-            if (isLoadMore.value == false)
-                state.loading = true
+            if (isLoadMore.value == false) {
+                // state.loading = true
+                state.showTxnShimmer.value = State.loading(null)
+            }
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
@@ -102,7 +106,7 @@ class YapHomeViewModel(application: Application) :
 
                             var transactionModel = HomeTransactionListData(
                                 "Type",
-                                "AED",
+                                SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
                                 transactionList[0].getFormattedDate(),
                                 transactionList[0].totalAmount.toString(),
@@ -140,14 +144,18 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
+                    ///if (isLoadMore.value == false) {
+                    state.showTxnShimmer.value = State.success(null)
+                    //}
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
-                    state.loading = false
+                    //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
+                    // state.loading = false
                     isRefreshing.value = false
                     isLoadMore.value = false
+                    state.showTxnShimmer.value = State.error("")
                 }
             }
         }
@@ -185,7 +193,7 @@ class YapHomeViewModel(application: Application) :
 
             val transactionModel = HomeTransactionListData(
                 "Type",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 mapEntry.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
@@ -207,10 +215,6 @@ class YapHomeViewModel(application: Application) :
                 closingBalanceArray.max() ?: 0.0
         }
         return transactionModelData
-    }
-
-    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
-        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
     }
 
     override fun getNotifications(
@@ -261,13 +265,12 @@ class YapHomeViewModel(application: Application) :
         }
         if (accountInfo.getUserAccessRestrictions()
                 .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
-            && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
         ) {
             SessionManager.eidStatus = EIDStatus.EXPIRED
             list.add(
                 HomeNotification(
                     id = "4",
-                    title = "Renewed ID",
+                    title = "Renew ID",
                     description = accountInfo.EIDExpiryMessage
                         ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
                     action = NotificationAction.UPDATE_EMIRATES_ID

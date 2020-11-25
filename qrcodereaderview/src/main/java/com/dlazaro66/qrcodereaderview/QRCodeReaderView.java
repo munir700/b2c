@@ -219,6 +219,7 @@ public class QRCodeReaderView extends SurfaceView
     public void surfaceCreated(SurfaceHolder holder) {
         SimpleLog.d(TAG, "surfaceCreated");
 
+
         try {
             // Indicate camera, our View dimensions
             mCameraManager.openDriver(holder, this.getWidth(), this.getHeight());

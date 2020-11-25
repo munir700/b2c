@@ -413,10 +413,6 @@ object Utils {
         }
     }
 
-    fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
-        return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
-    }
-
     fun openTwitter(context: Context) {
         var intent: Intent?
         try {
@@ -931,6 +927,14 @@ object Utils {
         return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
     }
 
+    @JvmStatic
+    fun getConfiguredDecimalsDashboard(currencyCode: String): Int? {
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt()
+    }
+
     fun dpToFloat(context: Context, dp: Float): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, dp,
@@ -943,20 +947,5 @@ object Utils {
             TypedValue.COMPLEX_UNIT_SP, dp,
             context.resources.displayMetrics
         )
-    }
-
-    fun getFormattedPhoneNo(mobileNumber: String): String {
-        return when {
-            mobileNumber.startsWith("00") ->
-                Utils.getFormattedPhone(
-                    mobileNumber.replaceRange(
-                        0,
-                        2,
-                        "+"
-                    )
-                )
-            mobileNumber.startsWith("+") -> Utils.getFormattedPhone(mobileNumber)
-            else -> Utils.formatePhoneWithPlus(mobileNumber)
-        }
     }
 }
