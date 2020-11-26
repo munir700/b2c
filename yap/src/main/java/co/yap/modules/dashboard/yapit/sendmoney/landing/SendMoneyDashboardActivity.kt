@@ -169,7 +169,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun openY2YScreen() {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.YAP_TO_YAP
+        ) {
             putExtra(YapToYapDashboardActivity.searching, false)
         }
     }
@@ -205,7 +208,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         fromQR: Boolean = false,
         position: Int = 0
     ) {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.Y2Y_TRANSFER
+        ) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
@@ -214,10 +220,17 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                    finish()
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        finish()
+                    }
+                }
+                RequestCodes.REQUEST_Y2Y_TRANSFER -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        finish()
+                    }
                 }
             }
         }
