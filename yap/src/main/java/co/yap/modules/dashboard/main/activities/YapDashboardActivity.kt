@@ -229,7 +229,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
+                R.id.btnCopy -> shareAccountInfo()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
                     startActivity(MoreActivity.newIntent(this))
@@ -248,6 +248,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 showUnverifiedPopup()
             }
         })
+    }
+
+    private fun shareAccountInfo() {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun showUnverifiedPopup() {
