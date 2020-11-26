@@ -39,14 +39,6 @@
             app:rightIconVisibility="@{true}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
-        <include
-            layout="@layout/layout_bank_detail_toolbar"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
