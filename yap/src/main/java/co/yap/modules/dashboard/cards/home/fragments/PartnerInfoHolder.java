@@ -14,7 +14,8 @@ public class PartnerInfoHolder {
     private PartnerInfo mPartnerInfo;
 
     private PartnerInfoHolder(Context context) {
-        String serviceId = "553f9a2fbd0244e4a9c7ab";
+//        String serviceId = "553f9a2fbd0244e4a9c7ab";
+        String serviceId = "421cb4f7453842509db829";
 //        String serviceId = context.getResources().getString(R.string.gradle_product_id);
 
         Bundle bundle = new Bundle();
