@@ -13,11 +13,6 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 
 interface ISendMoneyDashboard {
     interface State : IBase.State {
-        var toolbarVisibility: ObservableBoolean
-        var rightIconVisibility: ObservableBoolean
-        var leftIconVisibility: ObservableBoolean
-        var rightButtonTextVisibility: ObservableBoolean
-        var rightButtonText: ObservableField<String>
         var isRecentsVisible: ObservableBoolean
         var isNoRecents: ObservableBoolean
     }

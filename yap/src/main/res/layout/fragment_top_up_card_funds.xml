@@ -185,7 +185,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_small"
-                            android:text="@{viewModel.state.availableBalanceGuide}"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
                             tools:text="Your available balance is AED 500.00" />
