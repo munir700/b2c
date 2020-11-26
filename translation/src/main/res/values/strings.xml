@@ -789,7 +789,7 @@
     <string name="screen_topup_success_display_text_title">Top up successful</string>
     <string name="screen_topup_success_display_text_card_title">Citi Bank Card</string>
     <string name="screen_topup_success_display_text_success_transaction_message">You have now added %1s %2s to your account</string>
-    <string name="screen_topup_success_display_text_account_balance_title">Your new YAP balance is \n %1s %2s</string>
+    <string name="screen_topup_success_display_text_account_balance_title">Your new YAP balance is \n %1s</string>
     <string name="screen_topup_success_display_text_dashboard_action_button_title">Go to dashboard</string>
 
     <!--    Topup bank detail screen-->

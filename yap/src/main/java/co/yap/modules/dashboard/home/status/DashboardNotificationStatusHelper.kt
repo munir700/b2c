@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import co.yap.R
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.interfaces.IYapHome
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -222,7 +223,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openTopUpScreen() {
-        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+        context.launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openCardDeliveryStatusScreen() {
