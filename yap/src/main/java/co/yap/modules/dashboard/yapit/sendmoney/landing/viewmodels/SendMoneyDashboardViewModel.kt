@@ -79,6 +79,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 jointList = recentTransfers.sortedByDescending {
                     it.lastUsedDate
                 }
+                state.isNoRecents.set(jointList.isNullOrEmpty())
                 recentsAdapter.setList(jointList)
             }
         }

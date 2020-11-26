@@ -1,5 +1,6 @@
 package co.yap.sendmoney.home.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -194,7 +195,10 @@ class SearchBeneficiariesFragment :
         beneficiary: Beneficiary?,
         position: Int = 0
     ) {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.Y2Y_TRANSFER
+        ) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
         }
@@ -245,7 +249,19 @@ class SearchBeneficiariesFragment :
                     }
                 }
             }
+            RequestCodes.REQUEST_Y2Y_TRANSFER -> {
+                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                    setResultData()
+                }
+            }
         }
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
     override fun onPause() {
