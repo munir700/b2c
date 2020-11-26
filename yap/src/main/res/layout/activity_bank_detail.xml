@@ -65,7 +65,7 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_xxl"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintTop_toTopOf="parent">
@@ -107,14 +107,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
                 <TextView
                     android:id="@+id/tvSwift"
                     style="@style/ASmallGrey"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.5"
 
                     android:gravity="start"
@@ -147,7 +146,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
                 <TextView
@@ -186,7 +184,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
                 <TextView
@@ -226,7 +223,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
                 <TextView
