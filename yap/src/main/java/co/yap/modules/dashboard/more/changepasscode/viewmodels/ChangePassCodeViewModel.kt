@@ -16,7 +16,7 @@ class ChangePassCodeViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.toolbarVisibility.set(true)
+        state.toolbarVisibility = false
         state.leftIcon.set(true)
         state.rightIcon.set(true)
     }
