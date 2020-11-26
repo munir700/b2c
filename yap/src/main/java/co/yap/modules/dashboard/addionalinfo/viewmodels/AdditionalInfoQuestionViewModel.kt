@@ -14,4 +14,8 @@ class AdditionalInfoQuestionViewModel(application: Application) :
         setTitle("Final Question")
         setSubTitle("Please tell us the name of the company you are currently employed with")
     }
+
+    override fun moveToNext() {
+        moveStep()
+    }
 }

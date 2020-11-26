@@ -10,6 +10,7 @@
     <string name="common_button_settings">Settings</string>
     <string name="common_button_save">Save</string>
     <string name="common_button_confirm">Confirm</string>
+    <string name="common_button_continue">Continue</string>
     <string name="common_button_submit">Submit</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
@@ -1116,6 +1117,7 @@
 
     <!-- Additional Information Strings-->
     <string name="screen_additional_info_label_text_do_it_later">Do it later</string>
+    <string name="screen_additional_info_label_text_question_hint">Answer to question goes here</string>
 
 
 </resources>

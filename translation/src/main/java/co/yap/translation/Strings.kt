@@ -7,6 +7,7 @@ object Strings {
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
+    const val common_button_continue: String = "common_button_continue"
     const val common_button_submit: String = "common_button_submit"
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
