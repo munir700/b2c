@@ -54,9 +54,8 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                super.onBackPressed()
+                onBackPressed()
             }
         }
     }
-
 }
