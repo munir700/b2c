@@ -108,7 +108,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             SendMoneyType.sendMoneyToHomeCountry.ordinal -> {
-                launchActivity<SMHomeCountryActivity>()
+                launchActivity<SMHomeCountryActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY)
             }
             SendMoneyType.sendMoneyQRCode.ordinal -> {
                 checkPermission(cameraPer)
@@ -228,6 +228,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                     }
                 }
                 RequestCodes.REQUEST_Y2Y_TRANSFER -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        finish()
+                    }
+                }
+                RequestCodes.REQUEST_TRANSFER_MONEY -> {
                     if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
                         finish()
                     }
