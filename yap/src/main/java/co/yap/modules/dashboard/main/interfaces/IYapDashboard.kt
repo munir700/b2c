@@ -26,6 +26,7 @@ interface IYapDashboard {
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
+        fun getAccountInfo(): String
         val showUnverifedscreen: MutableLiveData<Boolean>
         fun resendVerificationEmail()
         fun logout()

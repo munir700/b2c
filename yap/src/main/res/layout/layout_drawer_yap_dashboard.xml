@@ -198,7 +198,7 @@
                             android:layout_marginEnd="@dimen/margin_small"
                             android:gravity="center"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
-                            android:text="Copy"
+                            android:text="Share"
                             android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
                             app:btn_pressed_color="@color/disabledLight"
                             app:btn_round_radius="@dimen/_10sdp"
