@@ -25,6 +25,8 @@
             android:orientation="vertical">
 
             <!--     Notification Center       -->
+
+            <!--     Content Graph Center       -->
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/rvNotificationList"
                 android:layout_width="match_parent"
