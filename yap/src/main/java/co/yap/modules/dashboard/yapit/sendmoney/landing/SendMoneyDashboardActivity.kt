@@ -108,7 +108,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             SendMoneyType.sendMoneyToHomeCountry.ordinal -> {
-                launchActivity<SMHomeCountryActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY)
+                launchActivity<SMHomeCountryActivity>()
             }
             SendMoneyType.sendMoneyQRCode.ordinal -> {
                 checkPermission(cameraPer)
@@ -169,11 +169,8 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun openY2YScreen() {
-        launchActivity<YapToYapDashboardActivity>(
-            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
-            type = FeatureSet.YAP_TO_YAP
-        ) {
-            putExtra(YapToYapDashboardActivity.searching, false)
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
+            putExtra(ExtraKeys.Y2Y_SELECTED_TAB_POS.name, false)
         }
     }
 
@@ -208,10 +205,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         fromQR: Boolean = false,
         position: Int = 0
     ) {
-        launchActivity<YapToYapDashboardActivity>(
-            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
-            type = FeatureSet.Y2Y_TRANSFER
-        ) {
+        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
@@ -220,22 +214,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                        finish()
-                    }
-                }
-                RequestCodes.REQUEST_Y2Y_TRANSFER -> {
-                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                        finish()
-                    }
-                }
-                RequestCodes.REQUEST_TRANSFER_MONEY -> {
-                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                        finish()
-                    }
+        when (requestCode) {
+            RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
+                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                    finish()
                 }
             }
         }
