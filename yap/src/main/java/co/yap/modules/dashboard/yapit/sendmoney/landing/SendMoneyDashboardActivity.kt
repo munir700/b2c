@@ -173,7 +173,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
             requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
             type = FeatureSet.YAP_TO_YAP
         ) {
-            putExtra(YapToYapDashboardActivity.searching, false)
+            putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, false)
         }
     }
 
@@ -222,17 +222,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                        finish()
-                    }
-                }
-                RequestCodes.REQUEST_Y2Y_TRANSFER -> {
-                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                        finish()
-                    }
-                }
-                RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST, RequestCodes.REQUEST_Y2Y_TRANSFER, RequestCodes.REQUEST_TRANSFER_MONEY -> {
                     if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
                         finish()
                     }
