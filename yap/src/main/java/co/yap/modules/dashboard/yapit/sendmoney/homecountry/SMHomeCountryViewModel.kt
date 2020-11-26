@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.FxRateRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
@@ -25,6 +28,8 @@ class SMHomeCountryViewModel(application: Application) :
         context,
         mutableListOf()
     )
+    override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
+
     override var benefitsAdapter: SMHomeCountryBenefitsAdapter =
         SMHomeCountryBenefitsAdapter(benefitsList)
 
@@ -101,4 +106,25 @@ class SMHomeCountryViewModel(application: Application) :
 
         }
     }
+
+    override fun getFxRates() {
+        launch(Dispatcher.Background){
+            state.viewState.postValue(true)
+            val response = repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
+            launch {
+                when(response){
+                    is RetroApiResponse.Success ->{
+                        fxRateResponse.value = response.data.data
+                        state.loading = false
+                    }
+                    is RetroApiResponse.Error ->{
+                        state.viewState.value = false
+                        state.viewState.value = response.error.message
+                    }
+                }
+
+            }
+        }
+    }
+
 }

@@ -18,6 +18,8 @@ object DateUtils {
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
     const val FORMAT_TIME_12H = "hh:mm a"
+    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
+
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()

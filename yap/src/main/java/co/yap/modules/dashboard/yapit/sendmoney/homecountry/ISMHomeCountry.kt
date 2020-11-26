@@ -2,8 +2,10 @@ package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -30,6 +32,9 @@ interface ISMHomeCountry {
         fun getHomeCountryRecentBeneficiaries()
         fun handlePressOnView(id: Int)
         fun updateHomeCountry(success: () -> Unit)
+        fun getFxRates()
+       var fxRateResponse: MutableLiveData<FxRateResponse.Data>
+
     }
 
     interface View : IBase.View<ViewModel> {

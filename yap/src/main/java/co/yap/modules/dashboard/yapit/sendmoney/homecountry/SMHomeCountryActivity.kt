@@ -12,6 +12,7 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -19,9 +20,11 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -60,11 +63,15 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                 }
             }
         })
+        viewModel.fxRateResponse.observe(this, Observer {
+            handleFxRateResponse(it)
+        })
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getHomeCountryRecentBeneficiaries()
+        viewModel.getFxRates()
     }
 
     private fun setupCountriesList() {
@@ -171,6 +178,19 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             R.id.ivLeftIcon -> {
                 finish()
             }
+        }
+    }
+
+    private fun handleFxRateResponse(it: FxRateResponse.Data?) {
+        it?.let { fxRate ->
+            viewModel.state.rate?.set("${fxRate.fxRates?.get(0)?.rate}"
+            )
+            viewModel.state.rate?.set(fxRate.value?.amount?.toFormattedCurrency(
+                showCurrency = false,
+                currency = fxRate.toCurrencyCode ?: SessionManager.getDefaultCurrency()
+            ))
+
+            viewModel.state.time?.set(DateUtils.reformatStringDate(fxRate.date.toString(),inputFormatter = DateUtils.SERVER_DATE_FORMAT,outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT))
         }
     }
 }
