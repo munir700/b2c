@@ -52,7 +52,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-       // viewModel.populateSpinnerData.observe(this, countriesListObserver)
+        viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
     private val clickObserver = Observer<Int> {
@@ -90,9 +90,9 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setAutoCompleteText(it: ArrayList<Country>) {
-        mCustomAutoTextAdapter =
+       /* mCustomAutoTextAdapter =
             CustomAutoCompleteAdapter(requireContext(), it)
-        getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
+        getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)*/
         getBinding().bcountries.threshold = 0
         //getBinding().bcountries.setOnTouchListener(touchListener)
         getBinding().bcountries.afterTextChanged { string ->

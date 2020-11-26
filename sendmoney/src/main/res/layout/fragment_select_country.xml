@@ -17,7 +17,66 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
-
+        <TextView
+            android:id="@+id/tvSelectCountryHeading"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+            app:text="@{Strings.screen_add_beneficiary_display_text_country_title}"
+            tools:text="@string/screen_add_beneficiary_display_text_country_title" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHeadingDetail"
+            style="@style/RegularGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/_36sdp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="start"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountryHeading"
+            app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
+            tools:text="@string/screen_add_beneficiary_display_text_select_country" />
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/SmallGrey"
+            android:id="@+id/tvCountrySelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/margin_extra_small"
+            android:paddingTop="@dimen/margin_small"
+            android:drawablePadding="@dimen/_6sdp"
+            android:drawableRight="@drawable/iv_drown_down"
+            android:paddingStart="@dimen/margin_extra_small"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@+id/tvHeadingDetail"
+            app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
+            tools:text="@string/screen_add_beneficiary_display_text_select_country"
+            android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tvHeadingDetail"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:background="@color/greyLight"
+            android:minHeight="@dimen/_15sdp"
+            app:layout_constraintTop_toBottomOf="@+id/tvCountrySelect"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -25,39 +84,8 @@
             app:layout_constraintBottom_toTopOf="@+id/nextButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tvSelectCountryHeading"
-                style="@style/Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:gravity="center"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                app:text="@{Strings.screen_add_beneficiary_display_text_country_title}"
-                tools:text="@string/screen_add_beneficiary_display_text_country_title" />
-
-            <TextView
-                android:id="@+id/tvHeadingDetail"
-                style="@style/RegularGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/_36sdp"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:gravity="start"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
-                tools:text="@string/screen_add_beneficiary_display_text_select_country" />
-
-
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone">
                         <RelativeLayout
                             android:id="@+id/spinner_container"
                             android:layout_width="match_parent"
@@ -92,9 +120,7 @@
                                 android:layout_marginEnd="@dimen/margin_medium_large"
                                 android:background="@color/greyLight"
                                 android:minHeight="@dimen/_15sdp" />
-
                         </RelativeLayout>
-
         </LinearLayout>
 
         <co.yap.widgets.CoreButton

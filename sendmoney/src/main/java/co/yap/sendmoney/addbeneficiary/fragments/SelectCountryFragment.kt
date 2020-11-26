@@ -1,5 +1,6 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -20,6 +21,7 @@ import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_select_country.*
@@ -113,8 +115,36 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                         showToast("No active currencies found for selected country")
                     }
                 }
+
+                R.id.tvCountrySelect -> {
+                    this.launchBottomSheet(itemClickListener = itemListener,
+                        label = "Select Country",
+                        viewType = Constants.VIEW_WITH_FLAG) {}
+                }
             }
         })
+    }
+
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, position: Int) {
+            val country: Country = data as Country
+            setTextSelection(country, position)
+        }
+    }
+
+    private fun setTextSelection(country: Country, position: Int) {
+        viewModel.onCountrySelected(position)
+        tvCountrySelect.text = country.getName()
+        val drawable: Drawable? =
+            requireActivity().getDrawable(country.getFlagDrawableResId(requireContext()))
+        drawable?.setBounds(0, 0, 60, 60)
+        tvCountrySelect.setCompoundDrawables(
+            drawable,
+            null,
+            requireActivity().getDrawable(co.yap.yapcore.R.drawable.iv_drown_down),
+            null
+        )
+
     }
 
     private fun isDefaultCurrencyExist(): Boolean {
