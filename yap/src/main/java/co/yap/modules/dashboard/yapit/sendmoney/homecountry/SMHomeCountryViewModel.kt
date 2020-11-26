@@ -109,16 +109,13 @@ class SMHomeCountryViewModel(application: Application) :
 
     override fun getFxRates() {
         launch(Dispatcher.Background){
-            state.viewState.postValue(true)
             val response = repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
             launch {
                 when(response){
                     is RetroApiResponse.Success ->{
                         fxRateResponse.value = response.data.data
-                        state.loading = false
                     }
                     is RetroApiResponse.Error ->{
-                        state.viewState.value = false
                         state.viewState.value = response.error.message
                     }
                 }

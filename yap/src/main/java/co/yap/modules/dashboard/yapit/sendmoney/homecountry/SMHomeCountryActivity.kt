@@ -40,6 +40,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         super.onCreate(savedInstanceState)
         addObservers()
         setupRecycler()
+        viewModel.getFxRates()
     }
 
     private fun setupRecycler() {
@@ -71,7 +72,6 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     override fun onResume() {
         super.onResume()
         viewModel.getHomeCountryRecentBeneficiaries()
-        viewModel.getFxRates()
     }
 
     private fun setupCountriesList() {
@@ -87,6 +87,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                                 SessionManager.getAccountInfo()
                                 viewModel.populateData(data)
                                 viewModel.getHomeCountryRecentBeneficiaries()
+                                viewModel.getFxRates()
                             }
                         }
                     }
