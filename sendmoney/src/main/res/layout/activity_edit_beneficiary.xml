@@ -349,15 +349,43 @@
                     android:layout_height="wrap_content"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">
-
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/SmallGrey"
+                        android:id="@+id/bcountries"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_extra_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:drawablePadding="@dimen/_6sdp"
+                        android:drawableRight="@drawable/iv_drown_down"
+                        android:paddingStart="@dimen/margin_extra_small"
+                        app:layout_constraintTop_toBottomOf="@+id/tvHeadingDetail"
+                        app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
+                        tools:text="@string/screen_add_beneficiary_display_text_select_country"
+                        android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@color/greyLight"
+                        android:minHeight="@dimen/_15sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/bcountries"
+                        />
                     <co.yap.widgets.country_spinner.CountrySpinner
                         android:id="@+id/spinner"
                         android:layout_width="0dp"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView

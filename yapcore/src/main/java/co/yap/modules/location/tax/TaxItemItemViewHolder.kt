@@ -18,6 +18,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {
+
         val selectedItemListener = object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is Country) {
@@ -35,8 +36,7 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         }
         itemTaxInfoBinding.bcountries.setUpCountryAutoCompleteTextView(
             if (position == 0) taxModel.countries else taxModel.countries.filterNot { it.isoCountryCode2Digit == "AE" },
-            selectedItemListener
-        )
+            selectedItemListener)
         if (position == 0) {
             itemTaxInfoBinding.bcountries.setTextSelection(
                 taxModel.countries.find { it.isoCountryCode2Digit == "AE" },
@@ -47,7 +47,6 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
 //        taxModel.countries.partition { it.isoCountryCode2Digit == "AE" }.let {
         itemTaxInfoBinding.executePendingBindings()
 //        }
-
         //Disable TIN for UAE
         itemTaxInfoBinding.optionsSpinner.setSelection(if (position == 0) taxModel.options.indexOfFirst { it == "No" } else 0)
         itemTaxInfoBinding.optionsSpinner.background =
