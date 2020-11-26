@@ -21,7 +21,7 @@ abstract class ChangePasscodeBaseFragment<V : IBase.ViewModel<*>> :
         }
         if (viewModel is ChangePassCodeBaseViewModel<*>) {
             (viewModel as ChangePassCodeBaseViewModel<*>).parentViewModel =
-                ViewModelProviders.of(activity!!).get(ChangePassCodeViewModel::class.java)
+                ViewModelProviders.of(requireActivity()).get(ChangePassCodeViewModel::class.java)
         }
     }
 }

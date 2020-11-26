@@ -6,7 +6,6 @@ import co.yap.modules.dashboard.more.changepasscode.states.ChangePassCodeState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-
 class ChangePassCodeViewModel(application: Application) :
     BaseViewModel<IChangePassCode.State>(application = application),
     IChangePassCode.ViewModel {
