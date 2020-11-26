@@ -33,6 +33,7 @@
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_70sdp"
             android:layout_marginTop="@dimen/margin_small"
+            app:infoIconVisibility="@{false}"
             app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
             app:cardNickname="@{viewModel.state.cardInfo.alias}"
