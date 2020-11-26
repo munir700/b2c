@@ -31,14 +31,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:leftIcon="@{R.drawable.ic_closeicon}"
-            app:leftIconVisibility="@{true}"
+            app:rightIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_beneficiary_search}"
-            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
-            app:rightTitle="@{viewModel.state.rightButtonText}"
-            app:rightTitleVisibility="@{viewModel.state.rightButtonTextVisibility}"
-            app:titleString="@{viewModel.state.toolbarTitle}"
-            app:titleVisibility="@{!viewModel.state.toolbarTitle.isEmpty()}" />
+            app:rightIcon="@{R.drawable.ic_profile_search_benf}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
