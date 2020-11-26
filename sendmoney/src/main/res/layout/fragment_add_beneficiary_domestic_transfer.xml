@@ -187,7 +187,7 @@
                 android:maxLength="50"
                 android:singleLine="true"
                 android:text="@={viewModel.state.iban}"
-                app:ibanMask="@{`#### #### #### #### #### #### ####`}"
+                app:ibanMask="@{`#### #### #### #### #### #### #### #### ##`}"
                 app:isDrawableShownWhenTextIsEmpty="true"
                 app:popupContentValue="@string/screen_add_beneficiary_display_help_content"
                 tools:drawableRight="@drawable/drawable_transparent" />
@@ -216,7 +216,7 @@
                 android:maxLength="50"
                 android:singleLine="true"
                 android:text="@={viewModel.state.confirmIban}"
-                app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
+                app:ibanMask="@{`#### #### #### #### #### #### #### #### ##`}" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
