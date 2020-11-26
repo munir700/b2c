@@ -17,29 +17,24 @@ val countries: ArrayList<Country> = SessionManager.getCountries()
 fun FragmentActivity.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
-    viewType: Int = Constants.VIEW_WITH_FLAG,
-    selectedCountry: () -> Unit
+    viewType: Int = Constants.VIEW_WITH_FLAG
 ) {
-
-    this.supportFragmentManager?.let {
-        val coreBottomSheet = itemClickListener?.let { itemListener ->
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
             CoreBottomSheet(
-                itemListener,
+                itemClickListener,
                 bottomSheetItems = getCountries(countries, this).toMutableList(),
                 headingLabel = label,
                 viewType = viewType
             )
-        }
-        selectedCountry.invoke()
-        coreBottomSheet?.show(it, "")
+        coreBottomSheet.show(it, "")
     }
 }
 
 fun Fragment.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
-    viewType: Int = Constants.VIEW_WITH_FLAG,
-    selectedCountry: () -> Unit
+    viewType: Int = Constants.VIEW_WITH_FLAG
 ) {
     this.fragmentManager?.let {
         val coreBottomSheet = itemClickListener?.let { itemListener ->
@@ -51,7 +46,6 @@ fun Fragment.launchBottomSheet(
             )
         }
         coreBottomSheet?.show(it, "")
-        selectedCountry.invoke()
     }
 }
 
@@ -69,15 +63,15 @@ private fun getCountries(
     return countries
 }
 
-fun getSelectedCountry(position : String?){
-    val position =
-        countries.indexOf(countries.find { it.isoCountryCode2Digit == position})
+fun getSelectedCountry(selectedIso2DigitCode: String?) {
+    val pos =
+        countries.indexOf(countries.find { it.isoCountryCode2Digit == selectedIso2DigitCode })
     if (oldPosition == -1) {
-        oldPosition = position
+        oldPosition = pos
         countries[oldPosition].isSelected = true
     } else {
         countries[oldPosition].isSelected = false
-        oldPosition = position
+        oldPosition = pos
         countries[oldPosition].isSelected = true
     }
 }

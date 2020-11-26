@@ -126,9 +126,10 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 R.id.bcountries -> {
                     this.launchBottomSheet(itemClickListener = itemListener,
                         label = "Select Country",
-                        viewType = Constants.VIEW_WITH_FLAG) {
-                        getSelectedCountry(viewModel.state.selectedCountryOfResidence?.isoCountryCode2Digit)
-                    }
+                        viewType = Constants.VIEW_WITH_FLAG)
+//                    {
+//                        getSelectedCountry(viewModel.state.selectedCountryOfResidence?.isoCountryCode2Digit)
+//                    }
                 }
             }
         })

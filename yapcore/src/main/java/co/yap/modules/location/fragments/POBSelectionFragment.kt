@@ -66,8 +66,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                 activity?.onBackPressed()
             }
             R.id.bcountries ->{
-                this.launchBottomSheet(itemClickListener = itemListener,label = "Select Country",viewType = Constants.VIEW_WITH_FLAG){
-                }
+                this.launchBottomSheet(itemClickListener = itemListener,label = "Select Country",viewType = Constants.VIEW_WITH_FLAG)
             }
         }
     }
