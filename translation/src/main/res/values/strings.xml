@@ -1150,4 +1150,6 @@
     <string name="screen_qr_funds_transfer_display_text_available_balance">Your available balance is:</string>
     <string name="screen_qr_code_own_uuid_error_message">Scanned QR code belongs to your own YAP account. Please scan another QR code.</string>
 
+    <!-- Dashboard Menu -->
+    <string name="screen_dashboard_menu_display_text_my_profile">My profile</string>
 </resources>

@@ -98,6 +98,13 @@
                             android:layout_marginBottom="@dimen/_2sdp"
                             android:background="@color/greyLight" />
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivSub"
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_marginStart="@dimen/margin_small"
+                            app:srcCompat="@drawable/ic_package_standered" />
+
                         <TextView
                             android:id="@+id/tvAccountType"
                             style="@style/ARegular"
@@ -105,6 +112,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
+                            android:visibility="gone"
                             android:text="Personal"
                             android:textColor="@color/colorPrimaryDarkIcons" />
 
@@ -335,6 +343,12 @@
                 android:visibility="visible">
 
                 <include
+                    android:id="@+id/lLiveChat"
+                    layout="@layout/layout_item_icon_text"
+                    app:icon="@{@drawable/ic_chat}"
+                    app:title='@{"Live chat"}' />
+
+                <include
                     android:id="@+id/lyContact"
                     layout="@layout/layout_item_icon_text"
                     android:visibility="gone"
@@ -409,6 +423,16 @@
                 app:beneficiaryPicture="@{viewModel.state.userNameImage}"
                 app:fullName="@{viewModel.state.fullName}"
                 tools:src="@color/quantum_yellow" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ASmallGrey"
+                android:textSize="@dimen/text_size_c1"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgProfile"
+                android:layout_centerHorizontal="true"
+                app:text="@{Strings.screen_dashboard_menu_display_text_my_profile}" />
 
             <ImageView
                 android:layout_width="@dimen/_42sdp"

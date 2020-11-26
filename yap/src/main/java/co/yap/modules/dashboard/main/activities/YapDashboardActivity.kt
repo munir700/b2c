@@ -406,6 +406,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
             closeDrawer()
         }
+
+        getViewBinding().includedDrawerLayout.lLiveChat.lnAnalytics.setOnClickListener {
+            chatSetup()
+            closeDrawer()
+        }
+
         getViewBinding().includedDrawerLayout.ivSettings.setOnClickListener {
             startActivity(Intent(this, MoreActivity::class.java))
             closeDrawer()
