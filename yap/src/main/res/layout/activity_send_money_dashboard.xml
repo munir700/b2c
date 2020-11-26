@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_medium"
+            android:visibility="@{viewModel.state.isNoRecents ? View.GONE : View.VISIBLE}"
             android:layout_marginEnd="@dimen/margin_normal_large">
 
             <androidx.appcompat.widget.AppCompatTextView
