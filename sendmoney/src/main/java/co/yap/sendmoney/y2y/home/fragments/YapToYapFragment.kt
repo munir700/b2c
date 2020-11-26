@@ -20,6 +20,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -79,6 +80,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             }).attach()
         getBindingView().viewPager.isUserInputEnabled = false
         getBindingView().viewPager.offscreenPageLimit = 1
+        viewModel.parentViewModel?.selectedTabPos?.value?.let {
+            tabLayout.getTabAt(it)?.select()
+        }
     }
 
     private fun setSearchView(show: Boolean) {
@@ -132,7 +136,8 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
 
     private fun openY2YScreen() {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
-            putExtra(YapToYapDashboardActivity.searching, true)
+            putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, true)
+            putExtra(ExtraKeys.Y2Y_SELECTED_TAB_POS.name, tabLayout.selectedTabPosition)
         }
     }
 

@@ -14,6 +14,7 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
 
     override val yapContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
     override var isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var selectedTabPos: MutableLiveData<Int> = MutableLiveData(0)
     override val searchQuery: MutableLiveData<String> = MutableLiveData("")
     override var errorEvent: MutableLiveData<String> = MutableLiveData()
     override var beneficiary: Beneficiary? = null

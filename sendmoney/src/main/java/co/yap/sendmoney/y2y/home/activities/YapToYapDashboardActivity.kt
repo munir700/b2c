@@ -24,11 +24,6 @@ import com.google.android.material.snackbar.Snackbar
 class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INavigator,
     IFragmentHolder {
 
-    companion object {
-        const val searching = "searching"
-        const val data = "payLoad"
-    }
-
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_yap_to_yap_dashboard
     override val viewModel: IY2Y.ViewModel
@@ -43,10 +38,11 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
+        viewModel.isSearching.value = intent.getBooleanExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, false)
         viewModel.beneficiary = intent.getParcelableExtra(Beneficiary::class.java.name)
         viewModel.state.fromQR?.set(intent.getBooleanExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, false))
         viewModel.position = intent.getIntExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name,0)
+        viewModel.selectedTabPos.value = intent.getIntExtra(ExtraKeys.Y2Y_SELECTED_TAB_POS.name,0)
         viewModel.errorEvent.observe(this, errorEvent)
         getBindings().main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
