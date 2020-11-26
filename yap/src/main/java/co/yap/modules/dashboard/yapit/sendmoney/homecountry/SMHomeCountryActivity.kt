@@ -19,7 +19,9 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
+import co.yap.yapcore.helpers.extentions.getSelectedCountry
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -49,7 +51,10 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                     startSendMoneyFlow()
                 }
                 R.id.tvChangeHomeCountry -> {
-                    setupCountriesList()
+                    //setupCountriesList()
+                    this.launchBottomSheet(itemClickListener = bottomSheetItemClickListener,label = "Change home country",viewType = Constants.VIEW_WITH_FLAG){
+                        getSelectedCountry(viewModel.homeCountry?.isoCountryCode2Digit)
+                    }
                 }
                 R.id.tvHideRecents, R.id.recents -> {
                     viewModel.state.isRecentsVisible.set(getBinding().recyclerViewRecents.visibility == View.VISIBLE)
@@ -120,7 +125,18 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             }
         }
     }
-
+    private val bottomSheetItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (viewModel.homeCountry != (data as Country)) {
+                viewModel.homeCountry = data
+                viewModel.updateHomeCountry {
+                    SessionManager.getAccountInfo()
+                    viewModel.populateData(data)
+                    viewModel.getHomeCountryRecentBeneficiaries()
+                }
+            }
+        }
+    }
     private fun startSendMoneyFlow() {
         launchActivity<SMBeneficiaryParentActivity> {
             putExtra(

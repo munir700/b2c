@@ -103,7 +103,8 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDescription">
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+                >
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSelectCountry"
@@ -126,11 +127,12 @@
                     android:dropDownWidth="wrap_content"
                     android:dropDownHeight="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="textAutoComplete|textAutoCorrect"
+                    android:inputType="none"
                     android:lineHeight="@dimen/_1sdp"
                     android:drawablePadding="@dimen/_6sdp"
                     android:nextFocusDown="@id/etCityOfBirth"
                     android:singleLine="true"
+                    android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
                     app:hint="@{Strings.screen_place_of_birth_display_text_select_country}" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 

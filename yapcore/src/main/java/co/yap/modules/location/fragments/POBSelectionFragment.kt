@@ -12,14 +12,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.CustomAutoCompleteAdapter
 import co.yap.modules.location.interfaces.IPOBSelection
 import co.yap.modules.location.viewmodels.POBSelectionViewModel
+import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.getSelectedCountry
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), IPOBSelection.View {
@@ -46,7 +52,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
-        viewModel.populateSpinnerData.observe(this, countriesListObserver)
+       // viewModel.populateSpinnerData.observe(this, countriesListObserver)
     }
 
     private val clickObserver = Observer<Int> {
@@ -59,6 +65,10 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             R.id.ivBackBtn -> {
                 activity?.onBackPressed()
             }
+            R.id.bcountries ->{
+                this.launchBottomSheet(itemClickListener = itemListener,label = "Select Country",viewType = Constants.VIEW_WITH_FLAG){
+                }
+            }
         }
     }
 
@@ -70,6 +80,13 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             )
         }
     }
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, position: Int) {
+            viewModel.state.selectedCountryIndex = position
+            val country: Country = data as Country
+            setTextSelection(country)
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setAutoCompleteText(it: ArrayList<Country>) {
@@ -77,7 +94,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
             CustomAutoCompleteAdapter(requireContext(), it)
         getBinding().bcountries.setAdapter(mCustomAutoTextAdapter)
         getBinding().bcountries.threshold = 0
-        getBinding().bcountries.setOnTouchListener(touchListener)
+        //getBinding().bcountries.setOnTouchListener(touchListener)
         getBinding().bcountries.afterTextChanged { string ->
             if (string.isEmpty()) {
                 getBinding().bcountries.setCompoundDrawablesWithIntrinsicBounds(
@@ -87,7 +104,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                     null
                 )
 
-                getBinding().bcountries.showDropDown()
+              //  getBinding().bcountries.showDropDown()
             }
             /*  if (mCustomAutoTextAdapter?.getFilteredCount()?:0 <=3){
                   getBinding().bcountries.dropDownHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
@@ -96,7 +113,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
                   getBinding().bcountries.dropDownHeight = resources.getDimensionPixelSize(R.dimen._80sdp)
               }*/
         }
-        getBinding().bcountries.onItemClickListener = itemClickListener
+       // getBinding().bcountries.onItemClickListener = itemClickListener
 
 
 //        setTextSelection(getDefaultCuntry())
@@ -131,7 +148,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         getBinding().bcountries.setCompoundDrawables(
             drawable,
             null,
-            null,
+            requireActivity().getDrawable(R.drawable.iv_drown_down),
             null
         )
     }

@@ -9,14 +9,18 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.adapters.CountryAdapter
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.widgets.bottomsheet.CoreBottomSheet
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
@@ -142,5 +146,34 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             null,
             navOptions
         )
+    }
+
+
+    private fun setupCountriesList() {
+        val countries: java.util.ArrayList<Country> = SessionManager.getCountries()
+        this.fragmentManager?.let {
+            val coreBottomSheet = CoreBottomSheet(
+                object :
+                    OnItemClickListener {
+                    override fun onItemClick(view: View, data: Any, pos: Int) {
+                    }
+                },
+                bottomSheetItems = getCountries(countries).toMutableList(),
+                headingLabel = "Change home country",
+                viewType = Constants.VIEW_WITH_FLAG
+            )
+            coreBottomSheet.show(it, "")
+        }
+    }
+
+    private fun getCountries(countries: java.util.ArrayList<Country>): java.util.ArrayList<Country> {
+        countries.filter { it.isoCountryCode2Digit != "AE" }.forEach {
+            it.subTitle = it.getName()
+            it.sheetImage = CurrencyUtils.getFlagDrawable(
+                requireContext(),
+                it.isoCountryCode2Digit.toString()
+            )
+        }
+        return countries
     }
 }

@@ -21,6 +21,7 @@ interface IPOBSelection {
         fun saveDOBInfo(success: () -> Unit)
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<ArrayList<Country>>
+        var selectedCountry:Country?
     }
 
     interface State : IBase.State {

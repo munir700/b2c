@@ -199,8 +199,9 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
 
             R.id.btnLocation -> {
-                onMapClickAction()
-                removeAutoCompleteFocus()
+                /*onMapClickAction()
+                removeAutoCompleteFocus()*/
+                navigate(R.id.action_locationSelectionFragment_to_POBSelectionFragment)
             }
 
             R.id.ivClose -> {

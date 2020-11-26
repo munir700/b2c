@@ -11,6 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 class POBSelectionViewModel(application: Application) :
     LocationChildViewModel<IPOBSelection.State>(application),
@@ -18,6 +19,8 @@ class POBSelectionViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State = POBSelectionState()
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
+    override var selectedCountry: Country?= null
+
     override val repository: CustomersRepository = CustomersRepository
 
     override fun handleOnPressView(id: Int) {
@@ -26,6 +29,8 @@ class POBSelectionViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        selectedCountry = SessionManager.getCountries()
+            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
         getAllCountries()
     }
 
