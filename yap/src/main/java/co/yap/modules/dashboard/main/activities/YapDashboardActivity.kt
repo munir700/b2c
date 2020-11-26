@@ -56,6 +56,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -241,7 +242,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
+                R.id.btnCopy -> shareAccountInfo()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
                     startActivity(MoreActivity.newIntent(this))
@@ -260,6 +261,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 showUnverifiedPopup()
             }
         })
+    }
+
+    private fun shareAccountInfo() {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun showUnverifiedPopup() {
@@ -418,6 +426,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             )
             closeDrawer()
         }
+
+        getViewBinding().includedDrawerLayout.lLiveChat.lnAnalytics.setOnClickListener {
+            chatSetup()
+            closeDrawer()
+        }
+
         getViewBinding().includedDrawerLayout.ivSettings.setOnClickListener {
             startActivity(Intent(this, MoreActivity::class.java))
             closeDrawer()
@@ -484,7 +498,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun openY2YScreen() {
         launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
-            putExtra(YapToYapDashboardActivity.searching, false)
+            putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, false)
         }
     }
 

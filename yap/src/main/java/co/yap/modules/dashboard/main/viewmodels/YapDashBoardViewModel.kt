@@ -43,6 +43,16 @@ class YapDashBoardViewModel(application: Application) :
         state.toast = "Copied to clipboard"
     }
 
+
+    override fun getAccountInfo(): String {
+        return "Name: ${SessionManager.user?.currentCustomer?.getFullName()}\n" +
+                "IBAN: ${SessionManager.user?.iban}\n" +
+                "Swift/BIC: ${SessionManager.user?.bank?.swiftCode}\n" +
+                "Account: ${SessionManager.user?.accountNo}\n" +
+                "Bank: ${SessionManager.user?.bank?.name}\n" +
+                "Address: ${SessionManager.user?.bank?.address}\n"
+    }
+
     override fun onCreate() {
         super.onCreate()
         updateVersion()

@@ -1,17 +1,19 @@
 package co.yap.sendmoney.y2y.transfer.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
-import co.yap.sendmoney.R
 import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentY2yFundsTransferSuccessBinding
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.sendmoney.y2y.transfer.interfaces.IY2YFundsTransferSuccess
 import co.yap.sendmoney.y2y.transfer.viewmodels.Y2YFundsTransferSuccessViewModel
-
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
@@ -30,7 +32,7 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
         super.onCreate(savedInstanceState)
         SessionManager.updateCardBalance {}
         viewModel.clickEvent.observe(this, Observer {
-            activity?.finish()
+            setResultAndFinish()
         })
     }
 
@@ -59,6 +61,13 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
         )
     }
 
+    private fun setResultAndFinish() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
+    }
+  
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()

@@ -1851,4 +1851,6 @@ object Strings {
         "screen_qr_funds_transfer_display_text_available_balance"
     const val screen_qr_code_own_uuid_error_message: String =
         "screen_qr_code_own_uuid_error_message"
+    const val screen_dashboard_menu_display_text_my_profile: String =
+        "screen_dashboard_menu_display_text_my_profile"
 }

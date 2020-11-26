@@ -756,7 +756,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTopUpScreen() {
-        launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+        launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
