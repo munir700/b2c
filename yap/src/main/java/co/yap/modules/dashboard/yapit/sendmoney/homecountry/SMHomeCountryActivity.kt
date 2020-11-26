@@ -190,7 +190,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                 currency = fxRate.toCurrencyCode ?: SessionManager.getDefaultCurrency()
             ))
 
-            viewModel.state.time?.set(DateUtils.reformatStringDate(fxRate.date.toString(),inputFormatter = DateUtils.SERVER_DATE_FORMAT,outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT))
+            viewModel.state.time?.set(DateUtils.reformatLiveStringDate(fxRate.date.toString(),inputFormatter = DateUtils.SERVER_DATE_FORMAT,outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT))
         }
     }
 }

@@ -73,6 +73,22 @@ object DateUtils {
         return result
 
     }
+    fun reformatLiveStringDate(
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
+    ): String {
+        var result = ""
+        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        try {
+            formatter.timeZone = TIME_ZONE_Default
+            result = formatter.format(stringToDate(date, inputFormatter ?: ""))
+        } catch (e: Exception) {
+        }
+
+        return result
+
+    }
 
     fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
         return try {
