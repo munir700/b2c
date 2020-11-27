@@ -1,13 +1,9 @@
 package co.yap.modules.location.tax
 
-import android.graphics.drawable.Drawable
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
-import co.yap.countryutils.country.Country
 import co.yap.yapcore.R
 import co.yap.yapcore.databinding.ItemTaxInfoBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
-import com.ezaka.customer.app.utils.getActivityFromContext
 
 class TaxInfoItemViewModel(
     val taxModel: TaxModel,
@@ -37,9 +33,6 @@ class TaxInfoItemViewModel(
             }
             R.id.lyAddCountry -> {
                 taxModel.canAddMore.set(false)
-            }
-            R.id.tvCountrySelect ->{
-
             }
         }
         onItemClickListener?.onItemClick(view, taxModel, position)

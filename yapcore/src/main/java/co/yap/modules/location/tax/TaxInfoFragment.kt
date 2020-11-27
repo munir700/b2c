@@ -12,6 +12,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
 
 class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
@@ -54,6 +55,10 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
             }
             R.id.ivBackBtn -> {
                 activity?.onBackPressed()
+            }
+
+            R.id.tvSelectCountry -> {
+                this.launchBottomSheet()
             }
         }
     }

@@ -43,7 +43,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
-    var terminateProcess: Boolean = false
 
     override val viewModel: IEditBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
@@ -128,9 +127,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         itemClickListener = itemListener,
                         label = "Select Country",
                         viewType = Constants.VIEW_WITH_FLAG)
-//                    {
-//                        getSelectedCountry(viewModel.state.selectedCountryOfResidence?.isoCountryCode2Digit)
-//                    }
                 }
             }
         })
@@ -167,13 +163,15 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     }
 
     private fun setTextSelection(country: Country) {
-        getBinding().bcountries.setText(country.getName())
+        getBinding().bcountries.text = country.getName()
+        getBinding().bcountries.setTextColor(getColors(R.color.colorPrimaryDark))
+        getBinding().tvSelectCountry.setTextColor(getColors(R.color.greyDark))
         val drawable: Drawable? = getDrawable(country.getFlagDrawableResId(this))
         drawable?.setBounds(0, 0, 60, 60)
         getBinding().bcountries.setCompoundDrawables(
             drawable,
             null,
-            getDrawable(co.yap.yapcore.R.drawable.iv_drown_down),
+            getDrawable(R.drawable.iv_drown_down),
             null
         )
     }

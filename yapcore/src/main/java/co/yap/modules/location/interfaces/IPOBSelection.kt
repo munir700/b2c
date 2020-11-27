@@ -22,6 +22,7 @@ interface IPOBSelection {
         var clickEvent: SingleClickEvent
         var populateSpinnerData: MutableLiveData<ArrayList<Country>>
         var selectedCountry:Country?
+        fun getAllCountries()
     }
 
     interface State : IBase.State {

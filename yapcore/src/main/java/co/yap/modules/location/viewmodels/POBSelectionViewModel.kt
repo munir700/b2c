@@ -9,6 +9,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.BirthInfoRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.SessionManager
@@ -34,25 +35,27 @@ class POBSelectionViewModel(application: Application) :
         getAllCountries()
     }
 
-
-
-
-    private fun getAllCountries() {
+    override fun getAllCountries() {
         if (!parentViewModel?.countries.isNullOrEmpty()) {
             populateSpinnerData.setValue(parentViewModel?.countries)
         } else {
-            launch {
-                state.loading = true
-                when (val response = repository.getAllCountries()) {
-                    is RetroApiResponse.Success -> {
-                        populateSpinnerData.value = Utils.parseCountryList(response.data.data,addOIndex = false)
-                        parentViewModel?.countries = populateSpinnerData.value as ArrayList<Country>
-                        state.loading = false
-                    }
+            launch(Dispatcher.Background) {
+                state.viewState.postValue(true)
+                val response = repository.getAllCountries()
+                launch {
+                    when (response) {
+                        is RetroApiResponse.Success -> {
+                            populateSpinnerData.value =
+                                Utils.parseCountryList(response.data.data, addOIndex = false)
+                            parentViewModel?.countries =
+                                populateSpinnerData.value as ArrayList<Country>
+                            state.viewState.value = false
+                        }
 
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.toast = response.error.message
+                        is RetroApiResponse.Error -> {
+                            state.viewState.value = false
+                            state.toast = response.error.message
+                        }
                     }
                 }
             }

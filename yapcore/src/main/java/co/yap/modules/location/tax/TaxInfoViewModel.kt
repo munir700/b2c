@@ -111,6 +111,9 @@ class TaxInfoViewModel(application: Application) :
                 R.id.reasonsSpinner -> { // on reason selected
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
+                R.id.tvSelectCountry -> {
+                    clickEvent.setValue(R.id.tvSelectCountry)
+                }
             }
         }
     }

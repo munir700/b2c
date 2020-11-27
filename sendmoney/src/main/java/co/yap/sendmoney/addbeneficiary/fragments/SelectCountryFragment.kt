@@ -21,6 +21,7 @@ import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -117,9 +118,13 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                 }
 
                 R.id.tvCountrySelect -> {
-                    this.launchBottomSheet(itemClickListener = itemListener,
+                    this.launchBottomSheet(
+                        itemClickListener = itemListener,
                         label = "Select Country",
-                        viewType = Constants.VIEW_WITH_FLAG) 
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = SessionManager.getCountries()
+                            .filter { country -> country.isoCountryCode2Digit != "AE" }
+                    )
                 }
             }
         })
@@ -135,6 +140,8 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     private fun setTextSelection(country: Country, position: Int) {
         viewModel.onCountrySelected(position)
         tvCountrySelect.text = country.getName()
+        tvCountrySelect.setTextColor(requireContext().getColors(R.color.colorPrimaryDark))
+        tvHeadingDetail.setTextColor(requireContext().getColors(R.color.greyDark))
         val drawable: Drawable? =
             requireActivity().getDrawable(country.getFlagDrawableResId(requireContext()))
         drawable?.setBounds(0, 0, 60, 60)

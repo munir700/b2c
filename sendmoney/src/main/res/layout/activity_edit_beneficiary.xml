@@ -365,6 +365,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvHeadingDetail"
                         app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
                         tools:text="@string/screen_add_beneficiary_display_text_select_country"
+                        android:drawableEnd="@drawable/iv_drown_down"
                         android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                         />
                     <View
