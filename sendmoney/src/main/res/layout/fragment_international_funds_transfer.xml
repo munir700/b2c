@@ -215,6 +215,7 @@
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.toFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
+                        tools:textColor="@color/colorPrimaryDark"
                         tools:text="X AED" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -235,6 +236,7 @@
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.fromFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
+                        tools:textColor="@color/colorPrimaryDark"
                         tools:text="X CAD" />
                 </LinearLayout>
 

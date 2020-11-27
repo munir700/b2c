@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.CustomersRepository
@@ -28,8 +27,6 @@ class SMHomeCountryViewModel(application: Application) :
         context,
         mutableListOf()
     )
-    override var fxRateResponse: MutableLiveData<FxRateResponse.Data> = MutableLiveData()
-
     override var benefitsAdapter: SMHomeCountryBenefitsAdapter =
         SMHomeCountryBenefitsAdapter(benefitsList)
 
@@ -51,9 +48,6 @@ class SMHomeCountryViewModel(application: Application) :
    override fun populateData(hc: Country) {
        state.name?.set(hc.getName())
        state.countryCode?.set(hc.isoCountryCode2Digit)
-       state.rate?.set("0.357014")
-       state.symbol?.set(hc.getCurrency()?.code)
-       state.time?.set("04/10/2020, 2:30 PM")
    }
 
     override fun getHomeCountryRecentBeneficiaries() {
@@ -107,21 +101,22 @@ class SMHomeCountryViewModel(application: Application) :
         }
     }
 
-    override fun getFxRates() {
-        launch(Dispatcher.Background){
-            val response = repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
+    override fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit) {
+        launch(Dispatcher.Background) {
+            val response =
+                repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
             launch {
-                when(response){
-                    is RetroApiResponse.Success ->{
-                        fxRateResponse.value = response.data.data
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.showExchangeRate.set(true)
+                        fxRate.invoke(response.data.data)
                     }
-                    is RetroApiResponse.Error ->{
+                    is RetroApiResponse.Error -> {
+                        state.showExchangeRate.set(false)
                         state.viewState.value = response.error.message
                     }
                 }
-
             }
         }
     }
-
 }

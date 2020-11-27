@@ -24,7 +24,6 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -40,7 +39,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         super.onCreate(savedInstanceState)
         addObservers()
         setupRecycler()
-        viewModel.getFxRates()
+        viewModel.getFxRates { response -> handleFxRateResponse(response) }
     }
 
     private fun setupRecycler() {
@@ -64,9 +63,6 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                 }
             }
         })
-        viewModel.fxRateResponse.observe(this, Observer {
-            handleFxRateResponse(it)
-        })
     }
 
     override fun onResume() {
@@ -87,7 +83,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                                 SessionManager.getAccountInfo()
                                 viewModel.populateData(data)
                                 viewModel.getHomeCountryRecentBeneficiaries()
-                                viewModel.getFxRates()
+                                viewModel.getFxRates { response -> handleFxRateResponse(response) }
                             }
                         }
                     }
@@ -184,14 +180,15 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
 
     private fun handleFxRateResponse(it: FxRateResponse.Data?) {
         it?.let { fxRate ->
-            viewModel.state.rate?.set("${fxRate.fxRates?.get(0)?.rate}"
+            viewModel.state.rate?.set("${fxRate.fxRates?.get(0)?.rate}")
+            viewModel.state.homeCountryCurrency?.set(fxRate.toCurrencyCode)
+            viewModel.state.time?.set(
+                DateUtils.reformatLiveStringDate(
+                    fxRate.date.toString(),
+                    inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                    outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT
+                )
             )
-            viewModel.state.rate?.set(fxRate.value?.amount?.toFormattedCurrency(
-                showCurrency = false,
-                currency = fxRate.toCurrencyCode ?: SessionManager.getDefaultCurrency()
-            ))
-
-            viewModel.state.time?.set(DateUtils.reformatLiveStringDate(fxRate.date.toString(),inputFormatter = DateUtils.SERVER_DATE_FORMAT,outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT))
         }
     }
 }
