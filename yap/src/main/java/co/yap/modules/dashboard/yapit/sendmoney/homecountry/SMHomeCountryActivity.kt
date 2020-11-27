@@ -79,14 +79,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (viewModel.homeCountry != (data as Country)) {
                 viewModel.homeCountry = data
-                viewModel.updateHomeCountry {
-                    SessionManager.getAccountInfo()
-                    viewModel.populateData(data)
-                    viewModel.getHomeCountryRecentBeneficiaries()
-                    viewModel.getFxRates(
-                        iso2DigitCountryCode = data.isoCountryCode2Digit ?: ""
-                    ) { response -> viewModel.handleFxRateResponse(response) }
-                }
+                viewModel.UpdateAndSyncHomeCountry()
             }
         }
     }
