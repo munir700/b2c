@@ -96,8 +96,10 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
     }
 
-    private fun getCountries(countries: ArrayList<Country>): ArrayList<Country> {
-        countries.filter { it.isoCountryCode2Digit != "AE" }.forEach {
+    private fun getCountries(countries: ArrayList<Country>): List<Country> {
+        val countriesWithoutUAE = countries.filter { it.isoCountryCode2Digit != "AE" }
+
+        countriesWithoutUAE.forEach {
             it.subTitle = it.getName()
             it.sheetImage = CurrencyUtils.getFlagDrawable(
                 context,
@@ -106,17 +108,17 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
 
         val position =
-            countries.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
+            countriesWithoutUAE.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
         if (oldPosition == -1) {
             oldPosition = position
-            countries[oldPosition].isSelected = true
+            countriesWithoutUAE[oldPosition].isSelected = true
         } else {
-            countries[oldPosition].isSelected = false
+            countriesWithoutUAE[oldPosition].isSelected = false
             oldPosition = position
-            countries[oldPosition].isSelected = true
+            countriesWithoutUAE[oldPosition].isSelected = true
         }
 
-        return countries
+        return countriesWithoutUAE
     }
 
     private val itemClickListener = object : OnItemClickListener {
