@@ -84,6 +84,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerCurrency"
+                android:visibility="@{viewModel.state.showExchangeRate ? View.VISIBLE : View.GONE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -127,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_extra_small"
                     android:layout_marginBottom="@dimen/margin_extra_small"
-                    android:text="@{viewModel.state.symbol}"
+                    android:text="@{viewModel.state.homeCountryCurrency}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvConversionRate"
                     app:layout_constraintStart_toEndOf="@id/tvConversionRate"
                     tools:text="CAD" />
