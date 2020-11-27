@@ -77,7 +77,13 @@
                 android:textSize="@dimen/text_size_h2"
                 app:layout_constraintStart_toEndOf="@+id/tvAvailableBalanceTitle"
                 app:layout_constraintTop_toBottomOf="@id/glContent" />
-
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glContent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/_100sdp"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirmVirtualCardPurchase"
                 style="@style/FragmentsBtnStyle"
@@ -90,18 +96,13 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_add_spare_card_button_confirm_purchase"
                 android:textAllCaps="false"
+                app:layout_constraintVertical_bias="1"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/glContent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceTitle"
                 app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/glContent"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/_100sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include

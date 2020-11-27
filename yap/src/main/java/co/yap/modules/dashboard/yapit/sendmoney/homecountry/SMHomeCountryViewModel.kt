@@ -5,8 +5,10 @@ import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.FxRateRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
@@ -46,9 +48,6 @@ class SMHomeCountryViewModel(application: Application) :
    override fun populateData(hc: Country) {
        state.name?.set(hc.getName())
        state.countryCode?.set(hc.isoCountryCode2Digit)
-       state.rate?.set("0.357014")
-       state.symbol?.set(hc.getCurrency()?.code)
-       state.time?.set("04/10/2020, 2:30 PM")
    }
 
     override fun getHomeCountryRecentBeneficiaries() {
@@ -99,6 +98,25 @@ class SMHomeCountryViewModel(application: Application) :
                 }
             }
 
+        }
+    }
+
+    override fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit) {
+        launch(Dispatcher.Background) {
+            val response =
+                repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        state.showExchangeRate.set(true)
+                        fxRate.invoke(response.data.data)
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.showExchangeRate.set(false)
+                        state.viewState.value = response.error.message
+                    }
+                }
+            }
         }
     }
 }

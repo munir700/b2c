@@ -11,6 +11,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 
@@ -100,4 +101,5 @@ interface CustomersApi {
     suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
     suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
     suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
+    suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse>
 }
