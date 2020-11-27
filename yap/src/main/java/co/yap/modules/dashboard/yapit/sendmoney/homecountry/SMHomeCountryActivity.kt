@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -122,7 +124,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     }
 
     private fun startSendMoneyFlow() {
-        launchActivity<SMBeneficiaryParentActivity> {
+        launchActivity<SMBeneficiaryParentActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
             putExtra(
                 ExtraKeys.SEND_MONEY_TYPE.name,
                 SendMoneyTransferType.HOME_COUNTRY.name
@@ -139,6 +141,26 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        setResultData()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     private fun getBinding(): ActivitySmHomeCountryBinding =

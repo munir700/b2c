@@ -30,6 +30,7 @@
             android:id="@+id/paymentCard"
             android:layout_width="@dimen/_220sdp"
             android:layout_height="@dimen/_139sdp"
+            app:infoIconVisibility="@{false}"
             app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
             app:cardNickname="@{viewModel.state.cardInfo.alias}"

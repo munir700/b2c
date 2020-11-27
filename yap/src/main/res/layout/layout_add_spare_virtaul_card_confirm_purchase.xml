@@ -77,24 +77,6 @@
                 android:textSize="@dimen/text_size_h2"
                 app:layout_constraintStart_toEndOf="@+id/tvAvailableBalanceTitle"
                 app:layout_constraintTop_toBottomOf="@id/glContent" />
-
-            <co.yap.widgets.CoreButton
-                android:id="@+id/btnConfirmVirtualCardPurchase"
-                style="@style/FragmentsBtnStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:btn_size="small"
-                android:layout_marginTop="@dimen/margin_btn_side_paddings"
-                android:layout_marginBottom="@dimen/margin_extra_large"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:text="@string/screen_add_spare_card_button_confirm_purchase"
-                android:textAllCaps="false"
-                app:btn_enable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
-
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/glContent"
                 android:layout_width="match_parent"
@@ -102,6 +84,26 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="@dimen/_100sdp"
                 app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnConfirmVirtualCardPurchase"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:btn_size="small"
+                android:layout_marginTop="@dimen/margin_btn_side_paddings"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:text="@string/screen_add_spare_card_button_confirm_purchase"
+                android:textAllCaps="false"
+                app:layout_constraintVertical_bias="1"
+                app:btn_enable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceTitle"
+                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
