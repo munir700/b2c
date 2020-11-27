@@ -195,7 +195,7 @@ class SelectCountryViewModel(application: Application) :
     }
 
     override fun onCountrySelected(pos: Int) {
-        if (pos == 0) {
+        if (pos == -1) {
             state.selectedCountry = null
         } else {
             val country: Country = countries[pos]

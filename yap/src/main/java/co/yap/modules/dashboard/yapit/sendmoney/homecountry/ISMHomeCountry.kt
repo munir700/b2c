@@ -30,8 +30,9 @@ interface ISMHomeCountry {
         fun populateData(hc: Country)
         fun getHomeCountryRecentBeneficiaries()
         fun handlePressOnView(id: Int)
-        fun updateHomeCountry(success: () -> Unit)
-        fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit)
+        fun getFxRates(iso2DigitCountryCode: String,fxRate: (FxRateResponse.Data) -> Unit)
+        fun handleFxRateResponse(it: FxRateResponse.Data?)
+        fun UpdateAndSyncHomeCountry()
     }
 
     interface View : IBase.View<ViewModel> {
