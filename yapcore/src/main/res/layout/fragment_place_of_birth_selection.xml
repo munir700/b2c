@@ -98,40 +98,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSelectCountry"
-                    style="@style/ASmallGrey"
+                    style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
                     android:gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:text="@string/screen_place_of_birth_display_text_select_country"
                     app:layout_constraintStart_toStartOf="parent"
                     app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
                     tools:text="@string/screen_place_of_birth_display_text_select_country" />
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/bcountries"
+                    style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit_text_disable_grey_under_line"
                     android:drawableEnd="@drawable/iv_drown_down"
-                    android:dropDownAnchor="@+id/containerAutoText"
-                    android:dropDownWidth="wrap_content"
-                    android:dropDownHeight="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textAutoComplete|textAutoCorrect"
-                    android:lineHeight="@dimen/_1sdp"
-                    android:drawablePadding="@dimen/_6sdp"
-                    android:nextFocusDown="@id/etCityOfBirth"
-                    android:singleLine="true"
-                    app:hint="@{Strings.screen_place_of_birth_display_text_select_country}" />
+                    android:drawablePadding="@dimen/margin_small"
+                    android:gravity="center_vertical"
+                    android:onClick="@{(v) -> viewModel.handleOnPressView(v.id)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:text="@{Strings.screen_place_of_birth_display_text_select_country}"
+                    tools:text="@string/screen_add_beneficiary_display_text_select_country" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
