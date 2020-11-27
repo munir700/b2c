@@ -9,10 +9,11 @@ class SMHomeCountryState : BaseState(), ISMHomeCountry.State {
     override var countryCode: ObservableField<String>? = ObservableField()
     override var name: ObservableField<String>? = ObservableField()
     override var rate: ObservableField<String>? = ObservableField()
-    override var symbol: ObservableField<String>? = ObservableField()
+    override var homeCountryCurrency: ObservableField<String>? = ObservableField()
     override var time: ObservableField<String>? = ObservableField()
     override var rightButtonText: ObservableField<String> = ObservableField("")
     override var isNoRecentsBeneficiries: ObservableBoolean = ObservableBoolean(true)
     override var isRecentsVisible: ObservableBoolean = ObservableBoolean(false)
+    override var showExchangeRate: ObservableBoolean = ObservableBoolean(false)
 
 }

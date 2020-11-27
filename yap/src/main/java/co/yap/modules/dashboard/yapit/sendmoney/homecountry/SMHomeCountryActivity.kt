@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,6 +12,7 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.widgets.bottomsheet.CoreBottomSheet
@@ -17,6 +20,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
@@ -35,6 +39,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         super.onCreate(savedInstanceState)
         addObservers()
         setupRecycler()
+        viewModel.getFxRates { response -> handleFxRateResponse(response) }
     }
 
     private fun setupRecycler() {
@@ -78,6 +83,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                                 SessionManager.getAccountInfo()
                                 viewModel.populateData(data)
                                 viewModel.getHomeCountryRecentBeneficiaries()
+                                viewModel.getFxRates { response -> handleFxRateResponse(response) }
                             }
                         }
                     }
@@ -90,8 +96,10 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
     }
 
-    private fun getCountries(countries: ArrayList<Country>): ArrayList<Country> {
-        countries.filter { it.isoCountryCode2Digit != "AE" }.forEach {
+    private fun getCountries(countries: ArrayList<Country>): List<Country> {
+        val countriesWithoutUAE = countries.filter { it.isoCountryCode2Digit != "AE" }
+
+        countriesWithoutUAE.forEach {
             it.subTitle = it.getName()
             it.sheetImage = CurrencyUtils.getFlagDrawable(
                 context,
@@ -100,17 +108,17 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
 
         val position =
-            countries.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
+            countriesWithoutUAE.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
         if (oldPosition == -1) {
             oldPosition = position
-            countries[oldPosition].isSelected = true
+            countriesWithoutUAE[oldPosition].isSelected = true
         } else {
-            countries[oldPosition].isSelected = false
+            countriesWithoutUAE[oldPosition].isSelected = false
             oldPosition = position
-            countries[oldPosition].isSelected = true
+            countriesWithoutUAE[oldPosition].isSelected = true
         }
 
-        return countries
+        return countriesWithoutUAE
     }
 
     private val itemClickListener = object : OnItemClickListener {
@@ -122,7 +130,7 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
     }
 
     private fun startSendMoneyFlow() {
-        launchActivity<SMBeneficiaryParentActivity> {
+        launchActivity<SMBeneficiaryParentActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
             putExtra(
                 ExtraKeys.SEND_MONEY_TYPE.name,
                 SendMoneyTransferType.HOME_COUNTRY.name
@@ -141,6 +149,26 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        setResultData()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
     private fun getBinding(): ActivitySmHomeCountryBinding =
         (viewDataBinding as ActivitySmHomeCountryBinding)
 
@@ -149,6 +177,20 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             R.id.ivLeftIcon -> {
                 finish()
             }
+        }
+    }
+
+    private fun handleFxRateResponse(it: FxRateResponse.Data?) {
+        it?.let { fxRate ->
+            viewModel.state.rate?.set("${fxRate.fxRates?.get(0)?.rate}")
+            viewModel.state.homeCountryCurrency?.set(fxRate.toCurrencyCode)
+            viewModel.state.time?.set(
+                DateUtils.reformatLiveStringDate(
+                    fxRate.date.toString(),
+                    inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                    outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT
+                )
+            )
         }
     }
 }
