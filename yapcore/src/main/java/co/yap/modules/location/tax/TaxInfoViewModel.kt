@@ -98,9 +98,6 @@ class TaxInfoViewModel(application: Application) :
                     )
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }
-                R.id.spinner_container -> { // on country selected login
-                    state.valid.set(isTaxInfoValid(taxInfoList))
-                }
                 R.id.etTinNumber -> { // on tin number change
                     state.valid.set(isTaxInfoValid(taxInfoList))
                 }

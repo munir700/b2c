@@ -41,22 +41,8 @@ fun Fragment.launchBottomSheet(
     viewType: Int = Constants.VIEW_WITH_FLAG,
     countriesList: List<Country>? = SessionManager.getCountries()
 ) {
-    this.fragmentManager?.let {
-        val coreBottomSheet = itemClickListener?.let { itemListener ->
-            CoreBottomSheet(
-                itemListener,
-                bottomSheetItems = parseCountries(
-                    requireContext(),
-                    countriesList as ArrayList<Country>
-                ).toMutableList(),
-                headingLabel = label,
-                viewType = viewType
-            )
-        }
-        coreBottomSheet?.show(it, "")
-    }
+    this.requireActivity().launchBottomSheet(itemClickListener, label, viewType, countriesList)
 }
-
 
 private fun parseCountries(context: Context, countries: ArrayList<Country>): ArrayList<Country> {
     countries.forEach {
