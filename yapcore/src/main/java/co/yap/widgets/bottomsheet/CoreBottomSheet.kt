@@ -79,10 +79,9 @@ class CoreBottomSheet(
             super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener { dialog ->
             bottomSheetDialog.behavior.saveFlags = BottomSheetBehavior.SAVE_SKIP_COLLAPSED
-            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return bottomSheetDialog
-
     }
 
     override fun showLoader(isVisible: Boolean) {

@@ -119,7 +119,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                 R.id.tvCountrySelect -> {
                     this.launchBottomSheet(itemClickListener = itemListener,
                         label = "Select Country",
-                        viewType = Constants.VIEW_WITH_FLAG) {}
+                        viewType = Constants.VIEW_WITH_FLAG) 
                 }
             }
         })

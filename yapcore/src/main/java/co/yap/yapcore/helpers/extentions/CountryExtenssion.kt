@@ -11,19 +11,21 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
-var oldPosition = -1
-val countries: ArrayList<Country> = SessionManager.getCountries()
 
 fun FragmentActivity.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
-    viewType: Int = Constants.VIEW_WITH_FLAG
+    viewType: Int = Constants.VIEW_WITH_FLAG,
+    countriesList: List<Country> = SessionManager.getCountries()
 ) {
     this.supportFragmentManager.let {
         val coreBottomSheet =
             CoreBottomSheet(
                 itemClickListener,
-                bottomSheetItems = getCountries(countries, this).toMutableList(),
+                bottomSheetItems = parseCountries(
+                    this,
+                    countriesList as ArrayList<Country>
+                ).toMutableList(),
                 headingLabel = label,
                 viewType = viewType
             )
@@ -34,13 +36,17 @@ fun FragmentActivity.launchBottomSheet(
 fun Fragment.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
-    viewType: Int = Constants.VIEW_WITH_FLAG
+    viewType: Int = Constants.VIEW_WITH_FLAG,
+    countriesList: List<Country>? = SessionManager.getCountries()
 ) {
     this.fragmentManager?.let {
         val coreBottomSheet = itemClickListener?.let { itemListener ->
             CoreBottomSheet(
                 itemListener,
-                bottomSheetItems = getCountries(countries, requireContext()).toMutableList(),
+                bottomSheetItems = parseCountries(
+                    requireContext(),
+                    countriesList as ArrayList<Country>
+                ).toMutableList(),
                 headingLabel = label,
                 viewType = viewType
             )
@@ -49,11 +55,9 @@ fun Fragment.launchBottomSheet(
     }
 }
 
-private fun getCountries(
-    countries: ArrayList<Country>,
-    context: Context
-): ArrayList<Country> {
-    countries.filter { it.isoCountryCode2Digit != "AE" }.forEach {
+
+private fun parseCountries(context: Context, countries: ArrayList<Country>): ArrayList<Country> {
+    countries.forEach {
         it.subTitle = it.getName()
         it.sheetImage = CurrencyUtils.getFlagDrawable(
             context,
@@ -63,15 +67,4 @@ private fun getCountries(
     return countries
 }
 
-fun getSelectedCountry(selectedIso2DigitCode: String?) {
-    val pos =
-        countries.indexOf(countries.find { it.isoCountryCode2Digit == selectedIso2DigitCode })
-    if (oldPosition == -1) {
-        oldPosition = pos
-        countries[oldPosition].isSelected = true
-    } else {
-        countries[oldPosition].isSelected = false
-        oldPosition = pos
-        countries[oldPosition].isSelected = true
-    }
-}
+

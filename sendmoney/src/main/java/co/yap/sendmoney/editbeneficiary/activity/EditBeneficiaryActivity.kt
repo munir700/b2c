@@ -124,7 +124,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
                 }
                 R.id.bcountries -> {
-                    this.launchBottomSheet(itemClickListener = itemListener,
+                    this.launchBottomSheet(
+                        itemClickListener = itemListener,
                         label = "Select Country",
                         viewType = Constants.VIEW_WITH_FLAG)
 //                    {

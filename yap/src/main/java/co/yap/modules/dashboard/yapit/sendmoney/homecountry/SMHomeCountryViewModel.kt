@@ -13,6 +13,7 @@ import co.yap.widgets.recent_transfers.CoreRecentTransferAdapter
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.managers.SessionManager
 
 class SMHomeCountryViewModel(application: Application) :
@@ -43,6 +44,11 @@ class SMHomeCountryViewModel(application: Application) :
         homeCountry?.let { populateData(it) }
         benefitsList.add(getString(R.string.screen_send_money_home_display_text_send_money_home))
         benefitsList.add(getString(R.string.screen_send_money_home_display_text_get_best_rates))
+        getFxRates(iso2DigitCountryCode = homeCountry?.isoCountryCode2Digit ?: "") { response ->
+            handleFxRateResponse(
+                response
+            )
+        }
     }
 
    override fun populateData(hc: Country) {
@@ -101,22 +107,37 @@ class SMHomeCountryViewModel(application: Application) :
         }
     }
 
-    override fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit) {
+    override fun getFxRates(iso2DigitCountryCode: String, fxRate: (FxRateResponse.Data) -> Unit) {
         launch(Dispatcher.Background) {
             val response =
-                repository.updateFxRate(FxRateRequest(other_bank_country = homeCountry?.isoCountryCode2Digit.toString()))
+                repository.updateFxRate(FxRateRequest(other_bank_country = iso2DigitCountryCode))
             launch {
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.showExchangeRate.set(true)
                         fxRate.invoke(response.data.data)
                     }
+
                     is RetroApiResponse.Error -> {
                         state.showExchangeRate.set(false)
                         state.viewState.value = response.error.message
                     }
                 }
             }
+        }
+    }
+
+    override fun handleFxRateResponse(data: FxRateResponse.Data?) {
+        data?.let { fxRate ->
+            state.rate?.set("${fxRate.fxRates?.get(0)?.rate}")
+            state.homeCountryCurrency?.set(fxRate.toCurrencyCode)
+            state.time?.set(
+                DateUtils.reformatLiveStringDate(
+                    fxRate.date.toString(),
+                    inputFormatter = DateUtils.SERVER_DATE_FORMAT,
+                    outFormatter = DateUtils.FXRATE_DATE_TIME_FORMAT
+                )
+            )
         }
     }
 }
