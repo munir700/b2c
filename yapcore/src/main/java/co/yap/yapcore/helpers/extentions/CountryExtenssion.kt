@@ -16,20 +16,22 @@ fun FragmentActivity.launchBottomSheet(
     itemClickListener: OnItemClickListener? = null,
     label: String = "Change home country",
     viewType: Int = Constants.VIEW_WITH_FLAG,
-    countriesList: List<Country> = SessionManager.getCountries()
+    countriesList: List<Country>? = SessionManager.getCountries()
 ) {
     this.supportFragmentManager.let {
-        val coreBottomSheet =
-            CoreBottomSheet(
-                itemClickListener,
-                bottomSheetItems = parseCountries(
-                    this,
-                    countriesList as ArrayList<Country>
-                ).toMutableList(),
-                headingLabel = label,
-                viewType = viewType
-            )
-        coreBottomSheet.show(it, "")
+        countriesList?.let { countriesList ->
+            val coreBottomSheet =
+                CoreBottomSheet(
+                    itemClickListener,
+                    bottomSheetItems = parseCountries(
+                        this,
+                        countriesList as ArrayList<Country>
+                    ).toMutableList(),
+                    headingLabel = label,
+                    viewType = viewType
+                )
+            coreBottomSheet.show(it, "")
+        }
     }
 }
 
