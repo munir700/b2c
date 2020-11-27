@@ -61,7 +61,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             it?.let {
                 when (it) {
                     is String -> {
-                        viewModel.state.toast = it
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
                     }
                     is Boolean -> {
                         viewModel.state.loading = it
