@@ -90,11 +90,7 @@ class SelectCountryViewModel(application: Application) :
                             ?.filter { it.isoCountryCode2Digit != getExcludedCountryIsoCode() }
                         sortedList?.let { it ->
                             countries.clear()
-                            countries.add(
-                                0,
-                                Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
-                            )
-                            populateSpinnerData.value = Utils.parseCountryList(it)
+                            populateSpinnerData.value = Utils.parseCountryList(it,false)
                             countries.addAll(it.map {
                                 Country(
                                     id = it.id,
