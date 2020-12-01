@@ -60,21 +60,21 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/margin_small"
             android:background="@drawable/bg_edit_text_disable_grey_under_line"
-            android:drawableEnd="@{viewModel.taxModel.selectedCountry == null ? @drawable/ic_chevron_down: null}"
+            android:drawableEnd="@{viewModel.taxModel.selectedCountry == null ? @drawable/iv_drown_down: null}"
             android:drawablePadding="@dimen/_6sdp"
             android:ellipsize="end"
+            android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
             android:gravity="center|start"
             android:onClick="@{v->viewModel.onViewClicked(v)}"
             android:paddingTop="@dimen/margin_extra_small"
             android:singleLine="true"
-            android:text="@{viewModel.taxModel.selectedCountry == null ? `Select Country` : viewModel.taxModel.selectedCountry.name}"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@{viewModel.taxModel.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:flagOnDrawableStart="@{viewModel.taxModel.selectedCountry.isoCountryCode2Digit}"
+            app:showDropDown="@{viewModel.position == 0 ? false : true}"
             app:layout_constraintStart_toStartOf="@+id/tvSelectCountry"
             app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
             tools:text="Select Country" />
-        <!--        android:drawableStart="@{viewModel.taxModel.selectedCountry == null ? null : CurrencyUtils.INSTANCE.getFlagDrawable2(context,viewModel.taxModel.selectedCountry.isoCountryCode2Digit)}"-->
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvlabelOptions"

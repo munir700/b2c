@@ -20,7 +20,6 @@ class POBSelectionViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: IPOBSelection.State = POBSelectionState()
     override var populateSpinnerData: MutableLiveData<ArrayList<Country>> = MutableLiveData()
-    override var selectedCountry: Country?= null
 
     override val repository: CustomersRepository = CustomersRepository
 
@@ -30,8 +29,6 @@ class POBSelectionViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        selectedCountry = SessionManager.getCountries()
-            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
         getAllCountries()
     }
 
@@ -67,7 +64,7 @@ class POBSelectionViewModel(application: Application) :
             state.loading = true
             when (val response = repository.saveBirthInfo(
                 BirthInfoRequest(
-                    countryOfBirth = state.selectedCountry?.getName() ?: "",
+                    countryOfBirth = state.selectedCountry.get()?.getName() ?: "",
                     cityOfBirth = state.cityOfBirth
                 )
             )) {

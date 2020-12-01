@@ -1,6 +1,5 @@
 package co.yap.modules.location.fragments
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -16,7 +15,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -49,7 +47,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
         when (it) {
             R.id.nextButton -> {
                 viewModel.saveDOBInfo {
-                    findNavController().navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
+                    navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
                 }
             }
             R.id.ivBackBtn -> {
@@ -68,25 +66,8 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
 
     private val itemListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.state.selectedCountryIndex = pos
-            val country: Country = data as Country
-            setTextSelection(country)
+            viewModel.state.selectedCountry.set(data as Country)
         }
-    }
-
-    private fun setTextSelection(country: Country) {
-        viewModel.state.selectedCountry = country
-        getBinding().bcountries.text = country.getName()
-        getBinding().bcountries.setTextColor(requireContext().getColors(R.color.colorPrimaryDark))
-        val drawable: Drawable? =
-            requireActivity().getDrawable(country.getFlagDrawableResId(requireContext()))
-        drawable?.setBounds(0, 0, 60, 60)
-        getBinding().bcountries.setCompoundDrawables(
-            drawable,
-            null,
-            requireActivity().getDrawable(R.drawable.iv_drown_down),
-            null
-        )
     }
 
     override fun removeObservers() {
