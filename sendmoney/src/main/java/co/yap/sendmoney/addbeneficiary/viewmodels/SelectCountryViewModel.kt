@@ -190,15 +190,6 @@ class SelectCountryViewModel(application: Application) :
         return currency
     }
 
-    override fun onCountrySelected(pos: Int) {
-        if (pos == -1) {
-            state.selectedCountry = null
-        } else {
-            val country: Country = countries[pos]
-            state.selectedCountry = country
-        }
-        parentViewModel?.selectedResidenceCountry = null
-    }
 
     private fun getExcludedCountryIsoCode(): String {
         return when (parentViewModel?.sendMoneyType) {
@@ -210,5 +201,11 @@ class SelectCountryViewModel(application: Application) :
                 ""
             }
         }
+    }
+
+    override fun onCountrySelected(country: Country?) {
+        state.selectedCountry =
+            parentViewModel?.countriesList?.find { it.isoCountryCode2Digit == country?.isoCountryCode2Digit }
+        parentViewModel?.selectedResidenceCountry = null
     }
 }
