@@ -33,13 +33,10 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:paddingTop="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/includeCard"
-            app:layout_constraintVertical_bias="0.318">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/tvTransactionComplete"
@@ -74,20 +71,18 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnDoneSuccess"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/screen_add_spare_card_completion_button_done"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.525"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvPhysicalCardLocationSubTitle"
-                app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.screen_add_spare_card_completion_button_done}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Property
+import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.annotation.IntRange
 import androidx.core.graphics.ColorUtils
@@ -89,6 +90,7 @@ open class CounterFloatingActionButton @JvmOverloads constructor(
         textSize = this@CounterFloatingActionButton.textSize
         textAlign = Paint.Align.CENTER
         typeface = Typeface.SANS_SERIF
+
     }
     private val textBounds: Rect = run {
         val maxCountText = NORMAL_MAX_COUNT_TEXT
@@ -107,6 +109,7 @@ open class CounterFloatingActionButton @JvmOverloads constructor(
     private val isSizeMini: Boolean
         get() = size == SIZE_MINI
     private val badgePosition: Int
+    var badgeVisibility : Int
     private var countText: String = ""
 
     /**
@@ -139,6 +142,7 @@ open class CounterFloatingActionButton @JvmOverloads constructor(
             R.styleable.CounterFloatingActionButton_badgePosition,
             RIGHT_TOP_POSITION
         )
+        badgeVisibility = styledAttributes.getInt(R.styleable.CounterFloatingActionButton_badgeVisibility,View.VISIBLE)
         styledAttributes.recycle()
 
         updateCountText()

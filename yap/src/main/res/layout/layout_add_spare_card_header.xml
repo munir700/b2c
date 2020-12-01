@@ -38,6 +38,7 @@
             android:gravity="center"
             android:text="@{cardType}"
             android:textColor="?attr/colorPrimaryAttr"
+            tools:textColor="@color/colorPrimary"
             app:btn_unpressed_color="@color/disabledLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

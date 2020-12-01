@@ -2,7 +2,6 @@ package co.yap.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
@@ -11,19 +10,18 @@ import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
-import co.yap.sendmoney.adapters.CountryAdapter
 import co.yap.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
-import kotlinx.android.synthetic.main.fragment_select_country.*
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     ISelectCountry.View {
-
-    private var countryAdapter: CountryAdapter? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_select_country
@@ -60,27 +58,6 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         skipCountrySelectionFragment(R.id.action_selectCountryFragment_to_DomesticFragment)
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.populateSpinnerData.observe(this, Observer {
-            countriesSpinner.adapter = getCountryAdapter()
-            countriesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    viewModel.onCountrySelected(position)
-                }
-            }
-        })
-    }
-
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
@@ -93,15 +70,11 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                 R.id.nextButton -> {
                     if (!isDefaultCurrencyExist()) {
                         viewModel.state.selectedCountry?.getCurrency()?.let { it ->
-                            if (viewModel.state.selectedCountry?.isoCountryCode2Digit == "AE") {
-                                findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
-                            } else {
-                                it.cashPickUp?.let { cashPickup ->
-                                    if (cashPickup) {
-                                        moveToTransferType()
-                                    } else {
-                                        moveToAddBeneficiary()
-                                    }
+                            it.cashPickUp?.let { cashPickup ->
+                                if (cashPickup) {
+                                    moveToTransferType()
+                                } else {
+                                    moveToAddBeneficiary()
                                 }
                             }
                         }
@@ -109,9 +82,26 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                         showToast("No active currencies found for selected country")
                     }
                 }
+
+                R.id.tvCountrySelect -> {
+                    this.launchBottomSheet(
+                        itemClickListener = itemListener,
+                        label = "Select Country",
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = SessionManager.getCountries()
+                            .filter { country -> country.isoCountryCode2Digit != "AE" }
+                    )
+                }
             }
         })
     }
+
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.onCountrySelected(data as Country)
+        }
+    }
+
 
     private fun isDefaultCurrencyExist(): Boolean {
         return null == viewModel.state.selectedCountry?.getCurrencySM()
@@ -123,13 +113,6 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
     private fun moveToTransferType() {
         findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
-    }
-
-    private fun getCountryAdapter(): CountryAdapter? {
-        if (countryAdapter == null)
-            countryAdapter =
-                context?.let { CountryAdapter(it, viewModel.countries) }
-        return countryAdapter
     }
 
     private fun skipCountrySelectionFragment(destinationId: Int) {

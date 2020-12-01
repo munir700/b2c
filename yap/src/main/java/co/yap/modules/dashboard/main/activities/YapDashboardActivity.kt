@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.main.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -48,6 +49,7 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
+import co.yap.widgets.CounterFloatingActionButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
@@ -60,7 +62,6 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
-import com.leanplum.Leanplum
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -78,18 +79,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     lateinit var adapter: YapDashboardAdaptor
     var permissionHelper: PermissionHelper? = null
     private var actionMenu: FloatingActionMenu? = null
+    var view: CounterFloatingActionButton? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SessionManager.getCountriesFromServer { _, _ -> }
+        inflateFloatingActonButton()
         setupPager()
         addObservers()
         addListeners()
         //  setupOldYapButtons()
         setupNewYapButtons()
         logEvent()
-        initializeChatOverLayButton(Leanplum.getInbox().unreadCount())
     }
+
 
     private fun logEvent() {
         val logger: AppEventsLogger = AppEventsLogger.newLogger(this)
@@ -225,6 +229,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 enableDrawerSwipe(position == 0)
             }
         })
+    }
+
+    @SuppressLint("InflateParams")
+    private fun inflateFloatingActonButton() {
+        val layoutInflater =
+            layoutInflater.inflate(co.yap.yapcore.R.layout.layout_overlay_live_chat,
+                null)
+        if (layoutInflater is CounterFloatingActionButton) view = layoutInflater
     }
 
     private fun addObservers() {
@@ -492,6 +504,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onResume() {
         super.onResume()
+        view?.let { getCountUnreadMessage(it) }
         if (bottomNav.selectedItemId == R.id.yapHome) {
             SessionManager.getAccountInfo()
         }
