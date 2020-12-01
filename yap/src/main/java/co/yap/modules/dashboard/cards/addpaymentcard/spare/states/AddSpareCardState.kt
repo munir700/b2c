@@ -34,7 +34,7 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
         }
 
     @get:Bindable
-    override var avaialableCardBalance: String = ""
+    override var avaialableCardBalance: CharSequence = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.avaialableCardBalance)

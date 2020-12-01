@@ -2,6 +2,7 @@ package co.yap.sendmoney.editbeneficiary.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -28,9 +29,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
-import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
-import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -44,7 +43,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
-    var terminateProcess: Boolean = false
 
     override val viewModel: IEditBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
@@ -89,10 +87,11 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     private fun populateCountriesList(countries: ArrayList<Country>?) {
         getBinding().spinner.setItemSelectedListener(selectedItemListener)
         getBinding().spinner.setAdapter(countries)
-        if (viewModel.state.selectedCountryOfResidence != null) {
+        viewModel.state.selectedCountryOfResidence?.let { country ->
             getBinding().spinner.setSelectedItem(
-                countries?.indexOf(viewModel.state.selectedCountryOfResidence ?: Country()) ?: 0
+                countries?.indexOf(country) ?: 0
             )
+            setTextSelection(country)
         }
     }
 
@@ -120,9 +119,15 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         viewModel.requestUpdateBeneficiary()
                     }
                 }
-                R.id.tvChangeCurrency ->
+                R.id.tvChangeCurrency -> {
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
-
+                }
+                R.id.bcountries -> {
+                    this.launchBottomSheet(
+                        itemClickListener = itemListener,
+                        label = "Select Country",
+                        viewType = Constants.VIEW_WITH_FLAG)
+                }
             }
         })
 
@@ -141,6 +146,34 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.isBeneficiaryValid.observe(this, isBeneficiaryValidObserver)
         viewModel.onBeneficiaryCreatedSuccess.observe(this, onBeneficiaryCreatedSuccessObserver)
 
+    }
+
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, position: Int) {
+            if (data is Country) {
+                val country: Country = data as Country
+                if (country.getName() != "Select country") {
+                    viewModel.state.selectedCountryOfResidence = data
+                } else {
+                    viewModel.state.selectedCountryOfResidence = null
+                }
+                setTextSelection(country)
+            }
+        }
+    }
+
+    private fun setTextSelection(country: Country) {
+        getBinding().bcountries.text = country.getName()
+        getBinding().bcountries.setTextColor(getColors(R.color.colorPrimaryDark))
+        getBinding().tvSelectCountry.setTextColor(getColors(R.color.greyDark))
+        val drawable: Drawable? = getDrawable(country.getFlagDrawableResId(this))
+        drawable?.setBounds(0, 0, 60, 60)
+        getBinding().bcountries.setCompoundDrawables(
+            drawable,
+            null,
+            getDrawable(R.drawable.iv_drown_down),
+            null
+        )
     }
 
     private val isBeneficiaryValidObserver = Observer<Boolean> { isValid ->

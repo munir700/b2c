@@ -215,6 +215,7 @@
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.toFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
+                        tools:textColor="@color/colorPrimaryDark"
                         tools:text="X AED" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -235,6 +236,7 @@
                         android:layout_marginRight="@dimen/_2sdp"
                         android:text="@{viewModel.state.fromFxRate}"
                         android:textColor="?attr/colorPrimaryDarkAttr"
+                        tools:textColor="@color/colorPrimaryDark"
                         tools:text="X CAD" />
                 </LinearLayout>
 
@@ -293,7 +295,7 @@
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     app:layout_constraintTop_toBottomOf="@+id/etNote"
                     tools:ignore="NotSibling">
 
@@ -322,7 +324,7 @@
                     <View
                         android:id="@+id/breakLine"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivSelector"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:background="@color/colorDisabledBtn"
@@ -332,7 +334,7 @@
 
                 <co.yap.widgets.AlphaNumericEditText
                     android:id="@+id/etNote"
-                    style="@style/ALarge"
+                    style="@style/ARegular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -341,10 +343,10 @@
                     android:inputType="text"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
                     android:maxLength="@integer/notes_external_transfer_length"
-                    android:minHeight="@dimen/_40sdp"
                     android:singleLine="true"
                     android:text="@={viewModel.state.transactionNote}"
                     android:textColorHint="@color/greyDark"
+                    tools:hint="Add a note here"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
 

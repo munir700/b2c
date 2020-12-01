@@ -18,6 +18,8 @@ object DateUtils {
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
     const val FORMAT_TIME_12H = "hh:mm a"
+    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
+
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -64,6 +66,22 @@ object DateUtils {
         val formatter = SimpleDateFormat(outFormatter, Locale.US)
         try {
             // formatter.timeZone = TIME_ZONE_Default
+            result = formatter.format(stringToDate(date, inputFormatter ?: ""))
+        } catch (e: Exception) {
+        }
+
+        return result
+
+    }
+    fun reformatLiveStringDate(
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
+    ): String {
+        var result = ""
+        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        try {
+            formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
         } catch (e: Exception) {
         }

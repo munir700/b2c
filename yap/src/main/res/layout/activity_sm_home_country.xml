@@ -71,11 +71,11 @@
                 android:id="@+id/btnSendMoney"
                 style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_22sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:padding="@dimen/margin_medium"
                 app:btn_enable="true"
+                app:btn_size="mini_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCountryName"
@@ -84,6 +84,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerCurrency"
+                android:visibility="@{viewModel.state.showExchangeRate ? View.VISIBLE : View.GONE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -127,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_extra_small"
                     android:layout_marginBottom="@dimen/margin_extra_small"
-                    android:text="@{viewModel.state.symbol}"
+                    android:text="@{viewModel.state.homeCountryCurrency}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvConversionRate"
                     app:layout_constraintStart_toEndOf="@id/tvConversionRate"
                     tools:text="CAD" />
@@ -225,12 +226,14 @@
                 android:id="@+id/rvBenefits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
+                android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llRecentsParent"
+                app:layout_constraintVertical_bias="0.0"
                 app:recycleViewAdapter="@{viewModel.benefitsAdapter}"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_home_country_benefits" />
@@ -246,8 +249,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvBenefits"
+                app:layout_constraintVertical_bias="1.0"
                 app:text="@{Strings.screen_send_money_home_display_text_change_home_country}"
-                tools:text="@string/screen_send_money_home_display_text_change_home_country" />
+                tools:text="@string/screen_send_money_home_display_text_change_home_country"
+                tools:textColor="@color/colorPrimary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

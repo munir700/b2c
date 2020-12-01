@@ -1,5 +1,6 @@
 package co.yap.sendmoney.home.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -17,6 +18,9 @@ import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseFragment
 import co.yap.sendmoney.viewmodels.SMSearchBeneficiaryViewModel
 import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
+import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -51,6 +55,11 @@ class SearchBeneficiariesFragment :
         getBindings().etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
+        viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
+        viewModel.adapter.filterCount.observe(this, Observer {
+            viewModel.state.stateLiveData.value =
+                if (it == 0) State.empty("") else State.success("")
+        })
     }
 
     private fun initSwipeListener() {
@@ -186,7 +195,10 @@ class SearchBeneficiariesFragment :
         beneficiary: Beneficiary?,
         position: Int = 0
     ) {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.Y2Y_TRANSFER
+        ) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
         }
@@ -208,6 +220,21 @@ class SearchBeneficiariesFragment :
         }
     }
 
+    private fun handleState(state: State?) {
+        when (state?.status) {
+            Status.EMPTY -> {
+                getBindings().multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            }
+            Status.ERROR -> {
+                getBindings().multiStateView.viewState = MultiStateView.ViewState.ERROR
+            }
+            Status.SUCCESS -> {
+                getBindings().multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            }
+            else -> throw IllegalStateException("Provided multi state is not handled $state")
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -222,7 +249,19 @@ class SearchBeneficiariesFragment :
                     }
                 }
             }
+            RequestCodes.REQUEST_Y2Y_TRANSFER -> {
+                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                    setResultData()
+                }
+            }
         }
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
     override fun onPause() {
@@ -237,6 +276,7 @@ class SearchBeneficiariesFragment :
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.state.stateLiveData.removeObservers(this)
     }
 
     override fun onDestroyView() {

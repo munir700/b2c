@@ -38,6 +38,8 @@
     <string name="common_display_text_feature_blocked_error">Sorry, this feature isn\'t available to you at this time. Please use live chat or call us on %1s to get access.</string>
     <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
     <string name="common_display_text_search_hint">Search</string>
+    <string name="common_display_text_no_results">No results</string>
+
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -787,7 +789,7 @@
     <string name="screen_topup_success_display_text_title">Top up successful</string>
     <string name="screen_topup_success_display_text_card_title">Citi Bank Card</string>
     <string name="screen_topup_success_display_text_success_transaction_message">You have now added %1s %2s to your account</string>
-    <string name="screen_topup_success_display_text_account_balance_title">Your new YAP balance is \n %1s %2s</string>
+    <string name="screen_topup_success_display_text_account_balance_title">Your new YAP balance is \n %1s</string>
     <string name="screen_topup_success_display_text_dashboard_action_button_title">Go to dashboard</string>
 
     <!--    Topup bank detail screen-->
@@ -1130,8 +1132,8 @@
 
 
     <!-- Send Money Home -->
-    <string name="screen_send_money_home_title">Send Money Home</string>
-    <string name="screen_send_money_home_display_text_send_money">Send Money</string>
+    <string name="screen_send_money_home_title">Send money home</string>
+    <string name="screen_send_money_home_display_text_send_money">Send money</string>
     <string name="screen_send_money_home_display_text_money">1 AED = </string>
     <string name="screen_send_money_home_display_text_recent_transfers">Recent %s transfers</string>
     <string name="screen_send_money_home_display_text_send_money_home">Send money home to your friends and family quickly</string>
@@ -1148,4 +1150,6 @@
     <string name="screen_qr_funds_transfer_display_text_available_balance">Your available balance is:</string>
     <string name="screen_qr_code_own_uuid_error_message">Scanned QR code belongs to your own YAP account. Please scan another QR code.</string>
 
+    <!-- Dashboard Menu -->
+    <string name="screen_dashboard_menu_display_text_my_profile">My profile</string>
 </resources>

@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.homecountry
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -12,7 +14,6 @@ import co.yap.databinding.ActivitySmHomeCountryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
 import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
-import co.yap.widgets.bottomsheet.CoreBottomSheet
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -20,6 +21,7 @@ import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -49,7 +51,12 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
                     startSendMoneyFlow()
                 }
                 R.id.tvChangeHomeCountry -> {
-                    setupCountriesList()
+                    this.launchBottomSheet(
+                        itemClickListener = countriesItemClickListener,
+                        label = "Change home country",
+                        viewType = Constants.VIEW_WITH_FLAG,
+                        countriesList = getCountries(SessionManager.getCountries())
+                    )
                 }
                 R.id.tvHideRecents, R.id.recents -> {
                     viewModel.state.isRecentsVisible.set(getBinding().recyclerViewRecents.visibility == View.VISIBLE)
@@ -60,59 +67,6 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getHomeCountryRecentBeneficiaries()
-    }
-
-    private fun setupCountriesList() {
-        val countries: ArrayList<Country> = SessionManager.getCountries()
-        this.supportFragmentManager.let {
-            val coreBottomSheet = CoreBottomSheet(
-                object :
-                    OnItemClickListener {
-                    override fun onItemClick(view: View, data: Any, pos: Int) {
-                        if (viewModel.homeCountry != (data as Country)) {
-                            viewModel.homeCountry = data
-                            viewModel.updateHomeCountry {
-                                SessionManager.getAccountInfo()
-                                viewModel.populateData(data)
-                                viewModel.getHomeCountryRecentBeneficiaries()
-                            }
-                        }
-                    }
-                },
-                bottomSheetItems = getCountries(countries).toMutableList(),
-                headingLabel = "Change home country",
-                viewType = Constants.VIEW_WITH_FLAG
-            )
-            coreBottomSheet.show(it, "")
-        }
-    }
-
-    private fun getCountries(countries: ArrayList<Country>): ArrayList<Country> {
-        countries.forEach {
-            it.subTitle = it.getName()
-            it.sheetImage = CurrencyUtils.getFlagDrawable(
-                context,
-                it.isoCountryCode2Digit.toString()
-            )
-        }
-
-        val position =
-            countries.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
-        if (oldPosition == -1) {
-            oldPosition = position
-            countries[oldPosition].isSelected = true
-        } else {
-            countries[oldPosition].isSelected = false
-            oldPosition = position
-            countries[oldPosition].isSelected = true
-        }
-
-        return countries
-    }
-
     private val itemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
@@ -121,8 +75,41 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
         }
     }
 
+    private val countriesItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (viewModel.homeCountry != (data as Country)) {
+                viewModel.homeCountry = data
+                viewModel.UpdateAndSyncHomeCountry()
+            }
+        }
+    }
+
+    private fun getCountries(countries: ArrayList<Country>): List<Country> {
+        val countriesWithoutUAE = countries.filter { it.isoCountryCode2Digit != "AE" }
+        countriesWithoutUAE.forEach {
+            it.subTitle = it.getName()
+            it.sheetImage = CurrencyUtils.getFlagDrawable(
+                context,
+                it.isoCountryCode2Digit.toString()
+            )
+        }
+
+        val position =
+            countriesWithoutUAE.indexOf(countries.find { it.isoCountryCode2Digit == viewModel.homeCountry?.isoCountryCode2Digit })
+        if (oldPosition == -1) {
+            oldPosition = position
+            countriesWithoutUAE[oldPosition].isSelected = true
+        } else {
+            countriesWithoutUAE[oldPosition].isSelected = false
+            oldPosition = position
+            countriesWithoutUAE[oldPosition].isSelected = true
+        }
+
+        return countriesWithoutUAE
+    }
+
     private fun startSendMoneyFlow() {
-        launchActivity<SMBeneficiaryParentActivity> {
+        launchActivity<SMBeneficiaryParentActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
             putExtra(
                 ExtraKeys.SEND_MONEY_TYPE.name,
                 SendMoneyTransferType.HOME_COUNTRY.name
@@ -139,6 +126,31 @@ class SMHomeCountryActivity : BaseBindingActivity<ISMHomeCountry.ViewModel>(), I
             putExtra(Constants.POSITION, position)
             putExtra(Constants.IS_NEW_BENEFICIARY, false)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        setResultData()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getHomeCountryRecentBeneficiaries()
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     private fun getBinding(): ActivitySmHomeCountryBinding =

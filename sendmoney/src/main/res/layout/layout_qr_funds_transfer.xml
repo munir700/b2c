@@ -158,7 +158,7 @@
                 android:layout_marginLeft="@dimen/margin_xxxl"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_xxxl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
                 android:paddingVertical="@dimen/_16sdp"
                 app:enableCoreButton="@{viewModel.state.valid}"

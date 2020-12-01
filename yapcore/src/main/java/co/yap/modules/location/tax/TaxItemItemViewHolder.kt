@@ -1,8 +1,6 @@
 package co.yap.modules.location.tax
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.countryutils.country.Country
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
@@ -18,35 +16,18 @@ class TaxItemItemViewHolder(private val itemTaxInfoBinding: ItemTaxInfoBinding) 
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {
-        val selectedItemListener = object : OnItemClickListener {
-            override fun onItemClick(view: View, data: Any, pos: Int) {
-                if (data is Country) {
-                    taxModel.selectedCountry = data
-                    view.id = R.id.spinner_container
-                    onItemClickListener?.onItemClick(view, data, pos)
-                }
-            }
-        }
-
         itemTaxInfoBinding.viewModel =
-            TaxInfoItemViewModel(taxModel, position,itemTaxInfoBinding, onItemClickListener)
+            TaxInfoItemViewModel(taxModel, position, onItemClickListener)
         itemTaxInfoBinding.etTinNumber.afterTextChanged {
             onItemClickListener?.onItemClick(itemTaxInfoBinding.etTinNumber, it, -1)
         }
-        itemTaxInfoBinding.bcountries.setUpCountryAutoCompleteTextView(
-            if (position == 0) taxModel.countries else taxModel.countries.filterNot { it.isoCountryCode2Digit == "AE" },
-            selectedItemListener
-        )
+
         if (position == 0) {
-            itemTaxInfoBinding.bcountries.setTextSelection(
-                taxModel.countries.find { it.isoCountryCode2Digit == "AE" },
-                position
-            )
+            itemTaxInfoBinding.bcountries.text =
+                taxModel.countries.find { it.isoCountryCode2Digit == "AE" }?.getName()
         }
         itemTaxInfoBinding.bcountries.isEnabled = position != 0
-//        taxModel.countries.partition { it.isoCountryCode2Digit == "AE" }.let {
         itemTaxInfoBinding.executePendingBindings()
-//        }
 
         //Disable TIN for UAE
         itemTaxInfoBinding.optionsSpinner.setSelection(if (position == 0) taxModel.options.indexOfFirst { it == "No" } else 0)

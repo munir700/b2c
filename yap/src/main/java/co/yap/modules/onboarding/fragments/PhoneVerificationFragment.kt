@@ -44,8 +44,8 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.reverseTimer(10, requireContext())
         requireContext().firebaseTagManagerEvent(FirebaseTagManagerModel(category = "onboarding", action = FirebaseEvents.VERIFY_NUMBER.event))
+        viewModel.state.reverseTimer(10, requireContext())
     }
 
     override fun setObservers() {

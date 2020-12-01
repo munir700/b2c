@@ -3,8 +3,8 @@
     style="@style/LargeGrey"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center"
+    android:gravity="center|top"
     android:text="@string/empty_view_text"
+    android:layout_marginTop="@dimen/_66sdp"
     android:textColor="@color/greyDark"
     />

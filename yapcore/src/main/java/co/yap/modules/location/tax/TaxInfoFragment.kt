@@ -6,19 +6,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.countryutils.country.Country
 import co.yap.modules.location.fragments.LocationChildFragment
 import co.yap.modules.pdf.PDFActivity
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_tax_info
-    override val viewModel: ITaxInfo.ViewModel
+    override val viewModel: TaxInfoViewModel
         get() = ViewModelProviders.of(this).get(TaxInfoViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +36,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
                 if (viewModel.state.valid.get() == true) {
                     viewModel.saveInfoDetails(false) { pdf ->
                         startActivity(
-                            PDFActivity.newIntent(view.context, pdf ?: "",true)
+                            PDFActivity.newIntent(view.context, pdf ?: "", true)
                         )
                     }
                 }
@@ -41,8 +44,35 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
         )
     }
 
+
     override fun addObservers() {
         viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is ITaxInfo.CountryPicker -> {
+                        requireActivity().launchBottomSheet(
+                            itemClickListener = object : OnItemClickListener {
+                                override fun onItemClick(view: View, data: Any, pos: Int) {
+                                    viewModel.onCountryPicked(
+                                        it.view,
+                                        data as Country,
+                                        it.data as TaxModel,
+                                        it.pos
+                                    )
+                                }
+                            },
+                            label = "Select Country",
+                            viewType = Constants.VIEW_WITH_FLAG,
+                            countriesList = viewModel.parentViewModel?.countries?.filter { country -> country.isoCountryCode2Digit != "AE" }
+                        )
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        })
     }
 
     private val clickObserver = Observer<Int> {
@@ -54,6 +84,10 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
             }
             R.id.ivBackBtn -> {
                 activity?.onBackPressed()
+            }
+
+            R.id.tvSelectCountry -> {
+                this.launchBottomSheet()
             }
         }
     }
