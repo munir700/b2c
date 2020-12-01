@@ -89,9 +89,10 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/RectangleBtnStyle"
-            android:layout_width="@dimen/_172sdp"
-            android:layout_height="@dimen/_48sdp"
-            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:btn_size="small"
+            android:layout_marginBottom="@dimen/margin_large"
             android:gravity="center"
             android:onClick="@{v -> viewModel.handlePressView(v.getId())}"
             android:text="@string/screen_change_card_pin_button_text"
@@ -99,8 +100,8 @@
             android:textSize="@dimen/text_size_h4"
             app:enableCoreButton="@{viewModel.state.isButtonEnabled()}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPinLayout"
             app:layout_constraintVertical_bias="0.82" />
 

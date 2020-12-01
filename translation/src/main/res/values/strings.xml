@@ -1132,8 +1132,8 @@
 
 
     <!-- Send Money Home -->
-    <string name="screen_send_money_home_title">Send Money Home</string>
-    <string name="screen_send_money_home_display_text_send_money">Send Money</string>
+    <string name="screen_send_money_home_title">Send money home</string>
+    <string name="screen_send_money_home_display_text_send_money">Send money</string>
     <string name="screen_send_money_home_display_text_money">1 AED = </string>
     <string name="screen_send_money_home_display_text_recent_transfers">Recent %s transfers</string>
     <string name="screen_send_money_home_display_text_send_money_home">Send money home to your friends and family quickly</string>

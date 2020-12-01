@@ -1,5 +1,6 @@
 package co.yap.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -11,11 +12,13 @@ import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ThemeColorUtils
+import co.yap.yapcore.helpers.Utils
 
 
-class CoreButton : Button {
+class CoreButton : AppCompatButton {
 
     private var btnWeight: Int = 0
     private var btnHeight: Int = 0
@@ -47,6 +50,7 @@ class CoreButton : Button {
     private var paint: Paint = Paint()
     private var rectF: RectF = RectF()
     lateinit var bitmapIcon: Bitmap
+    private var btnSize: Int = -1
 
     constructor(context: Context) : super(context)
 
@@ -62,6 +66,7 @@ class CoreButton : Button {
 
     }
 
+    @SuppressLint("ResourceType")
     @Suppress("DEPRECATION")
     private fun init(context: Context, attrs: AttributeSet) {
         if (isInEditMode) {
@@ -76,7 +81,7 @@ class CoreButton : Button {
         drawable = typedArray.getDrawable(
             R.styleable.CoreButton_btn_drawable
         )
-
+        btnSize = typedArray.getInt(R.styleable.CoreButton_btn_size, ButtonSize.SMALL.type)
         drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
         enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
         hasBoldText = typedArray.getBoolean(R.styleable.CoreButton_btn_has_bold_text, hasBoldText)
@@ -152,11 +157,18 @@ class CoreButton : Button {
         if (hasBoldText) {
             paintText.setFakeBoldText(true)
         }
+
 //         ContextThemeWrapper(context, R.attr.primaryButtonTheme)
 
         Button(ContextThemeWrapper(context, R.attr.primaryButtonTheme))
 
 // this.theme
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (btnSize != -1)
+            setButtonDimension()
     }
 
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
@@ -281,5 +293,43 @@ class CoreButton : Button {
         }
         this.setEnabled(enable)
 
+    }
+
+    private fun setButtonDimension() {
+        var dimensions: IntArray = intArrayOf()
+        when (btnSize) {
+            ButtonSize.MINI_SMALL.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 36, 4) // used in card details
+            }
+            ButtonSize.MINI_MEDIUM.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
+            }
+            ButtonSize.MINI_LARGE.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 60, 5)  // used in Maps
+            }
+            ButtonSize.SMALL.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 55, 8)
+            }
+            ButtonSize.MEDIUM.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 70, 8)
+            }
+            ButtonSize.LARGE.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 80, 8)
+            }
+            else -> throw IllegalStateException("Invalid button type found $btnSize")
+        }
+        val params = layoutParams
+        params.width = dimensions[0]
+        params.height = dimensions[1]
+        layoutParams = params
+    }
+
+    enum class ButtonSize(val type: Int) {
+        SMALL(0),
+        MEDIUM(1),
+        LARGE(2),
+        MINI_SMALL(3),
+        MINI_MEDIUM(4),
+        MINI_LARGE(5)
     }
 }

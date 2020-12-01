@@ -108,18 +108,14 @@
                             android:id="@+id/btnDirection"
                             style="@style/AddressBtnStyle"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_24sdp"
-                            android:layout_marginStart="8dp"
+                            android:layout_height="wrap_content"
+                            app:btn_size="mini_small"
                             android:layout_marginTop="12dp"
-                            android:layout_marginEnd="8dp"
                             android:onClick="@{(v)-> cdmMapViewModel.handleClickEvent(v.id)}"
-                            android:paddingLeft="0dp"
-                            android:paddingTop="0dp"
-                            android:paddingRight="0dp"
-                            android:paddingBottom="0dp"
                             android:text="@string/screen_more_atm_cdm_custom_button_get_direction"
                             android:textColor="@color/white"
-                            app:btn_text_size="@dimen/text_size_c2" />
+                            app:btn_text_size="@dimen/text_size_c2"
+                            />
                     </LinearLayout>
                 </LinearLayout>
             </co.yap.widgets.MultiStateView>
