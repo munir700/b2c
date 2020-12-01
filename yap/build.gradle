@@ -1,6 +1,5 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation files('libs/SamsungPaySDK_v2.14.00.jar')
 
     // Test dependencies
     project.testDependencies.each {
