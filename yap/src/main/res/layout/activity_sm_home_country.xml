@@ -108,8 +108,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:text="@{Strings.screen_send_money_home_display_text_money}"
-                    tools:text="@string/screen_send_money_home_display_text_money" />
+                    android:text="@{`1 `+viewModel.state.homeCountryCurrency+` = `}"
+                    tools:text="1 INR = " />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvConversionRate"
@@ -128,10 +128,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_extra_small"
                     android:layout_marginBottom="@dimen/margin_extra_small"
-                    android:text="@{viewModel.state.homeCountryCurrency}"
+                    android:text="@{SessionManager.INSTANCE.defaultCurrency}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvConversionRate"
                     app:layout_constraintStart_toEndOf="@id/tvConversionRate"
-                    tools:text="CAD" />
+                    tools:text="AED" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCurrentTime"

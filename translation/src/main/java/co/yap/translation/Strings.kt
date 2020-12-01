@@ -1823,8 +1823,6 @@ object Strings {
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =
             "screen_send_money_home_display_text_send_money"
-    const val screen_send_money_home_display_text_money: String =
-            "screen_send_money_home_display_text_money"
     const val screen_send_money_home_display_text_recent_transfers: String =
             "screen_send_money_home_display_text_recent_transfers"
     const val screen_send_money_home_display_text_send_money_home: String =
