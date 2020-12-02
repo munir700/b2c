@@ -37,5 +37,6 @@ interface ICardAnalytics {
         var selectedTxnAnalyticsItem: TxnAnalytic?
         var nextMonth: Boolean?
         var previousMonth: Boolean?
+        var displayMonth:String
     }
 }
