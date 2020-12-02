@@ -90,7 +90,7 @@
         <item>@color/colorSecondaryBlue</item>
         <item>@color/colorSecondaryOrange</item>
         <item>@color/colorSecondaryGreen</item>
-        <item>?attr/colorPrimaryAttr</item>
+        <item>@color/colorPrimarySoft</item>
     </array>
 
     <color name="textDarkColor">#1a1423</color>
