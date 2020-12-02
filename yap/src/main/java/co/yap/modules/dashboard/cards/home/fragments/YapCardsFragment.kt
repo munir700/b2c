@@ -25,6 +25,8 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -54,6 +56,21 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
+    }
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                toolbar?.findViewById(R.id.ivRightIcon)!!,
+                "Add card",
+                "Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!",
+                showSkip = false, showPageNo = false, btnText = "OK",
+                padding = 0f,
+                circleRadius = 210f
+            )
+        )
+        return list
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -154,6 +171,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                 }
                 R.id.lySeeDetail -> {
+                    /* activity?.let { activity ->
+                         val tour = TourSetup(activity, setViewsArray())
+                         tour.startTour()
+                     }*/
                     openDetailScreen(pos)
                 }
                 R.id.lycard, R.id.imgAddCard, R.id.tvAddCard, R.id.tbBtnAddCard -> {
