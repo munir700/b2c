@@ -1,20 +1,19 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
 import java.util.*
 
 class AddVirtualCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddVirtualCard.State>(application), IAddVirtualCard.ViewModel {
-    override var adapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
-    override val state: AddVirtualCardState = AddVirtualCardState()
-    override fun onCreate() {
-        super.onCreate()
-        adapter = AddVirtualCardAdapter(getCardThemesOption())
-    }
+    override var adapter: ObservableField<AddVirtualCardAdapter> = ObservableField()
 
-    private fun getCardThemesOption(): MutableList<VirtualCardModel> {
+    //   override var adapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
+    override val state: AddVirtualCardState = AddVirtualCardState()
+
+    override fun getCardThemesOption(): MutableList<VirtualCardModel> {
         val cards: MutableList<VirtualCardModel> = mutableListOf()
         for (x in 0 until 5) {
             cards.add(
@@ -34,5 +33,13 @@ class AddVirtualCardViewModel(application: Application) :
             )
         }
         return cards
+    }
+
+    private fun getVirtualCards(): MutableList<VirtualCardModel> {
+        var youngCard: MutableList<VirtualCardModel> = mutableListOf()
+        youngCard.add(VirtualCardModel("","https://milestomemories.com/wp-content/uploads/2018/06/Venmo-card-Venmo.png","123","Testcolorcode","#673ab7","https://milestomemories.com/wp-content/uploads/2018/06/Venmo-card-Venmo.png","true","#F44774","32","dffkelsfl"))
+        youngCard.add(VirtualCardModel("","https://milestomemories.com/wp-content/uploads/2018/06/Venmo-card-Venmo.png","344","Testcolorcode","#ffc430","https://milestomemories.com/wp-content/uploads/2018/06/Venmo-card-Venmo.png","true","#673ab7","32","dffkelsfl"))
+        youngCard.add(VirtualCardModel("","https://milestomemories.com/wp-content/uploads/2018/06/Venmo-card-Venmo.png","445","Testcolorcode","#F44774","https://milestomemories.com/wp-content/uploads/2018/06/Venmo-card-Venmo.png","true","#ffc430","32","dffkelsfl"))
+        return youngCard
     }
 }

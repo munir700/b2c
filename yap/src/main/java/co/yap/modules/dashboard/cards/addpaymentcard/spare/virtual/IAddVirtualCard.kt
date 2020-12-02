@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.databinding.FragmentAddVirtualCardBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
 import co.yap.yapcore.IBase
 
@@ -13,8 +15,12 @@ interface IAddVirtualCard {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var adapter: AddVirtualCardAdapter
+        //var adapter: AddVirtualCardAdapter
+        var adapter: ObservableField<AddVirtualCardAdapter>
+        fun getCardThemesOption(): MutableList<VirtualCardModel>
     }
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        fun getBindings() : FragmentAddVirtualCardBinding
+    }
 }
