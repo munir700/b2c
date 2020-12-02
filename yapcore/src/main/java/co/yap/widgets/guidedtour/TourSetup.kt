@@ -53,7 +53,11 @@ class TourSetup(
         updateCircle()
         addDescBox()
         Handler().postDelayed({
-            skip?.visibility = View.VISIBLE
+            if (getCurrentItem()?.showSkip == true) {
+                skip?.visibility = View.VISIBLE
+            } else {
+                skip?.visibility = View.GONE
+            }
             updateSkipButtonPosition()
 //            skip!!.alpha = 0f
 //            skip!!.animate().alpha(1f).setDuration(500)
@@ -89,8 +93,7 @@ class TourSetup(
             descBoxView?.layoutParams = showCaseParams
             val p = descBoxView?.layoutParams
             rootMain?.addView(
-                TourUtils.setAnimationToView(descBoxView!!, animation)
-                , 0
+                TourUtils.setAnimationToView(descBoxView!!, animation), 0
             )
             descBoxView?.bringToFront()
         }
@@ -126,6 +129,7 @@ class TourSetup(
                 ?.y(yPadding)
                 ?.setDuration(500)?.start()
             descBoxView?.setAttributes(builder)
+
         }
     }
 
@@ -152,6 +156,9 @@ class TourSetup(
             .subtitle(tourDetail.description)
             .pageNo("${currentViewId + 1}/${guidedTourViewViewsList.size}")
             .targetViewScreenLocation(getTargetViewScreenLocation(tourDetail.view))
+            .showPageNo(tourDetail.showPageNo)
+            .showSkip(tourDetail.showSkip)
+            .btnText(tourDetail.btnText)
             .listener(object : OnBubbleMessageViewListener {
                 override fun onBubbleClick() {
                     listener.onItemClick(currentViewId)

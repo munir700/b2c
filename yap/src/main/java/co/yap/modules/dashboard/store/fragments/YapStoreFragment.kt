@@ -9,10 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentYapStoreBinding
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
@@ -39,12 +42,14 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         recycler_stores.adapter = YapStoreAdaptor(mutableListOf())
         (recycler_stores.adapter as YapStoreAdaptor).allowFullItemClickListener = true
         (recycler_stores.adapter as YapStoreAdaptor).setItemListener(listener)
+
     }
 
     private fun setObservers() {
         viewModel.storesLiveData.observe(this, Observer {
             (recycler_stores.adapter as YapStoreAdaptor).setList(it)
         })
+
     }
 
     val listener = object : OnItemClickListener {
@@ -95,7 +100,31 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         when (id) {
             R.id.ivRightIcon -> {
                 Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+                val tour = TourSetup(requireActivity(), setViewsArray())
+                tour.startTour()
             }
         }
+    }
+
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().toolbar.findViewById(R.id.ivRightIcon),
+                "Purchased packages",
+                "View and manage all your purchased YAP packages and add-ons in a single place.",
+                padding = 0f,
+                circleRadius = 220f,
+                showSkip = false,
+                showPageNo = false,
+                btnText = "OK, got it!"
+            )
+        )
+        return list
+    }
+
+    private fun getBindings(): FragmentYapStoreBinding {
+        return viewDataBinding as FragmentYapStoreBinding
     }
 }
