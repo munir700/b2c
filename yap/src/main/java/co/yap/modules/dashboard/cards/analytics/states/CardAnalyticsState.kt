@@ -121,6 +121,15 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
         }
 
+
+    @get:Bindable
+    override var displayMonth: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.displayMonth)
+        }
+
+
     fun setUpString(currencyType: String?, amount: String?) {
         monthlyAverageString =
             Translator.getString(context, Strings.screen_card_analytics_display_month_average_text)
