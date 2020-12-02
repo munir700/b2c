@@ -39,14 +39,6 @@
             app:rightIconVisibility="@{true}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
-        <include
-            layout="@layout/layout_bank_detail_toolbar"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +57,7 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_xxl"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintTop_toTopOf="parent">
@@ -107,14 +99,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
                 <TextView
                     android:id="@+id/tvSwift"
                     style="@style/ASmallGrey"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.5"
 
                     android:gravity="start"
@@ -147,7 +138,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
                 <TextView
@@ -186,7 +176,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
                 <TextView
@@ -226,7 +215,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
                 <TextView
@@ -250,8 +238,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
+                    android:lineSpacingExtra="0dp"
                     android:gravity="end"
-                    android:lines="1"
                     android:text="@{viewModel.state.bank}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -289,6 +277,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
+                    android:lineSpacingExtra="0dp"
                     android:gravity="end"
                     android:text="@{viewModel.state.addresse}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -342,21 +331,22 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
+            app:btn_size="small"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Share"
             android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
             app:btn_drawable="@drawable/ic_share_white"
-            app:btn_drawable_padding_left="10"
+            app:btn_drawable_padding_right="1.26"
             app:btn_drawable_padding_top="4"
             app:btn_drawable_position="right"
             app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_goneMarginTop="@dimen/margin_extra_large" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1823,8 +1823,6 @@ object Strings {
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =
             "screen_send_money_home_display_text_send_money"
-    const val screen_send_money_home_display_text_money: String =
-            "screen_send_money_home_display_text_money"
     const val screen_send_money_home_display_text_recent_transfers: String =
             "screen_send_money_home_display_text_recent_transfers"
     const val screen_send_money_home_display_text_send_money_home: String =
@@ -1851,4 +1849,6 @@ object Strings {
         "screen_qr_funds_transfer_display_text_available_balance"
     const val screen_qr_code_own_uuid_error_message: String =
         "screen_qr_code_own_uuid_error_message"
+    const val screen_dashboard_menu_display_text_my_profile: String =
+        "screen_dashboard_menu_display_text_my_profile"
 }

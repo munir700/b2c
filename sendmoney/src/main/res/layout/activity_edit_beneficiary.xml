@@ -51,8 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/margin_normal"
-                android:paddingEnd="@dimen/margin_normal">
+                android:paddingEnd="@dimen/margin_normal"
+                android:paddingStart="@dimen/margin_normal">
 
                 <TextView
                     style="@style/Large"
@@ -349,15 +349,34 @@
                     android:layout_height="wrap_content"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry">
-
-                    <co.yap.widgets.country_spinner.CountrySpinner
-                        android:id="@+id/spinner"
-                        android:layout_width="0dp"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/ASmall"
+                        android:id="@+id/bcountries"
+                        android:drawableEnd="@{editBeneficiaryViewModel.state.selectedCountryOfResidence == null ? @drawable/iv_drown_down: @drawable/iv_drown_down}"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_extra_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:drawablePadding="@dimen/_6sdp"
+                        android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
+                        android:paddingEnd="@dimen/margin_extra_small"
+                        android:text="@{editBeneficiaryViewModel.state.selectedCountryOfResidence == null ? @string/screen_add_beneficiary_display_text_select_country : editBeneficiaryViewModel.state.selectedCountryOfResidence.name}"
+                        app:flagOnDrawableStart="@{editBeneficiaryViewModel.state.selectedCountryOfResidence.isoCountryCode2Digit}"
+                        android:paddingStart="@dimen/margin_extra_small"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/screen_add_beneficiary_display_text_select_country"
+                        app:showDropDown="@{true}" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@color/greyLight"
+                        app:layout_constraintTop_toBottomOf="@+id/bcountries"
+                        />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -565,15 +584,14 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                    app:btn_size="small"
                     android:layout_marginTop="@dimen/_27sdp"
-                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                     app:btn_enable="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_gravity="center_horizontal"
                     app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
                     tools:text="@string/screen_beneficiary_overview_button_confirm" />
             </androidx.appcompat.widget.LinearLayoutCompat>

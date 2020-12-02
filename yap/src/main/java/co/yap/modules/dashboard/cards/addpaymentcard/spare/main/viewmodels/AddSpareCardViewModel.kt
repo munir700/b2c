@@ -20,6 +20,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
@@ -68,7 +70,14 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun requestInitialData() {
         state.avaialableCardBalance =
-            SessionManager.cardBalance.value?.availableBalance.toString().toFormattedCurrency(showCurrency = false)
+        context.resources.getText(
+            getString(Strings.screen_cash_transfer_display_text_available_balance),
+            context.color(
+                co.yap.sendmoney.R.color.colorPrimary,
+                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+            )
+        )
+
         if (isFromBlockCardScreen || cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             state.loading = true
             requestGetAddressForPhysicalCard()

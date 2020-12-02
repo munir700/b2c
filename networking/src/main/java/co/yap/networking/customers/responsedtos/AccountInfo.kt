@@ -74,5 +74,7 @@ class AccountInfo(
     @SerializedName("eidNotificationContent")
     var EIDExpiryMessage: String? = null,
     @SerializedName("encryptedAccountUUID")
-    var encryptedAccountUUID: String? = null
+    var encryptedAccountUUID: String? = null,
+    @SerializedName("partnerBankApprovalDate")
+    var partnerBankApprovalDate: String? = null
 ) : Parcelable

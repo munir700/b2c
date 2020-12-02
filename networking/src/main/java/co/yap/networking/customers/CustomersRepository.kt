@@ -14,6 +14,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -72,6 +73,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     val URL_SEND_MONEY_UAEFT = "/transactions/api/uaefts"
     val URL_GET_FEE = "/transactions/api/product-codes/{product-code}/fees"
     val URL_BENEFICIARY_CHECK_OTP_STATUS = "customers/api/beneficiaries/bank-transfer/otp-req"
+    const  val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
+
 
 
     val URL_RMT = "transactions/api/rmt"
@@ -367,4 +370,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
 
+    override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
+    executeSafely(call = { api.updateFxRate(fxRate) })
 }

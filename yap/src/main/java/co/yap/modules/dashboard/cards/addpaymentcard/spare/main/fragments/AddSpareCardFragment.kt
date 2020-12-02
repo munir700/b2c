@@ -27,6 +27,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.managers.SessionManager
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -44,7 +45,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.avaialableCardBalance = viewModel.availableBalance
         getUpArguments()
         navController = findNavController()
         setObservers()
@@ -138,12 +138,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         try {
             // todo temporary logic added to fix a bug, balance should be stored as double in view model
             val virtualCardFee =
-                viewModel.state.virtualCardFee.replace("${SessionManager.getDefaultCurrency()} ", "").replace(",", "")
+                viewModel.state.virtualCardFee.replace(
+                    "${SessionManager.getDefaultCurrency()} ",
+                    ""
+                ).replace(",", "")
                     .toDouble()
             val availableCardBalance =
-                viewModel.state.avaialableCardBalance.replace("${SessionManager.getDefaultCurrency()} ", "")
-                    .replace(",", "")
-                    .toDouble()
+                SessionManager.cardBalance.value?.availableBalance?.parseToDouble() ?: 0.0
             if (virtualCardFee > availableCardBalance) {
                 showDialog()
             } else {
@@ -158,15 +159,15 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         // todo temporary logic added to fix a bug, balance should be stored as double in view model
         try {
             val physicalCardFee =
-                viewModel.state.physicalCardFee.replace("${SessionManager.getDefaultCurrency()} ", "").replace(
+                viewModel.state.physicalCardFee.replace(
+                    "${SessionManager.getDefaultCurrency()} ",
+                    ""
+                ).replace(
                     ",",
                     ""
                 ).toDouble()
             val availableCardBalance =
-                viewModel.state.avaialableCardBalance.replace("${SessionManager.getDefaultCurrency()} ", "").replace(
-                    ",",
-                    ""
-                ).toDouble()
+                SessionManager.cardBalance.value?.availableBalance?.parseToDouble() ?: 0.0
 
             if (physicalCardFee > availableCardBalance) {
                 showDialog()

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import co.yap.R
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.interfaces.IYapHome
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -198,7 +199,11 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.DELIVERY -> return (when (progress) {
                 StageProgress.INACTIVE -> "EID scan will be carried out by the agent"
                 StageProgress.ACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_description)
-                StageProgress.COMPLETED -> "Your EID scan was approved on 03/09/2020"
+                StageProgress.COMPLETED -> "Your EID scan was approved on ${DateUtils.reformatStringDate(
+                    SessionManager.user?.partnerBankApprovalDate ?: "",
+                    SERVER_DATE_FORMAT,
+                    DEFAULT_DATE_FORMAT
+                )}"
                 else -> "EID scan will be carried out by the agent"
             })
             PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
@@ -218,7 +223,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openTopUpScreen() {
-        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+        context.launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openCardDeliveryStatusScreen() {

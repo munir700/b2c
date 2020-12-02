@@ -18,7 +18,7 @@ interface IAddSpareCard {
         //add physical card layout fields
 
         var physicalCardFee: String
-        var avaialableCardBalance: String
+        var avaialableCardBalance: CharSequence
         var physicalCardAddressTitle: String
         var physicalCardAddressSubTitle: String
         var physicalCardAddressCheckVisibility: Int

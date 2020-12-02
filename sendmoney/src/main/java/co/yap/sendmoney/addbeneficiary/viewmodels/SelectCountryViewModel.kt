@@ -90,11 +90,7 @@ class SelectCountryViewModel(application: Application) :
                             ?.filter { it.isoCountryCode2Digit != getExcludedCountryIsoCode() }
                         sortedList?.let { it ->
                             countries.clear()
-                            countries.add(
-                                0,
-                                Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
-                            )
-                            populateSpinnerData.value = Utils.parseCountryList(it)
+                            populateSpinnerData.value = Utils.parseCountryList(it,false)
                             countries.addAll(it.map {
                                 Country(
                                     id = it.id,
@@ -194,15 +190,6 @@ class SelectCountryViewModel(application: Application) :
         return currency
     }
 
-    override fun onCountrySelected(pos: Int) {
-        if (pos == 0) {
-            state.selectedCountry = null
-        } else {
-            val country: Country = countries[pos]
-            state.selectedCountry = country
-        }
-        parentViewModel?.selectedResidenceCountry = null
-    }
 
     private fun getExcludedCountryIsoCode(): String {
         return when (parentViewModel?.sendMoneyType) {
@@ -214,5 +201,11 @@ class SelectCountryViewModel(application: Application) :
                 ""
             }
         }
+    }
+
+    override fun onCountrySelected(country: Country?) {
+        state.selectedCountry =
+            parentViewModel?.countriesList?.find { it.isoCountryCode2Digit == country?.isoCountryCode2Digit }
+        parentViewModel?.selectedResidenceCountry = null
     }
 }
