@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:paddingTop="@dimen/margin_small"
-            android:paddingBottom="@dimen/_24sdp"
+            android:paddingBottom="@dimen/margin_extra_large"
             tools:context="co.yap.modules.otp.GenericOtpFragment">
 
             <include
@@ -163,20 +163,16 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnDone"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xxl"
+                    app:btn_size="small"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_xxl"
                     android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                     android:text="@string/screen_phone_number_button_send"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="44dp" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

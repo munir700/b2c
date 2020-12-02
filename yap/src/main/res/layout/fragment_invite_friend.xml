@@ -98,20 +98,21 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnShare"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginRight="@dimen/margin_xxl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 android:text="@{viewModel.state.buttonTitle}"
                 app:btn_drawable="@drawable/ic_share_white"
-                app:btn_drawable_padding_left="10"
+                app:btn_drawable_padding_right="1.26"
                 app:btn_drawable_padding_top="4"
                 app:btn_drawable_position="right"
                 app:enableCoreButton="@{true}"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

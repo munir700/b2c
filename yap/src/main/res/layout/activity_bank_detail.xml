@@ -331,21 +331,22 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
+            app:btn_size="small"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Share"
             android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
             app:btn_drawable="@drawable/ic_share_white"
-            app:btn_drawable_padding_left="10"
+            app:btn_drawable_padding_right="1.26"
             app:btn_drawable_padding_top="4"
             app:btn_drawable_position="right"
             app:enableCoreButton="@{true}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_goneMarginTop="@dimen/margin_extra_large" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
