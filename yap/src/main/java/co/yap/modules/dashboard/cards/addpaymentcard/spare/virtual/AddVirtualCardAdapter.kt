@@ -16,6 +16,7 @@ class AddVirtualCardAdapter(private val list: MutableList<VirtualCardModel>) :
         holder.onBind(position, list[position]
         )
     }
+
     override fun getLayoutIdForViewType(viewType: Int): Int = getViewModel(viewType).layoutRes()
     fun getViewModel(viewType: Int) = VirtualCardItemViewModel()
 }
