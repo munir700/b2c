@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.CardBenfitsDetailViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.CardBenfitsDetailViewModel" />
 
     </data>
 

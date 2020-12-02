@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.SpareCardLandingViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel" />
 
     </data>
 

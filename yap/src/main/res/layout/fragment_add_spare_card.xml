@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel" />
 
         <import type="android.view.View" />
 
