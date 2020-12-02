@@ -298,11 +298,15 @@ class CoreButton : AppCompatButton {
     private fun setButtonDimension() {
         var dimensions: IntArray = intArrayOf()
         when (btnSize) {
+            ButtonSize.MINI.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 36, 5)
+            }
             ButtonSize.MINI_SMALL.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 36, 4) // used in card details
             }
             ButtonSize.MINI_MEDIUM.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
+                dimensions =
+                    Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
             }
             ButtonSize.MINI_LARGE.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 60, 5)  // used in Maps
@@ -330,6 +334,7 @@ class CoreButton : AppCompatButton {
         LARGE(2),
         MINI_SMALL(3),
         MINI_MEDIUM(4),
-        MINI_LARGE(5)
+        MINI_LARGE(5),
+        MINI(6)
     }
 }

@@ -53,7 +53,6 @@ class TourSetup(
         updateCircle()
         addDescBox()
         Handler().postDelayed({
-            skip?.visibility = if (getCurrentItem()?.showSkip == true) View.VISIBLE else View.GONE
             updateSkipButtonPosition()
 //            skip!!.alpha = 0f
 //            skip!!.animate().alpha(1f).setDuration(500)
@@ -67,6 +66,7 @@ class TourSetup(
     }
 
     private fun updateSkipButtonPosition() {
+        skip?.visibility = if (getCurrentItem()?.showSkip == true) View.VISIBLE else View.GONE
         getCurrentItem()?.let {
             val isOnTop = TourUtils.isViewLocatedAtHalfTopOfTheScreen(context, it.view)
             val sh = TourUtils.getScreenHeight(context).toFloat()
