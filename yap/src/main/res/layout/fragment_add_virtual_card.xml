@@ -29,15 +29,15 @@
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:orientation="vertical">
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
-                android:layout_marginTop="@dimen/margin_extra_large"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:orientation="horizontal"
-                app:adapter="@{viewModel.adapter}"
-                />
+                app:adapter="@{viewModel.adapter}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvYoungCardText"
@@ -46,9 +46,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_normal_large"
+                android:text="Choose a colour"
                 android:textColor="@color/colorPrimaryDark"
-                tools:text="Choose a colour"
-                android:text="Choose a colour"/>
+                tools:text="Choose a colour" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -62,13 +62,15 @@
                 app:tabRippleColor="@color/dialogBtnColor">
 
             </com.google.android.material.tabs.TabLayout>
+
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctcCardEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name your virtual card"
-                tools:hint="Name your virtual card"
-                app:hintTextAppearance="@style/SmallGrey">
+                android:hint="@string/screen_add_virtual_spare_card_edit_name_label"
+                app:hintTextAppearance="@style/SmallGrey"
+                android:layout_marginTop="@dimen/margin_large"
+                tools:hint="Name your virtual card">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etCardName"
@@ -77,20 +79,19 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:drawableEnd="@drawable/ic_copy"
                     android:inputType="textEmailAddress"
                     android:paddingBottom="@dimen/margin_normal"
                     android:singleLine="true"
-                    tools:hint="Name your virtual card"
                     android:theme="@style/Theme.EditText"
-                    app:hint="@{Strings.screen_add_topup_bank_iban_label_text}"
-                    tools:text="@string/screen_add_topup_bank_iban_label_text" />
+                    app:hint="@{Strings.screen_add_virtual_spare_card_edit_name_hint}"
+                    tools:hint="@string/screen_add_virtual_spare_card_edit_name_hint" />
             </co.yap.widgets.CollapsedColoredHintTextInputLayout>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"
                 style="@style/FragmentsBtnStyle"
-                enableCoreButton="true"
+                android:text="@string/screen_phone_number_button_send"
+                app:enableCoreButton="@{true}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_btn_side_paddings"

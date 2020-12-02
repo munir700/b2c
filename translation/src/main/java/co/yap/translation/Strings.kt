@@ -557,6 +557,10 @@ object Strings {
 
     const val screen_add_spare_card_display_text_fee: String =
         "screen_add_spare_card_display_text_fee"
+    const val screen_add_virtual_spare_card_edit_name_label: String =
+        "screen_add_virtual_spare_card_edit_name_label"
+    const val screen_add_virtual_spare_card_edit_name_hint: String =
+        "screen_add_virtual_spare_card_edit_name_hint"
 
 
     // Add funds Screen

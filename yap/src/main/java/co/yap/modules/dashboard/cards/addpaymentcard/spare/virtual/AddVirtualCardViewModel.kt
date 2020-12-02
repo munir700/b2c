@@ -32,6 +32,7 @@ class AddVirtualCardViewModel(application: Application) :
                 )
             )
         }
+        state.cardDesigns?.postValue(cards)
         return cards
     }
 

@@ -12,6 +12,7 @@ import co.yap.R
 import co.yap.databinding.FragmentAddVirtualCardBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
 import co.yap.widgets.CircleView
+import co.yap.yapcore.helpers.extentions.dimen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_virtual_card.*
@@ -22,16 +23,16 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card
     override val viewModel: IAddVirtualCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddVirtualCardViewModel::class.java)
-    val adaptr: AddVirtualCardAdapter by lazy {
-        AddVirtualCardAdapter(viewModel.getCardThemesOption())
-    }
+    val adaptr: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
     private var tabViews = ArrayList<CircleView>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initiateAdapter()
     }
+
     private fun initiateAdapter() {
+        adaptr.setList(viewModel.getCardThemesOption())
         viewModel.adapter.set(adaptr)
         getBindings().viewPager.adapter = viewModel.adapter.get()
         setupPager()
@@ -46,10 +47,11 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
                         val view =
                             layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
                         view.layoutParams = ViewGroup.LayoutParams(
-                            R.dimen._24sdp,
-                            R.dimen._24sdp
+                            dimen(R.dimen._24sdp)?:R.dimen._20sdp,
+                            dimen(R.dimen._24sdp)?:R.dimen._20sdp
                         )
                         try {
+
                             view.circleColor = Color.parseColor(it[position].designColorCode)
                             //tab.tag = it[position]
                         } catch (e: Exception) {
