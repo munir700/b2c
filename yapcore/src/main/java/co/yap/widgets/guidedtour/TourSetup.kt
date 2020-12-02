@@ -53,11 +53,7 @@ class TourSetup(
         updateCircle()
         addDescBox()
         Handler().postDelayed({
-            if (getCurrentItem()?.showSkip == true) {
-                skip?.visibility = View.VISIBLE
-            } else {
-                skip?.visibility = View.GONE
-            }
+            skip?.visibility = if (getCurrentItem()?.showSkip == true) View.VISIBLE else View.GONE
             updateSkipButtonPosition()
 //            skip!!.alpha = 0f
 //            skip!!.animate().alpha(1f).setDuration(500)
