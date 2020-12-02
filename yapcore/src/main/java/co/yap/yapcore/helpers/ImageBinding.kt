@@ -128,7 +128,7 @@ object ImageBinding {
         if (fullName.isNullOrEmpty()) return
         val fName = fullName?:""
 
-        val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId = getResId(
             "ic_${getDrawableName(fName)}"
         )
@@ -194,7 +194,7 @@ object ImageBinding {
         fullName: String?,
         position: Int
     ) {
-        val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp))
@@ -206,12 +206,13 @@ object ImageBinding {
                     position
                 )
             )
+
         setCircleCropImage(
             imageView,
             imageUrl?:"",
             builder.buildRect(
                 Utils.shortName(fullName?:""),
-                Utils.getBackgroundColor(imageView.context, position = position)
+                Utils.getBackgroundColorForAnalytics(imageView.context, position = position)
             )
         )
     }
