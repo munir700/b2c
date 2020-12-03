@@ -64,9 +64,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             list.add(
                 GuidedTourViewDetail(
                     toolBarRightIcon,
-                    "Add card",
-                    "Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!",
-                    showSkip = false, showPageNo = false, btnText = "OK",
+                    title = getString(Strings.screen_cards_display_text_tour_add_card_heading),
+                    description = getString(Strings.screen_cards_display_text_tour_add_card_description),
+                    showSkip = false, showPageNo = false, btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
                     padding = 0f,
                     circleRadius = 210f
                 )

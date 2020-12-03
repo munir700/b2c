@@ -473,6 +473,12 @@ object Strings {
         "screen_cards_display_text_see_details"
     const val screen_cards_display_text_freeze_card_action: String =
         "screen_cards_display_text_freeze_card_action"
+    const val screen_cards_display_text_tour_add_card_heading: String =
+        "screen_cards_display_text_tour_add_card_heading"
+    const val screen_cards_display_text_tour_add_card_description: String =
+        "screen_cards_display_text_tour_add_card_description"
+    const val screen_cards_display_text_tour_add_card_btn_text: String =
+        "screen_cards_display_text_tour_add_card_btn_text"
 
     //Change Card Name Screen
     const val screen_card_name_title_change_card_name: String =

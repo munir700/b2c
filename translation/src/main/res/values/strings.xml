@@ -303,6 +303,9 @@
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
     <string name="screen_cards_display_text_card_removed_success">Card successfully removed!</string>
+    <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
+    <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
+    <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
 
 
     <!-- Spare Card Landing Screen -->
