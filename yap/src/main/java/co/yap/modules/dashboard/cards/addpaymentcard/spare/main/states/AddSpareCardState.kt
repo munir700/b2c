@@ -102,5 +102,13 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
 
         }
 
+    @get:Bindable
+    override var coreButtonText: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.coreButtonText)
+
+        }
+
 
 }

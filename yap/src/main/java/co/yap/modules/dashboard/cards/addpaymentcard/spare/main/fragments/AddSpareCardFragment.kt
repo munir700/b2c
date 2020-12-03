@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSp
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.networking.cards.responsedtos.Address
@@ -29,6 +30,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.managers.SessionManager
+import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
@@ -69,7 +71,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 R.id.btnConfirmVirtualCardPurchase -> {
-                    onPressConfirmPurchaseVirtual()
+                    handleCoreButtonNavigation()
                 }
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
@@ -94,6 +96,15 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
             }
         })
+    }
+
+    private fun handleCoreButtonNavigation() {
+        if (btnConfirmVirtualCardPurchase.text.contains("Top up")){
+            launchActivity<AddMoneyActivity> {  }
+            activity?.finish()
+        }else{
+            onPressConfirmPurchaseVirtual()
+        }
     }
 
     private fun onAddPhysicalCard() {

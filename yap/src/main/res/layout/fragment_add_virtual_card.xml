@@ -67,8 +67,7 @@
                 app:tabIndicator="@null"
                 app:tabPaddingEnd="6dp"
                 app:tabPaddingStart="6dp"
-                app:tabRippleColor="@color/dialogBtnColor">
-
+                >
             </com.google.android.material.tabs.TabLayout>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout

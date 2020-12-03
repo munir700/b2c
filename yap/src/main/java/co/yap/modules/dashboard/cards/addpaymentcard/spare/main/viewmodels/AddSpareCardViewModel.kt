@@ -70,18 +70,35 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun requestInitialData() {
-        state.avaialableCardBalance =
-        context.resources.getText(
-            getString(Strings.screen_cash_transfer_display_text_available_balance),
-            context.color(
-                co.yap.sendmoney.R.color.colorPrimary,
-                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
-            )
-        )
+        handleSuitableContent()
 
         if (isFromBlockCardScreen || cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             state.loading = true
             requestGetAddressForPhysicalCard()
+        }
+    }
+
+    private fun handleSuitableContent() {
+        if(parentViewModel?.virtualCardFee?.toDouble()?:0.0 < SessionManager.cardBalance.value?.availableBalance?.toDouble() ?: 0.0){
+
+            state.avaialableCardBalance = context.resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_available_balance),
+                context.color(
+                    co.yap.sendmoney.R.color.colorPrimary,
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                )
+            )
+            state.coreButtonText = getString(Strings.screen_add_spare_card_button_confirm_purchase)
+        }
+        else{
+            state.avaialableCardBalance =  context.resources.getText(
+                getString(Strings.screen_cash_transfer_display_text_required_topup_balance),
+                context.color(
+                    co.yap.sendmoney.R.color.colorPrimary,
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                )
+            )
+            state.coreButtonText = getString(Strings.screen_add_spare_card_display_button_block_alert_top_up)
         }
     }
 

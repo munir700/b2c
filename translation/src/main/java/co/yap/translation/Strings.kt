@@ -1191,6 +1191,8 @@ object Strings {
         "screen_crash_transfer_success_button_text_back"
     const val screen_cash_transfer_display_text_available_balance: String =
         "screen_cash_transfer_display_text_available_balance"
+    const val screen_cash_transfer_display_text_required_topup_balance: String =
+        "screen_cash_transfer_display_text_required_topup_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =

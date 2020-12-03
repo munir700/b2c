@@ -26,6 +26,7 @@ interface IAddSpareCard {
         var toggleVisibility: Boolean
         var onChangeLocationClick: Boolean
         var enableConfirmLocation: Boolean
+        var coreButtonText : String
 
     }
 
