@@ -37,6 +37,7 @@ class AddSpareCardViewModel(application: Application) :
     override var longitude: String = ""
     override var address: Address? = null
     override var paymentCard: Card? = null
+    override var cardName: String?= ""
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
     override var isFromaddressScreen: Boolean = false
@@ -113,7 +114,8 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-                AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
+             //   AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
+                AddVirtualSpareCardRequest(cardName)
             )) {
                 is RetroApiResponse.Success -> {
                     paymentCard = response.data.data

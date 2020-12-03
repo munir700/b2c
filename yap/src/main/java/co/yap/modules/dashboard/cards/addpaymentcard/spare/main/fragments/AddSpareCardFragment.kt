@@ -194,6 +194,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         viewModel.isFromBlockCardScreen =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
+
+        viewModel.cardName = arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardName } as String
         viewModel.requestInitialData()
 
     }

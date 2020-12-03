@@ -59,6 +59,10 @@
         <argument
             android:name="isFromBlockCard"
             app:argType="boolean" />
+        <argument
+            android:name="cardName"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
@@ -160,7 +164,11 @@
         android:id="@+id/addVirtualCardFragment"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardFragment"
         android:label="AddVirtualCardFragment"
-        tools:layout="@layout/fragment_add_virtual_card"/>
+        tools:layout="@layout/fragment_add_virtual_card">
+        <action
+            android:id="@+id/action_addVirtualCardFragment_to_addSpareCardFragment"
+            app:destination="@id/addSpareCardFragment" />
+    </fragment>
 
 
 </navigation>

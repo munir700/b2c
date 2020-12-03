@@ -21,9 +21,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
@@ -32,12 +33,14 @@
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:orientation="horizontal"
-                app:adapter="@{viewModel.adapter}" />
+                app:adapter="@{viewModel.adapter}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvYoungCardText"
@@ -45,9 +48,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_normal_large"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:text="Choose a colour"
                 android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewPager"
                 tools:text="Choose a colour" />
 
             <com.google.android.material.tabs.TabLayout
@@ -55,6 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_extra_large"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                app:layout_constraintTop_toBottomOf="@+id/tvYoungCardText"
                 app:tabGravity="center"
                 app:tabIndicator="@null"
                 app:tabPaddingEnd="6dp"
@@ -67,9 +75,10 @@
                 android:id="@+id/ctcCardEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
                 android:hint="@string/screen_add_virtual_spare_card_edit_name_label"
                 app:hintTextAppearance="@style/SmallGrey"
-                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout"
                 tools:hint="Name your virtual card">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -80,8 +89,10 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
+                    android:maxLength="26"
                     android:paddingBottom="@dimen/margin_normal"
                     android:singleLine="true"
+                    android:text="@={viewModel.state.cardName}"
                     android:theme="@style/Theme.EditText"
                     app:hint="@{Strings.screen_add_virtual_spare_card_edit_name_hint}"
                     tools:hint="@string/screen_add_virtual_spare_card_edit_name_hint" />
@@ -90,16 +101,20 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnNext"
                 style="@style/FragmentsBtnStyle"
-                android:text="@string/screen_phone_number_button_send"
-                app:enableCoreButton="@{true}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_btn_side_paddings"
-                android:layout_marginTop="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:layout_marginEnd="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                android:text="@string/screen_phone_number_button_send"
+                app:enableCoreButton="@{viewModel.state.enabelCoreButton}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ctcCardEdit" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 </layout>

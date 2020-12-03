@@ -38,6 +38,7 @@ interface IAddSpareCard {
         var longitude: String
         var address: Address?
         var paymentCard: Card?
+        var cardName : String?
 
         val CONFIRM_PHYSICAL_PURCHASE: Int
         val CONFIRM_VIRTUAL_PURCHASE: Int

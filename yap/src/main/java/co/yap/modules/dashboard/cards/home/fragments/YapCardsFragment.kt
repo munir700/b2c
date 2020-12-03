@@ -249,6 +249,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
+//                    val cardName:String  = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
                         adapter.removeAllItems()
                         openDetailScreen(pos = viewModel.cards.value?.size ?: 0, card = paymentCard)

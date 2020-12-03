@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -16,6 +17,7 @@ import co.yap.yapcore.helpers.extentions.dimen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_virtual_card.*
+import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
 
 class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewModel>(),
     TabLayout.OnTabSelectedListener, IAddVirtualCard.View {
@@ -23,8 +25,13 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card
     override val viewModel: IAddVirtualCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddVirtualCardViewModel::class.java)
-    val adaptr: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
+    var virtualCardAdapter: AddVirtualCardAdapter = AddVirtualCardAdapter(mutableListOf())
     private var tabViews = ArrayList<CircleView>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addObservers()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,8 +39,8 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     }
 
     private fun initiateAdapter() {
-        adaptr.setList(viewModel.getCardThemesOption())
-        viewModel.adapter.set(adaptr)
+        virtualCardAdapter.setList(viewModel.getCardThemesOption())
+        viewModel.adapter.set(virtualCardAdapter)
         getBindings().viewPager.adapter = viewModel.adapter.get()
         setupPager()
     }
@@ -47,8 +54,8 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
                         val view =
                             layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
                         view.layoutParams = ViewGroup.LayoutParams(
-                            dimen(R.dimen._24sdp)?:R.dimen._20sdp,
-                            dimen(R.dimen._24sdp)?:R.dimen._20sdp
+                            dimen(R.dimen._20sdp) ?: R.dimen._20sdp,
+                            dimen(R.dimen._20sdp) ?: R.dimen._20sdp
                         )
                         try {
 
@@ -60,7 +67,7 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
                         tabViews.add(view)
                         onTabSelected(tabLayout.getTabAt(0))
                         viewModel.state.designCode?.value =
-                            adaptr.getDataList()[0].designCode
+                            virtualCardAdapter.getDataList()[0].designCode
                         tab.customView = view
                     }).attach()
             })
@@ -70,7 +77,7 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.let {
             viewModel.state.designCode?.value =
-                adaptr.getDataList()[it.position].designCode
+                virtualCardAdapter.getDataList()[it.position].designCode
             tabViews[it.position].borderWidth = 6f
             tabViews[it.position].borderColor = Color.parseColor("#88848D")
         }
@@ -88,5 +95,45 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
 
     override fun getBindings(): FragmentAddVirtualCardBinding {
         return viewDataBinding as FragmentAddVirtualCardBinding
+    }
+
+    override fun addObservers() {
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.state.cardName.addOnPropertyChangedCallback(stateObserver)
+    }
+
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (viewModel.observeCardNameLength(viewModel.state.cardName.get() ?: "")) {
+                viewModel.clickEvent.call()
+            }
+        }
+    }
+    private val clickObserver = Observer<Int> { id ->
+        when (id) {
+            R.id.btnNext -> {
+                val action =
+                    AddVirtualCardFragmentDirections.actionAddVirtualCardFragmentToAddSpareCardFragment(
+                        getString(R.string.screen_spare_card_landing_display_text_virtual_card),
+                        "",
+                        "",
+                        "",
+                        "",
+                        false,
+                        viewModel.state.cardName.get() ?: "virtualCardTest"
+                    )
+                navigate(action)
+            }
+        }
+    }
+
+    override fun removeObservers() {
+        viewModel.state.cardName.removeOnPropertyChangedCallback(stateObserver)
+        viewModel.clickEvent.removeObserver(clickObserver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeObservers()
     }
 }
