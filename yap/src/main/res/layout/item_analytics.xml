@@ -10,6 +10,8 @@
             type="co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+        <import type="co.yap.yapcore.managers.SessionManager"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@{`AED ` +Utils.INSTANCE.getFormattedCurrency(viewModel.analyticsItem.totalSpending)}"
+                android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.analyticsItem.totalSpending,true,SessionManager.INSTANCE.defaultCurrency,true)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/content"
                 tools:text="AED 600.30" />
