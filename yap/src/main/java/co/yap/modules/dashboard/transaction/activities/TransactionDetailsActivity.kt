@@ -83,7 +83,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     getBindings().tvTransactionSubheading.alpha = 0.5f
                     getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if (it.isTransactionRejected()) getCancelReason(it) else getCutOffMsg(
+                    return@let if (it.isTransactionRejected()) getCancelReason() else getCutOffMsg(
                         it
                     )
                 }
