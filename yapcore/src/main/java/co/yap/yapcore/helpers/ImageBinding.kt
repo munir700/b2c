@@ -47,9 +47,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture?:"",
+            beneficiaryPicture ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, R.color.disabledLight)
             )
         )
@@ -70,9 +70,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture?:"",
+            beneficiaryPicture ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, color)
             )
         )
@@ -101,9 +101,9 @@ object ImageBinding {
             )
         setCircleCropImage(
             imageView,
-            imageUrl?:"",
+            imageUrl ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 getBgColorFromType(
                     colorType,
                     imageView,
@@ -126,7 +126,7 @@ object ImageBinding {
         isBackground: Boolean = true
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName?:""
+        val fName = fullName ?: ""
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId = getResId(
@@ -149,7 +149,7 @@ object ImageBinding {
                     )
                 )
             }
-            setCircleCropImage(imageView, imageUrl?:"", resImg!!)
+            setCircleCropImage(imageView, imageUrl ?: "", resImg!!)
 
         } else {
             setDrawable(
@@ -209,9 +209,9 @@ object ImageBinding {
 
         setCircleCropImage(
             imageView,
-            imageUrl?:"",
+            imageUrl ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 Utils.getBackgroundColorForAnalytics(imageView.context, position = position)
             )
         )
@@ -221,11 +221,11 @@ object ImageBinding {
         return colors[position % colors.size]
     }
 
-     fun getDrawableName(title: String): String {
+    fun getDrawableName(title: String): String {
         return title.replace(" ", "_").toLowerCase()
     }
 
-     fun getResId(drawableName: String): Int {
+    fun getResId(drawableName: String): Int {
         return try {
             val res = R.drawable::class.java
             val field = res.getField(drawableName)
@@ -237,11 +237,9 @@ object ImageBinding {
 
 
     private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
-
         return when (colorType) {
             "Beneficiary" -> Utils.getBeneficiaryColors(imageView.context, position = position)
             else -> Utils.getContactColors(imageView.context, position = position)
-
         }
     }
 
@@ -252,7 +250,6 @@ object ImageBinding {
                 position = position
             )
             else -> Utils.getBackgroundColor(imageView.context, position = position)
-
         }
     }
 
@@ -261,9 +258,11 @@ object ImageBinding {
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
 
         val resId = getResId(
-            "flag_${getDrawableName(
-                countryName
-            )}"
+            "flag_${
+                getDrawableName(
+                    countryName
+                )
+            }"
         )
         if (resId != -1) {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
