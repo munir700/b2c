@@ -23,7 +23,9 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
+import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
@@ -151,6 +153,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.imgSettings -> {
+                /* activity?.let { activity ->
+                     val tour = TourSetup(activity, setViewsArray())
+                     tour.startTour()
+                 }*/
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvName -> {
@@ -188,6 +194,32 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 )
             }
         }
+    }
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getBinding().btnBankDetails,
+                title = getString(Strings.screen_more_detail_display_text_tour_bank_details_heading),
+                description = getString(Strings.screen_more_detail_display_text_tour_bank_details_description),
+                padding = -150f,
+                circleRadius = 220f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBinding().llYapForYou,
+                title = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_heading),
+                description = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_description),
+                showSkip = false,
+                showPageNo = true,
+                btnText = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_btn_text),
+                padding = 200f,
+                circleRadius = 210f
+            )
+        )
+        return list
     }
 
     override fun getBinding(): FragmentMoreHomeBinding {

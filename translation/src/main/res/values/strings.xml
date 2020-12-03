@@ -443,6 +443,11 @@
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Account details</string>
     <string name="screen_more_detail_display_text_bank_details">YAP account details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_heading">Your bank details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_description">Tap here to view your complete bank account details, useful for topping up and sharing with contacts for transfer purposes.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
 
 
     <!--   Profile Settings screen-->
