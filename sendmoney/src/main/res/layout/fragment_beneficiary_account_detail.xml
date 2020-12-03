@@ -159,7 +159,7 @@
                         android:drawableRight="@{viewModel.parentViewModel.selectedCountry.ibanMandatory==true ? @drawable/ic_support : @drawable/drawable_transparent}"
                         android:hint="xxxxxxxxx"
                         android:inputType="textCapCharacters"
-                        app:ibanMask="@{`#### #### #### #### #### #### #### #### ###`}"
+                        app:ibanMask="@{viewModel.parentViewModel.selectedCountry.ibanMandatory ? `#### #### #### #### #### #### #### #### ###` : `#### #### #### #### #### #### #### #### ##`}"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
