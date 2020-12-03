@@ -111,8 +111,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:text="@{Strings.screen_card_status_display_text_activate_card}"
-                tools:text="@string/screen_card_status_display_text_activate_card" />
+                app:text="@{Strings.screen_card_delivery_status_button_set_pin}"
+                tools:text="@string/screen_card_delivery_status_button_set_pin" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
