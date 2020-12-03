@@ -21,6 +21,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
 class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.View {
@@ -100,8 +101,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         when (id) {
             R.id.ivRightIcon -> {
                 Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
-//                val tour = TourSetup(requireActivity(), setViewsArray())
-//                tour.startTour()
+                val tour = TourSetup(requireActivity(), setViewsArray())
+                tour.startTour()
             }
         }
     }
@@ -112,13 +113,13 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         list.add(
             GuidedTourViewDetail(
                 getBindings().toolbar.findViewById(R.id.ivRightIcon),
-                "Purchased packages",
-                "View and manage all your purchased YAP packages and add-ons in a single place.",
+                getString(R.string.screen_dashboard_tour_guide_display_text_packages),
+                getString(R.string.screen_dashboard_tour_guide_display_text_packages_des),
                 padding = 0f,
-                circleRadius = 220f,
+                circleRadius = getDimension(R.dimen._60sdp),
                 showSkip = false,
                 showPageNo = false,
-                btnText = "OK, got it!"
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_got_it)
             )
         )
         return list
