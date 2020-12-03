@@ -285,7 +285,7 @@ object UIBinder {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
                         text.context,
-                        R.string.screen_cards_display_text_pending_delivery
+                        R.string.screen_cards_display_text_inactive_description
                     )
                 }
             }

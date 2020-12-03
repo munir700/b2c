@@ -51,7 +51,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="@string/screen_passcode_success_display_text_sub_heading" />
+            tools:text="@string/screen_change_passcode_success_display_text_sub_heading" />
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/RectangleBtnStyle"

@@ -25,7 +25,6 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
-import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -60,16 +59,19 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
-        list.add(
-            GuidedTourViewDetail(
-                toolbar?.findViewById(R.id.ivRightIcon)!!,
-                "Add card",
-                "Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!",
-                showSkip = false, showPageNo = false, btnText = "OK",
-                padding = 0f,
-                circleRadius = 210f
+        val toolBarView: View? = toolbar?.findViewById(R.id.ivRightIcon)
+        toolBarView?.let { toolBarRightIcon ->
+            list.add(
+                GuidedTourViewDetail(
+                    toolBarRightIcon,
+                    title = getString(Strings.screen_cards_display_text_tour_add_card_heading),
+                    description = getString(Strings.screen_cards_display_text_tour_add_card_description),
+                    showSkip = false, showPageNo = false, btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
+                    padding = 0f,
+                    circleRadius = 210f
+                )
             )
-        )
+        }
         return list
     }
 

@@ -277,7 +277,7 @@
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
     <!-- Change Passcode screen -->
-    <string name="screen_change_passcode_success_display_text_sub_heading">Your new passcode has been updated \n successfully</string>
+    <string name="screen_change_passcode_success_display_text_sub_heading">Your passcode has been updated \n successfully</string>
 
     <!-- Create new Passcode screen -->
     <string name="screen_create_new_passcode_button_text">Set passcode</string>
@@ -289,7 +289,7 @@
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
 
     <!--    Card Home Screen-->
-    <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
+    <string name="screen_cards_display_text_inactive_description">We are now processing your account. Please wait for activation to be completed shortly.</string>
     <string name="screen_cards_display_text_expired_card">This card has expired</string>
     <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
     <string name="screen_cards_display_text_freeze_card_action">Unfreeze now</string>
@@ -303,6 +303,9 @@
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
     <string name="screen_cards_display_text_card_removed_success">Card successfully removed!</string>
+    <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
+    <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
+    <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
 
 
     <!-- Spare Card Landing Screen -->
@@ -346,7 +349,7 @@
     <string name="screen_card_status_display_text_ordered">Ordered</string>
     <string name="screen_card_status_display_text_building">Building</string>
     <string name="screen_card_status_display_text_shipping">Shipping</string>
-    <string name="screen_card_status_display_text_activate_card">Activate card</string>
+    <string name="screen_card_delivery_status_button_set_pin">Set PIN</string>
 
     <!--    Add funds Screen-->
     <string name="screen_add_funds_display_text_add_funds">Add funds</string>
@@ -443,6 +446,11 @@
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Account details</string>
     <string name="screen_more_detail_display_text_bank_details">YAP account details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_heading">Your bank details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_description">Tap here to view your complete bank account details, useful for topping up and sharing with contacts for transfer purposes.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
 
 
     <!--   Profile Settings screen-->
@@ -1086,23 +1094,27 @@
     <string name="transaction_narration_y2y_transfer_detail">YTY transfer</string>
 
     <!--   Status Time line  -->
-    <string name="screen_time_line_display_text_status_card_on_the_way_title">Your card is on the way</string>
-    <string name="screen_time_line_display_text_status_card_on_the_way_description">Give us up to 48 hours for it to reach you</string>
-    <string name="screen_time_line_display_text_status_card_on_the_way_action">Track your delivery</string>
+    <string name="dashboard_timeline_shipping_stage_title">Your card is on the way</string>
+    <string name="dashboard_timeline_shipping_stage_description">Give us up to 48 hours for it to reach you</string>
+    <string name="dashboard_timeline_shipping_stage_completed_description">Your card was delivered on %1s</string>
+    <string name="dashboard_timeline_shipping_stage_action_title">Track your delivery</string>
 
-    <string name="screen_time_line_display_text_status_card_delivered_title">Your card is delivered</string>
-    <string name="screen_time_line_display_text_status_card_delivered_description">Your EID scan has been carried out</string>
+    <string name="dashboard_timeline_delivery_stage_title">Your card is delivered</string>
+    <string name="dashboard_timeline_delivery_stage_description">Your EID scan is required.</string>
+    <string name="dashboard_timeline_delivery_stage_active_description">Your EID scan has been carried out. We are now processing your account. Please wait for activation to be completed shortly.</string>
+    <string name="dashboard_timeline_delivery_stage_completed_description">Your EID scan was approved on %1s</string>
 
-    <string name="screen_time_line_display_text_status_set_card_pin_title">Set your card PIN</string>
-    <string name="screen_time_line_display_text_status_set_card_pin_description">You\’ll need this to begin using your card</string>
-    <string name="screen_time_line_display_text_status_set_card_pin_action">Set PIN</string>
+    <string name="dashboard_timeline_set_pin_stage_title">Set your card PIN</string>
+    <string name="dashboard_timeline_set_pin_stage_description">You’ll need this to begin using your card</string>
+    <string name="dashboard_timeline_set_pin_stage_completed_description">Your PIN was successfully set on %1s</string>
+    <string name="dashboard_timeline_set_pin_stage_action_title">Set PIN</string>
 
-    <string name="screen_time_line_display_text_status_card_top_up_title">Time to top up</string>
-    <string name="screen_time_line_display_text_status_card_top_up_description">Add money to your YAP card to start spending</string>
-    <string name="screen_time_line_display_text_status_card_top_up_action">Top up now</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_title">Additional requirements</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_action">Check email</string>
-    <string name="screen_time_line_display_text_status_additional_requirements_description">We\’ll need some more documents to proceed</string>
+    <string name="dashboard_timeline_top_up_stage_title">Time to top up</string>
+    <string name="dashboard_timeline_top_up_stage_description">Add money to your YAP card to start spending</string>
+    <string name="dashboard_timeline_top_up_stage_action_title">Top up now</string>
+
+    <string name="dashboard_timeline_top_up_stage_completion_title">Completed</string>
+    <string name="dashboard_timeline_top_up_stage_in_process_title">In process</string>
 
     <!--  Yap It Add Money Screen-->
     <string name="screen_fragment_yap_it_add_money_title">Add money</string>
@@ -1126,6 +1138,7 @@
 
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
+    <string name="screen_transaction_detail_text_cancelled_reason">Sorry! We\'re unable to complete your transfer at this point. Don\'t worry, we\'ve gone ahead and cancelled it for you.</string>
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
