@@ -661,6 +661,9 @@ object Utils {
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
+    fun getBackgroundColorForAnalytics(context: Context, position: Int) =
+        ContextCompat.getColor(context, backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
+
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(
             context,
@@ -679,6 +682,14 @@ object Utils {
         R.color.bg_round_light_blue,
         R.color.bg_round_light_green,
         R.color.bg_round_light_orange
+    )
+
+    private val backgroundColorsOfAnalytics = intArrayOf(
+        R.color.bg_round_light_red,
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_primary_soft
     )
 
     private val contactColors = intArrayOf(
@@ -704,7 +715,6 @@ object Utils {
         R.color.bg_round_light_secondary_blue,
         R.color.bg_round_light_green,
         R.color.bg_round_light_primary
-
     )
 
     fun getTwoDecimalPlaces(value: Double): Double {
