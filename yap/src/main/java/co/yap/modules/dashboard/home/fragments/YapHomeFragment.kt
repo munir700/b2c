@@ -39,7 +39,6 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -54,6 +53,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
@@ -136,7 +136,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         )
         viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
-        rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
+        rvTransactionsBarChart.updatePadding(right = getScreenWidth() / 2)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
@@ -283,6 +283,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.lyAdd -> {
                     openTopUpScreen()
                 }
+
+                R.id.ivSearch -> {
+                    val tour = TourSetup(requireActivity(), setViewsArray())
+                    tour.startTour()
+                }
             }
         })
 
@@ -322,7 +327,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     if (!shouldAppend)
                         listToAppend.add(parentItem)
                 }
-                if(oldData?.size?.plus(listToAppend.size)!! >= 5 ) {
+                if (oldData?.size?.plus(listToAppend.size)!! >= 5) {
                     getGraphRecycleViewAdapter()?.addList(listToAppend)
                     getRecycleViewAdaptor()?.addList(listToAppend)
                 } else {
@@ -763,39 +768,40 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
             GuidedTourViewDetail(
-                getParentActivity().cvYapIt,
-                "Your current balance",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 220f,
-                circleRadius = 300f
-            )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().ivSearch,
-                "Menu Type",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 170f,
-                circleRadius = 220f
-            )
-        )
-
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().tvAvailableBalance,
-                "Yap it",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 260f,
+                getBindings().ivMenu,
+                "Top menu",
+                "Get quick access to useful links related to your profile, account details, analytics, support and contacting YAP",
+                padding = -100f,
                 circleRadius = 260f
             )
         )
         list.add(
             GuidedTourViewDetail(
-                getBindings().lyInclude.rlFilter,
-                "Yap it",
-                "Here you can see your account’s current balance. It will be updated in-real time after every transaction.",
-                padding = 150f,
-                circleRadius = 160f
+                getBindings().tvAvailableBalance,
+                "Your current balance",
+                "This is an indicator of your available balance. It is always updated in real time and supported by a daily transaction graph.",
+                padding = 280f,
+                circleRadius = 300f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getParentActivity().cvYapIt,
+                "YAP it",
+                "Launch the YAP it button to carry out important functions like sending money, adding funds to your account and paying bills. ",
+                padding = 1140f,
+                circleRadius = 320f
+            )
+        )
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().ivSearch,
+                "Search",
+                "Click here to search for specific transactions in your account history",
+                padding = 170f,
+                circleRadius = 220f,
+                btnText = "Finish",
+                showSkip = false
             )
         )
         return list
@@ -813,5 +819,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             activity
         )
 
+    }
+
+
+    private fun setGraphViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        list.add(
+            GuidedTourViewDetail(
+                getBindings().lyInclude.llGraph,
+                "Daily transaction graph",
+                "View your transactions plotted on a graph and drag your fingers along the bars to view a specific date.",
+                padding = 50f,
+                circleRadius = 460f,
+                btnText = "Finish",
+                showSkip = false,
+                showPageNo = false
+            )
+        )
+        return list
     }
 }
