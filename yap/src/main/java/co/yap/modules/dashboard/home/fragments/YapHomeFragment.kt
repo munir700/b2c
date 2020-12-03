@@ -69,6 +69,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
+import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
@@ -769,38 +770,38 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         list.add(
             GuidedTourViewDetail(
                 getBindings().ivMenu,
-                "Top menu",
-                "Get quick access to useful links related to your profile, account details, analytics, support and contacting YAP",
-                padding = -100f,
-                circleRadius = 260f
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_menu),
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
+                padding = -getDimension(R.dimen._20sdp),
+                circleRadius = getDimension(R.dimen._60sdp)
             )
         )
         list.add(
             GuidedTourViewDetail(
                 getBindings().tvAvailableBalance,
-                "Your current balance",
-                "This is an indicator of your available balance. It is always updated in real time and supported by a daily transaction graph.",
-                padding = 280f,
-                circleRadius = 300f
+                getString(R.string.screen_dashboard_tour_guide_display_text_balance),
+                getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
+                padding = getDimension(R.dimen._70sdp),
+                circleRadius = getDimension(R.dimen._70sdp)
             )
         )
         list.add(
             GuidedTourViewDetail(
                 getParentActivity().cvYapIt,
-                "YAP it",
-                "Launch the YAP it button to carry out important functions like sending money, adding funds to your account and paying bills. ",
-                padding = 1140f,
-                circleRadius = 320f
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it),
+                getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
+                padding = getDimension(R.dimen._260sdp),
+                circleRadius = getDimension(R.dimen._70sdp)
             )
         )
         list.add(
             GuidedTourViewDetail(
                 getBindings().ivSearch,
-                "Search",
-                "Click here to search for specific transactions in your account history",
-                padding = 170f,
-                circleRadius = 220f,
-                btnText = "Finish",
+                getString(R.string.screen_dashboard_tour_guide_display_text_search),
+                getString(R.string.screen_dashboard_tour_guide_display_text_search_des),
+                padding = getDimension(R.dimen._45sdp),
+                circleRadius = getDimension(R.dimen._60sdp),
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false
             )
         )
@@ -818,7 +819,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             viewModel,
             activity
         )
-
     }
 
 
@@ -827,11 +827,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         list.add(
             GuidedTourViewDetail(
                 getBindings().lyInclude.llGraph,
-                "Daily transaction graph",
-                "View your transactions plotted on a graph and drag your fingers along the bars to view a specific date.",
-                padding = 50f,
-                circleRadius = 460f,
-                btnText = "Finish",
+                getString(R.string.screen_dashboard_tour_guide_display_text_graph),
+                getString(R.string.screen_dashboard_tour_guide_display_text_graph_des),
+                padding = getDimension(R.dimen._5sdp),
+                circleRadius = getDimension(R.dimen._90sdp),
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
                 showPageNo = false
             )

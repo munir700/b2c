@@ -100,11 +100,23 @@ class TourSetup(
             layer?.radius = it.circleRadius
             layer?.centerX = it.view.locationOnScreen.x.toFloat() + (it.view.width / 2)
             when {
-                TourUtils.isViewLocatedAtBottomOfTheScreen(context, it.view, 200) -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 125
+                TourUtils.isViewLocatedAtBottomOfTheScreen(
+                    context,
+                    it.view,
+                    activity.resources.getDimension(R.dimen._50sdp).toInt()
+                ) -> {
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._30sdp)
+                            .toInt()
                 }
-                TourUtils.isViewLocatedAtTopOfTheScreen(context, it.view, 200) -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 50
+                TourUtils.isViewLocatedAtTopOfTheScreen(
+                    context,
+                    it.view,
+                    activity.resources.getDimension(R.dimen._50sdp).toInt()
+                ) -> {
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._15sdp)
+                            .toInt()
                 }
                 else -> {
                     layer?.centerY = it.view.locationOnScreen.y.toFloat()
