@@ -70,7 +70,7 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun requestInitialData() {
-        handleSuitableContent()
+        updateScreenContent()
 
         if (isFromBlockCardScreen || cardType != getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             state.loading = true
@@ -78,7 +78,7 @@ class AddSpareCardViewModel(application: Application) :
         }
     }
 
-    private fun handleSuitableContent() {
+    private fun updateScreenContent() {
         if(parentViewModel?.virtualCardFee?.toDouble()?:0.0 < SessionManager.cardBalance.value?.availableBalance?.toDouble() ?: 0.0){
 
             state.avaialableCardBalance = context.resources.getText(

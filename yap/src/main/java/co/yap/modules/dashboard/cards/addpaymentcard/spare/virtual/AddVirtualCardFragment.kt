@@ -19,7 +19,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_virtual_card.*
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
 
-class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewModel>(),
+class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel>(),
     TabLayout.OnTabSelectedListener, IAddVirtualCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_virtual_card
@@ -120,7 +120,7 @@ class AddVirtualCardFragment() : AddPaymentChildFragment<IAddVirtualCard.ViewMod
                         "",
                         "",
                         false,
-                        viewModel.state.cardName.get() ?: "virtualCardTest"
+                        viewModel.state.cardName.get() ?: ""
                     )
                 navigate(action)
             }

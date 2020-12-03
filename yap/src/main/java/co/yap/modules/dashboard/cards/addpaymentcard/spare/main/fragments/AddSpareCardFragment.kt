@@ -101,7 +101,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     private fun handleCoreButtonNavigation() {
         if (btnConfirmVirtualCardPurchase.text.contains("Top up")){
             launchActivity<AddMoneyActivity> {  }
-            activity?.finish()
         }else{
             onPressConfirmPurchaseVirtual()
         }
@@ -116,7 +115,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 (activity as AddPaymentCardActivity).hideToolbar()
             }
         }
-        findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+        navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
     }
 
     private fun onAddVirtualCard() {
