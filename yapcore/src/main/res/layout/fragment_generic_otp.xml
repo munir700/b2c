@@ -63,7 +63,9 @@
                     <TextView
                         android:id="@+id/textView4"
                         style="@style/ASmallGrey"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/margin_medium_large"
+                        android:layout_marginEnd="@dimen/margin_medium_large"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="1dp"
                         android:text="@{viewModel.state.verificationDescription}"
@@ -73,24 +75,26 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0"
+                        tools:visibility="gone"
                         tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636" />
 
                     <TextView
                         android:id="@+id/tvSpannable"
                         style="@style/ASmallGrey"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="1dp"
                         android:textAlignment="center"
+                        android:gravity="center"
                         android:visibility="@{viewModel.state.otpDataModel.logoData!=null?View.VISIBLE:View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0"
+                        android:layout_marginStart="@dimen/margin_medium_large"
+                        android:layout_marginEnd="@dimen/margin_medium_large"
                         app:text="@{viewModel.state.verificationDescriptionForLogo}"
                         tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636"
-                        tools:visibility="gone" />
+                        tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <co.yap.widgets.otptextview.OtpTextView
