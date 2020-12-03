@@ -277,7 +277,7 @@
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
     <!-- Change Passcode screen -->
-    <string name="screen_change_passcode_success_display_text_sub_heading">Your new passcode has been updated \n successfully</string>
+    <string name="screen_change_passcode_success_display_text_sub_heading">Your passcode has been updated \n successfully</string>
 
     <!-- Create new Passcode screen -->
     <string name="screen_create_new_passcode_button_text">Set passcode</string>
