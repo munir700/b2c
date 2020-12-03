@@ -101,8 +101,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         when (id) {
             R.id.ivRightIcon -> {
                 Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
-                val tour = TourSetup(requireActivity(), setViewsArray())
-                tour.startTour()
+//                val tour = TourSetup(requireActivity(), setViewsArray())
+//                tour.startTour()
             }
         }
     }
