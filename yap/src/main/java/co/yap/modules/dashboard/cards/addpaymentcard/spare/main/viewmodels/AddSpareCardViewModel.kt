@@ -2,11 +2,11 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels
 
 import android.app.Application
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states.AddSpareCardState
-import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.responsedtos.Address
@@ -37,7 +37,7 @@ class AddSpareCardViewModel(application: Application) :
     override var longitude: String = ""
     override var address: Address? = null
     override var paymentCard: Card? = null
-    override var cardName: String?= ""
+    override var cardName: String? = ""
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
     override var isFromaddressScreen: Boolean = false
@@ -79,26 +79,28 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     private fun updateScreenContent() {
-        if(parentViewModel?.virtualCardFee?.toDouble()?:0.0 < SessionManager.cardBalance.value?.availableBalance?.toDouble() ?: 0.0){
+        if (parentViewModel?.virtualCardFee?.toDouble() ?: 0.0 < SessionManager.cardBalance.value?.availableBalance?.toDouble() ?: 0.0) {
 
             state.avaialableCardBalance = context.resources.getText(
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     co.yap.sendmoney.R.color.colorPrimary,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true) ?: ""
                 )
             )
             state.coreButtonText = getString(Strings.screen_add_spare_card_button_confirm_purchase)
-        }
-        else{
-            state.avaialableCardBalance =  context.resources.getText(
+        } else {
+            state.avaialableCardBalance = context.resources.getText(
                 getString(Strings.screen_cash_transfer_display_text_required_topup_balance),
                 context.color(
                     co.yap.sendmoney.R.color.colorPrimary,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true) ?: ""
                 )
             )
-            state.coreButtonText = getString(Strings.screen_add_spare_card_display_button_block_alert_top_up)
+            state.coreButtonText =
+                getString(Strings.screen_add_spare_card_display_button_block_alert_top_up)
         }
     }
 
@@ -131,7 +133,7 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-             //   AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
+                //   AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
                 AddVirtualSpareCardRequest(cardName)
             )) {
                 is RetroApiResponse.Success -> {

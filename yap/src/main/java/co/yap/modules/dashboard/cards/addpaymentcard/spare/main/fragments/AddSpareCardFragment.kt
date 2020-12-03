@@ -210,6 +210,11 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.requestInitialData()
+    }
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
