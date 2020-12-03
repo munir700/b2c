@@ -150,6 +150,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
+                Utils.hideKeyboard(otp_view)
                 activity?.onBackPressed()
             }
         }
