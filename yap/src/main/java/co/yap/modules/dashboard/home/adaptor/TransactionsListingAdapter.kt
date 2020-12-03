@@ -26,7 +26,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        (holder as TransactionListingViewHolder).onBind(list[position])
+        (holder as TransactionListingViewHolder).onBind(list[position], position)
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -36,9 +36,9 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
     class TransactionListingViewHolder(private val itemTransactionListBinding: ItemTransactionListBinding) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
-        fun onBind(transaction: Transaction) {
+        fun onBind(transaction: Transaction, position: Int?) {
             val context: Context = itemTransactionListBinding.tvCurrency.context
-            handleProductBaseCases(context, transaction)
+            handleProductBaseCases(context, transaction, position)
 
             transaction.transactionNote?.let {
                 itemTransactionListBinding.tvTransactionNote.text = it
@@ -67,21 +67,25 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
 
         }
 
-        private fun handleProductBaseCases(context: Context, transaction: Transaction) {
+        private fun handleProductBaseCases(
+            context: Context,
+            transaction: Transaction,
+            position: Int?
+        ) {
             val transactionTitle = transaction.getTransactionTitle()
             val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
                 transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
-                    setY2YUserImage(transaction, itemTransactionListBinding)
+                    setY2YUserImage(transaction, itemTransactionListBinding, position)
                 } else {
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
                         if (transaction.isTransactionCancelled())
                             itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     } else {
-                        setInitialsAsTxnImage(transaction, itemTransactionListBinding)
+                        setInitialsAsTxnImage(transaction, itemTransactionListBinding, position)
                         if (transaction.isTransactionCancelled())
                             itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     }
@@ -103,36 +107,39 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
 
         private fun setY2YUserImage(
             transaction: Transaction,
-            itemTransactionListBinding: ItemTransactionListBinding
+            itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {
-            if(transaction.isTransactionRejected()){
-                if(transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
+            if (transaction.isTransactionRejected()) {
+                if (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
                     transaction.productCode == TransactionProductCode.TOP_UP_VIA_CARD.pCode ||
-                    transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+                    transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode
+                ) {
                     itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_reverted)
                 } else {
+                    itemTransactionListBinding.ivTransaction.background = null
                     ImageBinding.loadAvatar(
-                        itemTransactionListBinding.ivTransaction,
-                        if (TxnType.valueOf(
+                        imageView = itemTransactionListBinding.ivTransaction,
+                        imageUrl = if (TxnType.valueOf(
                                 transaction.txnType ?: ""
                             ) == TxnType.DEBIT
                         ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                        if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                        android.R.color.transparent,
-                        R.dimen.text_size_h2
+                        fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                        position = position ?: 0,
+                        colorType = "Beneficiary"
                     )
                     itemTransactionListBinding.ivTransaction.alpha = 0.5f
                 }
-            }else {
+            } else {
+                itemTransactionListBinding.ivTransaction.background = null
                 ImageBinding.loadAvatar(
-                    itemTransactionListBinding.ivTransaction,
-                    if (TxnType.valueOf(
+                    imageView = itemTransactionListBinding.ivTransaction,
+                    imageUrl = if (TxnType.valueOf(
                             transaction.txnType ?: ""
                         ) == TxnType.DEBIT
                     ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                    if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                    android.R.color.transparent,
-                    R.dimen.text_size_h2
+                    fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                    position = position ?: 0,
+                    colorType = "Beneficiary"
                 )
             }
         }
@@ -140,14 +147,15 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
 
         private fun setInitialsAsTxnImage(
             transaction: Transaction,
-            itemTransactionListBinding: ItemTransactionListBinding
+            itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {
+            itemTransactionListBinding.ivTransaction.background = null
             ImageBinding.loadAvatar(
-                itemTransactionListBinding.ivTransaction,
-                "",
-                transaction.title,
-                android.R.color.transparent,
-                R.dimen.text_size_h2
+                imageView = itemTransactionListBinding.ivTransaction,
+                imageUrl = "",
+                fullName = transaction.title,
+                position = position ?: 0,
+                colorType = "Beneficiary"
             )
         }
 

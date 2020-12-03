@@ -138,6 +138,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
 
             <LinearLayout
+                android:id="@+id/llYapForYou"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_90sdp"
                 android:background="@drawable/cornor_edges_grey_less_radius"
