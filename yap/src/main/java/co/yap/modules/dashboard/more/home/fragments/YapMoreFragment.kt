@@ -36,6 +36,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
+import com.liveperson.infra.configuration.Configuration.getDimension
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
@@ -153,10 +154,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.imgSettings -> {
-                /* activity?.let { activity ->
-                     val tour = TourSetup(activity, setViewsArray())
-                     tour.startTour()
-                 }*/
+                /*activity?.let { activity ->
+                    val tour = TourSetup(activity, setViewsArray())
+                    tour.startTour()
+                }*/
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvName -> {
@@ -203,8 +204,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 getBinding().btnBankDetails,
                 title = getString(Strings.screen_more_detail_display_text_tour_bank_details_heading),
                 description = getString(Strings.screen_more_detail_display_text_tour_bank_details_description),
-                padding = -150f,
-                circleRadius = 220f
+                padding = -getDimension(R.dimen._45sdp),
+                circleRadius = getDimension(R.dimen._65sdp)
             )
         )
         list.add(
@@ -215,8 +216,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 showSkip = false,
                 showPageNo = true,
                 btnText = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_btn_text),
-                padding = 200f,
-                circleRadius = 210f
+                padding = getDimension(R.dimen._95sdp),
+                circleRadius = getDimension(R.dimen._90sdp)
             )
         )
         return list

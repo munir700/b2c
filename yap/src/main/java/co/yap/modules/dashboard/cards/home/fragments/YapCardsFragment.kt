@@ -25,6 +25,7 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -36,6 +37,8 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
+import com.liveperson.infra.configuration.Configuration
+import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
@@ -55,24 +58,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
-    }
-
-    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
-        val list = ArrayList<GuidedTourViewDetail>()
-        val toolBarView: View? = toolbar?.findViewById(R.id.ivRightIcon)
-        toolBarView?.let { toolBarRightIcon ->
-            list.add(
-                GuidedTourViewDetail(
-                    toolBarRightIcon,
-                    title = getString(Strings.screen_cards_display_text_tour_add_card_heading),
-                    description = getString(Strings.screen_cards_display_text_tour_add_card_description),
-                    showSkip = false, showPageNo = false, btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
-                    padding = 0f,
-                    circleRadius = 210f
-                )
-            )
-        }
-        return list
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -173,7 +158,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                 }
                 R.id.lySeeDetail -> {
-                    /* activity?.let { activity ->
+                   /* activity?.let { activity ->
                          val tour = TourSetup(activity, setViewsArray())
                          tour.startTour()
                      }*/
@@ -392,8 +377,27 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         return adapter.getDataList().firstOrNull { it.cardSerialNumber == serialNumber }
     }
 
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        val toolBarView: View? = toolbar?.findViewById(R.id.ivRightIcon)
+        toolBarView?.let { toolBarRightIcon ->
+            list.add(
+                GuidedTourViewDetail(
+                    toolBarRightIcon,
+                    title = getString(Strings.screen_cards_display_text_tour_add_card_heading),
+                    description = getString(Strings.screen_cards_display_text_tour_add_card_description),
+                    showSkip = false, showPageNo = false, btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
+                    padding = -getDimension(R.dimen._10sdp),
+                    circleRadius = getDimension(R.dimen._70sdp)
+                )
+            )
+        }
+        return list
+    }
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
+
 }
