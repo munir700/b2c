@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_blur_stroke_corner"
+    android:layout_marginEnd="@dimen/margin_small">
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/ASmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recipt Item"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:layout_marginVertical="@dimen/margin_extra_small"
+        android:drawableStart="@drawable/ic_recipt"
+        android:drawablePadding="@dimen/margin_extra_small"
+        android:gravity="center_vertical"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
