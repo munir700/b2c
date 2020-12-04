@@ -1180,6 +1180,12 @@
     <string name="screen_dashboard_tour_guide_display_text_graph_des">View your transactions plotted on a graph and drag your fingers along the bars to view a specific date.</string>
     <string name="screen_dashboard_tour_guide_display_text_packages">Purchased packages</string>
     <string name="screen_dashboard_tour_guide_display_text_packages_des">View and manage all your purchased YAP packages and add-ons in a single place.</string>
+    <string name="screen_dashboard_tour_guide_display_text_more">More icon</string>
+    <string name="screen_dashboard_tour_guide_display_text_more_des">Click here to add a name to your card, view statements or remove it from your account. </string>
+    <string name="screen_dashboard_tour_guide_display_text_freeze_card">Freeze card</string>
+    <string name="screen_dashboard_tour_guide_display_text_freeze_card_des">You can temporarily block usage of your card by clicking on Freeze. Don’t worry though, you can always unfreeze your card instantly.</string>
+    <string name="screen_dashboard_tour_guide_display_text_limit">Set limits</string>
+    <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
 
 

@@ -25,6 +25,7 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -36,6 +37,7 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
+import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
@@ -66,9 +68,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     toolBarRightIcon,
                     title = getString(Strings.screen_cards_display_text_tour_add_card_heading),
                     description = getString(Strings.screen_cards_display_text_tour_add_card_description),
-                    showSkip = false, showPageNo = false, btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
+                    showSkip = false,
+                    showPageNo = false,
+                    btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
                     padding = 0f,
-                    circleRadius = 210f
+                    circleRadius = getDimension(R.dimen._57sdp)
                 )
             )
         }
@@ -229,7 +233,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onToolBarClick(id: Int) {
         when (id) {
-            R.id.ivRightIcon -> openAddCard()
+            R.id.ivRightIcon -> {
+                openAddCard()
+//                val tour = TourSetup(requireActivity(), setViewsArray())
+//                tour.startTour()
+            }
         }
     }
 
@@ -274,7 +282,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
                         adapter.removeAllItems()
-                        openDetailScreen(pos = viewModel.cards.value?.size ?: 0, card = paymentCard)
+                        openDetailScreen(
+                            pos = viewModel.cards.value?.size ?: 0,
+                            card = paymentCard
+                        )
                         viewModel.getCards()
                     }
                 }

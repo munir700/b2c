@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -173,34 +175,45 @@ class BubbleMessageView : ConstraintLayout {
     ) {
         val xPosition: Int
         val yPosition: Int
-
         when (arrowPosition) {
             BubbleShowCase.ArrowPosition.LEFT -> {
                 xPosition = getMargin()
                 yPosition =
-                    if (targetViewLocationOnScreen != null) getArrowVerticalPositionDependingOnTarget(
-                        targetViewLocationOnScreen
-                    ) else height / 2
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinVerticalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            height
+                        )
+                    } ?: height / 2
             }
             BubbleShowCase.ArrowPosition.RIGHT -> {
                 xPosition = getViewWidth() - getMargin()
                 yPosition =
-                    if (targetViewLocationOnScreen != null) getArrowVerticalPositionDependingOnTarget(
-                        targetViewLocationOnScreen
-                    ) else height / 2
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinVerticalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            height
+                        )
+                    } ?: height / 2
             }
             BubbleShowCase.ArrowPosition.TOP -> {
                 xPosition =
-                    if (targetViewLocationOnScreen != null) getArrowHorizontalPositionDependingOnTarget(
-                        targetViewLocationOnScreen
-                    ) else width / 2
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinHorizontalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            width
+                        )
+                    } ?: width / 2
                 yPosition = getMargin()
             }
             BubbleShowCase.ArrowPosition.BOTTOM -> {
                 xPosition =
-                    if (targetViewLocationOnScreen != null) getArrowHorizontalPositionDependingOnTarget(
-                        targetViewLocationOnScreen
-                    ) else width / 2
+                    targetViewLocationOnScreen?.let {
+                        calculateMaxMinHorizontalPositionTip(
+                            getArrowHorizontalPositionDependingOnTarget(it),
+                            width
+                        )
+                    } ?: width / 2
                 yPosition = height - getMargin()
             }
         }
@@ -216,6 +229,20 @@ class BubbleMessageView : ConstraintLayout {
                 this
             )).roundToInt()
         }
+    }
+
+    private fun calculateMaxMinHorizontalPositionTip(tipPos: Int, dim: Int): Int {
+        val leftOffSetX = 85
+        val rightOffSetX = 85
+        val safeLeft = max(leftOffSetX, tipPos)
+        return min((dim - rightOffSetX), safeLeft)
+    }
+
+    private fun calculateMaxMinVerticalPositionTip(tipPos: Int, dim: Int): Int {
+        val topOffSetX = 25
+        val bottomOffSetX = 25
+        val safeTop = max(topOffSetX, tipPos)
+        return min((dim - bottomOffSetX), safeTop)
     }
 
     private fun getArrowVerticalPositionDependingOnTarget(targetViewLocationOnScreen: RectF?): Int {
