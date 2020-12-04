@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction
 
 import android.view.View
+import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionReceiptItemViewModel(

@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.transaction
 import androidx.databinding.ViewDataBinding
 import co.yap.R
 import co.yap.databinding.ItemTransectionReciptBinding
+import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class TransactionReceiptAdapter(
