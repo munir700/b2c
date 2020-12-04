@@ -9,7 +9,6 @@
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel" />
 
-
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
@@ -309,11 +308,10 @@
                         style="@style/Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_add_note : viewModel.state.transactionNoteDate}"
                         android:textColor="@color/colorPrimary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Add a receipt" />
+                        android:text="Add a receipt" />
 
                     <TextView
                         android:id="@+id/tvReciptDetails"
@@ -323,19 +321,18 @@
                         android:ellipsize="end"
                         android:lineSpacingExtra="2dp"
                         android:maxLines="1"
-                        android:text="@{viewModel.state.txnNoteValue==null || viewModel.state.txnNoteValue.isEmpty()? @string/screen_transaction_details_display_text_note_description : viewModel.state.txnNoteValue}"
+                        android:text="Keep track of your spendings"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tvReciptHeading"
                         app:layout_constraintTop_toBottomOf="@+id/tvReciptHeading"
                         tools:text="transaction notes" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
