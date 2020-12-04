@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -21,6 +22,8 @@ class TransactionDetailsViewModel(application: Application) :
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
+    override var adapter: TransactionReceiptAdapter = TransactionReceiptAdapter(mutableListOf())
+
     override fun onCreate() {
         super.onCreate()
         setStatesData()

@@ -13,6 +13,7 @@ class TransactionReceiptAdapter(
     override fun onCreateViewHolder(binding: ViewDataBinding): ReceiptViewHolder {
         return ReceiptViewHolder(binding as ItemTransectionReciptBinding)
     }
+
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transection_recipt
     override fun onBindViewHolder(holder: ReceiptViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)

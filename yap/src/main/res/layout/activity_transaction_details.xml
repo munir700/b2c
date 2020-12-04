@@ -268,10 +268,11 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-<include layout="@layout/layout_transaction_receipt"
-    android:id="@+id/clReciptParent"
-    app:receiptViewModel ="@{viewModel}"
-    />
+
+            <include
+                android:id="@+id/clReciptParent"
+                layout="@layout/layout_transaction_receipt"
+                app:receiptViewModel="@{viewModel}" />
 
             <TextView
                 android:id="@+id/tvPaymentDetail"

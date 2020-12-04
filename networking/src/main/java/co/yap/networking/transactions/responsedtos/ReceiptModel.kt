@@ -1,5 +1,8 @@
 package co.yap.networking.transactions.responsedtos
 
+import com.google.gson.annotations.SerializedName
+
 data class ReceiptModel(
-    val title : String? = null
+    @SerializedName("receipt_name")
+    val title: String? = null
 )
