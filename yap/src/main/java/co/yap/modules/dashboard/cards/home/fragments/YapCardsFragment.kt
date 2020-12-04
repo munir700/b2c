@@ -37,7 +37,6 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
-import com.liveperson.infra.configuration.Configuration
 import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
@@ -52,7 +51,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_cards
 
-    override val viewModel: IYapCards.ViewModel
+    override val viewModel: YapCardsViewModel
         get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +74,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.getCards()
             }
         })
+        viewModel.parentViewModel?.isYapCardsFragmentVisible?.observe(
+            this,
+            Observer { isCardsFragmentVisible ->
+                if (isCardsFragmentVisible) {
+                    val tour = TourSetup(requireActivity(), setViewsArray())
+                    tour.startTour()
+                }
+            })
     }
 
     private fun setupList(cards: ArrayList<Card>) {
@@ -158,10 +165,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                 }
                 R.id.lySeeDetail -> {
-                   /* activity?.let { activity ->
-                         val tour = TourSetup(activity, setViewsArray())
-                         tour.startTour()
-                     }*/
+                    /* activity?.let { activity ->
+                          val tour = TourSetup(activity, setViewsArray())
+                          tour.startTour()
+                      }*/
                     openDetailScreen(pos)
                 }
                 R.id.lycard, R.id.imgAddCard, R.id.tvAddCard, R.id.tbBtnAddCard -> {
@@ -386,7 +393,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     toolBarRightIcon,
                     title = getString(Strings.screen_cards_display_text_tour_add_card_heading),
                     description = getString(Strings.screen_cards_display_text_tour_add_card_description),
-                    showSkip = false, showPageNo = false, btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
+                    showSkip = false,
+                    showPageNo = false,
+                    btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
                     padding = -getDimension(R.dimen._10sdp),
                     circleRadius = getDimension(R.dimen._70sdp)
                 )
@@ -398,6 +407,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.parentViewModel?.isYapCardsFragmentVisible?.removeObservers(this)
     }
 
 }
