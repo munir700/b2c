@@ -152,7 +152,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getBindings().lyInclude.lyHomeAction.alpha =
                         10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
-                getBindings().lyInclude.lyHomeAction.layoutParams = pram
+//                getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
     }
@@ -311,17 +311,42 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         if (parentItem.date == oldData[i].date) {
                             if (parentItem.transaction.size != oldData[i].transaction.size) {
                                 shouldAppend = true
+                                parentItem.isNewItem = false
                                 break
                             }
+                            parentItem.isNewItem = true
                             shouldAppend = true
                             break
+                        } else {
+                            parentItem.isNewItem = true
                         }
                     }
                     if (!shouldAppend)
                         listToAppend.add(parentItem)
                 }
+
+                val partitionedOldNewTxns = listToAppend.partition { txn -> txn.isNewItem }
+
+                val newTransactions = partitionedOldNewTxns.first
+                val oldTransactions = partitionedOldNewTxns.second
+                oldTransactions.forEach { data ->
+                    getTransactionPosition(data)?.let { index ->
+                        getRecycleViewAdaptor()?.getDataList()?.set(index, data)
+                        getRecycleViewAdaptor()?.notifyItemChanged(index)
+                    }
+                }
+
+                newTransactions.forEach { data ->
+                    getRecycleViewAdaptor()?.getDataList()?.add(data)
+                    getRecycleViewAdaptor()?.getDataList()?.size?.let { index ->
+                        getRecycleViewAdaptor()?.notifyItemInserted(
+                            index
+                        )
+                    }
+                }
+
                 getGraphRecycleViewAdapter()?.addList(listToAppend)
-                getRecycleViewAdaptor()?.addList(listToAppend)
+//                getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
                     //if transaction is empty and filter is applied then state would be Error where no transaction image show
@@ -361,11 +386,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val layoutManager =
                         getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
-                            viewModel.isLoadMore.value = true
+                    if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
+                        if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                            if (false == viewModel.isLoadMore.value && false == viewModel.isLast.value) {
+                                viewModel.isLoadMore.value = true
+                            }
                         }
-                    }
                 }
             })
 
@@ -383,6 +409,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         })
+    }
+
+    private fun getTransactionPosition(item: HomeTransactionListData): Int? {
+        return getRecycleViewAdaptor()?.getDataList()
+            ?.indexOf(getRecycleViewAdaptor()?.getDataList()?.first {
+                it.date == item.date
+            })
     }
 
     private fun checkUserStatus() {

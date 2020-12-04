@@ -25,7 +25,6 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
-import co.yap.yapcore.managers.SessionManager.getDebitCard
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -144,9 +143,9 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
-                    ///if (isLoadMore.value == false) {
-                    state.showTxnShimmer.value = State.success(null)
-                    //}
+                    if (isLoadMore.value == false) {
+                        state.showTxnShimmer.value = State.success(null)
+                    }
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
                     //state.loading = false
