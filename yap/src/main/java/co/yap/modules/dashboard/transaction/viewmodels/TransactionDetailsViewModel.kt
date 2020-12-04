@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
+import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -27,6 +28,17 @@ class TransactionDetailsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setStatesData()
+        adapter.setList(getReciptItems())
+    }
+
+    private fun getReciptItems(): List<ReceiptModel> {
+        var list: MutableList<ReceiptModel> = arrayListOf()
+        list.add(ReceiptModel("Receipt 1"))
+        list.add(ReceiptModel("Receipt 4"))
+        list.add(ReceiptModel("Receipt 5"))
+        list.add(ReceiptModel("Receipt 6"))
+        list.add(ReceiptModel("Receipt 6"))
+        return list
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
