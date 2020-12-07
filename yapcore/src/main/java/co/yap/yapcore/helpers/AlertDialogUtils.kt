@@ -264,3 +264,15 @@ fun Activity.showAlertDialogAndExitApp(
     alertDialog.show()
 
 }
+
+
+fun Activity.showReceiptSuccessDialog(
+    Descrip : String? = null,
+    coreButtonText : String? =null,
+    addOtherVisibility : Boolean? = false,
+    callback: () -> Unit = {}){
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.layout_receipt_success_dialog)
+}

@@ -49,7 +49,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     CardClickListener, EasyPermissions.PermissionCallbacks {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
-    internal var permissionHelper: PermissionHelper? = null
+    private var permissionHelper: PermissionHelper? = null
     lateinit var easyImage: EasyImage
     private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
     private val takePhoto = 1
