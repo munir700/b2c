@@ -19,7 +19,7 @@ import co.yap.yapcore.helpers.extentions.getCategoryIcon
 import co.yap.yapcore.helpers.extentions.getCategoryTitle
 import co.yap.yapcore.helpers.extentions.getFormattedTime
 import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
-import java.util.ArrayList
+import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -109,8 +109,8 @@ class TransactionDetailsViewModel(application: Application) :
         )
         list.add(
             BottomSheetItem(
-                icon = R.drawable.ic_choose_photo,
-                title = getString(Strings.screen_update_profile_photo_display_text_choose_photo),
+                icon = R.drawable.ic_folder,
+                title = getString(Strings.screen_transaction_details_display_sheet_text_upload_from_files),
                 tag = PhotoSelectionType.GALLERY.name
             )
         )

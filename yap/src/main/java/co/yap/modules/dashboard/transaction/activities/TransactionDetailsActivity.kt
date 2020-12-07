@@ -5,19 +5,24 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
+import co.yap.modules.dashboard.transaction.addreceipt.AddTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
+import co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptFragment
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
+import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
@@ -26,6 +31,7 @@ import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
+import pl.aprilapps.easyphotopicker.MediaFile
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
@@ -195,18 +201,13 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private val onReceiptClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is BottomSheetItem){
-                when(data.tag){
-                    PhotoSelectionType.CAMERA.name ->{
-                        openImagePicker(PhotoSelectionType.CAMERA)
-                    }
-                    PhotoSelectionType.GALLERY.name ->{
-                        openImagePicker(PhotoSelectionType.GALLERY)
-                    }
-                }
+            when (data) {
+                is BottomSheetItem -> handleReceiptOptionClick(data)
+                is ReceiptModel -> openAddedReceipt(data)
             }
         }
     }
+
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.clNote, R.id.clEditIcon ->
@@ -224,8 +225,25 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         launchSheet(
             itemClickListener = onReceiptClickListener,
             itemsList = viewModel.getAddReceiptOptions(),
-            heading = getString(Strings.screen_update_profile_photo_display_text_title)
+            heading = getString(Strings.screen_transaction_details_display_sheet_heading),
+            subHeading = getString(Strings.screen_transaction_details_display_sheet_sub_heading)
         )
+    }
+
+    private fun handleReceiptOptionClick(bottomSheetItem: BottomSheetItem) {
+        when (bottomSheetItem.tag) {
+            PhotoSelectionType.CAMERA.name -> {
+                startFragment<AddTransactionReceiptFragment>(
+                    fragmentName = AddTransactionReceiptFragment::class.java.name
+                )
+            }
+
+            PhotoSelectionType.GALLERY.name -> openImagePicker(PhotoSelectionType.GALLERY)
+        }
+    }
+
+    private fun openAddedReceipt(receiptModel: ReceiptModel) {
+
     }
 
     private fun setTransactionTitle() {
@@ -330,6 +348,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         }
     }
 
+    override fun onImageReturn(mediaFile: MediaFile) {
+        startFragment<PreviewTransactionReceiptFragment>(
+            fragmentName = PreviewTransactionReceiptFragment::class.java.name,
+            bundle = bundleOf(FILE_PATH to mediaFile.file.absolutePath)
+        )
+    }
 
     fun getBindings(): ActivityTransactionDetailsBinding {
         return viewDataBinding as ActivityTransactionDetailsBinding
@@ -343,7 +367,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         }
     }
 
-    fun setResult() {
+    private fun setResult() {
         val intent = Intent()
         intent.putExtra(
             ExtraKeys.TRANSACTION_OBJECT_STRING.name,

@@ -994,6 +994,12 @@ object Strings {
         "screen_transaction_details_display_text_exchange_rate"
     const val screen_transaction_details_display_text_exchange_rate_value: String =
         "screen_transaction_details_display_text_exchange_rate_value"
+    const val screen_transaction_details_display_sheet_text_upload_from_files: String =
+        "screen_transaction_details_display_sheet_text_upload_from_files"
+    const val screen_transaction_details_display_sheet_heading: String =
+        "screen_transaction_details_display_sheet_heading"
+    const val screen_transaction_details_display_sheet_sub_heading: String =
+        "screen_transaction_details_display_sheet_sub_heading"
 
 
     //     Send Money no contacts Screen
