@@ -12,6 +12,7 @@ interface ITransactionDetails {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnEditNoteClickEvent(id: Int)
+        fun handlePressOnView(id:Int)
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
         var adapter : TransactionReceiptAdapter
