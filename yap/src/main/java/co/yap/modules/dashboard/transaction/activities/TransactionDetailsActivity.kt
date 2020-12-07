@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
-import co.yap.modules.dashboard.more.profile.fragments.UpdatePhotoBottomSheet
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
@@ -39,8 +38,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override val viewModel: ITransactionDetails.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
-
-    private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -220,10 +217,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun openBottomSheet() {
-        this.supportFragmentManager?.let {
-            updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, false)
-            updatePhotoBottomSheet.show(it, "")
-        }
+
     }
 
     private fun setTransactionTitle() {
@@ -368,12 +362,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onClick(eventType: Int) {
         when (eventType) {
-            co.yap.modules.others.helper.Constants.EVENT_ADD_PHOTO -> {
-
-            }
-            co.yap.modules.others.helper.Constants.EVENT_CHOOSE_PHOTO -> {
-
-            }
         }
     }
 }
