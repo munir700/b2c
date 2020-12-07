@@ -150,6 +150,9 @@ class DashboardNotificationStatusHelper(
 
                 PaymentCardOnboardingStage.DELIVERY -> {
                     return (when {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                            StageProgress.COMPLETED
+                        }
                         card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.INACTIVE
                         }
@@ -158,10 +161,7 @@ class DashboardNotificationStatusHelper(
                             StageProgress.IN_PROGRESS
                         }
 
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
-                            StageProgress.COMPLETED
-                        }
-                        else -> StageProgress.IN_PROGRESS
+                        else -> StageProgress.INACTIVE
                     })
                 }
 
@@ -207,9 +207,11 @@ class DashboardNotificationStatusHelper(
                 StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_delivery_stage_description)
                 StageProgress.IN_PROGRESS -> getStringHelper(Strings.dashboard_timeline_delivery_stage_active_description)
                 StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_delivery_stage_completed_description).format(
-                    SessionManager.user?.partnerBankApprovalDate ?: "",
-                    SERVER_DATE_FORMAT,
-                    DEFAULT_DATE_FORMAT
+                    DateUtils.reformatStringDate(
+                        SessionManager.user?.partnerBankApprovalDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
                 )
 
                 else -> getStringHelper(Strings.dashboard_timeline_delivery_stage_description)
@@ -218,10 +220,10 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_description)
                 StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_completed_description).format(
-                    SessionManager.card.value?.activationDate ?: "",
+                    DateUtils.reformatStringDate(SessionManager.card.value?.activationDate ?: "",
                     SERVER_DATE_FORMAT,
                     DEFAULT_DATE_FORMAT
-                )
+                ))
                 else -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_description)
             })
 

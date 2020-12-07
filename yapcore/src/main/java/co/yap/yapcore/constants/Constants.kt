@@ -45,6 +45,7 @@ object Constants {
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
 
+
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
     val URL_SHARE_PLAY_STORE =
