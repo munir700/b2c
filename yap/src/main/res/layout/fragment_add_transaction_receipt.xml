@@ -58,14 +58,13 @@
 
             <TextView
                 android:id="@+id/cam_steps"
-                style="@style/ARegularGrey"
+                style="@style/Regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Place your receipt within the window"
                 tools:text="Place your receipt within the window" />
-
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/camFab"
@@ -78,7 +77,7 @@
                 android:enabled="true"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:btn_size="large"
+                app:btn_size="medium"
                 app:enableCoreButton="@{true}"
                 app:text="@{Strings.screen_update_profile_photo_display_text_take_photo}"
                 tools:text="@string/screen_update_profile_photo_display_text_take_photo" />
