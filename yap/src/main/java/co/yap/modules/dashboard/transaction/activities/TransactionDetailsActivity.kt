@@ -15,7 +15,7 @@ import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.TransactionLabelsCode
 import co.yap.yapcore.enums.TransactionProductCode
@@ -27,7 +27,7 @@ import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 
-class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
+class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -176,7 +176,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         maskCardNo?.let {
             getBindings().tvCardMask.text = "*${maskCardNo}"
         }
-
     }
 
     private fun setSpentLabel() {
@@ -190,6 +189,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     openNoteScreen()
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
+
         }
     }
 
