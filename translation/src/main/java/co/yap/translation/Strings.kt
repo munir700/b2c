@@ -1872,5 +1872,8 @@ object Strings {
         "screen_transaction_details_receipt_text"
     const val screen_transaction_details_receipt_label: String =
         "screen_transaction_details_receipt_label"
-
+    const val screen_transaction_add_another_receipt: String =
+        "screen_transaction_add_another_receipt"
+    const val screen_transaction_details_receipt_success_label: String =
+        "screen_transaction_details_receipt_success_label"
 }

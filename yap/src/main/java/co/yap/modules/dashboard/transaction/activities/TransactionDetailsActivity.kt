@@ -24,6 +24,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
@@ -195,12 +196,12 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private val onReceiptClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is BottomSheetItem){
-                when(data.tag){
-                    PhotoSelectionType.CAMERA.name ->{
+            if (data is BottomSheetItem) {
+                when (data.tag) {
+                    PhotoSelectionType.CAMERA.name -> {
                         openImagePicker(PhotoSelectionType.CAMERA)
                     }
-                    PhotoSelectionType.GALLERY.name ->{
+                    PhotoSelectionType.GALLERY.name -> {
                         openImagePicker(PhotoSelectionType.GALLERY)
                     }
                 }
@@ -321,7 +322,9 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                 }
                 RequestCodes.REQUEST_ADD_RECEIPT -> {
-
+                    showReceiptSuccessDialog(Descrip = getString(Strings.screen_transaction_details_receipt_success_label),
+                        addOtherVisibility = true,
+                        addAnotherText = getString(Strings.screen_transaction_add_another_receipt))
                 }
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
 

@@ -40,7 +40,9 @@
         android:layout_marginLeft="@dimen/margin_xl"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_xl"
-        app:btn_enable="true" />
+        app:btn_enable="true"
+        android:text="@string/idenetity_scanner_sdk_screen_review_info_button_done"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvAddAnother"
