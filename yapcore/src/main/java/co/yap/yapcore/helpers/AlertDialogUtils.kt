@@ -264,3 +264,29 @@ fun Activity.showAlertDialogAndExitApp(
     alertDialog.show()
 
 }
+
+
+fun Activity.showReceiptSuccessDialog(
+    Descrip : String? = null,
+    addOtherVisibility : Boolean? = false,
+    callback: () -> Unit = {}){
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.layout_receipt_success_dialog)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvDescrip)
+    val addAnother = dialogLayout.findViewById<TextView>(R.id.tvAddAnother)
+    val coreButton = dialogLayout.findViewById<TextView>(R.id.btnAction)
+    label.text = Descrip
+    addAnother.visibility = if (addOtherVisibility == true) View.VISIBLE else View.GONE
+    coreButton.setOnClickListener {
+        dialogLayout.dismiss()
+    }
+    addAnother.setOnClickListener {
+        callback()
+        dialogLayout.dismiss()
+    }
+
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+}
