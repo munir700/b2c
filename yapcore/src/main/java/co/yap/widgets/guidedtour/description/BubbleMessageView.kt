@@ -163,7 +163,7 @@ class BubbleMessageView : ConstraintLayout {
             getViewWidth() - getMargin().toFloat(),
             height - getMargin().toFloat()
         )
-        canvas.drawRoundRect(rect, 25f, 25f, paint!!)
+        canvas.drawRoundRect(rect, 18f, 18f, paint!!)
     }
 
     private fun drawArrow(

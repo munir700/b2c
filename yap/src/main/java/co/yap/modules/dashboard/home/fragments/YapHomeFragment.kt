@@ -85,7 +85,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private lateinit var skeleton: Skeleton
     private lateinit var tvBalanceSkeleton: Skeleton
 
-    override val viewModel: IYapHome.ViewModel
+    override val viewModel: YapHomeViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -405,6 +405,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         })
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.observe(
+            this,
+            Observer { isHomeFragmentVisible ->
+                if (isHomeFragmentVisible) {
+                    val tour = TourSetup(requireActivity(), setViewsArray())
+                    tour.startTour()
+                }
+            })
     }
 
     private fun checkUserStatus() {
@@ -501,6 +509,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.removeObservers(this)
         SessionManager.onAccountInfoSuccess.removeObservers(this)
         super.onDestroy()
 
