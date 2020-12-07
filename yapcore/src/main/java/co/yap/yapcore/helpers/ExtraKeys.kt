@@ -1,6 +1,6 @@
 package co.yap.yapcore.helpers
 
-enum class ExtraKeys{
+enum class ExtraKeys {
     TRANSACTION_OBJECT_STRING,
     TRANSACTION_OBJECT_CHILD_POSITION,
     TRANSACTION_OBJECT_GROUP_POSITION,
@@ -9,5 +9,7 @@ enum class ExtraKeys{
     Y2Y_BENEFICIARY_POSITION,
     IS_Y2Y_SEARCHING,
     IS_Y2Y_DATA,
-    Y2Y_SELECTED_TAB_POS
+    Y2Y_SELECTED_TAB_POS,
+    CONST_IMAGE_TITLE,
+    CONST_IMAGE_URL
 }
