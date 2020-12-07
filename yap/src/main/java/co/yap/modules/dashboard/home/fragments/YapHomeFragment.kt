@@ -152,7 +152,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getBindings().lyInclude.lyHomeAction.alpha =
                         10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
-//                getBindings().lyInclude.lyHomeAction.layoutParams = pram
+                getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
     }
