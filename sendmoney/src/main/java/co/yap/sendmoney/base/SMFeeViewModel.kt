@@ -18,8 +18,9 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     var isFeeReceived: MutableLiveData<Boolean> = MutableLiveData(false)
     var isAPIFailed: MutableLiveData<Boolean> = MutableLiveData(false)
     var feeType: String = ""
+    var slabCurrency: String = "AED"
     var feeCurrency: String = "AED"
-    private var fixedAmount: Double = 0.0
+    var fixedAmount: Double = 0.0
     var feeAmount: String = ""
     var vat: String = ""
     val updatedFee: MutableLiveData<String> = MutableLiveData("0.0")
@@ -34,6 +35,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
                 is RetroApiResponse.Success -> {
                     feeType = response.data.data?.feeType ?: "FLAT"
                     feeCurrency = response.data.data?.feeCurrency ?: "AED"
+                    slabCurrency = response.data.data?.slabCurrency ?: "AED"
                     fixedAmount = response.data.data?.fixedAmount ?: 0.0
                     response.data.data?.tierRateDTOList?.let {
                         feeTiers =
@@ -50,12 +52,15 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         }
     }
 
-    fun updateFees(enterAmount: String, isTopUpFee: Boolean = false) {
+    fun updateFees(
+        enterAmount: String, isTopUpFee: Boolean = false,
+        fxRate: Double = 0.0
+    ) {
         var result = "0.0"
         if (!feeTiers.isNullOrEmpty()) {
             result = when (feeType) {
-                FeeType.FLAT.name -> getFlatFee(enterAmount, isTopUpFee).toString()
-                FeeType.TIER.name -> getFeeFromTier(enterAmount, isTopUpFee).toString()
+                FeeType.FLAT.name -> getFlatFee(enterAmount).toString()
+                FeeType.TIER.name -> getFeeFromTier(enterAmount, fxRate).toString()
                 else -> {
                     "0.0"
                 }
@@ -66,22 +71,23 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     fun getFeeFromTier(
         enterAmount: String,
-        isTopUpFee: Boolean = false
+        fxRate: Double = 0.0
     ): String? {
         return if (!enterAmount.isBlank()) {
-            val fee = feeTiers.firstOrNull { item ->
-                item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
-            } ?: return "0.0"
-            if (fee.feeInPercentage == false) {
-                (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).plus(fixedAmount).toString()
+            val fee = if (slabCurrency == "AED") {
+                feeTiers.firstOrNull { item ->
+                    item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
+                } ?: return "0.0"
             } else {
-                if (isTopUpFee) getFeeInPercentageForTopup(
-                    enterAmount,
-                    fee
-                ) else calFeeInPercentage(
-                    enterAmount,
-                    fee
-                )
+                feeTiers.firstOrNull { item ->
+                    ((item.amountFrom ?: 0.0) * fxRate) <= enterAmount.parseToDouble()
+                            && ((item.amountTo ?: 0.0) * fxRate) >= enterAmount.parseToDouble()
+                } ?: return "0.0"
+            }
+            if (fee.feeInPercentage == false) {
+                (fee.feeAmount ?: 0.0).plus(fixedAmount).toString()
+            } else {
+                calFeeInPercentage(enterAmount, fee)
             }
         } else {
             "0.0"
@@ -89,22 +95,19 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     }
 
     fun getFlatFee(
-        enterAmount: String,
-        isTopUpFee: Boolean = false
+        enterAmount: String
     ): String? {
         val fee = feeTiers.firstOrNull() ?: return "0.0"
         return if (fee.feeInPercentage == false) {
-            feeAmount = if (fee.feeAmount == null) "0.0" else fee.feeAmount.toString()
-            vat = if (fee.vatAmount == null) "0.0" else fee.vatAmount.toString()
-            (fee.feeAmount ?: 0.0).plus(fee.vatAmount ?: 0.0).plus(fixedAmount).toString()
+            feeAmount =
+                if (fee.feeAmount == null) "0.0" else (fee.feeAmount ?: 0.0).plus(fixedAmount)
+                    .toString()
+            val localVat = (feeAmount.parseToDouble() * (fee.vatPercentage?.parseToDouble()?.div(100)
+                ?: 0.0))
+            vat = localVat.toString()
+            (fee.feeAmount ?: 0.0).plus(localVat).toString()
         } else {
-            return if (isTopUpFee) getFeeInPercentageForTopup(
-                enterAmount,
-                fee
-            ) else calFeeInPercentage(
-                enterAmount,
-                fee
-            )
+            return calFeeInPercentage(enterAmount, fee)
         }
     }
 
@@ -118,28 +121,6 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             (feeAmount + fixedAmount) * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
-        return (feeAmount + vatAmount+ fixedAmount).toString()
-    }
-
-    // Update only in remitience fixedAmount
-    private fun getFeeInPercentageForTopup(
-        enterAmount: String,
-        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
-    ): String? {
-        // Fee double taxation removal ticket YM-7999
-        return calFeeInPercentage(enterAmount, fee)
-//        val feeAmount =
-//            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
-//                ?: 0.0)
-//
-//        val totalFeeAmount =
-//            (feeAmount * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)).plus(feeAmount)
-//
-//        val vatAmount =
-//            totalFeeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
-//
-//        this.feeAmount = totalFeeAmount.toString()
-//        this.vat = vatAmount.toString()
-//        return (totalFeeAmount + vatAmount).toString()
+        return (feeAmount + vatAmount + fixedAmount).toString()
     }
 }
