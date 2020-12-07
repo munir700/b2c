@@ -216,7 +216,10 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
             R.id.clRecipt -> {
-                showAddReceiptOptions()
+                showReceiptSuccessDialog(Descrip = getString(Strings.screen_transaction_details_receipt_success_label),
+                    addOtherVisibility = true,
+                    addAnotherText = getString(Strings.screen_transaction_add_another_receipt))
+           //     showAddReceiptOptions()
             }
         }
     }
