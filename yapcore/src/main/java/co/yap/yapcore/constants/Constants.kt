@@ -45,6 +45,10 @@ object Constants {
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
 
+    //Add Receipt Flow Constants
+    const val INTENT_ADD_RECEPT_GALLARY =2221
+    const val INTENT_ADD_RECEPT_CAMERA =2223
+
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
     val URL_SHARE_PLAY_STORE =

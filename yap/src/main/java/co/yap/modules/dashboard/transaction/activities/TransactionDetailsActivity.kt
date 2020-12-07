@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
+import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
+import co.yap.modules.dashboard.more.profile.fragments.UpdatePhotoBottomSheet
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
@@ -28,7 +30,7 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
-    ITransactionDetails.View {
+    ITransactionDetails.View, CardClickListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -36,6 +38,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override val viewModel: ITransactionDetails.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionDetailsViewModel::class.java)
+
+    private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +66,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(showCurrency = false)
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
+                    showCurrency = false)
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
@@ -118,10 +123,15 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
+            }" else "+ ${
+                totalAmount.toFormattedCurrency(showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency())
+            }"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
@@ -185,11 +195,22 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.clNote, R.id.clEditIcon ->
+            R.id.clNote, R.id.clEditIcon -> {
                 if (viewModel.state.txnNoteValue.get().isNullOrBlank()) {
                     openNoteScreen()
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
+            }
+            R.id.clRecipt -> {
+                openBottomSheet()
+            }
+        }
+    }
+
+    private fun openBottomSheet() {
+        this.supportFragmentManager?.let {
+            updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, false)
+            updatePhotoBottomSheet.show(it, "")
         }
     }
 
@@ -270,8 +291,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
                 viewModel.state.txnNoteValue.set(
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                 )
@@ -283,10 +304,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     )
                 viewModel.transaction.get()?.transactionNoteDate =
                     DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+            } else if (requestCode == Constants.INTENT_ADD_RECEPT_GALLARY) {
+
+            } else if (requestCode == Constants.INTENT_ADD_RECEPT_CAMERA) {
+
             }
-
         }
-
     }
 
 
@@ -325,5 +348,16 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onBackPressed() {
         setResult()
+    }
+
+    override fun onClick(eventType: Int) {
+        when (eventType) {
+            co.yap.modules.others.helper.Constants.EVENT_ADD_PHOTO -> {
+
+            }
+            co.yap.modules.others.helper.Constants.EVENT_CHOOSE_PHOTO -> {
+
+            }
+        }
     }
 }
