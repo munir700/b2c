@@ -6,6 +6,12 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.TransactionReceiptItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

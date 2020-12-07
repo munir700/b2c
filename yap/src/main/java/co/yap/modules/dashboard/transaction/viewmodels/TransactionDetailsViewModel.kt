@@ -34,6 +34,7 @@ class TransactionDetailsViewModel(application: Application) :
         super.onCreate()
         setStatesData()
         adapter.setList(getReciptItems())
+        state.receiptLabel.set(getString(Strings.screen_transaction_details_receipt_label))
     }
 
     private fun getReciptItems(): List<ReceiptModel> {
@@ -48,6 +49,14 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun addNewReceipt(receipt: ReceiptModel) {
+        adapter.setItemAt(adapter.getDataList().size,receipt)
+    }
+
+    override fun deleteReceipt(position: Int) {
+        adapter.removeItemAt(position)
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
@@ -89,7 +98,7 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-     fun getUploadProfileOptions(isShowRemovePhoto: Boolean): ArrayList<BottomSheetItem> {
+    override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {
         val list = arrayListOf<BottomSheetItem>()
         list.add(
             BottomSheetItem(
@@ -105,15 +114,6 @@ class TransactionDetailsViewModel(application: Application) :
                 tag = PhotoSelectionType.GALLERY.name
             )
         )
-        if (isShowRemovePhoto)
-            list.add(
-                BottomSheetItem(
-                    icon = R.drawable.ic_remove,
-                    title = getString(Strings.screen_update_profile_photo_display_text_remove_photo),
-                    tag = PhotoSelectionType.REMOVE_PHOTO.name
-                )
-            )
-
         return list
     }
 
