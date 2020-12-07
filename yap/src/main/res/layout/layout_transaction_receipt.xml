@@ -68,25 +68,25 @@
                 android:lineSpacingExtra="2dp"
                 android:maxLines="1"
                 app:text="@{Strings.screen_transaction_details_receipt_text}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvReciptHeading"
                 app:layout_constraintTop_toBottomOf="@+id/tvReciptHeading"
                 tools:text="transaction receipt" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:orientation="horizontal"
-            app:adapter="@{receiptViewModel.adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/clRecipt"
-            app:layout_constraintTop_toBottomOf="@+id/clRecipt"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_transection_recipt"
-            android:layout_marginStart="@dimen/margin_xxl"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                app:adapter="@{receiptViewModel.adapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.33"
+                app:layout_constraintStart_toStartOf="@+id/tvReciptDetails"
+                app:layout_constraintTop_toBottomOf="@+id/tvReciptDetails"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_transection_recipt" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

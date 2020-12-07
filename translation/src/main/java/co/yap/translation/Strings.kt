@@ -1002,6 +1002,10 @@ object Strings {
         "screen_transaction_details_display_sheet_sub_heading"
     const val screen_transaction_details_display_receipt_item: String =
         "screen_transaction_details_display_receipt_item"
+    const val screen_transaction_details_added_receipt_label: String =
+        "screen_transaction_details_added_receipt_label"
+    const val screen_transaction_details_single_added_receipt_label: String =
+        "screen_transaction_details_single_added_receipt_label"
 
 
     //     Send Money no contacts Screen
@@ -1880,5 +1884,8 @@ object Strings {
         "screen_transaction_details_receipt_text"
     const val screen_transaction_details_receipt_label: String =
         "screen_transaction_details_receipt_label"
-
+    const val screen_transaction_add_another_receipt: String =
+        "screen_transaction_add_another_receipt"
+    const val screen_transaction_details_receipt_success_label: String =
+        "screen_transaction_details_receipt_success_label"
 }

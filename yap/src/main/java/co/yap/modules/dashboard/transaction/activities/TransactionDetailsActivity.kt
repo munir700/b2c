@@ -29,6 +29,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.showReceiptSuccessDialog
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
@@ -339,10 +340,24 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                 }
                 RequestCodes.REQUEST_ADD_RECEIPT -> {
-
+                    this.showReceiptSuccessDialog(
+                        description = getString(Strings.screen_transaction_details_receipt_success_label),
+                        addAnotherText = getString(Strings.screen_transaction_add_another_receipt),
+                        callback = {
+                            when (it) {
+                                R.id.btnActionDone -> {
+                                    viewModel.addNewReceipt(ReceiptModel())
+                                }
+                                R.id.tvAddAnother -> {
+                                    showAddReceiptOptions()
+                                }
+                            }
+                        }
+                    )
                 }
-                RequestCodes.REQUEST_DELETE_RECEIPT -> {
 
+                RequestCodes.REQUEST_DELETE_RECEIPT -> {
+                    viewModel.deleteReceipt(0)
                 }
             }
         }

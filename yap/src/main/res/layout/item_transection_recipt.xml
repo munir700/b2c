@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_transaction_details_display_receipt_item)}"
+            android:text="@{String.format(Translator.INSTANCE.getString(context,Strings.screen_transaction_details_display_receipt_item),viewModel.position+1) }"
             tools:text="Receipt Item"
             android:textColor="@color/colorPrimary"
             />

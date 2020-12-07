@@ -21,7 +21,6 @@ import co.yap.yapcore.helpers.extentions.getFormattedTime
 import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
 import java.util.*
 
-
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
 
@@ -34,7 +33,22 @@ class TransactionDetailsViewModel(application: Application) :
         super.onCreate()
         setStatesData()
         adapter.setList(getReciptItems())
-        state.receiptLabel.set(getString(Strings.screen_transaction_details_receipt_label))
+        state.receiptLabel.set(
+            when {
+                adapter.getDataList().isNullOrEmpty() -> {
+                    getString(Strings.screen_transaction_details_receipt_label)
+                }
+                adapter.getDataList().size == 1 -> {
+                    getString(Strings.screen_transaction_details_single_added_receipt_label).format(
+                        adapter.getDataList().size
+                    )
+                }
+                adapter.getDataList().size > 1 -> {
+                    getString(Strings.screen_transaction_details_added_receipt_label).format(adapter.getDataList().size)
+                }
+                else -> getString(Strings.screen_transaction_details_receipt_label)
+            }
+        )
     }
 
     private fun getReciptItems(): List<ReceiptModel> {
@@ -62,7 +76,6 @@ class TransactionDetailsViewModel(application: Application) :
     override fun handlePressOnEditNoteClickEvent(id: Int) {
         clickEvent.postValue(id)
     }
-
 
     private fun setStatesData() {
         transaction.get()?.let { transaction ->
