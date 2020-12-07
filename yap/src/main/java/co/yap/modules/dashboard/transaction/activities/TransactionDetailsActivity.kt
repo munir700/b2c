@@ -216,10 +216,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
             R.id.clRecipt -> {
-                showReceiptSuccessDialog(Descrip = getString(Strings.screen_transaction_details_receipt_success_label),
-                    addOtherVisibility = true,
-                    addAnotherText = getString(Strings.screen_transaction_add_another_receipt))
-           //     showAddReceiptOptions()
+                showAddReceiptOptions()
             }
         }
     }
@@ -325,9 +322,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
                         DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                 }
                 RequestCodes.REQUEST_ADD_RECEIPT -> {
-                    showReceiptSuccessDialog(Descrip = getString(Strings.screen_transaction_details_receipt_success_label),
-                        addOtherVisibility = true,
-                        addAnotherText = getString(Strings.screen_transaction_add_another_receipt))
+
                 }
                 RequestCodes.REQUEST_DELETE_RECEIPT -> {
 
