@@ -295,58 +295,49 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             setAvailableBalance(value.availableBalance.toString())
         })
 
-        viewModel.transactionsLiveData.observe(this, Observer {
+        viewModel.transactionsLiveData.observe(this, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().appbar.setExpanded(true)
 
-                if (getRecycleViewAdaptor()?.itemCount!! > 0)
-                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
+                getRecycleViewAdaptor()?.itemCount?.let { itemCount ->
+                    if (itemCount > 0) {
+                        getRecycleViewAdaptor()?.removeItemAt(position = itemCount - 1)
+                    }
+                }
 
                 val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
-                val oldData = getGraphRecycleViewAdapter()?.getDataList()
-                for (parentItem in it) {
-
-                    var shouldAppend = false
-                    for (i in 0 until oldData?.size!!) {
-                        if (parentItem.date == oldData[i].date) {
-                            if (parentItem.transaction.size != oldData[i].transaction.size) {
+                getGraphRecycleViewAdapter()?.getDataList()?.let { oldData ->
+                    for (parentItem in it) {
+                        var shouldAppend = false
+                        for (i in 0 until oldData.size) {
+                            if (parentItem.date == oldData[i].date) {
+                                if (parentItem.transaction.size != oldData[i].transaction.size) {
+                                    shouldAppend = true
+                                    parentItem.isNewItem = false
+                                    break
+                                }
+                                parentItem.isNewItem = true
                                 shouldAppend = true
-                                parentItem.isNewItem = false
                                 break
+                            } else {
+                                parentItem.isNewItem = true
                             }
-                            parentItem.isNewItem = true
-                            shouldAppend = true
-                            break
-                        } else {
-                            parentItem.isNewItem = true
+                        }
+                        if (!shouldAppend)
+                            listToAppend.add(parentItem)
+                    }
+
+                }
+                listToAppend.partition { txn -> txn.isNewItem }.let { pair ->
+                    pair.second.forEach { data ->
+                        getTransactionPosition(data)?.let { index ->
+                            getRecycleViewAdaptor()?.setItemAt(index, data)
                         }
                     }
-                    if (!shouldAppend)
-                        listToAppend.add(parentItem)
+                    getRecycleViewAdaptor()?.addList(pair.first)
                 }
-
-                val partitionedOldNewTxns = listToAppend.partition { txn -> txn.isNewItem }
-
-                val newTransactions = partitionedOldNewTxns.first
-                val oldTransactions = partitionedOldNewTxns.second
-                oldTransactions.forEach { data ->
-                    getTransactionPosition(data)?.let { index ->
-                        getRecycleViewAdaptor()?.getDataList()?.set(index, data)
-                        getRecycleViewAdaptor()?.notifyItemChanged(index)
-                    }
-                }
-
-                newTransactions.forEach { data ->
-                    getRecycleViewAdaptor()?.getDataList()?.add(data)
-                    getRecycleViewAdaptor()?.getDataList()?.size?.let { index ->
-                        getRecycleViewAdaptor()?.notifyItemInserted(
-                            index
-                        )
-                    }
-                }
-
                 getGraphRecycleViewAdapter()?.addList(listToAppend)
-//                getRecycleViewAdaptor()?.addList(listToAppend)
+                viewModel.isLoadMore.value = false
             } else {
                 if (it.isEmpty()) {
                     //if transaction is empty and filter is applied then state would be Error where no transaction image show

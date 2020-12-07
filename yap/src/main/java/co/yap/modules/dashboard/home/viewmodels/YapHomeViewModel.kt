@@ -147,7 +147,7 @@ class YapHomeViewModel(application: Application) :
                         state.showTxnShimmer.value = State.success(null)
                     }
                     transactionsLiveData.value = sortedCombinedTransactionList
-                    isLoadMore.value = false
+                    //isLoadMore.value = false
                     //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
