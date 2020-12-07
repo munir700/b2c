@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.addreceipt
+package co.yap.modules.dashboard.transaction.addreceipt
 
 import co.yap.yapcore.BaseState
 

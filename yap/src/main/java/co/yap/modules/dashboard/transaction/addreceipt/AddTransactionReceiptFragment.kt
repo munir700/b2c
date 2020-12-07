@@ -1,14 +1,19 @@
-package co.yap.modules.dashboard.addreceipt
+package co.yap.modules.dashboard.transaction.addreceipt
 
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddTransactionReceiptBinding
+import co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptFragment
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants.FILE_PATH
 import co.yap.yapcore.helpers.extentions.createTempFile
+import co.yap.yapcore.helpers.extentions.startFragment
 import com.digitify.identityscanner.camera.CameraException
 import com.digitify.identityscanner.camera.CameraListener
 import com.digitify.identityscanner.camera.CameraOptions
@@ -25,7 +30,33 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBindingView().camera.setLifecycleOwner(this)
-        getBindingView().camera.setLifecycleOwner(this)
+        getBindingView().camera.addCameraListener(this)
+        registerObserver()
+    }
+
+    override fun registerObserver() {
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.camFab -> {
+                    capturePicture()
+                }
+                R.id.ivBack -> requireActivity().finish()
+            }
+        })
+    }
+
+    private fun capturePicture() {
+        if (getBindingView().camera.isTakingPicture) return
+        getBindingView().camera.takePicture()
+    }
+
+    override fun onDestroyView() {
+        unRegisterObserver()
+        super.onDestroyView()
+    }
+
+    override fun unRegisterObserver() {
+        viewModel.clickEvent.removeObservers(this)
     }
 
     override fun onRequestPermissionsResult(
@@ -43,6 +74,8 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     }
 
     override fun onCameraOpened(options: CameraOptions) {
+        getBindingView().camera.useDeviceOrientation = true
+        getBindingView().camFab.isEnabled = true
     }
 
     override fun onCameraClosed() {
@@ -54,7 +87,14 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
     override fun onPictureTaken(result: PictureResult) {
         result.toFile(
             requireContext().createTempFile(".jpg")
-        ) { }
+        ) {
+            it?.let {
+                startFragment(
+                    fragmentName = PreviewTransactionReceiptFragment::class.java.name,
+                    bundle = bundleOf(FILE_PATH to it.absolutePath)
+                )
+            }
+        }
     }
 
     override fun onOrientationChanged(orientation: Int) {

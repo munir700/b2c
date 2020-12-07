@@ -31,8 +31,9 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter("circularImageUrl")
-    fun setCircularImageUrl(imageView: AppCompatImageView, uri: Uri) {
-        setImage(imageView, uri)
+    fun setCircularImageUrl(imageView: AppCompatImageView, uri: Uri?) {
+        uri?.let { setImage(imageView, uri) }
+
     }
 
     @JvmStatic
@@ -259,9 +260,9 @@ object ImageBinding {
 
         val resId = getResId(
             "flag_${
-                getDrawableName(
-                    countryName
-                )
+            getDrawableName(
+                countryName
+            )
             }"
         )
         if (resId != -1) {
