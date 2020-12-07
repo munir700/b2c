@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.ColorRes
@@ -21,6 +22,15 @@ object ImageBinding {
     @BindingAdapter("imageUrl")
     fun setImageUrl(imageView: AppCompatImageView, url: String) {
         setImage(imageView, url)
+    }
+
+    @JvmStatic
+    @BindingAdapter("drawable")
+    fun setImageDrawable(imageView: AppCompatImageView, drawable: Drawable?) {
+        drawable?.let {
+            setImage(imageView, drawable)
+        }
+
     }
 
     @JvmStatic
