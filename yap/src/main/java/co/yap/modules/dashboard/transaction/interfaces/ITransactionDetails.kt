@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.interfaces
 
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
+import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -15,6 +16,8 @@ interface ITransactionDetails {
         var clickEvent: SingleClickEvent
         var transaction: ObservableField<Transaction>
         var adapter : TransactionReceiptAdapter
+        fun addNewReceipt(receipt : ReceiptModel)
+        fun deleteReceipt(receipt: ReceiptModel)
     }
 
     interface State : IBase.State {

@@ -24,7 +24,6 @@ class TransactionDetailsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
     override var adapter: TransactionReceiptAdapter = TransactionReceiptAdapter(mutableListOf())
-
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -39,6 +38,14 @@ class TransactionDetailsViewModel(application: Application) :
         list.add(ReceiptModel("Receipt 6"))
         list.add(ReceiptModel("Receipt 6"))
         return list
+    }
+
+    override fun addNewReceipt(receipt: ReceiptModel) {
+        adapter.getDataList().add(receipt)
+    }
+
+    override fun deleteReceipt(receipt: ReceiptModel) {
+        adapter.getDataList().remove(receipt)
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {

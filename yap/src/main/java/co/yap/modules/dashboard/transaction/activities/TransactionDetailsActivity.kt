@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
@@ -60,7 +61,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
+        setReceiptListner()
     }
+
 
     private fun setAmount() {
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
@@ -193,6 +196,14 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
     }
 
+    private fun setReceiptListner() {
+        viewModel.adapter.setItemListener(onReceiptClickLsitener)
+    }
+
+    val onReceiptClickLsitener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+        }
+    }
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.clNote, R.id.clEditIcon -> {
