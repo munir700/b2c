@@ -1,6 +1,7 @@
 <resources>
 
     <!-- Common -->
+    <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_button_next">Next</string>
     <string name="common_display_text_error_no_internet">Looks like you\'re offline. Please reconnect and refresh to continue using YAP.</string>
