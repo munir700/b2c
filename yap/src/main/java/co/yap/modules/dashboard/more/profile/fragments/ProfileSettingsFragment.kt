@@ -15,26 +15,29 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.more.changepasscode.activities.ChangePasscodeActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
-import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
+import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.hasBitmap
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchSheet
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.permissions.PermissionHelper
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
@@ -46,7 +49,7 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
-    CardClickListener, EasyPermissions.PermissionCallbacks {
+    EasyPermissions.PermissionCallbacks {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
     internal var permissionHelper: PermissionHelper? = null
@@ -94,25 +97,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
-    override fun onClick(eventType: Int) {
-        updatePhotoBottomSheet.dismiss()
-
-        when (eventType) {
-            Constants.EVENT_ADD_PHOTO -> {
-                initEasyImage(takePhoto)
-            }
-
-            Constants.EVENT_CHOOSE_PHOTO -> {
-                initEasyImage(pickPhoto)
-            }
-
-            Constants.EVENT_REMOVE_PHOTO -> {
-                viewModel.requestRemoveProfilePicture {
-                    if (it) ivProfilePic.setImageDrawable(null)
-                }
-            }
-        }
-    }
 
     private fun initEasyImage(type: Int) {
         if (hasCameraPermission()) {
@@ -227,10 +211,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
-                    this.fragmentManager?.let {
-                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
-                        updatePhotoBottomSheet.show(it, "")
-                    }
+                    requireActivity().launchSheet(
+                        itemClickListener = itemListener,
+                        itemsList = viewModel.getUploadProfileOptions(showRemovePhoto()),
+                        heading = getString(Strings.screen_update_profile_photo_display_text_title)
+                    )
+//                    this.fragmentManager?.let {
+//                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
+//                        updatePhotoBottomSheet.show(it, "")
+//                    }
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
@@ -328,5 +317,25 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun hasCameraPermission(): Boolean {
         return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
+    }
+
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            when ((data as BottomSheetItem).tag) {
+                PhotoSelectionType.CAMERA.name -> {
+                    initEasyImage(takePhoto)
+                }
+
+                PhotoSelectionType.GALLERY.name -> {
+                    initEasyImage(pickPhoto)
+                }
+
+                PhotoSelectionType.REMOVE_PHOTO.name -> {
+                    viewModel.requestRemoveProfilePicture {
+                        if (it) ivProfilePic.setImageDrawable(null)
+                    }
+                }
+            }
+        }
     }
 }

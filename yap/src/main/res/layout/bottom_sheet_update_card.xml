@@ -58,7 +58,6 @@
             android:layout_marginBottom="@dimen/margin_normal_large"
             android:background="@color/divider" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvChoosePhoto"
             style="@style/Regular"
