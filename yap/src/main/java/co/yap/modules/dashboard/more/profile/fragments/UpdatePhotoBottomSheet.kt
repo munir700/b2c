@@ -10,7 +10,6 @@ import co.yap.modules.others.helper.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_update_card.view.*
 
-
 class UpdatePhotoBottomSheet(private val mListener: CardClickListener, private val showRemove: Boolean) : BottomSheetDialogFragment() {
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
 

@@ -124,7 +124,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (type) {
                 takePhoto -> {
                     easyImage.openCameraForImage(this)
-
                 }
                 pickPhoto -> {
                     easyImage.openGallery(this)
@@ -137,7 +136,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
             )
         }
-
     }
 
     override fun onDestroy() {
