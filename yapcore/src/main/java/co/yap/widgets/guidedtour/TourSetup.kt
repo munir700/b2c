@@ -106,7 +106,7 @@ class TourSetup(
                     activity.resources.getDimension(R.dimen._50sdp).toInt()
                 ) -> {
                     layer?.centerY =
-                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._30sdp)
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
                             .toInt()
                 }
                 TourUtils.isViewLocatedAtTopOfTheScreen(

@@ -221,7 +221,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onToolBarClick(id: Int) {
         when (id) {
-            R.id.ivRightIcon -> openAddCard()
+            R.id.ivRightIcon -> {
+                openAddCard()
+//                val tour = TourSetup(requireActivity(), setViewsArray())
+//                tour.startTour()
+            }
         }
     }
 
@@ -266,7 +270,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
                         adapter.removeAllItems()
-                        openDetailScreen(pos = viewModel.cards.value?.size ?: 0, card = paymentCard)
+                        openDetailScreen(
+                            pos = viewModel.cards.value?.size ?: 0,
+                            card = paymentCard
+                        )
                         viewModel.getCards()
                     }
                 }
@@ -396,8 +403,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     showSkip = false,
                     showPageNo = false,
                     btnText = getString(Strings.screen_cards_display_text_tour_add_card_btn_text),
-                    padding = -getDimension(R.dimen._10sdp),
-                    circleRadius = getDimension(R.dimen._70sdp)
+                    padding = 0f,
+                    circleRadius = getDimension(R.dimen._57sdp)
                 )
             )
         }

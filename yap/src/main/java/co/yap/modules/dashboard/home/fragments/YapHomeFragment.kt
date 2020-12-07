@@ -286,8 +286,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
 
                 R.id.ivSearch -> {
-                    val tour = TourSetup(requireActivity(), setViewsArray())
-                    tour.startTour()
+
                 }
             }
         })
