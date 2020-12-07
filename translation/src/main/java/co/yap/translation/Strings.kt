@@ -1000,6 +1000,8 @@ object Strings {
         "screen_transaction_details_display_sheet_heading"
     const val screen_transaction_details_display_sheet_sub_heading: String =
         "screen_transaction_details_display_sheet_sub_heading"
+    const val screen_transaction_details_display_receipt_item: String =
+        "screen_transaction_details_display_receipt_item"
 
 
     //     Send Money no contacts Screen

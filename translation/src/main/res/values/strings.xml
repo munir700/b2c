@@ -621,6 +621,7 @@
     <string name="screen_transaction_details_display_sheet_heading">Add a receipt</string>
     <string name="screen_transaction_details_display_sheet_sub_heading">Take a photo or upload your receipt</string>
     <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>

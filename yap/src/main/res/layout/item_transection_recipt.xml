@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,9 +10,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.R" />
-
-        <import type="android.view.View" />
+        <import type="co.yap.translation.Translator" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -38,7 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Recipt Item"
-            android:textColor="@color/colorPrimary" />
+            android:text="@{Translator.INSTANCE.getString(context,Strings.screen_transaction_details_display_receipt_item)}"
+            tools:text="Receipt Item"
+            android:textColor="@color/colorPrimary"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
