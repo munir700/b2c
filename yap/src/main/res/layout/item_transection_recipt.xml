@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.transaction.TransactionReceiptItemViewModel" />
+    </data>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:background="@drawable/bg_blur_stroke_corner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margin_small"
+        android:paddingTop="@dimen/_6sdp"
+        android:paddingEnd="@dimen/margin_small"
+        android:paddingBottom="@dimen/_6sdp"
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v)}">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/margin_normal_large"
+            android:layout_height="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_extra_small"
+            android:src="@drawable/ic_recipt" />
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Micro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Recipt Item"
+            android:textColor="@color/colorPrimary" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

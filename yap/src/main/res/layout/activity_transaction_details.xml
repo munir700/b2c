@@ -9,7 +9,6 @@
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel" />
 
-
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.yapcore.helpers.extentions.TransactionExtentionsKt" />
@@ -270,6 +269,11 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include
+                android:id="@+id/clReciptParent"
+                layout="@layout/layout_transaction_receipt"
+                app:receiptViewModel="@{viewModel}" />
+
             <TextView
                 android:id="@+id/tvPaymentDetail"
                 style="@style/ASmall"
@@ -281,7 +285,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clNoteParent"
+                app:layout_constraintTop_toBottomOf="@+id/clReciptParent"
                 tools:text="Payment detail" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
