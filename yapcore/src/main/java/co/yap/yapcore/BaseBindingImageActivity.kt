@@ -14,7 +14,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+abstract class BaseBindingImageActivity<V : IBase.ViewModel<*>> : BaseBindingActivity<V>() {
     private lateinit var easyImage: EasyImage
     private lateinit var selectionType: PhotoSelectionType
 
@@ -27,7 +27,7 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
     private fun openPicker() {
         if (hasCameraPermission()) {
             easyImage =
-                EasyImage.Builder(requireContext()) // Chooser only
+                EasyImage.Builder(context) // Chooser only
                     .setChooserTitle("Pick Image")
                     .setChooserType(ChooserType.CAMERA_AND_GALLERY)
                     .setFolderName("YAPImage")
@@ -44,7 +44,7 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
             }
         } else {
             EasyPermissions.requestPermissions(
-                this, Translator.getString(requireContext(), Strings.rationale_camera),
+                this, Translator.getString(this, Strings.rationale_camera),
                 REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
             )
         }
@@ -75,7 +75,7 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
             requestCode,
             resultCode,
             data,
-            requireActivity(),
+            this,
             object : DefaultCallback() {
                 override fun onMediaFilesPicked(
                     imageFiles: Array<MediaFile>,
@@ -132,6 +132,6 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
     }
 
     private fun hasCameraPermission(): Boolean {
-        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
+        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)
     }
 }

@@ -9,19 +9,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.ActivityTransactionDetailsBinding
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionLabelsCode
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionStatus
-import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
@@ -29,8 +27,8 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
-class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
-    ITransactionDetails.View, CardClickListener {
+class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
+    ITransactionDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -60,7 +58,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setLocationText()
         setReceiptListener()
     }
-
 
     private fun setAmount() {
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
@@ -186,7 +183,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         maskCardNo?.let {
             getBindings().tvCardMask.text = "*${maskCardNo}"
         }
-
     }
 
     private fun setSpentLabel() {
@@ -199,25 +195,37 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     private val onReceiptClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-
+            if (data is BottomSheetItem){
+                when(data.tag){
+                    PhotoSelectionType.CAMERA.name ->{
+                        openImagePicker(PhotoSelectionType.CAMERA)
+                    }
+                    PhotoSelectionType.GALLERY.name ->{
+                        openImagePicker(PhotoSelectionType.GALLERY)
+                    }
+                }
+            }
         }
     }
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.clNote, R.id.clEditIcon -> {
+            R.id.clNote, R.id.clEditIcon ->
                 if (viewModel.state.txnNoteValue.get().isNullOrBlank()) {
                     openNoteScreen()
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
-            }
             R.id.clRecipt -> {
-                openBottomSheet()
+                showAddReceiptOptions()
             }
         }
     }
 
-    private fun openBottomSheet() {
-
+    private fun showAddReceiptOptions() {
+        launchSheet(
+            itemClickListener = onReceiptClickListener,
+            itemsList = viewModel.getAddReceiptOptions(),
+            heading = getString(Strings.screen_update_profile_photo_display_text_title)
+        )
     }
 
     private fun setTransactionTitle() {
@@ -312,10 +320,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     viewModel.transaction.get()?.transactionNoteDate =
                         DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
                 }
-                Constants.INTENT_ADD_RECEPT_GALLARY -> {
+                RequestCodes.REQUEST_ADD_RECEIPT -> {
 
                 }
-                Constants.INTENT_ADD_RECEPT_CAMERA -> {
+                RequestCodes.REQUEST_DELETE_RECEIPT -> {
 
                 }
             }
@@ -358,10 +366,5 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onBackPressed() {
         setResult()
-    }
-
-    override fun onClick(eventType: Int) {
-        when (eventType) {
-        }
     }
 }
