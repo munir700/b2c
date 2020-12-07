@@ -153,6 +153,7 @@ object Constants {
 
     const val REFERRAL_TIME = "time"
     const val REFERRAL_ID = "customer_id"
+    const val FILE_PATH = "imagePath"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
     const val SUCCESS_BUTTON_LABEL = "successButtonLabel"

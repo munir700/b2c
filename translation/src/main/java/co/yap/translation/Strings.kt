@@ -765,6 +765,8 @@ object Strings {
         "screen_update_profile_photo_display_text_open_camera"
     const val screen_update_profile_photo_display_text_choose_photo: String =
         "screen_update_profile_photo_display_text_choose_photo"
+    const val screen_update_profile_photo_display_text_take_photo: String =
+        "screen_update_profile_photo_display_text_take_photo"
     const val screen_update_profile_photo_display_text_remove_photo: String =
         "screen_update_profile_photo_display_text_remove_photo"
 
