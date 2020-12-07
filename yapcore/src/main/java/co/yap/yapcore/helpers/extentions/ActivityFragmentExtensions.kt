@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.widgets.bottomsheet.BottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
@@ -27,6 +29,7 @@ import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -400,5 +403,23 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 }
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
+
+fun FragmentActivity.launchSheet(
+    itemClickListener: OnItemClickListener? = null,
+    itemsList: ArrayList<BottomSheetItem>,
+    heading: String? = null,
+    subHeading: String? = null
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            BottomSheet(
+                itemClickListener,
+                bottomSheetItems = itemsList,
+                headingLabel = heading,
+                subHeadingLabel = subHeading
+            )
+        coreBottomSheet.show(it, "")
+    }
+}
 
 

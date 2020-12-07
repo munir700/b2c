@@ -14,20 +14,20 @@ import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewMod
 import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingImageActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionLabelsCode
-import co.yap.yapcore.enums.TransactionProductCode
-import co.yap.yapcore.enums.TransactionStatus
-import co.yap.yapcore.enums.TxnType
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
-class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
+class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -56,13 +56,15 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
+        setReceiptListener()
     }
 
     private fun setAmount() {
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(showCurrency = false)
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
+                    showCurrency = false)
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
@@ -118,10 +120,15 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
+            }" else "+ ${
+                totalAmount.toFormattedCurrency(showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency())
+            }"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
@@ -176,13 +183,30 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         maskCardNo?.let {
             getBindings().tvCardMask.text = "*${maskCardNo}"
         }
-
     }
 
     private fun setSpentLabel() {
         getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
     }
 
+    private fun setReceiptListener() {
+        viewModel.adapter.setItemListener(onReceiptClickListener)
+    }
+
+    private val onReceiptClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is BottomSheetItem){
+                when(data.tag){
+                    PhotoSelectionType.CAMERA.name ->{
+                        openImagePicker(PhotoSelectionType.CAMERA)
+                    }
+                    PhotoSelectionType.GALLERY.name ->{
+                        openImagePicker(PhotoSelectionType.GALLERY)
+                    }
+                }
+            }
+        }
+    }
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.clNote, R.id.clEditIcon ->
@@ -190,7 +214,18 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     openNoteScreen()
                 } else
                     openNoteScreen(noteValue = viewModel.state.txnNoteValue.get() ?: "")
+            R.id.clRecipt -> {
+                showAddReceiptOptions()
+            }
         }
+    }
+
+    private fun showAddReceiptOptions() {
+        launchSheet(
+            itemClickListener = onReceiptClickListener,
+            itemsList = viewModel.getAddReceiptOptions(),
+            heading = getString(Strings.screen_update_profile_photo_display_text_title)
+        )
     }
 
     private fun setTransactionTitle() {
@@ -270,23 +305,29 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                viewModel.state.txnNoteValue.set(
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                )
-                viewModel.transaction.get()?.transactionNote =
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                viewModel.state.transactionNoteDate =
-                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
-                        DateUtils.FORMAT_LONG_OUTPUT
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                Constants.INTENT_ADD_NOTE_REQUEST -> {
+                    viewModel.state.txnNoteValue.set(
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                     )
-                viewModel.transaction.get()?.transactionNoteDate =
-                    DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                    viewModel.transaction.get()?.transactionNote =
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                    viewModel.state.transactionNoteDate =
+                        viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                            DateUtils.FORMAT_LONG_OUTPUT
+                        )
+                    viewModel.transaction.get()?.transactionNoteDate =
+                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                }
+                RequestCodes.REQUEST_ADD_RECEIPT -> {
+
+                }
+                RequestCodes.REQUEST_DELETE_RECEIPT -> {
+
+                }
             }
-
         }
-
     }
 
 

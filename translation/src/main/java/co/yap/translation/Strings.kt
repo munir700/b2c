@@ -4,6 +4,7 @@ package co.yap.translation
 object Strings {
 
     // Common
+    const val rationale_camera: String = "rationale_camera"
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
@@ -764,6 +765,10 @@ object Strings {
         "screen_update_profile_photo_display_text_open_camera"
     const val screen_update_profile_photo_display_text_choose_photo: String =
         "screen_update_profile_photo_display_text_choose_photo"
+    const val screen_update_profile_photo_display_text_take_photo: String =
+        "screen_update_profile_photo_display_text_take_photo"
+    const val screen_update_profile_photo_display_text_remove_photo: String =
+        "screen_update_profile_photo_display_text_remove_photo"
 
 
 //  personal detail screen
@@ -1832,19 +1837,19 @@ object Strings {
 
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =
-            "screen_send_money_home_display_text_send_money"
+        "screen_send_money_home_display_text_send_money"
     const val screen_send_money_home_display_text_recent_transfers: String =
-            "screen_send_money_home_display_text_recent_transfers"
+        "screen_send_money_home_display_text_recent_transfers"
     const val screen_send_money_home_display_text_send_money_home: String =
-            "screen_send_money_home_display_text_send_money_home"
+        "screen_send_money_home_display_text_send_money_home"
     const val screen_send_money_home_display_text_get_best_rates: String =
-            "screen_send_money_home_display_text_get_best_rates"
+        "screen_send_money_home_display_text_get_best_rates"
     const val screen_send_money_home_display_text_change_home_country: String =
-            "screen_send_money_home_display_text_change_home_country"
+        "screen_send_money_home_display_text_change_home_country"
     const val screen_send_money_home_display_text_hide: String =
-            "screen_send_money_home_display_text_hide"
+        "screen_send_money_home_display_text_hide"
     const val screen_send_money_home_title: String =
-            "screen_send_money_home_title"
+        "screen_send_money_home_title"
     const val screen_send_money_home_display_text_compare: String =
         "screen_send_money_home_display_text_compare"
 
@@ -1861,4 +1866,11 @@ object Strings {
         "screen_qr_code_own_uuid_error_message"
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
+
+    //Transaction Details
+    const val screen_transaction_details_receipt_text: String =
+        "screen_transaction_details_receipt_text"
+    const val screen_transaction_details_receipt_label: String =
+        "screen_transaction_details_receipt_label"
+
 }
