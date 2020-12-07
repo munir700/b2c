@@ -165,7 +165,12 @@ class BubbleMessageView : ConstraintLayout {
             getViewWidth() - getMargin().toFloat(),
             height - getMargin().toFloat()
         )
-        canvas.drawRoundRect(rect, 25f, 25f, paint!!)
+        canvas.drawRoundRect(
+            rect,
+            context.resources.getDimension(R.dimen._10sdp),
+            context.resources.getDimension(R.dimen._10sdp),
+            paint!!
+        )
     }
 
     private fun drawArrow(
@@ -232,15 +237,15 @@ class BubbleMessageView : ConstraintLayout {
     }
 
     private fun calculateMaxMinHorizontalPositionTip(tipPos: Int, dim: Int): Int {
-        val leftOffSetX = 85
-        val rightOffSetX = 85
+        val leftOffSetX = dim.div(100).times(20)
+        val rightOffSetX = dim.div(100).times(20)
         val safeLeft = max(leftOffSetX, tipPos)
         return min((dim - rightOffSetX), safeLeft)
     }
 
     private fun calculateMaxMinVerticalPositionTip(tipPos: Int, dim: Int): Int {
-        val topOffSetX = 25
-        val bottomOffSetX = 25
+        val topOffSetX = dim.div(100).times(15)
+        val bottomOffSetX = dim.div(100).times(15)
         val safeTop = max(topOffSetX, tipPos)
         return min((dim - bottomOffSetX), safeTop)
     }
