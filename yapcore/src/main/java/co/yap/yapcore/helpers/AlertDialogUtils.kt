@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.R
@@ -268,11 +269,27 @@ fun Activity.showAlertDialogAndExitApp(
 
 fun Activity.showReceiptSuccessDialog(
     Descrip : String? = null,
-    coreButtonText : String? =null,
     addOtherVisibility : Boolean? = false,
+    addAnotherText : String? = "",
     callback: () -> Unit = {}){
     val dialogLayout = Dialog(this)
     dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialogLayout.setCancelable(false)
     dialogLayout.setContentView(R.layout.layout_receipt_success_dialog)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvDescrip)
+    val addAnother = dialogLayout.findViewById<TextView>(R.id.tvAddAnother)
+    val coreButton = dialogLayout.findViewById<TextView>(R.id.btnAction)
+    label.text = Descrip
+    addAnother.text = addAnotherText
+    addAnother.visibility = if (addOtherVisibility == true) View.VISIBLE else View.GONE
+    coreButton.setOnClickListener {
+        dialogLayout.dismiss()
+    }
+    addAnother.setOnClickListener {
+        callback()
+        dialogLayout.dismiss()
+    }
+
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
 }
