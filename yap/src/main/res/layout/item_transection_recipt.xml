@@ -6,12 +6,6 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.TransactionReceiptItemViewModel" />
-
-        <import type="co.yap.translation.Strings" />
-
-        <import type="co.yap.R" />
-
-        <import type="android.view.View" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -25,7 +19,7 @@
         android:paddingTop="@dimen/_6sdp"
         android:paddingEnd="@dimen/margin_small"
         android:paddingBottom="@dimen/_6sdp"
-        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v)}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/margin_normal_large"
