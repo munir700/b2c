@@ -1,12 +1,8 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
-import android.Manifest
-import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -25,35 +21,24 @@ import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
-import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.ImageTypes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.hasBitmap
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
-import pl.aprilapps.easyphotopicker.DefaultCallback
-import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.MediaFile
-import pl.aprilapps.easyphotopicker.MediaSource
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
-    CardClickListener, EasyPermissions.PermissionCallbacks {
+    CardClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_profile
-    internal var permissionHelper: PermissionHelper? = null
-    lateinit var easyImage: EasyImage
     private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
-    private val takePhoto = 1
-    private val pickPhoto = 2
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
 
@@ -99,11 +84,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
-                initEasyImage(takePhoto)
+                openImagePicker(ImageTypes.OPEN_CAMERA)
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
-                initEasyImage(pickPhoto)
+                openImagePicker(ImageTypes.OPEN_GALLERY)
             }
 
             Constants.EVENT_REMOVE_PHOTO -> {
@@ -111,30 +96,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     if (it) ivProfilePic.setImageDrawable(null)
                 }
             }
-        }
-    }
-
-    private fun initEasyImage(type: Int) {
-        if (hasCameraPermission()) {
-            easyImage = EasyImage.Builder(requireContext())
-                .setChooserTitle("Pick Image")
-                .setFolderName("YAPImage")
-                .allowMultiple(false)
-                .build()
-            when (type) {
-                takePhoto -> {
-                    easyImage.openCameraForImage(this)
-                }
-                pickPhoto -> {
-                    easyImage.openGallery(this)
-                }
-            }
-            //  easyImage.openChooser(this)
-        } else {
-            EasyPermissions.requestPermissions(
-                this, "This app needs access to your camera so you can take pictures.",
-                REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
-            )
         }
     }
 
@@ -247,86 +208,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            handleImagePickerResult(requestCode, resultCode, data)
-        }
+    override fun onImageReturn(mediaFile: MediaFile) {
+        viewModel.clickEvent.call()
+        viewModel.requestUploadProfilePicture(mediaFile.file)
+        viewModel.state.imageUri = mediaFile.file.toUri()
+        ivProfilePic.setImageURI(mediaFile.file.toUri())
     }
 
-    private fun handleImagePickerResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        easyImage.handleActivityResult(
-            requestCode,
-            resultCode,
-            data,
-            requireActivity(),
-            object : DefaultCallback() {
-                override fun onMediaFilesPicked(
-                    imageFiles: Array<MediaFile>,
-                    source: MediaSource
-                ) {
-                    onPhotosReturned(imageFiles, source)
-                }
-
-                override fun onImagePickerError(
-                    @NonNull error: Throwable,
-                    @NonNull source: MediaSource
-                ) {
-                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                }
-
-                override fun onCanceled(@NonNull source: MediaSource) {
-                    viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
-                }
-            })
-    }
-
-    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
-        path.firstOrNull()?.let { mediaFile ->
-            val ext = mediaFile.file.extension
-            if (!ext.isBlank()) {
-                when (ext) {
-                    "png", "jpg", "jpeg" -> {
-                        viewModel.clickEvent.call()
-                        viewModel.requestUploadProfilePicture(mediaFile.file)
-                        viewModel.state.imageUri = mediaFile.file.toUri()
-                        ivProfilePic.setImageURI(mediaFile.file.toUri())
-                    }
-                    else -> {
-                        viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-                    }
-
-                }
-            } else {
-                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        @NonNull permissions: Array<String>,
-        @NonNull grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).build().show()
-        }
-    }
-
-    private fun hasCameraPermission(): Boolean {
-        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
-    }
 }

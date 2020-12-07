@@ -7,6 +7,7 @@ import androidx.annotation.NonNull
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
+import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.ImageTypes
 import pl.aprilapps.easyphotopicker.*
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -16,10 +17,16 @@ import pub.devrel.easypermissions.EasyPermissions
 abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
 
     private lateinit var easyImage: EasyImage
+    private lateinit var imageType: ImageTypes
 
+
+    fun openImagePicker(imageTypes: ImageTypes) {
+        imageType = imageTypes
+        openPicker()
+    }
 
     @AfterPermissionGranted(REQUEST_CAMERA_PERMISSION)
-    fun openImagePicker(imageTypes: ImageTypes) {
+    private fun openPicker() {
         if (hasCameraPermission()) {
             easyImage =
                 EasyImage.Builder(requireContext()) // Chooser only
@@ -28,13 +35,13 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
                     .setFolderName("YAPImage")
                     .allowMultiple(false)
                     .build()
-            when (imageTypes) {
+            when (imageType) {
                 ImageTypes.OPEN_CHOOSER ->
                     easyImage.openChooser(this)
                 ImageTypes.OPEN_CAMERA ->
-                    easyImage.openChooser(this)
+                    easyImage.openCameraForImage(this)
                 ImageTypes.OPEN_GALLERY ->
-                    easyImage.openChooser(this)
+                    easyImage.openGallery(this)
             }
         } else {
             EasyPermissions.requestPermissions(
@@ -61,6 +68,7 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
 
     }
 
+
     private fun handleImagePickerResult(
         requestCode: Int,
         resultCode: Int,
@@ -85,10 +93,12 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
                 ) {
                     //Some error handling
                     error.printStackTrace()
+                    viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                 }
 
                 override fun onCanceled(@NonNull source: MediaSource) {
                     //Not necessary to remove any files manually anymore
+                    viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
                 }
             })
     }
@@ -99,15 +109,15 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
             if (!ext.isBlank()) {
                 when (ext) {
                     "png", "jpg", "jpeg" -> onImageReturn(mediaFile)
-                    else -> viewModel.state.toast = "Invalid file found"
+                    else -> viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
                 }
             } else {
-                viewModel.state.toast = "Invalid file found"
+                viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
             }
         }
     }
 
-    abstract fun onImageReturn(mediaFile: MediaFile)
+    open fun onImageReturn(mediaFile: MediaFile) {}
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -115,9 +125,15 @@ abstract class BaseBindingImageFragment<V : IBase.ViewModel<*>> : BaseBindingFra
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+        EasyPermissions.onRequestPermissionsResult(
+            requestCode,
+            permissions,
+            grantResults,
+            this
+        )
 
     }
+
 
     private fun hasCameraPermission(): Boolean {
         return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
