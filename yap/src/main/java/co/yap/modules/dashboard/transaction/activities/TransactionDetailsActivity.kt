@@ -61,7 +61,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         setTxnFailedReason()
         setContentDataColor(viewModel.transaction.get())
         setLocationText()
-        setReceiptListner()
+        setReceiptListener()
     }
 
 
@@ -196,12 +196,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
     }
 
-    private fun setReceiptListner() {
-        viewModel.adapter.setItemListener(onReceiptClickLsitener)
+    private fun setReceiptListener() {
+        viewModel.adapter.setItemListener(onReceiptClickListener)
     }
 
-    val onReceiptClickLsitener = object : OnItemClickListener {
+    private val onReceiptClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+
         }
     }
     var clickEvent = Observer<Int> {
@@ -303,22 +304,26 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
-                viewModel.state.txnNoteValue.set(
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                )
-                viewModel.transaction.get()?.transactionNote =
-                    data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
-                viewModel.state.transactionNoteDate =
-                    viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
-                        DateUtils.FORMAT_LONG_OUTPUT
+            when (requestCode) {
+                Constants.INTENT_ADD_NOTE_REQUEST -> {
+                    viewModel.state.txnNoteValue.set(
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
                     )
-                viewModel.transaction.get()?.transactionNoteDate =
-                    DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
-            } else if (requestCode == Constants.INTENT_ADD_RECEPT_GALLARY) {
+                    viewModel.transaction.get()?.transactionNote =
+                        data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
+                    viewModel.state.transactionNoteDate =
+                        viewModel.state.editNotePrefixText + DateUtils.getCurrentDateWithFormat(
+                            DateUtils.FORMAT_LONG_OUTPUT
+                        )
+                    viewModel.transaction.get()?.transactionNoteDate =
+                        DateUtils.getCurrentDateWithFormat(DateUtils.FORMAT_LONG_OUTPUT)
+                }
+                Constants.INTENT_ADD_RECEPT_GALLARY -> {
 
-            } else if (requestCode == Constants.INTENT_ADD_RECEPT_CAMERA) {
+                }
+                Constants.INTENT_ADD_RECEPT_CAMERA -> {
 
+                }
             }
         }
     }

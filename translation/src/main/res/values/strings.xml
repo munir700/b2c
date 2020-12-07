@@ -1156,4 +1156,6 @@
 
     <!-- Dashboard Menu -->
     <string name="screen_dashboard_menu_display_text_my_profile">My profile</string>
+    <string name="screen_transaction_details_receipt_text">Keep track of your spendings</string>
+    <string name="screen_transaction_details_receipt_label">Add a receipt</string>
 </resources>

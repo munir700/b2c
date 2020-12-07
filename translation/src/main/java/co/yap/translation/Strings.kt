@@ -1861,4 +1861,11 @@ object Strings {
         "screen_qr_code_own_uuid_error_message"
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
+
+    //Transaction Details
+    const val screen_transaction_details_receipt_text: String =
+        "screen_transaction_details_receipt_text"
+    const val screen_transaction_details_receipt_label: String =
+        "screen_transaction_details_receipt_label"
+
 }

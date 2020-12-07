@@ -17,7 +17,7 @@ interface ITransactionDetails {
         var transaction: ObservableField<Transaction>
         var adapter : TransactionReceiptAdapter
         fun addNewReceipt(receipt : ReceiptModel)
-        fun deleteReceipt(receipt: ReceiptModel)
+        fun deleteReceipt(position: Int)
     }
 
     interface State : IBase.State {

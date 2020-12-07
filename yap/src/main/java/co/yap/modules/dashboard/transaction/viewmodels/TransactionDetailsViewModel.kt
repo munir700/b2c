@@ -41,11 +41,11 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     override fun addNewReceipt(receipt: ReceiptModel) {
-        adapter.getDataList().add(receipt)
+        adapter.setItemAt(adapter.getDataList().size,receipt)
     }
 
-    override fun deleteReceipt(receipt: ReceiptModel) {
-        adapter.getDataList().remove(receipt)
+    override fun deleteReceipt(position: Int) {
+        adapter.removeItemAt(position)
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
