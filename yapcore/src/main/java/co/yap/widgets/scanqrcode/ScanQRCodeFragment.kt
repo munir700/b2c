@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -18,6 +19,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
 import co.yap.yapcore.databinding.FragmentScanQrCodeBinding
 import co.yap.yapcore.enums.PhotoSelectionType
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.getQRCode
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -64,6 +66,10 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
     }
 
     private fun initQRCodeReaderView() {
+        ImageBinding.setImageDrawable(
+            getBindings().ivOverLay,
+            ContextCompat.getDrawable(requireContext(), R.drawable.bg_qr_scan)
+        )
         qrCodeReaderView = getBindings().qrCodeReaderView
         qrCodeReaderView.setAutofocusInterval(2000L)
         qrCodeReaderView.setOnQRCodeReadListener(this)
