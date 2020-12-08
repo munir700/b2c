@@ -17,9 +17,13 @@ import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils.FORMAT_TIME_12H
 import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
 
-class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
+class TransactionsListingAdapter(
+    private val list: MutableList<Transaction>,
+    private val adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION
+) :
     BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
@@ -30,10 +34,16 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return TransactionListingViewHolder(binding as ItemTransactionListBinding)
+        return TransactionListingViewHolder(
+            binding as ItemTransactionListBinding,
+            adapterType = adapterType
+        )
     }
 
-    class TransactionListingViewHolder(private val itemTransactionListBinding: ItemTransactionListBinding) :
+    class TransactionListingViewHolder(
+        private val itemTransactionListBinding: ItemTransactionListBinding,
+        val adapterType: TransactionAdapterType
+    ) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
         fun onBind(transaction: Transaction, position: Int?) {
@@ -75,7 +85,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             val transactionTitle = transaction.getTransactionTitle()
             val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
-                transaction.getTransactionTypeTitle()
+                transaction.getTransactionTypeTitle(adapterType)
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
@@ -98,11 +108,11 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             }
 
             itemTransactionListBinding.tvTransactionName.text = transactionTitle
-            itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
-                context,
-                R.string.screen_fragment_home_transaction_time_category,
-                transaction.getFormattedTime(outputFormat = FORMAT_TIME_12H), categoryTitle
-            )
+                itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
+                    context,
+                    R.string.screen_fragment_home_transaction_time_category,
+                    transaction.getTransactionTime(adapterType), categoryTitle
+                )
         }
 
         private fun setY2YUserImage(

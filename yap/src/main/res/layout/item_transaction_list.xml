@@ -9,9 +9,9 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingStart="@dimen/_19sdp"
+        android:paddingStart="@dimen/margin_medium"
         android:paddingTop="@dimen/margin_normal"
-        android:paddingEnd="@dimen/_20sdp">
+        android:paddingEnd="@dimen/margin_medium">
 
         <FrameLayout
             android:id="@+id/flImageLayout"

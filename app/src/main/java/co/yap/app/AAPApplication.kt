@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.initializeAdjustSdk
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
@@ -117,13 +118,9 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
     private fun initFireBase() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
-//            val fabric = Fabric.Builder(this)
-//                .kits(Crashlytics())
-//                .build()
-//            Fabric.with(fabric)
         }
+        FirebaseAnalytics.getInstance(this)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun inItLeanPlum() {
@@ -146,7 +143,7 @@ class AAPApplication : YAPApplication(), NavigatorProvider {
         Leanplum.start(this)
     }
 
-    private fun initFacebook(){
+    private fun initFacebook() {
         AppEventsLogger.activateApp(this)
     }
 
