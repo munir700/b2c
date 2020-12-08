@@ -39,7 +39,6 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -101,7 +100,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (SessionManager.getPrimaryCard() != null) {
             if (isShowSetPin(SessionManager.getPrimaryCard())) {
                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                    viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
+                    viewModel.clickEvent.postValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
         } else toast("Invalid card found")
@@ -286,9 +285,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
+        SessionManager.getDebitCard {
+            startFlowForSetPin()
+        }
+
         SessionManager.card.observe(this, Observer { primaryCard ->
             primaryCard?.let {
-                startFlowForSetPin()
                 checkUserStatus()
             }
         })
