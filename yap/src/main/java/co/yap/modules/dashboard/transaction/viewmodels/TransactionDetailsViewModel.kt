@@ -2,20 +2,24 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import co.yap.R
 import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.translation.Strings
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.PhotoSelectionType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.extentions.getCategoryIcon
 import co.yap.yapcore.helpers.extentions.getCategoryTitle
 import co.yap.yapcore.helpers.extentions.getFormattedTime
 import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
-
+import java.util.*
 
 class TransactionDetailsViewModel(application: Application) :
     BaseViewModel<ITransactionDetails.State>(application), ITransactionDetails.ViewModel {
@@ -29,16 +33,44 @@ class TransactionDetailsViewModel(application: Application) :
         super.onCreate()
         setStatesData()
         adapter.setList(getReciptItems())
+        state.receiptLabel.set(
+            when {
+                adapter.getDataList().isNullOrEmpty() -> {
+                    getString(Strings.screen_transaction_details_receipt_label)
+                }
+                adapter.getDataList().size == 1 -> {
+                    getString(Strings.screen_transaction_details_single_added_receipt_label).format(
+                        adapter.getDataList().size
+                    )
+                }
+                adapter.getDataList().size > 1 -> {
+                    getString(Strings.screen_transaction_details_added_receipt_label).format(adapter.getDataList().size)
+                }
+                else -> getString(Strings.screen_transaction_details_receipt_label)
+            }
+        )
     }
 
     private fun getReciptItems(): List<ReceiptModel> {
-        var list: MutableList<ReceiptModel> = arrayListOf()
+        val list: MutableList<ReceiptModel> = arrayListOf()
         list.add(ReceiptModel("Receipt 1"))
         list.add(ReceiptModel("Receipt 4"))
         list.add(ReceiptModel("Receipt 5"))
         list.add(ReceiptModel("Receipt 6"))
         list.add(ReceiptModel("Receipt 6"))
         return list
+    }
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun addNewReceipt(receipt: ReceiptModel) {
+        adapter.setItemAt(adapter.getDataList().size,receipt)
+    }
+
+    override fun deleteReceipt(position: Int) {
+        adapter.removeItemAt(position)
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
@@ -77,6 +109,25 @@ class TransactionDetailsViewModel(application: Application) :
                 state.isTransferTxn.set(true)
             }
         }
+    }
+
+    override fun getAddReceiptOptions(): ArrayList<BottomSheetItem> {
+        val list = arrayListOf<BottomSheetItem>()
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_camera,
+                title = getString(Strings.screen_update_profile_photo_display_text_open_camera),
+                tag = PhotoSelectionType.CAMERA.name
+            )
+        )
+        list.add(
+            BottomSheetItem(
+                icon = R.drawable.ic_folder,
+                title = getString(Strings.screen_transaction_details_display_sheet_text_upload_from_files),
+                tag = PhotoSelectionType.GALLERY.name
+            )
+        )
+        return list
     }
 
 }

@@ -22,10 +22,6 @@ object Constants {
     const val REQUEST_REPORT_LOST_OR_STOLEN: Int = 57
     const val REQUEST_SET_LIMITS: Int = 58
 
-    const val EVENT_ADD_PHOTO: Int = 6
-    const val EVENT_CHOOSE_PHOTO: Int = 7
-    const val EVENT_REMOVE_PHOTO: Int = 8
-
     const val EVENT_ADD_TOPUP_CARD: Int = 100
     const val EVENT_DELETE_TOPUP_CARD: Int = 101
 

@@ -10,14 +10,14 @@ import android.provider.Settings
 import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
-import co.yap.modules.imagepreviewer.ImagePreViewerActivity
+import co.yap.widgets.bottomsheet.BottomSheet
+import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
@@ -30,6 +30,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -75,6 +76,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
         }
     }
 }
+
 inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
     requestCode: Int = -1,
     options: Bundle? = null,
@@ -404,8 +406,31 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
+fun FragmentActivity.launchSheet(
+    itemClickListener: OnItemClickListener? = null,
+    itemsList: ArrayList<BottomSheetItem>,
+    heading: String? = null,
+    subHeading: String? = null
+) {
+    this.supportFragmentManager.let {
+        val coreBottomSheet =
+            BottomSheet(
+                itemClickListener,
+                bottomSheetItems = itemsList,
+                headingLabel = heading,
+                subHeadingLabel = subHeading
+            )
+        coreBottomSheet.show(it, "")
+    }
+}
 
-fun Activity.startImagePreviewerActivity(context: Activity, imageUri: Uri? = null, imageUrl:String?= null, title:String?= null) {
+
+fun Activity.startImagePreviewerActivity(
+    context: Activity,
+    imageUri: Uri? = null,
+    imageUrl: String? = null,
+    title: String? = null
+) {
     val intent = Intent(context, FrameDialogActivity::class.java)
 
 //    val intent = Intent(context.applicationContext, ImagePreViewerActivity::class.java)
@@ -413,7 +438,7 @@ fun Activity.startImagePreviewerActivity(context: Activity, imageUri: Uri? = nul
     intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageUrl)
     intent.putExtra(ExtraKeys.CONST_IMAGE_TITLE.name, title)
 
-    startActivity( intent)
+    startActivity(intent)
 //    startActivity(context, intent)
 
 }

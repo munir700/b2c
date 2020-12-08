@@ -1,6 +1,7 @@
 <resources>
 
     <!-- Common -->
+    <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
     <string name="common_display_text_retry">Retry</string>
     <string name="common_button_next">Next</string>
     <string name="common_display_text_error_no_internet">Looks like you\'re offline. Please reconnect and refresh to continue using YAP.</string>
@@ -617,6 +618,10 @@
     <string name="screen_transaction_details_display_text_exchange_rate">Exchange rate</string>
     <string name="screen_transaction_details_display_text_exchange_rate_value">1 %1$s = %2$s</string>
     <string name="screen_add_note_display_text_save">Save</string>
+    <string name="screen_transaction_details_display_sheet_heading">Add a receipt</string>
+    <string name="screen_transaction_details_display_sheet_sub_heading">Take a photo or upload your receipt</string>
+    <string name="screen_transaction_details_display_sheet_text_upload_from_files">Upload from files</string>
+    <string name="screen_transaction_details_display_receipt_item">Receipt %1s</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
@@ -1131,6 +1136,12 @@
     <!-- Transaction Detail Screen -->
     <string name="screen_transaction_detail_text_cut_off_msg">Transfers made after 2:00 PM UAE time will be processed on the next business day.  There maybe an impact on the FX rate at the time of transfer.</string>
     <string name="screen_transaction_detail_text_cancelled_reason">Sorry! We\'re unable to complete your transfer at this point. Don\'t worry, we\'ve gone ahead and cancelled it for you.</string>
+    <string name="screen_transaction_add_another_receipt">Add another receipt</string>
+    <string name="screen_transaction_details_receipt_text">Keep track of your spendings</string>
+    <string name="screen_transaction_details_receipt_label">Add a receipt</string>
+    <string name="screen_transaction_details_single_added_receipt_label">%1s receipt added</string>
+    <string name="screen_transaction_details_added_receipt_label">%1s receipts added</string>
+    <string name="screen_transaction_details_receipt_success_label">Your receipt has been added!</string>
 
     <!-- Live Chat Strings-->
     <string name="screen_live_chat_no_conversation_message">Hi there! Start typing your message below to launch Live Chat.</string>
