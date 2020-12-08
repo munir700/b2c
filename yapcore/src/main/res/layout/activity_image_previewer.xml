@@ -12,7 +12,6 @@
 
         <import type="co.yap.yapcore.R" />
 
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,11 +22,10 @@
 
         <co.yap.modules.imagepreviewer.TouchImageView
             android:id="@+id/imageViewConatiner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            srcUrl="@{viewModel.state.imageUrl}"
             srcUri="@{viewModel.state.imageUri}"
-            />
+            srcUrl="@{viewModel.state.imageUrl}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <RelativeLayout
             android:id="@+id/bottomActions"
@@ -35,26 +33,30 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center"
-            android:minHeight="@dimen/_60sdp"
+            android:minHeight="@dimen/_65sdp"
+            android:paddingBottom="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivActionShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/_55sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
+                android:layout_marginRight="@dimen/_50sdp"
                 android:gravity="center_horizontal"
-                app:srcCompat="@drawable/ic_share_reciept"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                app:srcCompat="@drawable/ic_share_reciept"
                 app:tint="@color/colorPrimary"
-                app:tintMode="src_in" />
+                app:tintMode="src_atop" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivActionDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignTop="@+id/ivActionShare"
+                android:layout_alignBottom="@+id/ivActionShare"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_toRightOf="@+id/ivActionShare"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 app:srcCompat="@drawable/ic_delete_bin" />
