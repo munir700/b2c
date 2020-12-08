@@ -37,6 +37,8 @@ data class HomeTransactionListData(
     @SerializedName("totalPages")
     var totalPages: Int,
     @Transient
-    var originalDate: String? = ""
+    var originalDate: String? = "",
+    @Transient
+    var isNewItem: Boolean = false
 
 )
