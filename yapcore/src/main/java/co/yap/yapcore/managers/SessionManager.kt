@@ -167,7 +167,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun getDebitCard(success: (card: Card) -> Unit = {}) {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
