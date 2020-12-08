@@ -26,15 +26,12 @@ import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
-import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.maskIbanNumber
-import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
@@ -127,8 +124,9 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.observe(this,
                 Observer { isMoreFragmentVisible ->
                     if (isMoreFragmentVisible) {
-                        val tour = TourSetup(requireActivity(), setViewsArray())
-                        tour.startTour()
+                        requireActivity().launchTourGuide(TourGuideType.YAP_MORE_FRAGMENT) {
+                            this.addAll(setViewsArray())
+                        }
                     }
                 })
         }

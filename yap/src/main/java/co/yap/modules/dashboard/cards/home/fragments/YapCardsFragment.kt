@@ -31,8 +31,10 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchTourGuide
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
@@ -78,8 +80,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             this,
             Observer { isCardsFragmentVisible ->
                 if (isCardsFragmentVisible) {
-                    val tour = TourSetup(requireActivity(), setViewsArray())
-                    tour.startTour()
+                    requireActivity().launchTourGuide(TourGuideType.YAP_CARDS_FRAGMENT) {
+                        this.addAll(setViewsArray())
+                    }
                 }
             })
     }

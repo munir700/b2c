@@ -60,6 +60,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -92,6 +93,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        TourGuideManager.configure(this)
         SessionManager.getCountriesFromServer { _, _ -> }
         inflateFloatingActonButton()
         setupPager()
@@ -101,7 +103,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         setupNewYapButtons()
         logEvent()
     }
-
 
     private fun logEvent() {
         val logger: AppEventsLogger = AppEventsLogger.newLogger(this)

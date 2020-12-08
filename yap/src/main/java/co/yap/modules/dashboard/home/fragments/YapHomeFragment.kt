@@ -53,7 +53,6 @@ import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
-import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
@@ -65,6 +64,7 @@ import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -411,8 +411,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             this,
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
-                    val tour = TourSetup(requireActivity(), setViewsArray())
-                    tour.startTour()
+                    requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT) {
+                        this.addAll(setViewsArray())
+                    }
                 }
             })
     }
