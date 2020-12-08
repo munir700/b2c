@@ -146,7 +146,7 @@ object StringUtils {
     fun isValidIBAN(iban: String, code: String?): Boolean {
         var inputStr: CharSequence = ""
         var isValid = false
-        val expression = "^($code)[0-9]{2}[0-9A-Z]{1,31}$"
+        val expression = "^($code)[0-9]{2}[0-9A-Z]{1,35}$"
         inputStr = iban
         val pattern = Pattern.compile(expression)
         val matcher = pattern.matcher(inputStr)

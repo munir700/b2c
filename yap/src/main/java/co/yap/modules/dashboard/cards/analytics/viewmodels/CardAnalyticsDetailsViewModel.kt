@@ -1,11 +1,11 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalyticsDetails
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsDetailsState
+import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.modules.dashboard.home.adaptor.TransactionsListingAdapter
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -19,7 +19,8 @@ class CardAnalyticsDetailsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalyticsDetails.State>(application),
     ICardAnalyticsDetails.ViewModel {
     override val state = CardAnalyticsDetailsState()
-    override val adapter: TransactionsListingAdapter = TransactionsListingAdapter(arrayListOf())
+    override val adapter: TransactionsListingAdapter = TransactionsListingAdapter(arrayListOf(),
+        TransactionAdapterType.ANALYTICS_DETAILS)
     override var transactionResponse: TransactionAnalyticsDetailsResponse =
         TransactionAnalyticsDetailsResponse()
     val repository: TransactionsRepository = TransactionsRepository

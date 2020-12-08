@@ -159,9 +159,9 @@
                 android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginStart="@dimen/margin_normal_large"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_normal_large"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.INVISIBLE}">
 

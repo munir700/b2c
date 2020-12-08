@@ -139,6 +139,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvMonthlyAverage"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="@dimen/_2sdp"
+                        app:tabIndicatorColor="@color/colorPrimary"
                         app:tabMaxWidth="0dp"
                         app:tabMode="fixed"
                         app:tabPaddingEnd="16dp"
