@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.modules.imagepreviewer.ImagePreViewerActivity
 import co.yap.widgets.bottomsheet.BottomSheet
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseActivity
@@ -426,20 +427,15 @@ fun FragmentActivity.launchSheet(
 
 
 fun Activity.startImagePreviewerActivity(
-    context: Activity,
+    activity: Activity?,
     imageUri: Uri? = null,
     imageUrl: String? = null,
     title: String? = null
 ) {
-    val intent = Intent(context, FrameDialogActivity::class.java)
-
-//    val intent = Intent(context.applicationContext, ImagePreViewerActivity::class.java)
+    val intent = Intent(activity, ImagePreViewerActivity::class.java)
     intent.putExtra(ExtraKeys.CONST_IMAGE_URI.name, imageUri)
     intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageUrl)
     intent.putExtra(ExtraKeys.CONST_IMAGE_TITLE.name, title)
-
     startActivity(intent)
-//    startActivity(context, intent)
-
 }
 

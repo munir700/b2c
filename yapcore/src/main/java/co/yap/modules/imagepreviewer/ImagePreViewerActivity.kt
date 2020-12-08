@@ -41,7 +41,7 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
             intent?.getStringExtra(
                 ExtraKeys.CONST_IMAGE_URL.name
             )
-                ?: "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+                /*?: "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"*/
         )
         if (null!=intent?.getBundleExtra(ExtraKeys.CONST_IMAGE_URI.name))
         {
