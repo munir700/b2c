@@ -122,6 +122,7 @@ class TourSetup(
                     layer?.centerY = it.view.locationOnScreen.y.toFloat()
                 }
             }
+            layer?.isRectangle = it.isRectangle
             layer?.invalidate()
         }
     }
