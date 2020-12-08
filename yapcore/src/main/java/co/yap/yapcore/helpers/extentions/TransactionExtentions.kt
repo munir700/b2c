@@ -444,9 +444,3 @@ fun Transaction?.isTransactionRejected(): Boolean {
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
 }
-
-fun Transaction?.getCategoryTitle1() {
-
-}
-
-
