@@ -49,6 +49,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadImage
+import co.yap.yapcore.helpers.glide.setImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -978,12 +979,15 @@ object UIBinder {
         }
     }
 
-    //    @BindingAdapter(value = ["src", "addCallback"], requireAll = false)
-    @BindingAdapter("srcUrl")
+    @BindingAdapter("srcUrl", "srcUri")
     @JvmStatic
-    fun setImageResUrl(view: AppCompatImageView, path : String?) {
-        Glide.with(view.context)
-            .load(path)
-            .into(view)
+    fun setImageResUrl(view: AppCompatImageView, srcUrl : String?, srcUri : Uri?) {
+        if (srcUrl.isNullOrEmpty()){
+            srcUri?.let { setImage(view, srcUri) }
+        }else{
+            Glide.with(view.context)
+                .load(srcUrl)
+                .into(view)
+        }
     }
 }
