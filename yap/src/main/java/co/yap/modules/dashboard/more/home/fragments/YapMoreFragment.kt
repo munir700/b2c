@@ -230,8 +230,9 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 showSkip = false,
                 showPageNo = true,
                 btnText = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_btn_text),
-                padding = getDimension(R.dimen._95sdp),
-                circleRadius = getDimension(R.dimen._90sdp)
+                padding = getDimension(R.dimen._80sdp),
+                circleRadius = getDimension(R.dimen._90sdp),
+                isRectangle = true
             )
         )
         return list
