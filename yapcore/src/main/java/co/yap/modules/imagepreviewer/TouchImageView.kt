@@ -3,11 +3,7 @@ package co.yap.modules.imagepreviewer
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.PointF
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build.VERSION
@@ -27,9 +23,14 @@ import android.view.animation.LinearInterpolator
 import android.widget.OverScroller
 import androidx.appcompat.widget.AppCompatImageView
 import co.yap.yapcore.R
+import java.net.URL
 
 @Suppress("unused")
-open class TouchImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AppCompatImageView(context, attrs, defStyle) {
+open class TouchImageView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : AppCompatImageView(context, attrs, defStyle) {
     /**
      * Get the current zoom. This is the zoom relative to the initial
      * scale, not the original resource.
@@ -125,11 +126,13 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
         setState(State.NONE)
         onDrawReady = false
         super.setOnTouchListener(PrivateOnTouchListener())
-        val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.TouchImageView, defStyle, 0)
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.TouchImageView, defStyle, 0)
         try {
             if (!isInEditMode) {
                 isZoomEnabled = attributes.getBoolean(R.styleable.TouchImageView_zoom_enabled, true)
             }
+
         } finally {
             // release the TypedArray so that it can be reused.
             attributes.recycle()
@@ -159,6 +162,28 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
         fitImageToView()
     }
 
+    //    open fun loadBitmap(url: String): Bitmap? {
+//        var bitmap: Bitmap? = null
+//        var `in`: InputStream? = null
+//        var out: BufferedOutputStream? = null
+//        try {
+//            `in` = BufferedInputStream(URL(url).openStream(), IO_BUFFER_SIZE)
+//            val dataStream = ByteArrayOutputStream()
+//            out = BufferedOutputStream(dataStream, IO_BUFFER_SIZE)
+//            copy(`in`, out)
+//            out.flush()
+//            val data: ByteArray = dataStream.toByteArray()
+//            val options: BitmapFactory.Options = BitmapFactory.Options()
+//            //options.inSampleSize = 1;
+//            bitmap = BitmapFactory.decodeByteArray(data, 0, data.size, options)
+//        } catch (e: IOException) {
+//
+//        } finally {
+////            closeStream(`in`)
+////            closeStream(out)
+//        }
+//        return bitmap
+//    }
     override fun setImageBitmap(bm: Bitmap) {
         imageRenderedAtLeastOnce = false
         super.setImageBitmap(bm)
@@ -167,15 +192,9 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
+
         imageRenderedAtLeastOnce = false
         super.setImageDrawable(drawable)
-        savePreviousImageValues()
-        fitImageToView()
-    }
-
-    override fun setImageURI(uri: Uri?) {
-        imageRenderedAtLeastOnce = false
-        super.setImageURI(uri)
         savePreviousImageValues()
         fitImageToView()
     }
@@ -218,7 +237,8 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
                 throw UnsupportedOperationException("getZoomedRect() not supported with FIT_XY")
             }
             val topLeft = transformCoordTouchToBitmap(0f, 0f, true)
-            val bottomRight = transformCoordTouchToBitmap(viewWidth.toFloat(), viewHeight.toFloat(), true)
+            val bottomRight =
+                transformCoordTouchToBitmap(viewWidth.toFloat(), viewHeight.toFloat(), true)
             val w = getDrawableWidth(drawable).toFloat()
             val h = getDrawableHeight(drawable).toFloat()
             return RectF(topLeft.x / w, topLeft.y / h, bottomRight.x / w, bottomRight.y / h)
@@ -267,8 +287,10 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
             prevViewHeight = bundle.getInt("viewHeight")
             prevViewWidth = bundle.getInt("viewWidth")
             imageRenderedAtLeastOnce = bundle.getBoolean("imageRendered")
-            viewSizeChangeFixedPixel = bundle.getSerializable("viewSizeChangeFixedPixel") as FixedPixel?
-            orientationChangeFixedPixel = bundle.getSerializable("orientationChangeFixedPixel") as FixedPixel?
+            viewSizeChangeFixedPixel =
+                bundle.getSerializable("viewSizeChangeFixedPixel") as FixedPixel?
+            orientationChangeFixedPixel =
+                bundle.getSerializable("orientationChangeFixedPixel") as FixedPixel?
             val oldOrientation = bundle.getInt("orientation")
             if (orientation != oldOrientation) {
                 orientationJustChanged = true
@@ -283,7 +305,12 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
         onDrawReady = true
         imageRenderedAtLeastOnce = true
         if (delayedZoomVariables != null) {
-            setZoom(delayedZoomVariables!!.scale, delayedZoomVariables!!.focusX, delayedZoomVariables!!.focusY, delayedZoomVariables!!.scaleType)
+            setZoom(
+                delayedZoomVariables!!.scale,
+                delayedZoomVariables!!.focusX,
+                delayedZoomVariables!!.focusY,
+                delayedZoomVariables!!.scaleType
+            )
             delayedZoomVariables = null
         }
         super.onDraw(canvas)
@@ -455,7 +482,8 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
             val drawable = drawable ?: return PointF(.5f, .5f)
             val drawableWidth = getDrawableWidth(drawable)
             val drawableHeight = getDrawableHeight(drawable)
-            val point = transformCoordTouchToBitmap(viewWidth / 2.toFloat(), viewHeight / 2.toFloat(), true)
+            val point =
+                transformCoordTouchToBitmap(viewWidth / 2.toFloat(), viewHeight / 2.toFloat(), true)
             point.x /= drawableWidth.toFloat()
             point.y /= drawableHeight.toFloat()
             return point
@@ -525,7 +553,12 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
         touchMatrix!!.setValues(floatMatrix)
     }
 
-    private fun getFixTrans(trans: Float, viewSize: Float, contentSize: Float, offset: Float): Float {
+    private fun getFixTrans(
+        trans: Float,
+        viewSize: Float,
+        contentSize: Float,
+        offset: Float
+    ): Float {
         val minTrans: Float
         val maxTrans: Float
         if (contentSize <= viewSize) {
@@ -622,7 +655,9 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
      * there before, paying attention to orientationChangeFixedPixel or viewSizeChangeFixedPixel.
      */
     private fun fitImageToView() {
-        val fixedPixel = if (orientationJustChanged) orientationChangeFixedPixel else viewSizeChangeFixedPixel
+
+        val fixedPixel =
+            if (orientationJustChanged) orientationChangeFixedPixel else viewSizeChangeFixedPixel
         orientationJustChanged = false
         val drawable = drawable
         if (drawable == null || drawable.intrinsicWidth == 0 || drawable.intrinsicHeight == 0) {
@@ -717,12 +752,28 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
             // X position
             val prevActualWidth = prevMatchViewWidth * currentZoom
             val actualWidth = imageWidth
-            floatMatrix!![Matrix.MTRANS_X] = newTranslationAfterChange(transX, prevActualWidth, actualWidth, prevViewWidth, viewWidth, drawableWidth, fixedPixel)
+            floatMatrix!![Matrix.MTRANS_X] = newTranslationAfterChange(
+                transX,
+                prevActualWidth,
+                actualWidth,
+                prevViewWidth,
+                viewWidth,
+                drawableWidth,
+                fixedPixel
+            )
 
             // Y position
             val prevActualHeight = prevMatchViewHeight * currentZoom
             val actualHeight = imageHeight
-            floatMatrix!![Matrix.MTRANS_Y] = newTranslationAfterChange(transY, prevActualHeight, actualHeight, prevViewHeight, viewHeight, drawableHeight, fixedPixel)
+            floatMatrix!![Matrix.MTRANS_Y] = newTranslationAfterChange(
+                transY,
+                prevActualHeight,
+                actualHeight,
+                prevViewHeight,
+                viewHeight,
+                drawableHeight,
+                fixedPixel
+            )
 
             // Set the matrix to the adjusted scale and translation values.
             touchMatrix!!.setValues(floatMatrix)
@@ -758,7 +809,15 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
      * @param drawableSize         width/height of drawable
      * @param sizeChangeFixedPixel how we should choose the fixed pixel
      */
-    private fun newTranslationAfterChange(trans: Float, prevImageSize: Float, imageSize: Float, prevViewSize: Int, viewSize: Int, drawableSize: Int, sizeChangeFixedPixel: FixedPixel?): Float {
+    private fun newTranslationAfterChange(
+        trans: Float,
+        prevImageSize: Float,
+        imageSize: Float,
+        prevViewSize: Int,
+        viewSize: Int,
+        drawableSize: Int,
+        sizeChangeFixedPixel: FixedPixel?
+    ): Float {
         return if (imageSize < viewSize) {
             //
             // The width/height of image is less than the view's width/height. Center it.
@@ -784,7 +843,8 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
             // Where is the pixel in the Image that we are keeping stable, as a fraction of the
             // width/height of the Image?
             //
-            val fixedPixelPositionInImage = (-trans + fixedPixelPositionInView * prevViewSize) / prevImageSize
+            val fixedPixelPositionInImage =
+                (-trans + fixedPixelPositionInView * prevViewSize) / prevImageSize
             //
             // Here's what the new translation should be so that, after whatever change triggered
             // this function to be called, the pixel at fixedPixelPositionInView of the View is
@@ -837,7 +897,12 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
             performLongClick()
         }
 
-        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(
+            e1: MotionEvent?,
+            e2: MotionEvent?,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
             // If a previous fling is still active, it should be cancelled so that two flings
             // are not run simultaneously.
             fling?.cancelFling()
@@ -966,13 +1031,23 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
                 animateToZoomBoundary = true
             }
             if (animateToZoomBoundary) {
-                val doubleTap = DoubleTapZoom(targetZoom, (viewWidth / 2).toFloat(), (viewHeight / 2).toFloat(), true)
+                val doubleTap = DoubleTapZoom(
+                    targetZoom,
+                    (viewWidth / 2).toFloat(),
+                    (viewHeight / 2).toFloat(),
+                    true
+                )
                 compatPostOnAnimation(doubleTap)
             }
         }
     }
 
-    private fun scaleImage(deltaScale: Double, focusX: Float, focusY: Float, stretchImageToSuper: Boolean) {
+    private fun scaleImage(
+        deltaScale: Double,
+        focusX: Float,
+        focusY: Float,
+        stretchImageToSuper: Boolean
+    ) {
         var deltaScaleLocal = deltaScale
         val lowerScale: Float
         val upperScale: Float
@@ -992,7 +1067,12 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
             currentZoom = lowerScale
             deltaScaleLocal = lowerScale / origScale.toDouble()
         }
-        touchMatrix!!.postScale(deltaScaleLocal.toFloat(), deltaScaleLocal.toFloat(), focusX, focusY)
+        touchMatrix!!.postScale(
+            deltaScaleLocal.toFloat(),
+            deltaScaleLocal.toFloat(),
+            focusX,
+            focusY
+        )
         fixScaleTrans()
     }
 
@@ -1000,7 +1080,12 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
      * DoubleTapZoom calls a series of runnables which apply
      * an animated zoom in/out graphic to the image.
      */
-    private inner class DoubleTapZoom internal constructor(targetZoom: Float, focusX: Float, focusY: Float, stretchImageToSuper: Boolean) : Runnable {
+    private inner class DoubleTapZoom internal constructor(
+        targetZoom: Float,
+        focusX: Float,
+        focusY: Float,
+        stretchImageToSuper: Boolean
+    ) : Runnable {
         private val startTime: Long
         private val startZoom: Float
         private val targetZoom: Float
@@ -1203,7 +1288,16 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
     @TargetApi(VERSION_CODES.GINGERBREAD)
     private inner class CompatScroller internal constructor(context: Context?) {
         var overScroller: OverScroller
-        fun fling(startX: Int, startY: Int, velocityX: Int, velocityY: Int, minX: Int, maxX: Int, minY: Int, maxY: Int) {
+        fun fling(
+            startX: Int,
+            startY: Int,
+            velocityX: Int,
+            velocityY: Int,
+            minX: Int,
+            maxX: Int,
+            minY: Int,
+            maxY: Int
+        ) {
             overScroller.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY)
         }
 
@@ -1239,7 +1333,12 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
         }
     }
 
-    private inner class ZoomVariables internal constructor(var scale: Float, var focusX: Float, var focusY: Float, var scaleType: ScaleType?)
+    private inner class ZoomVariables internal constructor(
+        var scale: Float,
+        var focusX: Float,
+        var focusY: Float,
+        var scaleType: ScaleType?
+    )
 
     interface OnZoomFinishedListener {
         fun onZoomFinished()
@@ -1268,13 +1367,24 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
      *
      * @param listener the listener, which will be notified, once the animation ended
      */
-    fun setZoomAnimated(scale: Float, focusX: Float, focusY: Float, zoomTimeMs: Int, listener: OnZoomFinishedListener?) {
+    fun setZoomAnimated(
+        scale: Float,
+        focusX: Float,
+        focusY: Float,
+        zoomTimeMs: Int,
+        listener: OnZoomFinishedListener?
+    ) {
         val animation = AnimatedZoom(scale, PointF(focusX, focusY), zoomTimeMs)
         animation.setListener(listener)
         compatPostOnAnimation(animation)
     }
 
-    fun setZoomAnimated(scale: Float, focusX: Float, focusY: Float, listener: OnZoomFinishedListener?) {
+    fun setZoomAnimated(
+        scale: Float,
+        focusX: Float,
+        focusY: Float,
+        listener: OnZoomFinishedListener?
+    ) {
         val animation = AnimatedZoom(scale, PointF(focusX, focusY), DEFAULT_ZOOM_TIME)
         animation.setListener(listener)
         compatPostOnAnimation(animation)
@@ -1284,7 +1394,11 @@ open class TouchImageView @JvmOverloads constructor(context: Context, attrs: Att
      * AnimatedZoom calls a series of runnables which apply
      * an animated zoom to the specified target focus at the specified zoom level.
      */
-    private inner class AnimatedZoom internal constructor(targetZoom: Float, focus: PointF, zoomTimeMillis: Int) : Runnable {
+    private inner class AnimatedZoom internal constructor(
+        targetZoom: Float,
+        focus: PointF,
+        zoomTimeMillis: Int
+    ) : Runnable {
         private val zoomTimeMillis: Int
         private val startTime: Long
         private val startZoom: Float

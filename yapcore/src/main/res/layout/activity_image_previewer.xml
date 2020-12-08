@@ -25,7 +25,9 @@
             android:id="@+id/imageViewConatiner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_young_household" />
+            srcUrl="@{viewModel.state.imageUrl}"
+
+            />
 
         <RelativeLayout
             android:id="@+id/bottomActions"

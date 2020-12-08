@@ -74,7 +74,6 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
         }
     }
 
-
     private fun deleteAlertDialog() {
         Utils.confirmationDialog(
             this,

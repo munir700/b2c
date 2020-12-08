@@ -26,6 +26,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
@@ -975,5 +976,14 @@ object UIBinder {
                 drawables[3]
             )
         }
+    }
+
+    //    @BindingAdapter(value = ["src", "addCallback"], requireAll = false)
+    @BindingAdapter("srcUrl")
+    @JvmStatic
+    fun setImageResUrl(view: AppCompatImageView, path : String?) {
+        Glide.with(view.context)
+            .load(path)
+            .into(view)
     }
 }
