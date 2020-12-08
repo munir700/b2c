@@ -27,7 +27,6 @@
             android:layout_height="match_parent"
             srcUrl="@{viewModel.state.imageUrl}"
             srcUri="@{viewModel.state.imageUri}"
-
             />
 
         <RelativeLayout

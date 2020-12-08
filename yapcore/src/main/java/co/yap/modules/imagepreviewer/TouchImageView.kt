@@ -115,6 +115,7 @@ open class TouchImageView @JvmOverloads constructor(
         floatMatrix = FloatArray(9)
         currentZoom = 1f
         if (touchScaleType == null) {
+//            touchScaleType = ScaleType.FIT_XY // not good actually \,it's stretching the image
             touchScaleType = ScaleType.FIT_CENTER
         }
         minScale = 1f

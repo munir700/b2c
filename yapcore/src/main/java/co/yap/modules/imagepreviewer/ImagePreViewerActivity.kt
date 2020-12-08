@@ -2,6 +2,9 @@ package co.yap.modules.imagepreviewer
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -13,6 +16,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.liveperson.infra.utils.picasso.Picasso
 
 class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() {
 
@@ -36,8 +40,15 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
         viewModel.state.imageUrl?.set(
             intent?.getStringExtra(
                 ExtraKeys.CONST_IMAGE_URL.name
-            ) ?: "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+            )
+                ?: "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
         )
+        if (null!=intent?.getBundleExtra(ExtraKeys.CONST_IMAGE_URI.name))
+        {
+            var imageUri: Uri? = intent?.getBundleExtra(ExtraKeys.CONST_IMAGE_URI.name) as Uri
+            viewModel.state.imageUri?.set(imageUri)
+
+        }
     }
 
 
@@ -45,7 +56,6 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
         when (it) {
 
             R.id.ivActionShare -> {
-
             }
 
             R.id.ivActionDelete -> {
