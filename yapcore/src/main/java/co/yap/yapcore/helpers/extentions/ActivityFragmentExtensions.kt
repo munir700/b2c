@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.modules.imagepreviewer.ImagePreViewerActivity
 import co.yap.widgets.bottomsheet.BottomSheet
 import co.yap.widgets.bottomsheet.BottomSheetItem
 import co.yap.yapcore.BaseActivity
@@ -28,6 +29,7 @@ import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
@@ -75,6 +77,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
         }
     }
 }
+
 inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
     requestCode: Int = -1,
     options: Bundle? = null,
@@ -422,4 +425,17 @@ fun FragmentActivity.launchSheet(
     }
 }
 
+
+fun Activity.startImagePreviewerActivity(
+    activity: Activity?,
+    imageUri: Uri? = null,
+    imageUrl: String? = null,
+    title: String? = null
+) {
+    val intent = Intent(activity, ImagePreViewerActivity::class.java)
+    intent.putExtra(ExtraKeys.CONST_IMAGE_URI.name, imageUri)
+    intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageUrl)
+    intent.putExtra(ExtraKeys.CONST_IMAGE_TITLE.name, title)
+    startActivity(intent)
+}
 

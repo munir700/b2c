@@ -1167,4 +1167,10 @@
 
     <!-- Dashboard Menu -->
     <string name="screen_dashboard_menu_display_text_my_profile">My profile</string>
+
+    <!-- image previewer dialogue -->
+
+    <string name="screen_image_previewer_display_text_delete_message">This photo will be deleted from your saved receipts.</string>
+    <string name="screen_image_previewer_button_text_delete">Delete Photo</string>
+
 </resources>

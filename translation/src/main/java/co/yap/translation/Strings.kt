@@ -1879,6 +1879,12 @@ object Strings {
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
 
+    //  image previewer dialogue
+    const val screen_image_previewer_display_text_delete_message: String =
+        "screen_image_previewer_display_text_delete_message"
+    const val screen_image_previewer_button_text_delete: String =
+        "screen_image_previewer_button_text_delete"
+
     //Transaction Details
     const val screen_transaction_details_receipt_text: String =
         "screen_transaction_details_receipt_text"
