@@ -247,7 +247,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     }
 
     private fun openAddedReceipt(receiptModel: ReceiptModel) {
-
+        receiptModel.receiptImageUrl = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+        this?.startImagePreviewerActivity( this , imageSrc =  receiptModel.receiptImageUrl,title = receiptModel.title)
     }
 
     private fun setTransactionTitle() {

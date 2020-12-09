@@ -1,7 +1,6 @@
 package co.yap.modules.imagepreviewer
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -18,10 +17,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.createTempFile
-import co.yap.yapcore.helpers.extentions.shareImage
 import co.yap.yapcore.helpers.extentions.takeScreenshotForView
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_image_previewer.*
 import java.io.FileOutputStream
 
@@ -36,26 +33,26 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
+        showLoader(true)
 
+        viewModel.clickEvent.observe(this, clickEvent)
         viewModel.state.imageReceiptTitle?.set(
             intent?.getStringExtra(
                 ExtraKeys.CONST_IMAGE_TITLE.name
             ) ?: ""
         )
         viewModel.state.imageUrl?.set(
-                intent?.getStringExtra(
-                    ExtraKeys.CONST_IMAGE_URL.name
-                )
+            intent?.getStringExtra(
+                ExtraKeys.CONST_IMAGE_URL.name
             )
+        )
     }
-
 
     var clickEvent = Observer<Int> {
         when (it) {
 
             R.id.ivActionShare -> {
-               shareImage(imageViewConatiner)
+                shareImage(imageViewConatiner)
             }
 
             R.id.ivActionDelete -> {
