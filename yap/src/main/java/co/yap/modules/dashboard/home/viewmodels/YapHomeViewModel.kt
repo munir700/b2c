@@ -16,6 +16,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -64,21 +65,21 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun requestAccountTransactions() {
-        launch {
+        launch(Dispatcher.LongOperation) {
             if (isLoadMore.value == false) {
                 // state.loading = true
-                state.showTxnShimmer.value = State.loading(null)
+                state.showTxnShimmer.postValue(State.loading(null))
             }
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    isLast.value = response.data.data.last
+                    isLast.postValue(response.data.data.last)
                     val transactionModelData = setUpSectionHeader(response)
 
                     if (isRefreshing.value == true) {
                         sortedCombinedTransactionList.clear()
                     }
-                    isRefreshing.value = false
+                    isRefreshing.postValue(false)
 
                     if (sortedCombinedTransactionList != transactionModelData) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
@@ -144,21 +145,21 @@ class YapHomeViewModel(application: Application) :
                         }
                     }
                     if (isLoadMore.value == false) {
-                        state.showTxnShimmer.value = State.success(null)
+                        state.showTxnShimmer.postValue(State.success(null))
                     }
-                    transactionsLiveData.value = sortedCombinedTransactionList
+                    transactionsLiveData.postValue(sortedCombinedTransactionList)
                     //isLoadMore.value = false
                     //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     // state.loading = false
-                    isRefreshing.value = false
-                    isLoadMore.value = false
-                    state.showTxnShimmer.value = State.error("")
+                    isRefreshing.postValue(false)
+                    isLoadMore.postValue(false)
+                    state.showTxnShimmer.postValue(State.error(""))
                 }
             }
         }
-        state.loading = false
+//        state.loading = false
     }
 
     override fun loadMore() {
