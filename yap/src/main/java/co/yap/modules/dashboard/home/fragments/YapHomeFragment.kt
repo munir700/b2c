@@ -370,6 +370,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     getRecycleViewAdaptor()?.setList(it)
                 } else {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        SessionManager.card.value?.let { card ->
+                            if (card.pinCreated) {
+                                showGraphTourGuide()
+                            }
+                        } ?: SessionManager.getDebitCard {
+                            if (SessionManager.card.value?.pinCreated == true) {
+                                showGraphTourGuide()
+                            }
+                        }
                         viewModel.state.isUserAccountActivated.set(true)
                         showTransactionsAndGraph()
                     } else {
@@ -419,8 +428,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             this,
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
-                    requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT) {
-                        this.addAll(setViewsArray())
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT) {
+                            addAll(setViewsArray())
+                        }
                     }
                 }
             })
@@ -864,5 +875,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             )
         )
         return list
+    }
+
+    private fun showGraphTourGuide() {
+        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT_DASHBOARD) {
+            addAll(setGraphViewsArray())
+        }
     }
 }

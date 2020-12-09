@@ -25,7 +25,6 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
-import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -80,8 +79,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             this,
             Observer { isCardsFragmentVisible ->
                 if (isCardsFragmentVisible) {
-                    requireActivity().launchTourGuide(TourGuideType.YAP_CARDS_FRAGMENT) {
-                        this.addAll(setViewsArray())
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_CARDS_FRAGMENT) {
+                            this.addAll(setViewsArray())
+                        }
                     }
                 }
             })
