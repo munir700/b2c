@@ -202,8 +202,8 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
     private fun getEnterAmountOnFeeCurrency(): String {
-        return if (feeCurrency.equals(
-                parentViewModel?.beneficiary?.value?.currency,
+        return if (parentViewModel?.beneficiary?.value?.currency.equals(
+                slabCurrency,
                 true
             )
         ) state.etInputAmount.toString() else state.etOutputAmount.toString()

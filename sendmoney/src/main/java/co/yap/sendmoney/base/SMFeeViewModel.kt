@@ -54,7 +54,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     fun updateFees(
         enterAmount: String, isTopUpFee: Boolean = false,
-        fxRate: Double = 0.0
+        fxRate: Double = 1.0
     ) {
         var result = "0.0"
         if (!feeTiers.isNullOrEmpty()) {
@@ -71,21 +71,23 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
 
     fun getFeeFromTier(
         enterAmount: String,
-        fxRate: Double = 0.0
+        fxRate: Double = 1.0
     ): String? {
         return if (!enterAmount.isBlank()) {
-            val fee = if (slabCurrency == "AED") {
-                feeTiers.firstOrNull { item ->
-                    item.amountFrom ?: 0.0 <= enterAmount.parseToDouble() && item.amountTo ?: 0.0 >= enterAmount.parseToDouble()
-                } ?: return "0.0"
-            } else {
-                feeTiers.firstOrNull { item ->
-                    ((item.amountFrom ?: 0.0) * fxRate) <= enterAmount.parseToDouble()
-                            && ((item.amountTo ?: 0.0) * fxRate) >= enterAmount.parseToDouble()
-                } ?: return "0.0"
-            }
+            val fee = feeTiers.firstOrNull { item ->
+                (item.amountFrom ?: 0.0) <= enterAmount.parseToDouble()
+                        && (item.amountTo ?: 0.0) >= enterAmount.parseToDouble()
+            } ?: return "0.0"
+
             if (fee.feeInPercentage == false) {
-                (fee.feeAmount ?: 0.0).plus(fixedAmount).toString()
+                var total = if (feeCurrency != "AED") {
+                    (fee.feeAmount ?: 0.0) * fxRate
+                }else {
+                    (fee.feeAmount ?: 0.0)
+                }
+                total = total.plus(fixedAmount)
+                val vatt = (total * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0))
+                total.plus(vatt).toString()
             } else {
                 calFeeInPercentage(enterAmount, fee)
             }
@@ -102,8 +104,9 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             feeAmount =
                 if (fee.feeAmount == null) "0.0" else (fee.feeAmount ?: 0.0).plus(fixedAmount)
                     .toString()
-            val localVat = (feeAmount.parseToDouble() * (fee.vatPercentage?.parseToDouble()?.div(100)
-                ?: 0.0))
+            val localVat =
+                (feeAmount.parseToDouble() * (fee.vatPercentage?.parseToDouble()?.div(100)
+                    ?: 0.0))
             vat = localVat.toString()
             (fee.feeAmount ?: 0.0).plus(localVat).toString()
         } else {
