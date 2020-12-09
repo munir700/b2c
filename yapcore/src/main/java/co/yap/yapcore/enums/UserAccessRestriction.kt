@@ -15,5 +15,6 @@ enum class UserAccessRestriction {
     CARD_BLOCKED_BY_YAP_TOTAL,
     CARD_BLOCKED_BY_YAP_DEBIT,
     CARD_BLOCKED_BY_YAP_CREDIT,
+    DEBIT_CARD_PIN_BLOCKED,
     NONE
 }

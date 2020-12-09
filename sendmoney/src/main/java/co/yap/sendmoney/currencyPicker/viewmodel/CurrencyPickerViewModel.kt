@@ -41,7 +41,7 @@ class CurrencyPickerViewModel(application: Application) :
             MultiCurrencyWallet(
                 "ae",
                 "5000",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 "Dirham",
                 "2.5"
             )
@@ -79,7 +79,7 @@ class CurrencyPickerViewModel(application: Application) :
             MultiCurrencyWallet(
                 "ae",
                 "5000",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 "Dirham",
                 "4.5"
             )

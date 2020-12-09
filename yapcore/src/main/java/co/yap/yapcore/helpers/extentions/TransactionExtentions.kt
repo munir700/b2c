@@ -8,6 +8,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 fun Transaction?.getTransactionTitle(): String {
@@ -65,7 +66,7 @@ fun Transaction?.getTransactionIcon(): Int {
                         TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode || TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == transaction.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == transaction.productCode -> {
                             R.drawable.ic_plus_transactions
                         }
-                        TransactionProductCode.ATM_WITHDRAWL.pCode== transaction.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode== transaction.productCode->{
+                        TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == transaction.productCode -> {
                             R.drawable.ic_cash_out_trasaction
                         }
                         TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
@@ -84,7 +85,7 @@ fun Transaction?.getTransactionStatus(): String {
     when (this?.productCode) {
         TransactionProductCode.ATM_WITHDRAWL.pCode -> return this.cardAcceptorLocation
             ?: ""
-        TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName?:""
+        TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName ?: ""
         else -> this?.let { txn ->
             return (when (txn.status) {
                 TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
@@ -253,7 +254,7 @@ fun Transaction?.getSpentLabelText(): String {
                                     "Amount"
                                 }
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                                    if (transaction.currency == "AED") "Amount" else "Amount"
+                                    if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
                                 else -> "Amount"
                             }
@@ -274,7 +275,7 @@ fun Transaction?.getCurrency(): String {
             }
             else -> transaction.currency.toString()
         })
-    } ?: return "AED"
+    } ?: return SessionManager.getDefaultCurrency()
 }
 
 fun Transaction?.getLabelValues(): TransactionLabelsCode? {
@@ -349,7 +350,7 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
 }
 
 fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
-    return ( DateUtils.reformatStringDate(
+    return (DateUtils.reformatStringDate(
         this?.transactionNoteDate ?: "",
         DateUtils.SERVER_DATE_FORMAT,
         outputFormat
@@ -378,18 +379,17 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 
 fun Transaction?.getTransactionAmount(): String? {
     (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(showCurrency = false)
-        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(showCurrency = false)
+        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(showCurrency = false,currency =this.currency?:SessionManager.getDefaultCurrency())
+        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(showCurrency = false,currency =this.currency?:SessionManager.getDefaultCurrency())
         else -> ""
     })
 }
 
 fun Transaction?.getFormattedTransactionAmount(): String? {
-    return if (this?.isTransactionInProgress() == true) "0.00" else
-        String.format(
-            "%s %s", this?.getTransactionAmountPrefix(),
-            this?.getTransactionAmount()
-        )
+    return String.format(
+        "%s %s", this?.getTransactionAmountPrefix(),
+        this?.getTransactionAmount()
+    )
 }
 
 fun Transaction?.getTransactionAmountColor(): Int {

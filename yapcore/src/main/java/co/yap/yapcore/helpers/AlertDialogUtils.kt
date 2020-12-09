@@ -1,13 +1,18 @@
 package co.yap.yapcore.helpers
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.makeCall
@@ -173,9 +178,32 @@ fun Context.showYapAlertDialog(
 
 }
 
+fun Activity.showAlertCustomDialog(
+    title: String? = "",
+    message: String? = "",
+    buttonText: String? = "OK"
+) {
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.alert_dialogue_custom)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    dialogTitle.text = title
+    val ok = dialogLayout.findViewById<CoreButton>(R.id.btnAction)
+    ok.text = buttonText
+    ok.setOnClickListener {
+        dialogLayout.dismiss()
+    }
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+
+}
+
 fun Activity.showAlertDialogAndExitApp(
     Title: String? = null,
-    dialogTitle: String? ="",
+    dialogTitle: String? = "",
     message: String?,
     leftButtonText: String = "OK",
     rightButtonText: String = "Cancel",

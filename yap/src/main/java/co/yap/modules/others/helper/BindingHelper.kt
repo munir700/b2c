@@ -12,7 +12,6 @@ import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.widgets.timelineview.TimelineView
 import com.liveperson.infra.utils.Utils.getResources
 
-
 object BindingHelper {
 
     @BindingAdapter("adaptorList")

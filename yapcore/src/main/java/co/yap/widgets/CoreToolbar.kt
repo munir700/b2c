@@ -87,14 +87,6 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
             invalidate()
 
         }
-    var rightIconPading: Boolean? = null
-        set(value) {
-            field = value
-            ivRightIcon.setPadding(40, 40, 40, 40)
-            invalidate()
-
-        }
-
 
     var rightTitleVisibility: Boolean? = null
         set(value) {

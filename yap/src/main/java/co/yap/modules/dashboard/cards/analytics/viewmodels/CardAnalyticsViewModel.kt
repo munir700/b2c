@@ -41,6 +41,9 @@ class CardAnalyticsViewModel(application: Application) :
                     DateUtils.SERVER_DATE_FORMAT
                 )
             state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
+            parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+            parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
+
             date?.let { dates ->
                 creationCalender.time = dates
                 if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
@@ -120,14 +123,11 @@ class CardAnalyticsViewModel(application: Application) :
                     response.data.data?.let {analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
-                        state.setUpString(
-                            state.currencyType,
-                            state.monthlyCategoryAvgAmount?.toFormattedCurrency(showCurrency = false)
-                        )
+
                         state.totalCategorySpent = response.data.data?.totalTxnAmount.toString()
                             .toFormattedCurrency(
                                 showCurrency = true,
-                                currency = state.currencyType ?: "AED"
+                                currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
@@ -158,12 +158,9 @@ class CardAnalyticsViewModel(application: Application) :
                     state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
                         .toFormattedCurrency(
                             showCurrency = true,
-                            currency = state.currencyType ?: "AED"
+                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
                         )
-                    state.setUpStringForMerchant(
-                        state.currencyType,
-                        state.monthlyMerchantAvgAmount?.toFormattedCurrency()
-                    )
+
                     parentViewModel?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics
                     state.loading = false

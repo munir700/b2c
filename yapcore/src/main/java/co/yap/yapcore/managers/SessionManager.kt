@@ -39,12 +39,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
+    private const val DEFAULT_CURRENCY : String = "AED"
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
 
     fun getCurrenciesFromServer(response: (success: Boolean, currencies: ArrayList<CurrencyData>) -> Unit) {
-        /* feature disable for later enabling as RAK permit.
+        // feature disable for later enabling as RAK permit.
         GlobalScope.launch(Dispatchers.IO) {
             when (val apiResponse = customerRepository.getAllCurrenciesConfigs()) {
                 is RetroApiResponse.Success -> {
@@ -56,7 +57,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     response.invoke(false, arrayListOf())
                 }
             }
-        }*/
+        }
     }
 
     fun getCurrencies(): ArrayList<CurrencyData> {
@@ -89,7 +90,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun setupDataSetForBlockedFeatures() {
-        user?.getUserAccessRestrictions()?.let {
+        user?.getUserAccessRestrictions {
             val featuresList = arrayListOf<FeatureSet>()
             it.forEach { userAccessRestriction ->
                 featuresList.addAll(user.getBlockedFeaturesList(userAccessRestriction))
@@ -98,7 +99,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 featuresList,
                 it
             )
-
         }
     }
 
@@ -205,4 +205,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             }
         })
     }
+
+    fun getDefaultCurrency() = DEFAULT_CURRENCY
 }
