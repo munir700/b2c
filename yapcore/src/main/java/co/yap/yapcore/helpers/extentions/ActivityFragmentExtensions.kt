@@ -428,13 +428,11 @@ fun FragmentActivity.launchSheet(
 
 fun Activity.startImagePreviewerActivity(
     activity: Activity?,
-    imageUri: Uri? = null,
-    imageUrl: String? = null,
+    imageSrc: String? = null,
     title: String? = null
 ) {
     val intent = Intent(activity, ImagePreViewerActivity::class.java)
-    intent.putExtra(ExtraKeys.CONST_IMAGE_URI.name, imageUri)
-    intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageUrl)
+    intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageSrc)
     intent.putExtra(ExtraKeys.CONST_IMAGE_TITLE.name, title)
     startActivity(intent)
 }

@@ -1,14 +1,12 @@
 package co.yap.modules.imagepreviewer
 
-import android.net.Uri
 import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IImagePreViewer {
     interface State : IBase.State {
-        var imageUri: ObservableField<Uri>?
-        var imageUrl: ObservableField<String>? //       https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg
+        var imageUrl: ObservableField<String>?
         var imageReceiptTitle: ObservableField<String>?
     }
 

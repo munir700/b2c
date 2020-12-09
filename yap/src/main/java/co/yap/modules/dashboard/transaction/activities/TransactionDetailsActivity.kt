@@ -35,7 +35,7 @@ import co.yap.yapcore.managers.SessionManager
 import pl.aprilapps.easyphotopicker.MediaFile
 
 //pass image url or uri along with title
-//activity?.startImagePreviewerActivity( activity , imageUrl = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg",title = "")
+//activity?.startImagePreviewerActivity( activity , imageSrc = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg",title = "")
 
 class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
