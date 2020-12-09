@@ -434,6 +434,9 @@ fun Activity.startImagePreviewerActivity(
     val intent = Intent(activity, ImagePreViewerActivity::class.java)
     intent.putExtra(ExtraKeys.CONST_IMAGE_URL.name, imageSrc)
     intent.putExtra(ExtraKeys.CONST_IMAGE_TITLE.name, title)
-    startActivity(intent)
+
+    if (!imageSrc.isNullOrEmpty() || !imageSrc.isNullOrBlank() ){
+        startActivity(intent)
+    }
 }
 
