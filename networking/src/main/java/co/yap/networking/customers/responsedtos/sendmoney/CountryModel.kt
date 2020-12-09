@@ -37,6 +37,8 @@ data class Country(
     var currencyList: List<Currency>? = arrayListOf()
 ) : Parcelable, ApiResponse()
 
+data class CountryDataWithISODigit(@SerializedName("data") var data: Country) : ApiResponse()
+
 @Parcelize
 data class Currency(
     @SerializedName("code")
