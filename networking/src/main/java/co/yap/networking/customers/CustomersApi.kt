@@ -74,7 +74,7 @@ interface CustomersApi {
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
     suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
     suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
-    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
+    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit>
     suspend fun getCountryTransactionLimits(
         countryCode: String,
         currencyCode: String

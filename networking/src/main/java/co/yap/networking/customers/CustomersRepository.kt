@@ -296,7 +296,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
-    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =
+    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit> =
         executeSafely(call = { api.getCountryDataWithISODigit(countryCodeWith2Digit) })
 
     override suspend fun getCountryTransactionLimits(
