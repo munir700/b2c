@@ -10,5 +10,6 @@ data class GuidedTourViewDetail(
     var circleRadius: Float = 250f,
     var showPageNo: Boolean = true,
     var showSkip: Boolean = true,
-    var btnText: String? = null
+    var btnText: String? = null,
+    var isRectangle: Boolean = false
 )

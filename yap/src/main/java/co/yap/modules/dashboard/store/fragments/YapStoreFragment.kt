@@ -10,25 +10,27 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentYapStoreBinding
+import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
-import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
+import co.yap.yapcore.helpers.extentions.launchTourGuide
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.liveperson.infra.configuration.Configuration.getDimension
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
-class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.View {
+class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapStore.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_store
 
-    override val viewModel: IYapStore.ViewModel
+    override val viewModel: YapStoreViewModel
         get() = ViewModelProviders.of(this).get(YapStoreViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +51,15 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         viewModel.storesLiveData.observe(this, Observer {
             (recycler_stores.adapter as YapStoreAdaptor).setList(it)
         })
-
+        viewModel.parentViewModel?.isYapStoreFragmentVisible?.observe(
+            this,
+            Observer { isStoreFragmentVisible ->
+                if (isStoreFragmentVisible) {
+                    requireActivity().launchTourGuide(TourGuideType.YAP_STORE_SCREEN) {
+                        this.addAll(setViewsArray())
+                    }
+                }
+            })
     }
 
     val listener = object : OnItemClickListener {
@@ -112,13 +122,13 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         list.add(
             GuidedTourViewDetail(
                 getBindings().toolbar.findViewById(R.id.ivRightIcon),
-                "Purchased packages",
-                "View and manage all your purchased YAP packages and add-ons in a single place.",
+                getString(R.string.screen_dashboard_tour_guide_display_text_packages),
+                getString(R.string.screen_dashboard_tour_guide_display_text_packages_des),
                 padding = 0f,
-                circleRadius = 220f,
+                circleRadius = getDimension(R.dimen._60sdp),
                 showSkip = false,
                 showPageNo = false,
-                btnText = "OK, got it!"
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_got_it)
             )
         )
         return list
@@ -126,5 +136,10 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     private fun getBindings(): FragmentYapStoreBinding {
         return viewDataBinding as FragmentYapStoreBinding
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.parentViewModel?.isYapStoreFragmentVisible?.removeObservers(this)
     }
 }

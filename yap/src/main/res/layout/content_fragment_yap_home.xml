@@ -35,24 +35,32 @@
                 tools:listitem="@layout/view_notifications" />
 
             <!--     Content Graph Center       -->
-            <include
-                android:id="@+id/vGraph"
-                layout="@layout/view_graph"
-                android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTransactionDate"
-                style="@style/Regular"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llGraph"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="6sp"
-                android:textColor="@color/greyDark"
-                android:textSize="14sp"
-                android:visibility="visible"
-                tools:text="April 2019" />
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/vGraph"
+                    layout="@layout/view_graph"
+                    android:visibility="@{viewModel.state.isTransEmpty?View.GONE:View.VISIBLE}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTransactionDate"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="@color/greyDark"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    tools:text="April 2019" />
+            </LinearLayout>
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/lyHomeAction"
@@ -106,7 +114,7 @@
 
                 <LinearLayout
                     android:id="@+id/lyAnalytics"
-                     android:layout_width="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
@@ -281,9 +289,9 @@
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
-                    android:layout_marginTop="-4dp"
                     android:lineSpacingExtra="3sp"
                     android:minWidth="@dimen/_80sdp"
                     android:textColor="@color/colorPrimaryDark"

@@ -53,7 +53,6 @@ class TourSetup(
         updateCircle()
         addDescBox()
         Handler().postDelayed({
-            skip?.visibility = if (getCurrentItem()?.showSkip == true) View.VISIBLE else View.GONE
             updateSkipButtonPosition()
 //            skip!!.alpha = 0f
 //            skip!!.animate().alpha(1f).setDuration(500)
@@ -67,6 +66,7 @@ class TourSetup(
     }
 
     private fun updateSkipButtonPosition() {
+        skip?.visibility = if (getCurrentItem()?.showSkip == true) View.VISIBLE else View.GONE
         getCurrentItem()?.let {
             val isOnTop = TourUtils.isViewLocatedAtHalfTopOfTheScreen(context, it.view)
             val sh = TourUtils.getScreenHeight(context).toFloat()
@@ -100,16 +100,29 @@ class TourSetup(
             layer?.radius = it.circleRadius
             layer?.centerX = it.view.locationOnScreen.x.toFloat() + (it.view.width / 2)
             when {
-                TourUtils.isViewLocatedAtBottomOfTheScreen(context, it.view, 200) -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 125
+                TourUtils.isViewLocatedAtBottomOfTheScreen(
+                    context,
+                    it.view,
+                    activity.resources.getDimension(R.dimen._50sdp).toInt()
+                ) -> {
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
+                            .toInt()
                 }
-                TourUtils.isViewLocatedAtTopOfTheScreen(context, it.view, 200) -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat() - 50
+                TourUtils.isViewLocatedAtTopOfTheScreen(
+                    context,
+                    it.view,
+                    activity.resources.getDimension(R.dimen._50sdp).toInt()
+                ) -> {
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._15sdp)
+                            .toInt()
                 }
                 else -> {
                     layer?.centerY = it.view.locationOnScreen.y.toFloat()
                 }
             }
+            layer?.isRectangle = it.isRectangle
             layer?.invalidate()
         }
     }

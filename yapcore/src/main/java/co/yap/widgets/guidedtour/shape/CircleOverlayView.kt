@@ -16,6 +16,7 @@ class CircleOverlayView : LinearLayout {
     var canvas: Canvas? = null
     var updateCircle: Boolean = false
     var radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
+    var isRectangle = false
 
     constructor(context: Context?) : super(context) {
     }
@@ -69,7 +70,16 @@ class CircleOverlayView : LinearLayout {
         paint.color = resources.getColor(R.color.colorCoachMarkOverlay)
         osCanvas.drawRect(outerRectangle, paint)
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-        osCanvas.drawCircle(centerX, centerY, radius, paint)
+        if (isRectangle) {
+            osCanvas.drawRect(
+                0f,
+                centerY - centerY.div(6.5).toFloat(),
+                width.toFloat(),
+                centerY + centerY.div(3.1).toFloat(), paint
+            )
+        } else
+            osCanvas.drawCircle(centerX, centerY, radius, paint)
+
     }
 
     override fun onDraw(canvas: Canvas?) {

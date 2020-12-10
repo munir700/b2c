@@ -473,6 +473,12 @@ object Strings {
         "screen_cards_display_text_see_details"
     const val screen_cards_display_text_freeze_card_action: String =
         "screen_cards_display_text_freeze_card_action"
+    const val screen_cards_display_text_tour_add_card_heading: String =
+        "screen_cards_display_text_tour_add_card_heading"
+    const val screen_cards_display_text_tour_add_card_description: String =
+        "screen_cards_display_text_tour_add_card_description"
+    const val screen_cards_display_text_tour_add_card_btn_text: String =
+        "screen_cards_display_text_tour_add_card_btn_text"
 
     //Change Card Name Screen
     const val screen_card_name_title_change_card_name: String =
@@ -807,6 +813,16 @@ object Strings {
         "screen_more_display_text_bank_details"
     const val screen_more_detail_display_text_bank_details: String =
         "screen_more_detail_display_text_bank_details"
+    const val screen_more_detail_display_text_tour_bank_details_heading: String =
+        "screen_more_detail_display_text_tour_bank_details_heading"
+    const val screen_more_detail_display_text_tour_bank_details_description: String =
+        "screen_more_detail_display_text_tour_bank_details_description"
+    const val screen_more_detail_display_text_tour_yap_for_you_heading: String =
+        "screen_more_detail_display_text_tour_yap_for_you_heading"
+    const val screen_more_detail_display_text_tour_yap_for_you_description: String =
+        "screen_more_detail_display_text_tour_yap_for_you_description"
+    const val screen_more_detail_display_text_tour_yap_for_you_btn_text: String =
+        "screen_more_detail_display_text_tour_yap_for_you_btn_text"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =
