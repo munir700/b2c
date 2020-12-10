@@ -1,15 +1,15 @@
 package co.yap.modules.dashboard.more.yapforyou.interfaces
 
 import androidx.databinding.ObservableField
-import co.yap.databinding.FragmentAchievementDetailBinding
+import co.yap.databinding.FragmentAchievementBinding
 import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementTaskAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IAchievementDetail {
+interface IAchievement {
 
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAchievementDetailBinding
+        fun getBinding(): FragmentAchievementBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {

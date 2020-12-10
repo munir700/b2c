@@ -54,7 +54,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                         viewModel.parentViewModel?.achievement =
                             viewModel.parentViewModel?.achievements?.get(0)
                         viewModel.state.toolbarVisibility.set(false)
-                        navigate(R.id.achievementDetailFragment)
+                        navigate(R.id.achievementFragment)
                     }
                 }
             }
@@ -83,7 +83,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
                 viewModel.state.toolbarVisibility.set(false)
-                navigate(R.id.achievementDetailFragment)
+                navigate(R.id.achievementFragment)
 
             }
         }

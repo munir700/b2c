@@ -8,7 +8,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementDetailViewModel" />
+            type="co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,6 +80,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="4"
+            app:adapter="@{viewModel.adapter}"
             tools:listitem="@layout/item_achievement" />
         </co.yap.widgets.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>
