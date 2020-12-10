@@ -21,11 +21,11 @@ object TourGuideManager {
             blockedTourGuideList.add(TourGuideType.YAP_HOME_FRAGMENT)
         }
         if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.YAP_HOME_FRAGMENT_DASHBOARD.name,
+                TourGuideType.YAP_HOME_FRAGMENT_GRAPH.name,
                 false
             ) == true
         ) {
-            blockedTourGuideList.add(TourGuideType.YAP_HOME_FRAGMENT_DASHBOARD)
+            blockedTourGuideList.add(TourGuideType.YAP_HOME_FRAGMENT_GRAPH)
         }
         if (sharedPreferenceManager?.getValueBoolien(
                 TourGuideType.YAP_STORE_FRAGMENT.name,
