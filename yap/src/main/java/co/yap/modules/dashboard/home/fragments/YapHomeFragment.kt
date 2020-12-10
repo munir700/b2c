@@ -878,7 +878,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun showGraphTourGuide() {
-        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT_DASHBOARD) {
+        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT_GRAPH) {
             addAll(setGraphViewsArray())
         }
     }
