@@ -236,33 +236,33 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
             override fun onPageSelected(position: Int) {
                 enableDrawerSwipe(position == 0)
-                /*when (position) {
-                    viewModel.YAP_HOME_FRAGMENT -> {
+                when (position) {
+                    YAP_HOME_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapHomeFragmentVisible.value = true
                         }
 
                     }
-                    viewModel.YAP_STORE_FRAGMENT -> {
+                    YAP_STORE_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapStoreFragmentVisible.value = true
                         }
                     }
-                    viewModel.YAP_CARDS_FRAGMENT -> {
+                    YAP_CARDS_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapCardsFragmentVisible.value = true
                         }
                     }
-                    viewModel.YAP_MORE_FRAGMENT -> {
+                    YAP_MORE_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapMoreFragmentVisible.value = true
                         }
                     }
-                }*/
+                }
             }
         })
     }

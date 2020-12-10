@@ -124,7 +124,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.observe(this,
                 Observer { isMoreFragmentVisible ->
                     if (isMoreFragmentVisible) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_MORE_FRAGMENT) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_MORE_SCREEN) {
                             this.addAll(setViewsArray())
                         }
                     }

@@ -19,7 +19,6 @@ interface IYapDashboard {
         var availableBalance: String
         var userNameImage: ObservableField<String>
         var appVersion: ObservableField<String>
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -36,10 +35,6 @@ interface IYapDashboard {
         var isYapStoreFragmentVisible: MutableLiveData<Boolean>
         var isYapCardsFragmentVisible: MutableLiveData<Boolean>
         var isYapMoreFragmentVisible: MutableLiveData<Boolean>
-        val YAP_HOME_FRAGMENT: Int get() = 0
-        val YAP_STORE_FRAGMENT: Int get() = 1
-        val YAP_CARDS_FRAGMENT: Int get() = 2
-        val YAP_MORE_FRAGMENT: Int get() = 3
     }
 
     interface View : IBase.View<ViewModel> {
@@ -47,6 +42,10 @@ interface IYapDashboard {
         fun openDrawer()
         fun toggleDrawer()
         fun enableDrawerSwipe(enable: Boolean)
+        val YAP_HOME_FRAGMENT: Int get() = 0
+        val YAP_STORE_FRAGMENT: Int get() = 1
+        val YAP_CARDS_FRAGMENT: Int get() = 2
+        val YAP_MORE_FRAGMENT: Int get() = 3
 
     }
 }

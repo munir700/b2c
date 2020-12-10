@@ -430,7 +430,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
                             addAll(setViewsArray())
                         }
                     }
@@ -879,7 +879,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun showGraphTourGuide() {
-        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT_GRAPH) {
+        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
             addAll(setGraphViewsArray())
         }
     }
