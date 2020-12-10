@@ -8,6 +8,9 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
@@ -98,7 +101,7 @@ fun Transaction?.getTransactionStatus(): String {
     }
 }
 
-fun Transaction?.getTransactionTypeTitle(): String {
+fun Transaction?.getTransactionTypeTitle(transactionType: TransactionAdapterType? = TransactionAdapterType.TRANSACTION): String {
     this?.let { txn ->
         return when {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
@@ -117,6 +120,13 @@ fun Transaction?.getTransactionTypeTitle(): String {
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
                 "Money moved"
+            }
+            transactionType == TransactionAdapterType.ANALYTICS_DETAILS -> {
+                DateUtils.reformatStringDate(
+                    date = this.creationDate ?: "",
+                    inputFormatter = SERVER_DATE_FORMAT,
+                    outFormatter = FORMATE_MONTH_DAY
+                )
             }
             else -> return (when (txn.productCode) {
                 TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode -> {
@@ -330,6 +340,18 @@ fun Transaction?.getFormattedDate(): String? {
     } ?: return null
 }
 
+
+fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
+    return when (adapterType) {
+        TransactionAdapterType.ANALYTICS_DETAILS -> {
+            getFormattedTime()
+        }
+        TransactionAdapterType.TRANSACTION -> {
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
+        }
+    }
+}
+
 fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return (when {
         DateUtils.reformatStringDate(
@@ -379,8 +401,14 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 
 fun Transaction?.getTransactionAmount(): String? {
     (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(showCurrency = false)
-        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(showCurrency = false)
+        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(
+            showCurrency = false,
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        )
+        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(
+            showCurrency = false,
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        )
         else -> ""
     })
 }
@@ -416,5 +444,3 @@ fun Transaction?.isTransactionRejected(): Boolean {
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
 }
-
-

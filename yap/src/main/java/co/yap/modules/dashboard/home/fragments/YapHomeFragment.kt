@@ -39,7 +39,6 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -286,83 +285,99 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
+        SessionManager.getDebitCard {
+            startFlowForSetPin()
+        }
+
         SessionManager.card.observe(this, Observer { primaryCard ->
             primaryCard?.let {
-                startFlowForSetPin()
                 checkUserStatus()
             }
         })
+
 
         SessionManager.cardBalance.observe(this, Observer { value ->
             setAvailableBalance(value.availableBalance.toString())
         })
 
-        viewModel.transactionsLiveData.observe(this, Observer {
+        viewModel.transactionsLiveData.observe(this, Observer { it ->
             if (true == viewModel.isLoadMore.value) {
-                if (getRecycleViewAdaptor()?.itemCount!! == 0) getBindings().appbar.setExpanded(true)
+                if (getRecycleViewAdaptor()?.itemCount == 0) getBindings().appbar.setExpanded(true)
 
-                if (getRecycleViewAdaptor()?.itemCount!! > 0)
-                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
+                getRecycleViewAdaptor()?.itemCount?.let { itemCount ->
+                    if (itemCount > 0) {
+                        getRecycleViewAdaptor()?.removeItemAt(position = itemCount - 1)
+                    }
+                }
 
                 val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
-                val oldData = getGraphRecycleViewAdapter()?.getDataList()
-                for (parentItem in it) {
-
-                    var shouldAppend = false
-                    for (i in 0 until oldData?.size!!) {
-                        if (parentItem.date == oldData[i].date) {
-                            if (parentItem.transaction.size != oldData[i].transaction.size) {
+                getGraphRecycleViewAdapter()?.getDataList()?.let { oldData ->
+                    for (parentItem in it) {
+                        var shouldAppend = false
+                        for (i in 0 until oldData.size) {
+                            if (parentItem.date == oldData[i].date) {
+                                if (parentItem.transaction.size != oldData[i].transaction.size) {
+                                    shouldAppend = true
+                                    parentItem.isNewItem = false
+                                    break
+                                }
+                                parentItem.isNewItem = true
                                 shouldAppend = true
                                 break
+                            } else {
+                                parentItem.isNewItem = true
                             }
-                            shouldAppend = true
-                            break
+                        }
+                        if (!shouldAppend)
+                            listToAppend.add(parentItem)
+                    }
+
+                }
+                listToAppend.partition { txn -> txn.isNewItem }.let { pair ->
+                    pair.second.forEach { data ->
+                        getTransactionPosition(data)?.let { index ->
+                            getRecycleViewAdaptor()?.setItemAt(index, data)
                         }
                     }
-                    if (!shouldAppend)
-                        listToAppend.add(parentItem)
+                    getRecycleViewAdaptor()?.addList(pair.first)
                 }
-                if(oldData?.size?.plus(listToAppend.size)!! >= 5 ) {
-                    getGraphRecycleViewAdapter()?.addList(listToAppend)
-                    getRecycleViewAdaptor()?.addList(listToAppend)
-                } else {
-                    viewModel.state.isTransEmpty.set(true)
-                    getRecycleViewAdaptor()?.addList(listToAppend)
-                }
+                getGraphRecycleViewAdapter()?.addList(listToAppend)
+                viewModel.isLoadMore.value = false
             } else {
-                if (it.isEmpty()) {
-                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
-                    if (homeTransactionsRequest.totalAppliedFilter > 0) {
-                        getBindings().lyInclude.multiStateView.viewState =
-                            MultiStateView.ViewState.ERROR
-                    } else {
-                        //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
-//                        getBindings().lyInclude.multiStateView.viewState =
-//                            MultiStateView.ViewState.EMPTY
-                        viewModel.state.isUserAccountActivated.set(false)
-                        setUpDashBoardNotificationsView()
-                    }
-                    transactionViewHelper?.setTooltipVisibility(View.GONE)
-                    viewModel.state.isTransEmpty.set(true)
-                } else if (it.size < 5) {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        viewModel.state.isUserAccountActivated.set(true)
-                        showTransactions()
-                        viewModel.state.isTransEmpty.set(true)
-                    } else {
+                when {
+                    it.isEmpty() -> {
+                        //if transaction is empty and filter is applied then state would be Error where no transaction image show
+                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                            getBindings().lyInclude.multiStateView.viewState =
+                                MultiStateView.ViewState.ERROR
+                        } else {
+                            viewModel.state.isUserAccountActivated.set(false)
+                            setUpDashBoardNotificationsView()
+                        }
+                        transactionViewHelper?.setTooltipVisibility(View.GONE)
                         viewModel.state.isTransEmpty.set(true)
                     }
-                    getRecycleViewAdaptor()?.setList(it)
-                } else {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        viewModel.state.isUserAccountActivated.set(true)
-                        showTransactionsAndGraph()
-                    } else {
-                        viewModel.state.isTransEmpty.set(true)
+                    it.size < 5 -> {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            viewModel.state.isUserAccountActivated.set(true)
+                            showTransactions()
+                            viewModel.state.isTransEmpty.set(true)
+                        } else {
+                            viewModel.state.isTransEmpty.set(true)
+                        }
+                        getRecycleViewAdaptor()?.setList(it)
                     }
-                    getRecycleViewAdaptor()?.setList(it)
-                    getGraphRecycleViewAdapter()?.setList(it)
-                    transactionViewHelper?.setTooltipOnZero()
+                    else -> {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            viewModel.state.isUserAccountActivated.set(true)
+                            showTransactionsAndGraph()
+                        } else {
+                            viewModel.state.isTransEmpty.set(true)
+                        }
+                        getRecycleViewAdaptor()?.setList(it)
+                        getGraphRecycleViewAdapter()?.setList(it)
+                        transactionViewHelper?.setTooltipOnZero()
+                    }
                 }
             }
         })
@@ -377,11 +392,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     val layoutManager =
                         getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
                     val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
-                            viewModel.isLoadMore.value = true
+                    if (viewModel.state.showTxnShimmer.value?.status == Status.SUCCESS)
+                        if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                            if (false == viewModel.isLoadMore.value && false == viewModel.isLast.value) {
+                                viewModel.isLoadMore.value = true
+                            }
                         }
-                    }
                 }
             })
 
@@ -399,6 +415,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         })
+    }
+
+    private fun getTransactionPosition(item: HomeTransactionListData): Int? {
+        return getRecycleViewAdaptor()?.getDataList()
+            ?.indexOf(getRecycleViewAdaptor()?.getDataList()?.first {
+                it.date == item.date
+            })
     }
 
     private fun checkUserStatus() {
