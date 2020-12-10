@@ -22,8 +22,8 @@
 
         <co.yap.modules.imagepreviewer.TouchImageView
             android:id="@+id/imageViewConatiner"
-            srcUri="@{viewModel.state.imageUri}"
-            srcUrl="@{viewModel.state.imageUrl}"
+            android:background="@color/white"
+            previewImageSrc="@{viewModel.state.imageUrl}"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

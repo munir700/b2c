@@ -32,6 +32,7 @@ import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.utils.CurrencyUtils
+import co.yap.modules.imagepreviewer.ImagePreViewerActivity
 import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
 import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.responsedtos.Card
@@ -49,15 +50,20 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadImage
-import co.yap.yapcore.helpers.glide.setImage
+import co.yap.yapcore.helpers.glide.getUrl
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.ezaka.customer.app.utils.getActivityFromContext
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 
@@ -182,7 +188,7 @@ object UIBinder {
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
@@ -204,7 +210,7 @@ object UIBinder {
     fun setCardStatus(imageView: ImageView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
@@ -240,7 +246,7 @@ object UIBinder {
     fun setCardStatus(text: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setTextForInactiveCard(text = text, card = card)
@@ -303,7 +309,7 @@ object UIBinder {
     fun setcardButtonStatus(coreButton: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setCardButtonTextForInactive(coreButton, card)
@@ -979,15 +985,45 @@ object UIBinder {
         }
     }
 
-    @BindingAdapter("srcUrl", "srcUri")
+    @BindingAdapter("previewImageSrc")
     @JvmStatic
-    fun setImageResUrl(view: AppCompatImageView, srcUrl : String?, srcUri : Uri?) {
-        if (srcUrl.isNullOrEmpty()){
-            srcUri?.let { setImage(view, srcUri) }
-        }else{
+    fun setImageResUrl(view: AppCompatImageView, imageSrc: String?) {
+        imageSrc?.let {
+
+            val mUrl = getUrl(imageSrc)
+            Glide.with(view).load(mUrl)
+                .placeholder(R.color.white).listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        val activity: ImagePreViewerActivity =
+                            getActivityFromContext(view.context) as ImagePreViewerActivity
+                        activity.showLoader(false)
+                        return false
+
+                    }
+
+
+                }).into(view)
+        }
+        if (imageSrc.isNullOrBlank()) {
             Glide.with(view.context)
-                .load(srcUrl)
+                .load(R.drawable.ic_young_household)
                 .into(view)
         }
+
     }
 }
