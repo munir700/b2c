@@ -345,48 +345,49 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getGraphRecycleViewAdapter()?.addList(listToAppend)
                 viewModel.isLoadMore.value = false
             } else {
-                if (it.isEmpty()) {
-                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
-                    if (homeTransactionsRequest.totalAppliedFilter > 0) {
-                        getBindings().lyInclude.multiStateView.viewState =
-                            MultiStateView.ViewState.ERROR
-                    } else {
-                        //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
-//                        getBindings().lyInclude.multiStateView.viewState =
-//                            MultiStateView.ViewState.EMPTY
-                        viewModel.state.isUserAccountActivated.set(false)
-                        setUpDashBoardNotificationsView()
-                    }
-                    transactionViewHelper?.setTooltipVisibility(View.GONE)
-                    viewModel.state.isTransEmpty.set(true)
-                } else if (it.size < 5) {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        viewModel.state.isUserAccountActivated.set(true)
-                        showTransactions()
-                        viewModel.state.isTransEmpty.set(true)
-                    } else {
-                        viewModel.state.isTransEmpty.set(true)
-                    }
-                    getRecycleViewAdaptor()?.setList(it)
-                } else {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        SessionManager.card.value?.let { card ->
-                            if (card.pinCreated) {
-                                showGraphTourGuide()
-                            }
-                        } ?: SessionManager.getDebitCard {
-                            if (SessionManager.card.value?.pinCreated == true) {
-                                showGraphTourGuide()
-                            }
+                when {
+                    it.isEmpty() -> {
+                        //if transaction is empty and filter is applied then state would be Error where no transaction image show
+                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                            getBindings().lyInclude.multiStateView.viewState =
+                                MultiStateView.ViewState.ERROR
+                        } else {
+                            viewModel.state.isUserAccountActivated.set(false)
+                            setUpDashBoardNotificationsView()
                         }
-                        viewModel.state.isUserAccountActivated.set(true)
-                        showTransactionsAndGraph()
-                    } else {
+                        transactionViewHelper?.setTooltipVisibility(View.GONE)
                         viewModel.state.isTransEmpty.set(true)
                     }
-                    getRecycleViewAdaptor()?.setList(it)
-                    getGraphRecycleViewAdapter()?.setList(it)
-                    transactionViewHelper?.setTooltipOnZero()
+                    it.size < 5 -> {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            viewModel.state.isUserAccountActivated.set(true)
+                            showTransactions()
+                            viewModel.state.isTransEmpty.set(true)
+                        } else {
+                            viewModel.state.isTransEmpty.set(true)
+                        }
+                        getRecycleViewAdaptor()?.setList(it)
+                    }
+                    else -> {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                            SessionManager.card.value?.let { card ->
+                                if (card.pinCreated) {
+                                    showGraphTourGuide()
+                                }
+                            } ?: SessionManager.getDebitCard {
+                                if (SessionManager.card.value?.pinCreated == true) {
+                                    showGraphTourGuide()
+                                }
+                            }
+                            viewModel.state.isUserAccountActivated.set(true)
+                            showTransactionsAndGraph()
+                        } else {
+                            viewModel.state.isTransEmpty.set(true)
+                        }
+                        getRecycleViewAdaptor()?.setList(it)
+                        getGraphRecycleViewAdapter()?.setList(it)
+                        transactionViewHelper?.setTooltipOnZero()
+                    }
                 }
             }
         })
