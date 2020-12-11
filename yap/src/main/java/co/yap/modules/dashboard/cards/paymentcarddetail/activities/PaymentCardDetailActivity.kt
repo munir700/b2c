@@ -66,9 +66,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
-import kotlinx.android.synthetic.main.activity_payment_card_detail.toolbar
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 import kotlinx.android.synthetic.main.layout_card_info.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
@@ -364,9 +367,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
         }
-
-        launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN) {
-            addAll(setViewsArray())
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(300)
+            launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN) {
+                addAll(setViewsArray())
+            }
         }
     }
 
