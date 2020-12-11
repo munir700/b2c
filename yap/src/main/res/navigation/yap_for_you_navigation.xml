@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_achievementFragment_to_achievementDetailFragment"
             app:destination="@id/achievementDetailFragment" />
+        <action
+            android:id="@+id/action_achievementFragment_to_achievementSuccessFragment"
+            app:destination="@id/achievementSuccessFragment" />
     </fragment>
     <fragment
         android:id="@+id/completedAchievementsFragment"
@@ -37,4 +40,9 @@
         android:name="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementDetailFragment"
         android:label="AchievementDetailFragment"
         tools:layout="@layout/fragment_achievement_details" />
+    <fragment
+        android:id="@+id/achievementSuccessFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.achievementsuccess.AchievementSuccessFragment"
+        android:label="AchievementSuccessFragment"
+        tools:layout="@layout/fragment_achievement_success" />
 </navigation>
