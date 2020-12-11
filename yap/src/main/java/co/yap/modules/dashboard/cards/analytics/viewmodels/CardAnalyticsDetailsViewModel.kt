@@ -61,10 +61,11 @@ class CardAnalyticsDetailsViewModel(application: Application) :
                         state.currToLast.set("${transactionResponse.currentToLastMonth}%")
                         if (!transactionResponse.txnAnalytics.isNullOrEmpty()) {
                             viewState.value = Constants.EVENT_CONTENT
-                            list =transactionResponse.txnAnalytics?: arrayListOf()
-                            list.let { transactionList ->
-                                adapter.setList(transactionList)
+                            list = transactionResponse.txnAnalytics ?: arrayListOf()
+                            list.sortByDescending {
+                                it.creationDate
                             }
+                            adapter.setList(list)
                         } else viewState.value = Constants.EVENT_EMPTY
                         state.loading = false
                     }
