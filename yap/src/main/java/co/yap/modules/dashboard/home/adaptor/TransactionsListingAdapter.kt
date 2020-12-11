@@ -8,6 +8,7 @@ import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.databinding.ItemAnalyticsTransactionListBinding
 import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
@@ -15,7 +16,6 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.DateUtils.FORMAT_TIME_12H
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
@@ -23,27 +23,43 @@ import co.yap.yapcore.helpers.extentions.*
 class TransactionsListingAdapter(
     private val list: MutableList<Transaction>,
     private val adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION
-) :
-    BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
+) : BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
+    var analyticsItemPosition: Int = 0
+    override fun getLayoutIdForViewType(viewType: Int): Int {
+        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) R.layout.item_analytics_transaction_list else R.layout.item_transaction_list
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        (holder as TransactionListingViewHolder).onBind(list[position], position)
+        if (holder is TransactionListingViewHolder)
+            holder.onBind(list[position], position)
+        else if (holder is TransactionAnalyticsViewHolder)
+            holder.onBind(list[position], analyticsItemPosition)
+
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return TransactionListingViewHolder(
-            binding as ItemTransactionListBinding,
-            adapterType = adapterType
-        )
+        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) {
+            TransactionAnalyticsViewHolder(
+                binding as ItemAnalyticsTransactionListBinding
+            )
+        } else
+            TransactionListingViewHolder(
+                binding as ItemTransactionListBinding
+            )
     }
 
-    class TransactionListingViewHolder(
-        private val itemTransactionListBinding: ItemTransactionListBinding,
-        val adapterType: TransactionAdapterType
-    ) :
+    class TransactionAnalyticsViewHolder(private val itemAnalyticsTransactionListBinding: ItemAnalyticsTransactionListBinding) :
+        RecyclerView.ViewHolder(itemAnalyticsTransactionListBinding.root) {
+        fun onBind(transaction: Transaction, position: Int) {
+            itemAnalyticsTransactionListBinding.viewModel =
+                ItemAnalyticsTransactionVM(transaction, position)
+            itemAnalyticsTransactionListBinding.executePendingBindings()
+        }
+    }
+
+    class TransactionListingViewHolder(private val itemTransactionListBinding: ItemTransactionListBinding) :
         RecyclerView.ViewHolder(itemTransactionListBinding.root) {
 
         fun onBind(transaction: Transaction, position: Int?) {
@@ -85,7 +101,7 @@ class TransactionsListingAdapter(
             val transactionTitle = transaction.getTransactionTitle()
             val txnIconResId = transaction.getTransactionIcon()
             val categoryTitle: String =
-                transaction.getTransactionTypeTitle(adapterType)
+                transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {
                     setY2YUserImage(transaction, itemTransactionListBinding, position)
@@ -108,11 +124,11 @@ class TransactionsListingAdapter(
             }
 
             itemTransactionListBinding.tvTransactionName.text = transactionTitle
-                itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
-                    context,
-                    R.string.screen_fragment_home_transaction_time_category,
-                    transaction.getTransactionTime(adapterType), categoryTitle
-                )
+            itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
+                context,
+                R.string.screen_fragment_home_transaction_time_category,
+                transaction.getTransactionTime(), categoryTitle
+            )
         }
 
         private fun setY2YUserImage(

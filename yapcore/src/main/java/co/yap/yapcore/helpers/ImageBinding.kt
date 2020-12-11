@@ -164,7 +164,6 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl", "app:srcCompat")
     fun setNavigationViewImageUrl(imageView: AppCompatImageView, url: String, resource: Int) {
-
         if (resource > 0) imageView.setImageResource(resource) else setImage(imageView, url)
     }
 
