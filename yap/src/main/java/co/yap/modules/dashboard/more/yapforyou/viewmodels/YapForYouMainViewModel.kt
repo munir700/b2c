@@ -28,4 +28,8 @@ class YapForYouMainViewModel(application: Application) :
             )
         )
     }
+
+    override fun getYapForYouHashMap(tag: String) {
+        state.yapForYouManager.initiateHasMap(tag = tag)
+    }
 }

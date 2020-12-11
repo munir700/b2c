@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
 import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
