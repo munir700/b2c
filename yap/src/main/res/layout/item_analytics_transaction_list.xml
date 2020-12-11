@@ -37,18 +37,13 @@
                 android:id="@+id/ivTransaction"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_12sdp"
-                android:background="@drawable/bg_round_purple_enabled"
-                tools:src="@drawable/ic_cash_out_trasaction" />
-
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivIncoming"
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:visibility="visible"
-                tools:src="@drawable/ic_outgoing_transaction" />
+                app:fullName="@{viewModel.item.title==null?` `:viewModel.item.title}"
+                app:imageUrl="@{viewModel.item.merchantLogo == null ? ` ` : viewModel.item.merchantLogo}"
+                app:isBackground="@{true}"
+                app:position="@{viewModel.position}"
+                tools:src="@drawable/ic_access_alarm" />
         </FrameLayout>
 
         <TextView
@@ -69,11 +64,11 @@
 
         <TextView
             android:id="@+id/tvTransactionAmount"
-            style="@style/SmallGrey"
+            style="@style/Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:textColor="@color/colorSecondaryGreen"
+            android:text="@{TransactionExtentionsKt.getFormattedTransactionAmount(viewModel.item)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="+100" />
@@ -85,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:alpha="0.5"
-            android:text="@{TransactionExtentionsKt.getFormattedTime(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)+` \u2022 `+TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)}"
+            android:text="@{TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)+` \u2022 `+TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item,TransactionAdapterType.ANALYTICS_DETAILS)}"
             app:layout_constraintEnd_toStartOf="@+id/tvCurrency"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
@@ -97,6 +92,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:text="@{TransactionExtentionsKt.getCurrency(viewModel.item)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
             tools:text="AED" />
