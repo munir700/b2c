@@ -56,11 +56,8 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
@@ -278,8 +275,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             R.id.ivLeftIcon -> {
                 setupActionsIntent()
                 finish()
-//                val tour = TourSetup(this, setViewsArray())
-//                tour.startTour()
             }
             R.id.ivRightIcon -> {
                 if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
@@ -310,6 +305,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupView() {
+        launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN){
+            addAll(setViewsArray())
+        }
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""

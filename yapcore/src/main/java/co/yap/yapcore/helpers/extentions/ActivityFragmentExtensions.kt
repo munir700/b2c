@@ -406,15 +406,19 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
+/**
+ *
+ */
 inline fun Activity.launchTourGuide(
     screenName: TourGuideType,
     init: ArrayList<GuidedTourViewDetail>.() -> Unit = {}
-) {
-    if (!TourGuideManager.getBlockedTourGuideScreens.contains(screenName)) {
+): Boolean {
+    return if (!TourGuideManager.getBlockedTourGuideScreens.contains(screenName)) {
         val list = arrayListOf<GuidedTourViewDetail>()
         list.init()
         val tour = TourSetup(this, list)
         tour.startTour()
         TourGuideManager.blockTourGuideScreen(screenName)
-    }
+        true
+    } else false
 }

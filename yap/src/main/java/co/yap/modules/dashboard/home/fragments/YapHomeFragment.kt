@@ -53,6 +53,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
+import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
@@ -73,6 +74,10 @@ import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -370,15 +375,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     }
                     else -> {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                            SessionManager.card.value?.let { card ->
-                                if (card.pinCreated) {
-                                    showGraphTourGuide()
-                                }
-                            } ?: SessionManager.getDebitCard {
-                                if (SessionManager.card.value?.pinCreated == true) {
-                                    showGraphTourGuide()
-                                }
-                            }
                             viewModel.state.isUserAccountActivated.set(true)
                             showTransactionsAndGraph()
                         } else {
@@ -389,6 +385,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         transactionViewHelper?.setTooltipOnZero()
                     }
                 }
+                showHomeTourGuide()
             }
         })
 
@@ -429,11 +426,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             this,
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
-                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT) {
-                            addAll(setViewsArray())
-                        }
-                    }
+                    showHomeTourGuide()
                 }
             })
     }
@@ -812,7 +805,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_menu),
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
                 padding = -getDimension(R.dimen._20sdp),
-                circleRadius = getDimension(R.dimen._60sdp)
+                circleRadius = getDimension(R.dimen._60sdp),
+                callBackListener = tourItemListener
             )
         )
         list.add(
@@ -821,7 +815,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_balance),
                 getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
                 padding = getDimension(R.dimen._70sdp),
-                circleRadius = getDimension(R.dimen._70sdp)
+                circleRadius = getDimension(R.dimen._70sdp),
+                callBackListener = tourItemListener
             )
         )
         list.add(
@@ -830,7 +825,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it),
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
                 padding = getDimension(R.dimen._260sdp),
-                circleRadius = getDimension(R.dimen._70sdp)
+                circleRadius = getDimension(R.dimen._70sdp),
+                callBackListener = tourItemListener
             )
         )
         list.add(
@@ -841,10 +837,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 padding = getDimension(R.dimen._45sdp),
                 circleRadius = getDimension(R.dimen._60sdp),
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
-                showSkip = false
+                showSkip = false,
+                callBackListener = tourItemListener
             )
         )
         return list
+    }
+
+    private val tourItemListener = object : OnTourItemClickListener {
+        override fun onItemClick(pos: Int) {
+            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
     }
 
     private fun getParentActivity(): ActivityYapDashboardBinding {
@@ -878,9 +881,34 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
-    private fun showGraphTourGuide() {
-        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_FRAGMENT_GRAPH) {
-            addAll(setGraphViewsArray())
+    private fun showGraphTourGuide(listSize: Int) {
+        if (listSize >= 5)
+            CoroutineScope(Main).launch {
+                delay(500)
+                SessionManager.card.value?.let { card ->
+                    if (card.pinCreated) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
+                            addAll(setGraphViewsArray())
+                        }
+                    }
+                } ?: SessionManager.getDebitCard {
+                    if (SessionManager.card.value?.pinCreated == true) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
+                            addAll(setGraphViewsArray())
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun showHomeTourGuide() {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
+            val isTrue = requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
+                addAll(setViewsArray())
+            }
+            if (!isTrue)
+                showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
+
 }

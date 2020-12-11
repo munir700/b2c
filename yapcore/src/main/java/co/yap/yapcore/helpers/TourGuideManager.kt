@@ -14,39 +14,39 @@ object TourGuideManager {
     private fun getBlockedTourGuideList(): ArrayList<TourGuideType> {
         val blockedTourGuideList: ArrayList<TourGuideType> = arrayListOf()
         if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.YAP_HOME_FRAGMENT.name,
+                TourGuideType.YAP_HOME_SCREEN.name,
                 false
             ) == true
         ) {
-            blockedTourGuideList.add(TourGuideType.YAP_HOME_FRAGMENT)
+            blockedTourGuideList.add(TourGuideType.YAP_HOME_SCREEN)
         }
         if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.YAP_HOME_FRAGMENT_GRAPH.name,
+                TourGuideType.YAP_HOME_GRAPH.name,
                 false
             ) == true
         ) {
-            blockedTourGuideList.add(TourGuideType.YAP_HOME_FRAGMENT_GRAPH)
+            blockedTourGuideList.add(TourGuideType.YAP_HOME_GRAPH)
         }
         if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.YAP_STORE_FRAGMENT.name,
+                TourGuideType.YAP_STORE_SCREEN.name,
                 false
             ) == true
         ) {
-            blockedTourGuideList.add(TourGuideType.YAP_STORE_FRAGMENT)
+            blockedTourGuideList.add(TourGuideType.YAP_STORE_SCREEN)
         }
         if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.YAP_CARDS_FRAGMENT.name,
+                TourGuideType.YAP_CARDS_SCREEN.name,
                 false
             ) == true
         ) {
-            blockedTourGuideList.add(TourGuideType.YAP_CARDS_FRAGMENT)
+            blockedTourGuideList.add(TourGuideType.YAP_CARDS_SCREEN)
         }
         if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.YAP_MORE_FRAGMENT.name,
+                TourGuideType.YAP_MORE_SCREEN.name,
                 false
             ) == true
         ) {
-            blockedTourGuideList.add(TourGuideType.YAP_MORE_FRAGMENT)
+            blockedTourGuideList.add(TourGuideType.YAP_MORE_SCREEN)
         }
 
         return blockedTourGuideList

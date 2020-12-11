@@ -80,7 +80,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             Observer { isCardsFragmentVisible ->
                 if (isCardsFragmentVisible) {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_CARDS_FRAGMENT) {
+                        requireActivity().launchTourGuide(TourGuideType.YAP_CARDS_SCREEN) {
                             this.addAll(setViewsArray())
                         }
                     }
