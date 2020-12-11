@@ -49,6 +49,14 @@ object TourGuideManager {
             blockedTourGuideList.add(TourGuideType.YAP_MORE_SCREEN)
         }
 
+        if (sharedPreferenceManager?.getValueBoolien(
+                TourGuideType.YAP_CARD_DETAIL_SCREEN.name,
+                false
+            ) == true
+        ) {
+            blockedTourGuideList.add(TourGuideType.YAP_CARD_DETAIL_SCREEN)
+        }
+
         return blockedTourGuideList
     }
 
