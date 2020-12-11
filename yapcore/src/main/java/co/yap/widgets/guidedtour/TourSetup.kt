@@ -45,6 +45,9 @@ class TourSetup(
         skip = findViewById(R.id.skip)
         skip?.setOnClickListener {
             dismiss()
+            guidedTourViewViewsList[getCurrentItemPosition() ?: 0].callBackListener?.let {
+                it.onItemClick(getCurrentItemPosition() ?: 0)
+            }
         }
     }
 
@@ -152,6 +155,9 @@ class TourSetup(
                 updateSkipButtonPosition()
             } else {
                 dismiss()
+                guidedTourViewViewsList[pos].callBackListener?.let {
+                    it.onItemClick(pos)
+                }
             }
         }
     }
@@ -216,6 +222,10 @@ class TourSetup(
 
     private fun getCurrentItem(): GuidedTourViewDetail? {
         return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) guidedTourViewViewsList[currentViewId] else null
+    }
+
+    private fun getCurrentItemPosition(): Int? {
+        return if (!guidedTourViewViewsList.isNullOrEmpty() && currentViewId < guidedTourViewViewsList.size) currentViewId else null
     }
 }
 
