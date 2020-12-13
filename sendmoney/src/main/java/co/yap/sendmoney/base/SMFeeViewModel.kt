@@ -59,8 +59,8 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         var result = "0.0"
         if (!feeTiers.isNullOrEmpty()) {
             result = when (feeType) {
-                FeeType.FLAT.name -> getFlatFee(enterAmount).toString()
-                FeeType.TIER.name -> getFeeFromTier(enterAmount, fxRate).toString()
+                FeeType.FLAT.name -> getFlatFee(enterAmount, fxRate)
+                FeeType.TIER.name -> getFeeFromTier(enterAmount, fxRate)
                 else -> {
                     "0.0"
                 }
@@ -69,48 +69,67 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         updatedFee.value = result
     }
 
+    fun getFlatFee(
+        enterAmount: String,
+        fxRate: Double = 1.0
+    ): String {
+        val feeTier = feeTiers.firstOrNull() ?: return "0.0"
+        return getCalculatedFeeAmount(feeTier, fxRate, enterAmount)
+    }
+
     fun getFeeFromTier(
         enterAmount: String,
         fxRate: Double = 1.0
-    ): String? {
+    ): String {
         return if (!enterAmount.isBlank()) {
-            val fee = feeTiers.firstOrNull { item ->
-                (item.amountFrom ?: 0.0) <= enterAmount.parseToDouble()
-                        && (item.amountTo ?: 0.0) >= enterAmount.parseToDouble()
-            } ?: return "0.0"
-
-            if (fee.feeInPercentage == false) {
-                var total = if (feeCurrency != "AED") {
-                    (fee.feeAmount ?: 0.0) * fxRate
-                }else {
-                    (fee.feeAmount ?: 0.0)
-                }
-                total = total.plus(fixedAmount)
-                val vatt = (total * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0))
-                total.plus(vatt).toString()
-            } else {
-                calFeeInPercentage(enterAmount, fee)
-            }
+            val feeTier = getTierFromEnterAmount(enterAmount, feeTiers) ?: return "0.0"
+            return getCalculatedFeeAmount(feeTier, fxRate, enterAmount)
         } else {
             "0.0"
         }
     }
 
-    fun getFlatFee(
-        enterAmount: String
-    ): String? {
-        val fee = feeTiers.firstOrNull() ?: return "0.0"
-        return if (fee.feeInPercentage == false) {
-            feeAmount =
-                if (fee.feeAmount == null) "0.0" else (fee.feeAmount ?: 0.0).plus(fixedAmount)
-                    .toString()
-            val localVat =
-                (feeAmount.parseToDouble() * (fee.vatPercentage?.parseToDouble()?.div(100)
-                    ?: 0.0))
-            vat = localVat.toString()
-            (fee.feeAmount ?: 0.0).plus(localVat).toString()
+    private fun getTierFromEnterAmount(
+        enterAmount: String,
+        tiers: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+    ): RemittanceFeeResponse.RemittanceFee.TierRateDTO? {
+        return tiers.firstOrNull { item ->
+            (item.amountFrom ?: 0.0) <= enterAmount.parseToDouble()
+                    && (item.amountTo ?: 0.0) >= enterAmount.parseToDouble()
+        }
+    }
+
+    private fun getFeeAmount(
+        feeTier: RemittanceFeeResponse.RemittanceFee.TierRateDTO,
+        feeCurrency: String,
+        fixedAmount: Double,
+        fxRate: Double
+    ): Double {
+        return if (!feeCurrency.equals("AED", true)) {
+            ((feeTier.feeAmount ?: 0.0) * fxRate).plus(fixedAmount)
         } else {
-            return calFeeInPercentage(enterAmount, fee)
+            (feeTier.feeAmount ?: 0.0).plus(fixedAmount)
+        }
+    }
+
+    private fun getVatAmount(
+        feeTier: RemittanceFeeResponse.RemittanceFee.TierRateDTO,
+        feeAmount: Double
+    ): Double = (feeAmount * (feeTier.vatPercentage?.parseToDouble()?.div(100) ?: 0.0))
+
+    private fun getCalculatedFeeAmount(
+        feeTier: RemittanceFeeResponse.RemittanceFee.TierRateDTO,
+        fxRate: Double,
+        enterAmount: String
+    ): String {
+        return if (feeTier.feeInPercentage == false) {
+            val totalFee = getFeeAmount(feeTier, feeCurrency, fixedAmount, fxRate)
+            val localVat = getVatAmount(feeTier, totalFee)
+            vat = localVat.toString()
+            feeAmount = totalFee.plus(localVat).toString()
+            feeAmount
+        } else {
+            return calFeeInPercentage(enterAmount, feeTier) ?: "0.0"
         }
     }
 
@@ -119,11 +138,11 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
         fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
     ): String? {
         val feeAmount =
-            enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100) ?: 0.0)
-        val vatAmount =
-            (feeAmount + fixedAmount) * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+            (enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
+                ?: 0.0)).plus(fixedAmount)
+        val vatAmount = feeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
-        return (feeAmount + vatAmount + fixedAmount).toString()
+        return (feeAmount + vatAmount).toString()
     }
 }

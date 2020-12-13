@@ -188,11 +188,17 @@ class InternationalFundsTransferViewModel(application: Application) :
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(enterAmount = getEnterAmountOnFeeCurrency())
+                val transferFee = getFeeFromTier(
+                    enterAmount = getEnterAmountOnFeeCurrency(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = getFlatFee(enterAmount = getEnterAmountOnFeeCurrency())
+                val transferFee = getFlatFee(
+                    enterAmount = getEnterAmountOnFeeCurrency(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
