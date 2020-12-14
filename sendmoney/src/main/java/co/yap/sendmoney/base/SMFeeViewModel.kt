@@ -129,18 +129,23 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
             feeAmount = totalFee.plus(localVat).toString()
             feeAmount
         } else {
-            return calFeeInPercentage(enterAmount, feeTier) ?: "0.0"
+            return calFeeInPercentage(enterAmount, feeTier, fxRate) ?: "0.0"
         }
     }
 
     private fun calFeeInPercentage(
         enterAmount: String,
-        fee: RemittanceFeeResponse.RemittanceFee.TierRateDTO
+        feeTier: RemittanceFeeResponse.RemittanceFee.TierRateDTO,
+        fxRate: Double
     ): String? {
-        val feeAmount =
-            (enterAmount.parseToDouble() * (fee.feePercentage?.parseToDouble()?.div(100)
-                ?: 0.0)).plus(fixedAmount)
-        val vatAmount = feeAmount * (fee.vatPercentage?.parseToDouble()?.div(100) ?: 0.0)
+        var feeAmount =
+            enterAmount.parseToDouble() * (feeTier.feePercentage?.parseToDouble()?.div(100) ?: 0.0)
+        feeAmount = if (!feeCurrency.equals("AED", true)) {
+            (feeAmount * fxRate).plus(fixedAmount)
+        } else {
+            feeAmount.plus(fixedAmount)
+        }
+        val vatAmount = getVatAmount(feeTier, feeAmount)
         this.feeAmount = feeAmount.toString()
         this.vat = vatAmount.toString()
         return (feeAmount + vatAmount).toString()
