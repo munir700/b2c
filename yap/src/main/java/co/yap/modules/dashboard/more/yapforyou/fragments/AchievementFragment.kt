@@ -36,7 +36,7 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AchievementTask) {
                 viewModel.parentViewModel?.getDescriptionContent(data.title)
-                navigate(R.id.achievementDetailFragment)
+                if (!data.completion) navigate(R.id.achievementDetailFragment) else navigate(R.id.achievementSuccessFragment)
             }
         }
     }
