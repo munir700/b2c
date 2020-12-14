@@ -81,7 +81,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
-    private lateinit var skeleton: Skeleton
+//    private lateinit var skeleton: Skeleton
     private lateinit var tvBalanceSkeleton: Skeleton
 
     override val viewModel: IYapHome.ViewModel
@@ -130,10 +130,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
-        skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
+        /*skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
             R.layout.item_transaction_list_shimmer,
             5
-        )
+        )*/
         viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.updatePadding(right = getScreenWidth()/2)
@@ -160,10 +160,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun handleShimmerState(state: State?) {
-        when (state?.status) {
+        /*when (state?.status) {
             Status.LOADING -> skeleton.showSkeleton()
             else -> skeleton.showOriginal()
-        }
+        }*/
     }
 
     override fun onRefresh() {

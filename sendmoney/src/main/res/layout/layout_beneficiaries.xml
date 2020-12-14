@@ -13,7 +13,7 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.yapcore.R" />
+        <import type="co.yap.sendmoney.R" />
 
         <import type="co.yap.yapcore.enums.SendMoneyTransferType" />
 
@@ -133,7 +133,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:recycleViewAdapter="@{viewModel.beneficiariesAdapter}"
             tools:listitem="@layout/layout_item_beneficiary"
-            tools:visibility="visible" />
+            tools:visibility="visible"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

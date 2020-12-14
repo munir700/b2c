@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
         <import type="android.view.View" />
+        <import type ="co.yap.R" />
     </data>
 
     <RelativeLayout
@@ -224,12 +225,14 @@
                 app:msv_emptyView="@layout/layout_welcome_to_yap_view"
                 app:msv_errorView="@layout/error_view_no_transaction_found">
                 <!--     Content List-->
-                <androidx.recyclerview.widget.RecyclerView
+                <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
                     android:id="@+id/rvTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.GONE}"
-                    tools:listitem="@layout/item_transaction_list" />
+                    tools:listitem="@layout/item_transaction_list"
+                    app:shimmerLayoutId = "@{R.layout.item_transaction_list_shimmer}"
+                    app:itemCount = "@{5}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvNotificationStatus"

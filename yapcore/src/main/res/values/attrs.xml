@@ -647,4 +647,9 @@
 
     <declare-styleable name="CoreCircleView">
     </declare-styleable>
+
+    <declare-styleable name="ShimmerRecyclerview">
+        <attr name="shimmerLayoutId" format="integer" />
+        <attr name="itemCount" format="integer" />
+    </declare-styleable>
 </resources>
