@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.yapforyou.achievementsuccess.AchievementSuccessViewModel" />
+
+        <import type="android.view.View" />
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,10 +64,11 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:gravity="center"
-            android:text="You’ve completed this task!\nTime for a little celebration 🥳"
+            app:text="@{Strings.screen_yfy_get_started_success_description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
+            tools:text=""/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

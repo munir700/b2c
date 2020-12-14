@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.FragmentAchievementBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievement
+import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
 import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.widgets.MultiStateView
@@ -20,6 +21,7 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
     override val viewModel: AchievementViewModel
         get() = ViewModelProviders.of(this).get(AchievementViewModel::class.java)
 
+    private var descriptionContent: YapForYouDataModel? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.parentViewModel?.achievement?.let {
@@ -34,7 +36,11 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
         OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AchievementTask) {
-                viewModel.parentViewModel?.getDescriptionContent(data.title)
+                descriptionContent =
+                    viewModel.parentViewModel?.getDescriptionContent(data.title)?.also {
+                        it.title = data.title
+                    }
+                viewModel.parentViewModel?.state?.descriptionDataModel?.set(descriptionContent)
                 if (!data.completion) navigate(R.id.achievementDetailFragment) else navigate(R.id.achievementSuccessFragment)
             }
         }

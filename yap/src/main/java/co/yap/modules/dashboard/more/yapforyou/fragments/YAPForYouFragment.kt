@@ -77,14 +77,13 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (pos in 3..5)
                 return
-
             if (data is Achievement) {
                 viewModel.parentViewModel?.selectedPosition = pos
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
                 viewModel.state.toolbarVisibility.set(false)
+                data.name?.let { viewModel.parentViewModel?.configureYFYManager(it) }
                 navigate(R.id.achievementFragment)
-
             }
         }
     }

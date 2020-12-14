@@ -18,7 +18,8 @@ interface IYapForYouMain {
         var selectedPosition: Int
         var achievements: MutableList<Achievement>
         fun handlePressButton(id: Int)
-        fun getDescriptionContent(tag: String)
+        fun getDescriptionContent(tag: String): YapForYouDataModel?
+        fun configureYFYManager(tag : String)
     }
 
     interface State : IBase.State {
