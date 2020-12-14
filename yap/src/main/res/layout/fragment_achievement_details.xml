@@ -15,9 +15,9 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Title3"
@@ -34,32 +34,45 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="YAP Store" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivCard"
-                android:layout_height="@dimen/_230sdp"
-                android:layout_marginTop="@dimen/margin_extra_large"
-                android:layout_width="@dimen/_140sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:srcCompat="@drawable/card_spare" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCard"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_marginTop="@dimen/margin_extra_large"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    app:srcCompat="@drawable/card_spare" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/lottie_animation" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubTitle"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:gravity="center"
+                    android:text="@{viewModel.parentViewModel.state.descriptionDataModel.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/animationView"
+                    tools:text="Get YAP Young" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Regular"
-                android:gravity="center"
-                android:id="@+id/tvSubTitle"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_medium_large"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_width="match_parent"
-                android:text="@{viewModel.parentViewModel.state.descriptionDataModel.title}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivCard"
-                tools:text="Get YAP Young" />
-
-            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescription"
                 style="@style/SmallGrey"
                 android:gravity="center"
                 android:layout_height="wrap_content"
@@ -87,9 +100,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.8"
-                tools:ignore="MissingConstraints"
-                tools:text="Get YAP Young now" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+                tools:text="Get YAP Young now"
+                app:layout_constraintVertical_bias="50"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
