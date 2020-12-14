@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.more.yapforyou.YapForYouManager
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
+import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.BaseViewModel
@@ -23,11 +24,8 @@ class YapForYouMainViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun getDescriptionContent(tag: String) {
-        state.descriptionDataModel?.set(
-            yapForYouManager.getDescriptionData(tag = tag)
-        )
-    }
+    override fun getDescriptionContent(tag: String) : YapForYouDataModel? =  yapForYouManager.getDescriptionData(tag = tag)
+
 
     override fun configureYFYManager(tag: String) {
         yapForYouManager.configure(tag = tag)

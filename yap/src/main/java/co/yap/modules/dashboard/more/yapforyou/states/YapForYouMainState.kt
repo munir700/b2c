@@ -13,6 +13,5 @@ class YapForYouMainState(application: Application) : BaseState(), IYapForYouMain
     override var leftIconVisibility: ObservableBoolean = ObservableBoolean(false)
     override var descriptionDataModel: ObservableField<YapForYouDataModel>? = ObservableField()
     override var yapForYouManager: YapForYouManager = YapForYouManager(application.applicationContext)
-    override var yfyFeatureTitle: ObservableField<String> = ObservableField("")
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean(true)
 }

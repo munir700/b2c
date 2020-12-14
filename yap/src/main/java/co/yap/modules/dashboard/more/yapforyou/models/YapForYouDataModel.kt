@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.more.yapforyou.models
 
 data class YapForYouDataModel(
-    val title: String?,
+    var title: String?,
     val description: String?,
     val image: Int?,
     val buttonVisibility: Boolean?,
