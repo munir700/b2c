@@ -20,6 +20,7 @@ interface IYapForYouMain {
         fun handlePressButton(id: Int)
         fun getDescriptionContent(tag: String): YapForYouDataModel?
         fun configureYFYManager(tag : String)
+        fun getYfyTag() : String
     }
 
     interface State : IBase.State {

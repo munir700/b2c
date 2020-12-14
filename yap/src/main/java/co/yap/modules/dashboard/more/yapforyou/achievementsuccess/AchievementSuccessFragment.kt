@@ -12,7 +12,7 @@ class AchievementSuccessFragment : YapForYouBaseFragment<IAchievementSuccess.Vie
 
     override fun getLayoutId(): Int = R.layout.fragment_achievement_success
 
-    override val viewModel: IAchievementSuccess.ViewModel
+    override val viewModel: AchievementSuccessViewModel
         get() = ViewModelProviders.of(this).get(AchievementSuccessViewModel::class.java)
 
     override fun getBinding(): FragmentAchievementSuccessBinding {

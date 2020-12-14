@@ -5,6 +5,8 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IAchievementDetail {
     interface View : IBase.View<ViewModel> {
+        fun addObservers()
+        fun removeObservers()
     }
 
     interface ViewModel : IBase.ViewModel<State> {
