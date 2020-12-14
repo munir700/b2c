@@ -20,7 +20,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitle"
@@ -42,10 +42,22 @@
                     android:layout_width="@dimen/_250sdp"
                     android:layout_height="@dimen/_250sdp"
                     android:layout_marginTop="@dimen/margin_extra_large"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                     app:srcCompat="@drawable/card_spare" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/places_keep" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSubTitle"
@@ -59,7 +71,7 @@
                     android:text="@{viewModel.parentViewModel.state.descriptionDataModel.title}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivCard"
+                    app:layout_constraintTop_toBottomOf="@+id/animationView"
                     tools:text="Get YAP Young" />
 
                 <androidx.appcompat.widget.AppCompatTextView
