@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,5 +13,86 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitle"
+                    style="@style/Title3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:gravity="center"
+                    android:text="@{viewModel.parentViewModel.achievement.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="YAP Store" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCard"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_marginTop="@dimen/margin_extra_large"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    app:srcCompat="@drawable/card_spare" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubTitle"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:gravity="center"
+                    android:text="@{viewModel.parentViewModel.state.descriptionDataModel.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivCard"
+                    tools:text="Get YAP Young" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/SmallGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:gravity="center"
+                    android:text="@{viewModel.parentViewModel.state.descriptionDataModel.description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
+                    tools:text="Teach your kids how to be good with money. Set up a YAP Young account for your child and send them pocket money through the app into their YAP Young card! " />
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnGetYapYoungNow"
+                    style="@style/FragmentsBtnStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
+                    android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                    android:text="@{viewModel.parentViewModel.state.descriptionDataModel.buttonTitle}"
+                    app:btn_size="small"
+                    app:enableCoreButton="@{true}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:text="Get YAP Young now" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

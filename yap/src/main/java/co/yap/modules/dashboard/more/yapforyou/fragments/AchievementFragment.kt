@@ -41,7 +41,7 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
                         it.title = data.title
                     }
                 viewModel.parentViewModel?.state?.descriptionDataModel?.set(descriptionContent)
-                if (!data.completion) navigate(R.id.achievementDetailFragment) else navigate(R.id.achievementSuccessFragment)
+                if (data.completion) navigate(R.id.achievementDetailFragment) else navigate(R.id.achievementSuccessFragment)
             }
         }
     }
