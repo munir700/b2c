@@ -11,7 +11,7 @@ class YapForYouMainViewModel(application: Application) :
     BaseViewModel<IYapForYouMain.State>(application),
     IYapForYouMain.ViewModel {
 
-    override val state: YapForYouMainState = YapForYouMainState()
+    override val state: YapForYouMainState = YapForYouMainState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var achievement: Achievement? = null
     override var selectedPosition: Int = 0
@@ -29,7 +29,7 @@ class YapForYouMainViewModel(application: Application) :
         )
     }
 
-    override fun getYapForYouHashMap(tag: String) {
-        state.yapForYouManager.initiateHasMap(tag = tag)
+    override fun getYapForYouContent(tag: String) {
+        state.yapForYouManager.initializeYFYData(tag = tag)
     }
 }

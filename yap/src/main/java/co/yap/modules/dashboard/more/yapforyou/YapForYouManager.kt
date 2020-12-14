@@ -9,46 +9,42 @@ import co.yap.yapcore.enums.YFYAchievementType
 
 class YapForYouManager(val context: Context) {
     private var yfyContentMap: HashMap<String, YapForYouDataModel>? = null
-
-    val contxt: Context by lazy {
-        context
-    }
-
-    fun initiateHasMap(tag: String) {
+    
+    fun initializeYFYData(tag: String) {
         when (tag) {
             YFYAchievementType.GET_STARTED.type -> {
-                yfyContentMap = getStartedHashMap()
+                yfyContentMap = getStartedContent()
 
             }
             YFYAchievementType.UP_RUNNING.type -> {
-                yfyContentMap = getUpAndRunningHashMap()
+                yfyContentMap = getUpAndRunningContent()
 
             }
             YFYAchievementType.BETTER_TOGETHER.type -> {
-                yfyContentMap = getBetterTogetherHashMap()
+                yfyContentMap = getBetterTogetherContent()
 
             }
             YFYAchievementType.TAKE_THE_LEAP.type -> {
-                yfyContentMap = getTakeLeapHashMap()
+                yfyContentMap = getTakeLeapContent()
 
             }
             YFYAchievementType.YAP_STORE.type -> {
-                yfyContentMap = getYapStoreHashMap()
+                yfyContentMap = getYapStoreContent()
 
             }
             YFYAchievementType.YOU_ARE_PRO.type -> {
-                yfyContentMap = getYouAreProHashMap()
+                yfyContentMap = getYouAreProContent()
 
             }
         }
 
     }
 
-    private fun getStartedHashMap(): HashMap<String, YapForYouDataModel> {
+    private fun getStartedContent(): HashMap<String, YapForYouDataModel> {
         val hashMap: HashMap<String, YapForYouDataModel> = HashMap()
         hashMap[YFYAchievementType.OPEN_YAP_ACCOUNT.type] = YapForYouDataModel(
             title = "",
-            description =getString(contxt,Strings.screen_yfy_open_yap_account_description),
+            description =getString(context,Strings.screen_yfy_open_yap_account_description),
             image = R.drawable.card_spare,
             buttonVisibility = false,
             buttonTitle = ""
@@ -77,7 +73,7 @@ class YapForYouManager(val context: Context) {
         return hashMap
     }
 
-    private fun getUpAndRunningHashMap(): HashMap<String, YapForYouDataModel> {
+    private fun getUpAndRunningContent(): HashMap<String, YapForYouDataModel> {
         val hashMap: HashMap<String, YapForYouDataModel> = HashMap()
         hashMap[YFYAchievementType.USE_YAP_LOCALLY.type] = YapForYouDataModel(
             title = "",
@@ -110,7 +106,7 @@ class YapForYouManager(val context: Context) {
         return hashMap
     }
 
-    private fun getBetterTogetherHashMap(): HashMap<String, YapForYouDataModel> {
+    private fun getBetterTogetherContent(): HashMap<String, YapForYouDataModel> {
         val hashMap: HashMap<String, YapForYouDataModel> = HashMap()
         hashMap[YFYAchievementType.INVITE_A_FRIEND.type] = YapForYouDataModel(
             title = "",
@@ -143,7 +139,7 @@ class YapForYouManager(val context: Context) {
         return hashMap
     }
 
-    private fun getTakeLeapHashMap(): HashMap<String, YapForYouDataModel> {
+    private fun getTakeLeapContent(): HashMap<String, YapForYouDataModel> {
         val hashMap: HashMap<String, YapForYouDataModel> = HashMap()
         hashMap[YFYAchievementType.ORDER_VIRTUAL_CARD.type] = YapForYouDataModel(
             title = "",
@@ -176,7 +172,7 @@ class YapForYouManager(val context: Context) {
         return hashMap
     }
 
-    private fun getYapStoreHashMap(): HashMap<String, YapForYouDataModel> {
+    private fun getYapStoreContent(): HashMap<String, YapForYouDataModel> {
         val hashMap: HashMap<String, YapForYouDataModel> = HashMap()
         hashMap[YFYAchievementType.GET_YOUNG.type] = YapForYouDataModel(
             title = "",
@@ -209,7 +205,7 @@ class YapForYouManager(val context: Context) {
         return hashMap
     }
 
-    private fun getYouAreProHashMap(): HashMap<String, YapForYouDataModel> {
+    private fun getYouAreProContent(): HashMap<String, YapForYouDataModel> {
         val hashMap: HashMap<String, YapForYouDataModel> = HashMap()
         hashMap[YFYAchievementType.INVITE_TEN_FRIENDS.type] = YapForYouDataModel(
             title = "",

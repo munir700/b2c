@@ -11,7 +11,6 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.translation.Strings
-import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_for_you.*
 
@@ -83,7 +82,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
                 viewModel.state.toolbarVisibility.set(false)
-                data.name?.let { viewModel.parentViewModel?.getYapForYouHashMap(it) }
+                data.name?.let { viewModel.parentViewModel?.getYapForYouContent(it) }
                 navigate(R.id.achievementFragment)
             }
         }

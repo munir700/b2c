@@ -19,7 +19,7 @@ interface IYapForYouMain {
         var achievements: MutableList<Achievement>
         fun handlePressButton(id: Int)
         fun getDescriptionContent(tag: String)
-        fun getYapForYouHashMap(tag : String)
+        fun getYapForYouContent(tag : String)
     }
 
     interface State : IBase.State {
