@@ -12,4 +12,5 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
 
     override val viewModel: IAchievementDetail.ViewModel
         get() = ViewModelProviders.of(this).get(AchievementDetailViewModel::class.java)
+
 }
