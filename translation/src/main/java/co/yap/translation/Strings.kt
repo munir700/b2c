@@ -1795,4 +1795,8 @@ object Strings {
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
 
+
+    const val common_display_text_founder: String =
+        "common_display_text_founder"
+
 }

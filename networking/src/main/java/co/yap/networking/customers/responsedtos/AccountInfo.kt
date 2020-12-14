@@ -76,5 +76,5 @@ class AccountInfo(
     @SerializedName("encryptedAccountUUID")
     var encryptedAccountUUID: String? = null,
     @SerializedName("founder")
-    var isFounder: Boolean? = false
+    var founder: Boolean? = false
 ) : Parcelable

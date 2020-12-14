@@ -89,7 +89,7 @@ Java_co_yap_app_AAPApplication_signatureKeysFromJNI(JNIEnv *env, jobject /*this*
 
 #endif
 #ifdef DEV
-    api_endpoint = "https://dev-c.yap.co/";
+    api_endpoint = "https://dev-b.yap.co/";
     adjustAppToken = "am0wjeshw5xc";
     //dummy keys should be update on once dev server has SSL enabled
     sslPin1 = "sha256/e5L5CAoQjV0HFzAnunk1mPHVx1HvPxcfJYI0UtLyBwY=";
