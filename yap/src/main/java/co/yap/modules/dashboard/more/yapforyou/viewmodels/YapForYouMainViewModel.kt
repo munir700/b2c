@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
+import co.yap.modules.dashboard.more.yapforyou.YapForYouManager
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
@@ -16,6 +17,7 @@ class YapForYouMainViewModel(application: Application) :
     override var achievement: Achievement? = null
     override var selectedPosition: Int = 0
     override var achievements: MutableList<Achievement> = mutableListOf()
+    private val yapForYouManager: YapForYouManager = YapForYouManager(context)
 
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)
@@ -23,13 +25,11 @@ class YapForYouMainViewModel(application: Application) :
 
     override fun getDescriptionContent(tag: String) {
         state.descriptionDataModel?.set(
-            state.yapForYouManager.getDescriptionData(
-                tag = tag
-            )
+            yapForYouManager.getDescriptionData(tag = tag)
         )
     }
 
-    override fun getYapForYouContent(tag: String) {
-        state.yapForYouManager.initializeYFYData(tag = tag)
+    override fun configureYFYManager(tag: String) {
+        yapForYouManager.configure(tag = tag)
     }
 }

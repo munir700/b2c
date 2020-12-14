@@ -1190,7 +1190,7 @@
 
     <!--YAP For YOU GET Started-->
     <string name="screen_yfy_open_yap_account_description">That first step was easy! Welcome to YAP. We\'re so happy you\'re here :)</string>
-    <string name="screen_yfy_get_started_success_description">You’ve completed this task! Time for a little celebration 🥳</string>
+    <string name="screen_yfy_get_started_success_description">You’ve completed this task! \nTime for a little celebration 🥳</string>
     <string name="screen_yfy_set_your_pin_description">What are you waiting for? Go ahead and set a unique 4-digit PIN to start using your card</string>
     <string name="screen_yfy_add_money_to_account_button_label">Add money now</string>
     <string name="screen_yfy_add_money_to_account_description">Go on and add some money to your account so you can start spending! You can do this by using your existing bank card, make a wire transfer to this account or deposit cash at the nearest machine. </string>

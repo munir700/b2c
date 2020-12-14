@@ -19,7 +19,7 @@ interface IYapForYouMain {
         var achievements: MutableList<Achievement>
         fun handlePressButton(id: Int)
         fun getDescriptionContent(tag: String)
-        fun getYapForYouContent(tag : String)
+        fun configureYFYManager(tag : String)
     }
 
     interface State : IBase.State {
@@ -28,5 +28,6 @@ interface IYapForYouMain {
         var leftIconVisibility: ObservableBoolean
         var descriptionDataModel: ObservableField<YapForYouDataModel>?
         var yapForYouManager: YapForYouManager
+        var yfyFeatureTitle : ObservableField<String>
     }
 }

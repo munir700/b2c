@@ -10,7 +10,7 @@ import co.yap.yapcore.enums.YFYAchievementType
 class YapForYouManager(val context: Context) {
     private var yfyContentMap: HashMap<String, YapForYouDataModel>? = null
     
-    fun initializeYFYData(tag: String) {
+    fun configure(tag: String) {
         when (tag) {
             YFYAchievementType.GET_STARTED.type -> {
                 yfyContentMap = getStartedContent()

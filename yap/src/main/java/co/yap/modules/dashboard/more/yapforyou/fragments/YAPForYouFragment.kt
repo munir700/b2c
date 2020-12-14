@@ -82,7 +82,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
                 viewModel.state.toolbarVisibility.set(false)
-                data.name?.let { viewModel.parentViewModel?.getYapForYouContent(it) }
+                data.name?.let { viewModel.parentViewModel?.configureYFYManager(it) }
                 navigate(R.id.achievementFragment)
             }
         }
