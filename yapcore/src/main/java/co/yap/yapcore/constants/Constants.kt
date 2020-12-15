@@ -62,7 +62,7 @@ object Constants {
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
     const val URL_YAP_WEBSITE = "https://www.yap.com/"
-    const val URL_TERMS_CONDITION = "https://yap.com/terms"
+    const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
 
