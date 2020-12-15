@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvNotification"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_120sdp"
         app:cardCornerRadius="8dp"
         app:cardElevation="@dimen/_10sdp"
         app:cardUseCompatPadding="true">
@@ -65,9 +65,8 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_extra_small"
-                android:autoSizeTextType="uniform"
                 android:ellipsize="end"
-                android:lines="4"
+                android:lines="5"
                 android:lineSpacingExtra="0sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

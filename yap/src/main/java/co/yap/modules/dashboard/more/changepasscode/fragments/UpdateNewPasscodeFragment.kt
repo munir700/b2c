@@ -72,7 +72,8 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =

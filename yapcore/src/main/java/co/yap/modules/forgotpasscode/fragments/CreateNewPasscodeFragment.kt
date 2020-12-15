@@ -37,6 +37,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
 
         viewModel.mobileNumber = args.mobileNumber
         viewModel.token = args.token
+        viewModel.state.toolbarVisibility.set(args.navigationType == "VERIFY_PASSCODE_FRAGMENT")
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -81,7 +82,7 @@ class CreateNewPasscodeFragment : BaseBindingFragment<IPassCode.ViewModel>() {
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
-                activity?.finish()
+                navigateBack()
             }
         }
     }

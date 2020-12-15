@@ -6,7 +6,5 @@ import co.yap.networking.store.requestdtos.CreateStoreRequest
 import co.yap.networking.store.responsedtos.StoreParent
 
 interface StoresApi {
-    /*TODO: faheem ******************************/
-
     suspend fun getYapStores(createStoreRequest: CreateStoreRequest): RetroApiResponse<StoreParent>
 }

@@ -22,7 +22,6 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
@@ -103,7 +102,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             }
             Constants.EVENT_REMOVE_PHOTO -> {
                 viewModel.requestRemoveProfilePicture {
-                    if(it)
+                    if (it)
                         ivProfilePic.setImageDrawable(null)
                 }
             }

@@ -21,6 +21,8 @@ import co.yap.yapcore.helpers.Utils.dpToFloat
 import co.yap.yapcore.helpers.extentions.dip2px
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
+
 @Deprecated("Use EasyMoneyEditText")
 class CoreEditText : AppCompatEditText {
 
@@ -30,16 +32,16 @@ class CoreEditText : AppCompatEditText {
     private var customWidth: Int = 0
     private var customHeight: Int = 0
 
-    var decimals: Int = Utils.getConfiguredDecimals("AED")
+    var decimals: Int = Utils.getConfiguredDecimals(SessionManager.getDefaultCurrency())
     var units: Int = resources.getInteger(R.integer.unitsCount)
 
-    var currency: String? = "AED"
+    var currency: String? =SessionManager.getDefaultCurrency()
         set(value) {
             field = value
-            decimals = Utils.getConfiguredDecimals(value ?: "AED")
+            decimals = Utils.getConfiguredDecimals(value ?: SessionManager.getDefaultCurrency())
             filters =
                 arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
-            hint = "0".toFormattedCurrency(showCurrency = false, currency = value ?: "AED")
+            hint = "0".toFormattedCurrency(showCurrency = false, currency = value ?: SessionManager.getDefaultCurrency())
         }
 
     constructor(context: Context) : super(context) {
@@ -79,7 +81,7 @@ class CoreEditText : AppCompatEditText {
 
         filters =
             arrayOf(InputFilter.LengthFilter(units), DecimalDigitsInputFilter(decimals))
-        hint = "0".toFormattedCurrency(showCurrency = false, currency = currency ?: "AED")
+        hint = "0".toFormattedCurrency(showCurrency = false, currency = currency ?: SessionManager.getDefaultCurrency())
         background = getShapeBackground()
         //setCursorColor(context.getColors(R.color.colorPrimary))
         gravity = Gravity.CENTER

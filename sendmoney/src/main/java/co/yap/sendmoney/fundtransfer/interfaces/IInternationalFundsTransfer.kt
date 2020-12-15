@@ -40,6 +40,13 @@ interface IInternationalFundsTransfer {
         fun getTransactionThresholds()
         fun processPurposeList(list: ArrayList<PurposeOfPayment>)
         fun getCutOffTimeConfiguration()
+        fun checkCoolingPeriodRequest(
+            beneficiaryId: String?,
+            beneficiaryCreationDate: String?,
+            beneficiaryName: String?,
+            amount: String?,
+            success: () -> Unit
+        )
     }
 
     interface View : IBase.View<ViewModel>

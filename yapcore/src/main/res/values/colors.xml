@@ -134,6 +134,8 @@
     <color name="colorPlaceHolderGrey">#9391B3</color>
     <color name="colorOpaquAqua">#2400B9AE</color>
     <color name="colorOpaquSecondaryOrange">#24F57F17</color>
+    <color name="skeleton_mask">#E8ECF6</color>
+    <color name="skeleton_shimmer">#d5d5d5</color>
 
 
 <!--    StepView-->

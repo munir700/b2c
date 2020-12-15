@@ -21,6 +21,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
@@ -160,7 +161,7 @@ object UIBinder {
     @JvmStatic
     fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
         when (card.status) {
-            CardStatus.ACTIVE.name -> {
+            CardStatus.ACTIVE.name, CardStatus.PIN_BLOCKED.name -> {
                 if (card.cardType == CardType.DEBIT.type) {
                     if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                         linearLayout.visibility = GONE
@@ -178,7 +179,7 @@ object UIBinder {
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
@@ -200,7 +201,7 @@ object UIBinder {
     fun setCardStatus(imageView: ImageView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
@@ -236,7 +237,7 @@ object UIBinder {
     fun setCardStatus(text: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setTextForInactiveCard(text = text, card = card)
@@ -299,7 +300,7 @@ object UIBinder {
     fun setcardButtonStatus(coreButton: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setCardButtonTextForInactive(coreButton, card)
@@ -926,5 +927,13 @@ object UIBinder {
             autoCompleteTextView.isFocusable = true
             autoCompleteTextView.isFocusableInTouchMode = true
         }
+    }
+
+    @BindingAdapter("android:layout_marginTop")
+    @JvmStatic
+    fun setLayoutMarginTop(view: View, margin: Float) {
+        val lp = view.layoutParams as MarginLayoutParams
+        lp.setMargins(lp.leftMargin, margin.toInt(), lp.rightMargin, lp.bottomMargin)
+        view.layoutParams = lp
     }
 }

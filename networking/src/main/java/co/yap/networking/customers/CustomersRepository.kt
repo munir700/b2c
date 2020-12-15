@@ -9,10 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.customers.responsedtos.sendmoney.Country
-import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
@@ -299,7 +296,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
-    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =
+    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit> =
         executeSafely(call = { api.getCountryDataWithISODigit(countryCodeWith2Digit) })
 
     override suspend fun getCountryTransactionLimits(
@@ -352,4 +349,12 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.removeProfilePicture() })
+
+    override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
+        executeSafely(call = {
+            api.getCoolingPeriod(
+                smCoolingPeriodRequest.beneficiaryId,
+                smCoolingPeriodRequest.productCode
+            )
+        })
 }

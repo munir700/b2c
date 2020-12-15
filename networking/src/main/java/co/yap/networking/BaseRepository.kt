@@ -40,10 +40,7 @@ abstract class BaseRepository : IRepository {
             )
         } catch (exception: ConnectException) {
             return RetroApiResponse.Error(
-                ApiError(
-                    0,
-                    exception.localizedMessage ?: defaultConnectionErrorMessage
-                )
+                ApiError(0, defaultConnectionErrorMessage)
             )
         } catch (exception: Exception) {
             return RetroApiResponse.Error(

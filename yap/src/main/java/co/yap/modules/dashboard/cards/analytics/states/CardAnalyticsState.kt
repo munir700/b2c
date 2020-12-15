@@ -8,6 +8,7 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.managers.SessionManager
 
 class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics.State {
     val context = application.applicationContext
@@ -52,7 +53,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.monthlyMerchantAverageString)
         }
     @get:Bindable
-    override var currencyType: String? = "AED"
+    override var currencyType: String? = SessionManager.getDefaultCurrency()
         set(value) {
             field = value
             notifyPropertyChanged(BR.currencyType)
