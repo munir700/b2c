@@ -140,7 +140,7 @@ abstract class SMFeeViewModel<S : IBase.State>(application: Application) :
     ): String? {
         var feeAmount =
             enterAmount.parseToDouble() * (feeTier.feePercentage?.parseToDouble()?.div(100) ?: 0.0)
-        feeAmount = if (!feeCurrency.equals("AED", true)) {
+        feeAmount = if (!feeCurrency.equals("AED", true) && !slabCurrency.equals("AED", true)) {
             (feeAmount * fxRate).plus(fixedAmount)
         } else {
             feeAmount.plus(fixedAmount)
