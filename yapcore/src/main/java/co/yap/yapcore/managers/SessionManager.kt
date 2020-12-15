@@ -22,10 +22,7 @@ import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import com.liveperson.infra.LPAuthenticationParams
 import com.liveperson.messaging.sdk.api.LivePerson
 import com.liveperson.messaging.sdk.api.callbacks.LogoutLivePersonCallback
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 object SessionManager : IRepositoryHolder<CardsRepository> {
 
@@ -166,18 +163,20 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getDebitCard(success: (card: Card) -> Unit = {}) {
+     fun getDebitCard(success: (card: Card) -> Unit = {}) {
         GlobalScope.launch(Dispatchers.Main) {
-            when (val response = repository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        getDebitFromList(it)?.let { debitCard ->
-                            card.postValue(debitCard)
-                            success.invoke(debitCard)
-                        } ?: "Debit card not found"
+            async {
+                when (val response = repository.getDebitCards("DEBIT")) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let {
+                            getDebitFromList(it)?.let { debitCard ->
+                                card.postValue(debitCard)
+                                success.invoke(debitCard)
+                            } ?: "Debit card not found"
+                        }
                     }
-                }
-                is RetroApiResponse.Error -> {
+                    is RetroApiResponse.Error -> {
+                    }
                 }
             }
         }
