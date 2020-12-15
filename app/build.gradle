@@ -51,7 +51,7 @@ android {
         }
 
         stg {
-            versionCode 232
+            versionCode 233
             versionName "0.5.2"
             applicationIdSuffix ".stg"
             resValue "string", "app_name", "YAP Stage"
