@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
@@ -26,6 +28,8 @@ import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
@@ -72,6 +76,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
         }
     }
 }
+
 inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
     requestCode: Int = -1,
     options: Bundle? = null,
@@ -401,4 +406,19 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
 
-
+/**
+ *
+ */
+inline fun Activity.launchTourGuide(
+    screenName: TourGuideType,
+    init: ArrayList<GuidedTourViewDetail>.() -> Unit = {}
+): Boolean {
+    return if (!TourGuideManager.getBlockedTourGuideScreens.contains(screenName)) {
+        val list = arrayListOf<GuidedTourViewDetail>()
+        list.init()
+        val tour = TourSetup(this, list)
+        tour.startTour()
+        TourGuideManager.blockTourGuideScreen(screenName)
+        true
+    } else false
+}

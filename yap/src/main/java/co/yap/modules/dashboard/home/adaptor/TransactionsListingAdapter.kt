@@ -8,6 +8,7 @@ import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.databinding.ItemAnalyticsTransactionListBinding
 import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Translator.getString
@@ -15,22 +16,66 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
-import co.yap.yapcore.helpers.DateUtils.FORMAT_TIME_12H
 import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.helpers.extentions.*
 
-class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
-    BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
+class TransactionsListingAdapter(
+    private val list: MutableList<Transaction>,
+    private val adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION
+) : BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list
+    var analyticsItemPosition: Int = 0
+    var analyticsItemTitle: String = ""
+    var analyticsItemImgUrl: String? = null
+    override fun getLayoutIdForViewType(viewType: Int): Int {
+        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) R.layout.item_analytics_transaction_list else R.layout.item_transaction_list
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        (holder as TransactionListingViewHolder).onBind(list[position], position)
+        if (holder is TransactionListingViewHolder)
+            holder.onBind(list[position], position)
+        else if (holder is TransactionAnalyticsViewHolder)
+            holder.onBind(
+                list[position],
+                analyticsItemPosition,
+                analyticsItemTitle,
+                analyticsItemImgUrl
+            )
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return TransactionListingViewHolder(binding as ItemTransactionListBinding)
+        return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) {
+            TransactionAnalyticsViewHolder(
+                binding as ItemAnalyticsTransactionListBinding
+            )
+        } else
+            TransactionListingViewHolder(
+                binding as ItemTransactionListBinding
+            )
+    }
+
+    class TransactionAnalyticsViewHolder(private val itemAnalyticsTransactionListBinding: ItemAnalyticsTransactionListBinding) :
+        RecyclerView.ViewHolder(itemAnalyticsTransactionListBinding.root) {
+        fun onBind(
+            transaction: Transaction,
+            position: Int,
+            analyticsItemTitle: String,
+            analyticsItemImgUrl: String?
+        ) {
+            val resId = ImageBinding.getResId(
+                "ic_${ImageBinding.getDrawableName(analyticsItemTitle)}"
+            )
+            itemAnalyticsTransactionListBinding.viewModel =
+                ItemAnalyticsTransactionVM(
+                    transaction,
+                    position,
+                    if (resId == -1) null else analyticsItemTitle,
+                    analyticsItemImgUrl
+                )
+            itemAnalyticsTransactionListBinding.executePendingBindings()
+        }
     }
 
     class TransactionListingViewHolder(private val itemTransactionListBinding: ItemTransactionListBinding) :
@@ -101,7 +146,7 @@ class TransactionsListingAdapter(private val list: MutableList<Transaction>) :
             itemTransactionListBinding.tvTransactionTimeAndCategory.text = getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
-                transaction.getFormattedTime(outputFormat = FORMAT_TIME_12H), categoryTitle
+                transaction.getTransactionTime(), categoryTitle
             )
         }
 

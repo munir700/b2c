@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -35,11 +36,13 @@ import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
+import co.yap.modules.dashboard.home.fragments.YapHomeFragment
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.home.fragments.InviteFriendFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.store.fragments.YapStoreFragment
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity
@@ -57,6 +60,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.managers.SessionManager
@@ -64,16 +68,21 @@ import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
     IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
 
+    val fragments: Array<Fragment> = arrayOf(YapHomeFragment(), YapStoreFragment())
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_yap_dashboard
 
-    override val viewModel: IYapDashboard.ViewModel
+    override val viewModel: YapDashBoardViewModel
         get() = ViewModelProviders.of(this).get(YapDashBoardViewModel::class.java)
 
     lateinit var adapter: YapDashboardAdaptor
@@ -84,6 +93,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        TourGuideManager.configure(this)
         SessionManager.getCountriesFromServer { _, _ -> }
         inflateFloatingActonButton()
         setupPager()
@@ -93,7 +103,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         setupNewYapButtons()
         logEvent()
     }
-
 
     private fun logEvent() {
         val logger: AppEventsLogger = AppEventsLogger.newLogger(this)
@@ -181,7 +190,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
-                                launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
+                            launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
                             } else {
@@ -227,6 +236,33 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
             override fun onPageSelected(position: Int) {
                 enableDrawerSwipe(position == 0)
+                when (position) {
+                    YAP_HOME_FRAGMENT -> {
+                        CoroutineScope(Main).launch {
+                            delay(300)
+                            viewModel.isYapHomeFragmentVisible.value = true
+                        }
+
+                    }
+                    YAP_STORE_FRAGMENT -> {
+                        CoroutineScope(Main).launch {
+                            delay(300)
+                            viewModel.isYapStoreFragmentVisible.value = true
+                        }
+                    }
+                    YAP_CARDS_FRAGMENT -> {
+                        CoroutineScope(Main).launch {
+                            delay(300)
+                            viewModel.isYapCardsFragmentVisible.value = true
+                        }
+                    }
+                    YAP_MORE_FRAGMENT -> {
+                        CoroutineScope(Main).launch {
+                            delay(300)
+                            viewModel.isYapMoreFragmentVisible.value = true
+                        }
+                    }
+                }
             }
         })
     }
@@ -234,8 +270,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     @SuppressLint("InflateParams")
     private fun inflateFloatingActonButton() {
         val layoutInflater =
-            layoutInflater.inflate(co.yap.yapcore.R.layout.layout_overlay_live_chat,
-                null)
+            layoutInflater.inflate(
+                co.yap.yapcore.R.layout.layout_overlay_live_chat,
+                null
+            )
         if (layoutInflater is CounterFloatingActionButton) view = layoutInflater
     }
 
@@ -548,6 +586,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun doLogout() {
         SessionManager.doLogout(this)
         finishAffinity()
+    }
+
+    fun findVisibleFragment() {
+//        supportFragmentManager.findFragmentById(YapHomeFragment::class.java)
     }
 
 }

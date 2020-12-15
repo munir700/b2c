@@ -54,6 +54,7 @@
             <enum name="mini_small" value="3" />
             <enum name="mini_medium" value="4" />
             <enum name="mini_large" value="5" />
+            <enum name="mini" value="6" />
         </attr>
     </declare-styleable>
 
