@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.cards.home.viewholder
 
+import android.content.Context
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.BR
 import co.yap.databinding.ItemYapCardBinding
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel
 import co.yap.modules.others.helper.Constants
@@ -9,7 +11,10 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) :
+class YapCardItemViewHolder(
+    private val context: Context,
+    private val itemYapCardBinding: ItemYapCardBinding
+) :
     RecyclerView.ViewHolder(itemYapCardBinding.root) {
 
     fun onBind(
@@ -26,23 +31,23 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
 
         var cardName: String
 
-        if(Constants.CARD_TYPE_DEBIT==paymentCard?.cardType){
+        if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
             cardName = Constants.TEXT_PRIMARY_CARD
-        }else{
-            if (null!=paymentCard?.nameUpdated) {
-                if(paymentCard.nameUpdated!!){
-                    cardName = paymentCard.cardName?: ""
-                }else {
-                    if(paymentCard.physical){
+        } else {
+            if (null != paymentCard?.nameUpdated) {
+                if (paymentCard.nameUpdated!!) {
+                    cardName = paymentCard.cardName ?: ""
+                } else {
+                    if (paymentCard.physical) {
                         cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-                    }else{
+                    } else {
                         cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
                     }
                 }
             } else {
-                if(paymentCard?.physical!!){
+                if (paymentCard?.physical!!) {
                     cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-                }else{
+                } else {
                     cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
                 }
 
@@ -50,7 +55,9 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
 
         }
         itemYapCardBinding.tvCardName.text = cardName
-        itemYapCardBinding.viewModel = YapCardItemViewModel(paymentCard,position, onItemClickListener)
+        val viewModel = YapCardItemViewModel(context, paymentCard, position, onItemClickListener)
+        itemYapCardBinding.viewModel = viewModel
+       // itemYapCardBinding.setVariable(BR.viewModel, viewModel)
         itemYapCardBinding.executePendingBindings()
     }
 }

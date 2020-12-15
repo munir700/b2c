@@ -11,7 +11,10 @@ interface CardsRetroService {
 
     // Create Card Pin
     @POST(CardsRepository.URL_CREATE_PIN)
-    suspend fun createCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body createCardPinRequest: CreateCardPinRequest): Response<ApiResponse>
+    suspend fun createCardPin(
+        @Path("card-serial-number") cardSerialNumber: String,
+        @Body createCardPinRequest: CreateCardPinRequest
+    ): Response<ApiResponse>
 
     // Get Cards
     @GET(CardsRepository.URL_GET_CARDS)
@@ -67,7 +70,10 @@ interface CardsRetroService {
 
     // Update Card name
     @PUT(CardsRepository.URL_UPDATE_CARD_NAME)
-    suspend fun updateCardName(@Query("cardName") cardName: String, @Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
+    suspend fun updateCardName(
+        @Query("cardName") cardName: String,
+        @Query("cardSerialNumber") cardSerialNumber: String
+    ): Response<CardDetailResponseDTO>
 
     // report & block Card
     @POST(CardsRepository.URL_REPORT_LOST_OR_STOLEN_CARD)
@@ -82,7 +88,10 @@ interface CardsRetroService {
 
     // forgot card pin
     @POST(CardsRepository.URL_FORGOT_CARD_PIN)
-    suspend fun forgotCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body forgotCardPin: ForgotCardPin): Response<ApiResponse>
+    suspend fun forgotCardPin(
+        @Path("card-serial-number") cardSerialNumber: String,
+        @Body forgotCardPin: ForgotCardPin
+    ): Response<ApiResponse>
 
     // House hold cards design
     @GET(CardsRepository.URL_GET_HOUSE_HOLD_CARDS_DESIGN)
@@ -99,5 +108,9 @@ interface CardsRetroService {
     // reorder supplementary card
     @GET(CardsRepository.URL_ATM_CDM)
     suspend fun getCardsAtmCdm(): Response<AtmCdmResponse>
+
+    // get primary card (Debit card) payload
+    @GET(CardsRepository.URL_GET_SAMSUNG_PAY_TOKEN)
+    suspend fun getCardTokenForSamsungPay(): Response<ApiResponse>
 
 }

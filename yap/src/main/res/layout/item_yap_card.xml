@@ -56,9 +56,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
+            android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
-            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toBottomOf="@+id/imgCard"
@@ -82,11 +82,12 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="2"
-                android:ellipsize="end"
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="This card has expired" />
+
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"
@@ -101,18 +102,29 @@
                 tools:text="Update Card" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/includeWalletButton"
+            layout="@layout/layout_wallet_buttons"
+            android:layout_width="0dp"
+            app:viewModel = "@{viewModel}"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
+            app:layout_constraintStart_toStartOf="@+id/tvCardName"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName" />
+
         <LinearLayout
             android:id="@+id/lySeeDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/margin_medium_large"
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
             app:cardSeeDetailVisibility="@{viewModel.paymentCard}"
-            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
-            app:layout_constraintStart_toStartOf="@+id/tvCardName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
+            app:layout_constraintEnd_toEndOf="@+id/includeWalletButton"
+            app:layout_constraintStart_toStartOf="@+id/includeWalletButton"
+            app:layout_constraintTop_toBottomOf="@+id/includeWalletButton"
             tools:text="Update Card"
             tools:visibility="visible">
 
@@ -127,11 +139,11 @@
             <TextView
                 android:id="@+id/tvDetail"
                 style="@style/ASmall"
-                android:textColor="?attr/colorPrimaryAttr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center"
+                android:textColor="?attr/colorPrimaryAttr"
                 app:text="@{Strings.screen_cards_display_text_see_details}" />
         </LinearLayout>
 

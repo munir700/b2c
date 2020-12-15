@@ -210,14 +210,14 @@
         <activity
             android:name=".modules.dashboard.more.notification.activities.NotificationsActivity"
             android:screenOrientation="portrait" />
-        <meta-data
-            android:name="debug_mode"
-            android:value="Y" />
-        <meta-data
-            android:name="spay_debug_api_key"
-            android:value="98413ff2c07e4883a5c5981823db8a6b" />
-        <meta-data
-            android:name="spay_sdk_api_level"
-            android:value="2.14" />
+<!--        <meta-data-->
+<!--            android:name="debug_mode"-->
+<!--            android:value="Y" />-->
+<!--        <meta-data-->
+<!--            android:name="spay_debug_api_key"-->
+<!--            android:value="98413ff2c07e4883a5c5981823db8a6b" />-->
+<!--        <meta-data-->
+<!--            android:name="spay_sdk_api_level"-->
+<!--            android:value="2.14" />-->
     </application>
 </manifest>

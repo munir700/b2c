@@ -14,7 +14,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
@@ -139,6 +138,23 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                 is RetroApiResponse.Success -> {
                     delay(500)
                     state.loading = false
+                    success.invoke()
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                }
+            }
+        }
+    }
+
+    override fun getCardTokenForSamsungPay( success: () -> Unit) {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getCardTokenForSamsungPay()) {
+                is RetroApiResponse.Success -> {
+
                     success.invoke()
                 }
                 is RetroApiResponse.Error -> {

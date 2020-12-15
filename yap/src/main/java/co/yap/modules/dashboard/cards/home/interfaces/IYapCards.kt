@@ -17,6 +17,7 @@ interface IYapCards {
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(id: Int)
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
+        fun getCardTokenForSamsungPay(success: () -> Unit)
     }
 
     interface State : IBase.State {

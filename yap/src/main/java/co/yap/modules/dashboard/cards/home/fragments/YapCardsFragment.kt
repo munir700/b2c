@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -25,6 +26,7 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -35,14 +37,6 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
-import com.samsung.android.sdk.samsungpay.v2.SamsungPay
-import com.samsung.android.sdk.samsungpay.v2.SpaySdk
-import com.samsung.android.sdk.samsungpay.v2.StatusListener
-import com.samsung.android.sdk.samsungpay.v2.card.AddCardInfo
-import com.samsung.android.sdk.samsungpay.v2.card.CardManager
-import com.samsung.android.sdk.samsungpay.v2.card.GetCardListener
-import com.samsung.android.sdk.samsungpay.v2.payment.CardInfo
-import com.samsung.android.sdk.samsungpay.v2.payment.PaymentManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
@@ -207,6 +201,15 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                     }
                 }
+                R.id.btnSamsungPay -> {
+                    SamsungPayWalletManager.getInstance(requireContext())
+                        .getWalletInfo { status, bundle ->
+                            viewModel.getCardTokenForSamsungPay {
+                                Log.d("", "")
+                            }
+                        }
+
+                }
             }
         }
     }
@@ -328,13 +331,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openAddCard() {
-//        startActivityForResult(
-//            AddPaymentCardActivity.newIntent(requireContext()),
-//            EVENT_CARD_ADDED
-//        )
-
-        samsungPay()
-
+        startActivityForResult(
+            AddPaymentCardActivity.newIntent(requireContext()),
+            EVENT_CARD_ADDED
+        )
     }
 
     private fun openStatusScreen(view: View, pos: Int) {
@@ -383,192 +383,5 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-    }
-
-
-    private fun samsungPay() {
-        val bundle = Bundle()
-        bundle.putString(
-            SamsungPay.PARTNER_SERVICE_TYPE, SpaySdk.ServiceType.APP2APP.toString()
-        )
-
-//        val partnerInfo = PartnerInfo("a3efe152fa4344778aa69754b5f81a22", bundle)
-//        val partnerInfo = PartnerInfo("f8ac9f3b119645539bb138db4f64b80e", bundle)
-        val samsungPay =
-            SamsungPay(context, PartnerInfoHolder.getInstance(requireContext())?.partnerInfo)
-
-        samsungPay.getSamsungPayStatus(object : StatusListener {
-            override fun onSuccess(status: Int, bundle: Bundle?) {
-
-                when (status) {
-                    SamsungPay.SPAY_NOT_SUPPORTED -> {
-                        showToast("not supported samsung pay")
-                    }
-                    SamsungPay.SPAY_NOT_READY -> {// Activate Samsung Pay or update Samsung Pay, if needed
-                        showToast("samsung activate")
-                        samsungPay.activateSamsungPay()
-                    }
-                    SamsungPay.SPAY_READY -> {
-                        showToast("samsung ready")
-                        val keys: ArrayList<String> = ArrayList()
-                        keys.add(CardManager.WALLET_DM_ID)
-
-
-                        samsungPay.getWalletInfo(keys, object : StatusListener {
-                            override fun onSuccess(status: Int, walletData: Bundle?) {
-                                val walletsSize= walletData?.size().toString()
-                                showToast("your samsung pay wallets size is: $walletsSize")
-
-                                // following is the code to refine regarding add card
-
-//                                CardManager(
-//                                    requireContext(),
-//                                    PartnerInfoHolder.getInstance(requireContext())?.partnerInfo
-//                                ).addCard(getCardInfo(),
-//                                    object : AddCardListener {
-//                                        override fun onSuccess(
-//                                            p0: Int,
-//                                            p1: com.samsung.android.sdk.samsungpay.v2.card.Card?
-//                                        ) {
-//                                            showToast("onSuccess callback addCard=" + p1.toString())
-//                                        }
-//
-//                                        override fun onFail(errorCode: Int, error: Bundle?) {
-//                                            showToast("onFail callback is called, code: $errorCode")
-//                                        }
-//
-//                                        override fun onProgress(p0: Int, p1: Int, p2: Bundle?) {
-//                                        }
-//
-//                                    })
-                            }
-
-                            override fun onFail(p0: Int, p1: Bundle?) {
-                            }
-
-                        })
-
-
-//                        requestGetAllCards(1)
-
-
-                    }
-                    else ->                        // Not expected result
-                        showToast("samsung unexpected")
-                }
-            }
-
-            override fun onFail(errorCode: Int, bundle: Bundle?) {
-                showToast(errorCode.toString())
-            }
-        })
-    }
-
-    val getCardListener: GetCardListener = object : GetCardListener {
-        override fun onSuccess(cards: List<com.samsung.android.sdk.samsungpay.v2.card.Card>) {
-            showToast("onSuccess callback is called, list.size=" + cards.size)
-        }
-
-        override fun onFail(errorCode: Int, errorData: Bundle) {
-            showToast("onFail callback is called, errorCode:$errorCode")
-        }
-    }
-
-    private fun getCardInfo(): AddCardInfo? {
-        val cardType = com.samsung.android.sdk.samsungpay.v2.card.Card.CARD_TYPE_CREDIT_DEBIT
-        val tokenizationProvider = AddCardInfo.PROVIDER_MASTERCARD
-        val cardDetail = Bundle()
-        val testPayload = "ThisIsTestPayloadCardInfo1234567890"
-        cardDetail.putString(AddCardInfo.EXTRA_PROVISION_PAYLOAD, testPayload)
-        return AddCardInfo(cardType, tokenizationProvider, cardDetail)
-    }
-
-    fun updateSpay() {
-//        val bundle = Bundle()
-//        bundle.putString(
-//            SpaySdk.PARTNER_SERVICE_TYPE,
-//            SpaySdk.ServiceType.INAPP_PAYMENT.toString()
-//        )
-//
-//        val partnerInfo = PartnerInfo("f8ac9f3b119645539bb138db4f64b80e", bundle)
-//        val samsungPay = SamsungPay(context, partnerInfo)
-//        samsungPay.goToUpdatePage()
-
-        checkcard()
-    }
-
-    fun checkcard() {
-        val bundle = Bundle()
-        bundle.putString(
-            SamsungPay.PARTNER_SERVICE_TYPE,
-            SpaySdk.ServiceType.INAPP_PAYMENT.toString()
-        )
-        var paymentManager: PaymentManager =
-            PaymentManager(context, PartnerInfoHolder.getInstance(requireContext())?.partnerInfo)
-        paymentManager.requestCardInfo(Bundle(), cardInfoListener) // get Card Brand List
-
-//CardInfoListener is for listening requestCardInfo() callback events
-    }
-
-    val cardInfoListener: PaymentManager.CardInfoListener = object : PaymentManager.CardInfoListener {
-        /*
-     * This callback is received when the card information is received successfully.
-     */
-        override fun onResult(cardResponse: List<CardInfo>?) {
-            var visaCount = 0
-            var mcCount = 0
-            var amexCount = 0
-            var dsCount = 0
-            var brandStrings = "- Card Info : "
-            if (cardResponse != null) {
-                var brand: SpaySdk.Brand
-                for (i in cardResponse.indices) {
-                    brand = cardResponse[i].getBrand()
-                    when (brand) {
-                        SpaySdk.Brand.AMERICANEXPRESS -> amexCount++
-                        SpaySdk.Brand.MASTERCARD -> mcCount++
-                        SpaySdk.Brand.VISA -> visaCount++
-                        SpaySdk.Brand.DISCOVER -> dsCount++
-                        else -> {
-                        }
-                    }
-                }
-            }
-            brandStrings += "  VI=$visaCount, MC=$mcCount, AX=$amexCount, DS=$dsCount"
-           showToast("cardInfoListener onResult$brandStrings"            )
-        }
-
-        /*
-     * This callback is received when the card information cannot be retrieved.
-     * For example, when SDK service in the Samsung Pay app dies abnormally.
-     */
-        override fun onFailure(errorCode: Int, errorData: Bundle) {
-            //Called when an error occurs during In-App cryptogram generation
-           showToast(
-                "cardInfoListener onFailure : $errorCode"
-            )
-        }
-    }
-
-    private fun requestGetAllCards(requestCode: Int) {
-
-        val getCardListener: GetCardListener = object : GetCardListener {
-            override fun onSuccess(cards: List<com.samsung.android.sdk.samsungpay.v2.card.Card>) {
-                showToast(cards.size.toString())
-
-            }
-
-            override fun onFail(errorCode: Int, errorData: Bundle) {
-                showToast(errorData.toString())
-
-            }
-        }
-
-        var cardManager = CardManager(
-            requireContext(),
-            PartnerInfoHolder.getInstance(requireContext())?.partnerInfo
-        )
-        cardManager.getAllCards(null, getCardListener)
-
     }
 }

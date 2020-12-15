@@ -12,7 +12,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 
-class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
+class YapCardsAdaptor(val context: Context, private val list: MutableList<Card>) :
     BaseBindingRecyclerAdapter<Card, RecyclerView.ViewHolder>(list) {
 
     private val empty = 1
@@ -24,7 +24,7 @@ class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
 
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return if (binding is ItemYapCardBinding) YapCardItemViewHolder(binding) else YapCardEmptyItemViewHolder(
+        return if (binding is ItemYapCardBinding) YapCardItemViewHolder(context,binding) else YapCardEmptyItemViewHolder(
             binding as ItemYapCardEmptyBinding
         )
     }
