@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.main.interfaces
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.authentication.AuthRepository
@@ -27,7 +28,7 @@ interface IYapDashboard {
         fun copyAccountInfoToClipboard()
         fun getAccountInfo(): String
         val showUnverifedscreen: MutableLiveData<Boolean>
-        fun resendVerificationEmail()
+        fun resendVerificationEmail(callBack: () -> Unit)
         fun logout()
         val authRepository: AuthRepository
         var EVENT_LOGOUT_SUCCESS: Int
@@ -35,6 +36,8 @@ interface IYapDashboard {
         var isYapStoreFragmentVisible: MutableLiveData<Boolean>
         var isYapCardsFragmentVisible: MutableLiveData<Boolean>
         var isYapMoreFragmentVisible: MutableLiveData<Boolean>
+        var isUnverifiedScreenNotVisible: MutableLiveData<Boolean>
+        var isShowHomeTour: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {
