@@ -74,7 +74,5 @@ class AccountInfo(
     @SerializedName("eidNotificationContent")
     var EIDExpiryMessage: String? = null,
     @SerializedName("encryptedAccountUUID")
-    var encryptedAccountUUID: String? = null,
-    @SerializedName("founder")
-    var founder: Boolean? = false
+    var encryptedAccountUUID: String? = null
 ) : Parcelable
