@@ -214,7 +214,7 @@
                     app:adapter="@{viewModel.adapter}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:reverseLayout="false"
-                    tools:listitem="@layout/item_transaction_list" />
+                    tools:listitem="@layout/item_analytics_transaction_list" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </co.yap.widgets.MultiStateView>
     </LinearLayout>

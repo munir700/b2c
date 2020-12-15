@@ -26,6 +26,8 @@ class TransactionsListingAdapter(
 ) : BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
     var analyticsItemPosition: Int = 0
+    var analyticsItemTitle: String = ""
+    var analyticsItemImgUrl: String? = null
     override fun getLayoutIdForViewType(viewType: Int): Int {
         return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) R.layout.item_analytics_transaction_list else R.layout.item_transaction_list
     }
@@ -35,8 +37,12 @@ class TransactionsListingAdapter(
         if (holder is TransactionListingViewHolder)
             holder.onBind(list[position], position)
         else if (holder is TransactionAnalyticsViewHolder)
-            holder.onBind(list[position], analyticsItemPosition)
-
+            holder.onBind(
+                list[position],
+                analyticsItemPosition,
+                analyticsItemTitle,
+                analyticsItemImgUrl
+            )
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -52,9 +58,22 @@ class TransactionsListingAdapter(
 
     class TransactionAnalyticsViewHolder(private val itemAnalyticsTransactionListBinding: ItemAnalyticsTransactionListBinding) :
         RecyclerView.ViewHolder(itemAnalyticsTransactionListBinding.root) {
-        fun onBind(transaction: Transaction, position: Int) {
+        fun onBind(
+            transaction: Transaction,
+            position: Int,
+            analyticsItemTitle: String,
+            analyticsItemImgUrl: String?
+        ) {
+            val resId = ImageBinding.getResId(
+                "ic_${ImageBinding.getDrawableName(analyticsItemTitle)}"
+            )
             itemAnalyticsTransactionListBinding.viewModel =
-                ItemAnalyticsTransactionVM(transaction, position)
+                ItemAnalyticsTransactionVM(
+                    transaction,
+                    position,
+                    if (resId == -1) null else analyticsItemTitle,
+                    analyticsItemImgUrl
+                )
             itemAnalyticsTransactionListBinding.executePendingBindings()
         }
     }
