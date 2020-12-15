@@ -105,14 +105,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
-    private fun startFlowForSetPin() {
-        if (SessionManager.getPrimaryCard() != null) {
-            if (isShowSetPin(SessionManager.getPrimaryCard())) {
+    private fun startFlowForSetPin(card: Card?) {
+        card?.let {
+            if (isShowSetPin(it)) {
                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
-        } else toast("Invalid card found")
+        } ?: toast("Invalid card found")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -295,8 +295,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-        SessionManager.getDebitCard {
-            startFlowForSetPin()
+        SessionManager.card.value?.let {
+            startFlowForSetPin(it)
+        } ?: SessionManager.getDebitCard { card ->
+            startFlowForSetPin(card)
         }
 
         SessionManager.card.observe(this, Observer { primaryCard ->
