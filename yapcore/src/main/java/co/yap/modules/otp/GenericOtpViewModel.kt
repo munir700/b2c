@@ -2,6 +2,7 @@ package co.yap.modules.otp
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.authentication.AuthApi
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.messages.MessagesRepository
@@ -33,7 +34,7 @@ class GenericOtpViewModel(application: Application) :
     override var token: String? = ""
     override val state: GenericOtpState = GenericOtpState(application = application)
     private val authRepository: AuthApi = AuthRepository
-
+    override var requestKeyBoard: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate() {
         super.onCreate()
@@ -114,7 +115,7 @@ class GenericOtpViewModel(application: Application) :
                                 state.otp.get() ?: ""
                             )
                         )
-                        ) {
+                    ) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }
@@ -337,6 +338,7 @@ class GenericOtpViewModel(application: Application) :
             state.toast =
                 getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
 
+        requestKeyBoard.value = true
         state.reverseTimer(10, context)
         state.validResend = false
     }
