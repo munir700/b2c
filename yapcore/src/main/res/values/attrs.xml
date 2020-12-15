@@ -649,7 +649,7 @@
     </declare-styleable>
 
     <declare-styleable name="ShimmerRecyclerview">
-        <attr name="shimmerLayoutId" format="integer" />
+        <attr name="shimmerLayoutId" format="integer|reference" />
         <attr name="itemCount" format="integer" />
     </declare-styleable>
 </resources>

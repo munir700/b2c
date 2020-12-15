@@ -117,8 +117,7 @@
             app:layout_constraintTop_toBottomOf="@+id/layoutSearchView"
             app:text="@{viewModel.state.sendMoneyType.equals(SendMoneyTransferType.LOCAL.name) ? Strings.screen_send_money_display_text_all_local_beneficiaries : Strings.screen_send_money_display_text_all_beneficiaries}" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
+        <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
             android:id="@+id/rvAllBeneficiaries"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -133,7 +132,10 @@
             app:layout_constraintVertical_bias="0.0"
             app:recycleViewAdapter="@{viewModel.beneficiariesAdapter}"
             tools:listitem="@layout/layout_item_beneficiary"
-            tools:visibility="visible"/>
+            tools:visibility="visible"
+            app:shimmerLayoutId="@layout/layout_item_beneficiary_shimmer"
+            app:itemCount = "5"
+            app:rvAdapter="@{viewModel.beneficiariesAdapter}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

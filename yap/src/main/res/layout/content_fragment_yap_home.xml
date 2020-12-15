@@ -225,14 +225,12 @@
                 app:msv_emptyView="@layout/layout_welcome_to_yap_view"
                 app:msv_errorView="@layout/error_view_no_transaction_found">
                 <!--     Content List-->
-                <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.GONE}"
-                    tools:listitem="@layout/item_transaction_list"
-                    app:shimmerLayoutId = "@{R.layout.item_transaction_list_shimmer}"
-                    app:itemCount = "@{5}" />
+                    tools:listitem="@layout/item_transaction_list" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvNotificationStatus"
