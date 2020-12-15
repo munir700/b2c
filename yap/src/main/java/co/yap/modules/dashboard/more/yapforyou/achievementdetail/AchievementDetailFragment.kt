@@ -38,6 +38,9 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
             YFYAchievementType.ADD_CARD.type ->{
                 launchActivity<AddMoneyActivity> {  }
             }
+            YFYAchievementType.SET_PROFILE_PICTURE.type ->{
+                navigate(R.id.action_achievementDetailFragment_to_profileSettingsFragment2)
+            }
         }
     }
 
