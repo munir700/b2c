@@ -1,7 +1,7 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
-import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.networking.cards.CardsRepository
@@ -41,7 +41,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
-    public var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -80,9 +80,9 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 is RetroApiResponse.Success -> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
-                    isFounder.postValue(user?.founder)
+                    isFounder.postValue(user?.currentCustomer?.founder)
                     setupDataSetForBlockedFeatures()
-                    onAccountInfoSuccess.postValue(true)
+                    onAccountInfoSuccess.postValue(false)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -211,4 +211,5 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
+
 }
