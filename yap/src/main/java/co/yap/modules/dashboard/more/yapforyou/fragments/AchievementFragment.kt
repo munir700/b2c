@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
 import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
@@ -36,10 +37,15 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
         OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AchievementTask) {
+                /* descriptionContent =
+                     viewModel.parentViewModel?.getDescriptionContent(data.title)?.also {
+                         it.title = data.title
+                     }*/
                 descriptionContent =
-                    viewModel.parentViewModel?.getDescriptionContent(data.title)?.also {
-                        it.title = data.title
-                    }
+                    viewModel.parentViewModel?.getDescriptionContent(YFYAchievementType.ADD_CARD.type)
+                        ?.also {
+                            it.title = data.title
+                        }
                 viewModel.parentViewModel?.state?.descriptionDataModel?.set(descriptionContent)
                 if (data.completion) navigate(R.id.achievementDetailFragment) else navigate(R.id.achievementSuccessFragment)
             }

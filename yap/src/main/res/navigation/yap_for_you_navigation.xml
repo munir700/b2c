@@ -39,10 +39,20 @@
         android:id="@+id/achievementDetailFragment"
         android:name="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementDetailFragment"
         android:label="AchievementDetailFragment"
-        tools:layout="@layout/fragment_achievement_details" />
+        tools:layout="@layout/fragment_achievement_details" >
+        <action
+            android:id="@+id/action_achievementDetailFragment_to_profileSettingsFragment2"
+            app:destination="@id/profileSettingsFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/achievementSuccessFragment"
         android:name="co.yap.modules.dashboard.more.yapforyou.achievementsuccess.AchievementSuccessFragment"
         android:label="AchievementSuccessFragment"
         tools:layout="@layout/fragment_achievement_success" />
+    <fragment
+        android:id="@+id/profileSettingsFragment2"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ProfileSettingsFragment"
+        android:label="ProfileSettingsFragment"
+        tools:layout="@layout/fragment_profile"/>
+
 </navigation>
