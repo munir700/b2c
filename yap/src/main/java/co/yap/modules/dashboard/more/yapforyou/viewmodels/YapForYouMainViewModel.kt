@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.YFYAchievementType
 
 class YapForYouMainViewModel(application: Application) :
     BaseViewModel<IYapForYouMain.State>(application),
@@ -24,10 +25,14 @@ class YapForYouMainViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun getDescriptionContent(tag: String) : YapForYouDataModel? =  yapForYouManager.getDescriptionData(tag = tag)
+    override fun getDescriptionContent(tag: String): YapForYouDataModel? =
+        yapForYouManager.getDescriptionData(tag = tag)
 
 
     override fun configureYFYManager(tag: String) {
         yapForYouManager.configure(tag = tag)
     }
+
+//    override fun getYfyTag(): String = yapForYouManager.yfyTag ?: ""
+    override fun getYfyTag(): String = YFYAchievementType.ADD_CARD.type
 }

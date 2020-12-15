@@ -10,8 +10,9 @@ class AchievementDetailViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnButton(id: Int) {
-
+        clickEvent.setValue(id)
     }
 
     override val state: AchievementDetailState = AchievementDetailState()
+
 }

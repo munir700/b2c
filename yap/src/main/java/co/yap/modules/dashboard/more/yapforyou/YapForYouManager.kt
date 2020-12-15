@@ -9,6 +9,7 @@ import co.yap.yapcore.enums.YFYAchievementType
 
 class YapForYouManager(val context: Context) {
     private var yfyContentMap: HashMap<String, YapForYouDataModel>? = null
+     var yfyTag : String? = null
     
     fun configure(tag: String) {
         when (tag) {
@@ -232,6 +233,7 @@ class YapForYouManager(val context: Context) {
     }
 
     fun getDescriptionData(tag: String?): YapForYouDataModel? {
+        yfyTag = tag
         return yfyContentMap?.get(tag)
     }
 }
