@@ -39,8 +39,8 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/_12sdp"
-                app:fullName="@{viewModel.item.title==null?` `:viewModel.item.title}"
-                app:imageUrl="@{viewModel.item.merchantLogo == null ? ` ` : viewModel.item.merchantLogo}"
+                app:fullName="@{viewModel.analyticsItemTitle == null ? (viewModel.item.merchantCategoryName==null?` `:viewModel.item.merchantCategoryName.split(` `)[0]) : viewModel.analyticsItemTitle.split(` `)[0]}"
+                app:imageUrl="@{viewModel.analyticsItemImgUrl == null ? (viewModel.item.merchantLogo==null? ` ` : viewModel.item.merchantLogo) : viewModel.analyticsItemImgUrl}"
                 app:isBackground="@{true}"
                 app:position="@{viewModel.position}"
                 tools:src="@drawable/ic_access_alarm" />
