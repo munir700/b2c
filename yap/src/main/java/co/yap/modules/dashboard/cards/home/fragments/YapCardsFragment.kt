@@ -177,10 +177,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                 }
                 R.id.lySeeDetail -> {
-                    /* activity?.let { activity ->
-                          val tour = TourSetup(activity, setViewsArray())
-                          tour.startTour()
-                      }*/
                     openDetailScreen(pos)
                 }
                 R.id.lycard, R.id.imgAddCard, R.id.tvAddCard, R.id.tbBtnAddCard -> {

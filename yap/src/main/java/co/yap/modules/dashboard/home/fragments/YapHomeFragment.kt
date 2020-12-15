@@ -214,6 +214,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
             if (isSuccess) {
                 checkUserStatus()
+                viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
         getBindings().ivSearch.setOnLongClickListener {
