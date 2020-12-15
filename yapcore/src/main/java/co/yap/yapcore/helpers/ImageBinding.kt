@@ -15,7 +15,6 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 
-
 object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl")
@@ -150,7 +149,6 @@ object ImageBinding {
                 )
             }
             setCircleCropImage(imageView, imageUrl ?: "", resImg!!)
-
         } else {
             setDrawable(
                 imageView,
