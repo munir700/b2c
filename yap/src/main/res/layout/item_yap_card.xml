@@ -16,6 +16,11 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.enums.CardStatus" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.R" />
+
     </data>
 
 
@@ -34,7 +39,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/card_spare" />
+            app:cardtype="@{viewModel.paymentCard.cardType}"
+            app:isFounder="@{SessionManager.INSTANCE.isFounder()}"
+             />
 
         <ImageView
             android:id="@+id/imgStatus"
