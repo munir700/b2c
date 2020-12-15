@@ -126,14 +126,11 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvUserName"
                         android:layout_marginTop="@dimen/_8sdp"
-                         android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/_11sdp"
-                        app:text="@{Strings.common_display_text_founder}"
-                         android:visibility="@{SessionManager.INSTANCE.isFounder() ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.state.isFounder() == true ? View.VISIBLE : View.GONE}"
+                        app:text="@{Strings.common_display_text_founder}" />
 
-                        />
-<!--                    app:text="@{Strings.common_display_text_founder}" />-->
-                    <!--                        android:visibility="@{SessionManager.INSTANCE.user.isFounder ==true ? View.VISIBLE : View.GONE}" />-->
                 </RelativeLayout>
 
                 <net.cachapa.expandablelayout.ExpandableLayout
