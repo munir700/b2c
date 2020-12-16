@@ -41,7 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_medium_large"
                         >
                         <co.yap.widgets.pieview.PieChart
                             android:id="@+id/chart1"
@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_medium_large"
                         app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
                         tools:text="Monthly average is AED 1,600.47" />
 
