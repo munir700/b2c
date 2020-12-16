@@ -97,7 +97,7 @@
                 tools:itemCount="1"
                 tools:visibility="visible"
                 app:shimmerLayoutId="@layout/layout_item_beneficiary_shimmer"
-                app:itemCount = "5"
+                app:itemCount = "@integer/skeleton_layout_item_count"
                 app:rvAdapter="@{viewModel.adapter}" />
         </co.yap.widgets.MultiStateView>
 

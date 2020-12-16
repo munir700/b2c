@@ -134,7 +134,7 @@
             tools:listitem="@layout/layout_item_beneficiary"
             tools:visibility="visible"
             app:shimmerLayoutId="@layout/layout_item_beneficiary_shimmer"
-            app:itemCount = "5"
+            app:itemCount = "@integer/skeleton_layout_item_count"
             app:rvAdapter="@{viewModel.beneficiariesAdapter}"/>
 
 

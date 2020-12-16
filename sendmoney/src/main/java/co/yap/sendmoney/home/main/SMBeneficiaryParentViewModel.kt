@@ -44,7 +44,6 @@ class SMBeneficiaryParentViewModel(application: Application) :
 
     override fun requestAllBeneficiaries(sendMoneyType: String, completion: () -> Unit) {
         launch {
-//            state.loading = true
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
