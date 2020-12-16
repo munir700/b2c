@@ -92,6 +92,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         } else {
             llSignInWithTouch.visibility = View.GONE
         }
+
+        SessionManager.user?.let {
+            if(it.currentCustomer.getPicture() != null){
+                ivAddProfilePic.setImageResource(R.drawable.ic_edit_disable)
+            }
+        }
     }
 
     override fun onClick(eventType: Int) {
@@ -108,7 +114,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             Constants.EVENT_REMOVE_PHOTO -> {
                 viewModel.requestRemoveProfilePicture {
-                    if (it) ivProfilePic.setImageDrawable(null)
+                    if (it) {
+                        ivProfilePic.setImageDrawable(null)
+                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
+                    }
                 }
             }
         }
@@ -297,6 +306,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         viewModel.requestUploadProfilePicture(mediaFile.file)
                         viewModel.state.imageUri = mediaFile.file.toUri()
                         ivProfilePic.setImageURI(mediaFile.file.toUri())
+                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_disable)
+
                     }
                     else -> {
                         viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
