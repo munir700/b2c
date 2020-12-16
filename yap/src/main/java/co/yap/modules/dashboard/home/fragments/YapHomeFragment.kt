@@ -54,6 +54,7 @@ import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.OnTourItemClickListener
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
@@ -89,6 +90,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
     private lateinit var skeleton: Skeleton
     private lateinit var tvBalanceSkeleton: Skeleton
+    private var tourStep: TourSetup? = null
 
     override val viewModel: YapHomeViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -103,14 +105,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
-    private fun startFlowForSetPin() {
-        if (SessionManager.getPrimaryCard() != null) {
-            if (isShowSetPin(SessionManager.getPrimaryCard())) {
+    private fun startFlowForSetPin(card: Card?) {
+        card?.let {
+            if (isShowSetPin(it)) {
                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
-        } else toast("Invalid card found")
+        } ?: toast("Invalid card found")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -293,8 +295,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-        SessionManager.getDebitCard {
-            startFlowForSetPin()
+        SessionManager.card.value?.let {
+            startFlowForSetPin(it)
+        } ?: SessionManager.getDebitCard { card ->
+            startFlowForSetPin(card)
         }
 
         SessionManager.card.observe(this, Observer { primaryCard ->
@@ -386,7 +390,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         transactionViewHelper?.setTooltipOnZero()
                     }
                 }
-                showHomeTourGuide()
+                viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
             }
         })
 
@@ -427,9 +431,28 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             this,
             Observer { isHomeFragmentVisible ->
                 if (isHomeFragmentVisible) {
-                    showHomeTourGuide()
+                    viewModel.parentViewModel?.isShowHomeTour?.value = isHomeFragmentVisible
+                } else {
+                    tourStep?.let {
+                        if (it.isShowing) {
+                            it.dismiss()
+                        }
+                    }
                 }
             })
+        viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.observe(
+            this,
+            Observer { isUnverifiedScreenVisible ->
+                if (isUnverifiedScreenVisible) {
+                    viewModel.parentViewModel?.isShowHomeTour?.value = isUnverifiedScreenVisible
+                }
+            })
+
+        viewModel.parentViewModel?.isShowHomeTour?.observe(this, Observer {
+            if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
+                showHomeTourGuide()
+            }
+        })
     }
 
     private fun getTransactionPosition(item: HomeTransactionListData): Int? {
@@ -888,15 +911,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 delay(500)
                 SessionManager.card.value?.let { card ->
                     if (card.pinCreated) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
-                            addAll(setGraphViewsArray())
-                        }
+                        tourStep =
+                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
+                                addAll(setGraphViewsArray())
+                            }
                     }
                 } ?: SessionManager.getDebitCard {
                     if (SessionManager.card.value?.pinCreated == true) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
-                            addAll(setGraphViewsArray())
-                        }
+                        tourStep =
+                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
+                                addAll(setGraphViewsArray())
+                            }
                     }
                 }
             }
@@ -904,12 +929,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun showHomeTourGuide() {
         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
-            val isTrue = requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
+            tourStep = requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
                 addAll(setViewsArray())
             }
-            if (!isTrue)
+            if (tourStep == null)
                 showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
+
 
 }

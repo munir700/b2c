@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.main.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
@@ -35,6 +36,9 @@ class YapDashBoardViewModel(application: Application) :
     override var isYapStoreFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isYapCardsFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     override var isYapMoreFragmentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isUnverifiedScreenNotVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isShowHomeTour: MutableLiveData<Boolean> = MutableLiveData(false)
+
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -67,7 +71,7 @@ class YapDashBoardViewModel(application: Application) :
         }
     }
 
-    override fun resendVerificationEmail() {
+    override fun resendVerificationEmail(callBack: () -> Unit) {
         launch {
             state.loading = true
             when (val response =

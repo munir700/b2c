@@ -24,7 +24,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -214,7 +213,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupPager() {
-        SessionManager.card = MutableLiveData()
+//        SessionManager.card = MutableLiveData()
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 
@@ -241,25 +240,36 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapHomeFragmentVisible.value = true
+                            viewModel.isYapMoreFragmentVisible.value = false
+                            viewModel.isYapCardsFragmentVisible.value = false
+                            viewModel.isYapStoreFragmentVisible.value = false
                         }
-
                     }
                     YAP_STORE_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapStoreFragmentVisible.value = true
+                            viewModel.isYapHomeFragmentVisible.value = false
+                            viewModel.isYapMoreFragmentVisible.value = false
+                            viewModel.isYapCardsFragmentVisible.value = false
                         }
                     }
                     YAP_CARDS_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapCardsFragmentVisible.value = true
+                            viewModel.isYapStoreFragmentVisible.value = false
+                            viewModel.isYapHomeFragmentVisible.value = false
+                            viewModel.isYapMoreFragmentVisible.value = false
                         }
                     }
                     YAP_MORE_FRAGMENT -> {
                         CoroutineScope(Main).launch {
                             delay(300)
                             viewModel.isYapMoreFragmentVisible.value = true
+                            viewModel.isYapCardsFragmentVisible.value = false
+                            viewModel.isYapStoreFragmentVisible.value = false
+                            viewModel.isYapHomeFragmentVisible.value = false
                         }
                     }
                 }
@@ -297,7 +307,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.showUnverifedscreen.observe(this, Observer {
             if (it) {
                 showUnverifiedPopup()
-            }
+            } else
+                viewModel.isUnverifiedScreenNotVisible.value = true
         })
     }
 
@@ -366,10 +377,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         dialog.findViewById<AppCompatImageView>(R.id.ivClose).setOnClickListener {
             dialog.dismiss()
+            viewModel.isUnverifiedScreenNotVisible.value = true
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
-            viewModel.resendVerificationEmail()
+            viewModel.resendVerificationEmail() {
+                viewModel.isUnverifiedScreenNotVisible.value = true
+            }
         }
         dialog.show()
     }

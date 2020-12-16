@@ -26,6 +26,7 @@ import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.translation.Strings
 import co.yap.widgets.SpaceGridItemDecoration
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
@@ -42,6 +43,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
     lateinit var adapter: YapMoreAdaptor
     override fun getBindingVariable(): Int = BR.viewModel
+    private var tourStep: TourSetup? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_more_home
 
@@ -124,8 +126,14 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             (context as YapDashboardActivity).viewModel.isYapMoreFragmentVisible.observe(this,
                 Observer { isMoreFragmentVisible ->
                     if (isMoreFragmentVisible) {
-                        requireActivity().launchTourGuide(TourGuideType.YAP_MORE_SCREEN) {
-                            this.addAll(setViewsArray())
+                        tourStep =
+                            requireActivity().launchTourGuide(TourGuideType.YAP_MORE_SCREEN) {
+                                this.addAll(setViewsArray())
+                            }
+                    } else {
+                        tourStep?.let {
+                            if (it.isShowing)
+                                it.dismiss()
                         }
                     }
                 })
@@ -241,4 +249,5 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     override fun getBinding(): FragmentMoreHomeBinding {
         return viewDataBinding as FragmentMoreHomeBinding
     }
+
 }

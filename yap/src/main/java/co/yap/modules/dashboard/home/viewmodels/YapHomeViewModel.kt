@@ -258,7 +258,7 @@ class YapHomeViewModel(application: Application) :
                 HomeNotification(
                     id = "3",
                     title = "Set PIN",
-                    description = "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.",
+                    description = "This 4-digit code is yours to keep. Please don't share it with anyone",
                     action = NotificationAction.SET_PIN
                 )
             )
