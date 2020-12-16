@@ -548,7 +548,10 @@ public class StepView extends View {
             if (isRtl()) {
                 result = getMeasuredWidth() - getPaddingRight() - selectedCircleRadius;
             } else {
-                result = getPaddingLeft() + selectedCircleRadius;
+                if (stepsNumber == 1) {
+                    result = (int) (getMeasuredWidth() / 2.2) - getPaddingLeft() + selectedCircleRadius;
+                } else
+                    result = (int) (getMeasuredWidth() / ((stepsNumber) * 1.4)) - getPaddingLeft() + selectedCircleRadius;
             }
         }
         return result;
@@ -577,7 +580,10 @@ public class StepView extends View {
             if (isRtl()) {
                 result = getPaddingLeft() + selectedCircleRadius;
             } else {
-                result = getMeasuredWidth() - getPaddingRight() - selectedCircleRadius;
+                if (stepsNumber == 1) {
+                    result = getMeasuredWidth() - getPaddingRight() - selectedCircleRadius;
+                } else
+                    result = (int) (getMeasuredWidth() / 1.5) - getPaddingRight() - selectedCircleRadius;
             }
         }
         return result;

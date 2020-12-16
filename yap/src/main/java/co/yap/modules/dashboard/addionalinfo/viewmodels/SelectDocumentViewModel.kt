@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.addionalinfo.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.addionalinfo.adapters.UploadAdditionalDocumentAdapter
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
-import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocument
+import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.modules.dashboard.addionalinfo.states.SelectDocumentState
 
 class SelectDocumentViewModel(application: Application) :

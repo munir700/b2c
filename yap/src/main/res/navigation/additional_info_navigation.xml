@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_selectDocumentFragment_to_additionalInfoEmployment"
             app:destination="@id/additionalInfoEmployment" />
+        <action
+            android:id="@+id/action_selectDocumentFragment_to_additionalInfoQuestion"
+            app:destination="@id/additionalInfoQuestion" />
     </fragment>
 
     <fragment

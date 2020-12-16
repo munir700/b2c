@@ -34,6 +34,7 @@ class AdditionalInfoActivity : BaseBindingActivity<IAdditionalInfo.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObserver()
+        getBindings().stepView.setStepsNumber(viewModel.state.steps.get() ?: 1)
     }
 
     private fun getBindings(): ActivityAdditionalInfoBinding =

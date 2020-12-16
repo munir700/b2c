@@ -18,9 +18,7 @@
             android:id="@+id/step_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxl"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_xxxl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +34,7 @@
             app:sv_selectedStepNumberColor="@color/white"
             app:sv_stepLineWidth="@dimen/_1sdp"
             app:sv_stepNumberTextSize="@dimen/_12sdp"
-            app:sv_stepsNumber="3" />
+            app:sv_stepsNumber="2" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"

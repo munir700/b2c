@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.addionalinfo.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -8,6 +9,8 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.viewmodels.SelectDocumentViewModel
+import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewModel>(),
@@ -31,11 +34,17 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            if (data is AdditionalDocument) {
-            viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded =
-                !viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded
-            viewModel.uploadAdditionalDocumentAdapter.notifyItemChanged(pos)
-//            }
+            if (data is AdditionalDocument) {
+                if (data.isUploaded == false)
+                    startFragmentForResult<AdditionalInfoScanDocumentFragment>(fragmentName = AdditionalInfoScanDocumentFragment::class.java.name) { resultCode, _ ->
+                        if (resultCode == Activity.RESULT_OK) {
+                            viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded =
+                                !(viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded
+                                    ?: false)
+                            viewModel.uploadAdditionalDocumentAdapter.notifyItemChanged(pos)
+                        }
+                    }
+            }
         }
     }
 
@@ -43,7 +52,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
         when (id) {
             R.id.btnNext -> {
                 viewModel.moveToNext()
-                findNavController().navigate(R.id.action_selectDocumentFragment_to_additionalInfoEmployment)
+                findNavController().navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
             }
         }
     }

@@ -16,5 +16,6 @@ interface IAdditionalInfo {
     interface State : IBase.State {
         val title: ObservableField<String>
         val subTitle: ObservableField<String>
+        val steps: ObservableField<Int>
     }
 }

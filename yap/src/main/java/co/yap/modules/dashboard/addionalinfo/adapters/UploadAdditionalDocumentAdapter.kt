@@ -5,7 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemUploadAdditionalDocumentBinding
-import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocument
+import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.modules.dashboard.addionalinfo.viewmodels.UploadAdditionalDocumentItemViewModel
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
