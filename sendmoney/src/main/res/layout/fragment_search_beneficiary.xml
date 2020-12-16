@@ -86,7 +86,7 @@
             app:msv_errorView="@layout/layout_error_view"
             app:msv_viewState="content">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
                 android:id="@+id/rvAllBeneficiaries"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -95,7 +95,10 @@
                 app:recycleViewAdapter="@{viewModel.adapter}"
                 tools:listitem="@layout/layout_item_beneficiary"
                 tools:itemCount="1"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                app:shimmerLayoutId="@layout/layout_item_beneficiary_shimmer"
+                app:itemCount = "5"
+                app:rvAdapter="@{viewModel.adapter}" />
         </co.yap.widgets.MultiStateView>
 
 
