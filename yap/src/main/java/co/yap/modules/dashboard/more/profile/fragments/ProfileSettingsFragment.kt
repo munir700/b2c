@@ -95,7 +95,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         SessionManager.user?.let {
             if(it.currentCustomer.getPicture() != null){
-                ivAddProfilePic.setImageResource(R.drawable.ic_edit_disable)
+                ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
             }
         }
     }
@@ -306,7 +306,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         viewModel.requestUploadProfilePicture(mediaFile.file)
                         viewModel.state.imageUri = mediaFile.file.toUri()
                         ivProfilePic.setImageURI(mediaFile.file.toUri())
-                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_disable)
+                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
 
                     }
                     else -> {
