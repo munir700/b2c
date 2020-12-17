@@ -15,6 +15,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProviders
+import co.yap.translation.Strings
 import co.yap.widgets.AdvancedWebView
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
@@ -41,8 +42,15 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             pageUrl = it.getString(PAGE_URL, "")
-            title = it.getString(TOOLBAR_TITLE, "")
+            title = it.getString(
+                TOOLBAR_TITLE,
+                getString(Strings.screen_help_support_display_text_title)
+            )
         }
+        viewModel.state.toolbarTitle =
+            title ?: getString(
+                Strings.screen_help_support_display_text_title
+            )
         initAdvanceWebView()
 
     }
