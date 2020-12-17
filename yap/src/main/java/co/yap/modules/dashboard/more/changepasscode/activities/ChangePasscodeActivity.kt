@@ -19,7 +19,7 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_change_passcode
     override val passCodeData: PassCodeData = PassCodeData()
-    override val viewModel: IChangePassCode.ViewModel
+    override val viewModel: ChangePassCodeViewModel
         get() = ViewModelProviders.of(this).get(ChangePassCodeViewModel::class.java)
 
     override val navigator: IBaseNavigator
