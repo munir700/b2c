@@ -85,7 +85,7 @@
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:maxLength="26"
@@ -111,8 +111,10 @@
                 app:enableCoreButton="@{viewModel.state.enabelCoreButton}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ctcCardEdit" />
+                app:layout_constraintTop_toBottomOf="@+id/ctcCardEdit"
+                app:layout_constraintVertical_bias="0.877" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

@@ -135,7 +135,10 @@ class AddSpareCardViewModel(application: Application) :
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
                 //   AddVirtualSpareCardRequest(SessionManager.user?.currentCustomer?.getFullName())
-                AddVirtualSpareCardRequest(cardName)
+                AddVirtualSpareCardRequest(
+                    cardName,
+                    parentViewModel?.selectedVirtualCard?.designCode
+                )
             )) {
                 is RetroApiResponse.Success -> {
                     paymentCard = response.data.data

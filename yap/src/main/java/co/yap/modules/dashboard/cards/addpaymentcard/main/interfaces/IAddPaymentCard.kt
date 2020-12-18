@@ -18,6 +18,7 @@ interface IAddPaymentCard {
         var physicalCardFee: String
         var virtualCardFee: String
         var virtualCardDesignsList: ArrayList<VirtualCardDesigns>
+        var selectedVirtualCard: VirtualCardDesigns?
     }
 
     interface View : IBase.View<ViewModel>

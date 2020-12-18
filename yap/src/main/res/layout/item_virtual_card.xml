@@ -10,18 +10,42 @@
             type="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.VirtualCardItemViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/imgCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:contentDescription="@string/empty_string"
-            android:src="@drawable/card_spare"
+            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/card_spare" />
-    </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="2"
+            android:maxLength="26"
+            android:maxLines="2"
+            android:text="@{viewModel.cardName}"
+            android:textColor="@color/colorLightGreyWithOpacity"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCard"
+            app:layout_constraintEnd_toEndOf="@+id/ivCard"
+            app:layout_constraintStart_toStartOf="@+id/ivCard"
+            app:layout_constraintTop_toTopOf="@+id/ivCard"
+            tools:text="adasdasdadasdasdasdasdsadasdasd"
+            tools:textColor="@color/colorLightGreyWithOpacity" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

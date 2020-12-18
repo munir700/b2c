@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual
 
+import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemVirtualCardBinding
-import co.yap.modules.dashboard.cards.addpaymentcard.models.VirtualCardModel
+import co.yap.networking.cards.responsedtos.VirtualCardDesigns
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.loadCardImage
 
 class VirtualCardViewHolder(private val itemYapVirtualCardBinding: ItemVirtualCardBinding) :
     RecyclerView.ViewHolder(itemYapVirtualCardBinding.root) {
@@ -19,9 +21,13 @@ class VirtualCardViewHolder(private val itemYapVirtualCardBinding: ItemVirtualCa
 
     fun onBind(
         position: Int,
-        virtualCard: VirtualCardModel?
+        virtualCard: VirtualCardDesigns,
+        cardName: ObservableField<String>
     ) {
-        itemYapVirtualCardBinding.viewModel = VirtualCardItemViewModel()
+        itemYapVirtualCardBinding.viewModel =
+            VirtualCardItemViewModel(cardName, virtualCard, position)
+
+        itemYapVirtualCardBinding.ivCard.loadCardImage(virtualCard.frontSideDesignImage)
         itemYapVirtualCardBinding.executePendingBindings()
     }
 }

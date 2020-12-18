@@ -30,7 +30,9 @@
             <include
                 android:id="@+id/include"
                 layout="@layout/layout_add_spare_card_header"
-                app:cardType="@{viewModel.state.cardType}" />
+                app:cardType="@{viewModel.state.cardType}"
+                app:cardName="@{viewModel.state.cardName}"
+                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

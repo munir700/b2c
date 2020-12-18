@@ -18,5 +18,7 @@ data class VirtualCardDesigns(
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("designCodeColors")
-    val designCodeColors: List<CardDesignColor>
+    val designCodeColors: List<CardDesignColor?>? = null,
+    @SerializedName("editAndDelete")
+    val editAndDelete: Boolean? = null
 )

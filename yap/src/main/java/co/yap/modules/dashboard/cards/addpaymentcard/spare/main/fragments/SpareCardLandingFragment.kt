@@ -38,10 +38,17 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         super.onCreate(savedInstanceState)
         viewModel.getVirtualCardFee()
         viewModel.parentViewModel?.getVirtualCardDesigns {
-            Glide.with(this)
-                .load(viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage)
-                .placeholder(R.drawable.card_spare)
-                .into(linearLayout2)
+            if (!viewModel.parentViewModel?.virtualCardDesignsList.isNullOrEmpty()) {
+                addSpareCard.enableButton(true)
+                viewModel.parentViewModel?.selectedVirtualCard =
+                    viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()
+                Glide.with(this)
+                    .load(viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage)
+                    .placeholder(R.drawable.card_spare)
+                    .into(linearLayout2)
+            } else {
+                addSpareCard.enableButton(false)
+            }
         }
     }
 
