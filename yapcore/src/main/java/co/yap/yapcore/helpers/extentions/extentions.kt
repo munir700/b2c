@@ -95,7 +95,8 @@ fun ImageView.loadImage(path: String) {
 fun ImageView.loadCardImage(path: String?) {
     Glide.with(this)
         .load(path)
-        .placeholder(R.drawable.card_spare)
+        .placeholder(R.drawable.card_place_holder)
+        .error(R.drawable.card_spare)
         .into(this)
 }
 
