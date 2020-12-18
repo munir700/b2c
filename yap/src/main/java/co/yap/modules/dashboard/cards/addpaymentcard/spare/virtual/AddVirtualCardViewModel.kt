@@ -21,8 +21,7 @@ class AddVirtualCardViewModel(application: Application) :
     }
 
     override fun getCardThemesOption(): MutableList<VirtualCardDesigns> {
-        val cards: MutableList<VirtualCardDesigns> = mutableListOf()
         state.cardDesigns?.postValue(parentViewModel?.virtualCardDesignsList)
-        return cards
+        return parentViewModel?.virtualCardDesignsList ?: arrayListOf()
     }
 }

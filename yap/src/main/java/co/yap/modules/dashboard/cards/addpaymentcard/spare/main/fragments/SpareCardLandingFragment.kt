@@ -59,8 +59,8 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         context?.let { SharedPreferenceManager(it).removeValue(KEY_AVAILABLE_BALANCE) }
 
         activity?.let {
-            ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)
-                .state.tootlBarTitle = "Add a virtual spare card"
+            ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java).state.tootlBarTitle =
+                "Add a virtual spare card"
         }
         setObservers()
     }

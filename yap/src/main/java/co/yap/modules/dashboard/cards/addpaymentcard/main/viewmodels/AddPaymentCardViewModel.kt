@@ -43,6 +43,7 @@ class AddPaymentCardViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.viewState.value = response.error.message
                         state.viewState.value = false
+                        success.invoke()
                     }
                 }
             }
