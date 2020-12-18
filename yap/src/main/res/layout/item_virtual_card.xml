@@ -13,17 +13,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/imgCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/card_place_holder">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center"
+            android:contentDescription="@string/empty_string"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="@string/empty_string"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/card_spare" />
 
