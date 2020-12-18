@@ -17,15 +17,14 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdap
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
 class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(), ISpareCards.View,
     SpareCardsLandingAdapter.OnItemClickedListener {
 
-    override fun onItemClick(benefitsModel: BenefitsModel) {
-
-    }
+    override fun onItemClick(benefitsModel: BenefitsModel) {}
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -38,6 +37,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getVirtualCardFee()
+        viewModel.parentViewModel?.getVirtualCardDesigns {
+            Glide.with(this)
+                .load(viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage)
+                .placeholder(R.drawable.card_spare)
+                .into(linearLayout2)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,7 +68,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 "",
                 false
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     private fun addBenefitRecyclerView() {
