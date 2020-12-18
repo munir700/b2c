@@ -8,6 +8,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
 import co.yap.translation.Translator.getString
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -25,6 +26,7 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemYapCardBinding.imgCard.layoutParams = params
+        itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
 
         var cardName: String
 
