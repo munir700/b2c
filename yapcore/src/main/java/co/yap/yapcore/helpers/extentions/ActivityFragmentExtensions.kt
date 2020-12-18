@@ -418,8 +418,8 @@ inline fun Activity.launchTourGuide(
         val list = arrayListOf<GuidedTourViewDetail>()
         list.init()
         val tour = TourSetup(this, list)
-        tour.startTour()
-        TourGuideManager.blockTourGuideScreen(screenName)
+//        tour.startTour()
+//        TourGuideManager.blockTourGuideScreen(screenName)
         return tour
     } else null
 }
