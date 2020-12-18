@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.addionalinfo.viewmodels.SelectDocumentViewModel
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.interfaces.OnItemClickListener
+import java.io.File
 
 class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewModel>(),
     ISelectDocument.View {
@@ -36,8 +37,11 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AdditionalDocument) {
                 if (data.isUploaded == false)
-                    startFragmentForResult<AdditionalInfoScanDocumentFragment>(fragmentName = AdditionalInfoScanDocumentFragment::class.java.name) { resultCode, _ ->
+                    startFragmentForResult<AdditionalInfoScanDocumentFragment>(fragmentName = AdditionalInfoScanDocumentFragment::class.java.name) { resultCode, data ->
                         if (resultCode == Activity.RESULT_OK) {
+                            data?.let {
+                                val file: File? = it.extras?.get("file") as File
+                            }
                             viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded =
                                 !(viewModel.uploadAdditionalDocumentAdapter.getDataList()[pos].isUploaded
                                     ?: false)

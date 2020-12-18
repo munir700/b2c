@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoScanDocumentViewModel" />
+            type="co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoViewDocumentViewModel" />
 
     </data>
 
@@ -15,45 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.digitify.identityscanner.camera.CameraView
-            android:id="@+id/camera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:keepScreenOn="true"
-            app:cameraAudio="off"
-            app:cameraAutoFocusMarker="@string/cameraview_default_autofocus_marker"
-            app:cameraEngine="camera1"
-            app:cameraExperimental="false"
-            app:cameraFacing="back"
-            app:cameraFlash="auto"
-            app:cameraGestureLongTap="none"
-            app:cameraGesturePinch="none"
-            app:cameraGestureScrollHorizontal="none"
-            app:cameraGestureScrollVertical="none"
-            app:cameraGestureTap="autoFocus"
-            app:cameraHdr="off"
-            app:cameraMode="picture"
-            app:cameraPictureMetering="false"
-            app:cameraPictureSizeBiggest="true"
-            app:cameraPlaySounds="false"
-            app:cameraPreview="glSurface"
-            app:cameraWhiteBalance="auto"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivOverLay"
-            android:layout_width="@dimen/_240sdp"
-            android:layout_height="@dimen/_320sdp"
-            android:background="@drawable/bg_overly_rectangle"
+            android:id="@+id/ivReviewImage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivClose">
-
-        </androidx.appcompat.widget.AppCompatImageView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivClose"
@@ -83,30 +53,30 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="Scan Passport ID page"
+                android:text='@{"Review your " + viewModel.state.documentName}'
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/btnScan"
+                app:layout_constraintBottom_toTopOf="@id/btnUpload"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Scan Passport ID page" />
+                tools:text="Review your Passport ID" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnScan"
+                android:id="@+id/btnUpload"
                 style="@style/RectangleBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:minWidth="150dp"
-                android:onClick="@{viewModel::onToolBarClick}"
+                android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
                 android:padding="8dp"
-                android:text="Scan"
+                android:text="Upload"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Scan" />
+                tools:text="Upload" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/additional_info_navigation"
-    app:startDestination="@id/selectDocumentFragment">
+    app:startDestination="@id/additionalInfoStartFragment">
     <fragment
         android:id="@+id/selectDocumentFragment"
         android:name="co.yap.modules.dashboard.addionalinfo.fragments.SelectDocumentFragment"
@@ -33,5 +33,19 @@
         android:id="@+id/additionalInfoQuestion"
         android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoQuestionFragment"
         android:label="AdditionalInfoQuestion"
-        tools:layout="@layout/fragment_additional_info_question"/>
+        tools:layout="@layout/fragment_additional_info_question" />
+    <fragment
+        android:id="@+id/additionalInfoStartFragment"
+        android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoStartFragment"
+        android:label="AdditionalInfoStart"
+        tools:layout="@layout/fragment_additional_info_start">
+        <action
+            android:id="@+id/action_additionalInfoStartFragment_to_selectDocumentFragment"
+            app:destination="@id/selectDocumentFragment" />
+        <action
+            android:id="@+id/action_additionalInfoStartFragment_to_additionalInfoQuestion"
+            app:destination="@id/additionalInfoQuestion" />
+    </fragment>
+
+
 </navigation>
