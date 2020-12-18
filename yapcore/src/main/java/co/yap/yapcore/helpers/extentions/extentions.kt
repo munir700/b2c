@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -88,6 +89,13 @@ fun ImageView.loadImage(resourceId: Int, requestOptions: RequestOptions) {
 fun ImageView.loadImage(path: String) {
     Glide.with(this)
         .load(path).centerCrop()
+        .into(this)
+}
+
+fun ImageView.loadCardImage(path: String?) {
+    Glide.with(this)
+        .load(path)
+        .placeholder(R.drawable.card_spare)
         .into(this)
 }
 

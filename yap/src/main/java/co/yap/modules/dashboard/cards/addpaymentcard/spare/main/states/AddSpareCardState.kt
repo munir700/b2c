@@ -17,6 +17,13 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
             notifyPropertyChanged(BR.cardType)
         }
 
+    @get:Bindable
+    override var cardName: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardName)
+        }
+
     //add virtual card layout fields
     @get:Bindable
     override var virtualCardFee: String = ""

@@ -20,7 +20,7 @@ class AddPaymentCardViewModel(application: Application) :
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: AddPaymentCardsState = AddPaymentCardsState()
     override var virtualCardDesignsList: ArrayList<VirtualCardDesigns> = arrayListOf()
-
+    override var selectedVirtualCard: VirtualCardDesigns? = null
 
     override fun handlePressOnBackButton() {
         backButtonPressEvent.value = true
@@ -43,6 +43,7 @@ class AddPaymentCardViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.viewState.value = response.error.message
                         state.viewState.value = false
+                        success.invoke()
                     }
                 }
             }

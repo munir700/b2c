@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentAddSpareCardBinding
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
@@ -28,6 +29,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
@@ -40,7 +42,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.fragment_add_spare_card
 
-    override val viewModel: IAddSpareCard.ViewModel
+    override val viewModel: AddSpareCardViewModel
         get() = ViewModelProviders.of(this).get(AddSpareCardViewModel::class.java)
 
     private lateinit var navController: NavController
@@ -205,9 +207,15 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         viewModel.isFromBlockCardScreen =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
 
-        viewModel.cardName = arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardName } as String
+        viewModel.cardName =
+            arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardName } as String
+        viewModel.state.cardName = viewModel.cardName ?: ""
         viewModel.requestInitialData()
+        getBinding().include.cardView.loadCardImage(viewModel.parentViewModel?.selectedVirtualCard?.frontSideDesignImage)
+    }
 
+    private fun getBinding(): FragmentAddSpareCardBinding {
+        return viewDataBinding as FragmentAddSpareCardBinding
     }
 
     override fun onResume() {
