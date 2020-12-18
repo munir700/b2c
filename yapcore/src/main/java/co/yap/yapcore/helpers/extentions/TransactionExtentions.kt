@@ -10,6 +10,7 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -206,32 +207,15 @@ fun Transaction?.getCategoryTitle(): String {
     } ?: return ""
 }
 
+
 fun Transaction?.getMerchantCategoryIcon(): Int {
     this?.let { transaction ->
-        return (when {
-            transaction.merchantCategoryName.equals(
-                "shopping",
-                true
-            ) -> R.drawable.ic_shopping_no_bg
-            transaction.merchantCategoryName.equals(
-                "education",
-                true
-            ) -> R.drawable.ic_education_no_bg
-            transaction.merchantCategoryName.equals(
-                "utilities",
-                true
-            ) -> R.drawable.ic_utilities_no_bg
-            transaction.merchantCategoryName.equals(
-                "healthAndBeauty",
-                true
-            ) -> R.drawable.ic_health_and_beauty_no_bg
-            transaction.merchantCategoryName.equals(
-                "Insurance",
-                true
-            ) -> R.drawable.ic_insurance_no_bg
-            else -> R.drawable.ic_other_no_bg
-        })
-    } ?: return R.drawable.ic_other_no_bg
+        return ImageBinding.getResId(
+            "ic_" + ImageBinding.getDrawableName(
+                transaction.merchantCategoryName ?: ""
+            ) + "_no_bg"
+        )
+    } ?: return -1
 }
 
 fun Transaction?.getMapImage(): Int {

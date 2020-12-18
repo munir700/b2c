@@ -92,43 +92,45 @@ class PhoneVerificationSignInFragment :
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-            SessionManager.updateCardBalance {  }
-            if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                val bundle = Bundle()
-                SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
-                activity?.finish()
-            } else {
-                if (BiometricUtil.hasBioMetricFeature(requireActivity())
-                ) {
-                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
-                            co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
-                            false
-                        )
+            SessionManager.getDebitCard { card ->
+                SessionManager.updateCardBalance { }
+                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                    val bundle = Bundle()
+                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                    bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+                    startActivity(OnBoardingHouseHoldActivity.getIntent(requireContext(), bundle))
+                    activity?.finish()
+                } else {
+                    if (BiometricUtil.hasBioMetricFeature(requireActivity())
                     ) {
+                        if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                                co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                                false
+                            )
+                        ) {
+                            if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                                startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                            else
+                                findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+
+                            activity?.finish()
+                        } else {
+                            val action =
+                                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                    Constants.TOUCH_ID_SCREEN_TYPE
+                                )
+                            findNavController().navigate(action)
+                        }
+
+                    } else {
                         if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         else
                             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
 
                         activity?.finish()
-                    } else {
-                        val action =
-                            PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                Constants.TOUCH_ID_SCREEN_TYPE
-                            )
-                        findNavController().navigate(action)
                     }
-
-                } else {
-                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                    else
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-
-                    activity?.finish()
                 }
             }
         }

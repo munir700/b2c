@@ -303,6 +303,9 @@
     <string name="screen_cards_display_text_lost_stolen_card">Card reported damaged or lost/stolen.</string>
     <string name="screen_cards_display_text_lost_stolen_card_action">Reorder Now</string>
     <string name="screen_cards_display_text_card_removed_success">Card successfully removed!</string>
+    <string name="screen_cards_display_text_tour_add_card_heading">Add card</string>
+    <string name="screen_cards_display_text_tour_add_card_description">Click here to add a new card to your account. You can create a spare virtual card or upgrade to Prime or Metal!</string>
+    <string name="screen_cards_display_text_tour_add_card_btn_text">OK</string>
 
 
     <!-- Spare Card Landing Screen -->
@@ -445,6 +448,11 @@
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Account details</string>
     <string name="screen_more_detail_display_text_bank_details">YAP account details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_heading">Your bank details</string>
+    <string name="screen_more_detail_display_text_tour_bank_details_description">Tap here to view your complete bank account details, useful for topping up and sharing with contacts for transfer purposes.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_heading">YAP for you</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_description">A fun way to track your progress on YAP, complete missions and explore all the different aspects of the YAP app and account.</string>
+    <string name="screen_more_detail_display_text_tour_yap_for_you_btn_text">Finish</string>
 
 
     <!--   Profile Settings screen-->
@@ -1159,4 +1167,29 @@
 
     <!-- Dashboard Menu -->
     <string name="screen_dashboard_menu_display_text_my_profile">My profile</string>
+
+    <!--    Tour guide-->
+
+    <string name="screen_dashboard_tour_guide_display_text_top_menu">Top menu</string>
+    <string name="screen_dashboard_tour_guide_display_text_top_menu_des">Get quick access to useful links related to your profile, account details, analytics, support and contacting YAP</string>
+    <string name="screen_dashboard_tour_guide_display_text_balance">Your current balance</string>
+    <string name="screen_dashboard_tour_guide_display_text_balance_des">This is an indicator of your available balance. It is always updated in real time and supported by a daily transaction graph.</string>
+    <string name="screen_dashboard_tour_guide_display_text_top_yap_it">YAP it</string>
+    <string name="screen_dashboard_tour_guide_display_text_top_yap_it_des">Launch the YAP it button to carry out important functions like sending money, adding funds to your account and paying bills. </string>
+    <string name="screen_dashboard_tour_guide_display_text_search">Search</string>
+    <string name="screen_dashboard_tour_guide_display_text_finish">Finish</string>
+    <string name="screen_dashboard_tour_guide_display_text_search_des">Click here to search for specific transactions in your account history</string>
+    <string name="screen_dashboard_tour_guide_display_text_graph">Daily transaction graph</string>
+    <string name="screen_dashboard_tour_guide_display_text_graph_des">View your transactions plotted on a graph and drag your fingers along the bars to view a specific date.</string>
+    <string name="screen_dashboard_tour_guide_display_text_packages">Purchased packages</string>
+    <string name="screen_dashboard_tour_guide_display_text_packages_des">View and manage all your purchased YAP packages and add-ons in a single place.</string>
+    <string name="screen_dashboard_tour_guide_display_text_more">More icon</string>
+    <string name="screen_dashboard_tour_guide_display_text_more_des">Click here to add a name to your card, view statements or remove it from your account. </string>
+    <string name="screen_dashboard_tour_guide_display_text_freeze_card">Freeze card</string>
+    <string name="screen_dashboard_tour_guide_display_text_freeze_card_des">You can temporarily block usage of your card by clicking on Freeze. Don’t worry though, you can always unfreeze your card instantly.</string>
+    <string name="screen_dashboard_tour_guide_display_text_limit">Set limits</string>
+    <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
+    <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
+
+
 </resources>

@@ -45,5 +45,6 @@ interface IYapHome {
         var showTxnShimmer: MutableLiveData<co.yap.widgets.State>
         var isTransEmpty: ObservableField<Boolean>
         var isUserAccountActivated: ObservableField<Boolean>
+        var isPartnerBankStatusActivated: ObservableField<Boolean>
     }
 }

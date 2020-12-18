@@ -34,16 +34,14 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     }
 
     private fun initComponents() {
-        getBinding().recycler.adapter = YapContactsAdaptor(mutableListOf())
-        (getBinding().recycler.adapter as YapContactsAdaptor).setItemListener(listener)
+        viewModel.contactsAdapter.setItemListener(listener)
     }
 
     private fun initState() {
         viewModel.getState().observe(this, Observer { state ->
-            if ((getBinding().recycler.adapter as YapContactsAdaptor).getDataList()
-                    .isNullOrEmpty()
+            if (viewModel.contactsAdapter.getDataList().isNullOrEmpty()
             ) {
-                getBinding().recycler.visibility = View.GONE
+                getBinding().recycler.visibility = View.VISIBLE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().ivNoYapContact.visibility =
@@ -51,7 +49,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                 getBinding().btnInvite.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value!!) View.GONE else View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
-                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+                    if (state == PagingState.LOADING) View.GONE else View.GONE
 
             } else {
                 getBinding().ivNoYapContact.visibility = View.GONE
@@ -68,7 +66,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
-            (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
+            viewModel.contactsAdapter.setList(it)
             getBinding().txtError.visibility = View.GONE
             getBinding().ivNoYapContact.visibility = View.GONE
             getBinding().tvContactListDescription.visibility =
@@ -86,12 +84,12 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         })
 
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
-            (getBinding().recycler.adapter as YapContactsAdaptor).filter.filter(it)
+            viewModel.contactsAdapter.filter.filter(it)
         })
 
         viewModel.parentViewModel?.isSearching?.value?.let {
             if (it)
-                (getBinding().recycler.adapter as YapContactsAdaptor).filterCount.observe(
+                viewModel.contactsAdapter.filterCount.observe(
                     this,
                     Observer {
                         getBinding().tvContactListDescription.visibility =

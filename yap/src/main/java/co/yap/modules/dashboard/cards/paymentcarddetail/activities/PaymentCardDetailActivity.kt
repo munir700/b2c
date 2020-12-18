@@ -48,6 +48,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.adjust.AdjustEvents
@@ -55,19 +56,22 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.cancelAllSnackBar
-import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.showSnackBar
 import co.yap.yapcore.helpers.spannables.underline
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.snackbar.Snackbar
+import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
+import kotlinx.android.synthetic.main.fragment_yap_cards.*
 import kotlinx.android.synthetic.main.layout_card_info.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
@@ -306,6 +310,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupView() {
+
+
         viewModel.card.value = intent.getParcelableExtra(CARD)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
@@ -360,6 +366,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(300)
+            launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN) {
+                addAll(setViewsArray())
+            }
         }
     }
 
@@ -782,6 +794,46 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
         }
+    }
+
+    private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
+        val list = ArrayList<GuidedTourViewDetail>()
+        val toolBarView: View? = ctToolbar?.findViewById(R.id.ivRightIcon)
+        toolBarView?.let { toolBarRightIcon ->
+            list.add(
+                GuidedTourViewDetail(
+                    toolBarRightIcon,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_more),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_more_des),
+                    padding = Configuration.getDimension(R.dimen._15sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._50sdp)
+                )
+            )
+        }
+        if (getBindings().rlPrimaryCardActions.visibility == View.VISIBLE) {
+            list.add(
+                GuidedTourViewDetail(
+                    getBindings().llFreezePrimaryCard,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card_des),
+                    padding = Configuration.getDimension(R.dimen._43sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp)
+                )
+            )
+
+            list.add(
+                GuidedTourViewDetail(
+                    getBindings().llCardLimits,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_limit),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_limit_des),
+                    padding = Configuration.getDimension(R.dimen._43sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp),
+                    btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                    showSkip = false
+                )
+            )
+        }
+        return list
     }
 
 }

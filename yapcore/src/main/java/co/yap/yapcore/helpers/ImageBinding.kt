@@ -15,7 +15,6 @@ import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 
-
 object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl")
@@ -150,7 +149,6 @@ object ImageBinding {
                 )
             }
             setCircleCropImage(imageView, imageUrl ?: "", resImg!!)
-
         } else {
             setDrawable(
                 imageView,
@@ -164,7 +162,6 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl", "app:srcCompat")
     fun setNavigationViewImageUrl(imageView: AppCompatImageView, url: String, resource: Int) {
-
         if (resource > 0) imageView.setImageResource(resource) else setImage(imageView, url)
     }
 

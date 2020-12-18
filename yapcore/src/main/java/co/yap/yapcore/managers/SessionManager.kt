@@ -42,7 +42,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
-    private const val DEFAULT_CURRENCY : String = "AED"
+    private const val DEFAULT_CURRENCY: String = "AED"
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -166,7 +166,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getDebitCard(success: (card: Card) -> Unit = {}) {
+    fun getDebitCard(success: (card: Card?) -> Unit = {}) {
         GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
@@ -178,6 +178,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     }
                 }
                 is RetroApiResponse.Error -> {
+                    success.invoke(null)
                 }
             }
         }
@@ -228,6 +229,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })

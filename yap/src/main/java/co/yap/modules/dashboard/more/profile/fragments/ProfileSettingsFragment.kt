@@ -23,6 +23,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.RequestCodes.REQUEST_CAMERA_PERMISSION
@@ -92,6 +93,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         } else {
             llSignInWithTouch.visibility = View.GONE
         }
+
+        SessionManager.user?.let {
+            if(it.currentCustomer.getPicture() != null){
+                ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
+            }
+        }
     }
 
     override fun onClick(eventType: Int) {
@@ -108,7 +115,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             Constants.EVENT_REMOVE_PHOTO -> {
                 viewModel.requestRemoveProfilePicture {
-                    if (it) ivProfilePic.setImageDrawable(null)
+                    if (it) {
+                        ivProfilePic.setImageDrawable(null)
+                        ivAddProfilePic.setImageResource(R.drawable.ic_add)
+                    }
                 }
             }
         }
@@ -196,7 +206,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
+                            co.yap.yapcore.constants.Constants.TOOLBAR_TITLE to getString(
+                                Strings.screen_profile_settings_display_terms_and_conditions
+                            )
                         ), showToolBar = false
                     )
                 }
@@ -297,6 +310,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         viewModel.requestUploadProfilePicture(mediaFile.file)
                         viewModel.state.imageUri = mediaFile.file.toUri()
                         ivProfilePic.setImageURI(mediaFile.file.toUri())
+                        ivAddProfilePic.setImageResource(R.drawable.ic_edit_profile)
+
                     }
                     else -> {
                         viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"

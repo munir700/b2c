@@ -12,6 +12,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import org.json.JSONObject
 import java.io.IOException
@@ -72,16 +73,20 @@ class SpareCardLandingViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (response.data.data != null) {
                         if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                            state.virtualCardFee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedCurrency()
+                            response.data.data?.tierRateDTOList?.get(0)?.let { feeTier ->
+                                val feeAmount =
+                                    (feeTier.feeAmount ?: 0.0).plus(fixedAmount)
+                                val vatAmount =
+                                    (feeAmount * (feeTier.vatPercentage?.parseToDouble()?.div(100)
+                                        ?: 0.0))
+                                state.virtualCardFee =
+                                    feeAmount.plus(vatAmount).toString()
+                                        .toFormattedCurrency()
+                            }
                         }
                     } else {
                         state.physicalCardFee = "0.0".toFormattedCurrency()
                     }
-
                     parentViewModel?.physicalCardFee = state.physicalCardFee
                 }
                 is RetroApiResponse.Error -> {
