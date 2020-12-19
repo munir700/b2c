@@ -122,8 +122,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
     private fun checkPermission(type: Int) {
         permissionHelper = PermissionHelper(
             this, arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.CAMERA
             ), REQUEST_CAMERA_PERMISSION
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
@@ -140,7 +139,7 @@ class ScanQRCodeFragment : BaseBindingFragment<IScanQRCode.ViewModel>(),
                     if (grantedPermission.contains(Manifest.permission.CAMERA))
                         initQRCodeReaderView()
                 } else {
-                    if (grantedPermission.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) initEasyImage()
+
                 }
             }
 

@@ -154,14 +154,14 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
             override fun onPermissionDenied() {
                 if (type == cameraPer) {
-                    showToast("Can't proceed without permissions")
+                    showToast("Can't proceed without permissions, Please go to settings and allow permission")
                 } else
                     openY2YScreen()
             }
 
             override fun onPermissionDeniedBySystem() {
                 if (type == cameraPer) {
-                    showToast("Can't proceed without permissions")
+                    showToast("Can't proceed without permissions, Please go to settings and allow permission")
                 } else
                     openY2YScreen()
             }
