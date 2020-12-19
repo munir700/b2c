@@ -8,7 +8,10 @@ import co.yap.modules.dashboard.addionalinfo.states.AdditionalInfoStartState
 import co.yap.yapcore.BaseViewModel
 
 class AdditionalInfoStartViewModel(application: Application) :
-    BaseViewModel<IAdditionalInfoStart.State>(application = application),
+    AdditionalInfoBaseViewModel<IAdditionalInfoStart.State>(application = application),
     IAdditionalInfoStart.ViewModel {
     override val state: IAdditionalInfoStart.State = AdditionalInfoStartState(application)
+    override fun onCreate() {
+        super.onCreate()
+    }
 }

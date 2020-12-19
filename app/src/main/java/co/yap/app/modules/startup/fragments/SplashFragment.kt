@@ -65,8 +65,7 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
             )
             findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
         } else {
-//            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-            launchActivity<AdditionalInfoActivity> { }
+            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
         }
     }
 

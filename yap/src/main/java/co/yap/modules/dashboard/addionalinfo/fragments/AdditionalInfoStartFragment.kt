@@ -3,22 +3,22 @@ package co.yap.modules.dashboard.addionalinfo.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAdditionalInfoStartBinding
-import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoStart
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoStartViewModel
-import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.enums.AdditionalInfoScreenType
+import co.yap.yapcore.helpers.extentions.startFragment
 
-class AdditionalInfoStartFragment : BaseBindingFragment<IAdditionalInfoStart.ViewModel>(),
+class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoStart.ViewModel>(),
     IAdditionalInfoStart.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_additional_info_start
 
-    override val viewModel: IAdditionalInfoStart.ViewModel
+    override val viewModel: AdditionalInfoStartViewModel
         get() = ViewModelProviders.of(this).get(AdditionalInfoStartViewModel::class.java)
 
     private fun getBindings(): FragmentAdditionalInfoStartBinding =
@@ -33,7 +33,32 @@ class AdditionalInfoStartFragment : BaseBindingFragment<IAdditionalInfoStart.Vie
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                launchActivity<AdditionalInfoActivity> { }
+                moveNextScreen()
+            }
+        }
+    }
+
+    private fun moveNextScreen() {
+        when (viewModel.getScreenType()) {
+            AdditionalInfoScreenType.BOTH_SCREENS.name -> {
+                val document =
+                    viewModel.getDocumentList()
+                        .filter { additionalDocument -> additionalDocument.isUploaded == false }
+                if (document.isNotEmpty()) {
+                    findNavController().navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
+                } else {
+                    viewModel.moveStep()
+                    findNavController().navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+                }
+            }
+            AdditionalInfoScreenType.DOCUMENT_SCREEN.name -> {
+                findNavController().navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
+            }
+            AdditionalInfoScreenType.QUESTION_SCREEN.name -> {
+                findNavController().navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+            }
+            AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
+                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name)
             }
         }
     }

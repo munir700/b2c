@@ -9,6 +9,7 @@ import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfo
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.enums.AdditionalInfoScreenType
 import kotlinx.coroutines.delay
 
 class AdditionalInfoViewModel(application: Application) :
@@ -16,6 +17,7 @@ class AdditionalInfoViewModel(application: Application) :
     IAdditionalInfo.ViewModel {
     override val stepCount: MutableLiveData<Int> = MutableLiveData(0)
     override val state: IAdditionalInfo.State = AdditionalInfoState()
+    override val additionalInfoResponse: MutableLiveData<AdditionalInfoResponse> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -26,14 +28,41 @@ class AdditionalInfoViewModel(application: Application) :
     fun getAdditionalInfo() {
         launch {
             state.loading = true
-            getMockData()
-            delay(3000)
+            additionalInfoResponse.value = getMockData()
+            delay(5000)
+            setSteps()
             state.loading = false
         }
     }
 
-    private fun getMockData() {
-        val additionalInfoResponse: AdditionalInfoResponse = AdditionalInfoResponse(getData())
+    private fun setSteps() {
+        additionalInfoResponse.value?.data?.let { additionalInfo ->
+            if (additionalInfo.documentInfo != null && additionalInfo.textInfo != null) {
+                state.steps.set(2)
+                state.screenType.set(AdditionalInfoScreenType.BOTH_SCREENS.name)
+                state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
+                state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
+            } else if (additionalInfo.documentInfo != null) {
+                state.steps.set(1)
+                state.screenType.set(AdditionalInfoScreenType.DOCUMENT_SCREEN.name)
+                state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
+            } else if (additionalInfo.textInfo != null) {
+                state.steps.set(1)
+                state.screenType.set(AdditionalInfoScreenType.QUESTION_SCREEN.name)
+                state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
+            } else {
+                state.steps.set(0)
+                state.screenType.set(AdditionalInfoScreenType.SUCCESS_SCREEN.name)
+            }
+        } ?: state.steps.set(0)
+
+        if (state.steps.get() == 0) {
+            state.screenType.set(AdditionalInfoScreenType.SUCCESS_SCREEN.name)
+        }
+    }
+
+    private fun getMockData(): AdditionalInfoResponse {
+        return AdditionalInfoResponse(getData())
     }
 
     private fun getData(): AdditionalInfo {
@@ -42,7 +71,13 @@ class AdditionalInfoViewModel(application: Application) :
         documentList.add(AdditionalDocument(0, "Visa Copy", false))
 //        list.add(AdditionalDocument(0, "Passport Copy", false))
         val questionList: ArrayList<AdditionalQuestion> = arrayListOf()
-        questionList.add(AdditionalQuestion(0, false, questionFromCustomer = ""))
+        questionList.add(
+            AdditionalQuestion(
+                0,
+                false,
+                questionFromCustomer = "Please tell us the name of the company you are currently employed with"
+            )
+        )
         return AdditionalInfo(documentList, questionList)
     }
 }
