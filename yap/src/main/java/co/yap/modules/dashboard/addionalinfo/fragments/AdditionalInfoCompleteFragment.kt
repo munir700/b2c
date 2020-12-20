@@ -29,5 +29,7 @@ class AdditionalInfoCompleteFragment : BaseBindingFragment<IAdditionalInfoComple
         viewModel.state.title.set("Thanks Nada")
     }
 
-
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }

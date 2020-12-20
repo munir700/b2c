@@ -213,6 +213,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:onClick="@{viewModel::onToolBarClick}"
             app:text="@{Strings.screen_additional_info_label_text_do_it_later}"
             tools:text="@string/screen_additional_info_label_text_do_it_later" />
     </androidx.constraintlayout.widget.ConstraintLayout>

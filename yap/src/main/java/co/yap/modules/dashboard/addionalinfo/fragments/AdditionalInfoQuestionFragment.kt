@@ -23,7 +23,11 @@ class AdditionalInfoQuestionFragment :
         when (id) {
             R.id.btnNext -> {
                 viewModel.moveToNext()
-                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name)
+                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name, clearAllPrevious = true)
+            }
+
+            R.id.tvDoItLater -> {
+                requireActivity().finish()
             }
         }
     }

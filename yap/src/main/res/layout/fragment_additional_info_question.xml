@@ -24,9 +24,9 @@
             android:layout_marginStart="@dimen/margin_medium_large"
             android:layout_marginTop="@dimen/margin_xl"
             android:layout_marginEnd="@dimen/margin_medium_large"
-            app:showKeyboard="false"
             app:layout_constraintTop_toTopOf="parent"
-            app:view_hint_input_field="@string/screen_additional_info_label_text_question_hint"/>
+            app:showKeyboard="false"
+            app:view_hint_input_field="@string/screen_additional_info_label_text_question_hint" />
 
 
         <co.yap.widgets.CoreButton
@@ -36,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_normal"
             android:minWidth="@dimen/_180sdp"
-            app:btn_enable="true"
             android:onClick="@{viewModel::onToolBarClick}"
+            app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvDoItLater"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -53,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_normal_large"
+            android:onClick="@{viewModel::onToolBarClick}"
             android:textColor="?attr/colorPrimaryAttr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

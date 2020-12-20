@@ -43,9 +43,18 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                         if (resultCode == Activity.RESULT_OK) {
                             intent?.let {
                                 val file: File? = it.extras?.get("file") as File
+                                file?.let {
+                                    viewModel.uploadDocument(file, "") {
+                                        data.isUploaded = !(data.isUploaded ?: false)
+                                        viewModel.uploadAdditionalDocumentAdapter.setItemAt(
+                                            pos,
+                                            data
+                                        )
+                                    }
+                                } ?: showToast("Invalid Image")
+
                             }
-                            data.isUploaded = data.isUploaded != false
-                            viewModel.uploadAdditionalDocumentAdapter.setItemAt(pos, data)
+
                         }
                     }
             }
@@ -59,8 +68,15 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                     viewModel.moveToNext()
                     findNavController().navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
                 } else {
-                    startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name)
+                    startFragment(
+                        fragmentName = AdditionalInfoCompleteFragment::class.java.name,
+                        clearAllPrevious = true
+                    )
                 }
+            }
+
+            R.id.tvDoItLater -> {
+                requireActivity().finish()
             }
         }
     }

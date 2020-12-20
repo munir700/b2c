@@ -4,7 +4,8 @@ import android.app.Application
 import co.yap.modules.dashboard.addionalinfo.adapters.UploadAdditionalDocumentAdapter
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.states.SelectDocumentState
-import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
+import kotlinx.coroutines.delay
+import java.io.File
 
 class SelectDocumentViewModel(application: Application) :
     AdditionalInfoBaseViewModel<ISelectDocument.State>(application),
@@ -25,11 +26,12 @@ class SelectDocumentViewModel(application: Application) :
         uploadAdditionalDocumentAdapter.setList(getDocumentList())
     }
 
-    fun getMockableList(): ArrayList<AdditionalDocument> {
-//        val list: ArrayList<AdditionalDocument> = arrayListOf()
-//        list.add(AdditionalDocument(0, "Passport Copy", false))
-//        list.add(AdditionalDocument(0, "Visa Copy", false))
-//        list.add(AdditionalDocument(0, "Passport Copy", false))
-        return getDocumentList() as ArrayList<AdditionalDocument>
+    override fun uploadDocument(file: File, id: String, success: () -> Unit) {
+        launch {
+            state.loading = true
+            delay(3000)
+            state.loading = false
+            success()
+        }
     }
 }

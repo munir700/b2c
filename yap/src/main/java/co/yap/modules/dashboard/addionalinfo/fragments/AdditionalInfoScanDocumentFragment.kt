@@ -17,6 +17,7 @@ import co.yap.databinding.FragmentAdditionalInfoScanDocumentBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoScanDocument
 import co.yap.modules.dashboard.addionalinfo.model.AdditionalDocumentImage
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoScanDocumentViewModel
+import co.yap.widgets.guidedtour.description.locationOnScreen
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.rx.Task
 import com.digitify.identityscanner.camera.CameraException
@@ -53,7 +54,7 @@ class AdditionalInfoScanDocumentFragment :
             R.id.ivClose -> {
                 requireActivity().onBackPressed()
             }
-            R.id.btnScan ->{
+            R.id.btnScan -> {
                 capturePicture()
             }
         }
@@ -80,22 +81,49 @@ class AdditionalInfoScanDocumentFragment :
         result.toFile(
             ImageUtils.getFilePrivately(activity) ?: File(result.toString())
         ) { file: File? -> file?.let { cropImage(it) } ?: showToast("Invalid image") }
+//        result.toBitmap(getScreenWidth(), getScreenHeight()){
+//                bitmap: Bitmap? ->
+//        }
     }
 
     private fun cropImage(file: File) {
         fileImage = file
         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        val cropBitmap: Bitmap = Bitmap.createBitmap(
-            bitmap,
-            (getBindings().ivOverLay.top).toInt(),
-            (getBindings().ivOverLay.left).toInt(),
-            getBindings().ivOverLay.measuredWidth,
-            getBindings().ivOverLay.measuredHeight
-        )
-        setOrientation(fileImage.absolutePath, cropBitmap) {
-            reWriteImage(file, it)
+        setOrientation(fileImage.absolutePath,bitmap) { bitmap ->
+            val cropBitmap: Bitmap = Bitmap.createBitmap(
+                bitmap,
+                (getBindings().ivOverLay.locationOnScreen.x).toInt(),
+                (getBindings().ivOverLay.locationOnScreen.y).toInt(),
+                getWidth(bitmap),
+                getHeight(bitmap)
+            )
+            setOrientation(fileImage.absolutePath, cropBitmap) {
+                reWriteImage(file, it)
+            }
         }
 
+    }
+
+    private fun getWidth(bitmap: Bitmap?): Int {
+        val width =
+            getBindings().ivOverLay.measuredWidth + getBindings().ivOverLay.locationOnScreen.x + 160
+        return if (width <= bitmap?.width ?: 0)
+            getBindings().ivOverLay.measuredWidth + 160
+        else {
+            val diff = width - (bitmap?.width ?: 0)
+            (getBindings().ivOverLay.measuredWidth + 160) - diff
+        }
+    }
+
+    private fun getHeight(bitmap: Bitmap?): Int {
+        val height =
+            getBindings().ivOverLay.measuredHeight + getBindings().ivOverLay.locationOnScreen.y + 160
+        return if (height <= bitmap?.height ?: 0)
+            getBindings().ivOverLay.measuredHeight + 160
+        else {
+            val diff = height - (bitmap?.height ?: 0)
+            (getBindings().ivOverLay.measuredHeight + 160) - diff
+        }
     }
 
     private fun showImage() {
@@ -145,7 +173,7 @@ class AdditionalInfoScanDocumentFragment :
 
     private fun capturePicture() {
         if (getBindings().camera.isTakingPicture) return
-        getBindings().camera.takePicture()
+        getBindings().camera.takePictureSnapshot()
     }
 
 

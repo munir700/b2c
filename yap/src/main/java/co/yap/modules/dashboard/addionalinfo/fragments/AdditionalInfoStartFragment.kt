@@ -35,6 +35,9 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
             R.id.btnNext -> {
                 moveNextScreen()
             }
+            R.id.tvDoItLater -> {
+                requireActivity().finish()
+            }
         }
     }
 
@@ -58,7 +61,7 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
                 findNavController().navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
             }
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
-                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name)
+                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name, clearAllPrevious = true)
             }
         }
     }
