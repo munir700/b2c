@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoStart
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoStartViewModel
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 import co.yap.yapcore.helpers.extentions.startFragment
+import co.yap.yapcore.managers.SessionManager
 
 class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoStart.ViewModel>(),
     IAdditionalInfoStart.View {
@@ -27,7 +28,7 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.subTitle.set("We need additional information to be able to proceed with your application to get your YAP account activated")
-        viewModel.state.title.set("Hey Nada,")
+        viewModel.state.title.set("Hey " + SessionManager.user?.currentCustomer?.firstName + ",")
     }
 
     override fun onToolBarClick(id: Int) {
@@ -61,7 +62,10 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
                 findNavController().navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
             }
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
-                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name, clearAllPrevious = true)
+                startFragment(
+                    fragmentName = AdditionalInfoCompleteFragment::class.java.name,
+                    clearAllPrevious = true
+                )
             }
         }
     }

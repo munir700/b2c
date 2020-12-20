@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
@@ -241,4 +242,19 @@ interface CustomersRetroService {
         @Query("beneficiaryId") beneficiaryId: String,
         @Query("productCode") productCode: String
     ): Response<SMCoolingPeriodResponseDTO>
+
+    //Get additional info required
+    @GET(CustomersRepository.URL_GET_ADDITIONAL_DOCUMENT)
+    suspend fun getAdditionalInfoRequired(): Response<AdditionalInfoResponse>
+
+    // Upload Addition Documents Request
+    @Multipart
+    @POST(CustomersRepository.URL_ADDITIONAL_DOCUMENT_UPLOAD)
+    suspend fun uploadAdditionalDocuments(
+        @Part files: MultipartBody.Part,
+        @Part("documentType") documentType: RequestBody
+    ): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
+    suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 }

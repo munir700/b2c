@@ -1,15 +1,23 @@
 package co.yap.modules.dashboard.addionalinfo.viewmodels
 
 import android.app.Application
+import android.os.Build
 import co.yap.modules.dashboard.addionalinfo.adapters.UploadAdditionalDocumentAdapter
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.states.SelectDocumentState
-import kotlinx.coroutines.delay
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.helpers.extentions.sizeInMb
+import id.zelory.compressor.Compressor
 import java.io.File
 
 class SelectDocumentViewModel(application: Application) :
     AdditionalInfoBaseViewModel<ISelectDocument.State>(application),
-    ISelectDocument.ViewModel {
+    ISelectDocument.ViewModel, IRepositoryHolder<CustomersRepository> {
+    override val repository: CustomersRepository = CustomersRepository
     override val uploadAdditionalDocumentAdapter: UploadAdditionalDocumentAdapter =
         UploadAdditionalDocumentAdapter(context, mutableListOf())
 
@@ -26,12 +34,49 @@ class SelectDocumentViewModel(application: Application) :
         uploadAdditionalDocumentAdapter.setList(getDocumentList())
     }
 
-    override fun uploadDocument(file: File, id: String, success: () -> Unit) {
+    override fun uploadDocument(file: File, documentType: String, success: () -> Unit) {
+
         launch {
-            state.loading = true
-            delay(3000)
-            state.loading = false
-            success()
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                Compressor.compress(context, file) {
+                    upload(file, documentType) {
+                        success()
+                    }
+                }
+            } else {
+                upload(file, documentType) {
+                    success()
+                }
+            }
         }
+    }
+
+    private fun upload(file: File, documentType: String, success: () -> Unit) {
+        launch {
+            if (file.sizeInMb() < 25) {
+                state.loading = true
+                when (val response = repository.uploadAdditionalDocuments(
+                    UploadAdditionalInfo(
+                        files = file,
+                        documentType = documentType
+                    )
+                )) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        file.deleteRecursively()
+                        success()
+                    }
+                    is RetroApiResponse.Error -> {
+                        showToast(response.error.message)
+                        state.loading = false
+                        file.deleteRecursively()
+                    }
+                }
+            } else {
+                showToast("File size not supported")
+                file.deleteRecursively()
+            }
+        }
+
     }
 }

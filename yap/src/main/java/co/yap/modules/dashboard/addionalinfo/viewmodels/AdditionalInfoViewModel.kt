@@ -4,17 +4,20 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfo
 import co.yap.modules.dashboard.addionalinfo.states.AdditionalInfoState
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfo
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AdditionalInfoScreenType
-import kotlinx.coroutines.delay
 
 class AdditionalInfoViewModel(application: Application) :
     BaseViewModel<IAdditionalInfo.State>(application = application),
-    IAdditionalInfo.ViewModel {
+    IAdditionalInfo.ViewModel, IRepositoryHolder<CustomersRepository> {
+    override val repository: CustomersRepository = CustomersRepository
     override val stepCount: MutableLiveData<Int> = MutableLiveData(0)
     override val state: IAdditionalInfo.State = AdditionalInfoState()
     override val additionalInfoResponse: MutableLiveData<AdditionalInfoResponse> = MutableLiveData()
@@ -28,10 +31,23 @@ class AdditionalInfoViewModel(application: Application) :
     fun getAdditionalInfo() {
         launch {
             state.loading = true
-            additionalInfoResponse.value = getMockData()
-            delay(5000)
-            setSteps()
-            state.loading = false
+            when (val response = repository.getAdditionalInfoRequired()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    additionalInfoResponse.value = response.data
+                    setSteps()
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    showToast(response.error.message)
+                }
+            }
+//            if (additionalInfoResponse.value == null)
+//                additionalInfoResponse.value = getMockData()
+
+//            delay(5000)
+
+
         }
     }
 

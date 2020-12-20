@@ -5,11 +5,11 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.ActivityAdditionalInfoBinding
 import co.yap.databinding.FragmentAdditionalInfoCompleteBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoComplete
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoCompleteViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.managers.SessionManager
 
 class AdditionalInfoCompleteFragment : BaseBindingFragment<IAdditionalInfoComplete.ViewModel>(),
     IAdditionalInfoComplete.View {
@@ -26,7 +26,7 @@ class AdditionalInfoCompleteFragment : BaseBindingFragment<IAdditionalInfoComple
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.subTitle.set("Your application is back in process and we will inform you soon of when you can set your card pin")
-        viewModel.state.title.set("Thanks Nada")
+        viewModel.state.title.set("Thanks " + SessionManager.user?.currentCustomer?.firstName)
     }
 
     override fun onBackPressed(): Boolean {

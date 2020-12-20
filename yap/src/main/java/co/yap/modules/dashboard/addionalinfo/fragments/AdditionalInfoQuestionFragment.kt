@@ -1,12 +1,11 @@
 package co.yap.modules.dashboard.addionalinfo.fragments
 
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoQuestion
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoQuestionViewModel
-import co.yap.modules.webview.WebViewFragment
+import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.yapcore.helpers.extentions.startFragment
 
 class AdditionalInfoQuestionFragment :
@@ -16,19 +15,33 @@ class AdditionalInfoQuestionFragment :
 
     override fun getLayoutId(): Int = R.layout.fragment_additional_info_question
 
-    override val viewModel: IAdditionalInfoQuestion.ViewModel
+    override val viewModel: AdditionalInfoQuestionViewModel
         get() = ViewModelProviders.of(this).get(AdditionalInfoQuestionViewModel::class.java)
 
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
-                viewModel.moveToNext()
-                startFragment(fragmentName = AdditionalInfoCompleteFragment::class.java.name, clearAllPrevious = true)
+                uploadAndMoveNext()
             }
 
             R.id.tvDoItLater -> {
                 requireActivity().finish()
             }
+        }
+    }
+
+    private fun uploadAndMoveNext() {
+        viewModel.uploadAnswer(
+            UploadAdditionalInfo(
+                questionAnswer = "A digitify ",
+                id = viewModel.parentViewModel?.state?.questionList?.firstOrNull()?.id.toString()
+            )
+        ) {
+            viewModel.moveToNext()
+            startFragment(
+                fragmentName = AdditionalInfoCompleteFragment::class.java.name,
+                clearAllPrevious = true
+            )
         }
     }
 }

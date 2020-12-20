@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
@@ -12,6 +13,7 @@ import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -81,6 +83,7 @@ interface CustomersApi {
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
+
     /*
     * fun that comes from admin repo to be replaced
     * */
@@ -98,6 +101,7 @@ interface CustomersApi {
     suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse>
     suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
     suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
-
-
+    suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
+    suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
 }
