@@ -54,7 +54,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is AdditionalDocument) {
-                if (data.isUploaded == false) {
+                if (data.status == "PENDING") {
                     currentDocument = data
                     currentPos = pos
                     openBottomSheet()
@@ -131,7 +131,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 file,
                 data.documentType ?: ""
             ) {
-                data.isUploaded = !(data.isUploaded ?: false)
+                data.status = if (data.status == "PENDING") "DONE" else "PENDING"
                 viewModel.uploadAdditionalDocumentAdapter.setItemAt(
                     pos,
                     data

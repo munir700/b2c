@@ -53,7 +53,7 @@ class SelectDocumentViewModel(application: Application) :
     }
 
     override fun setEnabled(list: List<AdditionalDocument>) {
-        val list = list.filter { additionalDocument -> additionalDocument.isUploaded == false }
+        val list = list.filter { additionalDocument -> additionalDocument.status == "PENDING" }
         state.valid.set(list.isEmpty())
     }
 
