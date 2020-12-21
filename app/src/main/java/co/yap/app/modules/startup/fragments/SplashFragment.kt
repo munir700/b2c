@@ -2,6 +2,7 @@ package co.yap.app.modules.startup.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,9 @@ import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
 import co.yap.yapcore.helpers.extentions.openPlayStore
+import kotlinx.android.synthetic.main.fragment_splash.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -46,7 +50,14 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     activity?.finish()
                 }
             } else {
-                moveNext()
+              val scaleUp = AnimationUtils.loadAnimation(context, R.anim.scale_up)
+                ivLogo.startAnimation(scaleUp)
+                Timer().schedule(400) {
+                    ivDot.startAnimation(scaleUp)
+                    Timer().schedule(1000) {
+                        moveNext()
+                    }
+                }
             }
         })
     }
