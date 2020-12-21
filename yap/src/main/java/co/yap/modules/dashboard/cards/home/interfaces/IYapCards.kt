@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.home.interfaces
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.SPayCardData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -17,7 +18,7 @@ interface IYapCards {
         fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(id: Int)
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
-        fun getCardTokenForSamsungPay(success: () -> Unit)
+        fun getCardTokenForSamsungPay(success: (SPayCardData?) -> Unit)
     }
 
     interface State : IBase.State {

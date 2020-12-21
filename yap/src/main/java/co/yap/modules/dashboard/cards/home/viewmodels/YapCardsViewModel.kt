@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.cards.home.states.YapCardsState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.SPayCardData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
@@ -148,14 +149,14 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         }
     }
 
-    override fun getCardTokenForSamsungPay( success: () -> Unit) {
+    override fun getCardTokenForSamsungPay(success: (SPayCardData?) -> Unit) {
         launch {
             state.loading = true
             when (val response =
                 repository.getCardTokenForSamsungPay()) {
                 is RetroApiResponse.Success -> {
-
-                    success.invoke()
+                    success.invoke(response.data.data)
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

@@ -77,16 +77,16 @@ public class ErrorCode {
             if (bundleObject != null) {
                 if (key.equalsIgnoreCase(EXTRA_ERROR_REASON)) {
                     Integer errorNum = (Integer) bundleObject;
-                    String errorReasonMsg = bundleObject + " : " + ErrorCode.getInstance().getErrorCodeName(errorNum);
-                    errorString.append(errorReasonMsg);
+                    String errorReasonMsg = bundleObject + ", " + ErrorCode.getInstance().getErrorCodeName(errorNum);
+                    errorString.append(errorReasonMsg).append("\n");
 
                 } else if (key.equalsIgnoreCase(EXTRA_ERROR_REASON_MESSAGE)) {
-                    errorString.append((String) bundleObject);
+                    errorString.append((String) bundleObject).append("\n");
                 } else {
-                    errorString.append(bundleObject.toString());
+                    errorString.append(bundleObject.toString()).append("\n");
                 }
             } else {
-                errorString.append("");
+                errorString.append("").append("\n");
             }
         }
         return errorString.toString();

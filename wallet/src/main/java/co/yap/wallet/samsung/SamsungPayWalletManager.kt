@@ -3,13 +3,12 @@ package co.yap.wallet.samsung
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import androidx.core.os.bundleOf
 import co.yap.yapcore.helpers.SingletonHolder
 import co.yap.yapcore.helpers.alert
 import com.samsung.android.sdk.samsungpay.v2.SamsungPay
 import com.samsung.android.sdk.samsungpay.v2.StatusListener
-import com.samsung.android.sdk.samsungpay.v2.card.Card
-import com.samsung.android.sdk.samsungpay.v2.card.CardManager
-import com.samsung.android.sdk.samsungpay.v2.card.GetCardListener
+import com.samsung.android.sdk.samsungpay.v2.card.*
 import com.samsung.android.sdk.samsungpay.v2.payment.PaymentManager
 
 class SamsungPayWalletManager private constructor(private val context: Context) {
@@ -58,8 +57,8 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
                     response.invoke(SamsungPayStatus.SPAY_READY, cardList)
                 }
 
-                override fun onFail(errorCode: Int, bundle: Bundle?) {
-                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, bundle))
+                override fun onFail(errorCode: Int, errorData: Bundle?) {
+                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
                     response.invoke(SamsungPayStatus.SPAY_NOT_READY, null)
 //                    when (errorCode) {
 //                        SamsungPay.SPAY_NOT_READY -> {
@@ -72,7 +71,29 @@ class SamsungPayWalletManager private constructor(private val context: Context) 
 //                        }
 //                    }
                 }
-
             })
+    }
+
+    fun addYapCardToSamsungPay(payload: String?) {
+        payload?.let {
+            val mNetworkProvider: String = AddCardInfo.PROVIDER_MASTERCARD
+            val cardDetail = bundleOf(AddCardInfo.EXTRA_PROVISION_PAYLOAD to it)
+            val addCardInfo = AddCardInfo(
+                Card.CARD_TYPE_DEBIT,
+                mNetworkProvider,
+                cardDetail
+            )
+            mCardManager?.addCard(addCardInfo, object : AddCardListener {
+                override fun onSuccess(status: Int, p1: Card?) {
+                }
+
+                override fun onFail(errorCode: Int, errorData: Bundle?) {
+                    context.alert(ErrorCode.getInstance().getSPayError(errorCode, errorData))
+                }
+
+                override fun onProgress(currentCount: Int, p1: Int, bundleData: Bundle?) {
+                }
+            })
+        }
     }
 }

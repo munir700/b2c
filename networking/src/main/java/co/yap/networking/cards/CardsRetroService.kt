@@ -111,6 +111,6 @@ interface CardsRetroService {
 
     // get primary card (Debit card) payload
     @GET(CardsRepository.URL_GET_SAMSUNG_PAY_TOKEN)
-    suspend fun getCardTokenForSamsungPay(): Response<ApiResponse>
+    suspend fun getCardTokenForSamsungPay(): Response<SPayCardResponse>
 
 }

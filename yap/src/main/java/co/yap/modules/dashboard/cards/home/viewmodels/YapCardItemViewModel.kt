@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
@@ -9,9 +8,12 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.wallet.samsung.SamsungPayStatus
 import co.yap.wallet.samsung.SamsungPayStatusManager
-import co.yap.wallet.samsung.SamsungPayWalletManager
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.CardType
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class YapCardItemViewModel(
     private val context: Context,
@@ -29,7 +31,7 @@ class YapCardItemViewModel(
         }
 
     init {
-        if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
+        if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType && isCardActive(card = paymentCard)) {
             getSPayStatus()
         }
     }
@@ -64,5 +66,22 @@ class YapCardItemViewModel(
             sPayStatus = it
         }
 
+    }
+
+    fun isCardActive(card: Card): Boolean {
+        var status = false
+        if (CardStatus.valueOf(card.status).name.isNotEmpty())
+            if (card.cardType == CardType.DEBIT.type) {
+                when (CardStatus.valueOf(card.status)) {
+                    CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
+                        status =
+                            !(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
+                    }
+                    CardStatus.BLOCKED, CardStatus.HOTLISTED, CardStatus.INACTIVE, CardStatus.EXPIRED -> {
+                        status = false
+                    }
+                }
+            }
+        return status
     }
 }
