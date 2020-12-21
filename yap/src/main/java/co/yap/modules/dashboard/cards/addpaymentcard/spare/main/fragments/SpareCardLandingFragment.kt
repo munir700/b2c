@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
@@ -42,10 +41,9 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 addSpareCard.enableButton(true)
                 viewModel.parentViewModel?.selectedVirtualCard =
                     viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()
-                Glide.with(this)
-                    .load(viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage)
-                    .placeholder(R.drawable.card_spare)
-                    .into(linearLayout2)
+                viewModel.state.cardImageUrl =
+                    viewModel.parentViewModel?.virtualCardDesignsList?.firstOrNull()?.frontSideDesignImage
+                        ?: ""
             } else {
                 addSpareCard.enableButton(false)
             }

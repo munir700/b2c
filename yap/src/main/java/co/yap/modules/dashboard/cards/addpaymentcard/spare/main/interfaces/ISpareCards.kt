@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.main.interfaces
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces
 
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.yapcore.IBase
@@ -24,5 +24,6 @@ interface ISpareCards {
     interface State : IBase.State {
         var virtualCardFee: String
         var physicalCardFee: String
+        var cardImageUrl: String
     }
 }

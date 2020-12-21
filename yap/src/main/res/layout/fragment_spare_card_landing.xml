@@ -23,17 +23,16 @@
             android:background="@color/colorWhite"
             android:paddingBottom="@dimen/margin_medium">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/linearLayout2"
                 android:layout_width="@dimen/_121sdp"
                 android:layout_height="@dimen/_190sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
-                android:src="@drawable/card_spare"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:cardImageUrl="@{viewModel.state.cardImageUrl}"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvSpareCardTile"

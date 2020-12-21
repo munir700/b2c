@@ -117,7 +117,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         with(viewPager2) {
             clipToPadding = false
             clipChildren = false
-            offscreenPageLimit = 5
+            offscreenPageLimit = 3
         }
 
         val pageMarginPx = Utils.getDimensionInPercent(requireContext(), true, 14)

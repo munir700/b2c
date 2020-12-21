@@ -12,6 +12,7 @@ import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 
@@ -20,6 +21,12 @@ object ImageBinding {
     @BindingAdapter("imageUrl")
     fun setImageUrl(imageView: AppCompatImageView, url: String) {
         setImage(imageView, url)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardImageUrl")
+    fun setCardImageUrl(imageView: AppCompatImageView, url: String) {
+        imageView.loadCardImage(url)
     }
 
     @JvmStatic
