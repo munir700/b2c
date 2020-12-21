@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/cardView"
-            android:layout_width="@dimen/_121sdp"
-            android:layout_height="@dimen/_190sdp"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_240sdp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/card_spare"
             android:orientation="vertical"
@@ -35,15 +35,19 @@
             style="@style/Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="@{cardName}"
-            android:lineSpacingExtra="0sp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="2"
+            android:maxLength="26"
+            android:maxLines="2"
+            android:padding="@dimen/margin_medium_large"
             android:textColor="@color/colorLightGreyWithOpacity"
             app:layout_constraintBottom_toBottomOf="@id/cardView"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="@+id/cardView"
             app:layout_constraintTop_toTopOf="@id/cardView"
-            tools:text="Amazon cardasdasd asdasdsa" />
+            tools:text="Amazon cardasdasd " />
 
         <TextView
             android:id="@+id/labelCardType"
