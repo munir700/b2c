@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.home.status
 import android.content.Context
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import co.yap.R
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
@@ -304,7 +303,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openCardDeliveryStatusScreen() {
-        getActivity()?.startActivityForResult(
+        getMyFragment().startActivityForResult(
             FragmentPresenterActivity.getIntent(
                 getContext(),
                 Constants.MODE_STATUS_SCREEN,
@@ -314,7 +313,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openSetCardPinScreen() {
-        getActivity()?.startActivityForResult(
+        getMyFragment().startActivityForResult(
             SessionManager.getPrimaryCard()?.let { card ->
                 SetCardPinWelcomeActivity.newIntent(
                     getContext(),
@@ -328,11 +327,11 @@ class DashboardNotificationStatusHelper(
         return fragment.requireContext()
     }
 
-    private fun getActivity(): FragmentActivity? {
-        return fragment.activity
+    private fun getMyFragment(): Fragment {
+        return fragment
     }
 
     private fun openAdditionalRequirementScreen() {
-        getActivity()?.launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
+        getMyFragment().launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
     }
 }
