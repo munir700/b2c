@@ -8,7 +8,6 @@ import android.view.View
 import androidx.annotation.NonNull
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
@@ -20,7 +19,6 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -77,12 +75,9 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
             R.id.btnNext -> {
                 if (viewModel.getScreenType() == AdditionalInfoScreenType.BOTH_SCREENS.name) {
                     viewModel.moveToNext()
-                   navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
+                    navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
                 } else {
-                    startFragment(
-                        fragmentName = AdditionalInfoCompleteFragment::class.java.name,
-                        clearAllPrevious = true
-                    )
+                    navigate(R.id.action_selectDocumentFragment_to_additionalInfoComplete)
                 }
             }
             R.id.tvDoItLater -> {
@@ -239,6 +234,6 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     }
 
     override fun onBackPressed(): Boolean {
-        return false
+        return true
     }
 }

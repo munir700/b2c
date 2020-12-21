@@ -61,10 +61,7 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
                 navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
             }
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
-                startFragment(
-                    fragmentName = AdditionalInfoCompleteFragment::class.java.name,
-                    clearAllPrevious = true
-                )
+                navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoComplete)
             }
         }
     }

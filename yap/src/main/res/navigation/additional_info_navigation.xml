@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_selectDocumentFragment_to_additionalInfoQuestion"
             app:destination="@id/additionalInfoQuestion" />
+        <action
+            android:id="@+id/action_selectDocumentFragment_to_additionalInfoComplete"
+            app:destination="@id/additionalInfoComplete" />
     </fragment>
 
     <fragment
@@ -27,13 +30,20 @@
         <action
             android:id="@+id/action_additionalInfoEmployment_to_additionalInfoQuestion"
             app:destination="@id/additionalInfoQuestion" />
+        <action
+            android:id="@+id/action_additionalInfoEmployment_to_additionalInfoComplete"
+            app:destination="@id/additionalInfoComplete" />
     </fragment>
 
     <fragment
         android:id="@+id/additionalInfoQuestion"
         android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoQuestionFragment"
         android:label="AdditionalInfoQuestion"
-        tools:layout="@layout/fragment_additional_info_question" />
+        tools:layout="@layout/fragment_additional_info_question" >
+        <action
+            android:id="@+id/action_additionalInfoQuestion_to_additionalInfoComplete"
+            app:destination="@id/additionalInfoComplete" />
+    </fragment>
     <fragment
         android:id="@+id/additionalInfoStartFragment"
         android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoStartFragment"
@@ -45,7 +55,17 @@
         <action
             android:id="@+id/action_additionalInfoStartFragment_to_additionalInfoQuestion"
             app:destination="@id/additionalInfoQuestion" />
+        <action
+            android:id="@+id/action_additionalInfoStartFragment_to_additionalInfoComplete"
+            app:destination="@id/additionalInfoComplete" />
     </fragment>
 
+    <fragment
+        android:id="@+id/additionalInfoComplete"
+        android:name="co.yap.modules.dashboard.addionalinfo.fragments.AdditionalInfoCompleteFragment"
+        android:label="AdditionalInfoCompleteFragment"
+        tools:layout="@layout/fragment_additional_info_complete">
+
+    </fragment>
 
 </navigation>
