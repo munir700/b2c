@@ -89,7 +89,7 @@ class EidInfoReviewViewModel(application: Application) :
                 ) -> {
                     updateLabels(
                         title = "Looks like you're from the United States",
-                        body = "We're sorry, we aren't able to create bank accounts for US Citizens at this point. Stay tuned though, we'll announce it everywhere if this changes!"
+                        body = "Sorry, we're unable to activate your YAP account at this time. We're working on it and we will let you know once resolved."
                     )
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality

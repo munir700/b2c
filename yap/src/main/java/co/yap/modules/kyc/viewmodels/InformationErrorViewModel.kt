@@ -5,6 +5,7 @@ import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.modules.onboarding.states.InformationErrorState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.trackEvent
 
 class InformationErrorViewModel(application: Application) :
     KYCChildViewModel<IInformationError.State>(application),
@@ -26,7 +27,7 @@ class InformationErrorViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnGoToDashboard() {
-        clickEvent.call()
+    override fun handlePressOnGoToDashboard(id: Int) {
+        clickEvent.setValue(id)
     }
 }
