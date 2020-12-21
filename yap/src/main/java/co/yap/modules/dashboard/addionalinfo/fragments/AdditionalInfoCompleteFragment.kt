@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.addionalinfo.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -27,6 +28,20 @@ class AdditionalInfoCompleteFragment : BaseBindingFragment<IAdditionalInfoComple
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.subTitle.set("Your application is back in process and we will inform you soon of when you can set your card pin")
         viewModel.state.title.set("Thanks " + SessionManager.user?.currentCustomer?.firstName)
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.btnNext -> {
+                setResultFinish()
+            }
+        }
+    }
+
+    private fun setResultFinish() {
+        activity?.setResult(Activity.RESULT_OK)
+        activity?.finish()
     }
 
     override fun onBackPressed(): Boolean {
