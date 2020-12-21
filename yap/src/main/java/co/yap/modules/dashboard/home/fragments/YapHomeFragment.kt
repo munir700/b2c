@@ -284,7 +284,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
 
                 R.id.ivSearch ->{
-                    launchActivity<AdditionalInfoActivity> {  }
+
                 }
             }
         })
