@@ -19,7 +19,6 @@ import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.databinding.FragmentYapHomeBinding
-import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
 import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
@@ -792,10 +791,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
-            requireContext(),
+            this,
             getBindings(),
-            viewModel,
-            activity
+            viewModel
         )
 
     }
