@@ -77,6 +77,7 @@ class DashboardNotificationStatusHelper(
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.SHIPPING)
             )
         )
+
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.DELIVERY,
@@ -95,6 +96,23 @@ class DashboardNotificationStatusHelper(
 
         list.add(
             StatusDataModel(
+                stage = PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
+                statusTitle = "Additional requirments",
+                statusDescription = getSubheading(
+                    PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
+                    getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
+                ),
+                statusAction = "Submit now",
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT) == StageProgress.COMPLETED) context.resources.getDrawable(
+                    R.drawable.ic_dashboard_finish
+                ) else context.resources.getDrawable(R.drawable.file),
+                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
+            )
+        )
+
+
+        list.add(
+            StatusDataModel(
                 stage = PaymentCardOnboardingStage.SET_PIN,
                 statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_title),
                 statusDescription = getSubheading(
@@ -108,6 +126,8 @@ class DashboardNotificationStatusHelper(
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.SET_PIN)
             )
         )
+
+
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.TOP_UP,
@@ -178,6 +198,21 @@ class DashboardNotificationStatusHelper(
                         else -> StageProgress.INACTIVE
                     })
                 }
+
+                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
+                    return (when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
+                            StageProgress.INACTIVE
+                        }
+                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
+                            StageProgress.ACTIVE
+                        }
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status -> {
+                            StageProgress.COMPLETED
+                        }
+                        else -> StageProgress.INACTIVE
+                    })
+                }
             }
         } ?: return StageProgress.INACTIVE
     }
@@ -214,6 +249,11 @@ class DashboardNotificationStatusHelper(
             })
             PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_description)
 
+            PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> return (when (progress) {
+                StageProgress.ACTIVE, StageProgress.INACTIVE -> "We’ll need some more additional information to proceed"
+                StageProgress.COMPLETED -> "We are reviewing your documents submitted on 05/09/2020"
+                else -> "We’ll need some more additional information to proceed"
+            })
         })
     }
 
