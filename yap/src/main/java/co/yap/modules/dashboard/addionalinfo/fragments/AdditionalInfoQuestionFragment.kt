@@ -10,7 +10,6 @@ import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoQuestion
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoQuestionViewModel
 import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.startFragment
 
 class AdditionalInfoQuestionFragment :
     AdditionalInfoBaseFragment<IAdditionalInfoQuestion.ViewModel>(),
@@ -49,10 +48,7 @@ class AdditionalInfoQuestionFragment :
             )
         ) {
             viewModel.moveToNext()
-            startFragment(
-                fragmentName = AdditionalInfoCompleteFragment::class.java.name,
-                clearAllPrevious = true
-            )
+            navigate(R.id.action_additionalInfoQuestion_to_additionalInfoComplete)
         }
     }
 
@@ -60,6 +56,6 @@ class AdditionalInfoQuestionFragment :
         viewDataBinding as FragmentAdditionalInfoQuestionBinding
 
     override fun onBackPressed(): Boolean {
-        return false
+        return true
     }
 }
