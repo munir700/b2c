@@ -44,7 +44,7 @@ class AdditionalInfoQuestionFragment :
     private fun uploadAndMoveNext() {
         viewModel.uploadAnswer(
             UploadAdditionalInfo(
-                questionAnswer = "A digitify",
+                questionAnswer = getBindings().etAnswer.getInputText(),
                 id = viewModel.parentViewModel?.state?.questionList?.firstOrNull()?.id.toString()
             )
         ) {

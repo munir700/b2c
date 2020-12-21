@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.addionalinfo.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAdditionalInfoStartBinding
@@ -49,17 +48,17 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
                     viewModel.getDocumentList()
                         .filter { additionalDocument -> additionalDocument.status == "PENDING" }
                 if (document.isNotEmpty()) {
-                    findNavController().navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
+                    navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
                 } else {
                     viewModel.moveStep()
-                    findNavController().navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+                    navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
                 }
             }
             AdditionalInfoScreenType.DOCUMENT_SCREEN.name -> {
-                findNavController().navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
+                navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
             }
             AdditionalInfoScreenType.QUESTION_SCREEN.name -> {
-                findNavController().navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+                navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
             }
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
                 startFragment(

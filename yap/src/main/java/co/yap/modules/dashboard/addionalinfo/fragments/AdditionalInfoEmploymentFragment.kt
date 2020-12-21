@@ -24,7 +24,7 @@ class AdditionalInfoEmploymentFragment :
         when (id) {
             R.id.btnNext -> {
                 viewModel.moveToNext()
-                findNavController().navigate(R.id.action_additionalInfoEmployment_to_additionalInfoQuestion)
+                navigate(R.id.action_additionalInfoEmployment_to_additionalInfoQuestion)
             }
         }
     }

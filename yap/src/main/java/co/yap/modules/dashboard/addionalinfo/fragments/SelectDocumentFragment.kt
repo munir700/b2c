@@ -77,7 +77,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
             R.id.btnNext -> {
                 if (viewModel.getScreenType() == AdditionalInfoScreenType.BOTH_SCREENS.name) {
                     viewModel.moveToNext()
-                    findNavController().navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
+                   navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
                 } else {
                     startFragment(
                         fragmentName = AdditionalInfoCompleteFragment::class.java.name,
