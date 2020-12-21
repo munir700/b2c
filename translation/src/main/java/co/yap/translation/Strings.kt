@@ -7,6 +7,7 @@ object Strings {
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
+    const val common_button_continue: String = "common_button_continue"
     const val common_button_submit: String = "common_button_submit"
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
@@ -1732,34 +1733,54 @@ object Strings {
 
 
     //  Status Time line
-    const val screen_time_line_display_text_status_card_on_the_way_title: String =
-        "screen_time_line_display_text_status_card_on_the_way_title"
-    const val screen_time_line_display_text_status_card_on_the_way_description: String =
-        "screen_time_line_display_text_status_card_on_the_way_description"
-    const val screen_time_line_display_text_status_card_on_the_way_action: String =
-        "screen_time_line_display_text_status_card_on_the_way_action"
-    const val screen_time_line_display_text_status_card_delivered_title: String =
-        "screen_time_line_display_text_status_card_delivered_title"
-    const val screen_time_line_display_text_status_card_delivered_description: String =
-        "screen_time_line_display_text_status_card_delivered_description"
-    const val screen_time_line_display_text_status_set_card_pin_title: String =
-        "screen_time_line_display_text_status_set_card_pin_title"
-    const val screen_time_line_display_text_status_set_card_pin_description: String =
-        "screen_time_line_display_text_status_set_card_pin_description"
-    const val screen_time_line_display_text_status_set_card_pin_action: String =
-        "screen_time_line_display_text_status_set_card_pin_action"
-    const val screen_time_line_display_text_status_card_top_up_title: String =
-        "screen_time_line_display_text_status_card_top_up_title"
-    const val screen_time_line_display_text_status_card_top_up_description: String =
-        "screen_time_line_display_text_status_card_top_up_description"
-    const val screen_time_line_display_text_status_card_top_up_action: String =
-        "screen_time_line_display_text_status_card_top_up_action"
-    const val screen_time_line_display_text_status_additional_requirements_title: String =
-        "screen_time_line_display_text_status_additional_requirements_title"
-    const val screen_time_line_display_text_status_additional_requirements_action: String =
-        "screen_time_line_display_text_status_additional_requirements_action"
-    const val screen_time_line_display_text_status_additional_requirements_description: String =
-        "screen_time_line_display_text_status_additional_requirements_description"
+    const val dashboard_timeline_shipping_stage_title: String =
+        "dashboard_timeline_shipping_stage_title"
+    const val dashboard_timeline_shipping_stage_description: String =
+        "dashboard_timeline_shipping_stage_description"
+    const val dashboard_timeline_shipping_stage_completed_description: String =
+        "dashboard_timeline_shipping_stage_completed_description"
+    const val dashboard_timeline_shipping_stage_action_title: String =
+        "dashboard_timeline_shipping_stage_action_title"
+
+    const val dashboard_timeline_delivery_stage_title: String =
+        "dashboard_timeline_delivery_stage_title"
+    const val dashboard_timeline_delivery_stage_description: String =
+        "dashboard_timeline_delivery_stage_description"
+    const val dashboard_timeline_delivery_stage_active_description: String =
+        "dashboard_timeline_delivery_stage_active_description"
+    const val dashboard_timeline_delivery_stage_completed_description: String =
+        "dashboard_timeline_delivery_stage_completed_description"
+
+    const val dashboard_timeline_set_pin_stage_title: String =
+        "dashboard_timeline_set_pin_stage_title"
+    const val dashboard_timeline_set_pin_stage_description: String =
+        "dashboard_timeline_set_pin_stage_description"
+    const val dashboard_timeline_set_pin_stage_completed_description: String =
+        "dashboard_timeline_set_pin_stage_completed_description"
+    const val dashboard_timeline_set_pin_stage_action_title: String =
+        "dashboard_timeline_set_pin_stage_action_title"
+
+    const val dashboard_timeline_top_up_stage_title: String =
+        "dashboard_timeline_top_up_stage_title"
+    const val dashboard_timeline_top_up_stage_description: String =
+        "dashboard_timeline_top_up_stage_description"
+    const val dashboard_timeline_top_up_stage_action_title: String =
+        "dashboard_timeline_top_up_stage_action_title"
+
+    const val dashboard_timeline_additional_requirement_stage_title: String =
+        "dashboard_timeline_additional_requirement_stage_title"
+    const val dashboard_timeline_additional_requirement_stage_description: String =
+        "dashboard_timeline_additional_requirement_stage_description"
+    const val dashboard_timeline_additional_requirement_stage_completed_description: String =
+        "dashboard_timeline_additional_requirement_stage_completed_description"
+    const val dashboard_timeline_additional_requirement_stage_action_title: String =
+        "dashboard_timeline_additional_requirement_stage_action_title"
+
+    const val dashboard_timeline_top_up_stage_completion_title: String =
+        "dashboard_timeline_top_up_stage_completion_title"
+    const val dashboard_timeline_top_up_stage_in_process_title: String =
+        "dashboard_timeline_top_up_stage_in_process_title"
+
 
     // yap it add money screen
     const val screen_fragment_yap_it_add_money_title: String =
@@ -1795,4 +1816,6 @@ object Strings {
     const val screen_transaction_detail_text_cut_off_msg: String =
         "screen_transaction_detail_text_cut_off_msg"
 
+    const val screen_additional_info_label_text_do_it_later: String =
+        "screen_additional_info_label_text_do_it_later"
 }

@@ -281,6 +281,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.lyAdd -> {
                     openTopUpScreen()
                 }
+
+                R.id.ivSearch ->{
+
+                }
             }
         })
 
@@ -659,7 +663,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                 }
             }
+
+            RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    SessionManager.getAccountInfo {
+                        handleAdditionalRequirments()
+                    }
+                }
+            }
         }
+    }
+
+    private fun handleAdditionalRequirments() {
+        dashboardNotificationStatusHelper?.dashboardNotificationStatusAdapter?.setItemAt(
+            2,
+            dashboardNotificationStatusHelper?.getStatusList()?.get(2)!!
+        )
     }
 
     private fun setTransactionRequest(filters: TransactionFilters?) {
@@ -772,10 +791,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
-            requireContext(),
+            this,
             getBindings(),
-            viewModel,
-            activity
+            viewModel
         )
 
     }
