@@ -315,6 +315,7 @@
     <string name="screen_spare_card_landing_display_text_select_card_type">Select a type of card</string>
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
+    <string name="screen_spare_card_landing_display_tool_bar_title">Add a virtual card</string>
 
     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
@@ -341,6 +342,7 @@
     <string name="screen_add_spare_card_display_text_fee">One time fee of AED %1$s</string>
     <string name="screen_add_virtual_spare_card_edit_name_label">Name your virtual card</string>
     <string name="screen_add_virtual_spare_card_edit_name_hint">Card\'s name</string>
+    <string name="screen_add_virtual_spare_card_tool_bar_title">Customize your virtual card</string>
 
 
     <!-- Add Spare card location -->
