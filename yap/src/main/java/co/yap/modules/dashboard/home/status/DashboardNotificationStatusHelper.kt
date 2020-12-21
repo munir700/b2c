@@ -26,7 +26,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 class DashboardNotificationStatusHelper(
-    val fragment: Fragment? = null,
+    val fragment: Fragment,
     val binding: FragmentYapHomeBinding,
     val viewModel: IYapHome.ViewModel
 ) {
@@ -300,13 +300,13 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openTopUpScreen() {
-        getContext()?.launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
+        getContext().launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openCardDeliveryStatusScreen() {
         getActivity()?.startActivityForResult(
             FragmentPresenterActivity.getIntent(
-                getContext()!!,
+                getContext(),
                 Constants.MODE_STATUS_SCREEN,
                 SessionManager.card.value
             ), Constants.EVENT_CREATE_CARD_PIN
@@ -316,22 +316,20 @@ class DashboardNotificationStatusHelper(
     private fun openSetCardPinScreen() {
         getActivity()?.startActivityForResult(
             SessionManager.getPrimaryCard()?.let { card ->
-                getContext()?.let { context ->
-                    SetCardPinWelcomeActivity.newIntent(
-                        context,
-                        card
-                    )
-                }
+                SetCardPinWelcomeActivity.newIntent(
+                    getContext(),
+                    card
+                )
             }, RequestCodes.REQUEST_FOR_SET_PIN
         )
     }
 
     private fun getContext(): Context {
-        return fragment?.context!!
+        return fragment.requireContext()
     }
 
     private fun getActivity(): FragmentActivity? {
-        return fragment?.activity
+        return fragment.activity
     }
 
     private fun openAdditionalRequirementScreen() {
