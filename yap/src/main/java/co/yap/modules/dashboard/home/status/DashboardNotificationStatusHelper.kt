@@ -29,19 +29,33 @@ class DashboardNotificationStatusHelper(
     val viewModel: IYapHome.ViewModel, val fragment: FragmentActivity? = null
 
 ) {
+    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
     private fun getStringHelper(resourceKey: String): String =
         Translator.getString(context, resourceKey)
 
     init {
+        val onboardingStagesList = when {
+            PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status == SessionManager.user?.partnerBankStatus
+                    || PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status == SessionManager.user?.partnerBankStatus
+                    || PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status == SessionManager.user?.partnerBankStatus
+                    || SessionManager.user?.additionalDocSubmitionDate != null -> {
+                getStatusList()
+            }
+            else -> {
+                val list = getStatusList()
+                list.removeAt(2)
+                list
+            }
+        }
+        dashboardNotificationStatusAdapter =
+            DashboardNotificationStatusAdapter(context, onboardingStagesList)
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
         setUpAdapter()
     }
 
     private fun setUpAdapter() {
-        val dashboardNotificationStatusAdapter =
-            DashboardNotificationStatusAdapter(context, getStatusList())
-        dashboardNotificationStatusAdapter.allowFullItemClickListener = false
-
-        dashboardNotificationStatusAdapter.setItemListener(object : OnItemClickListener {
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
+        dashboardNotificationStatusAdapter?.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 val statusDataModel: StatusDataModel = data as StatusDataModel
                 when {
@@ -64,7 +78,7 @@ class DashboardNotificationStatusHelper(
         binding.lyInclude.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
     }
 
-    private fun getStatusList(): MutableList<StatusDataModel> {
+    fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
@@ -310,6 +324,7 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openAdditionalRequirementScreen() {
-        context.launchActivity<AdditionalInfoActivity>()
+        fragment?.launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
+
     }
 }

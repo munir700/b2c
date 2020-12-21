@@ -72,7 +72,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getAccountInfo() {
+    fun getAccountInfo(success: () -> Unit = {}) {
         GlobalScope.launch {
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
@@ -80,6 +80,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     user = getCurrentUser()
                     setupDataSetForBlockedFeatures()
                     onAccountInfoSuccess.postValue(true)
+                    success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
