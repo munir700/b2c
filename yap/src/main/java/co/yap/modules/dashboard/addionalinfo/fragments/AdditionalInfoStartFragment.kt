@@ -47,7 +47,7 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
             AdditionalInfoScreenType.BOTH_SCREENS.name -> {
                 val document =
                     viewModel.getDocumentList()
-                        .filter { additionalDocument -> additionalDocument.isUploaded == false }
+                        .filter { additionalDocument -> additionalDocument.status == "PENDING" }
                 if (document.isNotEmpty()) {
                     findNavController().navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
                 } else {

@@ -29,5 +29,5 @@ data class AdditionalDocument(
     @SerializedName("questionOnly")
     val questionOnly: Boolean? = null,
     @SerializedName("status")
-    val status: Boolean? = null
+    val status: String? = null
 ) : Parcelable
