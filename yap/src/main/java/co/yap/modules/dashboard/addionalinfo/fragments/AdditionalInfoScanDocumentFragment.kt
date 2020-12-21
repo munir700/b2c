@@ -41,6 +41,7 @@ class AdditionalInfoScanDocumentFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getDataArguments()
         setUpCamera()
     }
 
@@ -65,12 +66,9 @@ class AdditionalInfoScanDocumentFragment :
     }
 
     override fun onCameraOpened(options: CameraOptions) {
-//        getBindings().btnScan.isEnabled = true
     }
 
     override fun onCameraClosed() {
-//        getBindings().btnScan.setOnClickListener(null)
-//        getBindings().btnScan.isEnabled = false
     }
 
     override fun onCameraError(exception: CameraException) {
@@ -89,7 +87,7 @@ class AdditionalInfoScanDocumentFragment :
     private fun cropImage(file: File) {
         fileImage = file
         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        setOrientation(fileImage.absolutePath,bitmap) { bitmap ->
+        setOrientation(fileImage.absolutePath, bitmap) { bitmap ->
             val cropBitmap: Bitmap = Bitmap.createBitmap(
                 bitmap,
                 (getBindings().ivOverLay.locationOnScreen.x).toInt(),
@@ -132,7 +130,7 @@ class AdditionalInfoScanDocumentFragment :
             bundle = bundleOf(
                 AdditionalDocumentImage::class.java.name to AdditionalDocumentImage(
                     file = fileImage,
-                    name = "Passport ID"
+                    name = viewModel.state.documentName.get() ?: ""
                 )
             )
         ) { resultCode, _ ->
@@ -221,5 +219,14 @@ class AdditionalInfoScanDocumentFragment :
             source, 0, 0, source.width, source.height,
             matrix, true
         )
+    }
+
+    private fun getDataArguments() {
+        arguments?.let { bundle ->
+            bundle.getParcelable<AdditionalDocumentImage>(AdditionalDocumentImage::class.java.name)
+                ?.let {
+                    viewModel.state.documentName.set(it.name)
+                }
+        }
     }
 }

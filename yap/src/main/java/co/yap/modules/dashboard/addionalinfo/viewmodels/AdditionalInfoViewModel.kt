@@ -13,7 +13,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AdditionalInfoScreenType
-import kotlinx.coroutines.delay
 
 class AdditionalInfoViewModel(application: Application) :
     BaseViewModel<IAdditionalInfo.State>(application = application),
@@ -54,16 +53,19 @@ class AdditionalInfoViewModel(application: Application) :
 
     private fun setSteps() {
         additionalInfoResponse.value?.data?.let { additionalInfo ->
-            if (additionalInfo.documentInfo != null && additionalInfo.textInfo != null) {
+            if (!additionalInfo.documentInfo.isNullOrEmpty() && !additionalInfo.textInfo.isNullOrEmpty()) {
                 state.steps.set(2)
                 state.screenType.set(AdditionalInfoScreenType.BOTH_SCREENS.name)
                 state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
                 state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
-            } else if (additionalInfo.documentInfo != null) {
+            } else if (!additionalInfo.documentInfo.isNullOrEmpty()) {
                 state.steps.set(1)
                 state.screenType.set(AdditionalInfoScreenType.DOCUMENT_SCREEN.name)
                 state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
-            } else if (additionalInfo.textInfo != null) {
+            } else if (!
+
+                additionalInfo.textInfo.isNullOrEmpty()
+            ) {
                 state.steps.set(1)
                 state.screenType.set(AdditionalInfoScreenType.QUESTION_SCREEN.name)
                 state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)

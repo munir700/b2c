@@ -83,7 +83,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="Scan Passport ID page"
+                android:text='@{"Scan " + viewModel.state.documentName+  " page"}'
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@id/btnScan"
                 app:layout_constraintEnd_toEndOf="parent"
