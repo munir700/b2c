@@ -1,11 +1,15 @@
 package co.yap.modules.dashboard.addionalinfo.fragments
 
+import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentAdditionalInfoQuestionBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoQuestion
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoQuestionViewModel
 import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
+import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.startFragment
 
 class AdditionalInfoQuestionFragment :
@@ -17,6 +21,13 @@ class AdditionalInfoQuestionFragment :
 
     override val viewModel: AdditionalInfoQuestionViewModel
         get() = ViewModelProviders.of(this).get(AdditionalInfoQuestionViewModel::class.java)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getBindings().etAnswer.editText.afterTextChanged {
+            viewModel.state.valid.set(it.isNotBlank())
+        }
+    }
 
     override fun onToolBarClick(id: Int) {
         when (id) {
@@ -33,7 +44,7 @@ class AdditionalInfoQuestionFragment :
     private fun uploadAndMoveNext() {
         viewModel.uploadAnswer(
             UploadAdditionalInfo(
-                questionAnswer = "A digitify ",
+                questionAnswer = "A digitify",
                 id = viewModel.parentViewModel?.state?.questionList?.firstOrNull()?.id.toString()
             )
         ) {
@@ -44,4 +55,7 @@ class AdditionalInfoQuestionFragment :
             )
         }
     }
+
+    private fun getBindings(): FragmentAdditionalInfoQuestionBinding =
+        viewDataBinding as FragmentAdditionalInfoQuestionBinding
 }

@@ -44,12 +44,16 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                             intent?.let {
                                 val file: File? = it.extras?.get("file") as File
                                 file?.let {
-                                    viewModel.uploadDocument(file, data.documentType ?: "PASSPORT") {
+                                    viewModel.uploadDocument(
+                                        file,
+                                        data.documentType ?: "PASSPORT"
+                                    ) {
                                         data.isUploaded = !(data.isUploaded ?: false)
                                         viewModel.uploadAdditionalDocumentAdapter.setItemAt(
                                             pos,
                                             data
                                         )
+                                        viewModel.setEnabled(viewModel.uploadAdditionalDocumentAdapter.getDataList())
                                     }
                                 } ?: showToast("Invalid Image")
                             }
