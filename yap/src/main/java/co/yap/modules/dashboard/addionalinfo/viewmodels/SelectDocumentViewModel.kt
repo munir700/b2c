@@ -28,12 +28,13 @@ class SelectDocumentViewModel(application: Application) :
     override val state: ISelectDocument.State = SelectDocumentState(application)
     override fun onCreate() {
         super.onCreate()
-        showHeader(true)
         setTitle("Additional Information")
         setSubTitle("You have successfully uploaded your documents. Please click Next to continue")
         uploadAdditionalDocumentAdapter.setList(getDocumentList())
         setEnabled(uploadAdditionalDocumentAdapter.getDataList())
     }
+
+
 
     override fun uploadDocument(file: File, documentType: String, success: () -> Unit) {
 

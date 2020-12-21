@@ -40,8 +40,8 @@ class AdditionalInfoCompleteFragment : BaseBindingFragment<IAdditionalInfoComple
     }
 
     private fun setResultFinish() {
-        activity?.setResult(Activity.RESULT_OK)
-        activity?.finish()
+        requireActivity().setResult(Activity.RESULT_OK)
+        requireActivity().finish()
     }
 
     override fun onBackPressed(): Boolean {

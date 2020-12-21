@@ -15,7 +15,6 @@ class AdditionalInfoQuestionViewModel(application: Application) :
     override val state: IAdditionalInfoQuestion.State = AdditionalInfoQuestionState(application)
     override fun onCreate() {
         super.onCreate()
-        showHeader(true)
         setTitle("Final Question")
         setSubTitle(getQuestionList().firstOrNull()?.questionFromCustomer ?: "")
     }

@@ -23,6 +23,7 @@ class AdditionalInfoQuestionFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.showHeader(true)
         getBindings().etAnswer.editText.afterTextChanged {
             viewModel.state.valid.set(it.isNotBlank())
         }

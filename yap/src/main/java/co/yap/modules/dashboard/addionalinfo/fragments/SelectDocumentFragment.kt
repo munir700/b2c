@@ -43,6 +43,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.showHeader(true)
         setUpRecyclerView()
     }
 
