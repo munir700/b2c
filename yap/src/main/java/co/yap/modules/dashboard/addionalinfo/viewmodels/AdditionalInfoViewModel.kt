@@ -13,6 +13,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AdditionalInfoScreenType
+import kotlinx.coroutines.delay
 
 class AdditionalInfoViewModel(application: Application) :
     BaseViewModel<IAdditionalInfo.State>(application = application),
@@ -43,10 +44,10 @@ class AdditionalInfoViewModel(application: Application) :
                 }
             }
 //            if (additionalInfoResponse.value == null)
-//                additionalInfoResponse.value = getMockData()
-
+//            additionalInfoResponse.value = getMockData()
+//            setSteps()
 //            delay(5000)
-
+//            state.loading = false
 
         }
     }

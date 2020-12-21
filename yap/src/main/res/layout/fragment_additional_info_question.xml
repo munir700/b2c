@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
         <co.yap.widgets.CoreInputField
-            android:id="@+id/etEmailField"
+            android:id="@+id/etAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_large"
@@ -39,6 +39,7 @@
             android:minWidth="@dimen/_180sdp"
             android:onClick="@{viewModel::onToolBarClick}"
             app:btn_enable="true"
+            app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvDoItLater"
             app:layout_constraintLeft_toLeftOf="parent"

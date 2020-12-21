@@ -6,10 +6,10 @@ import co.yap.modules.dashboard.addionalinfo.adapters.UploadAdditionalDocumentAd
 import co.yap.modules.dashboard.addionalinfo.interfaces.ISelectDocument
 import co.yap.modules.dashboard.addionalinfo.states.SelectDocumentState
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.sizeInMb
 import id.zelory.compressor.Compressor
 import java.io.File
@@ -32,6 +32,7 @@ class SelectDocumentViewModel(application: Application) :
         setTitle("Additional Information")
         setSubTitle("You have successfully uploaded your documents. Please click Next to continue")
         uploadAdditionalDocumentAdapter.setList(getDocumentList())
+        setEnabled(uploadAdditionalDocumentAdapter.getDataList())
     }
 
     override fun uploadDocument(file: File, documentType: String, success: () -> Unit) {
@@ -49,6 +50,11 @@ class SelectDocumentViewModel(application: Application) :
                 }
             }
         }
+    }
+
+    override fun setEnabled(list: List<AdditionalDocument>) {
+        val list = list.filter { additionalDocument -> additionalDocument.isUploaded == false }
+        state.valid.set(list.isEmpty())
     }
 
     private fun upload(file: File, documentType: String, success: () -> Unit) {
