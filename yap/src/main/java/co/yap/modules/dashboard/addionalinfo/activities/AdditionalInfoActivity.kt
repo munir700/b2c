@@ -12,6 +12,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_additional_info.*
 
@@ -51,10 +52,9 @@ class AdditionalInfoActivity : BaseBindingActivity<IAdditionalInfo.ViewModel>(),
     }
 
     override fun onBackPressed() {
-//        val step = viewModel.stepCount.value ?: 0
-//        if (step > 0) {
-//            viewModel.stepCount.value = step - 1
-//        }
-//        super.onBackPressed()
+        val fragment = supportFragmentManager.findFragmentById(R.id.additional_info_host_fragment)
+        if (!BackPressImpl(fragment).onBackPressed()) {
+            super.onBackPressed()
+        }
     }
 }

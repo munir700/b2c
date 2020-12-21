@@ -664,7 +664,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                 }
             }
+
+            RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    SessionManager.getAccountInfo {
+                        handleAdditionalRequirments()
+                    }
+                }
+            }
         }
+    }
+
+    private fun handleAdditionalRequirments() {
+        dashboardNotificationStatusHelper?.dashboardNotificationStatusAdapter?.setItemAt(
+            2,
+            dashboardNotificationStatusHelper?.getStatusList()?.get(2)!!
+        )
     }
 
     private fun setTransactionRequest(filters: TransactionFilters?) {

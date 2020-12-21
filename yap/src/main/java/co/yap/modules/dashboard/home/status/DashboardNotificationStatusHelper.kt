@@ -5,8 +5,9 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import co.yap.R
 import co.yap.databinding.FragmentYapHomeBinding
+import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.translation.Strings
@@ -28,19 +29,33 @@ class DashboardNotificationStatusHelper(
     val viewModel: IYapHome.ViewModel, val fragment: FragmentActivity? = null
 
 ) {
+    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
     private fun getStringHelper(resourceKey: String): String =
         Translator.getString(context, resourceKey)
 
     init {
+        val onboardingStagesList = when {
+            PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status == SessionManager.user?.partnerBankStatus
+                    || PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status == SessionManager.user?.partnerBankStatus
+                    || PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status == SessionManager.user?.partnerBankStatus
+                    || SessionManager.user?.additionalDocSubmitionDate != null -> {
+                getStatusList()
+            }
+            else -> {
+                val list = getStatusList()
+                list.removeAt(2)
+                list
+            }
+        }
+        dashboardNotificationStatusAdapter =
+            DashboardNotificationStatusAdapter(context, onboardingStagesList)
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
         setUpAdapter()
     }
 
     private fun setUpAdapter() {
-        val dashboardNotificationStatusAdapter =
-            DashboardNotificationStatusAdapter(context, getStatusList())
-        dashboardNotificationStatusAdapter.allowFullItemClickListener = false
-
-        dashboardNotificationStatusAdapter.setItemListener(object : OnItemClickListener {
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
+        dashboardNotificationStatusAdapter?.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 val statusDataModel: StatusDataModel = data as StatusDataModel
                 when {
@@ -53,6 +68,9 @@ class DashboardNotificationStatusHelper(
                     PaymentCardOnboardingStage.TOP_UP == statusDataModel.stage && statusDataModel.progressStatus.name != StageProgress.INACTIVE.name -> {
                         openTopUpScreen()
                     }
+                    PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT == statusDataModel.stage && statusDataModel.progressStatus.name != StageProgress.INACTIVE.name -> {
+                        openAdditionalRequirementScreen()
+                    }
                 }
             }
         })
@@ -60,17 +78,17 @@ class DashboardNotificationStatusHelper(
         binding.lyInclude.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
     }
 
-    private fun getStatusList(): MutableList<StatusDataModel> {
+    fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.SHIPPING,
-                statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_title),
+                statusTitle = getStringHelper(Strings.dashboard_timeline_shipping_stage_title),
                 statusDescription = getSubheading(
                     PaymentCardOnboardingStage.SHIPPING,
                     getNotificationStatus(PaymentCardOnboardingStage.SHIPPING)
                 ),
-                statusAction = getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_action),
+                statusAction = getStringHelper(Strings.dashboard_timeline_shipping_stage_action_title),
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.SHIPPING) == StageProgress.COMPLETED) context.resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else context.resources.getDrawable(R.drawable.ic_dashboard_delivery),
@@ -80,7 +98,7 @@ class DashboardNotificationStatusHelper(
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.DELIVERY,
-                statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_title),
+                statusTitle = getStringHelper(Strings.dashboard_timeline_delivery_stage_title),
                 statusDescription = getSubheading(
                     PaymentCardOnboardingStage.DELIVERY,
                     getNotificationStatus(PaymentCardOnboardingStage.DELIVERY)
@@ -95,13 +113,29 @@ class DashboardNotificationStatusHelper(
 
         list.add(
             StatusDataModel(
+                stage = PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
+                statusTitle = getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_title),
+                statusDescription = getSubheading(
+                    PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
+                    getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
+                ),
+                statusAction = getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_action_title),
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT) == StageProgress.COMPLETED) context.resources.getDrawable(
+                    R.drawable.ic_dashboard_finish
+                ) else context.resources.getDrawable(R.drawable.file),
+                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
+            )
+        )
+
+        list.add(
+            StatusDataModel(
                 stage = PaymentCardOnboardingStage.SET_PIN,
-                statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_title),
+                statusTitle = getStringHelper(Strings.dashboard_timeline_set_pin_stage_title),
                 statusDescription = getSubheading(
                     PaymentCardOnboardingStage.SET_PIN,
                     getNotificationStatus(PaymentCardOnboardingStage.SET_PIN)
                 ),
-                statusAction = getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_action),
+                statusAction = getStringHelper(Strings.dashboard_timeline_set_pin_stage_action_title),
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.SET_PIN) == StageProgress.COMPLETED) context.resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else context.resources.getDrawable(R.drawable.ic_dashboard_set_pin),
@@ -111,12 +145,12 @@ class DashboardNotificationStatusHelper(
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.TOP_UP,
-                statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_title),
+                statusTitle = getStringHelper(Strings.dashboard_timeline_top_up_stage_title),
                 statusDescription = getSubheading(
                     PaymentCardOnboardingStage.TOP_UP,
                     getNotificationStatus(PaymentCardOnboardingStage.TOP_UP)
                 ),
-                statusAction = getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_action),
+                statusAction = getStringHelper(Strings.dashboard_timeline_top_up_stage_action_title),
                 statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.TOP_UP) == StageProgress.COMPLETED) context.resources.getDrawable(
                     R.drawable.ic_dashboard_finish
                 ) else context.resources.getDrawable(R.drawable.ic_dashboard_topup),
@@ -135,29 +169,40 @@ class DashboardNotificationStatusHelper(
                         SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
                             StageProgress.INACTIVE
                         }
+
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE
                         }
+
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
                             StageProgress.COMPLETED
                         }
+
                         else -> StageProgress.INACTIVE
                     })
                 }
+
                 PaymentCardOnboardingStage.DELIVERY -> {
                     return (when {
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name
-                                && SessionManager.user?.partnerBankStatus != PartnerBankStatus.ACTIVATED.status -> {
-                            StageProgress.ACTIVE
-                        }
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name
-                                && SessionManager.user?.partnerBankStatus == PartnerBankStatus.INITIAL_VERIFICATION_SUCCESSFUL.status
-                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                                && (SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status) -> {
                             StageProgress.COMPLETED
                         }
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
+                            StageProgress.INACTIVE
+                        }
+
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
+                            StageProgress.IN_PROGRESS
+                        }
+
                         else -> StageProgress.INACTIVE
                     })
                 }
+
                 PaymentCardOnboardingStage.SET_PIN -> {
                     return (when {
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
@@ -172,8 +217,23 @@ class DashboardNotificationStatusHelper(
 
                 PaymentCardOnboardingStage.TOP_UP -> {
                     return (when {
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.ACTIVE
+                        }
+                        else -> StageProgress.INACTIVE
+                    })
+                }
+
+                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
+                    return (when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
+                            StageProgress.INACTIVE
+                        }
+                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
+                            StageProgress.IN_PROGRESS
+                        }
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status -> {
+                            StageProgress.COMPLETED
                         }
                         else -> StageProgress.INACTIVE
                     })
@@ -185,40 +245,61 @@ class DashboardNotificationStatusHelper(
     private fun getSubheading(stage: PaymentCardOnboardingStage, progress: StageProgress): String {
         return (when (stage) {
             PaymentCardOnboardingStage.SHIPPING -> return (when (progress) {
-                StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
-                StageProgress.COMPLETED -> "Your card was delivered on ${
-                DateUtils.reformatStringDate(
-                    SessionManager.card.value?.shipmentDate ?: "",
-                    SERVER_DATE_FORMAT,
-                    DEFAULT_DATE_FORMAT
+                StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_shipping_stage_description)
+                StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_shipping_stage_completed_description).format(
+                    DateUtils.reformatStringDate(
+                        SessionManager.card.value?.shipmentDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
                 )
-                }"
-                else -> getStringHelper(Strings.screen_time_line_display_text_status_card_on_the_way_description)
+                else -> getStringHelper(Strings.dashboard_timeline_shipping_stage_description)
             })
-            PaymentCardOnboardingStage.DELIVERY -> return (when (progress) {
-                StageProgress.INACTIVE -> "EID scan will be carried out by the agent"
-                StageProgress.ACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_card_delivered_description)
-                StageProgress.COMPLETED -> "Your EID scan was approved on 03/09/2020"
-                else -> "EID scan will be carried out by the agent"
-            })
-            PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
-                StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
-                StageProgress.COMPLETED -> "Your PIN was successfully set on ${
-                DateUtils.reformatStringDate(
-                    SessionManager.card.value?.activationDate ?: "",
-                    SERVER_DATE_FORMAT,
-                    DEFAULT_DATE_FORMAT
-                )
-                }"
-                else -> getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_description)
-            })
-            PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_description)
 
+            PaymentCardOnboardingStage.DELIVERY -> return (when (progress) {
+                StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_delivery_stage_description)
+                StageProgress.IN_PROGRESS -> getStringHelper(Strings.dashboard_timeline_delivery_stage_active_description)
+                StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_delivery_stage_completed_description).format(
+                    DateUtils.reformatStringDate(
+                        SessionManager.user?.partnerBankApprovalDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                )
+
+                else -> getStringHelper(Strings.dashboard_timeline_delivery_stage_description)
+            })
+
+            PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
+                StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_description)
+                StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_completed_description).format(
+                    DateUtils.reformatStringDate(
+                        SessionManager.card.value?.activationDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                )
+                else -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_description)
+            })
+
+            PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.dashboard_timeline_top_up_stage_description)
+
+            PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> return (when (progress) {
+                StageProgress.IN_PROGRESS, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_completed_description).format(
+                    DateUtils.reformatStringDate(
+                        SessionManager.user?.additionalDocSubmitionDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                )
+                else -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+            })
         })
     }
 
     private fun openTopUpScreen() {
-        context.launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+        context.launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openCardDeliveryStatusScreen() {
@@ -240,5 +321,10 @@ class DashboardNotificationStatusHelper(
                 )
             }, RequestCodes.REQUEST_FOR_SET_PIN
         )
+    }
+
+    private fun openAdditionalRequirementScreen() {
+        fragment?.launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
+
     }
 }

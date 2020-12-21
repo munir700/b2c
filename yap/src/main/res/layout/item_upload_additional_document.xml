@@ -82,7 +82,7 @@
                     android:foregroundGravity="center_vertical"
                     android:paddingRight="@dimen/_2sdp"
                     android:src="@drawable/ic_achievement_completed_personal_details"
-                    android:visibility="@{viewModel.additionalDocument.isUploaded ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.additionalDocument.status ==`DONE` ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.813"
@@ -95,7 +95,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/margin_small"
-                    android:text='@{viewModel.additionalDocument.isUploaded? "Verification completed" : "Tap to scan your " + viewModel.additionalDocument.name.toLowerCase()}'
+                    android:text='@{viewModel.additionalDocument.status =="DONE" ? "Verification completed" : "Tap to scan your " + viewModel.additionalDocument.name.toLowerCase() +" copy"}'
                     app:layout_constraintEnd_toStartOf="@id/ivCheck"
                     app:layout_constraintStart_toStartOf="@+id/tvEid"
                     app:layout_constraintTop_toBottomOf="@+id/tvEid"
