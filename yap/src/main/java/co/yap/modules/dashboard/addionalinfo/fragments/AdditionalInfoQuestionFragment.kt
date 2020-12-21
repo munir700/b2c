@@ -58,4 +58,8 @@ class AdditionalInfoQuestionFragment :
 
     private fun getBindings(): FragmentAdditionalInfoQuestionBinding =
         viewDataBinding as FragmentAdditionalInfoQuestionBinding
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
 }

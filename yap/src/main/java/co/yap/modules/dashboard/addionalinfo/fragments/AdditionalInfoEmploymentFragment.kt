@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.addionalinfo.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoEmployment
@@ -43,10 +42,11 @@ class AdditionalInfoEmploymentFragment :
         override fun onItemClick(view: View, data: Any, pos: Int) {
 //            if (data is AdditionalDocument) {
             if (oldSelectedPosition != pos) {
-                if(oldSelectedPosition != -1){
+                if (oldSelectedPosition != -1) {
                     viewModel.additionalInfoEmploymentAdapter.getDataList()[oldSelectedPosition].isSelected =
                         !viewModel.additionalInfoEmploymentAdapter.getDataList()[oldSelectedPosition].isSelected
-                    viewModel.additionalInfoEmploymentAdapter.notifyItemChanged(oldSelectedPosition
+                    viewModel.additionalInfoEmploymentAdapter.notifyItemChanged(
+                        oldSelectedPosition
                     )
 
                 }
@@ -57,5 +57,9 @@ class AdditionalInfoEmploymentFragment :
             }
 //            }
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
     }
 }

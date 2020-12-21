@@ -68,4 +68,8 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
             }
         }
     }
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
 }

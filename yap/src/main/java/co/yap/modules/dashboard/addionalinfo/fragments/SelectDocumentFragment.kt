@@ -237,4 +237,8 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
 }
