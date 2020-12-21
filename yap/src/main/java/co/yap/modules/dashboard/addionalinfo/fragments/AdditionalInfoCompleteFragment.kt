@@ -30,6 +30,6 @@ class AdditionalInfoCompleteFragment : BaseBindingFragment<IAdditionalInfoComple
     }
 
     override fun onBackPressed(): Boolean {
-        return true
+        return false
     }
 }
