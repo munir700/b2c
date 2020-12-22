@@ -161,6 +161,10 @@
     <!--    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>-->
     <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
     <string name="screen_kyc_information_error_display_text_title_under_age">Looks like you\'re under 18!</string>
+    <string name="screen_kyc_information_error_display_text_title_sanctioned_country">We\'re sorry :(</string>
+    <string name="screen_kyc_information_error_text_description_sanctioned_country">Unfortunately, we\'re unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account.</string>
+    <string name="screen_kyc_information_error_display_text_title_from_us">Looks like you\'re from the United States</string>
+    <string name="screen_kyc_information_error_text_description_from_us">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
     <string name="screen_kyc_information_error_display_text_explanation_under_age">And while that\'s great, this YAP account is only for adults. Don\'t worry though, you can speak to your parents about getting you started with YAP Young or wait till you\'re 18 :)</string>
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
@@ -1187,6 +1191,7 @@
     <string name="screen_dashboard_tour_guide_display_text_limit">Set limits</string>
     <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
+    <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
 
 
 </resources>
