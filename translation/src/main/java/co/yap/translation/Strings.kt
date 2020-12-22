@@ -425,6 +425,8 @@ object Strings {
         "screen_confirm_card_pin_display_text_error_same_digits"
     const val screen_confirm_card_pin_display_text_error_pins_not_same: String =
         "screen_confirm_card_pin_display_text_error_pins_not_same"
+    const val screen_confirm_card_pin_terms_condition_note: String =
+        "screen_confirm_card_pin_terms_condition_note"
 
     //Set card PIN success screen
     const val screen_set_card_pin_success_display_text_title: String =
@@ -1887,4 +1889,6 @@ object Strings {
         "screen_qr_code_own_uuid_error_message"
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
+    const val screen_change_passcode_success_display_text_heading: String =
+        "screen_change_passcode_success_display_text_heading"
 }
