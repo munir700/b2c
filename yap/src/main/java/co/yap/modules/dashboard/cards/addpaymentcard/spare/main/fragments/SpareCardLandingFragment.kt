@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.DataBindingUtil.getBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.ISpar
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.SpareCardLandingViewModel
 import co.yap.yapcore.constants.Constants.KEY_AVAILABLE_BALANCE
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.dimen
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
@@ -52,7 +54,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setCardDimens()
         addBenefitRecyclerView()
         context?.let { SharedPreferenceManager(it).removeValue(KEY_AVAILABLE_BALANCE) }
 
@@ -63,6 +65,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         setObservers()
     }
 
+    private fun setCardDimens() {
+        val params = linearLayout2.layoutParams
+        params.width = linearLayout2.context.dimen(R.dimen._204sdp)
+        params.height = linearLayout2.context.dimen(R.dimen._225sdp)
+        linearLayout2.layoutParams = params
+    }
     private fun gotoAddSpareVirtualCardConfirmScreen() {
         val action =
             SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
