@@ -16,6 +16,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -224,6 +225,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun doLogout(context: Context, isOnPassCode: Boolean = false) {
         AuthUtils.navigateToHardLogin(context, isOnPassCode)
         expireUserSession()
+        TourGuideManager.unlockTourGuideScreens()
         LivePerson.logOut(context, "", "", object : LogoutLivePersonCallback {
             override fun onLogoutSucceed() {
                 val authParams = LPAuthenticationParams()
