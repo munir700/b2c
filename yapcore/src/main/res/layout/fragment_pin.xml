@@ -20,7 +20,6 @@
         android:fillViewport="true">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
@@ -28,7 +27,6 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/_10sdp"
             tools:context=".modules.onboarding.activities.CreatePasscodeActivity">
-
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTitle"
@@ -38,6 +36,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium"
+                android:visibility="gone"
                 android:gravity="center"
                 android:lineSpacingExtra="0dp"
                 android:text="@{viewModel.state.titleSetPin}"
@@ -57,7 +56,20 @@
                 app:layout_constraintBottom_toTopOf="@id/btnAction"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />
-
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTermCondition"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:textColor="?attr/colorPrimaryAttr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@{String.format(@string/screen_confirm_card_pin_terms_condition_note,viewModel.termsCondition)}"
+                />
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnAction"
                 style="@style/RectangleBtnStyle"
