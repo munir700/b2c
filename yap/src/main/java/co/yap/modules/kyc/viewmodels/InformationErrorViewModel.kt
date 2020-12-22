@@ -28,6 +28,6 @@ class InformationErrorViewModel(application: Application) :
     }
 
     override fun handlePressOnGoToDashboard(id: Int) {
-        clickEvent.setValue(id)
+        clickEvent.call()
     }
 }
