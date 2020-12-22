@@ -19,9 +19,6 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-      /*  viewModel.state.errorTitle = "Looks like you're from the United States"
-        viewModel.state.errorGuide ="Sorry, we're unable to activate your YAP account at this time. We're working on it and we will let you know once resolved."
-*/
         viewModel.state.errorTitle =
             arguments?.let { InformationErrorFragmentArgs.fromBundle(it).errorTitle }.toString()
 
@@ -34,13 +31,8 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 //        )
 
         viewModel.clickEvent.observe(this, Observer {
-            viewModel.parentViewModel?.identity?.let {
-                when{
-                    it.isDateOfBirthValid ->{
-                        viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
-                    }
-                }
-            }
+            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+
         })
     }
 
