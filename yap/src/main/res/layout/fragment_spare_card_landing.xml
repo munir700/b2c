@@ -28,6 +28,7 @@
                 android:layout_width="@dimen/_121sdp"
                 android:layout_height="@dimen/_190sdp"
                 android:layout_gravity="center_horizontal"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"

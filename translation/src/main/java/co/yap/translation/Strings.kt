@@ -532,6 +532,8 @@ object Strings {
         "screen_spare_card_landing_display_text_virtual_card"
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
+    const val screen_spare_card_landing_display_tool_bar_title: String =
+        "screen_spare_card_landing_display_tool_bar_title"
 
     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
@@ -575,6 +577,8 @@ object Strings {
         "screen_add_virtual_spare_card_edit_name_label"
     const val screen_add_virtual_spare_card_edit_name_hint: String =
         "screen_add_virtual_spare_card_edit_name_hint"
+    const val screen_add_virtual_spare_card_tool_bar_title: String =
+        "screen_add_virtual_spare_card_tool_bar_title"
 
 
     // Add funds Screen
