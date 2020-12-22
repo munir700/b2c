@@ -74,6 +74,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -173,6 +174,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             else -> skeleton.showOriginal()
         }
     }
+
+    override var drawerButtonEnabled: Boolean = true
 
     override fun onRefresh() {
         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
@@ -274,8 +277,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         ), RequestCodes.REQUEST_MEETING_CONFIRMED
                     )
                 }
-                R.id.ivMenu -> parentView?.toggleDrawer()
+                R.id.ivMenu -> {
+                    if (drawerButtonEnabled)
+                        parentView?.toggleDrawer()
+                }
                 R.id.rlFilter -> {
+
                     if (viewModel.state.isTransEmpty.get() == false) {
                         openTransactionFilters()
                     } else {
@@ -908,20 +915,27 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun showGraphTourGuide(listSize: Int) {
         if (listSize >= 5)
             CoroutineScope(Main).launch {
+                drawerButtonEnabled = false
                 delay(500)
                 SessionManager.card.value?.let { card ->
-                    if (card.pinCreated) {
+                    if (card.pinCreated && parentView?.isDrawerOpen() == false) {
                         tourStep =
                             requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
                                 addAll(setGraphViewsArray())
                             }
+                        delay(300)
+                        drawerButtonEnabled = true
                     }
                 } ?: SessionManager.getDebitCard {
-                    if (SessionManager.card.value?.pinCreated == true) {
+                    if (SessionManager.card.value?.pinCreated == true && parentView?.isDrawerOpen() == false) {
                         tourStep =
                             requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
                                 addAll(setGraphViewsArray())
                             }
+                        CoroutineScope(Main).launch {
+                            delay(300)
+                            drawerButtonEnabled = true
+                        }
                     }
                 }
             }

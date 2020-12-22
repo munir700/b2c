@@ -44,6 +44,7 @@ interface IYapDashboard {
         fun closeDrawer()
         fun openDrawer()
         fun toggleDrawer()
+        fun isDrawerOpen():Boolean
         fun enableDrawerSwipe(enable: Boolean)
         val YAP_HOME_FRAGMENT: Int get() = 0
         val YAP_STORE_FRAGMENT: Int get() = 1
