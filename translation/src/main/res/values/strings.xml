@@ -1196,6 +1196,7 @@
     <string name="screen_dashboard_tour_guide_display_text_limit">Set limits</string>
     <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
+    <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
 
 
 </resources>
