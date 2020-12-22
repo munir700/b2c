@@ -328,7 +328,7 @@ fun Transaction?.getFormattedDate(): String? {
 fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
     return when (adapterType) {
         TransactionAdapterType.ANALYTICS_DETAILS -> {
-            getFormattedTime()
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
         TransactionAdapterType.TRANSACTION -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
