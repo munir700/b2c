@@ -263,6 +263,14 @@ object Strings {
         "screen_kyc_information_error_display_text_explanation_expired_card"
     const val screen_kyc_information_error_button_go_to_dashboard: String =
         "screen_kyc_information_error_button_go_to_dashboard"
+    const val screen_kyc_information_error_display_text_title_from_us: String =
+        "screen_kyc_information_error_display_text_title_from_us"
+    const val screen_kyc_information_error_text_description_from_us: String =
+        "screen_kyc_information_error_text_description_from_us"
+    const val screen_kyc_information_error_display_text_title_sanctioned_country: String =
+        "screen_kyc_information_error_display_text_title_sanctioned_country"
+    const val screen_kyc_information_error_text_description_sanctioned_country: String =
+        "screen_kyc_information_error_text_description_sanctioned_country"
 
     // Meeting location selection screen
     const val screen_meeting_location_display_text_title: String =
