@@ -263,6 +263,14 @@ object Strings {
         "screen_kyc_information_error_display_text_explanation_expired_card"
     const val screen_kyc_information_error_button_go_to_dashboard: String =
         "screen_kyc_information_error_button_go_to_dashboard"
+    const val screen_kyc_information_error_display_text_title_from_us: String =
+        "screen_kyc_information_error_display_text_title_from_us"
+    const val screen_kyc_information_error_text_description_from_us: String =
+        "screen_kyc_information_error_text_description_from_us"
+    const val screen_kyc_information_error_display_text_title_sanctioned_country: String =
+        "screen_kyc_information_error_display_text_title_sanctioned_country"
+    const val screen_kyc_information_error_text_description_sanctioned_country: String =
+        "screen_kyc_information_error_text_description_sanctioned_country"
 
     // Meeting location selection screen
     const val screen_meeting_location_display_text_title: String =
@@ -524,6 +532,8 @@ object Strings {
         "screen_spare_card_landing_display_text_virtual_card"
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
+    const val screen_spare_card_landing_display_tool_bar_title: String =
+        "screen_spare_card_landing_display_tool_bar_title"
 
     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
@@ -567,6 +577,8 @@ object Strings {
         "screen_add_virtual_spare_card_edit_name_label"
     const val screen_add_virtual_spare_card_edit_name_hint: String =
         "screen_add_virtual_spare_card_edit_name_hint"
+    const val screen_add_virtual_spare_card_tool_bar_title: String =
+        "screen_add_virtual_spare_card_tool_bar_title"
 
 
     // Add funds Screen

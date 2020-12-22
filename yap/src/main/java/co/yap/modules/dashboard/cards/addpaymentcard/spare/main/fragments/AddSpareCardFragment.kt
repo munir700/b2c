@@ -28,6 +28,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.parseToDouble
@@ -50,8 +51,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUpArguments()
+        setCardDimens()
         navController = findNavController()
         setObservers()
+    }
+
+    private fun setCardDimens() {
+        val params = getBinding().include.cardView.layoutParams
+        params.width = getBinding().include.cardView.context.dimen(R.dimen._204sdp)
+        params.height = getBinding().include.cardView.context.dimen(R.dimen._225sdp)
+        getBinding().include.cardView.layoutParams = params
     }
 
     private fun setObservers() {

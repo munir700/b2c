@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentChildViewModel
 import co.yap.networking.cards.responsedtos.VirtualCardDesigns
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class AddVirtualCardViewModel(application: Application) :
@@ -13,6 +14,11 @@ class AddVirtualCardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        setToolBarTitle(getString(Strings.screen_add_virtual_spare_card_tool_bar_title))
     }
 
     override fun observeCardNameLength(str: String): Boolean {
