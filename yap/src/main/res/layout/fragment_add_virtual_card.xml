@@ -66,9 +66,7 @@
                 app:tabGravity="center"
                 app:tabIndicator="@null"
                 app:tabPaddingEnd="6dp"
-                app:tabPaddingStart="6dp"
-                >
-            </com.google.android.material.tabs.TabLayout>
+                app:tabPaddingStart="6dp"/>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
                 android:id="@+id/ctcCardEdit"
@@ -76,7 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:hint="@string/screen_add_virtual_spare_card_edit_name_label"
-                app:hintTextAppearance="@style/SmallGrey"
+                android:textColorHint="@color/colorPrimaryDark"
+                app:hintTextAppearance="@style/Small"
                 app:layout_constraintTop_toBottomOf="@+id/tabLayout"
                 tools:hint="Name your virtual card">
 
@@ -87,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     android:maxLength="26"
                     android:paddingBottom="@dimen/margin_normal"
                     android:singleLine="true"
