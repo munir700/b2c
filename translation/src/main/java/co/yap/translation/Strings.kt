@@ -1885,4 +1885,6 @@ object Strings {
         "screen_qr_code_own_uuid_error_message"
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
+    const val screen_change_passcode_success_display_text_heading: String =
+        "screen_change_passcode_success_display_text_heading"
 }
