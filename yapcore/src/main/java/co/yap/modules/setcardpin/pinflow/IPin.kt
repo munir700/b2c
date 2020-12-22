@@ -16,6 +16,7 @@ interface IPin {
             get() = 1
 
         var pincode: String
+        var termsCondition : String
         val clickEvent: SingleClickEvent
         val forgotPasscodeclickEvent: SingleClickEvent
         var errorEvent: SingleClickEvent

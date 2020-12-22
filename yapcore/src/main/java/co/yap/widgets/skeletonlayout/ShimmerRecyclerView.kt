@@ -32,13 +32,13 @@ class ShimmerRecyclerView @JvmOverloads constructor(
                 rvAdapter?.registerAdapterDataObserver(MyDataObserverAdapter())
                 skeleton = applySkeleton(shimmerLayoutId, itemCount)
                 if(rvAdapter?.itemCount==0){
-                    skeleton.showSkeleton()
+                    skeleton?.showSkeleton()
                 }
                 invalidate()
             }
         }
 
-    private lateinit var skeleton: Skeleton
+    private var skeleton: Skeleton? = null
 
     init {
         val attributes =
@@ -54,9 +54,9 @@ class ShimmerRecyclerView @JvmOverloads constructor(
         override fun onChanged() {
             super.onChanged()
             if(rvAdapter?.itemCount==0){
-                skeleton.showSkeleton()
+                skeleton?.showSkeleton()
             }else{
-                skeleton.showOriginal()
+                skeleton?.showOriginal()
             }
         }
     }

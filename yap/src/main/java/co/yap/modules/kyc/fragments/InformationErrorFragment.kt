@@ -19,7 +19,6 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         viewModel.state.errorTitle =
             arguments?.let { InformationErrorFragmentArgs.fromBundle(it).errorTitle }.toString()
 
@@ -33,6 +32,7 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
         viewModel.clickEvent.observe(this, Observer {
             viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+
         })
     }
 

@@ -19,6 +19,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
@@ -195,11 +196,16 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (response.data.data != null) {
                         if (response.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
-                            val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                            val VATAmount = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                            state.physicalCardFee =
-                                feeAmount?.plus(VATAmount ?: 0.0).toString()
-                                    .toFormattedCurrency()
+                            response.data.data?.tierRateDTOList?.get(0)?.let { feeTier ->
+                                val feeAmount =
+                                    (feeTier.feeAmount ?: 0.0).plus(fixedAmount)
+                                val vatAmount =
+                                    (feeAmount * (feeTier.vatPercentage?.parseToDouble()?.div(100)
+                                        ?: 0.0))
+                                state.physicalCardFee =
+                                    feeAmount.plus(vatAmount).toString()
+                                        .toFormattedCurrency()
+                            }
                         }
                     } else {
                         state.physicalCardFee = "0.0".toFormattedCurrency()

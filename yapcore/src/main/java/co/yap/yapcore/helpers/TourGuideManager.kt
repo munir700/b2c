@@ -60,7 +60,13 @@ object TourGuideManager {
         return blockedTourGuideList
     }
 
-    fun blockTourGuideScreen(screenName: TourGuideType) {
+    fun lockTourGuideScreen(screenName: TourGuideType) {
         sharedPreferenceManager?.save(screenName.name, true)
+    }
+
+    fun unlockTourGuideScreens() {
+        getBlockedTourGuideScreens.forEach {
+            sharedPreferenceManager?.save(it.name, false)
+        }
     }
 }

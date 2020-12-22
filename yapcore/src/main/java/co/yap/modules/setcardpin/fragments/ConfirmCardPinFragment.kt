@@ -45,6 +45,7 @@ class ConfirmCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View 
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
+        getBindings().tvTitle.visibility = View.VISIBLE
     }
 
     override fun setObservers() {
