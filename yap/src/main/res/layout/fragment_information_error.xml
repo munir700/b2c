@@ -77,7 +77,7 @@
             tools:text="@string/screen_kyc_information_error_button_go_to_dashboard"
             android:text="@{viewModel.state.buttonTitle}"
             android:layout_marginTop="@dimen/margin_medium_large"
-            android:onClick="@{(v)->viewModel.handlePressOnGoToDashboard(v.id)}"
+            android:onClick="@{(v)->viewModel.handlePressOnGoToDashboard()}"
             android:layout_marginBottom="@dimen/margin_extra_large"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

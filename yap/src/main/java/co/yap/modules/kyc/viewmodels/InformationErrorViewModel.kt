@@ -27,7 +27,7 @@ class InformationErrorViewModel(application: Application) :
         }
     }
 
-    override fun handlePressOnGoToDashboard(id: Int) {
+    override fun handlePressOnGoToDashboard() {
         clickEvent.call()
     }
 }
