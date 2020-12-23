@@ -1132,4 +1132,7 @@
     <string name="screen_additional_info_label_text_question_hint">Answer to question goes here</string>
 
 
+    <string name="common_display_text_founder">FOUNDER</string>
+
+
 </resources>

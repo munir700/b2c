@@ -1818,4 +1818,8 @@ object Strings {
 
     const val screen_additional_info_label_text_do_it_later: String =
         "screen_additional_info_label_text_do_it_later"
+
+    const val common_display_text_founder: String =
+        "common_display_text_founder"
+
 }
