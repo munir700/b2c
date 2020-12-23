@@ -57,7 +57,7 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
             this,
             Observer { isStoreFragmentVisible ->
                 if (isStoreFragmentVisible) {
-                    tourStep = requireActivity().launchTourGuide(TourGuideType.YAP_STORE_SCREEN) {
+                    tourStep = requireActivity().launchTourGuide(TourGuideType.STORE_SCREEN) {
                         this.addAll(setViewsArray())
                     }
                 } else {
