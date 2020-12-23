@@ -20,13 +20,13 @@ object TourGuideManager {
         ) {
             blockedTourGuideList.add(TourGuideType.YAP_HOME_SCREEN)
         }
-        if (sharedPreferenceManager?.getValueBoolien(
+       /* if (sharedPreferenceManager?.getValueBoolien(
                 TourGuideType.YAP_HOME_GRAPH.name,
                 false
             ) == true
         ) {
             blockedTourGuideList.add(TourGuideType.YAP_HOME_GRAPH)
-        }
+        }*/
         if (sharedPreferenceManager?.getValueBoolien(
                 TourGuideType.YAP_STORE_SCREEN.name,
                 false

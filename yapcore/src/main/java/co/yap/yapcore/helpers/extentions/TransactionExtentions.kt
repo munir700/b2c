@@ -74,7 +74,7 @@ fun Transaction?.getTransactionIcon(): Int {
                             R.drawable.ic_cash_out_trasaction
                         }
                         TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
-                            getMerchantCategoryIcon()
+                            transaction.merchantCategoryName.getMerchantCategoryIcon()
                         }
 
                         else -> -1
@@ -173,7 +173,7 @@ fun Transaction?.getCategoryIcon(): Int {
             TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode -> {
                 R.drawable.ic_cash
             }
-            TransactionProductCode.POS_PURCHASE.pCode -> getMerchantCategoryIcon()
+            TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName.getMerchantCategoryIcon()
 
             else -> 0
         })
@@ -208,11 +208,11 @@ fun Transaction?.getCategoryTitle(): String {
 }
 
 
-fun Transaction?.getMerchantCategoryIcon(): Int {
-    this?.let { transaction ->
+fun String?.getMerchantCategoryIcon(): Int {
+    this?.let { title ->
         return ImageBinding.getResId(
             "ic_" + ImageBinding.getDrawableName(
-                transaction.merchantCategoryName ?: ""
+                title
             ) + "_no_bg"
         )
     } ?: return -1

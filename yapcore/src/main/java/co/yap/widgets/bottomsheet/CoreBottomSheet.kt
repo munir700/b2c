@@ -60,11 +60,16 @@ class CoreBottomSheet(
             getBinding().tvlabel.text = it
         }
         getBinding().lySearchView.etSearch.afterTextChanged {
-            adapter.filter.filter(it)
+            adapter.filter.filter(it) { itemCount ->
+                if (itemCount == 0) {
+                    viewModel.state.noItemFound.set(true)
+                } else {
+                    viewModel.state.noItemFound.set(false)
+                }
+            }
         }
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
         getBinding().rvBottomSheet.adapter = adapter
-
     }
 
     private val myListener: OnItemClickListener = object : OnItemClickListener {
@@ -78,8 +83,9 @@ class CoreBottomSheet(
         val bottomSheetDialog =
             super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener { dialog ->
-            bottomSheetDialog.behavior.saveFlags = BottomSheetBehavior.SAVE_SKIP_COLLAPSED
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetDialog.behavior.skipCollapsed = true
+            bottomSheetDialog.behavior.isHideable = true
         }
         return bottomSheetDialog
     }

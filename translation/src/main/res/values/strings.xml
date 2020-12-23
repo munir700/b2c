@@ -39,6 +39,7 @@
     <string name="common_display_text_show_recent_transfer">Show Recent transfers</string>
     <string name="common_display_text_search_hint">Search</string>
     <string name="common_display_text_no_results">No results</string>
+    <string name="common_display_text_no_country_found">No country found</string>
 
 
     <!-- Home Screen -->
