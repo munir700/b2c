@@ -127,6 +127,7 @@ class TourSetup(
                 }
             }
             layer?.isRectangle = it.isRectangle
+            layer?.rectHeight = it.view.height.toFloat()
             layer?.invalidate()
         }
     }
