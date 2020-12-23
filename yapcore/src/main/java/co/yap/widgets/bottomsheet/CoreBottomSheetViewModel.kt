@@ -10,9 +10,9 @@ class CoreBottomSheetViewModel(application: Application) :
     override val clickEvent: SingleClickEvent
         get() = SingleClickEvent()
 
+    override val state: CoreBottomSheetState = CoreBottomSheetState()
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
-    override val state: CoreBottomSheetState = CoreBottomSheetState()
 }
