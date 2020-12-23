@@ -943,9 +943,7 @@ object UIBinder {
     @JvmStatic
     fun setDebitFounderCrdImage(view: ImageView, cardtype: String, isFounder: Boolean) {
         if (cardtype == CardType.DEBIT.type && isFounder == true) {
-            view.setImageResource(R.drawable.card_spare)
-             view.setColorFilter(ContextCompat.getColor(view.context, R.color.disabled), android.graphics.PorterDuff.Mode.SRC_ATOP);
-
+            view.setImageResource(R.drawable.founder_front)
         } else {
             view.setImageResource(R.drawable.card_spare)
 
