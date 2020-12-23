@@ -130,7 +130,7 @@ class TransactionsViewHelper(
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
-        transactionsView.tvTransactionDate.visibility = View.VISIBLE
+        setTooltipVisibility(View.VISIBLE)
         transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
             data.originalDate ?: "",
             "yyyy-MM-dd",
@@ -170,7 +170,7 @@ class TransactionsViewHelper(
                 tooltip?.arrowView?.getLocationInWindow(arrowViewPosition)
                 val screen = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(screen)
-                var rightPadding = screen.widthPixels/2
+                var rightPadding = 0
                 if (viewPosition[0] + this.width >= screen.widthPixels) {
                     // It is the end of the screen so adjust X
 //                    if((arrowViewPosition[0].minus(this.width))>screen.widthPixels/2){

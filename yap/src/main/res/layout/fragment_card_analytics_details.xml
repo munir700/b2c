@@ -33,6 +33,7 @@
             app:fullName="@{viewModel.state.title==null?` `:viewModel.state.title}"
             app:imageUrl="@{viewModel.state.ImageUrl == null ? ` ` : viewModel.state.ImageUrl}"
             app:isBackground="@{true}"
+            app:showFirstInitials="@{true}"
             app:position="@{viewModel.state.position}"
             tools:src="@drawable/ic_access_alarm" />
 
