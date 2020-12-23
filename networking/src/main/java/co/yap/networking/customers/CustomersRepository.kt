@@ -376,11 +376,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
     executeSafely(call = { api.updateFxRate(fxRate) })
 
-    override suspend fun completeTourGuide(viewName: String, completed: Boolean): RetroApiResponse<CompleteTourGuideResponse> =
-        executeSafely(call = { api.completeTourGuide(viewName, completed) })
-
-    override suspend fun skipTourGuide(viewName: String, skipped: Boolean): RetroApiResponse<CompleteTourGuideResponse> =
-        executeSafely(call = { api.skipTourGuide(viewName, skipped) })
+    override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
+        executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
 
     override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
         executeSafely(call = { api.getTourGuides() })

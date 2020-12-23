@@ -253,10 +253,7 @@ interface CustomersRetroService {
     suspend fun updateFxRate(@Body fxRate: FxRateRequest): Response<FxRateResponse>
 
     @POST(CustomersRepository.URL_COMPLETE_TOUR_GUIDE)
-    suspend fun completeTourGuide(@Body viewName: String, @Body completed: Boolean): Response<CompleteTourGuideResponse>
-
-    @POST(CustomersRepository.URL_SKIP_TOUR_GUIDE)
-    suspend fun skipTourGuide(@Body viewName: String, @Body skipped: Boolean): Response<CompleteTourGuideResponse>
+    suspend fun updateTourGuideStatus(@Body tourGuide: TourGuideRequest): Response<UpdateTourGuideResponse>
 
     @GET(CustomersRepository.URL_TOUR_GUIDES)
     suspend fun getTourGuides(): Response<TourGuideResponse>

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CompleteTourGuideResponse(
+data class UpdateTourGuideResponse(
     @SerializedName("errors")
     val errors: String? = null,
     @SerializedName("data")
