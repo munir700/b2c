@@ -93,7 +93,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TourGuideManager.configure(this)
         SessionManager.getCountriesFromServer { _, _ -> }
         inflateFloatingActonButton()
         setupPager()
