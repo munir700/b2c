@@ -37,6 +37,7 @@
                 app:fullName="@{viewModel.analyticsItem.title==null?` `:viewModel.analyticsItem.title}"
                 app:imageUrl="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
                 app:isBackground="@{true}"
+                app:showFirstInitials="@{true}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:position="@{viewModel.position}" />
