@@ -114,15 +114,16 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "fullName", "position", "isBackground"],
+        value = ["imageUrl", "fullName", "position", "isBackground", "showFirstInitials"],
         requireAll = false
     )
-    fun loadAvatar1(
+    fun loadAnalyticsAvatar(
         imageView: ImageView,
         imageUrl: String?,
         fullName: String?,
         position: Int,
-        isBackground: Boolean = true
+        isBackground: Boolean = true,
+        showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
         val fName = fullName ?: ""
@@ -153,7 +154,7 @@ object ImageBinding {
             setDrawable(
                 imageView,
                 imageUrl,
-                fName,
+                if (showFirstInitials) fName.split(" ")[0] else fName,
                 position
             )
         }
