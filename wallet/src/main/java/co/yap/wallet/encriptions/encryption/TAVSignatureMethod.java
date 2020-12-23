@@ -1,21 +1,44 @@
 package co.yap.wallet.encriptions.encryption;
 
 import android.util.Base64;
+import android.util.Log;
 
-import java.nio.charset.StandardCharsets;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+
 import java.security.InvalidKeyException;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.SignatureException;
 
+import co.yap.wallet.encriptions.utils.EncodingUtils;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 /**
- * RSA-SHA1 signature method. The RSA-SHA1 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in RFC3447
+ * RSA-SHA256 signature method. The RSA-SHA256 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in RFC3447
  * section 8.2 (more simply known as PKCS#1), using SHA-1 as the hash function for EMSA-PKCS1-v1_5.
  *
  * <p>
- * The OAuth 1.0 Protocol <a href="https://tools.ietf.org/html/rfc5849">RFC 5849</a> is obsoleted by the OAuth 2.0 Authorization Framework <a href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>.
+ * The OAuth 1.0 Protocol <a href="https://tools.ietf.org/html/rfc3447">RFC 3447</a> is obsoleted by the OAuth 2.0 Authorization Framework <a href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>.
+ * <p>
+ * <p>
+ * digital signature algorithm as specified by PKCS#1 v2.1/RFC3447 (specifically
+ * the method described in Section 8.2 RSASSA-PKCS1-v1_5) <a href="https://tools.ietf.org/html/rfc5849">RFC 3447</a>
+ * 3. The RSA signature value shall be base64 encoded and constitute the value of
+ * the digital signature within the TAV (the signature value should just be a
+ * base64-encoded representation of the raw signature bytes).
+ * <p>
+ * The characters concatenated should be UTF-8 (also often referred to as ASCII or
+ * ISO-8559-1) encoded and not EBCDIC or any other encoding.
+ * <p>
+ * The input to the digital signature algorithm consists of the UTF-8 encoded strings
+ * concatenated together. There is no additional conversion required after the strings have
+ * been concatenated.
  *
  * @author Irfan Arshad
  */
@@ -26,8 +49,9 @@ public class TAVSignatureMethod {
      * The name of this RSA-SHA1 signature method ("RSA-SHA256").
      */
     public static final String SIGNATURE_NAME = "RSA-SHA256";
-    // Signing Algorithm
-    private static final String SIGNING_ALGORITHM = "SHA256withRSA";
+    // Signature Algorithm
+    private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
+    private static final String version = "3";
 
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
@@ -82,22 +106,23 @@ public class TAVSignatureMethod {
      *
      * @param signatureBaseString The signature base string.
      * @return The signature.
-     * @throws UnsupportedOperationException If there is no private key.
+     * @throws InvalidSignatureException If there is no private key.
      */
-    public String sign(String signatureBaseString) {
+    private String sign(String signatureBaseString) throws InvalidSignatureException {
         if (privateKey == null) {
-            throw new UnsupportedOperationException("Cannot sign the base string: no private key supplied.");
+            throw new InvalidSignatureException("Cannot sign the base string: no private key supplied.");
         }
 
         try {
-            Signature signer = Signature.getInstance(SIGNING_ALGORITHM);
+            Signature signer = Signature.getInstance(SIGNATURE_ALGORITHM);
             signer.initSign(privateKey);
-            signer.update(signatureBaseString.getBytes(StandardCharsets.UTF_8));
+            signer.update(signatureBaseString.getBytes(UTF_8));
             byte[] signatureBytes = signer.sign();
-            signatureBytes = Base64.encode(signatureBytes,Base64.DEFAULT);
-            return new String(signatureBytes, StandardCharsets.UTF_8);
+            //String hexEncode = EncodingUtils.base64Encode(signatureBytes);
+            //signatureBytes = Base64.encode(signatureBytes, Base64.DEFAULT);
+            return EncodingUtils.base64Encode(signatureBytes);//new String(signatureBytes, UTF_8);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-            throw new IllegalStateException(e);
+            throw new InvalidSignatureException("Invalid signature for signature method:" + e.getLocalizedMessage(), e);
         }
     }
 
@@ -116,16 +141,32 @@ public class TAVSignatureMethod {
             throw new UnsupportedOperationException("A public key must be provided to verify signatures.");
         }
         try {
-            byte[] signatureBytes = Base64.decode(signature.getBytes(StandardCharsets.UTF_8),Base64.DEFAULT);
-            Signature verifier = Signature.getInstance(SIGNING_ALGORITHM);
+            byte[] signatureBytes = Base64.decode(signature.getBytes(UTF_8), Base64.DEFAULT);
+            Signature verifier = Signature.getInstance(SIGNATURE_ALGORITHM);
             verifier.initVerify(publicKey);
-            verifier.update(signatureBaseString.getBytes(StandardCharsets.UTF_8));
+            verifier.update(signatureBaseString.getBytes(UTF_8));
             if (!verifier.verify(signatureBytes)) {
                 throw new InvalidSignatureException("Invalid signature for signature method " + getName());
             }
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public static String createDigitalSignature(TAVSignatureConfig config) throws InvalidSignatureException {
+        TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey);
+        return signatureMethod.sign(config.concatenatedData.toString());
+    }
+
+    public static String createBase64DigitalSignature(TAVSignatureConfig config) throws InvalidSignatureException {
+        TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey);
+        String signature = signatureMethod.sign(config.concatenatedData.toString());
+        TAVStructure tavStructure = new TAVStructure(version, SIGNATURE_NAME, config.dataValidUntilTimestamp, config.includedFieldsInOrder.toString(), signature);
+        String toJson = new GsonBuilder().disableHtmlEscaping().create().toJson(tavStructure);
+        byte[] data = toJson.getBytes(UTF_8);
+        Log.d("TAV Base64", EncodingUtils.base64Encode(data));
+        Log.d("TAV signature ", signature);
+        return EncodingUtils.base64Encode(data); //new String(Base64.encode(data, Base64.DEFAULT), UTF_8);
     }
 
     /**
@@ -144,5 +185,50 @@ public class TAVSignatureMethod {
      */
     public PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    private static class TAVStructure {
+
+        @SerializedName("version")
+        public String version;
+        @SerializedName("signatureAlgorithm")
+        public String signatureAlgorithm;
+        @SerializedName("dataValidUntilTimestamp")
+        public String dataValidUntilTimestamp;
+        @SerializedName("includedFieldsInOrder")
+        public String includedFieldsInOrder;
+        @SerializedName("signature")
+        public String signature;
+
+        public TAVStructure(String version, String signatureAlgorithm, String dataValidUntilTimestamp, String includedFieldsInOrder, String signature) {
+            this.version = version;
+            this.signatureAlgorithm = signatureAlgorithm;
+            this.dataValidUntilTimestamp = dataValidUntilTimestamp;
+            this.includedFieldsInOrder = includedFieldsInOrder;
+            this.signature = signature;
+        }
+    }
+
+    // Generating the asymmetric key pair for Testing purpose only
+    // using SecureRandom class
+    // functions and RSA algorithm.
+    public static PrivateKey generateTestPrivateKey() throws InvalidSignatureException {
+//            throws Exception {
+
+        SecureRandom secureRandom
+                = new SecureRandom();
+        KeyPairGenerator keyPairGenerator
+                = null;
+        try {
+            keyPairGenerator = KeyPairGenerator
+                    .getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            throw new InvalidSignatureException(e.getLocalizedMessage(), e);
+        }
+        keyPairGenerator
+                .initialize(
+                        2048, secureRandom);
+        return keyPairGenerator
+                .generateKeyPair().getPrivate();
     }
 }

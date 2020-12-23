@@ -1,14 +1,11 @@
 package co.yap.modules.dashboard.cards.home.fragments
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
+import android.util.Base64
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -29,7 +26,9 @@ import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActiv
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
+import co.yap.wallet.encriptions.utils.EncodingUtils
 import co.yap.wallet.samsung.SamsungPayWalletManager
+import co.yap.wallet.samsung.getTestPayloadForSamsung
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
@@ -40,7 +39,9 @@ import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
+import java.nio.charset.StandardCharsets
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
@@ -207,9 +208,30 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.btnSamsungPay -> {
                     SamsungPayWalletManager.getInstance(requireContext())
                         .getWalletInfo { status, bundle ->
-                            viewModel.getCardTokenForSamsungPay {
-                                SamsungPayWalletManager.getInstance(requireContext()).addYapCardToSamsungPay("eyJDYXJkSW5mbyI6eyJlbmNyeXB0ZWREYXRhIjoiNzM3MWU4MWUzMTUzZmQ5MjE0MTdlOThhZjM0NDc5ZjFjNGMxNmNjMTAzNDBkNTE3YzIxNmIzOTIxOWRjMjk3NDBmNTY2Zjc5NjNhNDhjMjA5YWFmMTRiZjY2NTMxNTdhOWM3Y2U1ZDVjNjJiM2EzNWM4ZDQ1OGE0ZmRlNTcyZTI2Nzc4NDRiZDU5N2ZmYWFiZDBiYmQ5OWI4ZDZhYTMxYzgzYWExNzQ3MTE1ZWJmMmEyYjkzN2E2Y2IyYTRiMGM3YzgyMjlhZmFiZTMwOTFiOTgxMjFhZWE3NzNmZDA3NTI5NWJiNDUwYmM2ZTVmZjA2ODg3ODVmMGZkOTdkMDY3ZTcyMjhjOTg2NDJhNDY2NTExNjM2NDdiNTM2NWM5YTBmNWU0MWFiMDg0NWFiMjAzMGI2ZTdkMDAxMzhmODMwMTUiLCJpdiI6IjRkNTA0NzkzMTdlMTU0NmVjODBiYzY4YWMyZDIyY2U4IiwiZW5jcnlwdGVkS2V5IjoiNzM4ZTg4NDJjYTk3ZjFlZGRhYTBkODJhMGY3YzUyZTQ2MDY0NTQ4ZDFlOGI1ZDRhNGRiZTM2ZDgzN2NlOWFmYzAxMWRlMWJmMTNiMGIxZTZlYzJmNDRhYmQwYTVmNGQ0NzgyN2Q0ZmU3YjlkMWJmMTZmNTBiZDUwYjljYzg5ZDNjMGEyYjEwYmYwMTZiMGYwNmZiNTIxN2JmNTdiMzY3NTJhYTVlYTZmZTI5MDE4YzM3YTU2Nzc2ZDQ5NTkwMjNiMTMzYjE5MDA1NzA2NTBmNmQ1ODBkODY1MjIxYThlMmE4NGNkMTM1Y2FlNTNhMzYxNTEwZDRjZDNmNzA5MDU4NGZmYmYyYjRlYTI2NzVhOGU1MGY3MDQzM2NkYzUxYzExZWM1N2RlYmQ4NmEyZTNlNmNhZTIwM2VlYTUxYzhhYWQyMWM5MGU0MTE2NDA0OWQwNjhlMzQ4NTI0ZWQ3ZTkwZWY4MTljYmQwNWRmOGVkNTIwNTJlYjYwMDRmY2VhNTJhZmViNTFkMTliYTVlZmMxMmYxNTI5NTljODI3OTNlMTVmMzJlZmEwMmM0MTI2N2I3NDQ4YTIzOGVhYTE3ZmE3NDFjY2Q3MjA2ZjNkNGM5YjFkNDlhMzAwMmNlYWUyMjM2YzcyZjRkODkwN2NjZTFiZjkyYTNkODhmMzU2ZjgzMTEiLCJwdWJsaWNLZXlGaW5nZXJwcmludCI6IjU0YmIwM2ZkM2RjZTNkODQ1NDJiZWYwNzBmOTgxODJiMzY2OTg4M2UzN2JjNDI1YjRlYTA0NzZjYTk0YmUyMmYiLCJvYWVwSGFzaGluZ0FsZ29yaXRobSI6IlNIQTUxMiJ9LCJ0b2tlbml6YXRpb25BdXRoZW50aWNhdGlvblZhbHVlIjoiZXlKa1lYUmhWbUZzYVdSVmJuUnBiRlJwYldWemRHRnRjQ0k2SWpJd01qQXRNVEl0TVRkVU1UWTZNVEE2TlRsYUlpd2lhVzVqYkhWa1pXUkdhV1ZzWkhOSmJrOXlaR1Z5SWpvaVlXTmpiM1Z1ZEU1MWJXSmxjbnhoWTJOdmRXNTBSWGh3YVhKNWZHUmhkR0ZXWVd4cFpGVnVkR2xzVkdsdFpYTjBZVzF3SWl3aWMybG5ibUYwZFhKbElqb2lZbUZLU21jM2JWWmlOMVZhVTNFM1lsSjRVazQwVjBSSGFWcEhTMlJUUmtKMVJHVjJhRzgzWm1JeE5qVTFSbGhPVFhwMVQybEhVa1ZrZDJoSGIwaHRaRzF4YTB0cVMyTmFVM3B5Y1VOYU1rUXpkWEJKZW1od00wODBZMUoxUjBod1NrVnZhakZXYmxWTFRYZHNPRlJuU0hVdmJtVm5jMlIzTVU5amEycHpjMEU0YTFkM1NrOXRXWEl3TlVaVGVUaHFUMnMyTVVJd1VFdHZTVmxUVTBaa1JsbFBjeTltY2psa01VcHdPSGhyYlhGUWF6bFdWMHBMZUc5U2RFeG1Vak5LWm0wM1RWRlpkUzlMZHl0QldVazRjRVZzTms1RVdVSjVURWQ0ZDA1SFNtazFTV3RzY25wWFpTdFNUM3BEVGxabFMzaDVUR2szVWtwd1oxQjBOVmcxVVRJd2VITlNZMVJEUzNORFdEbFhWa1JLTTNwMGVtZEJVREJWTjBFclV6SjVZV1VyVG1aTldsbDBNRlpHTm1vMVdtNDNLMEpLZW5CdVMwRkVRMWRzYnpaYU5WQjBhVlJEZHpSNWFGRXpTelZPTVcwemNuZEJQVDBpTENKemFXZHVZWFIxY21WQmJHZHZjbWwwYUcwaU9pSlNVMEV0VTBoQk1qVTJJaXdpZG1WeWMybHZiaUk2SWpNaWZRPT0ifQ==")
+                            requireContext().getTestPayloadForSamsung { paylaod ->
+                                val data = paylaod.toByteArray(StandardCharsets.UTF_8)
+                                val finalPayload = EncodingUtils.base64Encode(data)
+                                SamsungPayWalletManager.getInstance(requireContext())
+                                    .addYapCardToSamsungPay(finalPayload)
                             }
+//                            viewModel.getCardTokenForSamsungPay { data ->
+//                                val toJson =
+//                                    GsonBuilder().disableHtmlEscaping().create()
+//                                        .toJson(data)
+////                                SamsungPayWalletManager.getInstance(requireContext())
+////                                    .addYapCardToSamsungPay(
+////                                        "eyJDYXJkSW5mbyI6eyJlbmNyeXB0ZWREYXRhIjoiNzM3MWU4MWUzMTUzZmQ5MjE0MTdlOThhZjM0NDc5ZjFjNGMxNmNjMTAzNDBkNTE3YzIxNmIzOTIxOWRjMjk3NDBmNTY2Zjc5NjNhNDhjMjA5YWFmMTRiZjY2NTMxNTdhOWM3Y2U1ZDVjNjJiM2EzNWM4ZDQ1OGE0ZmRlNTcyZTI2Nzc4NDRiZDU5N2ZmYWFiZDBiYmQ5OWI4ZDZhYTMxYzgzYWExNzQ3MTE1ZWJmMmEyYjkzN2E2Y2IyYTRiMGM3YzgyMjlhZmFiZTMwOTFiOTgxMjFhZWE3NzNmZDA3NTI5NWJiNDUwYmM2ZTVmZjA2ODg3ODVmMGZkOTdkMDY3ZTcyMjhjOTg2NDJhNDY2NTExNjM2NDdiNTM2NWM5YTBmNWU0MWFiMDg0NWFiMjAzMGI2ZTdkMDAxMzhmODMwMTUiLCJpdiI6IjRkNTA0NzkzMTdlMTU0NmVjODBiYzY4YWMyZDIyY2U4IiwiZW5jcnlwdGVkS2V5IjoiNzM4ZTg4NDJjYTk3ZjFlZGRhYTBkODJhMGY3YzUyZTQ2MDY0NTQ4ZDFlOGI1ZDRhNGRiZTM2ZDgzN2NlOWFmYzAxMWRlMWJmMTNiMGIxZTZlYzJmNDRhYmQwYTVmNGQ0NzgyN2Q0ZmU3YjlkMWJmMTZmNTBiZDUwYjljYzg5ZDNjMGEyYjEwYmYwMTZiMGYwNmZiNTIxN2JmNTdiMzY3NTJhYTVlYTZmZTI5MDE4YzM3YTU2Nzc2ZDQ5NTkwMjNiMTMzYjE5MDA1NzA2NTBmNmQ1ODBkODY1MjIxYThlMmE4NGNkMTM1Y2FlNTNhMzYxNTEwZDRjZDNmNzA5MDU4NGZmYmYyYjRlYTI2NzVhOGU1MGY3MDQzM2NkYzUxYzExZWM1N2RlYmQ4NmEyZTNlNmNhZTIwM2VlYTUxYzhhYWQyMWM5MGU0MTE2NDA0OWQwNjhlMzQ4NTI0ZWQ3ZTkwZWY4MTljYmQwNWRmOGVkNTIwNTJlYjYwMDRmY2VhNTJhZmViNTFkMTliYTVlZmMxMmYxNTI5NTljODI3OTNlMTVmMzJlZmEwMmM0MTI2N2I3NDQ4YTIzOGVhYTE3ZmE3NDFjY2Q3MjA2ZjNkNGM5YjFkNDlhMzAwMmNlYWUyMjM2YzcyZjRkODkwN2NjZTFiZjkyYTNkODhmMzU2ZjgzMTEiLCJwdWJsaWNLZXlGaW5nZXJwcmludCI6IjU0YmIwM2ZkM2RjZTNkODQ1NDJiZWYwNzBmOTgxODJiMzY2OTg4M2UzN2JjNDI1YjRlYTA0NzZjYTk0YmUyMmYiLCJvYWVwSGFzaGluZ0FsZ29yaXRobSI6IlNIQTUxMiJ9LCJ0b2tlbml6YXRpb25BdXRoZW50aWNhdGlvblZhbHVlIjoiZXlKa1lYUmhWbUZzYVdSVmJuUnBiRlJwYldWemRHRnRjQ0k2SWpJd01qQXRNVEl0TVRkVU1UWTZNVEE2TlRsYUlpd2lhVzVqYkhWa1pXUkdhV1ZzWkhOSmJrOXlaR1Z5SWpvaVlXTmpiM1Z1ZEU1MWJXSmxjbnhoWTJOdmRXNTBSWGh3YVhKNWZHUmhkR0ZXWVd4cFpGVnVkR2xzVkdsdFpYTjBZVzF3SWl3aWMybG5ibUYwZFhKbElqb2lZbUZLU21jM2JWWmlOMVZhVTNFM1lsSjRVazQwVjBSSGFWcEhTMlJUUmtKMVJHVjJhRzgzWm1JeE5qVTFSbGhPVFhwMVQybEhVa1ZrZDJoSGIwaHRaRzF4YTB0cVMyTmFVM3B5Y1VOYU1rUXpkWEJKZW1od00wODBZMUoxUjBod1NrVnZhakZXYmxWTFRYZHNPRlJuU0hVdmJtVm5jMlIzTVU5amEycHpjMEU0YTFkM1NrOXRXWEl3TlVaVGVUaHFUMnMyTVVJd1VFdHZTVmxUVTBaa1JsbFBjeTltY2psa01VcHdPSGhyYlhGUWF6bFdWMHBMZUc5U2RFeG1Vak5LWm0wM1RWRlpkUzlMZHl0QldVazRjRVZzTms1RVdVSjVURWQ0ZDA1SFNtazFTV3RzY25wWFpTdFNUM3BEVGxabFMzaDVUR2szVWtwd1oxQjBOVmcxVVRJd2VITlNZMVJEUzNORFdEbFhWa1JLTTNwMGVtZEJVREJWTjBFclV6SjVZV1VyVG1aTldsbDBNRlpHTm1vMVdtNDNLMEpLZW5CdVMwRkVRMWRzYnpaYU5WQjBhVlJEZHpSNWFGRXpTelZPTVcwemNuZEJQVDBpTENKemFXZHVZWFIxY21WQmJHZHZjbWwwYUcwaU9pSlNVMEV0VTBoQk1qVTJJaXdpZG1WeWMybHZiaUk2SWpNaWZRPT0ifQ=="
+////                                    )
+//                                val data = String(
+//                                    Base64.encode(
+//                                        toJson.toByteArray(Charsets.UTF_8),
+//                                        Base64.DEFAULT
+//                                    ),
+//                                    Charsets.UTF_8
+//                                )
+//
+//
+//                            }
                         }
 
                 }

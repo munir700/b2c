@@ -26,6 +26,20 @@ import static co.yap.wallet.encriptions.utils.EncodingUtils.encodeBytes;
 
 /**
  * Performs field level encryption on HTTP payloads.
+ * <p>
+ * The Encryption Process
+ * Here are the steps for sending an encrypted payload:
+ * <p>
+ * An AES session key is generated along with some encryption parameters
+ * Sensitive data are encrypted using the AES key
+ * The AES key is encrypted using the recipient’s RSA public key
+ * The payload is sent with the encrypted session key and parameters
+ * CopiedThe Decryption Process
+ * <p>
+ * Here are the steps for decrypting a payload:
+ * <p>
+ * The AES session key is decrypted using the recipient’s RSA private key
+ * Sensitive data are decrypted using the AES key
  */
 public class FieldLevelEncryption {
 
@@ -39,6 +53,7 @@ public class FieldLevelEncryption {
 
     /**
      * Specify the JSON engine to be used.
+     *
      * @param jsonEngine A {@link JsonEngine} instance
      */
     public static synchronized Configuration withJsonEngine(JsonEngine jsonEngine) {
@@ -52,8 +67,25 @@ public class FieldLevelEncryption {
 
     /**
      * Encrypt parts of a JSON payload using the given configuration.
+     *
+     * @param payload                   A JSON string
+     * @param config                    A {@link FieldLevelEncryptionConfig} instance
+     * @param base64TavDigitalSignature string   A Calculated {@link TAVSignatureConfigBuilder } and {@link TAVSignatureMethod }
+     * @return The complete  encrypt payload including TAV
+     * @throws EncryptionException
+     */
+    public static String encryptPayloadWithTAV(String payload, FieldLevelEncryptionConfig config, String base64TavDigitalSignature) throws EncryptionException {
+        String encryptPayload = encryptPayload(payload, config, null);
+        DocumentContext payloadContext = JsonPath.parse(encryptPayload, jsonPathConfig);
+        payloadContext.put("$", config.tokenizationAuthenticationValueFieldName, base64TavDigitalSignature.trim());
+        return payloadContext.jsonString().trim();
+    }
+
+    /**
+     * Encrypt parts of a JSON payload using the given configuration.
+     *
      * @param payload A JSON string
-     * @param config A {@link FieldLevelEncryptionConfig} instance
+     * @param config  A {@link FieldLevelEncryptionConfig} instance
      * @return The updated payload
      * @throws EncryptionException
      */
@@ -63,9 +95,10 @@ public class FieldLevelEncryption {
 
     /**
      * Encrypt parts of a JSON payload using the given parameters and configuration.
+     *
      * @param payload A JSON string
-     * @param config A {@link FieldLevelEncryptionConfig} instance
-     * @param params A {@link FieldLevelEncryptionParams} instance
+     * @param config  A {@link FieldLevelEncryptionConfig} instance
+     * @param params  A {@link FieldLevelEncryptionParams} instance
      * @return The updated payload
      * @throws EncryptionException
      */
@@ -90,8 +123,9 @@ public class FieldLevelEncryption {
 
     /**
      * Decrypt parts of a JSON payload using the given configuration.
+     *
      * @param payload A JSON string
-     * @param config A {@link FieldLevelEncryptionConfig} instance
+     * @param config  A {@link FieldLevelEncryptionConfig} instance
      * @return The updated payload
      * @throws EncryptionException
      */
@@ -101,9 +135,10 @@ public class FieldLevelEncryption {
 
     /**
      * Decrypt parts of a JSON payload using the given parameters and configuration.
+     *
      * @param payload A JSON string
-     * @param config A {@link FieldLevelEncryptionConfig} instance
-     * @param params A {@link FieldLevelEncryptionParams} instance
+     * @param config  A {@link FieldLevelEncryptionConfig} instance
+     * @param params  A {@link FieldLevelEncryptionParams} instance
      * @return The updated payload
      * @throws EncryptionException
      */
@@ -225,7 +260,7 @@ public class FieldLevelEncryption {
         addDecryptedDataToPayload(payloadContext, decryptedValue, jsonPathOut);
 
         // Remove the input if now empty
-        Object inJsonElement  = readJsonElement(payloadContext, jsonPathIn);
+        Object inJsonElement = readJsonElement(payloadContext, jsonPathIn);
         if (0 == jsonProvider.length(inJsonElement) && !"$".equals(jsonPathIn)) {
             payloadContext.delete(jsonPathIn);
         }
@@ -313,6 +348,7 @@ public class FieldLevelEncryption {
         cipher.init(Cipher.DECRYPT_MODE, key, iv);
         return cipher.doFinal(bytes);
     }
+
     public static boolean isNullOrEmpty(String str) {
         return null == str || str.length() == 0;
     }

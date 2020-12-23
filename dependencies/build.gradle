@@ -209,6 +209,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.household)],
             [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.wallet)],
             [configuration: "implementation", dependency: libraries.biometric],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],

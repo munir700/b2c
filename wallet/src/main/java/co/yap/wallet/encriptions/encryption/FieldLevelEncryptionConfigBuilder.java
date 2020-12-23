@@ -32,6 +32,7 @@ public final class FieldLevelEncryptionConfigBuilder {
     private String oaepPaddingDigestAlgorithmFieldName;
     private String oaepPaddingDigestAlgorithmHeaderName;
     private String encryptedKeyFieldName;
+    private String tokenizationAuthenticationValueFieldName = "tokenizationAuthenticationValue";
     private String encryptedKeyHeaderName;
     private String encryptedValueFieldName;
     private String encryptionCertificateFingerprintFieldName;
@@ -111,6 +112,14 @@ public final class FieldLevelEncryptionConfigBuilder {
      */
     public FieldLevelEncryptionConfigBuilder withIvFieldName(String ivFieldName) {
         this.ivFieldName = ivFieldName;
+        return this;
+    }
+
+    /**
+     * See: {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfig#tokenizationAuthenticationValueFieldName}.
+     */
+    public FieldLevelEncryptionConfigBuilder withTokenizationAuthenticationValueFieldName(String tokenizationAuthenticationValueFieldName) {
+        this.tokenizationAuthenticationValueFieldName = tokenizationAuthenticationValueFieldName;
         return this;
     }
 
@@ -204,6 +213,7 @@ public final class FieldLevelEncryptionConfigBuilder {
 
     /**
      * Build a {@link co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfig}.
+     *
      * @throws EncryptionException
      */
     public FieldLevelEncryptionConfig build() throws EncryptionException {
@@ -234,7 +244,7 @@ public final class FieldLevelEncryptionConfigBuilder {
         config.oaepPaddingDigestAlgorithmHeaderName = this.oaepPaddingDigestAlgorithmHeaderName;
         config.encryptedKeyHeaderName = this.encryptedKeyHeaderName;
         config.encryptionCertificateFingerprintHeaderName = this.encryptionCertificateFingerprintHeaderName;
-        config.encryptionKeyFingerprintHeaderName = this.encryptionKeyFingerprintHeaderName;
+        config.tokenizationAuthenticationValueFieldName = this.tokenizationAuthenticationValueFieldName;
         return config;
     }
 
@@ -277,9 +287,12 @@ public final class FieldLevelEncryptionConfigBuilder {
         if (encryptedValueFieldName == null) {
             throw new IllegalArgumentException("Encrypted value field name cannot be null!");
         }
+        if (tokenizationAuthenticationValueFieldName == null) {
+            throw new IllegalArgumentException("At least one of tokenizationAuthenticationValue field name name must be set!. Field name must be tokenizationAuthenticationValue");
+        }
     }
 
-    private void checkParameterConsistency () {
+    private void checkParameterConsistency() {
         if (!decryptionPaths.isEmpty() && decryptionKey == null) {
             throw new IllegalArgumentException("Can't decrypt without decryption key!");
         }

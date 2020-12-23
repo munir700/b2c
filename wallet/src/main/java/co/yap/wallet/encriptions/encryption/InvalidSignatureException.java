@@ -24,7 +24,7 @@ package co.yap.wallet.encriptions.encryption;
  * @author Irfan Arshad
  */
 @SuppressWarnings("serial")
-public class InvalidSignatureException extends RuntimeException {
+public class InvalidSignatureException extends Exception {
 
     public InvalidSignatureException(String msg) {
         super(msg);

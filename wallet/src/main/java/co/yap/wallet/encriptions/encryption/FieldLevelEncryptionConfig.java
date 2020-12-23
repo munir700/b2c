@@ -131,6 +131,8 @@ public class FieldLevelEncryptionConfig {
      */
     protected String encryptionKeyFingerprintFieldName = null;
 
+    protected String tokenizationAuthenticationValueFieldName = "tokenizationAuthenticationValue";
+
     /**
      * The name of the header where to write/read the digest of the encryption
      * key (optional, the header won't be set if the name is null or empty).
