@@ -108,7 +108,7 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
                 startSendMoneyFlow(SendMoneyTransferType.INTERNATIONAL.name)
             }
             SendMoneyType.sendMoneyToHomeCountry.ordinal -> {
-                launchActivity<SMHomeCountryActivity>()
+                launchActivity<SMHomeCountryActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY)
             }
             SendMoneyType.sendMoneyQRCode.ordinal -> {
                 checkPermission(cameraPer)
@@ -154,14 +154,14 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
             override fun onPermissionDenied() {
                 if (type == cameraPer) {
-                    showToast("Can't proceed without permissions")
+                    showToast("Can't proceed without permissions, Please go to settings and allow permission")
                 } else
                     openY2YScreen()
             }
 
             override fun onPermissionDeniedBySystem() {
                 if (type == cameraPer) {
-                    showToast("Can't proceed without permissions")
+                    showToast("Can't proceed without permissions, Please go to settings and allow permission")
                 } else
                     openY2YScreen()
             }
@@ -169,8 +169,11 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
     }
 
     private fun openY2YScreen() {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
-            putExtra(YapToYapDashboardActivity.searching, false)
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.YAP_TO_YAP
+        ) {
+            putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, false)
         }
     }
 
@@ -205,7 +208,10 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
         fromQR: Boolean = false,
         position: Int = 0
     ) {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.Y2Y_TRANSFER) {
+        launchActivity<YapToYapDashboardActivity>(
+            requestCode = RequestCodes.REQUEST_Y2Y_TRANSFER,
+            type = FeatureSet.Y2Y_TRANSFER
+        ) {
             putExtra(Beneficiary::class.java.name, beneficiary)
             putExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, fromQR)
             putExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name, position)
@@ -214,10 +220,12 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
-                    finish()
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST, RequestCodes.REQUEST_Y2Y_TRANSFER, RequestCodes.REQUEST_TRANSFER_MONEY -> {
+                    if (data?.getBooleanExtra(Constants.MONEY_TRANSFERED, false) == true) {
+                        finish()
+                    }
                 }
             }
         }
@@ -252,7 +260,6 @@ class SendMoneyDashboardActivity : BaseBindingActivity<ISendMoneyDashboard.ViewM
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllRecentsBeneficiariesParallel()
         viewModel.dashboardAdapter.setList(viewModel.geSendMoneyOptions())
         if (!viewModel.dashboardAdapter.getDataList()
                 .isNullOrEmpty() && SessionManager.user?.currentCustomer?.homeCountry != "AE"

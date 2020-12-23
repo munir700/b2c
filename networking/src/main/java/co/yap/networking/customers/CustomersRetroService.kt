@@ -12,6 +12,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -125,7 +126,7 @@ interface CustomersRetroService {
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT)
-    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
+    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<CountryDataWithISODigit>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
     suspend fun getCountryTransactionLimits(
@@ -247,4 +248,7 @@ interface CustomersRetroService {
 
     @PATCH(CustomersRepository.URL_UPDATE_HOME_COUNTRY)
     suspend fun updateHomeCountry(@Body homeCountry: UpdateHomeCountryRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_HOME_COUNTRY_FX_RATE)
+    suspend fun updateFxRate(@Body fxRate: FxRateRequest): Response<FxRateResponse>
 }

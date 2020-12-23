@@ -19,31 +19,30 @@
         android:animateLayoutChanges="true"
         android:background="@color/white">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.core.widget.NestedScrollView
+                android:fillViewport="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true">
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                     <RelativeLayout
                         android:id="@+id/pieViewConstraintLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent">
-
-
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        >
                         <co.yap.widgets.pieview.PieChart
                             android:id="@+id/chart1"
                             android:layout_width="@dimen/_200sdp"
@@ -128,6 +127,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="@dimen/margin_medium_large"
                         app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
                         tools:text="Monthly average is AED 1,600.47" />
 
@@ -140,6 +140,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvMonthlyAverage"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="@dimen/_2sdp"
+                        app:tabIndicatorColor="@color/colorPrimary"
                         app:tabMaxWidth="0dp"
                         app:tabMode="fixed"
                         app:tabPaddingEnd="16dp"
@@ -233,7 +234,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
-                            android:text="@{viewModel.state.selectedMonth}"
+                            android:text="@{viewModel.state.displayMonth}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.498"
                             app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +262,6 @@
                             android:tint="@{viewModel.state.nextMonth ? @color/greyDark : @color/greySoft}"
                             app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
                             app:layout_constraintEnd_toEndOf="parent"
-
                             app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
                             app:srcCompat="@drawable/ic_chevron_right" />

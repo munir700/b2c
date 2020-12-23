@@ -20,6 +20,7 @@ interface IY2Y {
 
         val yapContactLiveData: MutableLiveData<List<Contact>>
         val isSearching: MutableLiveData<Boolean>
+        val selectedTabPos: MutableLiveData<Int>
         val searchQuery: MutableLiveData<String>
         var errorEvent: MutableLiveData<String>
         var beneficiary: Beneficiary?

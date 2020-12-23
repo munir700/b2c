@@ -83,7 +83,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     getBindings().tvTransactionSubheading.alpha = 0.5f
                     getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg(it)
+                    return@let if (it.isTransactionRejected()) getCancelReason() else getCutOffMsg(
+                        it
+                    )
                 }
                 else -> ""
             }
@@ -96,7 +98,11 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun getCutOffMsg(transaction: Transaction): String {
-        return if(transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
+        return if (transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
+    }
+
+    private fun getCancelReason(): String {
+        return getString(R.string.screen_transaction_detail_text_cancelled_reason)
     }
 
     private fun setTotalAmount() {

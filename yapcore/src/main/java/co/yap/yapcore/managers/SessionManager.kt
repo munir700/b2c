@@ -16,6 +16,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -42,7 +43,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
-    private const val DEFAULT_CURRENCY : String = "AED"
+    private const val DEFAULT_CURRENCY: String = "AED"
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -166,8 +167,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getDebitCard(success: (card: Card) -> Unit = {}) {
-        GlobalScope.launch {
+    fun getDebitCard(success: (card: Card?) -> Unit = {}) {
+        GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
@@ -178,6 +179,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     }
                 }
                 is RetroApiResponse.Error -> {
+                    success.invoke(null)
                 }
             }
         }
@@ -223,11 +225,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun doLogout(context: Context, isOnPassCode: Boolean = false) {
         AuthUtils.navigateToHardLogin(context, isOnPassCode)
         expireUserSession()
+        TourGuideManager.unlockTourGuideScreens()
         LivePerson.logOut(context, "", "", object : LogoutLivePersonCallback {
             override fun onLogoutSucceed() {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })

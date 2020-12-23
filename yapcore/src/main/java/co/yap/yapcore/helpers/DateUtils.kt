@@ -18,6 +18,9 @@ object DateUtils {
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
     const val FORMAT_TIME_24H = "HH:mm"
     const val FORMAT_TIME_12H = "hh:mm a"
+    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
+    const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
+
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -64,6 +67,22 @@ object DateUtils {
         val formatter = SimpleDateFormat(outFormatter, Locale.US)
         try {
             // formatter.timeZone = TIME_ZONE_Default
+            result = formatter.format(stringToDate(date, inputFormatter ?: ""))
+        } catch (e: Exception) {
+        }
+
+        return result
+
+    }
+    fun reformatLiveStringDate(
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
+    ): String {
+        var result = ""
+        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        try {
+            formatter.timeZone = TIME_ZONE_Default
             result = formatter.format(stringToDate(date, inputFormatter ?: ""))
         } catch (e: Exception) {
         }
@@ -182,6 +201,16 @@ object DateUtils {
             e.printStackTrace()
             null
         }
+    }
 
+    fun getStartAndEndOfMonthAndDay(
+        calendar: Calendar,
+        format: String = FORMATE_MONTH_DAY
+    ): String {
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
+        val startDay = dateToString(calendar.time, format)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val endDay = dateToString(calendar.time, format)
+        return "${startDay.replace("0", "")} - $endDay"
     }
 }

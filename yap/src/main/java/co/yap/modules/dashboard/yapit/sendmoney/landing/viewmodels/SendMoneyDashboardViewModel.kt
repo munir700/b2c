@@ -46,6 +46,7 @@ class SendMoneyDashboardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        getAllRecentsBeneficiariesParallel()
         state.toolbarTitle = getString(Strings.common_send_money)
     }
 
@@ -79,6 +80,7 @@ class SendMoneyDashboardViewModel(application: Application) :
                 jointList = recentTransfers.sortedByDescending {
                     it.lastUsedDate
                 }
+                state.isNoRecents.set(jointList.isNullOrEmpty())
                 recentsAdapter.setList(jointList)
             }
         }

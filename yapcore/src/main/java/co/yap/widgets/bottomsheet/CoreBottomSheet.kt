@@ -22,7 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
 class CoreBottomSheet(
-    private val mListener: OnItemClickListener,
+    private val mListener: OnItemClickListener?,
     private val bottomSheetItems: MutableList<CoreBottomSheetData>,
     private val headingLabel: String? = null,
     private val viewType: Int = Constants.VIEW_WITHOUT_FLAG
@@ -70,7 +70,7 @@ class CoreBottomSheet(
     private val myListener: OnItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             this@CoreBottomSheet.dismiss()
-            mListener.onItemClick(view, data, pos)
+            mListener?.onItemClick(view, data, pos)
         }
     }
 
@@ -82,7 +82,6 @@ class CoreBottomSheet(
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return bottomSheetDialog
-
     }
 
     override fun showLoader(isVisible: Boolean) {

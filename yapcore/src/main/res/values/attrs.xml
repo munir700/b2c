@@ -46,6 +46,16 @@
             <enum name="right" value="1" />
             <enum name="center" value="2" />
         </attr>
+
+        <attr name="btn_size" format="enum">
+            <enum name="small" value="0" />
+            <enum name="medium" value="1" />
+            <enum name="large" value="2" />
+            <enum name="mini_small" value="3" />
+            <enum name="mini_medium" value="4" />
+            <enum name="mini_large" value="5" />
+            <enum name="mini" value="6" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CustomImageButton">
@@ -584,6 +594,7 @@
     <declare-styleable name="CounterFloatingActionButton">
         <attr name="badgeTextColor" format="color" />
         <attr name="badgeBackgroundColor" format="color" />
+        <attr name="badgeVisibility" format="integer" />
         <attr name="badgePosition" format="enum">
             <enum name="RightTop" value="0" />
             <enum name="LeftBottom" value="1" />
@@ -636,5 +647,10 @@
     </declare-styleable>
 
     <declare-styleable name="CoreCircleView">
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerRecyclerview">
+        <attr name="shimmerLayoutId" format="integer|reference" />
+        <attr name="itemCount" format="integer" />
     </declare-styleable>
 </resources>

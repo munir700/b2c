@@ -263,6 +263,14 @@ object Strings {
         "screen_kyc_information_error_display_text_explanation_expired_card"
     const val screen_kyc_information_error_button_go_to_dashboard: String =
         "screen_kyc_information_error_button_go_to_dashboard"
+    const val screen_kyc_information_error_display_text_title_from_us: String =
+        "screen_kyc_information_error_display_text_title_from_us"
+    const val screen_kyc_information_error_text_description_from_us: String =
+        "screen_kyc_information_error_text_description_from_us"
+    const val screen_kyc_information_error_display_text_title_sanctioned_country: String =
+        "screen_kyc_information_error_display_text_title_sanctioned_country"
+    const val screen_kyc_information_error_text_description_sanctioned_country: String =
+        "screen_kyc_information_error_text_description_sanctioned_country"
 
     // Meeting location selection screen
     const val screen_meeting_location_display_text_title: String =
@@ -415,6 +423,8 @@ object Strings {
         "screen_confirm_card_pin_display_text_error_same_digits"
     const val screen_confirm_card_pin_display_text_error_pins_not_same: String =
         "screen_confirm_card_pin_display_text_error_pins_not_same"
+    const val screen_confirm_card_pin_terms_condition_note: String =
+        "screen_confirm_card_pin_terms_condition_note"
 
     //Set card PIN success screen
     const val screen_set_card_pin_success_display_text_title: String =
@@ -463,8 +473,8 @@ object Strings {
         "screen_yap_store_display_text_heading"
 
     //Yap card home screen
-    const val screen_cards_display_text_pending_delivery: String =
-        "screen_cards_display_text_pending_delivery"
+    const val screen_cards_display_text_inactive_description: String =
+        "screen_cards_display_text_inactive_description"
     const val screen_cards_display_text_expired_card: String =
         "screen_cards_display_text_expired_card"
     const val screen_cards_display_text_freeze_card: String =
@@ -473,6 +483,12 @@ object Strings {
         "screen_cards_display_text_see_details"
     const val screen_cards_display_text_freeze_card_action: String =
         "screen_cards_display_text_freeze_card_action"
+    const val screen_cards_display_text_tour_add_card_heading: String =
+        "screen_cards_display_text_tour_add_card_heading"
+    const val screen_cards_display_text_tour_add_card_description: String =
+        "screen_cards_display_text_tour_add_card_description"
+    const val screen_cards_display_text_tour_add_card_btn_text: String =
+        "screen_cards_display_text_tour_add_card_btn_text"
 
     //Change Card Name Screen
     const val screen_card_name_title_change_card_name: String =
@@ -573,8 +589,8 @@ object Strings {
         "screen_card_status_display_text_building"
     const val screen_card_status_display_text_shipping: String =
         "screen_card_status_display_text_shipping"
-    const val screen_card_status_display_text_activate_card: String =
-        "screen_card_status_display_text_activate_card"
+    const val screen_card_delivery_status_button_set_pin: String =
+        "screen_card_delivery_status_button_set_pin"
 
     const val screen_add_funds_display_text_enter_amount: String =
         "screen_add_funds_display_text_enter_amount"
@@ -807,6 +823,16 @@ object Strings {
         "screen_more_display_text_bank_details"
     const val screen_more_detail_display_text_bank_details: String =
         "screen_more_detail_display_text_bank_details"
+    const val screen_more_detail_display_text_tour_bank_details_heading: String =
+        "screen_more_detail_display_text_tour_bank_details_heading"
+    const val screen_more_detail_display_text_tour_bank_details_description: String =
+        "screen_more_detail_display_text_tour_bank_details_description"
+    const val screen_more_detail_display_text_tour_yap_for_you_heading: String =
+        "screen_more_detail_display_text_tour_yap_for_you_heading"
+    const val screen_more_detail_display_text_tour_yap_for_you_description: String =
+        "screen_more_detail_display_text_tour_yap_for_you_description"
+    const val screen_more_detail_display_text_tour_yap_for_you_btn_text: String =
+        "screen_more_detail_display_text_tour_yap_for_you_btn_text"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =
@@ -1750,34 +1776,44 @@ object Strings {
 
 
     //  Status Time line
-    const val screen_time_line_display_text_status_card_on_the_way_title: String =
-        "screen_time_line_display_text_status_card_on_the_way_title"
-    const val screen_time_line_display_text_status_card_on_the_way_description: String =
-        "screen_time_line_display_text_status_card_on_the_way_description"
-    const val screen_time_line_display_text_status_card_on_the_way_action: String =
-        "screen_time_line_display_text_status_card_on_the_way_action"
-    const val screen_time_line_display_text_status_card_delivered_title: String =
-        "screen_time_line_display_text_status_card_delivered_title"
-    const val screen_time_line_display_text_status_card_delivered_description: String =
-        "screen_time_line_display_text_status_card_delivered_description"
-    const val screen_time_line_display_text_status_set_card_pin_title: String =
-        "screen_time_line_display_text_status_set_card_pin_title"
-    const val screen_time_line_display_text_status_set_card_pin_description: String =
-        "screen_time_line_display_text_status_set_card_pin_description"
-    const val screen_time_line_display_text_status_set_card_pin_action: String =
-        "screen_time_line_display_text_status_set_card_pin_action"
-    const val screen_time_line_display_text_status_card_top_up_title: String =
-        "screen_time_line_display_text_status_card_top_up_title"
-    const val screen_time_line_display_text_status_card_top_up_description: String =
-        "screen_time_line_display_text_status_card_top_up_description"
-    const val screen_time_line_display_text_status_card_top_up_action: String =
-        "screen_time_line_display_text_status_card_top_up_action"
-    const val screen_time_line_display_text_status_additional_requirements_title: String =
-        "screen_time_line_display_text_status_additional_requirements_title"
-    const val screen_time_line_display_text_status_additional_requirements_action: String =
-        "screen_time_line_display_text_status_additional_requirements_action"
-    const val screen_time_line_display_text_status_additional_requirements_description: String =
-        "screen_time_line_display_text_status_additional_requirements_description"
+    const val dashboard_timeline_shipping_stage_title: String =
+        "dashboard_timeline_shipping_stage_title"
+    const val dashboard_timeline_shipping_stage_description: String =
+        "dashboard_timeline_shipping_stage_description"
+    const val dashboard_timeline_shipping_stage_completed_description: String =
+        "dashboard_timeline_shipping_stage_completed_description"
+    const val dashboard_timeline_shipping_stage_action_title: String =
+        "dashboard_timeline_shipping_stage_action_title"
+
+    const val dashboard_timeline_delivery_stage_title: String =
+        "dashboard_timeline_delivery_stage_title"
+    const val dashboard_timeline_delivery_stage_description: String =
+        "dashboard_timeline_delivery_stage_description"
+    const val dashboard_timeline_delivery_stage_active_description: String =
+        "dashboard_timeline_delivery_stage_active_description"
+    const val dashboard_timeline_delivery_stage_completed_description: String =
+        "dashboard_timeline_delivery_stage_completed_description"
+
+    const val dashboard_timeline_set_pin_stage_title: String =
+        "dashboard_timeline_set_pin_stage_title"
+    const val dashboard_timeline_set_pin_stage_description: String =
+        "dashboard_timeline_set_pin_stage_description"
+    const val dashboard_timeline_set_pin_stage_completed_description: String =
+        "dashboard_timeline_set_pin_stage_completed_description"
+    const val dashboard_timeline_set_pin_stage_action_title: String =
+        "dashboard_timeline_set_pin_stage_action_title"
+
+    const val dashboard_timeline_top_up_stage_title: String =
+        "dashboard_timeline_top_up_stage_title"
+    const val dashboard_timeline_top_up_stage_description: String =
+        "dashboard_timeline_top_up_stage_description"
+    const val dashboard_timeline_top_up_stage_action_title: String =
+        "dashboard_timeline_top_up_stage_action_title"
+
+    const val dashboard_timeline_top_up_stage_completion_title: String =
+        "dashboard_timeline_top_up_stage_completion_title"
+    const val dashboard_timeline_top_up_stage_in_process_title: String =
+        "dashboard_timeline_top_up_stage_in_process_title"
 
     // yap it add money screen
     const val screen_fragment_yap_it_add_money_title: String =
@@ -1823,8 +1859,6 @@ object Strings {
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =
             "screen_send_money_home_display_text_send_money"
-    const val screen_send_money_home_display_text_money: String =
-            "screen_send_money_home_display_text_money"
     const val screen_send_money_home_display_text_recent_transfers: String =
             "screen_send_money_home_display_text_recent_transfers"
     const val screen_send_money_home_display_text_send_money_home: String =
@@ -1851,4 +1885,8 @@ object Strings {
         "screen_qr_funds_transfer_display_text_available_balance"
     const val screen_qr_code_own_uuid_error_message: String =
         "screen_qr_code_own_uuid_error_message"
+    const val screen_dashboard_menu_display_text_my_profile: String =
+        "screen_dashboard_menu_display_text_my_profile"
+    const val screen_change_passcode_success_display_text_heading: String =
+        "screen_change_passcode_success_display_text_heading"
 }

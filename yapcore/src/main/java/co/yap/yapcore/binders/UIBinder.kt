@@ -30,6 +30,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
 import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.responsedtos.Card
@@ -284,7 +285,7 @@ object UIBinder {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
                         text.context,
-                        R.string.screen_cards_display_text_pending_delivery
+                        R.string.screen_cards_display_text_inactive_description
                     )
                 }
             }
@@ -941,5 +942,38 @@ object UIBinder {
         val lp = view.layoutParams as MarginLayoutParams
         lp.setMargins(lp.leftMargin, margin.toInt(), lp.rightMargin, lp.bottomMargin)
         view.layoutParams = lp
+    }
+
+    @BindingAdapter(requireAll = false, value = ["flagOnDrawableStart", "showDropDown"])
+    @JvmStatic
+    fun setFlagOnDrawableStart(
+        textView: AppCompatTextView,
+        iso2DigitCode: String?,
+        showDropDown: Boolean = true
+    ) {
+        val drawables: Array<Drawable> =
+            textView.compoundDrawables
+        iso2DigitCode?.let {
+            val drawable: Drawable? =
+                textView.context.getDrawable(
+                    CurrencyUtils.getFlagDrawable(
+                        textView.context,
+                        it
+                    )
+                )
+
+            val drawableDropDown: Drawable? =
+                textView.context.getDrawable(
+                    R.drawable.iv_drown_down
+                )
+            drawable?.setBounds(0, 0, 70, 70)
+            drawableDropDown?.setBounds(0, 0, 123, 123)
+            textView.setCompoundDrawables(
+                drawable,
+                drawables[1],
+                if (showDropDown) drawableDropDown else null,
+                drawables[3]
+            )
+        }
     }
 }
