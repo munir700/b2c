@@ -102,4 +102,8 @@ interface CustomersApi {
     suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
     suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
     suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse>
+    suspend fun completeTourGuide(viewName: String, completed: Boolean): RetroApiResponse<CompleteTourGuideResponse>
+    suspend fun skipTourGuide(viewName: String, skipped: Boolean): RetroApiResponse<CompleteTourGuideResponse>
+    suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
+
 }

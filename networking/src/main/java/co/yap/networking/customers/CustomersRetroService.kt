@@ -251,4 +251,13 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_HOME_COUNTRY_FX_RATE)
     suspend fun updateFxRate(@Body fxRate: FxRateRequest): Response<FxRateResponse>
+
+    @POST(CustomersRepository.URL_COMPLETE_TOUR_GUIDE)
+    suspend fun completeTourGuide(@Body viewName: String, @Body completed: Boolean): Response<CompleteTourGuideResponse>
+
+    @POST(CustomersRepository.URL_SKIP_TOUR_GUIDE)
+    suspend fun skipTourGuide(@Body viewName: String, @Body skipped: Boolean): Response<CompleteTourGuideResponse>
+
+    @GET(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun getTourGuides(): Response<TourGuideResponse>
 }
