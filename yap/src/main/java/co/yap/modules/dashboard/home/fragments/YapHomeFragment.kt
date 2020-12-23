@@ -173,6 +173,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
+    override var drawerButtonEnabled: Boolean = true
+
     override fun onRefresh() {
         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             viewModel.isRefreshing.value = true
@@ -273,8 +275,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         ), RequestCodes.REQUEST_MEETING_CONFIRMED
                     )
                 }
-                R.id.ivMenu -> parentView?.toggleDrawer()
+                R.id.ivMenu -> {
+                    if (drawerButtonEnabled)
+                        parentView?.toggleDrawer()
+                }
                 R.id.rlFilter -> {
+
                     if (viewModel.state.isTransEmpty.get() == false) {
                         openTransactionFilters()
                     } else {
@@ -895,10 +901,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_graph),
                 getString(R.string.screen_dashboard_tour_guide_display_text_graph_des),
                 padding = getDimension(R.dimen._5sdp),
-                circleRadius = getDimension(R.dimen._90sdp),
+                circleRadius = getDimension(R.dimen._80sdp),
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
-                showPageNo = false
+                showPageNo = false,
+                circlePadding = getDimension(R.dimen._25sdp)
             )
         )
         return list
@@ -907,20 +914,27 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun showGraphTourGuide(listSize: Int) {
         if (listSize >= 5)
             CoroutineScope(Main).launch {
+                drawerButtonEnabled = false
                 delay(500)
                 SessionManager.card.value?.let { card ->
-                    if (card.pinCreated) {
+                    if (card.pinCreated && parentView?.isDrawerOpen() == false) {
                         tourStep =
                             requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
                                 addAll(setGraphViewsArray())
                             }
+                        delay(300)
+                        drawerButtonEnabled = true
                     }
                 } ?: SessionManager.getDebitCard {
-                    if (SessionManager.card.value?.pinCreated == true) {
+                    if (SessionManager.card.value?.pinCreated == true && parentView?.isDrawerOpen() == false) {
                         tourStep =
                             requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
                                 addAll(setGraphViewsArray())
                             }
+                        CoroutineScope(Main).launch {
+                            delay(300)
+                            drawerButtonEnabled = true
+                        }
                     }
                 }
             }
