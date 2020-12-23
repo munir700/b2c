@@ -16,5 +16,4 @@ class TourGuide (
     val completed: Boolean? = null,
     @SerializedName("completedAt")
     val completedAt: String? = null
-    ) : Parcelable {
-}
+) : Parcelable

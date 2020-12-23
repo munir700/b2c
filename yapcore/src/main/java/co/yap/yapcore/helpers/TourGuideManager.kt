@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.TourGuideRequest
@@ -11,109 +10,82 @@ import kotlinx.coroutines.launch
 
 object TourGuideManager {
     private val customerRepository: CustomersRepository = CustomersRepository
-    private var tourGuides: List<TourGuide?> = arrayListOf()
-    private var tourGuide: TourGuide? = null
-    private var onUpdateTourGuideSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private var onGetTourGuidesSuccess: MutableLiveData<Boolean> = MutableLiveData()
-    private var sharedPreferenceManager: SharedPreferenceManager? = null
+    private var listOfTourViews: ArrayList<TourGuide> = arrayListOf()
     val getBlockedTourGuideScreens: ArrayList<TourGuideType>
-        get() = getBlockedTourGuideList(arrayListOf())
+        get() = getBlockedTourGuideList()
 
-    fun configure(context: Context) {
-        sharedPreferenceManager = SharedPreferenceManager(context = context)
+    fun configure(tourViews: List<TourGuide>) {
+        this.listOfTourViews = tourViews as ArrayList<TourGuide>
     }
 
-    private fun getBlockedTourGuideList(array: List<TourGuide?>): ArrayList<TourGuideType> {
+    private fun getBlockedTourGuideList(): ArrayList<TourGuideType> {
         val blockedTourGuideList: ArrayList<TourGuideType> = arrayListOf()
-        array.forEach {
-            when (it?.viewName) {
-                TourGuideType.DASHBOARD_SCREEN.name -> {}
-                TourGuideType.DASHBOARD_GRAPH_SCREEN.name -> {}
-                TourGuideType.STORE_SCREEN.name -> {}
-                TourGuideType.CARD_HOME_SCREEN.name -> {}
-                TourGuideType.MORE_SCREEN.name -> {}
+        this.listOfTourViews.filter { it.completed == true || it.skipped == true }.forEach {
+            when (it.viewName) {
+                TourGuideType.DASHBOARD_SCREEN.name -> blockedTourGuideList.add(TourGuideType.DASHBOARD_SCREEN)
+                TourGuideType.DASHBOARD_GRAPH_SCREEN.name -> blockedTourGuideList.add(TourGuideType.DASHBOARD_GRAPH_SCREEN)
+                TourGuideType.CARD_HOME_SCREEN.name -> blockedTourGuideList.add(TourGuideType.CARD_HOME_SCREEN)
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN.name -> blockedTourGuideList.add(
+                    TourGuideType.PRIMARY_CARD_DETAIL_SCREEN
+                )
+                TourGuideType.STORE_SCREEN.name -> blockedTourGuideList.add(TourGuideType.STORE_SCREEN)
+                TourGuideType.MORE_SCREEN.name -> blockedTourGuideList.add(TourGuideType.MORE_SCREEN)
             }
-        }
-        if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.DASHBOARD_SCREEN.name,
-                false
-            ) == true
-        ) {
-            blockedTourGuideList.add(TourGuideType.DASHBOARD_SCREEN)
-        }
-        if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.DASHBOARD_GRAPH_SCREEN.name,
-                false
-            ) == true
-        ) {
-            blockedTourGuideList.add(TourGuideType.DASHBOARD_GRAPH_SCREEN)
-        }
-        if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.STORE_SCREEN.name,
-                false
-            ) == true
-        ) {
-            blockedTourGuideList.add(TourGuideType.STORE_SCREEN)
-        }
-        if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.CARD_HOME_SCREEN.name,
-                false
-            ) == true
-        ) {
-            blockedTourGuideList.add(TourGuideType.CARD_HOME_SCREEN)
-        }
-        if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.MORE_SCREEN.name,
-                false
-            ) == true
-        ) {
-            blockedTourGuideList.add(TourGuideType.MORE_SCREEN)
-        }
-
-        if (sharedPreferenceManager?.getValueBoolien(
-                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN.name,
-                false
-            ) == true
-        ) {
-            blockedTourGuideList.add(TourGuideType.PRIMARY_CARD_DETAIL_SCREEN)
         }
 
         return blockedTourGuideList
     }
 
-    fun lockTourGuideScreen(screenName: TourGuideType) {
-        sharedPreferenceManager?.save(screenName.name, true)
+    fun lockTourGuideScreen(
+        screenName: TourGuideType,
+        completed: Boolean? = null,
+        skipped: Boolean? = null,
+        viewed: Boolean? = null
+    ) {
+        updateTourGuideStatus(
+            viewName = screenName.name,
+            completed = completed,
+            skipped = skipped,
+            viewed = viewed
+        )
     }
 
     fun unlockTourGuideScreens() {
-        getBlockedTourGuideScreens.forEach {
-            sharedPreferenceManager?.save(it.name, false)
-        }
+
     }
 
-    fun updateTourGuideStatus(viewName: String, completed: Boolean, skipped: Boolean, viewed: Boolean) {
+    private fun updateTourGuideStatus(
+        viewName: String,
+        completed: Boolean? = null,
+        skipped: Boolean? = null,
+        viewed: Boolean? = null
+    ) {
         GlobalScope.launch {
             when (val response = customerRepository.updateTourGuideStatus(
-                TourGuideRequest(viewName = viewName, completed = completed, skipped = skipped, viewed = viewed))) {
+                TourGuideRequest(
+                    viewName = viewName,
+                    completed = completed,
+                    skipped = skipped,
+                    viewed = viewed
+                )
+            )) {
                 is RetroApiResponse.Success -> {
-                    tourGuide = response.data.data as TourGuide
-                    onUpdateTourGuideSuccess.postValue(true)
                 }
 
                 is RetroApiResponse.Error -> {
-                    onUpdateTourGuideSuccess.postValue(false)
                 }
             }
         }
     }
 
-    fun getTourGuides() {
+    fun getTourGuides(success: () -> Unit = {}) {
         GlobalScope.launch {
             when (val response = customerRepository.getTourGuides()) {
                 is RetroApiResponse.Success -> {
-                    tourGuides = response.data.data as ArrayList<TourGuide>
-                    getBlockedTourGuideList(tourGuides.filter { it?.completed == true || it?.skipped == true})
+                    configure(response.data.data as ArrayList<TourGuide>)
                     onGetTourGuidesSuccess.postValue(true)
+                    success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
