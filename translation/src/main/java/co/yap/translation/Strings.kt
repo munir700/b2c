@@ -54,6 +54,8 @@ object Strings {
         "common_saved_image_to_gallery"
     const val common_display_text_search_hint: String =
         "common_display_text_search_hint"
+    const val common_display_text_no_country_found: String =
+        "common_display_text_no_country_found"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
