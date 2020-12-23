@@ -16,15 +16,25 @@ object TourGuideManager {
     private var onUpdateTourGuideSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private var onGetTourGuidesSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private var sharedPreferenceManager: SharedPreferenceManager? = null
+    private var listOfTourViews: ArrayList<TourGuide> = arrayListOf()
     val getBlockedTourGuideScreens: ArrayList<TourGuideType>
         get() = getBlockedTourGuideList()
 
-    fun configure(context: Context) {
+    fun configure(context: Context, tourViews: List<TourGuide>) {
         sharedPreferenceManager = SharedPreferenceManager(context = context)
+        this.listOfTourViews = tourViews as ArrayList<TourGuide>
     }
 
     private fun getBlockedTourGuideList(): ArrayList<TourGuideType> {
         val blockedTourGuideList: ArrayList<TourGuideType> = arrayListOf()
+        this.listOfTourViews.forEach {
+            when (it.viewName) {
+                TourGuideType.YAP_HOME_SCREEN.name -> {
+                    blockedTourGuideList.add(TourGuideType.YAP_HOME_SCREEN)
+                }
+            }
+        }
+
         if (sharedPreferenceManager?.getValueBoolien(
                 TourGuideType.YAP_HOME_SCREEN.name,
                 false
@@ -82,10 +92,21 @@ object TourGuideManager {
         }
     }
 
-    fun updateTourGuideStatus(viewName: String, completed: Boolean, skipped: Boolean, viewed: Boolean) {
+    fun updateTourGuideStatus(
+        viewName: String,
+        completed: Boolean? = null,
+        skipped: Boolean? = null,
+        viewed: Boolean? = null
+    ) {
         GlobalScope.launch {
             when (val response = customerRepository.updateTourGuideStatus(
-                TourGuideRequest(viewName = viewName, completed = completed, skipped = skipped, viewed = viewed))) {
+                TourGuideRequest(
+                    viewName = viewName,
+                    completed = completed,
+                    skipped = skipped,
+                    viewed = viewed
+                )
+            )) {
                 is RetroApiResponse.Success -> {
                     tourGuide = response.data.data as TourGuide
                     onUpdateTourGuideSuccess.postValue(true)
