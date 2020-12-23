@@ -26,7 +26,7 @@ class TransactionsListingAdapter(
 ) : BaseBindingRecyclerAdapter<Transaction, RecyclerView.ViewHolder>(list) {
 
     var analyticsItemPosition: Int = 0
-    var analyticsItemTitle: String = ""
+    var analyticsItemTitle: String? = null
     var analyticsItemImgUrl: String? = null
     override fun getLayoutIdForViewType(viewType: Int): Int {
         return if (adapterType == TransactionAdapterType.ANALYTICS_DETAILS) R.layout.item_analytics_transaction_list else R.layout.item_transaction_list
@@ -61,17 +61,14 @@ class TransactionsListingAdapter(
         fun onBind(
             transaction: Transaction,
             position: Int,
-            analyticsItemTitle: String,
+            analyticsItemTitle: String?,
             analyticsItemImgUrl: String?
         ) {
-            val resId = ImageBinding.getResId(
-                "ic_${ImageBinding.getDrawableName(analyticsItemTitle)}"
-            )
             itemAnalyticsTransactionListBinding.viewModel =
                 ItemAnalyticsTransactionVM(
                     transaction,
                     position,
-                    if (resId == -1) null else analyticsItemTitle,
+                    analyticsItemTitle,
                     analyticsItemImgUrl
                 )
             itemAnalyticsTransactionListBinding.executePendingBindings()
