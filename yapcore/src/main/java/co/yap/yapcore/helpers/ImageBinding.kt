@@ -12,6 +12,7 @@ import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 
@@ -114,23 +115,24 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "fullName", "position", "isBackground"],
+        value = ["imageUrl", "fullName", "position", "isBackground", "showFirstInitials"],
         requireAll = false
     )
-    fun loadAvatar1(
+    fun loadAnalyticsAvatar(
         imageView: ImageView,
         imageUrl: String?,
         fullName: String?,
         position: Int,
-        isBackground: Boolean = true
+        isBackground: Boolean = true,
+        showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName ?: ""
+        val fName = fullName?:""
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
-        val resId = getResId(
-            "ic_${getDrawableName(fName)}"
-        )
+        val resId =
+            if (isBackground) getResId("ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon()
+
         if (resId != -1) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
@@ -153,7 +155,7 @@ object ImageBinding {
             setDrawable(
                 imageView,
                 imageUrl,
-                fName,
+                if (showFirstInitials) fName.split(" ")[0] else fName,
                 position
             )
         }

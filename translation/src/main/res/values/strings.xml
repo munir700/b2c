@@ -249,7 +249,7 @@
     <string name="screen_set_card_pin_welcome_button_create_pin_later">I’ll do it later</string>
 
     <!-- Set card PIN screen -->
-    <string name="screen_set_card_pin_display_text_title">Enter a new PIN</string>
+    <string name="screen_set_card_pin_display_text_title">Create your 4-digit PIN</string>
     <string name="screen_set_card_pin_button_create_pin">Next</string>
 
     <!-- Confirm card PIN screen -->
@@ -260,6 +260,7 @@
     <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
     <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
     <string name="screen_confirm_card_pin_display_text_error_pins_not_same">This doesn\'t match the previously entered PIN</string>
+    <string name="screen_confirm_card_pin_terms_condition_note">By creating a PIN you agree to our \n<b> %1s </b> </string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
@@ -435,7 +436,7 @@
     <string name="screen_create_card_pin_display_button_create_pin">Create new PIN</string>
 
     <!--    confirm PIN screen-->
-    <string name="screen_confirm_card_pin_display_text_heading">Enter it one more time</string>
+    <string name="screen_confirm_card_pin_display_text_heading">Enter that one more time to confirm</string>
     <string name="screen_confirm_card_pin_display_button_confirm_pin">Create new PIN</string>
 
     <!--    Change PIN success screen-->
@@ -1191,6 +1192,7 @@
     <string name="screen_dashboard_tour_guide_display_text_limit">Set limits</string>
     <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
+    <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
 
 
 </resources>

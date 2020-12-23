@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmailSuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
@@ -50,6 +51,8 @@ class UnverifiedChangeEmailSuccessFragment :
         super.onViewCreated(view, savedInstanceState)
         if (context is UnVerifiedEmailActivity)
         (context as UnVerifiedEmailActivity).hideToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).hideToolbar()
         val email=SessionManager.user?.currentCustomer?.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))

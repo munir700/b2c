@@ -210,10 +210,25 @@
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingEnd="0dp">
+
+                    <include
+                        android:id="@+id/lAnalytics"
+                        layout="@layout/layout_item_icon_text"
+                        app:icon="@{@drawable/ic_analytics}"
+                        app:tint="@{@color/colorPrimary}"
+                        app:title='@{"Analytics"}' />
+
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:layout_marginTop="@dimen/margin_normal_large"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:background="@color/greyLight" />
             </LinearLayout>
 
@@ -230,17 +245,12 @@
                     android:id="@+id/lRefer"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/ic_gift}"
-                    app:title='@{"Refer a friend"}' />
+                    app:title='@{"Refer a friend"}'
+                    app:tint="@{@color/greyDark}"/>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:background="@color/greyLight" />
-
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -250,18 +260,13 @@
                 android:paddingBottom="@dimen/margin_extra_small">
 
                 <include
-                    android:id="@+id/lAnalytics"
+                    android:id="@+id/lAlert"
                     layout="@layout/layout_item_icon_text"
-                    app:icon="@{@drawable/ic_analytics}"
-                    app:title='@{"Analytics"}' />
+                    app:icon="@{@drawable/ic_notification_settings}"
+                    app:title='@{"Alerts and notifications"}'
+                    app:tint="@{@color/greyDark}"/>
 
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:background="@color/greyLight" />
+            </LinearLayout>-->
 
             <!-- Management -->
             <LinearLayout
@@ -277,17 +282,20 @@
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/gift}"
-                    app:title='@{"Refer a friend"}' />
+                    app:title='@{"Refer a friend"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/house}"
-                    app:title='@{"Household salary"}' />
+                    app:title='@{"Household salary"}'
+                    app:tint="@{@color/greyDark}"/>
 
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/mode}"
-                    app:title='@{"Yap Young"}' />
+                    app:title='@{"Yap Young"}'
+                    app:tint="@{@color/greyDark}" />
 
             </LinearLayout>
 
@@ -305,20 +313,21 @@
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
-                <include
+               <!-- <include
                     layout="@layout/layout_item_icon_text"
                     android:visibility="gone"
                     app:icon="@{@drawable/notification}"
-                    app:title='@{"Alerts and notifications"}' />
-
+                    app:title='@{"Alerts and notifications"}'
+                    app:tint="@{@color/greyDark}" />
+-->
                 <include
                     android:id="@+id/lStatements"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/file}"
-                    app:title='@{"Statements"}' />
+                    app:title='@{"Statements"}'
+                    app:tint="@{@color/greyDark}" />
 
             </LinearLayout>
 
@@ -343,20 +352,23 @@
                     android:id="@+id/lLiveChat"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/ic_chat}"
-                    app:title='@{"Live chat"}' />
+                    app:title='@{"Live chat"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <include
                     android:id="@+id/lyContact"
                     layout="@layout/layout_item_icon_text"
                     android:visibility="gone"
                     app:icon="@{@drawable/phone}"
-                    app:title='@{"Contact us"}' />
+                    app:title='@{"Contact us"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <include
                     android:id="@+id/lSupport"
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/support}"
-                    app:title='@{"Help and support"}' />
+                    app:title='@{"Help and support"}'
+                    app:tint="@{@color/greyDark}" />
 
                 <View
                     android:layout_width="match_parent"
