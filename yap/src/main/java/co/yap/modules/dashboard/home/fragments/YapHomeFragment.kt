@@ -74,7 +74,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -903,10 +902,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_graph),
                 getString(R.string.screen_dashboard_tour_guide_display_text_graph_des),
                 padding = getDimension(R.dimen._5sdp),
-                circleRadius = getDimension(R.dimen._90sdp),
+                circleRadius = getDimension(R.dimen._80sdp),
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
-                showPageNo = false
+                showPageNo = false,
+                circlePadding = getDimension(R.dimen._25sdp)
             )
         )
         return list
