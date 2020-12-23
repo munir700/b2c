@@ -113,8 +113,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
-    const val URL_COMPLETE_TOUR_GUIDE = "customers/api/complete-tour-guide"
-    const val URL_SKIP_TOUR_GUIDE = "customers/api/skip-tour-guide"
     const val URL_TOUR_GUIDES = "customers/api/tour-guides"
 
     private val api: CustomersRetroService =
