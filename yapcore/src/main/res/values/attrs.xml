@@ -633,6 +633,6 @@
             <enum name="right_to_left" value="1" />
         </attr>
         <attr name="shimmerAngle" format="integer" />
-    </declare-styleable>z
+    </declare-styleable>
 
 </resources>
