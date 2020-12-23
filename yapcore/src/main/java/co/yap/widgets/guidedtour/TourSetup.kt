@@ -46,7 +46,7 @@ class TourSetup(
         skip?.setOnClickListener {
             dismiss()
             guidedTourViewViewsList[getCurrentItemPosition() ?: 0].callBackListener?.let {
-                it.onItemClick(getCurrentItemPosition() ?: 0)
+                it.onTourSkipped(getCurrentItemPosition() ?: 0)
             }
         }
     }
@@ -146,7 +146,7 @@ class TourSetup(
     }
 
     private val listener = object : OnTourItemClickListener {
-        override fun onItemClick(pos: Int) {
+        override fun onTourCompleted(pos: Int) {
             currentViewId += 1
             if (currentViewId < guidedTourViewViewsList.size) {
                 layer?.updateCircle = true
@@ -156,7 +156,7 @@ class TourSetup(
             } else {
                 dismiss()
                 guidedTourViewViewsList[pos].callBackListener?.let {
-                    it.onItemClick(pos)
+                    it.onTourCompleted(pos)
                 }
             }
         }
@@ -230,5 +230,7 @@ class TourSetup(
 }
 
 interface OnTourItemClickListener {
-    fun onItemClick(pos: Int)
+    fun onTourSkipped(pos: Int) {}
+    fun onTourCompleted(pos: Int) {}
+    fun onItemClick(pos: Int) {}
 }
