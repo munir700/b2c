@@ -170,7 +170,7 @@ class TransactionsViewHelper(
                 tooltip?.arrowView?.getLocationInWindow(arrowViewPosition)
                 val screen = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(screen)
-                var rightPadding = screen.widthPixels/2
+                var rightPadding = screen.widthPixels
                 if (viewPosition[0] + this.width >= screen.widthPixels) {
                     // It is the end of the screen so adjust X
 //                    if((arrowViewPosition[0].minus(this.width))>screen.widthPixels/2){

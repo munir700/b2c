@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.home.adaptor
 
 import android.view.View
+import android.widget.LinearLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -11,7 +12,6 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import kotlinx.android.synthetic.main.item_bar_chart_v2.view.*
-
 
 class GraphBarsAdapter(
     private val listItems: MutableList<HomeTransactionListData>,
@@ -53,6 +53,8 @@ class GraphBarsAdapter(
             }
         }
         holder.itemView.isClickable = false
+        //if (position == 0)
+        //    holder.barParent.updatePadding(right = getScreenWidth() / 2)
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -71,10 +73,11 @@ class GraphBarsAdapter(
         private val viewModel: IYapHome.ViewModel
     ) : RecyclerView.ViewHolder(itemBarChartBinding.root) {
         val transactionBar: ChartViewV2 = itemView.transactionBar
+        val barParent: LinearLayout = itemView.barParent
 
         fun onBind(transactionModel: HomeTransactionListData) {
             transactionModel.amountPercentage =
-                calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance?:0.0)
+                calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance ?: 0.0)
             transactionBar.barHeight = transactionModel.amountPercentage.toFloat()
         }
 
