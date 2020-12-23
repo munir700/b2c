@@ -369,7 +369,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(300)
-            launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN) {
+            launchTourGuide(TourGuideType.PRIMARY_CARD_DETAIL_SCREEN) {
                 addAll(setViewsArray())
             }
         }

@@ -912,14 +912,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 SessionManager.card.value?.let { card ->
                     if (card.pinCreated) {
                         tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
+                            requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
                                 addAll(setGraphViewsArray())
                             }
                     }
                 } ?: SessionManager.getDebitCard {
                     if (SessionManager.card.value?.pinCreated == true) {
                         tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
+                            requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
                                 addAll(setGraphViewsArray())
                             }
                     }
@@ -929,7 +929,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun showHomeTourGuide() {
         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
-            tourStep = requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
+            tourStep = requireActivity().launchTourGuide(TourGuideType.DASHBOARD_SCREEN) {
                 addAll(setViewsArray())
             }
             if (tourStep == null)

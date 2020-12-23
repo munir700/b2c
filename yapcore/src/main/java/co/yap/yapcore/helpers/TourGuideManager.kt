@@ -107,7 +107,6 @@ object TourGuideManager {
         }
     }
 
-
     fun getTourGuides() {
         GlobalScope.launch {
             when (val response = customerRepository.getTourGuides()) {
@@ -123,5 +122,4 @@ object TourGuideManager {
             }
         }
     }
-
 }
