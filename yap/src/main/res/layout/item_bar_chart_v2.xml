@@ -3,7 +3,7 @@
 
     <LinearLayout
         android:id="@+id/barParent"
-        android:layout_width="@dimen/_9sdp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_one_dp"
         android:layout_marginRight="@dimen/margin_one_dp"
@@ -15,8 +15,8 @@
 
         <co.yap.modules.dashboard.home.component.ChartViewV2
             android:id="@+id/transactionBar"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_9sdp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal|start" />
     </LinearLayout>
 </layout>

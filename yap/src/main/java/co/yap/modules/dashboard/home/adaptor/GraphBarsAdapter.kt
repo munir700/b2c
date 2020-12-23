@@ -1,7 +1,8 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
+import androidx.core.view.updatePadding
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -11,6 +12,8 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.getScreenWidth
 import kotlinx.android.synthetic.main.item_bar_chart_v2.view.*
 
 class GraphBarsAdapter(
@@ -31,7 +34,7 @@ class GraphBarsAdapter(
     override fun onBindViewHolder(holder: GraphViewHolder, position: Int) {
         val transactionModel: HomeTransactionListData = listItems[position]
         holder.transactionBar.onFocusChangeListener = this
-        holder.onBind(transactionModel)
+        holder.onBind(position, transactionModel)
 
         if (checkedPosition == -1) {
             holder.transactionBar.needAnimation = false
@@ -53,8 +56,6 @@ class GraphBarsAdapter(
             }
         }
         holder.itemView.isClickable = false
-        //if (position == 0)
-        //    holder.barParent.updatePadding(right = getScreenWidth() / 2)
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -69,16 +70,34 @@ class GraphBarsAdapter(
     }
 
     class GraphViewHolder(
-        itemBarChartBinding: ItemBarChartV2Binding,
+        private val itemBarChartBinding: ItemBarChartV2Binding,
         private val viewModel: IYapHome.ViewModel
     ) : RecyclerView.ViewHolder(itemBarChartBinding.root) {
         val transactionBar: ChartViewV2 = itemView.transactionBar
-        val barParent: LinearLayout = itemView.barParent
 
-        fun onBind(transactionModel: HomeTransactionListData) {
+        fun onBind(position: Int, transactionModel: HomeTransactionListData) {
+            if (position == 0) {
+                val prams =
+                    (itemBarChartBinding.barParent.layoutParams as RecyclerView.LayoutParams)
+                prams.width = getScreenWidth() / 2
+                itemBarChartBinding.barParent.layoutParams = prams
+                itemBarChartBinding.barParent.gravity = Gravity.START or Gravity.BOTTOM
+                itemBarChartBinding.transactionBar.updatePadding(right = getScreenWidth() / 2)
+            } else {
+                val prams =
+                    (itemBarChartBinding.barParent.layoutParams as RecyclerView.LayoutParams)
+                prams.width = itemBarChartBinding.transactionBar.context.dimen(R.dimen._9sdp)
+                itemBarChartBinding.barParent.layoutParams = prams
+            }
             transactionModel.amountPercentage =
                 calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance ?: 0.0)
             transactionBar.barHeight = transactionModel.amountPercentage.toFloat()
+
+
+//            val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
+//            params.width = dimensions[0]
+//            //params.height = dimensions[1]
+//            binding.cvNotification.layoutParams = params
         }
 
         private fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {
@@ -89,8 +108,5 @@ class GraphBarsAdapter(
             ).toDouble() / viewModel.MAX_CLOSING_BALANCE)
             return percentage
         }
-
     }
-
-
 }
