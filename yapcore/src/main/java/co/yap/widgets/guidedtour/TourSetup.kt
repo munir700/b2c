@@ -110,7 +110,7 @@ class TourSetup(
                 ) -> {
                     layer?.centerY =
                         it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
-                            .toInt()
+                            .toInt() + it.circlePadding
                 }
                 TourUtils.isViewLocatedAtTopOfTheScreen(
                     context,
@@ -119,13 +119,15 @@ class TourSetup(
                 ) -> {
                     layer?.centerY =
                         it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._15sdp)
-                            .toInt()
+                            .toInt() + it.circlePadding
                 }
                 else -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat()
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() + it.circlePadding
                 }
             }
             layer?.isRectangle = it.isRectangle
+            layer?.rectHeight = it.view.height.toFloat()
             layer?.invalidate()
         }
     }
