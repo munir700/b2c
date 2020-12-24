@@ -928,8 +928,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
                 showPageNo = false,
-                callBackListener = graphTourItemListener
-                showPageNo = false,
+                callBackListener = graphTourItemListener,
                 circlePadding = getDimension(R.dimen._25sdp)
             )
         )
