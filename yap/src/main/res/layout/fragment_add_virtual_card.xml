@@ -66,6 +66,7 @@
                 app:tabGravity="center"
                 app:tabIndicator="@null"
                 app:tabPaddingEnd="6dp"
+                app:tabRippleColor="@null"
                 app:tabPaddingStart="6dp"/>
 
             <co.yap.widgets.CollapsedColoredHintTextInputLayout
