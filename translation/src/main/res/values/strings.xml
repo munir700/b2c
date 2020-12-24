@@ -437,7 +437,7 @@
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
-    <string name="screen_create_card_pin_display_text_heading">Enter a new PIN</string>
+    <string name="screen_create_card_pin_display_text_heading">Create your 4-digit PIN</string>
     <string name="screen_create_card_pin_display_button_create_pin">Create new PIN</string>
 
     <!--    confirm PIN screen-->

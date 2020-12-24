@@ -36,7 +36,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:gravity="center"
                 android:lineSpacingExtra="0dp"
                 android:text="@{viewModel.state.titleSetPin}"
@@ -58,7 +58,7 @@
                 app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}" />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTermCondition"
-                style="@style/Regular"
+                style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium_large"
@@ -68,6 +68,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center"
+                android:visibility="visible"
                 android:text="@{String.format(@string/screen_confirm_card_pin_terms_condition_note,viewModel.termsCondition)}"
                 />
             <co.yap.widgets.CoreButton
