@@ -3,6 +3,7 @@ package co.yap.modules.setcardpin.pinflow
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 
@@ -108,6 +109,8 @@ class PinState : BaseState(), IPin.State {
             valid = false
         }
     }
+
+    override var clTermsAndConditionsVisibility: ObservableField<Boolean> = ObservableField(false)
 
     override fun getTextWatcher(): TextWatcher {
         return object : TextWatcher {
