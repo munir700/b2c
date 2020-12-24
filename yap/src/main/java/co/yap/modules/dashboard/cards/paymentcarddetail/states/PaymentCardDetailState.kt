@@ -74,6 +74,13 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
             notifyPropertyChanged(BR.balanceLoading)
         }
 
+    @get:Bindable
+    override var cardImageUrl: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardImageUrl)
+        }
+
     override var filterCount: ObservableField<Int> = ObservableField(0)
     override var isTxnsEmpty: ObservableField<Boolean> = ObservableField(false)
 }

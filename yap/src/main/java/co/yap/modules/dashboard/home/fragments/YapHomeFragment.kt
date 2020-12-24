@@ -926,32 +926,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
+    private suspend fun startGraphTour() {
+        if (parentView?.isDrawerOpen() == false) {
+            tourStep =
+                requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
+                    addAll(setGraphViewsArray())
+                }
+            delay(300)
+            drawerButtonEnabled = true
+        }
+    }
+
     private fun showGraphTourGuide(listSize: Int) {
         if (listSize >= 5)
             CoroutineScope(Main).launch {
                 drawerButtonEnabled = false
                 delay(500)
-                SessionManager.card.value?.let { card ->
-                    if (card.pinCreated && parentView?.isDrawerOpen() == false) {
-                        tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
-                                addAll(setGraphViewsArray())
-                            }
-                        delay(300)
-                        drawerButtonEnabled = true
-                    }
-                } ?: SessionManager.getDebitCard {
-                    if (SessionManager.card.value?.pinCreated == true && parentView?.isDrawerOpen() == false) {
-                        tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
-                                addAll(setGraphViewsArray())
-                            }
-                        CoroutineScope(Main).launch {
-                            delay(300)
-                            drawerButtonEnabled = true
-                        }
-                    }
-                }
+                startGraphTour()
             }
     }
 
