@@ -9,24 +9,46 @@
             name="cardType"
             type="String" />
 
+        <variable
+            name="cardName"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite">
 
         <ImageView
             android:id="@+id/cardView"
-            android:layout_width="@dimen/_121sdp"
-            android:layout_height="@dimen/_190sdp"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_240sdp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/card_spare"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{cardName}"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="2"
+            android:maxLength="26"
+            android:maxLines="2"
+            android:padding="@dimen/margin_medium_large"
+            android:layout_marginHorizontal="@dimen/margin_medium_large"
+            android:textColor="@color/colorLightGreyWithOpacity"
+            app:layout_constraintBottom_toBottomOf="@id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@id/cardView"
+            tools:text="Amazon cardasdasd " />
 
         <TextView
             android:id="@+id/labelCardType"

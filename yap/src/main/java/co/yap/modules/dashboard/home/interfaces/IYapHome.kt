@@ -16,6 +16,7 @@ interface IYapHome {
     interface View : IBase.View<ViewModel> {
         var transactionViewHelper: TransactionsViewHelper?
         fun setObservers()
+        var drawerButtonEnabled: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

@@ -311,8 +311,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
 
-
         viewModel.card.value = intent.getParcelableExtra(CARD)
+        getBindings().cardInfoLayout.ivCustomCard.loadCardImage(viewModel.card.value?.frontImage)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -681,7 +681,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         pagerList.add(
@@ -690,7 +691,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)

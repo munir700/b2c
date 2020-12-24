@@ -13,5 +13,6 @@ data class GuidedTourViewDetail(
     var showSkip: Boolean = true,
     var btnText: String? = null,
     var isRectangle: Boolean = false,
+    var circlePadding: Float = 0f,
     var callBackListener: OnTourItemClickListener? = null
 )
