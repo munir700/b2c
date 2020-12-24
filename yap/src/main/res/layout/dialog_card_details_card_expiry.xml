@@ -36,7 +36,7 @@
             android:lineSpacingExtra="0dp"
             android:maxLength="26"
             android:maxLines="2"
-            android:text="@{StringExtensionsKt.toCamelCase(viewModel.cardDetailsModel.displayName)}"
+            android:text="@{viewModel.cardDetailsModel.displayName}"
             android:textColor="@color/colorLightGreyWithOpacity"
             android:textSize="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="@+id/ivCard"

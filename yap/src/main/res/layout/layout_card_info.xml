@@ -19,6 +19,10 @@
             name="buttonVisibility"
             type="Boolean" />
 
+        <variable
+            name="cardImgUrl"
+            type="String" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
@@ -31,16 +35,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCustomCard"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_100sdp"
             android:contentDescription="@string/empty_string"
-            android:src="@drawable/card_spare"
+            app:cardImageUrl="@{cardImgUrl}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvCardNameOnCardImage"
             style="@style/AMicroGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

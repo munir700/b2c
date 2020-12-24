@@ -10,12 +10,6 @@ class CardDetailsExpiryViewHolder(private val dialogCardDetailsCardExpiryBinding
         cardDetailsModel: CardDetailsModel,
         position: Int
     ) {
-        /*val params = dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams
-        params.width = dimensions[0]
-        params.height = dimensions[1]
-        dialogCardDetailsCardSerialNumberBinding.ivCard.layoutParams = params*/
-
-        //dialogCardDetailsCardSerialNumberBinding.ivCard.loadImage(houseHoldCardsDesignModel.frontSideDesignImage?:"")
         dialogCardDetailsCardExpiryBinding.ivCard.loadCardImage(cardDetailsModel.cardImg)
         dialogCardDetailsCardExpiryBinding.tvCardType.text = cardDetailsModel.cardType
         dialogCardDetailsCardExpiryBinding.tvCardValidityValue.text =
