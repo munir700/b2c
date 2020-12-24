@@ -9,6 +9,7 @@ interface ICoreBottomSheet {
     interface State : IBase.State {
         var searchText : MutableLiveData<String>
         var searchBarVisibility : ObservableBoolean
+        var noItemFound : ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

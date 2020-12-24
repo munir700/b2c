@@ -54,6 +54,8 @@ object Strings {
         "common_saved_image_to_gallery"
     const val common_display_text_search_hint: String =
         "common_display_text_search_hint"
+    const val common_display_text_no_country_found: String =
+        "common_display_text_no_country_found"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -534,6 +536,8 @@ object Strings {
         "screen_spare_card_landing_display_text_virtual_card"
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
+    const val screen_spare_card_landing_display_tool_bar_title: String =
+        "screen_spare_card_landing_display_tool_bar_title"
 
     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
@@ -573,6 +577,12 @@ object Strings {
 
     const val screen_add_spare_card_display_text_fee: String =
         "screen_add_spare_card_display_text_fee"
+    const val screen_add_virtual_spare_card_edit_name_label: String =
+        "screen_add_virtual_spare_card_edit_name_label"
+    const val screen_add_virtual_spare_card_edit_name_hint: String =
+        "screen_add_virtual_spare_card_edit_name_hint"
+    const val screen_add_virtual_spare_card_tool_bar_title: String =
+        "screen_add_virtual_spare_card_tool_bar_title"
 
 
     // Add funds Screen
@@ -1213,6 +1223,8 @@ object Strings {
         "screen_crash_transfer_success_button_text_back"
     const val screen_cash_transfer_display_text_available_balance: String =
         "screen_cash_transfer_display_text_available_balance"
+    const val screen_cash_transfer_display_text_required_topup_balance: String =
+        "screen_cash_transfer_display_text_required_topup_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =

@@ -48,6 +48,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
@@ -311,8 +312,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupView() {
 
-
         viewModel.card.value = intent.getParcelableExtra(CARD)
+        getBindings().cardInfoLayout.ivCustomCard.loadCardImage(viewModel.card.value?.frontImage)
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -369,7 +370,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(300)
-            launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN) {
+            launchTourGuide(TourGuideType.PRIMARY_CARD_DETAIL_SCREEN) {
                 addAll(setViewsArray())
             }
         }
@@ -681,7 +682,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         pagerList.add(
@@ -690,7 +692,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
@@ -806,7 +809,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     getString(R.string.screen_dashboard_tour_guide_display_text_more),
                     getString(R.string.screen_dashboard_tour_guide_display_text_more_des),
                     padding = Configuration.getDimension(R.dimen._15sdp),
-                    circleRadius = Configuration.getDimension(R.dimen._50sdp)
+                    circleRadius = Configuration.getDimension(R.dimen._50sdp),
+                    callBackListener = tourItemListener
                 )
             )
         }
@@ -817,7 +821,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card),
                     getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card_des),
                     padding = Configuration.getDimension(R.dimen._43sdp),
-                    circleRadius = Configuration.getDimension(R.dimen._45sdp)
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp),
+                    callBackListener = tourItemListener
                 )
             )
 
@@ -829,11 +834,27 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     padding = Configuration.getDimension(R.dimen._43sdp),
                     circleRadius = Configuration.getDimension(R.dimen._45sdp),
                     btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
-                    showSkip = false
+                    showSkip = false,
+                    callBackListener = tourItemListener
                 )
             )
         }
         return list
     }
 
+    private val tourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN,
+                skipped = true
+            )
+        }
+    }
 }

@@ -22,6 +22,7 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.constants.Constants.SMS_CONSENT_REQUEST
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
@@ -92,6 +93,7 @@ class PhoneVerificationSignInFragment :
     }
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
                 SessionManager.updateCardBalance { }
                 if (accountType == AccountType.B2C_HOUSEHOLD.name) {

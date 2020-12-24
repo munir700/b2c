@@ -422,6 +422,7 @@
                             android:layout_marginTop="@dimen/margin_small"
                             android:layout_marginBottom="@dimen/margin_medium"
                             app:buttonVisibility="@{true}"
+                            app:virtualCardName="@{viewModel.state.cardName}"
                             app:cardName="@{viewModel.state.cardTypeText}"
                             app:cardNumber="@{viewModel.state.cardPanNumber}"
                             app:layout_constraintLeft_toLeftOf="parent"

@@ -46,7 +46,7 @@ class TourSetup(
         skip?.setOnClickListener {
             dismiss()
             guidedTourViewViewsList[getCurrentItemPosition() ?: 0].callBackListener?.let {
-                it.onItemClick(getCurrentItemPosition() ?: 0)
+                it.onTourSkipped(getCurrentItemPosition() ?: 0)
             }
         }
     }
@@ -110,7 +110,7 @@ class TourSetup(
                 ) -> {
                     layer?.centerY =
                         it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
-                            .toInt()
+                            .toInt() + it.circlePadding
                 }
                 TourUtils.isViewLocatedAtTopOfTheScreen(
                     context,
@@ -119,13 +119,15 @@ class TourSetup(
                 ) -> {
                     layer?.centerY =
                         it.view.locationOnScreen.y.toFloat() - activity.resources.getDimension(R.dimen._15sdp)
-                            .toInt()
+                            .toInt() + it.circlePadding
                 }
                 else -> {
-                    layer?.centerY = it.view.locationOnScreen.y.toFloat()
+                    layer?.centerY =
+                        it.view.locationOnScreen.y.toFloat() + it.circlePadding
                 }
             }
             layer?.isRectangle = it.isRectangle
+            layer?.rectHeight = it.view.height.toFloat()
             layer?.invalidate()
         }
     }
@@ -156,7 +158,7 @@ class TourSetup(
             } else {
                 dismiss()
                 guidedTourViewViewsList[pos].callBackListener?.let {
-                    it.onItemClick(pos)
+                    it.onTourCompleted(pos)
                 }
             }
         }
@@ -230,5 +232,7 @@ class TourSetup(
 }
 
 interface OnTourItemClickListener {
-    fun onItemClick(pos: Int)
+    fun onTourSkipped(pos: Int) {}
+    fun onTourCompleted(pos: Int) {}
+    fun onItemClick(pos: Int) {}
 }
