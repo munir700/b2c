@@ -203,10 +203,27 @@ class CircleView(context: Context, attrs: AttributeSet? = null) : View(context, 
     }
 
     private fun manageCircleColor() {
-        paint.shader = createLinearGradient(
-            circleColorStart ?: circleColor,
-            circleColorEnd ?: circleColor, circleColorDirection
-        )
+        if (circleColorStart == null && circleColorEnd == null) {
+            paint.shader = createLinearGradient(
+                Color.GRAY,
+                Color.GRAY, circleColorDirection
+            )
+        } else if (circleColorStart != null && circleColorEnd != null) {
+            paint.shader = createLinearGradient(
+                circleColorStart ?: Color.GRAY,
+                circleColorEnd ?: Color.GRAY, circleColorDirection
+            )
+        } else if (circleColorStart == null) {
+            paint.shader = createLinearGradient(
+                circleColorEnd ?: Color.GRAY,
+                circleColorEnd ?: Color.GRAY, circleColorDirection
+            )
+        } else if (circleColorEnd == null) {
+            paint.shader = createLinearGradient(
+                circleColorStart ?: Color.GRAY,
+                circleColorStart ?: Color.GRAY, circleColorDirection
+            )
+        }
     }
 
     private fun manageBorderColor() {
