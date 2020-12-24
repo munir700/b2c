@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +16,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.LayoutBottomSheetBinding
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.getScreenHeight
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -69,6 +71,10 @@ class CoreBottomSheet(
             }
         }
         getBinding().rvBottomSheet.layoutManager = LinearLayoutManager(context)
+        val params = getBinding().rvBottomSheet.layoutParams as ConstraintLayout.LayoutParams
+        params.height =
+            if (viewType == Constants.VIEW_WITH_FLAG) (getScreenHeight() / 2) + 100 else params.height
+        getBinding().rvBottomSheet.layoutParams = params
         getBinding().rvBottomSheet.adapter = adapter
     }
 
@@ -84,8 +90,6 @@ class CoreBottomSheet(
             super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener { dialog ->
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetDialog.behavior.skipCollapsed = true
-            bottomSheetDialog.behavior.isHideable = true
         }
         return bottomSheetDialog
     }

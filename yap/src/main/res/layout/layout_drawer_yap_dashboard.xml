@@ -34,7 +34,7 @@
         app:elevation="4dp">
 
         <!-- Left Section -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_52sdp"
@@ -45,12 +45,15 @@
 
             <!-- Header -->
             <LinearLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
-                android:paddingTop="@dimen/margin_small">
+                android:paddingTop="@dimen/margin_small"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <RelativeLayout
                     android:id="@+id/lUserInfo"
@@ -233,13 +236,17 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutRef"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
-                android:paddingBottom="@dimen/margin_extra_small">
+                android:paddingBottom="@dimen/margin_extra_small"
+                android:layout_below="@+id/header"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <include
                     android:id="@+id/lRefer"
@@ -270,6 +277,7 @@
 
             <!-- Management -->
             <LinearLayout
+                android:id="@+id/layoutRefAFriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -277,7 +285,9 @@
                 android:paddingEnd="0dp"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRef"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <include
                     layout="@layout/layout_item_icon_text"
@@ -300,20 +310,26 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/sep1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:background="@color/greyLight"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/layoutRefAFriend"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <!-- Info -->
             <LinearLayout
+                android:id="@+id/layoutStatements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="0dp"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_small">
+                android:paddingBottom="@dimen/margin_small"
+                app:layout_constraintTop_toBottomOf="@+id/sep1"
+                app:layout_constraintStart_toStartOf="parent">
 
                <!-- <include
                     layout="@layout/layout_item_icon_text"
@@ -332,13 +348,17 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/sep2"
                 android:layout_width="match_parent"
                 android:layout_height="2px"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:background="@color/greyLight" />
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@+id/layoutStatements"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Support -->
             <LinearLayout
+                android:id="@+id/layoutLiveChat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -346,7 +366,9 @@
                 android:paddingEnd="0dp"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:visibility="visible">
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/sep2"
+                app:layout_constraintStart_toStartOf="parent" >
 
                 <include
                     android:id="@+id/lLiveChat"
@@ -393,16 +415,19 @@
             <TextView
                 android:id="@+id/tvLogOut"
                 style="@style/ARegular"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="bottom|center"
                 android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
-                android:paddingBottom="@dimen/margin_medium"
+                android:padding="@dimen/margin_medium"
                 android:text="@string/screen_profile_settings_display_text_logout"
                 android:textColor="?attr/colorPrimaryAttr"
-                app:text="@{Strings.screen_profile_settings_display_text_logout}" />
-        </LinearLayout>
+                app:text="@{Strings.screen_profile_settings_display_text_logout}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="@dimen/_1sdp"

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -74,19 +74,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:btn_size="medium"
-                android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:text="@string/screen_add_spare_card_button_confirm_purchase"
                 android:textAllCaps="false"
                 app:layout_constraintVertical_bias="1"
                 app:btn_enable="true"
+                android:layout_marginTop="@dimen/margin_btn_side_xxl"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceTitle"
+                android:text="@{viewModel.state.coreButtonText}"
                 app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include

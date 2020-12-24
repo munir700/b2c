@@ -65,6 +65,7 @@ import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -218,14 +219,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
-        getBindings().ivSearch.setOnLongClickListener {
-            return@setOnLongClickListener activity?.let {
-                //val tour = TourSetup(it, setViewsArray())
-                //tour.startTour()
-                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
-                true
-            } ?: false
-        }
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
@@ -251,7 +244,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                                 childPosition
                             )
-
                         }
                     }
                     viewModel.clickEvent.setPayload(null)
@@ -835,7 +827,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
                 padding = -getDimension(R.dimen._20sdp),
                 circleRadius = getDimension(R.dimen._60sdp),
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
@@ -845,7 +837,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
                 padding = getDimension(R.dimen._70sdp),
                 circleRadius = getDimension(R.dimen._70sdp),
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
@@ -855,7 +847,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
                 padding = getDimension(R.dimen._260sdp),
                 circleRadius = getDimension(R.dimen._70sdp),
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
@@ -867,15 +859,37 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 circleRadius = getDimension(R.dimen._60sdp),
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         return list
     }
 
-    private val tourItemListener = object : OnTourItemClickListener {
-        override fun onItemClick(pos: Int) {
+    private val homeTourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, completed = true)
             showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, skipped = true)
+            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
+    }
+
+    private val graphTourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                skipped = true
+            )
         }
     }
 
@@ -905,10 +919,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
                 showPageNo = false,
+                callBackListener = graphTourItemListener,
                 circlePadding = getDimension(R.dimen._25sdp)
             )
         )
         return list
+    }
+
+    private suspend fun startGraphTour() {
+        if (parentView?.isDrawerOpen() == false) {
+            tourStep =
+                requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
+                    addAll(setGraphViewsArray())
+                }
+            delay(300)
+            drawerButtonEnabled = true
+        }
     }
 
     private fun showGraphTourGuide(listSize: Int) {
@@ -916,39 +942,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             CoroutineScope(Main).launch {
                 drawerButtonEnabled = false
                 delay(500)
-                SessionManager.card.value?.let { card ->
-                    if (card.pinCreated && parentView?.isDrawerOpen() == false) {
-                        tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
-                                addAll(setGraphViewsArray())
-                            }
-                        delay(300)
-                        drawerButtonEnabled = true
-                    }
-                } ?: SessionManager.getDebitCard {
-                    if (SessionManager.card.value?.pinCreated == true && parentView?.isDrawerOpen() == false) {
-                        tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
-                                addAll(setGraphViewsArray())
-                            }
-                        CoroutineScope(Main).launch {
-                            delay(300)
-                            drawerButtonEnabled = true
-                        }
-                    }
-                }
+                startGraphTour()
             }
     }
 
     private fun showHomeTourGuide() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
-            tourStep = requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            tourStep = requireActivity().launchTourGuide(TourGuideType.DASHBOARD_SCREEN) {
                 addAll(setViewsArray())
             }
             if (tourStep == null)
                 showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
-
-
 }

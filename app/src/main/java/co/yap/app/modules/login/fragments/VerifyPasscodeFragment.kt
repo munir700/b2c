@@ -32,6 +32,7 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
@@ -299,6 +300,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
                 SessionManager.updateCardBalance { }
                 viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)

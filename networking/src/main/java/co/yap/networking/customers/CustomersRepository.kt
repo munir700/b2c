@@ -113,6 +113,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
+    const val URL_TOUR_GUIDES = "customers/api/tour-guides"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -372,4 +373,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
     executeSafely(call = { api.updateFxRate(fxRate) })
+
+    override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
+        executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
+
+    override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
+        executeSafely(call = { api.getTourGuides() })
 }
