@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
@@ -26,6 +28,11 @@ class YapCardsViewModel(application: Application) :
     override val repository: CardsRepository = CardsRepository
     override val state: YapCardsState = YapCardsState()
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
+    lateinit var adapter: YapCardsAdaptor
+
+    fun setupAdaptor(context: Context) {
+        adapter = YapCardsAdaptor(context, mutableListOf())
+    }
 
     override fun getCards() {
         launch {

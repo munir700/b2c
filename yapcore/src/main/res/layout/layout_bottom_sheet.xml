@@ -15,7 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <View
@@ -68,8 +68,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBottomSheet"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_400sdp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:visibility="@{viewModel.state.noItemFound ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@+id/sepretorLine" />
 

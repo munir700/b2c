@@ -69,7 +69,7 @@
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
-            android:name=".modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
+            android:name="co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CoreAppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation" />
