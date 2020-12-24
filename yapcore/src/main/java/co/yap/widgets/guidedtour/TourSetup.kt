@@ -46,7 +46,7 @@ class TourSetup(
         skip?.setOnClickListener {
             dismiss()
             guidedTourViewViewsList[getCurrentItemPosition() ?: 0].callBackListener?.let {
-                it.onItemClick(getCurrentItemPosition() ?: 0)
+                it.onTourSkipped(getCurrentItemPosition() ?: 0)
             }
         }
     }
@@ -158,7 +158,7 @@ class TourSetup(
             } else {
                 dismiss()
                 guidedTourViewViewsList[pos].callBackListener?.let {
-                    it.onItemClick(pos)
+                    it.onTourCompleted(pos)
                 }
             }
         }
@@ -232,5 +232,7 @@ class TourSetup(
 }
 
 interface OnTourItemClickListener {
-    fun onItemClick(pos: Int)
+    fun onTourSkipped(pos: Int) {}
+    fun onTourCompleted(pos: Int) {}
+    fun onItemClick(pos: Int) {}
 }
