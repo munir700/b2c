@@ -19,7 +19,7 @@
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_150sdp"
-            android:background="@drawable/card_spare"
+            app:background="@drawable/card_spare"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
