@@ -646,8 +646,7 @@
         <attr name="shimmerAngle" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="CoreCircleView">
-    </declare-styleable>
+    <declare-styleable name="CoreCircleView"></declare-styleable>
 
     <declare-styleable name="CircleView">
         <attr name="cv_color" format="color" />
