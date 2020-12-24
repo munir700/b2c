@@ -94,21 +94,7 @@
                     app:text="@{Strings.scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms}"
                     tools:text="@string/scren_send_money_funds_transfer_confirmation_display_text_disclaimer_terms" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--            <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                android:id="@+id/tvTermCondition"-->
-            <!--                style="@style/MicroGrey"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="@dimen/margin_medium_large"-->
-            <!--                android:textColor="?attr/colorPrimaryAttr"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--                app:layout_constraintRight_toRightOf="parent"-->
-            <!--                android:layout_marginTop="@dimen/margin_normal"-->
-            <!--                android:gravity="center"-->
-            <!--                android:visibility="visible"-->
-            <!--                android:text="@{String.format(@string/screen_confirm_card_pin_terms_condition_note,viewModel.termsCondition)}"-->
-            <!--                />-->
+
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnAction"
                 style="@style/RectangleBtnStyle"
