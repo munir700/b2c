@@ -1,6 +1,7 @@
 package co.yap.modules.setcardpin.pinflow
 
 import android.text.TextWatcher
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -16,11 +17,11 @@ interface IPin {
             get() = 1
 
         var pincode: String
-        var termsCondition : String
         val clickEvent: SingleClickEvent
         val forgotPasscodeclickEvent: SingleClickEvent
         var errorEvent: SingleClickEvent
         fun handlePressOnNextButton(id: Int)
+        fun handlePressOnView(id: Int)
         fun handlePressOnForgotPasscodeButton(id: Int)
         fun setCardPin(cardSerialNumber: String)
         fun changeCardPinRequest(
@@ -56,5 +57,6 @@ interface IPin {
         var confirmPin: String
         var cardSerialNumber: String
         var forgotTextVisibility: Boolean
+        var clTermsAndConditionsVisibility: ObservableField<Boolean>
     }
 }

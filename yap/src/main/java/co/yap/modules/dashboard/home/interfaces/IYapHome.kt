@@ -38,6 +38,7 @@ interface IYapHome {
             accountInfo: AccountInfo,
             paymentCard: Card
         ): ArrayList<HomeNotification>
+        fun shouldShowSetPin(paymentCard: Card): Boolean
     }
 
     interface State : IBase.State {

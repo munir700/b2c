@@ -107,7 +107,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun startFlowForSetPin(card: Card?) {
         card?.let {
-            if (isShowSetPin(it)) {
+            if (viewModel.shouldShowSetPin(it)) {
                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
@@ -495,10 +495,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
         clearNotification()
-    }
-
-    private fun isShowSetPin(paymentCard: Card?): Boolean {
-        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 
     private fun showTransactionsAndGraph() {

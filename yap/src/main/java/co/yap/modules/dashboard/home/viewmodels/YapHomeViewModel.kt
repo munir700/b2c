@@ -293,7 +293,11 @@ class YapHomeViewModel(application: Application) :
         return list
     }
 
-    private fun shouldShowSetPin(paymentCard: Card): Boolean {
-        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+    override fun shouldShowSetPin(paymentCard: Card): Boolean {
+       return when {
+            paymentCard.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
+            paymentCard.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true
+            else -> false
+        }
     }
 }
