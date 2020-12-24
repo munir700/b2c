@@ -67,7 +67,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
-import kotlinx.android.synthetic.main.fragment_yap_cards.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -311,9 +310,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupView() {
-
         viewModel.card.value = intent.getParcelableExtra(CARD)
-        getBindings().cardInfoLayout.ivCustomCard.loadCardImage(viewModel.card.value?.frontImage)
+        viewModel.state.cardImageUrl = viewModel.card.value?.frontImage ?: ""
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -322,7 +320,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 if (it) {
                     viewModel.state.cardName = cardName
                 } else {
-                    viewModel.state.cardName = cardName.toCamelCase()
+                    viewModel.state.cardName = cardName
                 }
             }
         }
