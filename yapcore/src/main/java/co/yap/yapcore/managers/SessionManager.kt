@@ -225,7 +225,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun doLogout(context: Context, isOnPassCode: Boolean = false) {
         AuthUtils.navigateToHardLogin(context, isOnPassCode)
         expireUserSession()
-        TourGuideManager.unlockTourGuideScreens()
         LivePerson.logOut(context, "", "", object : LogoutLivePersonCallback {
             override fun onLogoutSucceed() {
                 val authParams = LPAuthenticationParams()

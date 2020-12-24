@@ -148,7 +148,7 @@ class TourSetup(
     }
 
     private val listener = object : OnTourItemClickListener {
-        override fun onTourCompleted(pos: Int) {
+        override fun onItemClick(pos: Int) {
             currentViewId += 1
             if (currentViewId < guidedTourViewViewsList.size) {
                 layer?.updateCircle = true

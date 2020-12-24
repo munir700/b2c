@@ -1,6 +1,5 @@
 package co.yap.yapcore.helpers
 
-import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.TourGuideRequest
 import co.yap.networking.customers.responsedtos.TourGuide
@@ -10,7 +9,6 @@ import kotlinx.coroutines.launch
 
 object TourGuideManager {
     private val customerRepository: CustomersRepository = CustomersRepository
-    private var onGetTourGuidesSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private var listOfTourViews: ArrayList<TourGuide> = arrayListOf()
     val getBlockedTourGuideScreens: ArrayList<TourGuideType>
         get() = getBlockedTourGuideList()
@@ -51,10 +49,6 @@ object TourGuideManager {
         )
     }
 
-    fun unlockTourGuideScreens() {
-
-    }
-
     private fun updateTourGuideStatus(
         viewName: String,
         completed: Boolean? = null,
@@ -71,6 +65,13 @@ object TourGuideManager {
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    listOfTourViews.add(
+                        TourGuide(
+                            viewName = viewName,
+                            completed = completed,
+                            skipped = skipped
+                        )
+                    )
                 }
 
                 is RetroApiResponse.Error -> {
@@ -84,12 +85,10 @@ object TourGuideManager {
             when (val response = customerRepository.getTourGuides()) {
                 is RetroApiResponse.Success -> {
                     configure(response.data.data as ArrayList<TourGuide>)
-                    onGetTourGuidesSuccess.postValue(true)
                     success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
-                    onGetTourGuidesSuccess.postValue(false)
                 }
             }
         }

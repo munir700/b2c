@@ -219,14 +219,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
-        getBindings().ivSearch.setOnLongClickListener {
-            return@setOnLongClickListener activity?.let {
-                //val tour = TourSetup(it, setViewsArray())
-                //tour.startTour()
-                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
-                true
-            } ?: false
-        }
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
@@ -252,7 +244,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                                 ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
                                 childPosition
                             )
-
                         }
                     }
                     viewModel.clickEvent.setPayload(null)
@@ -965,7 +956,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun showHomeTourGuide() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             tourStep = requireActivity().launchTourGuide(TourGuideType.DASHBOARD_SCREEN) {
                 addAll(setViewsArray())
             }
@@ -973,6 +964,4 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
-
-
 }
