@@ -52,13 +52,14 @@
                 android:id="@+id/cvYapIt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-15dp"
-                android:background="@color/transparent">
+                android:layout_marginBottom="-7dp"
+                android:background="@color/transparent"
+                >
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivYapIt"
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_60sdp"
+                    android:layout_width="@dimen/_54sdp"
+                    android:layout_height="@dimen/_54sdp"
                     android:background="@color/transparent"
                     app:srcCompat="@drawable/ic_yapit_shadow" />
             </FrameLayout>
