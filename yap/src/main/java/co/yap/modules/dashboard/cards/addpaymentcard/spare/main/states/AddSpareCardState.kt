@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import co.yap.yapcore.BaseState
@@ -24,7 +25,6 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
             notifyPropertyChanged(BR.cardName)
         }
 
-    //add virtual card layout fields
     @get:Bindable
     override var virtualCardFee: String = ""
         set(value) {
@@ -32,90 +32,11 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
             notifyPropertyChanged(BR.virtualCardFee)
         }
 
-    //add physical card layout fields
-    @get:Bindable
-    override var physicalCardFee: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.physicalCardFee)
-        }
-
-    @get:Bindable
-    override var avaialableCardBalance: CharSequence = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.avaialableCardBalance)
-        }
-
-    @get:Bindable
-    override var physicalCardAddressTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.physicalCardAddressTitle)
-        }
-
-    @get:Bindable
-    override var physicalCardAddressSubTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.physicalCardAddressSubTitle)
-        }
-
-    @get:Bindable
-    override var toggleVisibility: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.toggleVisibility)
-            if (!field) {
-                physicalCardAddressButtonsVisibility = VISIBLE
-                physicalCardAddressCheckVisibility = GONE
-            } else {
-                physicalCardAddressButtonsVisibility = GONE
-                physicalCardAddressCheckVisibility = VISIBLE
-            }
-
-        }
-
-    @get:Bindable
-    override var onChangeLocationClick: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.onChangeLocationClick)
-
-        }
-
-
-    @get:Bindable
-    override var physicalCardAddressCheckVisibility: Int = GONE
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.physicalCardAddressCheckVisibility)
-        }
-
-
-    @get:Bindable
-    override var physicalCardAddressButtonsVisibility: Int = VISIBLE
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.physicalCardAddressButtonsVisibility)
-
-        }
-
-    @get:Bindable
-    override var enableConfirmLocation: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.enableConfirmLocation)
-
-        }
-
     @get:Bindable
     override var coreButtonText: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.coreButtonText)
-
         }
-
-
+    override var availableBalance: ObservableField<CharSequence> = ObservableField()
 }
