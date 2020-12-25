@@ -18,8 +18,8 @@ class AdditionalInfoEmploymentViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        setTitle("Additional Information")
-        setSubTitle("What is your employment status?")
+//        setTitle("Additional Information")
+//        setSubTitle("What is your employment status?")
         additionalInfoEmploymentAdapter.setList(getMockableList())
     }
 

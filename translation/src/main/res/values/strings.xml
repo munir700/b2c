@@ -12,6 +12,8 @@
     <string name="common_button_confirm">Confirm</string>
     <string name="common_button_continue">Continue</string>
     <string name="common_button_submit">Submit</string>
+    <string name="common_text_thanks">Thanks</string>
+    <string name="common_text_hey">Hey</string>
     <string name="common_button_activate">Activate</string>
     <string name="common_text_currency_type">AED</string>
     <string name="common_amount_hint">0.00</string>
@@ -1130,6 +1132,12 @@
     <!-- Additional Information Strings-->
     <string name="screen_additional_info_label_text_do_it_later">Do it later</string>
     <string name="screen_additional_info_label_text_question_hint">Answer to question goes here</string>
+    <string name="screen_additional_info_label_text_additional_info">Additional Information</string>
+    <string name="screen_additional_info_label_text_upload_document_complete">You have successfully uploaded your documents. Please click Next to continue</string>
+    <string name="screen_additional_info_label_text_upload_document">, please submit the following documents</string>
+    <string name="screen_additional_info_label_text_complete">Your application is back in process and we will inform you soon of when you can set your card pin</string>
+    <string name="screen_additional_info_label_text_final_question">Final Question</string>
+    <string name="screen_additional_info_label_text_required_des">We need additional information to be able to proceed with your application to get your YAP account activated</string>
 
 
 </resources>

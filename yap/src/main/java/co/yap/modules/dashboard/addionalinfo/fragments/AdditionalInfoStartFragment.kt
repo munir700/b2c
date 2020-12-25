@@ -26,8 +26,6 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.subTitle.set("We need additional information to be able to proceed with your application to get your YAP account activated")
-        viewModel.state.title.set("Hey " + SessionManager.user?.currentCustomer?.firstName + ",")
     }
 
     override fun onToolBarClick(id: Int) {

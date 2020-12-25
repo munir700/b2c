@@ -11,14 +11,6 @@ abstract class AdditionalInfoBaseViewModel<S : IBase.State>(application: Applica
     BaseViewModel<S>(application) {
     var parentViewModel: IAdditionalInfo.ViewModel? = null
 
-    fun setTitle(title: String) {
-        parentViewModel?.state?.title?.set(title)
-    }
-
-    fun setSubTitle(title: String) {
-        parentViewModel?.state?.subTitle?.set(title)
-    }
-
     fun moveStep() {
         parentViewModel?.stepCount?.value = parentViewModel?.stepCount?.value?.plus(1)
     }
