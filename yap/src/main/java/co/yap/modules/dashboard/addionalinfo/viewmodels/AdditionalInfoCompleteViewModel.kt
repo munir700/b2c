@@ -13,7 +13,7 @@ class AdditionalInfoCompleteViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//        showHeader(false)
+        showHeader(false)
         state.subTitle.set(getString(Strings.screen_additional_info_label_text_complete))
         state.title.set(getString(Strings.common_text_thanks) + " " + SessionManager.user?.currentCustomer?.firstName)
     }
