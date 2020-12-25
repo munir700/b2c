@@ -137,7 +137,9 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                     pos,
                     data
                 )
-                viewModel.setEnabled(viewModel.uploadAdditionalDocumentAdapter.getDataList())
+                viewModel.setEnabled(viewModel.uploadAdditionalDocumentAdapter.getDataList()) {
+                    viewModel.setSubTitle(it)
+                }
             }
         } ?: showToast("Invalid Image")
     }

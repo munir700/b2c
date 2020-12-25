@@ -7,6 +7,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 
 class AdditionalInfoQuestionViewModel(application: Application) :
     AdditionalInfoBaseViewModel<IAdditionalInfoQuestion.State>(application),
@@ -15,8 +16,8 @@ class AdditionalInfoQuestionViewModel(application: Application) :
     override val state: IAdditionalInfoQuestion.State = AdditionalInfoQuestionState(application)
     override fun onCreate() {
         super.onCreate()
-        setTitle("Final Question")
-        setSubTitle(getQuestionList().firstOrNull()?.questionFromCustomer ?: "")
+        state.questionTitle.set(getString(Strings.screen_additional_info_label_text_final_question))
+        state.question.set(getQuestionList().firstOrNull()?.questionFromCustomer ?: "")
     }
 
     override fun moveToNext() {

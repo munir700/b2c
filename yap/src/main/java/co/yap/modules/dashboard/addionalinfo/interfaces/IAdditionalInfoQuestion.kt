@@ -14,6 +14,8 @@ interface IAdditionalInfoQuestion {
     }
 
     interface State : IBase.State {
+        val questionTitle: ObservableField<String>
+        val question: ObservableField<String>
         val answer: ObservableField<String>
         val valid: ObservableBoolean
     }
