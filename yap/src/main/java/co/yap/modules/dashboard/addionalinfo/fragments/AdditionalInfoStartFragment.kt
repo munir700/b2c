@@ -8,9 +8,8 @@ import co.yap.R
 import co.yap.databinding.FragmentAdditionalInfoStartBinding
 import co.yap.modules.dashboard.addionalinfo.interfaces.IAdditionalInfoStart
 import co.yap.modules.dashboard.addionalinfo.viewmodels.AdditionalInfoStartViewModel
+import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
 import co.yap.yapcore.enums.AdditionalInfoScreenType
-import co.yap.yapcore.helpers.extentions.startFragment
-import co.yap.yapcore.managers.SessionManager
 
 class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoStart.ViewModel>(),
     IAdditionalInfoStart.View {
@@ -40,20 +39,23 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
     }
 
     private fun moveNextScreen() {
+        val document =
+            viewModel.getDocumentList()
+                .filter { additionalDocument -> additionalDocument.status == "PENDING" }
+        val questions =
+            viewModel.getQuestionList()
+                .filter { additionalQuestion -> additionalQuestion.status == "PENDING" }
         when (viewModel.getScreenType()) {
             AdditionalInfoScreenType.BOTH_SCREENS.name -> {
-                val document =
-                    viewModel.getDocumentList()
-                        .filter { additionalDocument -> additionalDocument.status == "PENDING" }
                 if (document.isNotEmpty()) {
                     navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
                 } else {
                     viewModel.moveStep()
-                    navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+                    navigateToQuestion(questions)
                 }
             }
             AdditionalInfoScreenType.DOCUMENT_SCREEN.name -> {
-                navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
+                navigateToQuestion(questions)
             }
             AdditionalInfoScreenType.QUESTION_SCREEN.name -> {
                 navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
@@ -61,6 +63,14 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
                 navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoComplete)
             }
+        }
+    }
+
+    private fun navigateToQuestion(questions: List<AdditionalQuestion>) {
+        if (questions.isNotEmpty()) {
+            navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+        } else {
+            navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoComplete)
         }
     }
 
