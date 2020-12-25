@@ -1,6 +1,7 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -161,4 +162,4 @@ data class Transaction(
     @SerializedName("cancelReason")
     val cancelReason: String? = null
 
-) : Parcelable
+):ApiResponse() ,Parcelable
