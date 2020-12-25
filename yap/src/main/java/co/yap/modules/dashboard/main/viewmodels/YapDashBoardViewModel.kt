@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.main.viewmodels
 
 import android.app.Application
+import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
@@ -45,6 +47,8 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+
+
         updateVersion()
         getHelpPhoneNo()
         launch {
@@ -52,7 +56,8 @@ class YapDashBoardViewModel(application: Application) :
             showUnverifedscreen.value =
                 SessionManager.user?.currentCustomer?.isEmailVerified.equals("N", true)
         }
-    }
+        state.isFounder.set(SessionManager.user?.currentCustomer?.founder)
+      }
 
     override fun resendVerificationEmail() {
         launch {

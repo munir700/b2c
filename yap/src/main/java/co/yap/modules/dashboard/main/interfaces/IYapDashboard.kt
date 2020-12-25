@@ -19,6 +19,7 @@ interface IYapDashboard {
         var availableBalance: String
         var userNameImage: ObservableField<String>
         var appVersion: ObservableField<String>
+        var isFounder: ObservableField<Boolean>
 
     }
 

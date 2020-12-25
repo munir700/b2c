@@ -1140,4 +1140,7 @@
     <string name="screen_additional_info_label_text_required_des">We need additional information to be able to proceed with your application to get your YAP account activated</string>
 
 
+    <string name="common_display_text_founder">FOUNDER</string>
+
+
 </resources>
