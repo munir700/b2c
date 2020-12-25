@@ -23,10 +23,9 @@ import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActiv
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.helpers.extentions.loadCardImage
-import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.*
 
@@ -79,7 +78,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     private fun handleCoreButtonNavigation() {
         if (btnConfirmVirtualCardPurchase.text.contains("Top up")){
-            launchActivity<AddMoneyActivity> {  }
+            launchActivity<AddMoneyActivity>()
         }else{
             onPressConfirmPurchaseVirtual()
         }
@@ -103,19 +102,10 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     private fun onPressConfirmPurchaseVirtual() {
         try {
-            // todo temporary logic added to fix a bug, balance should be stored as double in view model
-            val virtualCardFee =
-                viewModel.state.virtualCardFee.replace(
-                    "${SessionManager.getDefaultCurrency()} ",
-                    ""
-                ).replace(",", "")
-                    .toDouble()
-            val availableCardBalance =
-                SessionManager.cardBalance.value?.availableBalance?.parseToDouble() ?: 0.0
-            if (virtualCardFee > availableCardBalance) {
-                showDialog()
-            } else {
+            if (viewModel.isEnoughBalance()) {
                 viewModel.requestAddSpareVirtualCard()
+            } else {
+                showDialog()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -129,8 +119,47 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         viewModel.cardName =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardName } as String
         viewModel.state.cardName = viewModel.cardName ?: ""
-        viewModel.requestInitialData()
         getBinding().include.cardView.loadCardImage(viewModel.parentViewModel?.selectedVirtualCard?.frontSideDesignImage)
+        setBalanceContent()
+    }
+
+    private fun setBalanceContent() {
+        if (viewModel.isEnoughBalance()) {
+            viewModel.state.availableBalance.set(
+                resources.getText(
+                    getString(Strings.screen_cash_transfer_display_text_available_balance),
+                    requireContext().color(
+                        R.color.colorPrimary,
+                        SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                            showCurrency = true
+                        ) ?: ""
+                    )
+                )
+            )
+            viewModel.state.coreButtonText =
+                getString(Strings.screen_add_spare_card_button_confirm_purchase)
+        } else {
+            getBinding().layoutVirtualCardConfirmPurchase.tvAvailableBalanceTitle.text =
+                resources.getText(
+                    getString(Strings.screen_cash_transfer_display_text_required_topup_balance),
+                    requireContext().color(
+                        R.color.colorPrimary,
+                        SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                            showCurrency = true
+                        ) ?: ""
+                    )
+                )
+            getBinding().layoutVirtualCardConfirmPurchase.tvAvailableBalanceTitle.makeLinks(
+                Pair("Top up", View.OnClickListener {
+                    launchActivity<AddMoneyActivity>()
+                })
+                , color = requireContext().getColor(R.color.colorPrimary),
+                underline = true,
+                isBold = true
+            )
+            viewModel.state.coreButtonText =
+                getString(Strings.screen_add_spare_card_display_button_block_alert_top_up)
+        }
     }
 
     private fun getBinding(): FragmentAddSpareCardBinding {
@@ -139,7 +168,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-        viewModel.requestInitialData()
+        setBalanceContent()
     }
 
     override fun onDestroy() {

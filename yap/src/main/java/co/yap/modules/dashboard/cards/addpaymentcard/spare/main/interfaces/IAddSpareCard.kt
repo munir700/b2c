@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces
 
+import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
@@ -11,7 +12,7 @@ interface IAddSpareCard {
         var cardName: String
         var virtualCardFee: String
         var coreButtonText: String
-        var availableBalance: CharSequence
+        var availableBalance: ObservableField<CharSequence>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -26,7 +27,7 @@ interface IAddSpareCard {
 
         fun handlePressOnView(id: Int)
         fun requestAddSpareVirtualCard()
-        fun requestInitialData()
+        fun isEnoughBalance(): Boolean
     }
 
     interface View : IBase.View<ViewModel>

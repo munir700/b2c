@@ -14,8 +14,6 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.helpers.spannables.color
-import co.yap.yapcore.helpers.spannables.getText
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -45,35 +43,8 @@ class AddSpareCardViewModel(application: Application) :
             parentViewModel?.virtualCardFee?.toFormattedCurrency() ?: ""
     }
 
-    override fun requestInitialData() {
-        updateScreenContent()
-    }
-
-    private fun updateScreenContent() {
-        if (parentViewModel?.virtualCardFee?.toDouble() ?: 0.0 < SessionManager.cardBalance.value?.availableBalance?.toDouble() ?: 0.0) {
-
-            state.availableBalance = context.resources.getText(
-                getString(Strings.screen_cash_transfer_display_text_available_balance),
-                context.color(
-                    co.yap.sendmoney.R.color.colorPrimary,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
-                        showCurrency = true) ?: ""
-                )
-            )
-            state.coreButtonText = getString(Strings.screen_add_spare_card_button_confirm_purchase)
-        } else {
-            state.availableBalance = context.resources.getText(
-                getString(Strings.screen_cash_transfer_display_text_required_topup_balance),
-                context.color(
-                    co.yap.sendmoney.R.color.colorPrimary,
-                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
-                        showCurrency = true) ?: ""
-                )
-            )
-            state.coreButtonText =
-                getString(Strings.screen_add_spare_card_display_button_block_alert_top_up)
-        }
-    }
+    override fun isEnoughBalance(): Boolean =
+        (parentViewModel?.virtualCardFee?.toDouble() ?: 0.0 < SessionManager.cardBalance.value?.availableBalance?.toDouble() ?: 0.0)
 
     override fun onResume() {
         super.onResume()

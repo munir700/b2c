@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import co.yap.yapcore.BaseState
@@ -37,9 +38,5 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
             field = value
             notifyPropertyChanged(BR.coreButtonText)
         }
-    override var availableBalance: CharSequence = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.availableBalance)
-        }
+    override var availableBalance: ObservableField<CharSequence> = ObservableField()
 }
