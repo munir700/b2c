@@ -13,21 +13,16 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddSpareCardBinding
-import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.main.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.main.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel
-import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
-import co.yap.modules.location.activities.LocationSelectionActivity
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.loadCardImage
@@ -66,19 +61,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     private fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                viewModel.ADD_PHYSICAL_SPARE_SUCCESS_EVENT -> {
-                    onAddPhysicalCard()
-                }
-
                 viewModel.ADD_VIRTUAL_SPARE_SUCCESS_EVENT -> {
                     onAddVirtualCard()
-                }
-                viewModel.REORDER_CARD_SUCCESS_EVENT -> {
-                    onReorderCard()
-                }
-
-                R.id.btnConfirmPhysicalCardPurchase -> {
-                    onPressConfirmPurchasePhysical()
                 }
 
                 R.id.btnConfirmVirtualCardPurchase -> {
@@ -89,22 +73,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     setupActionsIntent()
                     activity?.finish()
                 }
-
-                R.id.btnConfirm -> {
-                    viewModel.state.toggleVisibility = true
-                }
-
-                R.id.tvChangeLocation -> {
-                    startActivityForResult(
-                        LocationSelectionActivity.newIntent(
-                            context = requireContext(),
-                            address = viewModel.address ?: Address(),
-                            headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
-                            subHeadingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
-                        ), RequestCodes.REQUEST_FOR_LOCATION
-                    )
-                }
-
             }
         })
     }
@@ -117,25 +85,9 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         }
     }
 
-    private fun onAddPhysicalCard() {
-        updateTransactionOnHome()
-        SessionManager.updateCardBalance(){}
-
-        if (!viewModel.isFromBlockCardScreen) {
-            if (activity is AddPaymentCardActivity) {
-                (activity as AddPaymentCardActivity).hideToolbar()
-            }
-        }
-        navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
-    }
-
     private fun onAddVirtualCard() {
         updateTransactionOnHome()
         SessionManager.updateCardBalance(){}
-        if (!viewModel.isFromBlockCardScreen) {
-            if (activity is AddPaymentCardActivity)
-                (activity as AddPaymentCardActivity).hideToolbar()
-        }
         cardAdded = true
         view?.let {
             this.activity?.let { activity ->
@@ -147,12 +99,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 )
             }
         }
-    }
-
-    private fun onReorderCard() {
-        updateTransactionOnHome()
-        showToast("Reorder Card Successfully")
-//        findNavController().navigate(R.id.action_addSpareCardFragment_to_successFragment)
     }
 
     private fun onPressConfirmPurchaseVirtual() {
@@ -176,46 +122,10 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         }
     }
 
-    private fun onPressConfirmPurchasePhysical() {
-        // todo temporary logic added to fix a bug, balance should be stored as double in view model
-        try {
-            val physicalCardFee =
-                viewModel.state.physicalCardFee.replace(
-                    "${SessionManager.getDefaultCurrency()} ",
-                    ""
-                ).replace(
-                    ",",
-                    ""
-                ).toDouble()
-            val availableCardBalance =
-                SessionManager.cardBalance.value?.availableBalance?.parseToDouble() ?: 0.0
-
-            if (physicalCardFee > availableCardBalance) {
-                showDialog()
-            } else {
-                if (activity is ReorderCardActivity) {
-                    viewModel.requestReorderCard()
-                } else {
-                    viewModel.requestAddSparePhysicalCard()
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
     private fun getUpArguments() {
-
         viewModel.cardType =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
-
         viewModel.state.cardType = viewModel.cardType
-
-//        arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
-
-        viewModel.isFromBlockCardScreen =
-            arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
-
         viewModel.cardName =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardName } as String
         viewModel.state.cardName = viewModel.cardName ?: ""
@@ -240,7 +150,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override fun onDetach() {
         super.onDetach()
         onBackPressCheck = true
-
     }
 
     override fun onBackPressed(): Boolean {
@@ -272,7 +181,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             )
         ) { dialog, which ->
             launchActivity<TopUpBeneficiariesActivity>()
-//            startActivity(TopUpLandingActivity.getIntent(requireContext()))
         }
 
         builder.setNegativeButton(
@@ -283,36 +191,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             //dismiss
         }
 
-
         val dialog: AlertDialog = builder.create()
         dialog.show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RequestCodes.REQUEST_FOR_LOCATION -> {
-                    val isUpdated = data?.getBooleanExtra(Constants.ADDRESS_SUCCESS, false)
-                    isUpdated?.let { it ->
-                        if (it) {
-                            val address: Address? =
-                                data.getParcelableExtra(Constants.ADDRESS)
-                            address?.let {
-                                viewModel.address = it
-                                setupAddressCard()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setupAddressCard() {
-        viewModel.state.physicalCardAddressTitle = viewModel.address?.address1 ?: ""
-        viewModel.state.physicalCardAddressSubTitle = viewModel.address?.address2 ?: ""
-        viewModel.state.enableConfirmLocation = true
     }
 
     private fun updateTransactionOnHome() {
