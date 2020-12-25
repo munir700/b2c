@@ -17,6 +17,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            style="@style/ATitle3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:gravity="center"
+            android:text="@{viewModel.state.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Additional Information" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubTitle"
+            style="@style/RegularGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:gravity="center"
+            android:text="@{viewModel.state.subTitle}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:text="You have successfully uploaded your documents. Please click Next to continue" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerUploadAdditionalDocuments"
             android:layout_width="match_parent"
@@ -27,7 +57,7 @@
             app:layout_constraintBottom_toTopOf="@id/btnNext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
             app:recycleViewAdapter="@{viewModel.additionalInfoEmploymentAdapter}"
             app:spanCount="2"
             tools:itemCount="4"

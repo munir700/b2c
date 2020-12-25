@@ -8,6 +8,8 @@ import co.yap.yapcore.BaseState
 
 class AdditionalInfoQuestionState(application: Application) : BaseState(),
     IAdditionalInfoQuestion.State {
+    override val questionTitle: ObservableField<String> = ObservableField("")
+    override val question: ObservableField<String> = ObservableField("")
     override val answer: ObservableField<String> = ObservableField("")
     override val valid: ObservableBoolean = ObservableBoolean(false)
 }

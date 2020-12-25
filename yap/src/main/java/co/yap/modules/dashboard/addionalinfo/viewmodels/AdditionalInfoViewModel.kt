@@ -86,8 +86,8 @@ class AdditionalInfoViewModel(application: Application) :
 
     private fun getData(): AdditionalInfo {
         val documentList: ArrayList<AdditionalDocument> = arrayListOf()
-        documentList.add(AdditionalDocument(0, "Passport Copy", false))
-        documentList.add(AdditionalDocument(0, "Visa Copy", false))
+        documentList.add(AdditionalDocument(0, "Passport Copy", false, status =   "PENDING"))
+        documentList.add(AdditionalDocument(0, "Visa Copy", false, status = "PENDING"))
 //        list.add(AdditionalDocument(0, "Passport Copy", false))
         val questionList: ArrayList<AdditionalQuestion> = arrayListOf()
         questionList.add(

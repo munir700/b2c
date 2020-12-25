@@ -9,6 +9,9 @@ object Strings {
     const val common_button_confirm: String = "common_button_confirm"
     const val common_button_continue: String = "common_button_continue"
     const val common_button_submit: String = "common_button_submit"
+    const val common_text_thanks: String = "common_text_thanks"
+    const val common_text_hey: String = "common_text_hey"
+
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
@@ -1822,4 +1825,17 @@ object Strings {
     const val common_display_text_founder: String =
         "common_display_text_founder"
 
+
+    const val screen_additional_info_label_text_additional_info: String =
+        "screen_additional_info_label_text_additional_info"
+    const val screen_additional_info_label_text_upload_document_complete: String =
+            "screen_additional_info_label_text_upload_document_complete"
+    const val screen_additional_info_label_text_upload_document: String =
+        "screen_additional_info_label_text_upload_document"
+    const val screen_additional_info_label_text_complete: String =
+        "screen_additional_info_label_text_complete"
+    const val screen_additional_info_label_text_final_question: String =
+        "screen_additional_info_label_text_final_question"
+    const val screen_additional_info_label_text_required_des: String =
+        "screen_additional_info_label_text_required_des"
 }

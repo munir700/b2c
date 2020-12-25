@@ -22,6 +22,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                style="@style/ATitle3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal_large"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_normal_large"
+                android:gravity="center"
+                android:text="@{viewModel.state.questionTitle}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Additional Information" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSubTitle"
+                style="@style/RegularGrey"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:layout_marginEnd="@dimen/margin_normal_large"
+                android:gravity="center"
+                android:text="@{viewModel.state.question}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:text="You have successfully uploaded your documents. Please click Next to continue" />
+
             <co.yap.widgets.CoreInputField
                 android:id="@+id/etAnswer"
                 android:layout_width="match_parent"
@@ -30,7 +60,7 @@
                 android:layout_marginTop="@dimen/margin_xl"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 app:coreInputText="@{viewModel.state.answer}"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
                 app:showKeyboard="true"
                 app:view_hint_input_field="@string/screen_additional_info_label_text_question_hint" />
 
@@ -49,7 +79,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/tvDoItLater"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintVertical_bias="0.75"
+                app:layout_constraintTop_toBottomOf="@+id/etAnswer"
+                app:layout_constraintVertical_bias="1"
                 app:text="@{Strings.common_button_submit}"
                 tools:text="@string/screen_add_beneficiary_button_next" />
 
