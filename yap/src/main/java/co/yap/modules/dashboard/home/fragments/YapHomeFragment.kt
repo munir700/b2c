@@ -37,6 +37,7 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -63,7 +64,10 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.NotificationAction
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
@@ -222,74 +226,76 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.lyTransaction -> {
-                    viewModel.clickEvent.getPayload()?.let {
-                        val childPosition = it.position
-                        val groupPosition = it.itemData as Int
-                        val transaction: Transaction? =
-                            getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                                childPosition
-                            )
-                        launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
-                                transaction
-                            )
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
-                                groupPosition
-                            )
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
-                                childPosition
-                            )
+            if (drawerButtonEnabled)
+                when (it) {
+                    R.id.ivSearch -> startFragment(TransactionSearchFragment::class.java.name)
+                    R.id.lyTransaction -> {
+                        viewModel.clickEvent.getPayload()?.let {
+                            val childPosition = it.position
+                            val groupPosition = it.itemData as Int
+                            val transaction: Transaction? =
+                                getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                                    childPosition
+                                )
+                            launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                                    transaction
+                                )
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                    groupPosition
+                                )
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                    childPosition
+                                )
+                            }
                         }
+                        viewModel.clickEvent.setPayload(null)
                     }
-                    viewModel.clickEvent.setPayload(null)
-                }
-                viewModel.EVENT_SET_CARD_PIN -> {
-                    SessionManager.getPrimaryCard()?.let { card ->
+                    viewModel.EVENT_SET_CARD_PIN -> {
+                        SessionManager.getPrimaryCard()?.let { card ->
+                            startActivityForResult(
+                                SetCardPinWelcomeActivity.newIntent(
+                                    requireContext(),
+                                    card
+                                ), RequestCodes.REQUEST_FOR_SET_PIN
+                            )
+                        } ?: showToast("Debit card not found.")
+                    }
+                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
                         startActivityForResult(
-                            SetCardPinWelcomeActivity.newIntent(
+                            FragmentPresenterActivity.getIntent(
                                 requireContext(),
-                                card
-                            ), RequestCodes.REQUEST_FOR_SET_PIN
+                                MODE_MEETING_CONFORMATION,
+                                null
+                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
                         )
-                    } ?: showToast("Debit card not found.")
-                }
-                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                    startActivityForResult(
-                        FragmentPresenterActivity.getIntent(
-                            requireContext(),
-                            MODE_MEETING_CONFORMATION,
-                            null
-                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                    )
-                }
-                R.id.ivMenu -> {
-                    if (drawerButtonEnabled)
-                        parentView?.toggleDrawer()
-                }
-                R.id.rlFilter -> {
+                    }
+                    R.id.ivMenu -> {
 
-                    if (viewModel.state.isTransEmpty.get() == false) {
-                        openTransactionFilters()
-                    } else {
-                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                        parentView?.toggleDrawer()
+                    }
+                    R.id.rlFilter -> {
+
+                        if (viewModel.state.isTransEmpty.get() == false) {
                             openTransactionFilters()
                         } else {
-                            return@Observer
+                            if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                                openTransactionFilters()
+                            } else {
+                                return@Observer
+                            }
                         }
                     }
+                    R.id.lyAnalytics -> {
+                        launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
+                    }
+                    R.id.lyAdd -> {
+                        openTopUpScreen()
+                    }
                 }
-                R.id.lyAnalytics -> {
-                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
-                }
-                R.id.lyAdd -> {
-                    openTopUpScreen()
-                }
-            }
         })
 
         SessionManager.card.value?.let {
@@ -923,7 +929,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private suspend fun startGraphTour() {
-        if (parentView?.isDrawerOpen() == false) {
+        if (parentView?.isDrawerOpen() == false && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
             tourStep =
                 requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
                     addAll(setGraphViewsArray())
