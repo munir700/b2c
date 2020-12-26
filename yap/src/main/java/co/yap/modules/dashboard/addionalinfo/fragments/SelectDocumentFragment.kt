@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListe
 import co.yap.modules.dashboard.more.profile.fragments.UpdatePhotoBottomSheet
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
+import co.yap.translation.Strings
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -58,15 +59,20 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 if (data.status == "PENDING") {
                     currentDocument = data
                     currentPos = pos
-                    openBottomSheet()
+                    openBottomSheet(data.name)
                 }
             }
         }
     }
 
-    private fun openBottomSheet() {
+    private fun openBottomSheet(name: String?) {
         this.fragmentManager?.let {
-            updatePhotoBottomSheet = UpdatePhotoBottomSheet(mListener = this, showRemove = false)
+            updatePhotoBottomSheet = UpdatePhotoBottomSheet(
+                mListener = this,
+                showRemove = false,
+                title = name + " " + getString(Strings.common_display_text_copy),
+                subTitle = getString(Strings.screen_additional_info_label_text_bottom_sheet_des) + " " + name
+            )
             updatePhotoBottomSheet.show(it, "")
         }
     }
