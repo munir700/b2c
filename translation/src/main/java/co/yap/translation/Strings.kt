@@ -1829,7 +1829,7 @@ object Strings {
     const val screen_additional_info_label_text_additional_info: String =
         "screen_additional_info_label_text_additional_info"
     const val screen_additional_info_label_text_upload_document_complete: String =
-            "screen_additional_info_label_text_upload_document_complete"
+        "screen_additional_info_label_text_upload_document_complete"
     const val screen_additional_info_label_text_upload_document: String =
         "screen_additional_info_label_text_upload_document"
     const val screen_additional_info_label_text_complete: String =
@@ -1838,4 +1838,9 @@ object Strings {
         "screen_additional_info_label_text_final_question"
     const val screen_additional_info_label_text_required_des: String =
         "screen_additional_info_label_text_required_des"
+    const val screen_additional_info_label_text_bottom_sheet_des: String =
+        "screen_additional_info_label_text_bottom_sheet_des"
+    const val common_display_text_copy: String =
+        "common_display_text_copy"
+
 }

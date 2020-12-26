@@ -1138,9 +1138,11 @@
     <string name="screen_additional_info_label_text_complete">Your application is back in process and we will inform you soon of when you can set your card pin</string>
     <string name="screen_additional_info_label_text_final_question">Final Question</string>
     <string name="screen_additional_info_label_text_required_des">We need additional information to be able to proceed with your application to get your YAP account activated</string>
+    <string name="screen_additional_info_label_text_bottom_sheet_des">Scan or upload your</string>
 
 
     <string name="common_display_text_founder">FOUNDER</string>
+    <string name="common_display_text_copy">Copy</string>
 
 
 </resources>
