@@ -105,6 +105,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
@@ -393,7 +394,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         transactionViewHelper?.setTooltipOnZero()
                     }
                 }
-                viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
             }
         })
 
@@ -452,7 +452,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             })
 
         viewModel.parentViewModel?.isShowHomeTour?.observe(this, Observer {
-            if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
+            if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
                 showHomeTourGuide()
             }
         })
