@@ -31,8 +31,6 @@ class HomeTransactionAdapter(
     var onItemClick: ((view: View, groupPosition:Int, childPosition: Int, data: Transaction?) -> Unit)? = null
 
     init {
-        // ExpandableItemAdapter requires stable ID, and also
-        // have to implement the getGroupItemId()/getChildItemId() methods appropriately.
         setHasStableIds(true)
     }
 

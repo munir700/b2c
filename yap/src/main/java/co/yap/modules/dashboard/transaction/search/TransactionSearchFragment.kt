@@ -2,8 +2,11 @@ package co.yap.modules.dashboard.transaction.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
@@ -19,9 +22,11 @@ import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.extentions.afterTextChanged
 import co.yap.yapcore.helpers.extentions.launchActivity
 import kotlinx.android.synthetic.main.fragment_transaction_search.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewModel>() {
     private lateinit var mAdapter: HomeTransactionAdapter
@@ -49,13 +54,23 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         viewModel.state.stateLiveData?.observe(this, Observer {
             handleShimmerState(it)
         })
-        svTransactions.afterTextChanged {
-            // if (it.isNotEmpty()) {
-            // viewModel.clearCoroutine()
-            viewModel.state.transactionRequest?.searchField = it.toLowerCase()
-            recyclerView.pagination?.notifyPaginationRestart()
-            // }
-        }
+        svTransactions.setOnQueryTextListener(
+            DebouncingQueryTextListener(
+                this@TransactionSearchFragment.lifecycle
+            ) { newText ->
+                newText?.let {
+                    viewModel.state.transactionRequest?.searchField = it.toLowerCase()
+                    recyclerView.pagination?.notifyPaginationRestart()
+                }
+            }
+        )
+//        svTransactions.afterTextChanged {
+//            // if (it.isNotEmpty()) {
+//            // viewModel.clearCoroutine()
+//            viewModel.state.transactionRequest?.searchField = it.toLowerCase()
+//            recyclerView.pagination?.notifyPaginationRestart()
+//            // }
+//        }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivCloseSearch -> {
@@ -121,5 +136,31 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
+    }
+
+    internal class DebouncingQueryTextListener(
+        lifecycle: Lifecycle,
+        private val onDebouncingQueryTextChange: (String?) -> Unit
+    ) : SearchView.OnQueryTextListener {
+        var debouncePeriod: Long = 500
+
+        private val coroutineScope = lifecycle.coroutineScope
+
+        private var searchJob: Job? = null
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            searchJob?.cancel()
+            searchJob = coroutineScope.launch {
+                newText?.let {
+                    delay(debouncePeriod)
+                    onDebouncingQueryTextChange(newText)
+                }
+            }
+            return false
+        }
     }
 }
