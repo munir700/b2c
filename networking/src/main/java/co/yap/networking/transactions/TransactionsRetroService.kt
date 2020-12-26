@@ -73,6 +73,13 @@ interface TransactionsRetroService {
         @Query("title") title: String?
     ): Response<HomeTransactionsResponse>
 
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
+    suspend fun searchTransactions(
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
+        @Query("searchField") minAmount: String?
+    ): Response<HomeTransactionsResponse>
+
     // Get Card Transactions
     @GET(TransactionsRepository.URL_GET_CARD_TRANSACTIONS)
     suspend fun getCardTransactions(
@@ -195,6 +202,6 @@ interface TransactionsRetroService {
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?,
-        @Body merchantName : ArrayList<String>?
+        @Body merchantName: ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>
 }
