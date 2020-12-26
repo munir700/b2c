@@ -17,6 +17,7 @@ interface ITransactionSearch {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnView(id: Int)
         var clickEvent: SingleClickEvent
+        fun clearCoroutine()
         fun getPaginationListener(): PaginatedRecyclerView.Pagination?
         fun requestTransactions(
             transactionRequest: HomeTransactionsRequest?,

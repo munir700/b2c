@@ -88,14 +88,12 @@ class TransactionSearchViewModel(application: Application) :
         }
     }
 
+    override fun clearCoroutine() {
+        cancelAllJobs()
+    }
 
     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
         return object : PaginatedRecyclerView.Pagination() {
-            override fun notifyPaginationRestart() {
-                super.notifyPaginationRestart()
-                cancelAllJobs()
-            }
-
             override fun onNextPage(page: Int) {
                 state.transactionRequest?.number = page
                 requestTransactions(state.transactionRequest, page != 0) { state, date ->

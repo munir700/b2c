@@ -46,7 +46,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         })
         svTransactions.afterTextChanged {
             // if (it.isNotEmpty()) {
-
+           // viewModel.clearCoroutine()
             viewModel.state.transactionRequest?.searchField = it.toLowerCase()
             recyclerView.pagination?.notifyPaginationRestart()
             // }
