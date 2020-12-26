@@ -235,7 +235,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         )
         list.add(
             GuidedTourViewDetail(
-                getBinding().llYapForYou,
+                getBinding().yapForYou,
                 title = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_heading),
                 description = getString(Strings.screen_more_detail_display_text_tour_yap_for_you_description),
                 showSkip = false,
