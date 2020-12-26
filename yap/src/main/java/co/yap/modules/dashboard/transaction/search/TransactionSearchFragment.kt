@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -15,7 +17,10 @@ import co.yap.widgets.advrecyclerview.expandable.RecyclerViewExpandableItemManag
 import co.yap.widgets.skeletonlayout.Skeleton
 import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.afterTextChanged
+import co.yap.yapcore.helpers.extentions.launchActivity
 import kotlinx.android.synthetic.main.fragment_transaction_search.*
 
 class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewModel>() {
@@ -46,7 +51,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         })
         svTransactions.afterTextChanged {
             // if (it.isNotEmpty()) {
-           // viewModel.clearCoroutine()
+            // viewModel.clearCoroutine()
             viewModel.state.transactionRequest?.searchField = it.toLowerCase()
             recyclerView.pagination?.notifyPaginationRestart()
             // }
@@ -54,9 +59,7 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivCloseSearch -> {
-                    if (svTransactions.text.isNullOrEmpty()) requireActivity().finish() else svTransactions.setText(
-                        ""
-                    )
+                    requireActivity().finish()
                 }
             }
         })
@@ -93,6 +96,26 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
             pagination = viewModel.getPaginationListener()
             setHasFixedSize(false)
         }
+        mAdapter.onItemClick =
+            { view: View, groupPosition: Int, childPosition: Int, data: Transaction? ->
+                data?.let {
+                    launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                        putExtra(
+                            ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                            it
+                        )
+                        putExtra(
+                            ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                            groupPosition
+                        )
+                        putExtra(
+                            ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                            childPosition
+                        )
+                    }
+
+                }
+            }
     }
 
     override fun onDestroyView() {

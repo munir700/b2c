@@ -87,7 +87,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
             android:text="@{TransactionExtentionsKt.getFormattedTransactionAmount(homeTransactionChildItemVM.item)}"
-            android:textColor="@{TransactionExtentionsKt.getTransactionAmountColor(homeTransactionChildItemVM.item)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="+100" />

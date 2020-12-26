@@ -28,6 +28,8 @@ class HomeTransactionAdapter(
 ) :
     BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder
             , HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
+    var onItemClick: ((view: View, groupPosition:Int, childPosition: Int, data: Transaction?) -> Unit)? = null
+
     init {
         // ExpandableItemAdapter requires stable ID, and also
         // have to implement the getGroupItemId()/getChildItemId() methods appropriately.
@@ -42,6 +44,8 @@ class HomeTransactionAdapter(
         } ?: emptyMap<String?, List<Transaction>>()
         notifyDataSetChanged()
     }
+
+    fun getTransactionData() = this.transactionData
 
     fun updateTransactionData(transactionData: Map<String?, List<Transaction>>?) {
         transactionData?.let {
@@ -85,6 +89,10 @@ class HomeTransactionAdapter(
         transaction?.let {
             holder.setItem(it, childPosition)
         }
+        holder.onClick { view, position, type ->
+            onItemClick?.invoke(view, groupPosition, childPosition, transaction)
+        }
+
     }
 
     override fun getChildLayoutId(viewType: Int) = getChildViewModel(viewType).layoutRes()
@@ -121,7 +129,7 @@ class HomeTransactionAdapter(
         mDataBinding
     ), IStickyHeaderViewHolder
 
-    class ChildViewHolder(
+    inner class ChildViewHolder(
         view: View,
         viewModel: SearchTransactionChildItemVM,
         mDataBinding: ViewDataBinding
@@ -135,14 +143,6 @@ class HomeTransactionAdapter(
         private var binding: ItemSearchTransactionChildBinding =
             mDataBinding as (ItemSearchTransactionChildBinding)
 
-        init {
-            //strike-thru textview
-            transaction?.let {
-                binding.tvTransactionAmount.paintFlags =
-                    if (it.isTransactionCancelled() || it.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
-            }
-        }
-
         override fun setItem(item: Transaction, position: Int) {
             super.setItem(item, position)
             transaction = item
@@ -154,6 +154,12 @@ class HomeTransactionAdapter(
             transaction: Transaction,
             position: Int?
         ) {
+                binding.tvTransactionAmount.setTextColor(
+                    itemView.context.getColors(transaction.getTransactionAmountColor())
+                )
+                binding.tvTransactionAmount.paintFlags =
+                    if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+
             binding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
 
             binding.ivIncoming.background =
