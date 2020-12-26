@@ -42,17 +42,33 @@
                     android:src="@drawable/ic_close"
                     android:tint="?attr/colorPrimary" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <!--                <androidx.appcompat.widget.SearchView-->
+                <!--                    android:id="@+id/svTransactions"-->
+                <!--                    style="@style/ALarge"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="?attr/actionBarSize"-->
+                <!--                    android:layout_marginStart="@dimen/small_text_size"-->
+                <!--                    android:layout_marginEnd="@dimen/margin_medium"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:background="@color/transparent"-->
+                <!--                    android:hint="Search for transaction"-->
+                <!--                    app:iconifiedByDefault="false" />-->
+
+                <androidx.appcompat.widget.SearchView
                     android:id="@+id/svTransactions"
-                    style="@style/ALarge"
                     android:layout_width="0dp"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_marginStart="@dimen/small_text_size"
+                    android:layout_marginStart="@dimen/margin_extra_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
-                    android:hint="Search for transaction"
-                    app:iconifiedByDefault="false" />
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    style="@style/AppSearchView"
+                    app:closeIcon="@null"
+                    app:iconifiedByDefault="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:searchHintIcon="@null"
+                    app:searchIcon="@null" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
 

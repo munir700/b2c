@@ -28,11 +28,10 @@ class HomeTransactionAdapter(
 ) :
     BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder
             , HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
-    var onItemClick: ((view: View, groupPosition:Int, childPosition: Int, data: Transaction?) -> Unit)? = null
+    var onItemClick: ((view: View, groupPosition: Int, childPosition: Int, data: Transaction?) -> Unit)? =
+        null
 
     init {
-        // ExpandableItemAdapter requires stable ID, and also
-        // have to implement the getGroupItemId()/getChildItemId() methods appropriately.
         setHasStableIds(true)
     }
 
@@ -154,11 +153,11 @@ class HomeTransactionAdapter(
             transaction: Transaction,
             position: Int?
         ) {
-                binding.tvTransactionAmount.setTextColor(
-                    itemView.context.getColors(transaction.getTransactionAmountColor())
-                )
-                binding.tvTransactionAmount.paintFlags =
-                    if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+            binding.tvTransactionAmount.setTextColor(
+                itemView.context.getColors(transaction.getTransactionAmountColor())
+            )
+            binding.tvTransactionAmount.paintFlags =
+                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) binding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
 
             binding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
 
@@ -181,11 +180,11 @@ class HomeTransactionAdapter(
                         if (transaction.isTransactionCancelled())
                             binding.ivTransaction.alpha = 0.5f
                     }
-
-                    ImageViewCompat.setImageTintList(
-                        binding.ivTransaction,
-                        ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
-                    )
+                    if (txnIconResId != co.yap.yapcore.R.drawable.ic_package_standered)
+                        ImageViewCompat.setImageTintList(
+                            binding.ivTransaction,
+                            ColorStateList.valueOf(context.getColors(R.color.colorPrimary))
+                        )
                 }
             }
         }
