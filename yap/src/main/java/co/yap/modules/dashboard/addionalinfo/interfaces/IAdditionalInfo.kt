@@ -1,11 +1,11 @@
 package co.yap.modules.dashboard.addionalinfo.interfaces
 
-import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfo
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.yapcore.IBase
 
@@ -16,7 +16,8 @@ interface IAdditionalInfo {
 
     interface ViewModel : IBase.ViewModel<State> {
         val stepCount: MutableLiveData<Int>
-        val additionalInfoResponse: MutableLiveData<AdditionalInfoResponse>
+        fun getAdditionalInfo(success: (AdditionalInfo?) -> Unit)
+        fun setSteps(additionalInfo: AdditionalInfo?, success: () -> Unit)
     }
 
     interface State : IBase.State {

@@ -20,29 +20,20 @@ class AdditionalInfoViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val stepCount: MutableLiveData<Int> = MutableLiveData(0)
     override val state: IAdditionalInfo.State = AdditionalInfoState()
-    override val additionalInfoResponse: MutableLiveData<AdditionalInfoResponse> = MutableLiveData()
 
-    override fun onCreate() {
-        super.onCreate()
-        getAdditionalInfo()
-    }
-
-
-    fun getAdditionalInfo() {
+    override fun getAdditionalInfo(success: (AdditionalInfo?) -> Unit) {
         launch {
             state.loading = true
             when (val response = repository.getAdditionalInfoRequired()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    additionalInfoResponse.value = response.data
-                    setSteps()
+                    success(response.data.additionalInfo)
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     showToast(response.error.message)
                 }
             }
-//            if (additionalInfoResponse.value == null)
 //            additionalInfoResponse.value = getMockData()
 //            setSteps()
 //            delay(5000)
@@ -51,33 +42,36 @@ class AdditionalInfoViewModel(application: Application) :
         }
     }
 
-    private fun setSteps() {
-        additionalInfoResponse.value?.data?.let { additionalInfo ->
-            if (!additionalInfo.documentInfo.isNullOrEmpty() && !additionalInfo.textInfo.isNullOrEmpty()) {
-                state.steps.set(2)
-                state.screenType.set(AdditionalInfoScreenType.BOTH_SCREENS.name)
-                state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
-                state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
-            } else if (!additionalInfo.documentInfo.isNullOrEmpty()) {
-                state.steps.set(1)
-                state.screenType.set(AdditionalInfoScreenType.DOCUMENT_SCREEN.name)
-                state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
-            } else if (!
-
-                additionalInfo.textInfo.isNullOrEmpty()
-            ) {
-                state.steps.set(1)
-                state.screenType.set(AdditionalInfoScreenType.QUESTION_SCREEN.name)
-                state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
-            } else {
-                state.steps.set(0)
-                state.screenType.set(AdditionalInfoScreenType.SUCCESS_SCREEN.name)
+    override fun setSteps(additionalInfo: AdditionalInfo?, success: () -> Unit) {
+        if (additionalInfo != null) {
+            when {
+                !additionalInfo.documentInfo.isNullOrEmpty() && !additionalInfo.textInfo.isNullOrEmpty() -> {
+                    setAdditionalInfoData(2, AdditionalInfoScreenType.BOTH_SCREENS)
+                    state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
+                    state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
+                }
+                !additionalInfo.documentInfo.isNullOrEmpty() -> {
+                    setAdditionalInfoData(1, AdditionalInfoScreenType.DOCUMENT_SCREEN)
+                    state.documentList.addAll(additionalInfo.documentInfo as ArrayList<AdditionalDocument>)
+                }
+                !additionalInfo.textInfo.isNullOrEmpty() -> {
+                    setAdditionalInfoData(1, AdditionalInfoScreenType.QUESTION_SCREEN)
+                    state.questionList.addAll(additionalInfo.textInfo as ArrayList<AdditionalQuestion>)
+                }
+                else -> {
+                    setAdditionalInfoData(-1, AdditionalInfoScreenType.SUCCESS_SCREEN)
+                }
             }
-        } ?: state.steps.set(0)
-
-        if (state.steps.get() == 0) {
-            state.screenType.set(AdditionalInfoScreenType.SUCCESS_SCREEN.name)
+            success.invoke()
+        } else {
+            setAdditionalInfoData(-1, AdditionalInfoScreenType.SUCCESS_SCREEN)
+            success.invoke()
         }
+    }
+
+    private fun setAdditionalInfoData(noOfSteps: Int, screenType: AdditionalInfoScreenType) {
+        state.steps.set(noOfSteps)
+        state.screenType.set(screenType.name)
     }
 
     private fun getMockData(): AdditionalInfoResponse {
@@ -86,7 +80,7 @@ class AdditionalInfoViewModel(application: Application) :
 
     private fun getData(): AdditionalInfo {
         val documentList: ArrayList<AdditionalDocument> = arrayListOf()
-        documentList.add(AdditionalDocument(0, "Passport Copy", false, status =   "PENDING"))
+        documentList.add(AdditionalDocument(0, "Passport Copy", false, status = "PENDING"))
         documentList.add(AdditionalDocument(0, "Visa Copy", false, status = "PENDING"))
 //        list.add(AdditionalDocument(0, "Passport Copy", false))
         val questionList: ArrayList<AdditionalQuestion> = arrayListOf()

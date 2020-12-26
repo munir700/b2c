@@ -331,6 +331,13 @@ class DashboardNotificationStatusHelper(
         return fragment
     }
 
+    fun notifyAdapter() {
+        dashboardNotificationStatusAdapter?.setItemAt(
+            2,
+            getStatusList()[2]
+        )
+    }
+
     private fun openAdditionalRequirementScreen() {
         getMyFragment().launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
     }

@@ -23,10 +23,6 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
     private fun getBindings(): FragmentAdditionalInfoStartBinding =
         viewDataBinding as FragmentAdditionalInfoStartBinding
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.btnNext -> {
@@ -55,10 +51,10 @@ class AdditionalInfoStartFragment : AdditionalInfoBaseFragment<IAdditionalInfoSt
                 }
             }
             AdditionalInfoScreenType.DOCUMENT_SCREEN.name -> {
-                navigateToQuestion(questions)
+                navigate(R.id.action_additionalInfoStartFragment_to_selectDocumentFragment)
             }
             AdditionalInfoScreenType.QUESTION_SCREEN.name -> {
-                navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoQuestion)
+                navigateToQuestion(questions)
             }
             AdditionalInfoScreenType.SUCCESS_SCREEN.name -> {
                 navigate(R.id.action_additionalInfoStartFragment_to_additionalInfoComplete)

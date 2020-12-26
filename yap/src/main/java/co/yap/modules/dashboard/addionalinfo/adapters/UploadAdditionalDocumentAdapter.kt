@@ -1,12 +1,13 @@
 package co.yap.modules.dashboard.addionalinfo.adapters
 
 import android.content.Context
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemUploadAdditionalDocumentBinding
-import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.modules.dashboard.addionalinfo.viewmodels.UploadAdditionalDocumentItemViewModel
+import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -31,6 +32,11 @@ class UploadAdditionalDocumentAdapter(
             position: Int,
             onItemClickListener: OnItemClickListener?
         ) {
+            itemUploadAdditionalDocumentBinding.ivCheck.visibility =
+                if (additionalDocument.status == "DONE") View.VISIBLE else View.GONE
+
+            itemUploadAdditionalDocumentBinding.tvDocumentDescription.text =
+                if (additionalDocument.status == "DONE") "Verification completed" else "Tap to scan your " + additionalDocument.name?.toLowerCase() + " copy"
 
             itemUploadAdditionalDocumentBinding.viewModel =
                 UploadAdditionalDocumentItemViewModel(

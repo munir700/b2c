@@ -71,6 +71,9 @@ import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -667,18 +670,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
                 if (resultCode == Activity.RESULT_OK) {
                     SessionManager.getAccountInfo {
-                        handleAdditionalRequirments()
+                        GlobalScope.launch(Dispatchers.Main) {
+                            dashboardNotificationStatusHelper?.notifyAdapter()
+                        }
                     }
                 }
             }
         }
-    }
-
-    private fun handleAdditionalRequirments() {
-        dashboardNotificationStatusHelper?.dashboardNotificationStatusAdapter?.setItemAt(
-            2,
-            dashboardNotificationStatusHelper?.getStatusList()?.get(2)!!
-        )
     }
 
     private fun setTransactionRequest(filters: TransactionFilters?) {
@@ -795,6 +793,5 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             getBindings(),
             viewModel
         )
-
     }
 }

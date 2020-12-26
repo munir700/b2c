@@ -8,7 +8,7 @@ import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
 import co.yap.yapcore.BaseState
 
 class AdditionalInfoState : BaseState(), IAdditionalInfo.State {
-    override val steps: ObservableField<Int> = ObservableField(2)
+    override val steps: ObservableField<Int> = ObservableField()
     override val showHeader: ObservableBoolean = ObservableBoolean(false)
     override var documentList: ArrayList<AdditionalDocument> = arrayListOf()
     override var questionList: ArrayList<AdditionalQuestion> = arrayListOf()
