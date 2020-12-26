@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -11,12 +12,14 @@ import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -191,7 +194,12 @@ fun Context?.isNetworkAvailable(): Boolean {
     } ?: false
 }
 
-fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+fun TextView.makeLinks(
+    vararg links: Pair<String, View.OnClickListener>,
+    @ColorInt color: Int = 0,
+    underline: Boolean = false,
+    isBold: Boolean = false
+) {
     val spannableString = SpannableString(this.text)
     for (link in links) {
         val clickableSpan = object : ClickableSpan() {
@@ -200,12 +208,27 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
                 view.invalidate()
                 link.second.onClick(view)
             }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = underline
+                if (isBold) ds.typeface = Typeface.DEFAULT_BOLD
+            }
         }
+
         val startIndexOfLink = this.text.toString().indexOf(link.first)
         spannableString.setSpan(
             clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
+        if (color != 0) {
+            spannableString.setSpan(
+                ForegroundColorSpan(color),
+                startIndexOfLink,
+                startIndexOfLink + link.first.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
     }
     this.movementMethod =
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click

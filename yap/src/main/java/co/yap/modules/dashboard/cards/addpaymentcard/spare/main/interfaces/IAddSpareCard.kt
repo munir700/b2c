@@ -1,66 +1,33 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.main.interfaces
 
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
+import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.SharedPreferenceManager
 
 interface IAddSpareCard {
     interface State : IBase.State {
         var cardType: String
-
-        //add virtual card layout fields
-        var virtualCardFee: String
-
-        //add physical card layout fields
-
-        var physicalCardFee: String
-        var avaialableCardBalance: CharSequence
-        var physicalCardAddressTitle: String
-        var physicalCardAddressSubTitle: String
-        var physicalCardAddressCheckVisibility: Int
-        var physicalCardAddressButtonsVisibility: Int
-        var toggleVisibility: Boolean
-        var onChangeLocationClick: Boolean
-        var enableConfirmLocation: Boolean
-        var coreButtonText: String
         var cardName: String
-
+        var virtualCardFee: String
+        var coreButtonText: String
+        var availableBalance: ObservableField<CharSequence>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var cardType: String
-        val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper
         val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
-        var latitude: String
-        var longitude: String
-        var address: Address?
         var paymentCard: Card?
         var cardName : String?
 
-        val CONFIRM_PHYSICAL_PURCHASE: Int
         val CONFIRM_VIRTUAL_PURCHASE: Int
         val ADD_VIRTUAL_SPARE_SUCCESS_EVENT: Int
-        val ADD_PHYSICAL_SPARE_SUCCESS_EVENT: Int
-        val REORDER_CARD_SUCCESS_EVENT: Int
-        var isFromaddressScreen: Boolean
-        var isFromBlockCardScreen: Boolean
-        var availableBalance: String
-        var sharedPreferenceManager: SharedPreferenceManager
-        fun handlePressOnView(id: Int)
 
-        //apis
+        fun handlePressOnView(id: Int)
         fun requestAddSpareVirtualCard()
-        fun requestAddSparePhysicalCard()
-        fun updateAddressForPhysicalCard()
-        fun requestGetAddressForPhysicalCard()
-        fun requestReorderCard()
-        fun requestReorderCardFee(cardType: String)
-        fun requestInitialData()
+        fun isEnoughBalance(): Boolean
     }
 
     interface View : IBase.View<ViewModel>
