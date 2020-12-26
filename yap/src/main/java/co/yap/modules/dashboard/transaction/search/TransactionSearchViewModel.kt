@@ -29,7 +29,9 @@ class TransactionSearchViewModel(application: Application) :
         transactionRequest: HomeTransactionsRequest?,
         isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)?
     ) {
+        //cancelAllJobs()
         launch {
+            //delay(500)
             if (transactionRequest?.number == 0) state.transactionMap?.value = null
             if (!isLoadMore)
                 state.stateLiveData?.value = State.loading(null)
@@ -54,17 +56,23 @@ class TransactionSearchViewModel(application: Application) :
                                         DateUtils.FORMAT_DATE_MON_YEAR, UTC
                                     )
                                 }
-//                        state.transactionMap?.value = state.transactionMap?.value?.let {
-//                            tempMap.mergeReduce(other = it)
-//                        } ?: tempMap
-                        state.transactionMap?.value = tempMap
-
+                        state.transactionMap?.value = state.transactionMap?.value?.let {
+                            tempMap.mergeReduce(other = it)
+                        } ?: tempMap
+//                        state.transactionMap?.value = tempMap
                         transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
 
 //                        apiResponse?.invoke(State.success(null),response.data.data)
                     } else {
+
+                        if (state.transactionMap?.value == null) {
+                            state.stateLiveData?.value = State.empty(null)
+                            transactionAdapter?.get()?.setTransactionData(emptyMap())
+                        } else {
+                            state.stateLiveData?.value = State.error(null)
+                        }
 //                        if (!isLoadMore)
-                        state.stateLiveData?.value = State.empty(null)
+
 //                        apiResponse?.invoke(State.success(null),response.data.data)
                     }
 
@@ -72,7 +80,7 @@ class TransactionSearchViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.stateLiveData?.value = State.error(null)
+                    state.stateLiveData?.value = State.network(null)
                     apiResponse?.invoke(state.stateLiveData?.value, null)
 
                 }
@@ -83,11 +91,16 @@ class TransactionSearchViewModel(application: Application) :
 
     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
         return object : PaginatedRecyclerView.Pagination() {
+            override fun notifyPaginationRestart() {
+                super.notifyPaginationRestart()
+                cancelAllJobs()
+            }
+
             override fun onNextPage(page: Int) {
                 state.transactionRequest?.number = page
                 requestTransactions(state.transactionRequest, page != 0) { state, date ->
                     notifyPageLoaded()
-                    if (date?.last == true || state?.status == Status.EMPTY) {
+                    if (date?.last == true || state?.status == Status.ERROR) {
                         notifyPaginationCompleted()
                     }
                 }

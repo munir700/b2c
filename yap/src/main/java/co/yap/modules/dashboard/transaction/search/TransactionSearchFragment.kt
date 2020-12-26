@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.widgets.MultiStateView
 import co.yap.widgets.State
 import co.yap.widgets.Status
 import co.yap.widgets.advrecyclerview.decoration.StickyHeaderItemDecoration
@@ -33,18 +34,22 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
         super.onViewCreated(view, savedInstanceState)
         intRecyclersView()
         setObservers()
-//        skeleton = recyclerView.applySkeleton(
-//            R.layout.item_transaction_list_shimmer,
-//            5
-//        )
+        skeleton = recyclerView.applySkeleton(
+            R.layout.item_transaction_list_shimmer,
+            5
+        )
     }
 
     private fun setObservers() {
+        viewModel.state.stateLiveData?.observe(this, Observer {
+            handleShimmerState(it)
+        })
         svTransactions.afterTextChanged {
-           // if (it.isNotEmpty()) {
-                viewModel.state.transactionRequest?.searchField = it
-                recyclerView.pagination?.notifyPaginationRestart()
-           // }
+            // if (it.isNotEmpty()) {
+
+            viewModel.state.transactionRequest?.searchField = it.toLowerCase()
+            recyclerView.pagination?.notifyPaginationRestart()
+            // }
         }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -60,11 +65,16 @@ class TransactionSearchFragment : BaseBindingFragment<ITransactionSearch.ViewMod
     private fun handleShimmerState(state: State?) {
         when (state?.status) {
             Status.LOADING -> {
-                recyclerView.pagination = null
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                //recyclerView.pagination = null
                 skeleton.showSkeleton()
             }
+            Status.EMPTY -> {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            }
             else -> {
-                recyclerView.pagination = viewModel.getPaginationListener()
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+                //recyclerView.pagination = viewModel.getPaginationListener()
                 skeleton.showOriginal()
             }
         }

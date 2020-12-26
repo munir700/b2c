@@ -51,6 +51,7 @@
                     android:layout_marginStart="@dimen/small_text_size"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_weight="1"
+                    android:background="@color/transparent"
                     android:hint="Search for transaction"
                     app:iconifiedByDefault="false" />
             </androidx.appcompat.widget.LinearLayoutCompat>

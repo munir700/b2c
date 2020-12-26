@@ -4,7 +4,6 @@ package co.yap.modules.dashboard.transaction.search
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Paint
-import android.util.Log
 import android.view.View
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.ViewDataBinding
@@ -21,10 +20,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.ImageBinding
-import co.yap.yapcore.helpers.extentions.getColors
-import co.yap.yapcore.helpers.extentions.getTransactionIcon
-import co.yap.yapcore.helpers.extentions.isTransactionCancelled
-import co.yap.yapcore.helpers.extentions.isTransactionRejected
+import co.yap.yapcore.helpers.extentions.*
 
 class HomeTransactionAdapter(
     internal var transactionData: Map<String?, List<Transaction>>,
@@ -42,7 +38,7 @@ class HomeTransactionAdapter(
         transactionData?.let {
             // if (this.transactionData != transactionData) {
             this.transactionData = transactionData
-            //}
+            // }
         } ?: emptyMap<String?, List<Transaction>>()
         notifyDataSetChanged()
     }
@@ -103,16 +99,14 @@ class HomeTransactionAdapter(
 
     override fun getGroupId(groupPosition: Int) = groupPosition.plus(1L)
     override fun getChildId(groupPosition: Int, childPosition: Int) =
-        transactionData[transactionData.keys.toList()[groupPosition]]?.get(0)?.id?.toLong()
+        transactionData[transactionData.keys.toList()[groupPosition]]?.get(childPosition)?.id?.toLong()
             ?: childPosition.plus(groupPosition).toLong()
 
     override fun getGroupItemViewType(groupPosition: Int) = groupPosition
-    override fun getChildItemViewType(groupPosition: Int, childPosition: Int):Int {
-        val id:Int = transactionData[transactionData.keys.toList()[groupPosition]]?.get(0)?.id
-            ?: childPosition.plus(groupPosition)
-        Log.d(
-            "TID_ITD", id.toString()
-        )
+    override fun getChildItemViewType(groupPosition: Int, childPosition: Int): Int {
+        val id: Int =
+            transactionData[transactionData.keys.toList()[groupPosition]]?.get(childPosition)?.id
+                ?: childPosition.plus(groupPosition)
         return id
     }
 
@@ -160,6 +154,13 @@ class HomeTransactionAdapter(
             transaction: Transaction,
             position: Int?
         ) {
+            binding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
+
+            binding.ivIncoming.background =
+                if (transaction.getTransactionTypeIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
+                    R.drawable.bg_round_white
+                ) else
+                    context.getDrawable(android.R.color.transparent)
             val txnIconResId = transaction.getTransactionIcon()
             transaction.productCode?.let {
                 if (TransactionProductCode.Y2Y_TRANSFER.pCode == it) {

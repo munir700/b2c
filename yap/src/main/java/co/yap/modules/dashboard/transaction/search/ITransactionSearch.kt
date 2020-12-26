@@ -29,7 +29,7 @@ interface ITransactionSearch {
 
     interface State : IBase.State {
         val transactionList: ObservableField<MutableList<HomeTransactionListData>>?
-        val transactionMap: MutableLiveData<Map<String?, List<Transaction>>>?
+        var transactionMap: MutableLiveData<Map<String?, List<Transaction>>>?
         var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>?
         var transactionRequest: HomeTransactionsRequest?
         var stateLiveData: MutableLiveData<co.yap.widgets.State>?
