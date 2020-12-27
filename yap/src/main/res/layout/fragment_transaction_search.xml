@@ -65,6 +65,7 @@
                     android:focusableInTouchMode="true"
                     style="@style/AppSearchView"
                     app:closeIcon="@null"
+                    app:queryHint="Search for transaction"
                     app:iconifiedByDefault="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:searchHintIcon="@null"
