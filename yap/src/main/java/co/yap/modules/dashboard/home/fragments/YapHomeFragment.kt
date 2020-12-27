@@ -224,6 +224,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
+        getBindings().ivSearch.setOnLongClickListener {
+            return@setOnLongClickListener activity?.let {
+                //val tour = TourSetup(it, setViewsArray())
+                //tour.startTour()
+                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
+                true
+            } ?: false
+        }
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
@@ -755,6 +763,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                 }
             }
+
+            RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    SessionManager.getAccountInfo {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            dashboardNotificationStatusHelper?.notifyAdapter()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -901,10 +919,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
-            requireContext(),
+            this,
             getBindings(),
-            viewModel,
-            activity
+            viewModel
         )
     }
 
