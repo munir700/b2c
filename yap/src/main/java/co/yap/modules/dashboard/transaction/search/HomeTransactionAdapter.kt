@@ -37,9 +37,9 @@ class HomeTransactionAdapter(
 
     fun setTransactionData(transactionData: Map<String?, List<Transaction>>?) {
         transactionData?.let {
-            // if (this.transactionData != transactionData) {
+            if (this.transactionData != transactionData) {
             this.transactionData = transactionData
-            // }
+             }
         } ?: emptyMap<String?, List<Transaction>>()
         notifyDataSetChanged()
     }
