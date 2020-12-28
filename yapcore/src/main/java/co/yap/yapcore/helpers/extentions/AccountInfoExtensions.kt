@@ -19,7 +19,7 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
             "MOBILE_APP_HOSTLIST" -> {
                 UserAccessRestriction.CARD_HOTLISTED_BY_APP
             }
-            "CUSTOMER_REQUEST_HOSTLISTED" -> {
+            "CUSTOMER_REQUEST" -> {
                 UserAccessRestriction.CARD_HOTLISTED_BY_CSR
             }
             "BANK_REQUEST" -> {
@@ -51,7 +51,6 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
             "EID_EXPIRED_SCHEDULER" -> {
                 UserAccessRestriction.EID_EXPIRED
             }
-
             else -> UserAccessRestriction.NONE
         }
     )
@@ -72,7 +71,7 @@ fun AccountInfo.getUserAccessRestrictions(completion: (ArrayList<UserAccessRestr
             }
         }
     }
-
+    completion.invoke(restrictions)
     return restrictions
 }
 

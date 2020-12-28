@@ -12,7 +12,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(), IFragmentHolder,
@@ -31,7 +30,14 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-     }
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.tbIvClose -> {
+                    onBackPressed()
+                }
+            }
+        })
+    }
 
     override fun onBackPressed() {
 //        val fragment =

@@ -125,7 +125,7 @@ interface CustomersRetroService {
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT)
-    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
+    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<CountryDataWithISODigit>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
     suspend fun getCountryTransactionLimits(

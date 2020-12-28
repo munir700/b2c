@@ -379,8 +379,8 @@ fun Transaction?.getTransactionAmountPrefix(): String {
 
 fun Transaction?.getTransactionAmount(): String? {
     (return when (this?.txnType) {
-        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(showCurrency = false)
-        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(showCurrency = false)
+        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(showCurrency = false,currency =this.currency?:SessionManager.getDefaultCurrency())
+        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(showCurrency = false,currency =this.currency?:SessionManager.getDefaultCurrency())
         else -> ""
     })
 }

@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
         <import type="android.view.View" />
+
     </data>
 
     <RelativeLayout
@@ -104,13 +105,13 @@
 
                 <LinearLayout
                     android:id="@+id/lyAnalytics"
-                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
-                    android:enabled="@{viewModel.state.isUserAccountActivated}"
-                    android:layout_width="wrap_content"
+                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_18sdp"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:orientation="vertical">
 
