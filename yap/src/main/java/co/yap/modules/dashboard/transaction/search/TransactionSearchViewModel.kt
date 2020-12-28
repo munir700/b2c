@@ -14,6 +14,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.UTC
+import kotlinx.coroutines.cancelChildren
 
 class TransactionSearchViewModel(application: Application) :
     BaseViewModel<ITransactionSearch.State>(application), ITransactionSearch.ViewModel {
@@ -29,13 +30,7 @@ class TransactionSearchViewModel(application: Application) :
         transactionRequest: HomeTransactionsRequest?,
         isLoadMore: Boolean, apiResponse: ((State?, HomeTransactionListData?) -> Unit?)?
     ) {
-        //cancelAllJobs()
         launch {
-            //delay(500)
-//            if (transactionRequest?.number == 0) {
-//                state.transactionMap?.value = null
-//                // transactionAdapter?.get()?.setTransactionData(null)
-//            }
             if (!isLoadMore)
                 state.stateLiveData?.value = State.loading(null)
             when (val response =
@@ -69,10 +64,6 @@ class TransactionSearchViewModel(application: Application) :
                             state.transactionMap?.value = tempMap
                             transactionAdapter?.get()?.setData(state.transactionMap?.value)
                         }
-//                            state.transactionMap?.value?.mergeReduce(tempMap) ?: tempMap
-
-//                        transactionAdapter?.get()?.setTransactionData(state.transactionMap?.value)
-
                     } else {
                         if (state.transactionMap?.value == null) {
                             state.stateLiveData?.value = State.empty(null)
@@ -81,7 +72,6 @@ class TransactionSearchViewModel(application: Application) :
                             state.stateLiveData?.value = State.ideal(null)
                         }
                     }
-
                     apiResponse?.invoke(state.stateLiveData?.value, response.data.data)
                 }
                 is RetroApiResponse.Error -> {
@@ -89,14 +79,13 @@ class TransactionSearchViewModel(application: Application) :
                     state.toast = response.error.message
                     state.stateLiveData?.value = State.error(null)
                     apiResponse?.invoke(state.stateLiveData?.value, null)
-
                 }
             }
         }
     }
 
     override fun clearCoroutine() {
-        cancelAllJobs()
+        viewModelJob.cancelChildren()
     }
 
     override fun getPaginationListener(): PaginatedRecyclerView.Pagination? {
@@ -134,7 +123,7 @@ class TransactionSearchViewModel(application: Application) :
             val groupCount = transactionAdapter?.get()?.groupCount ?: 0
             state.transactionMap?.value?.putAll(tempMap)
             transactionAdapter?.get()?.expandableItemManager?.notifyGroupItemRangeInserted(
-                groupCount-1,
+                groupCount - 1,
                 tempMap.size
             )
         }

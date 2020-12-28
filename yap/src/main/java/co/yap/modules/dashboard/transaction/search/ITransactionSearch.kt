@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
-import co.yap.widgets.State
 import co.yap.widgets.advrecyclerview.pagination.PaginatedRecyclerView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

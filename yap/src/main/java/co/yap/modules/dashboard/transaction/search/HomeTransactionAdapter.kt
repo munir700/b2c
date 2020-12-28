@@ -37,21 +37,15 @@ class HomeTransactionAdapter(
 
     fun setData(transactions: MutableMap<String?, List<Transaction>>?) {
         transactions?.let {
-//            if (transactionData.isNotEmpty()) {
-//                updateTransactionData(transactions)
-//            } else {
-                this.transactionData = transactions
-                notifyDataSetChanged()
-//            }
+            this.transactionData = transactions
+            notifyDataSetChanged()
         } ?: run {
             transactionData = mutableMapOf()
             notifyDataSetChanged()
         }
-
     }
 
-    fun getTransactionData() = this.transactionData
-
+    @Deprecated("it has bugs")
     fun updateTransactionData(transactions: MutableMap<String?, List<Transaction>>?) {
         transactions?.let {
             var keyToRemove: String? = null
@@ -71,7 +65,6 @@ class HomeTransactionAdapter(
             val groupCount = groupCount
             transactionData.putAll(transactions)
             expandableItemManager.notifyGroupItemRangeInserted(groupCount, transactions.size)
-//            expandableItemManager.notifyGroupItemInserted(groupCount+transactions.size)
         }
     }
 
