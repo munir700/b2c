@@ -28,6 +28,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.utils.CurrencyUtils
@@ -180,7 +181,7 @@ object UIBinder {
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
@@ -202,7 +203,7 @@ object UIBinder {
     fun setCardStatus(imageView: ImageView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
@@ -238,7 +239,7 @@ object UIBinder {
     fun setCardStatus(text: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setTextForInactiveCard(text = text, card = card)
@@ -301,7 +302,7 @@ object UIBinder {
     fun setcardButtonStatus(coreButton: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
+                CardStatus.ACTIVE, CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
                         if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setCardButtonTextForInactive(coreButton, card)
@@ -974,6 +975,18 @@ object UIBinder {
                 if (showDropDown) drawableDropDown else null,
                 drawables[3]
             )
+        }
+    }
+
+
+    @BindingAdapter("cardtype", "isFounder")
+    @JvmStatic
+    fun setDebitFounderCrdImage(view: ImageView, cardtype: String, isFounder: Boolean) {
+        if (cardtype == CardType.DEBIT.type && isFounder == true) {
+            view.setImageResource(R.drawable.founder_front)
+        } else {
+            view.setImageResource(R.drawable.card_spare)
+
         }
     }
 }
