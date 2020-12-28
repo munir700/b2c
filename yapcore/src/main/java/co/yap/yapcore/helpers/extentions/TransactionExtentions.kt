@@ -428,3 +428,39 @@ fun Transaction?.isTransactionRejected(): Boolean {
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
 }
+
+fun List<Transaction>?.getTotalAmount(): String {
+    var total = 0.0
+    this?.map {
+        when (it.productCode) {
+            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                if (it.txnType == TxnType.DEBIT.type) {
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
+                    total -= ((it.settlementAmount ?: 0.00).plus(totalFee))
+                } else total += (it.settlementAmount ?: 0.0)
+            }
+            else -> {
+                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                    ?: 0.0) else total += (it.amount ?: 0.0)
+            }
+        }
+    }
+
+    var totalAmount: String
+    when {
+        total.toString().startsWith("-") -> {
+            totalAmount =
+                ((total * -1).toString().toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                ))
+            totalAmount = "- ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+        else -> {
+            totalAmount = (total.toString()
+                .toFormattedCurrency(false, currency = SessionManager.getDefaultCurrency()))
+            totalAmount = "+ ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+    }
+    return totalAmount
+}

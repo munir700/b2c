@@ -37,6 +37,7 @@ import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.transaction.search.TransactionSearchFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -63,8 +64,12 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.*
+import co.yap.yapcore.enums.EIDStatus
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.enums.NotificationAction
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -100,13 +105,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }
     }
 
     private fun startFlowForSetPin(card: Card?) {
         card?.let {
-            if (isShowSetPin(it)) {
+            if (viewModel.shouldShowSetPin(it)) {
                 if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
@@ -218,86 +224,79 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
-        getBindings().ivSearch.setOnLongClickListener {
-            return@setOnLongClickListener activity?.let {
-                //val tour = TourSetup(it, setViewsArray())
-                //tour.startTour()
-                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
-                true
-            } ?: false
-        }
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.lyTransaction -> {
-                    viewModel.clickEvent.getPayload()?.let {
-                        val childPosition = it.position
-                        val groupPosition = it.itemData as Int
-                        val transaction: Transaction? =
-                            getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
-                                childPosition
-                            )
-                        launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
-                                transaction
-                            )
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
-                                groupPosition
-                            )
-                            putExtra(
-                                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
-                                childPosition
-                            )
-
+            if (drawerButtonEnabled)
+                when (it) {
+                    R.id.ivSearch -> startFragment(TransactionSearchFragment::class.java.name)
+                    R.id.lyTransaction -> {
+                        viewModel.clickEvent.getPayload()?.let {
+                            val childPosition = it.position
+                            val groupPosition = it.itemData as Int
+                            val transaction: Transaction? =
+                                getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                                    childPosition
+                                )
+                            launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                                    transaction
+                                )
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                    groupPosition
+                                )
+                                putExtra(
+                                    ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                    childPosition
+                                )
+                            }
                         }
+                        viewModel.clickEvent.setPayload(null)
                     }
-                    viewModel.clickEvent.setPayload(null)
-                }
-                viewModel.EVENT_SET_CARD_PIN -> {
-                    SessionManager.getPrimaryCard()?.let { card ->
+                    viewModel.EVENT_SET_CARD_PIN -> {
+                        SessionManager.getPrimaryCard()?.let { card ->
+                            startActivityForResult(
+                                SetCardPinWelcomeActivity.newIntent(
+                                    requireContext(),
+                                    card
+                                ), RequestCodes.REQUEST_FOR_SET_PIN
+                            )
+                        } ?: showToast("Debit card not found.")
+                    }
+                    viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
                         startActivityForResult(
-                            SetCardPinWelcomeActivity.newIntent(
+                            FragmentPresenterActivity.getIntent(
                                 requireContext(),
-                                card
-                            ), RequestCodes.REQUEST_FOR_SET_PIN
+                                MODE_MEETING_CONFORMATION,
+                                null
+                            ), RequestCodes.REQUEST_MEETING_CONFIRMED
                         )
-                    } ?: showToast("Debit card not found.")
-                }
-                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
-                    startActivityForResult(
-                        FragmentPresenterActivity.getIntent(
-                            requireContext(),
-                            MODE_MEETING_CONFORMATION,
-                            null
-                        ), RequestCodes.REQUEST_MEETING_CONFIRMED
-                    )
-                }
-                R.id.ivMenu -> {
-                    if (drawerButtonEnabled)
-                        parentView?.toggleDrawer()
-                }
-                R.id.rlFilter -> {
+                    }
+                    R.id.ivMenu -> {
 
-                    if (viewModel.state.isTransEmpty.get() == false) {
-                        openTransactionFilters()
-                    } else {
-                        if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                        parentView?.toggleDrawer()
+                    }
+                    R.id.rlFilter -> {
+
+                        if (viewModel.state.isTransEmpty.get() == false) {
                             openTransactionFilters()
                         } else {
-                            return@Observer
+                            if (homeTransactionsRequest.totalAppliedFilter > 0) {
+                                openTransactionFilters()
+                            } else {
+                                return@Observer
+                            }
                         }
                     }
+                    R.id.lyAnalytics -> {
+                        launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
+                    }
+                    R.id.lyAdd -> {
+                        openTopUpScreen()
+                    }
                 }
-                R.id.lyAnalytics -> {
-                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
-                }
-                R.id.lyAdd -> {
-                    openTopUpScreen()
-                }
-            }
         })
 
         SessionManager.card.value?.let {
@@ -395,7 +394,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         transactionViewHelper?.setTooltipOnZero()
                     }
                 }
-                viewModel.parentViewModel?.isYapHomeFragmentVisible?.value = true
             }
         })
 
@@ -454,7 +452,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             })
 
         viewModel.parentViewModel?.isShowHomeTour?.observe(this, Observer {
-            if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
+            if (viewModel.parentViewModel?.isUnverifiedScreenNotVisible?.value == true && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true && viewModel.state.showTxnShimmer.value?.status != Status.LOADING) {
                 showHomeTourGuide()
             }
         })
@@ -503,10 +501,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onCloseClick(notification: HomeNotification, position: Int) {
         super.onCloseClick(notification, position)
         clearNotification()
-    }
-
-    private fun isShowSetPin(paymentCard: Card?): Boolean {
-        return (paymentCard?.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
     }
 
     private fun showTransactionsAndGraph() {
@@ -835,7 +829,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_menu_des),
                 padding = -getDimension(R.dimen._20sdp),
                 circleRadius = getDimension(R.dimen._60sdp),
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
@@ -845,7 +839,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_balance_des),
                 padding = getDimension(R.dimen._70sdp),
                 circleRadius = getDimension(R.dimen._70sdp),
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
@@ -855,7 +849,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getString(R.string.screen_dashboard_tour_guide_display_text_top_yap_it_des),
                 padding = getDimension(R.dimen._260sdp),
                 circleRadius = getDimension(R.dimen._70sdp),
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         list.add(
@@ -867,15 +861,37 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 circleRadius = getDimension(R.dimen._60sdp),
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
-                callBackListener = tourItemListener
+                callBackListener = homeTourItemListener
             )
         )
         return list
     }
 
-    private val tourItemListener = object : OnTourItemClickListener {
-        override fun onItemClick(pos: Int) {
+    private val homeTourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, completed = true)
             showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(TourGuideType.DASHBOARD_SCREEN, skipped = true)
+            showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
+        }
+    }
+
+    private val graphTourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.DASHBOARD_GRAPH_SCREEN,
+                skipped = true
+            )
         }
     }
 
@@ -905,10 +921,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
                 showSkip = false,
                 showPageNo = false,
+                callBackListener = graphTourItemListener,
                 circlePadding = getDimension(R.dimen._25sdp)
             )
         )
         return list
+    }
+
+    private suspend fun startGraphTour() {
+        if (parentView?.isDrawerOpen() == false && viewModel.parentViewModel?.isYapHomeFragmentVisible?.value == true) {
+            tourStep =
+                requireActivity().launchTourGuide(TourGuideType.DASHBOARD_GRAPH_SCREEN) {
+                    addAll(setGraphViewsArray())
+                }
+            delay(300)
+            drawerButtonEnabled = true
+        }
     }
 
     private fun showGraphTourGuide(listSize: Int) {
@@ -916,39 +944,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             CoroutineScope(Main).launch {
                 drawerButtonEnabled = false
                 delay(500)
-                SessionManager.card.value?.let { card ->
-                    if (card.pinCreated && parentView?.isDrawerOpen() == false) {
-                        tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
-                                addAll(setGraphViewsArray())
-                            }
-                        delay(300)
-                        drawerButtonEnabled = true
-                    }
-                } ?: SessionManager.getDebitCard {
-                    if (SessionManager.card.value?.pinCreated == true && parentView?.isDrawerOpen() == false) {
-                        tourStep =
-                            requireActivity().launchTourGuide(TourGuideType.YAP_HOME_GRAPH) {
-                                addAll(setGraphViewsArray())
-                            }
-                        CoroutineScope(Main).launch {
-                            delay(300)
-                            drawerButtonEnabled = true
-                        }
-                    }
-                }
+                startGraphTour()
             }
     }
 
     private fun showHomeTourGuide() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && SessionManager.card.value?.pinCreated == true) {
-            tourStep = requireActivity().launchTourGuide(TourGuideType.YAP_HOME_SCREEN) {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            tourStep = requireActivity().launchTourGuide(TourGuideType.DASHBOARD_SCREEN) {
                 addAll(setViewsArray())
             }
             if (tourStep == null)
                 showGraphTourGuide(viewModel.transactionsLiveData.value?.size ?: 0)
         }
     }
-
-
 }

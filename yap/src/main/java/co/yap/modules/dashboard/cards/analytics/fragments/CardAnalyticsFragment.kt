@@ -253,8 +253,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         item?.let { txnAnalytics ->
             viewModel.state.selectedItemName = txnAnalytics.title
             viewModel.state.selectedItemPercentage = "${txnAnalytics.totalSpendingInPercentage}%"
-            viewModel.state.selectedItemSpentValue =
-                "${viewModel.state.currencyType}${txnAnalytics.totalSpending}"
+            viewModel.state.selectedItemSpentValue = txnAnalytics.totalSpending.toFormattedCurrency(
+                true,
+                currency = viewModel.state.currencyType
+            )
         }
     }
 
