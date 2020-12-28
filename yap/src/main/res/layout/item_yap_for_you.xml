@@ -12,6 +12,10 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+
+        <import type="android.graphics.Color" />
+
+        <import type="Integer" />
     </data>
 
     <!--    app:src="@{viewModel.achievement.icon}"-->
@@ -22,7 +26,7 @@
         android:background="@drawable/cornor_edges_gery"
         android:padding="@dimen/margin_medium">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgIcon"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
@@ -30,24 +34,25 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
+            android:alpha="@{viewModel.achievement.isCompleted ? 0.9f : 0.25f }"
+            android:tint="@{Color.parseColor(viewModel.achievement.color)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{viewModel.achievement.icon}"
-            tools:src="@drawable/ic_round_badge_light_purple" />
+            app:srcCompat="@drawable/ic_y4y_badge" />
 
-<!--        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgIconInner"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:src="@{viewModel.achievement.isCompleted? @drawable/ic_tick : @drawable/ic_yap_it}"
             app:layout_constraintEnd_toEndOf="@+id/imgIcon"
             app:layout_constraintStart_toStartOf="@+id/imgIcon"
             app:layout_constraintTop_toTopOf="@+id/imgIcon"
             app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
-            android:src="@drawable/ic_tick" />-->
-
+            android:tint="@color/white" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -57,7 +62,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
-            android:text="@{viewModel.achievement.name}"
+            android:text="@{viewModel.achievement.title}"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="android:asdasdas" />
@@ -70,6 +75,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Locked"
+            android:visibility="gone"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
@@ -80,9 +86,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage)}"
+            android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage , viewModel.achievement.percentage.toString()+`%`)}"
             android:textSize="@dimen/_10sdp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="75% completed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
