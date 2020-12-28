@@ -23,8 +23,8 @@ import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 
 class HomeTransactionAdapter(
-    internal var transactionData: Map<String?, List<Transaction>>,
-    private val expandableItemManager: RecyclerViewExpandableItemManager
+    internal var transactionData: MutableMap<String?, List<Transaction>>,
+    val expandableItemManager: RecyclerViewExpandableItemManager
 ) :
     BaseExpandableRVAdapter<Transaction, SearchTransactionChildItemVM, HomeTransactionAdapter.ChildViewHolder
             , HomeTransactionListData, SearchTransactionGroupItemVM, HomeTransactionAdapter.GroupViewHolder>() {
@@ -35,21 +35,47 @@ class HomeTransactionAdapter(
         setHasStableIds(true)
     }
 
-    fun setTransactionData(transactionData: Map<String?, List<Transaction>>?) {
-        transactionData?.let {
-            if (this.transactionData != transactionData) {
-            this.transactionData = transactionData
-             }
-        } ?: emptyMap<String?, List<Transaction>>()
-        notifyDataSetChanged()
+    fun setData(transactions: MutableMap<String?, List<Transaction>>?) {
+        transactions?.let {
+//            if (transactionData.isNotEmpty()) {
+//                updateTransactionData(transactions)
+//            } else {
+                this.transactionData = transactions
+                notifyDataSetChanged()
+//            }
+        } ?: run {
+            transactionData = mutableMapOf()
+            notifyDataSetChanged()
+        }
+
     }
 
     fun getTransactionData() = this.transactionData
 
-    fun updateTransactionData(transactionData: Map<String?, List<Transaction>>?) {
-        transactionData?.let {
+    fun updateTransactionData(transactions: MutableMap<String?, List<Transaction>>?) {
+        transactions?.let {
+            var keyToRemove: String? = null
+            transactions.keys.forEach { key ->
+                if (transactionData.containsKey(key)) {
+                    keyToRemove = key
+                    return@forEach
+                }
+            }
+            keyToRemove?.let {
+                val newTransaction = transactions.getValue(it)
+                val oldTransaction = transactionData.getValue(it).toMutableList()
+                oldTransaction.addAll(newTransaction)
+                transactionData[it] = oldTransaction
+                transactions.remove(it)
+            }
+            val groupCount = groupCount
+            transactionData.putAll(transactions)
+            expandableItemManager.notifyGroupItemRangeInserted(groupCount, transactions.size)
+//            expandableItemManager.notifyGroupItemInserted(groupCount+transactions.size)
         }
     }
+
+    override fun getInitialGroupExpandedState(groupPosition: Int) = false
 
     override fun getChildViewHolder(
         view: View,

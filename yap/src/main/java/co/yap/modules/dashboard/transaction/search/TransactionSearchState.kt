@@ -12,7 +12,7 @@ import co.yap.yapcore.BaseState
 class TransactionSearchState : BaseState(), ITransactionSearch.State {
     override val transactionList: ObservableField<MutableList<HomeTransactionListData>> =
         ObservableField(mutableListOf())
-    override var transactionMap: MutableLiveData<Map<String?, List<Transaction>>>? =
+    override var transactionMap: MutableLiveData<MutableMap<String?, List<Transaction>>>? =
         MutableLiveData()
     override var homeTransactionRequest: MutableLiveData<HomeTransactionsRequest>? =
         MutableLiveData()
