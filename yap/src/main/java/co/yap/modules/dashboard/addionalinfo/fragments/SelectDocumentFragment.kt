@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.more.profile.fragments.UpdatePhotoBottomSheet
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AdditionalInfoScreenType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -25,10 +26,14 @@ import co.yap.yapcore.helpers.permissions.PermissionHelper
 import co.yap.yapcore.interfaces.OnItemClickListener
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
+import pl.aprilapps.easyphotopicker.MediaFile
+import pl.aprilapps.easyphotopicker.MediaSource
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
 
 class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewModel>(),
-    ISelectDocument.View, CardClickListener {
+    ISelectDocument.View, CardClickListener, EasyPermissions.PermissionCallbacks {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_select_document
@@ -37,6 +42,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     private val pickPhoto = 2
     internal var permissionHelper: PermissionHelper? = null
     private var currentPos: Int? = null
+    lateinit var easyImage: EasyImage
     private var currentDocument: AdditionalDocument? = null
 
     override val viewModel: SelectDocumentViewModel
@@ -101,7 +107,7 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 openScanDocumentFragment(currentDocument?.name ?: "")
             }
             Constants.EVENT_CHOOSE_PHOTO -> {
-                checkPermission(pickPhoto)
+                initEasyImage(pickPhoto)
             }
             Constants.EVENT_REMOVE_PHOTO -> {
 
@@ -151,74 +157,78 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     }
 
 
-    private fun checkPermission(type: Int) {
-        permissionHelper = PermissionHelper(
-            this, arrayOf(
-                Manifest.permission.CAMERA
-            ), 100
-        )
+    private fun initEasyImage(type: Int) {
+        if (hasCameraPermission()) {
+            easyImage = EasyImage.Builder(requireContext())
+                .setChooserTitle("Pick Image")
+                .setFolderName("YAPImage")
+                .allowMultiple(false)
+                .build()
+            when (type) {
+                takePhoto -> {
+                    easyImage.openCameraForImage(this)
 
-        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
-            override fun onPermissionGranted() {
-//                if (type == takePhoto) {
-//                    EasyImage.openCamera(this@SelectDocumentFragment, takePhoto)
-//                } else {
-                EasyImage.openGallery(this@SelectDocumentFragment, pickPhoto)
-//                }
-
+                }
+                pickPhoto -> {
+                    easyImage.openGallery(this)
+                }
             }
+            //  easyImage.openChooser(this)
+        } else {
+            EasyPermissions.requestPermissions(
+                this, "This app needs access to your camera so you can take pictures.",
+                RequestCodes.REQUEST_CAMERA_PERMISSION, Manifest.permission.CAMERA
+            )
+        }
 
-            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-//                if (type == takePhoto) {
-                if (grantedPermission.contains(Manifest.permission.CAMERA))
-                    EasyImage.openCamera(this@SelectDocumentFragment, takePhoto)
-//                }
-//                else {
-//                    if (grantedPermission.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-//                        EasyImage.openGallery(this@SelectDocumentFragment, pickPhoto)
-//                }
-            }
-
-            override fun onPermissionDenied() {
-                showToast("Can't proceed without permissions")
-            }
-
-            override fun onPermissionDeniedBySystem() {
-                permissionHelper?.openAppDetailsActivity()
-            }
-        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        EasyImage.handleActivityResult(requestCode, resultCode, data, activity,
+        if (resultCode == Activity.RESULT_OK) {
+            handleImagePickerResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun handleImagePickerResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        easyImage.handleActivityResult(
+            requestCode,
+            resultCode,
+            data,
+            requireActivity(),
             object : DefaultCallback() {
-                override fun onImagePicked(
-                    imageFile: File?,
-                    source: EasyImage.ImageSource?,
-                    type: Int
+                override fun onMediaFilesPicked(
+                    imageFiles: Array<MediaFile>,
+                    source: MediaSource
                 ) {
-                    onPhotosReturned(imageFile, type, source)
+                    onPhotosReturned(imageFiles, source)
                 }
 
                 override fun onImagePickerError(
-                    e: Exception?,
-                    source: EasyImage.ImageSource?,
-                    type: Int
+                    @NonNull error: Throwable,
+                    @NonNull source: MediaSource
                 ) {
                     viewModel.state.toast = "Invalid file found^${AlertType.DIALOG.name}"
+                }
+
+                override fun onCanceled(@NonNull source: MediaSource) {
+                    viewModel.state.toast = "No image detected^${AlertType.DIALOG.name}"
                 }
             })
     }
 
-    private fun onPhotosReturned(path: File?, position: Int, source: EasyImage.ImageSource?) {
-        path?.let {
-            val ext = path.extension
+    private fun onPhotosReturned(path: Array<MediaFile>, source: MediaSource) {
+        path.firstOrNull()?.let { mediaFile ->
+            val ext = mediaFile.file.extension
             if (!ext.isBlank()) {
                 when (ext) {
                     "png", "jpg", "jpeg" -> {
                         uploadDocumentAndMoveNext(
-                            path,
+                            mediaFile.file,
                             currentPos ?: 0,
                             currentDocument ?: AdditionalDocument()
                         )
@@ -240,6 +250,20 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        }
+    }
+
+    private fun hasCameraPermission(): Boolean {
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
     }
 
     override fun onBackPressed(): Boolean {

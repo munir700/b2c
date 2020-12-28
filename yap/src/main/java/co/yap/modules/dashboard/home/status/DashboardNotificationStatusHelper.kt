@@ -130,7 +130,7 @@ class DashboardNotificationStatusHelper(
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.SET_PIN,
-                statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_set_card_pin_title),
+                statusTitle = getStringHelper(Strings.dashboard_timeline_set_pin_stage_title),
                 statusDescription = getSubheading(
                     PaymentCardOnboardingStage.SET_PIN,
                     getNotificationStatus(PaymentCardOnboardingStage.SET_PIN)
@@ -145,7 +145,7 @@ class DashboardNotificationStatusHelper(
         list.add(
             StatusDataModel(
                 stage = PaymentCardOnboardingStage.TOP_UP,
-                statusTitle = getStringHelper(Strings.screen_time_line_display_text_status_card_top_up_title),
+                statusTitle = getStringHelper(Strings.dashboard_timeline_top_up_stage_title),
                 statusDescription = getSubheading(
                     PaymentCardOnboardingStage.TOP_UP,
                     getNotificationStatus(PaymentCardOnboardingStage.TOP_UP)
