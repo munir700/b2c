@@ -15,10 +15,8 @@
 
         <import type="android.graphics.Color" />
 
-        <import type="Integer" />
     </data>
 
-    <!--    app:src="@{viewModel.achievement.icon}"-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,11 +45,12 @@
             android:layout_height="@dimen/_18sdp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@{viewModel.achievement.isCompleted? @drawable/ic_tick : @drawable/ic_yap_it}"
+            android:src="@{viewModel.achievement.isCompleted? @drawable/ic_baseline_check : @drawable/ic_yap_it}"
             app:layout_constraintEnd_toEndOf="@+id/imgIcon"
             app:layout_constraintStart_toStartOf="@+id/imgIcon"
             app:layout_constraintTop_toTopOf="@+id/imgIcon"
             app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
+            tools:src="@drawable/ic_baseline_check"
             android:tint="@color/white" />
 
         <TextView
@@ -86,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage , viewModel.achievement.percentage.toString()+`%`)}"
+            android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage , viewModel.achievement.percentage+`%`)}"
             android:textSize="@dimen/_10sdp"
             android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
