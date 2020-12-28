@@ -66,7 +66,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     private fun setupRecycleView() {
         viewModel.adaptor.allowFullItemClickListener = true
         viewModel.adaptor.setItemListener(listener)
-        rvYapForYou.adapter = viewModel.adaptor
+//        rvYapForYou.adapter = viewModel.adaptor
 //        viewModel.state.selectedAchievementPercentage =
 //            viewModel.getAchievements()[0].percentage.toString()
 //        viewModel.state.selectedAchievementImage =

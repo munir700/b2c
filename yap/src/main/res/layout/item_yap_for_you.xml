@@ -36,6 +36,19 @@
             app:src="@{viewModel.achievement.icon}"
             tools:src="@drawable/ic_round_badge_light_purple" />
 
+<!--        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgIconInner"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:layout_constraintEnd_toEndOf="@+id/imgIcon"
+            app:layout_constraintStart_toStartOf="@+id/imgIcon"
+            app:layout_constraintTop_toTopOf="@+id/imgIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
+            android:src="@drawable/ic_tick" />-->
+
+
         <TextView
             android:id="@+id/tvTitle"
             style="@style/ASmall"
