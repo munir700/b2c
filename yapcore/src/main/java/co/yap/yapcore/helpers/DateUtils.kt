@@ -6,8 +6,8 @@ import java.util.*
 object DateUtils {
 
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
-    private val GMT: TimeZone = TimeZone.getTimeZone("GMT")
-    private val UTC: TimeZone = TimeZone.getTimeZone("UTC")
+    val GMT: TimeZone = TimeZone.getTimeZone("GMT")
+    val UTC: TimeZone = TimeZone.getTimeZone("UTC")
     private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
     const val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm"//2015-11-28 10:17:18
@@ -74,6 +74,32 @@ object DateUtils {
         return result
 
     }
+
+    fun reformatDate(
+        date: String?,
+        inputFormatter: String = DEFAULT_DATE_FORMAT,
+        outFormatter: String = DEFAULT_DATE_FORMAT,
+        inputTimeZone: TimeZone = GMT,
+        outTimeZone: TimeZone = TIME_ZONE_Default
+    ): String {
+        var result = ""
+        date?.let {
+            try {
+                val formatter = SimpleDateFormat(outFormatter, Locale.US)
+                formatter.timeZone = outTimeZone
+                result = formatter.format(
+                    stringToDate(
+                        dateStr = it,
+                        format = inputFormatter,
+                        timeZone = inputTimeZone
+                    )
+                )
+            } catch (e: Exception) {
+            }
+        }
+        return result
+    }
+
     fun reformatLiveStringDate(
         date: String,
         inputFormatter: String? = DEFAULT_DATE_FORMAT,
@@ -118,6 +144,19 @@ object DateUtils {
         return d
     }
 
+    fun stringToDate(dateStr: String, format: String?, timeZone: TimeZone = GMT): Date? {
+        var d: Date? = null
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
+        formatter.timeZone = timeZone
+        try {
+            formatter.isLenient = false
+            d = formatter.parse(dateStr)
+        } catch (e: Exception) {
+            d = null
+        }
+        return d
+    }
+
     fun reformatLocalDate(
         date: String,
         inputFormatter: String? = DEFAULT_DATE_FORMAT,
@@ -145,6 +184,7 @@ object DateUtils {
             ""
         }
     }
+
     fun stringToDateLeanPlum(dateStr: String): Date? {
         var d: Date? = null
         val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.US)

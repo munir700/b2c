@@ -19,8 +19,9 @@ class PINViewModel(application: Application) :
     override val repository: CardsRepository = CardsRepository
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     override var mobileNumber: String = ""
+
     override fun setChangeCardPinFragmentData() {
-        state.titleSetPin = getString(Strings.screen_current_card_pin_display_text_heading_pin)
+        state.titleSetPin = getString(Strings.screen_create_card_pin_display_text_heading)
         state.buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
     }
 
@@ -36,7 +37,7 @@ class PINViewModel(application: Application) :
 
     override fun setConfirmNewCardPinFragmentData() {
         state.titleSetPin = getString(Strings.screen_confirm_card_pin_display_text_heading)
-        state.buttonTitle = getString(Strings.screen_confirm_card_pin_display_button_confirm_pin)
+        state.buttonTitle = getString(Strings.dashboard_timeline_set_pin_stage_action_title)
     }
 
     override var pincode: String = ""
@@ -44,6 +45,9 @@ class PINViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var errorEvent: SingleClickEvent = SingleClickEvent()
 
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {

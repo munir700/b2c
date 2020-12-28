@@ -15,8 +15,8 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:enabled="@{viewModel.state.isUserAccountActivated}"
+        android:orientation="vertical"
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -110,12 +110,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/ivSearch"
                                 android:layout_width="26dp"
                                 android:layout_height="26dp"
                                 android:layout_marginEnd="@dimen/margin_normal"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                android:tint="?attr/colorPrimary"
                                 android:visibility="visible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"

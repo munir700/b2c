@@ -89,6 +89,8 @@ project.ext {
             lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
             lifecycleExtensions      : "androidx.lifecycle:lifecycle-extensions:$arch",
             livedataBuilder          : 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0',
+            lifecycleviewmodel         : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0',
+            lifecycleRuntimektx          : 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0',
 
             // kotlin coroutine
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
@@ -275,6 +277,8 @@ project.ext {
             [configuration: "api", dependency: libraries.lifecycleRuntime],
             [configuration: "api", dependency: libraries.lifecycleCommonJava],
             [configuration: "api", dependency: libraries.lifecycleExtensions],
+            [configuration: "api", dependency: libraries.lifecycleviewmodel],
+            [configuration: "api", dependency: libraries.lifecycleRuntimektx],
             [configuration: "api", dependency: libraries.coroutineCore],
             [configuration: "api", dependency: libraries.coroutineAndroid],
             [configuration: "api", dependency: libraries.livedataBuilder],

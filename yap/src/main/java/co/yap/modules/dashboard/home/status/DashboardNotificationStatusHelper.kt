@@ -179,7 +179,7 @@ class DashboardNotificationStatusHelper(
 
                 PaymentCardOnboardingStage.TOP_UP -> {
                     return (when {
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.ACTIVE
                         }
                         else -> StageProgress.INACTIVE

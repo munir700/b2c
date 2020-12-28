@@ -22,6 +22,7 @@
                 android:layout_height="56dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
+                android:elevation="2dp"
                 app:elevation="2dp"
                 app:itemIconTint="@drawable/bottom_nav_color"
                 app:itemTextColor="@drawable/bottom_nav_color"
@@ -47,27 +48,21 @@
             android:orientation="vertical"
             app:elevation="@dimen/_4sdp">
 
-            <androidx.cardview.widget.CardView
+            <FrameLayout
                 android:id="@+id/cvYapIt"
                 android:layout_width="wrap_content"
-                app:cardElevation="@dimen/_4sdp"
-                app:cardCornerRadius="32dp"
-                app:cardUseCompatPadding="false"
-                app:contentPadding="0dp"
-                android:layout_margin="@dimen/_3sdp"
-                app:cardBackgroundColor="@color/transparent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-7dp"
                 android:background="@color/transparent"
-                android:layout_height="wrap_content">
+                >
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivYapIt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    app:backgroundTint="@color/white"
-                    app:elevation="0dp"
-                    app:srcCompat="@drawable/ic_yap_it" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_width="@dimen/_54sdp"
+                    android:layout_height="@dimen/_54sdp"
+                    android:background="@color/transparent"
+                    app:srcCompat="@drawable/ic_yapit_shadow" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/txtYapIt"

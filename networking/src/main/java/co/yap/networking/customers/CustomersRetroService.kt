@@ -126,7 +126,7 @@ interface CustomersRetroService {
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT)
-    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
+    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<CountryDataWithISODigit>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
     suspend fun getCountryTransactionLimits(
@@ -251,4 +251,10 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_HOME_COUNTRY_FX_RATE)
     suspend fun updateFxRate(@Body fxRate: FxRateRequest): Response<FxRateResponse>
+
+    @POST(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun updateTourGuideStatus(@Body tourGuide: TourGuideRequest): Response<UpdateTourGuideResponse>
+
+    @GET(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun getTourGuides(): Response<TourGuideResponse>
 }

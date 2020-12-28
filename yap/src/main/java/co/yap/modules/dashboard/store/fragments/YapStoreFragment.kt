@@ -15,8 +15,11 @@ import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
+import co.yap.widgets.guidedtour.OnTourItemClickListener
+import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
@@ -29,6 +32,7 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_store
+    private var tourStep: TourSetup? = null
 
     override val viewModel: YapStoreViewModel
         get() = ViewModelProviders.of(this).get(YapStoreViewModel::class.java)
@@ -55,8 +59,13 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
             this,
             Observer { isStoreFragmentVisible ->
                 if (isStoreFragmentVisible) {
-                    requireActivity().launchTourGuide(TourGuideType.YAP_STORE_SCREEN) {
+                    tourStep = requireActivity().launchTourGuide(TourGuideType.STORE_SCREEN) {
                         this.addAll(setViewsArray())
+                    }
+                } else {
+                    tourStep?.let {
+                        if (it.isShowing)
+                            it.dismiss()
                     }
                 }
             })
@@ -128,10 +137,27 @@ class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapS
                 circleRadius = getDimension(R.dimen._60sdp),
                 showSkip = false,
                 showPageNo = false,
-                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_got_it)
+                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_got_it),
+                callBackListener = tourItemListener
             )
         )
         return list
+    }
+
+    private val tourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.STORE_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.STORE_SCREEN,
+                skipped = true
+            )
+        }
     }
 
     private fun getBindings(): FragmentYapStoreBinding {

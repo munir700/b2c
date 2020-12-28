@@ -48,6 +48,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
+import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.BaseBindingActivity
@@ -67,6 +68,10 @@ import com.liveperson.infra.configuration.Configuration
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
@@ -305,10 +310,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupView() {
-        launchTourGuide(TourGuideType.YAP_CARD_DETAIL_SCREEN){
-            addAll(setViewsArray())
-        }
         viewModel.card.value = intent.getParcelableExtra(CARD)
+        viewModel.state.cardImageUrl = viewModel.card.value?.frontImage ?: ""
         viewModel.state.cardStatus.set(viewModel.card.value?.status)
         viewModel.state.cardType = viewModel.card.value?.cardType ?: ""
         viewModel.state.cardPanNumber = viewModel.card.value?.maskedCardNo ?: ""
@@ -317,7 +320,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 if (it) {
                     viewModel.state.cardName = cardName
                 } else {
-                    viewModel.state.cardName = cardName.toCamelCase()
+                    viewModel.state.cardName = cardName
                 }
             }
         }
@@ -362,6 +365,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
         btnCardDetails.setOnClickListener {
             viewModel.getCardDetails()
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(300)
+            launchTourGuide(TourGuideType.PRIMARY_CARD_DETAIL_SCREEN) {
+                addAll(setViewsArray())
+            }
         }
     }
 
@@ -671,7 +680,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         pagerList.add(
@@ -680,7 +690,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 cardType = cardType,
                 cardNumber = cardNumber,
                 cardCvv = viewModel.cardDetail.cvv,
-                displayName = viewModel.card.value?.cardName
+                displayName = viewModel.card.value?.cardName,
+                cardImg = viewModel.card.value?.frontImage
             )
         )
         val cardDetailsPagerAdapter = CardDetailsDialogPagerAdapter(pagerList)
@@ -788,36 +799,60 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().toolbar.findViewById(R.id.ivRightIcon),
-                getString(R.string.screen_dashboard_tour_guide_display_text_more),
-                getString(R.string.screen_dashboard_tour_guide_display_text_more_des),
-                padding =  Configuration.getDimension(R.dimen._15sdp),
-                circleRadius = Configuration.getDimension(R.dimen._50sdp)
+        val toolBarView: View? = ctToolbar?.findViewById(R.id.ivRightIcon)
+        toolBarView?.let { toolBarRightIcon ->
+            list.add(
+                GuidedTourViewDetail(
+                    toolBarRightIcon,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_more),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_more_des),
+                    padding = Configuration.getDimension(R.dimen._15sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._50sdp),
+                    callBackListener = tourItemListener
+                )
             )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().llFreezePrimaryCard,
-                getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card),
-                getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card_des),
-                padding = Configuration.getDimension(R.dimen._43sdp),
-                circleRadius = Configuration.getDimension(R.dimen._45sdp)
+        }
+        if (getBindings().rlPrimaryCardActions.visibility == View.VISIBLE) {
+            list.add(
+                GuidedTourViewDetail(
+                    getBindings().llFreezePrimaryCard,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_freeze_card_des),
+                    padding = Configuration.getDimension(R.dimen._43sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp),
+                    callBackListener = tourItemListener
+                )
             )
-        )
-        list.add(
-            GuidedTourViewDetail(
-                getBindings().llCardLimits,
-                getString(R.string.screen_dashboard_tour_guide_display_text_limit),
-                getString(R.string.screen_dashboard_tour_guide_display_text_limit_des),
-                padding = Configuration.getDimension(R.dimen._43sdp),
-                circleRadius = Configuration.getDimension(R.dimen._45sdp),
-                btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
-                showSkip = false
+
+            list.add(
+                GuidedTourViewDetail(
+                    getBindings().llCardLimits,
+                    getString(R.string.screen_dashboard_tour_guide_display_text_limit),
+                    getString(R.string.screen_dashboard_tour_guide_display_text_limit_des),
+                    padding = Configuration.getDimension(R.dimen._43sdp),
+                    circleRadius = Configuration.getDimension(R.dimen._45sdp),
+                    btnText = getString(R.string.screen_dashboard_tour_guide_display_text_finish),
+                    showSkip = false,
+                    callBackListener = tourItemListener
+                )
             )
-        )
+        }
         return list
     }
 
+    private val tourItemListener = object : OnTourItemClickListener {
+        override fun onTourCompleted(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN,
+                completed = true
+            )
+        }
+
+        override fun onTourSkipped(pos: Int) {
+            TourGuideManager.lockTourGuideScreen(
+                TourGuideType.PRIMARY_CARD_DETAIL_SCREEN,
+                skipped = true
+            )
+        }
+    }
 }

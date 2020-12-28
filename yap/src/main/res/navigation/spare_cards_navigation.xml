@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/spareCardLandingFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.SpareCardLandingFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.SpareCardLandingFragment"
         android:label="@string/screen_spare_card_landing_display_text_title"
         tools:layout="@layout/fragment_spare_card_landing">
 
@@ -23,12 +23,15 @@
             app:destination="@id/addSpareCardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_to_bottom" />
+        <action
+            android:id="@+id/action_spareCardLandingFragment_to_addVirtualCardFragment"
+            app:destination="@id/addVirtualCardFragment" />
 
     </fragment>
 
     <fragment
         android:id="@+id/addSpareCardFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.AddSpareCardFragment"
         tools:layout="@layout/fragment_add_spare_card">
         <argument
             android:name="cardType"
@@ -56,6 +59,10 @@
         <argument
             android:name="isFromBlockCard"
             app:argType="boolean" />
+        <argument
+            android:name="cardName"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
@@ -134,7 +141,7 @@
 
     <fragment
         android:id="@+id/benefitsFragment"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.CardsBenefitsFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.fragments.CardsBenefitsFragment"
         tools:layout="@layout/fragment_card_benefit">
 
         <argument
@@ -153,6 +160,15 @@
         android:id="@+id/addSparePhysicalCardSuccessFragment"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.physical.AddSparePhysicalCardSuccessFragment"
         tools:layout="@layout/fragment_add_physical_spare_card_success" />
+    <fragment
+        android:id="@+id/addVirtualCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.virtual.AddVirtualCardFragment"
+        android:label="AddVirtualCardFragment"
+        tools:layout="@layout/fragment_add_virtual_card">
+        <action
+            android:id="@+id/action_addVirtualCardFragment_to_addSpareCardFragment"
+            app:destination="@id/addSpareCardFragment" />
+    </fragment>
 
 
 </navigation>

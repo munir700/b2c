@@ -258,7 +258,7 @@ class YapHomeViewModel(application: Application) :
                 HomeNotification(
                     id = "3",
                     title = "Set PIN",
-                    description = "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.",
+                    description = "This 4-digit code is yours to keep. Please don't share it with anyone",
                     action = NotificationAction.SET_PIN
                 )
             )
@@ -293,7 +293,11 @@ class YapHomeViewModel(application: Application) :
         return list
     }
 
-    private fun shouldShowSetPin(paymentCard: Card): Boolean {
-        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+    override fun shouldShowSetPin(paymentCard: Card): Boolean {
+       return when {
+            paymentCard.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
+            paymentCard.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true
+            else -> false
+        }
     }
 }

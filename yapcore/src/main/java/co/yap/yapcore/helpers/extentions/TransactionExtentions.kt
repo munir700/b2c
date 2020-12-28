@@ -10,6 +10,7 @@ import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.TransactionAdapterType
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -73,7 +74,7 @@ fun Transaction?.getTransactionIcon(): Int {
                             R.drawable.ic_cash_out_trasaction
                         }
                         TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
-                            getMerchantCategoryIcon()
+                            transaction.merchantCategoryName.getMerchantCategoryIcon()
                         }
 
                         else -> -1
@@ -172,7 +173,7 @@ fun Transaction?.getCategoryIcon(): Int {
             TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode -> {
                 R.drawable.ic_cash
             }
-            TransactionProductCode.POS_PURCHASE.pCode -> getMerchantCategoryIcon()
+            TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName.getMerchantCategoryIcon()
 
             else -> 0
         })
@@ -206,32 +207,15 @@ fun Transaction?.getCategoryTitle(): String {
     } ?: return ""
 }
 
-fun Transaction?.getMerchantCategoryIcon(): Int {
-    this?.let { transaction ->
-        return (when {
-            transaction.merchantCategoryName.equals(
-                "shopping",
-                true
-            ) -> R.drawable.ic_shopping_no_bg
-            transaction.merchantCategoryName.equals(
-                "education",
-                true
-            ) -> R.drawable.ic_education_no_bg
-            transaction.merchantCategoryName.equals(
-                "utilities",
-                true
-            ) -> R.drawable.ic_utilities_no_bg
-            transaction.merchantCategoryName.equals(
-                "healthAndBeauty",
-                true
-            ) -> R.drawable.ic_health_and_beauty_no_bg
-            transaction.merchantCategoryName.equals(
-                "Insurance",
-                true
-            ) -> R.drawable.ic_insurance_no_bg
-            else -> R.drawable.ic_other_no_bg
-        })
-    } ?: return R.drawable.ic_other_no_bg
+
+fun String?.getMerchantCategoryIcon(): Int {
+    this?.let { title ->
+        return ImageBinding.getResId(
+            "ic_" + ImageBinding.getDrawableName(
+                title
+            ) + "_no_bg"
+        )
+    } ?: return -1
 }
 
 fun Transaction?.getMapImage(): Int {
@@ -344,7 +328,7 @@ fun Transaction?.getFormattedDate(): String? {
 fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
     return when (adapterType) {
         TransactionAdapterType.ANALYTICS_DETAILS -> {
-            getFormattedTime()
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
         TransactionAdapterType.TRANSACTION -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
@@ -443,4 +427,40 @@ fun Transaction?.isTransactionRejected(): Boolean {
 
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
+}
+
+fun List<Transaction>?.getTotalAmount(): String {
+    var total = 0.0
+    this?.map {
+        when (it.productCode) {
+            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                if (it.txnType == TxnType.DEBIT.type) {
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
+                    total -= ((it.settlementAmount ?: 0.00).plus(totalFee))
+                } else total += (it.settlementAmount ?: 0.0)
+            }
+            else -> {
+                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                    ?: 0.0) else total += (it.amount ?: 0.0)
+            }
+        }
+    }
+
+    var totalAmount: String
+    when {
+        total.toString().startsWith("-") -> {
+            totalAmount =
+                ((total * -1).toString().toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                ))
+            totalAmount = "- ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+        else -> {
+            totalAmount = (total.toString()
+                .toFormattedCurrency(false, currency = SessionManager.getDefaultCurrency()))
+            totalAmount = "+ ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+    }
+    return totalAmount
 }

@@ -54,6 +54,8 @@ object Strings {
         "common_saved_image_to_gallery"
     const val common_display_text_search_hint: String =
         "common_display_text_search_hint"
+    const val common_display_text_no_country_found: String =
+        "common_display_text_no_country_found"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -263,6 +265,14 @@ object Strings {
         "screen_kyc_information_error_display_text_explanation_expired_card"
     const val screen_kyc_information_error_button_go_to_dashboard: String =
         "screen_kyc_information_error_button_go_to_dashboard"
+    const val screen_kyc_information_error_display_text_title_from_us: String =
+        "screen_kyc_information_error_display_text_title_from_us"
+    const val screen_kyc_information_error_text_description_from_us: String =
+        "screen_kyc_information_error_text_description_from_us"
+    const val screen_kyc_information_error_display_text_title_sanctioned_country: String =
+        "screen_kyc_information_error_display_text_title_sanctioned_country"
+    const val screen_kyc_information_error_text_description_sanctioned_country: String =
+        "screen_kyc_information_error_text_description_sanctioned_country"
 
     // Meeting location selection screen
     const val screen_meeting_location_display_text_title: String =
@@ -415,6 +425,8 @@ object Strings {
         "screen_confirm_card_pin_display_text_error_same_digits"
     const val screen_confirm_card_pin_display_text_error_pins_not_same: String =
         "screen_confirm_card_pin_display_text_error_pins_not_same"
+    const val screen_confirm_card_pin_terms_condition_note: String =
+        "screen_confirm_card_pin_terms_condition_note"
 
     //Set card PIN success screen
     const val screen_set_card_pin_success_display_text_title: String =
@@ -524,6 +536,8 @@ object Strings {
         "screen_spare_card_landing_display_text_virtual_card"
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
+    const val screen_spare_card_landing_display_tool_bar_title: String =
+        "screen_spare_card_landing_display_tool_bar_title"
 
     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
@@ -563,6 +577,12 @@ object Strings {
 
     const val screen_add_spare_card_display_text_fee: String =
         "screen_add_spare_card_display_text_fee"
+    const val screen_add_virtual_spare_card_edit_name_label: String =
+        "screen_add_virtual_spare_card_edit_name_label"
+    const val screen_add_virtual_spare_card_edit_name_hint: String =
+        "screen_add_virtual_spare_card_edit_name_hint"
+    const val screen_add_virtual_spare_card_tool_bar_title: String =
+        "screen_add_virtual_spare_card_tool_bar_title"
 
 
     // Add funds Screen
@@ -1203,6 +1223,8 @@ object Strings {
         "screen_crash_transfer_success_button_text_back"
     const val screen_cash_transfer_display_text_available_balance: String =
         "screen_cash_transfer_display_text_available_balance"
+    const val screen_cash_transfer_display_text_required_topup_balance: String =
+        "screen_cash_transfer_display_text_required_topup_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =
@@ -1877,6 +1899,8 @@ object Strings {
         "screen_qr_code_own_uuid_error_message"
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
+    const val screen_change_passcode_success_display_text_heading: String =
+        "screen_change_passcode_success_display_text_heading"
 
 
     // YAP For YOU GET Started

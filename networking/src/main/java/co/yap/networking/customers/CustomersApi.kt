@@ -75,7 +75,7 @@ interface CustomersApi {
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
     suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
     suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
-    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
+    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit>
     suspend fun getCountryTransactionLimits(
         countryCode: String,
         currencyCode: String
@@ -102,4 +102,7 @@ interface CustomersApi {
     suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
     suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
     suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse>
+    suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse>
+    suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
+
 }

@@ -5,5 +5,5 @@ import co.yap.yapcore.BaseViewModel
 
 class WebViewFragmentViewModel(application: Application) :
     BaseViewModel<IWebViewFragment.State>(application = application), IWebViewFragment.ViewModel {
-    override val state: WebViewFragmentState = WebViewFragmentState(application = application)
+    override val state: WebViewFragmentState = WebViewFragmentState()
 }

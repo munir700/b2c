@@ -21,4 +21,5 @@ class YapHomeState : BaseState(), IYapHome.State {
     override var isTransEmpty: ObservableField<Boolean> = ObservableField(true)
     override var showTxnShimmer: MutableLiveData<State> = MutableLiveData()
     override var isUserAccountActivated: ObservableField<Boolean> = ObservableField(true)
+    override var isPartnerBankStatusActivated: ObservableField<Boolean> = ObservableField(false)
 }
