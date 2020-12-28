@@ -127,7 +127,8 @@ class TourSetup(
                 }
             }
             layer?.isRectangle = it.isRectangle
-            layer?.rectHeight = it.view.height.toFloat()
+            layer?.viewTop = it.view.top.toFloat() - activity.resources.getDimension(R.dimen._10sdp)
+            layer?.viewBottom = it.view.bottom.toFloat() + activity.resources.getDimension(R.dimen._9sdp)
             layer?.invalidate()
         }
     }

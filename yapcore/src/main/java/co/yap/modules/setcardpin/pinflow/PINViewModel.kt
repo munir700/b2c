@@ -41,11 +41,13 @@ class PINViewModel(application: Application) :
     }
 
     override var pincode: String = ""
-    override var termsCondition: String = getString(Strings.screen_create_passcode_display_text_terms_and_conditions)
     override val state: PinState = PinState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var errorEvent: SingleClickEvent = SingleClickEvent()
 
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {

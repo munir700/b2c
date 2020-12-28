@@ -437,7 +437,7 @@
     <string name="screen_current_card_pin_display_button_next">Next</string>
 
     <!--    Enter new pin screen-->
-    <string name="screen_create_card_pin_display_text_heading">Enter a new PIN</string>
+    <string name="screen_create_card_pin_display_text_heading">Create your 4-digit PIN</string>
     <string name="screen_create_card_pin_display_button_create_pin">Create new PIN</string>
 
     <!--    confirm PIN screen-->
@@ -758,7 +758,7 @@
     <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
     <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
     <string name="screen_cash_transfer_display_text_available_balance">Your available balance is %1s</string>
-    <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s. \nTop up to proceed with this purchase.</string>
+    <string name="screen_cash_transfer_display_text_required_topup_balance">Your available balance is %1s.\n Top up to proceed with this purchase.</string>
 
     <!-- International Funds Transfer -->
 
