@@ -4,6 +4,7 @@ data class Y4YAchievementTaskData(
     var lottieFileName: String,
     var title: String,
     var buttonTitle: String? = null,
-    var isDone: Boolean
+    var isDone: Boolean,
+    var activityOnAction: String? = null
 ) {
 }

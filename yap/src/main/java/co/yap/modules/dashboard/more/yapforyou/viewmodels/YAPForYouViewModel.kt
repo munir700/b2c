@@ -70,7 +70,7 @@ class YAPForYouViewModel(application: Application) :
                     )
                 )
             }
-            y4yComposer.compose(list)
+           val a = y4yComposer.compose(list)
             parentViewModel?.achievements = list
             adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
 

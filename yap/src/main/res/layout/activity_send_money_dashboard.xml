@@ -33,7 +33,7 @@
             app:leftIcon="@{R.drawable.ic_closeicon}"
             app:rightIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:rightIcon="@{R.drawable.ic_profile_search_benf}"
+            app:rightIcon="@{R.drawable.ic_search_beneeeee_test}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Achievement(
     @SerializedName("acheivementType")
-    val type: String? = null,
+    val acheivementType: String? = null,
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("order")
@@ -30,9 +30,7 @@ data class Achievement(
     var percentagee: Double? = null,
     @SerializedName("features")
     val features: List<AchievementTask>? = null,
-    var icon: Int = -1,
-    @Transient
-    var isLocked: Boolean = false
+    var icon: Int = -1
 ) : Parcelable {
     val isCompleted: Boolean get() = percentage == 100.00
 }
