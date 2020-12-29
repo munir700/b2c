@@ -8,8 +8,8 @@
 
     <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_30sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -18,13 +18,13 @@
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/ivDot"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:layout_marginTop="@dimen/margin_normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivLogo"
+            app:layout_constraintEnd_toEndOf="@id/ivLogo"
+            app:layout_constraintStart_toStartOf="@id/ivLogo"
+            app:layout_constraintTop_toTopOf="@id/ivLogo"
             android:background="@drawable/bg_round_primary"
             android:backgroundTint="@color/colorPrimaryLight" />
 

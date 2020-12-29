@@ -57,8 +57,8 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
     }
 
     private fun playAnimationAndMoveNext() {
-        val scaleLogo = ScaleAnimator(1.0f, 100.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
-        val scaleDot = ScaleAnimator(1.0f, 100.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
+        val scaleLogo = ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
+        val scaleDot = ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
         scaleDot.startDelay = 400
 
         val set = AnimatorSet()
