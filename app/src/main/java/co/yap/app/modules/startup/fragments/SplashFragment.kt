@@ -1,8 +1,14 @@
 package co.yap.app.modules.startup.fragments
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationUtils
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
+import androidx.core.animation.addListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -12,6 +18,7 @@ import co.yap.app.R
 import co.yap.app.main.MainChildFragment
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.yapcore.animations.animators.ScaleAnimator
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
@@ -50,15 +57,28 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     activity?.finish()
                 }
             } else {
-              val scaleUp = AnimationUtils.loadAnimation(context, R.anim.scale_up)
-                ivLogo.startAnimation(scaleUp)
-                Timer().schedule(400) {
-                    ivDot.startAnimation(scaleUp)
-                    Timer().schedule(1000) {
-                        moveNext()
-                    }
+                    playAnimationAndMoveNext()
                 }
+         })
+    }
+
+    private fun playAnimationAndMoveNext() {
+        var scaleLogo = ScaleAnimator(1.0f, 100.0f).with(ivLogo, 1500)
+        var scaleDot = ScaleAnimator(1.0f, 100.0f).with(ivDot, 1500)
+        scaleDot.startDelay = 300
+
+        val set = AnimatorSet()
+        set.play(scaleLogo).with(scaleDot)
+        set.start()
+
+        set.addListener(object: Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                moveNext()
             }
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator?) {}
+
         })
     }
 
