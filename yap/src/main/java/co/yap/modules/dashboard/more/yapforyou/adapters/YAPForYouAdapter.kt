@@ -4,11 +4,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemYapForYouBinding
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class YAPForYouAdapter(private val list: MutableList<Achievement>) :
-    BaseBindingRecyclerAdapter<Achievement, RecyclerView.ViewHolder>(list) {
+class YAPForYouAdapter(private val list: MutableList<Y4YAchievementData>) :
+    BaseBindingRecyclerAdapter<Y4YAchievementData, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_yap_for_you
 

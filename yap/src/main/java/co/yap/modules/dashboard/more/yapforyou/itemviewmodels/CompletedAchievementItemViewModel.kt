@@ -1,5 +1,5 @@
 package co.yap.modules.dashboard.more.yapforyou.itemviewmodels
 
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 
-class CompletedAchievementItemViewModel(val achievement: Achievement)
+class CompletedAchievementItemViewModel(val achievement: Y4YAchievementData)

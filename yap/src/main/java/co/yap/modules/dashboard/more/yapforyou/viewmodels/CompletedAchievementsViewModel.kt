@@ -20,12 +20,12 @@ class CompletedAchievementsViewModel(application: Application) :
         super.onCreate()
         setupToolbar()
         val list = parentViewModel?.achievements ?: mutableListOf()
-        adapter.setList(list.filter { it.percentage == 100.00 })
+        adapter.setList(list.filter { it.isCompleted })
     }
 
     private fun setupToolbar() {
         toggleToolBarVisibility(true)
-        setToolBarTitle(getString(Strings.screen_yap_for_you_display_text_title))
+        setToolBarTitle(getString(Strings.screen_your_achievements_display_text_toolbar_title))
         setLeftIcon(R.drawable.ic_close_primary)
         setLeftIconVisibility(true)
     }

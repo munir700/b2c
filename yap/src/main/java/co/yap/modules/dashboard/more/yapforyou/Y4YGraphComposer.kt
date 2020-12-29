@@ -5,6 +5,7 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.yapcore.enums.Y4YAchievement
 
 class Y4YGraphComposer : IY4YComposer {
     var list: ArrayList<Achievement> = arrayListOf()
@@ -13,8 +14,8 @@ class Y4YGraphComposer : IY4YComposer {
         return arrayListOf(
             Y4YAchievementData(
                 title = "Get Started",
-                tintColor = Color.parseColor("#DFFFEEE"),
-                completedPercentage = 100,
+                tintColor = getAchievementTintColor(Y4YAchievement.GET_STARTED),
+                completedPercentage = getAchievementPercentage(Y4YAchievement.GET_STARTED),
                 isLocked = false,
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
@@ -45,9 +46,9 @@ class Y4YGraphComposer : IY4YComposer {
             ),
             Y4YAchievementData(
                 title = "Up and running",
-                tintColor = Color.parseColor("#DFFFEEE"),
-                completedPercentage = 100,
-                isLocked = checkIfLocked("GET_STARTED"),
+                tintColor = getAchievementTintColor(Y4YAchievement.UP_AND_RUNNING),
+                completedPercentage = getAchievementPercentage(Y4YAchievement.UP_AND_RUNNING),
+                isLocked = checkIfLocked(Y4YAchievement.GET_STARTED),
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
@@ -77,9 +78,9 @@ class Y4YGraphComposer : IY4YComposer {
             ),
             Y4YAchievementData(
                 title = "Better Together",
-                tintColor = Color.parseColor("#DFFFEEE"),
-                completedPercentage = 100,
-                isLocked = checkIfLocked("UP_AND_RUNNING"),
+                tintColor = getAchievementTintColor(Y4YAchievement.BETTER_TOGETHER),
+                completedPercentage = getAchievementPercentage(Y4YAchievement.BETTER_TOGETHER),
+                isLocked = checkIfLocked(Y4YAchievement.UP_AND_RUNNING),
 
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
@@ -110,9 +111,9 @@ class Y4YGraphComposer : IY4YComposer {
             ),
             Y4YAchievementData(
                 title = "Take the leap",
-                tintColor = Color.parseColor("#DFFFEEE"),
-                completedPercentage = 100,
-                isLocked = checkIfLocked("BETTER_TOGETHER"),
+                tintColor = getAchievementTintColor(Y4YAchievement.TAKE_THE_LEAP),
+                completedPercentage = getAchievementPercentage(Y4YAchievement.TAKE_THE_LEAP),
+                isLocked = checkIfLocked(Y4YAchievement.BETTER_TOGETHER),
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
@@ -142,9 +143,9 @@ class Y4YGraphComposer : IY4YComposer {
             ),
             Y4YAchievementData(
                 title = "Yap store",
-                tintColor = Color.parseColor("#DFFFEEE"),
-                completedPercentage = 100,
-                isLocked = false,
+                tintColor = getAchievementTintColor(Y4YAchievement.YAP_STORE),
+                completedPercentage = getAchievementPercentage(Y4YAchievement.YAP_STORE),
+                isLocked = checkIfLocked(Y4YAchievement.TAKE_THE_LEAP),
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
@@ -174,9 +175,9 @@ class Y4YGraphComposer : IY4YComposer {
             ),
             Y4YAchievementData(
                 title = "You're a Pro!",
-                tintColor = Color.parseColor("#DFFFEEE"),
-                completedPercentage = 100,
-                isLocked = false,
+                tintColor = getAchievementTintColor(Y4YAchievement.YOU_ARE_PRO),
+                completedPercentage = getAchievementPercentage(Y4YAchievement.YOU_ARE_PRO),
+                isLocked = checkIfLocked(Y4YAchievement.YAP_STORE),
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
@@ -207,15 +208,16 @@ class Y4YGraphComposer : IY4YComposer {
         )
     }
 
-    private fun checkIfLocked(previousAchievement: String): Boolean =
-        list.firstOrNull { it.acheivementType == previousAchievement }?.isCompleted ?: true
+    private fun checkIfLocked(previousAchievement: Y4YAchievement): Boolean =
+        list.firstOrNull { it.acheivementType == previousAchievement.name }?.isCompleted == false
+
+    private fun getAchievementPercentage(currentAchievement: Y4YAchievement): Int =
+        list.firstOrNull { it.acheivementType == currentAchievement.name }?.percentage?.toInt() ?: 0
 
 
-    private fun getAchievementPercentageFromResponse(currentAchievement: String): Int =
-        list.firstOrNull { it.acheivementType == currentAchievement }?.percentage?.toInt() ?: 0
-
-
-    private fun getAchievementTintColor(currentAchievement: String): Int =
-       Color.parseColor(list.firstOrNull { it.acheivementType == currentAchievement }?.color)
-
+    private fun getAchievementTintColor(currentAchievement: Y4YAchievement): Int {
+        return list.firstOrNull { it.acheivementType == currentAchievement.name }?.color?.let {
+            Color.parseColor(it)
+        } ?: return -1
+    }
 }

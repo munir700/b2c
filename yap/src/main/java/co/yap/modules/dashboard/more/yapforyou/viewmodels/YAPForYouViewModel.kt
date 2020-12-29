@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
 import android.content.Context
-import co.yap.R
 import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
@@ -70,8 +69,8 @@ class YAPForYouViewModel(application: Application) :
                     )
                 )
             }
-           val a = y4yComposer.compose(list)
-            parentViewModel?.achievements = list
+
+            parentViewModel?.achievements = y4yComposer.compose(list)
             adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
 
             state.loading = false
@@ -91,19 +90,6 @@ class YAPForYouViewModel(application: Application) :
 //                    showDialogWithCancel(response.error.message)
 //                }
 //            }
-        }
-    }
-
-
-    override fun getAchievementIcon(position: Int, isWithBadged: Boolean): Int {
-        return when (position) {
-            0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
-            1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_blue else R.drawable.ic_badge_dark_blue
-            2 -> if (!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
-            3 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_2 else R.drawable.ic_y4y_rounded_locked_2
-            4 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_3 else R.drawable.ic_y4y_rounded_locked_3
-            5 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_1 else R.drawable.ic_y4y_rounded_locked_1
-            else -> R.drawable.ic_round_badge_dark_grey
         }
     }
 
