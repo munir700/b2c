@@ -10,13 +10,10 @@ import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
-import co.yap.translation.Strings
 import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_yap_for_you.*
 
 class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
-
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_for_you
 
@@ -66,36 +63,19 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     private fun setupRecycleView() {
         viewModel.adaptor.allowFullItemClickListener = true
         viewModel.adaptor.setItemListener(listener)
-//        rvYapForYou.adapter = viewModel.adaptor
-//        viewModel.state.selectedAchievementPercentage =
-//            viewModel.getAchievements()[0].percentage.toString()
-//        viewModel.state.selectedAchievementImage =
-//            viewModel.getAchievements()[0].achievmentIcons?.mainBadgeIcon
-//        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].name ?: ""
     }
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (pos in 3..5)
-                return
             if (data is Achievement) {
                 viewModel.parentViewModel?.selectedPosition = pos
                 viewModel.parentViewModel?.achievement = data.copy()
                     .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
                 viewModel.state.toolbarVisibility.set(false)
-//                data.name?.let { viewModel.parentViewModel?.configureYFYManager(it) }
                 viewModel.parentViewModel?.configureYFYManager(YFYAchievementType.GET_STARTED.type)
                 navigate(R.id.achievementFragment)
             }
         }
-    }
-
-    private fun setSelectedAchievement(achievement: Achievement) {
-        viewModel.parentViewModel?.achievement = achievement
-        viewModel.state.selectedAchievementTitle = achievement.name ?: ""
-//        viewModel.state.selectedAchievementImage = achievement.achievmentIcons?.mainBadgeIcon
-        viewModel.state.selectedAchievementPercentage =
-            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${achievement.percentage}%")
     }
 
     override fun onToolBarClick(id: Int) {

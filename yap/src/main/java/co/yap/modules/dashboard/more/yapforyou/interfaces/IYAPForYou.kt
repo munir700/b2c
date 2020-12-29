@@ -7,7 +7,6 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IYAPForYou {
-
     interface State : IBase.State {
         var selectedAchievementTitle: String
         var selectedAchievementPercentage: String?

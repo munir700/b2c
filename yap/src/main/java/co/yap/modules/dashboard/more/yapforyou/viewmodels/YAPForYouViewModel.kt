@@ -3,7 +3,9 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 import android.app.Application
 import android.content.Context
 import co.yap.R
+import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
+import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -20,6 +22,7 @@ class YAPForYouViewModel(application: Application) :
     YapForYouBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
     IRepositoryHolder<TransactionsRepository> {
 
+    private val y4yComposer: IY4YComposer = Y4YGraphComposer()
     override val repository: TransactionsRepository = TransactionsRepository
     override val state: YAPForYouState =
         YAPForYouState()
@@ -40,13 +43,6 @@ class YAPForYouViewModel(application: Application) :
         state.toolbarTitle = getString(Strings.screen_yap_for_you_display_text_title)
         toggleToolBarVisibility(false)
         state.toolbarVisibility.set(true)
-    }
-
-    private fun setInitialAchievement() {
-        parentViewModel?.achievement = parentViewModel?.achievements?.get(0)
-        state.selectedAchievementPercentage =
-            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${parentViewModel?.achievement?.percentage}%")
-        state.selectedAchievementTitle = parentViewModel?.achievement?.name ?: ""
     }
 
     override fun getAchievements() {
@@ -74,6 +70,7 @@ class YAPForYouViewModel(application: Application) :
                     )
                 )
             }
+            y4yComposer.compose(list)
             parentViewModel?.achievements = list
             adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
 
@@ -97,15 +94,6 @@ class YAPForYouViewModel(application: Application) :
         }
     }
 
-    private fun achievementDataFactory() {
-        var position = 0
-        for (achievement in parentViewModel?.achievements ?: mutableListOf()) {
-            achievement.also {
-                it.icon = getAchievementIcon(position)
-                position++
-            }
-        }
-    }
 
     override fun getAchievementIcon(position: Int, isWithBadged: Boolean): Int {
         return when (position) {
