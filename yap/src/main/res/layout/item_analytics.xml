@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp">
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,6 +37,7 @@
                 app:fullName="@{viewModel.analyticsItem.title==null?` `:viewModel.analyticsItem.title}"
                 app:imageUrl="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
                 app:isBackground="@{true}"
+                app:showFirstInitials="@{true}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:position="@{viewModel.position}" />
@@ -60,6 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="@dimen/text_size_h2"
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
@@ -86,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="@dimen/text_size_h2"
                 android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.analyticsItem.totalSpending,true,SessionManager.INSTANCE.defaultCurrency,true)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/content"
@@ -95,6 +98,7 @@
                 android:id="@+id/tvSpendingPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_h2"
                 android:text="@{Utils.INSTANCE.getTwoDecimalPlaces(viewModel.analyticsItem.totalSpendingInPercentage)+`%`}"
                 app:layout_constraintBottom_toBottomOf="@+id/content"
                 app:layout_constraintEnd_toEndOf="@+id/tvAmount"

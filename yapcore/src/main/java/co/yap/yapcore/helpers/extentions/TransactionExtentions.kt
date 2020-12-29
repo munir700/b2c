@@ -74,7 +74,7 @@ fun Transaction?.getTransactionIcon(): Int {
                             R.drawable.ic_cash_out_trasaction
                         }
                         TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
-                            getMerchantCategoryIcon()
+                            transaction.merchantCategoryName.getMerchantCategoryIcon()
                         }
 
                         else -> -1
@@ -173,7 +173,7 @@ fun Transaction?.getCategoryIcon(): Int {
             TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode -> {
                 R.drawable.ic_cash
             }
-            TransactionProductCode.POS_PURCHASE.pCode -> getMerchantCategoryIcon()
+            TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName.getMerchantCategoryIcon()
 
             else -> 0
         })
@@ -208,11 +208,11 @@ fun Transaction?.getCategoryTitle(): String {
 }
 
 
-fun Transaction?.getMerchantCategoryIcon(): Int {
-    this?.let { transaction ->
+fun String?.getMerchantCategoryIcon(): Int {
+    this?.let { title ->
         return ImageBinding.getResId(
             "ic_" + ImageBinding.getDrawableName(
-                transaction.merchantCategoryName ?: ""
+                title
             ) + "_no_bg"
         )
     } ?: return -1
@@ -328,7 +328,7 @@ fun Transaction?.getFormattedDate(): String? {
 fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
     return when (adapterType) {
         TransactionAdapterType.ANALYTICS_DETAILS -> {
-            getFormattedTime()
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
         }
         TransactionAdapterType.TRANSACTION -> {
             getFormattedTime(DateUtils.FORMAT_TIME_12H)
@@ -427,4 +427,40 @@ fun Transaction?.isTransactionRejected(): Boolean {
 
 fun Transaction?.showCutOffMsg(): Boolean {
     return (this?.productCode == TransactionProductCode.SWIFT.pCode)
+}
+
+fun List<Transaction>?.getTotalAmount(): String {
+    var total = 0.0
+    this?.map {
+        when (it.productCode) {
+            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                if (it.txnType == TxnType.DEBIT.type) {
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
+                    total -= ((it.settlementAmount ?: 0.00).plus(totalFee))
+                } else total += (it.settlementAmount ?: 0.0)
+            }
+            else -> {
+                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                    ?: 0.0) else total += (it.amount ?: 0.0)
+            }
+        }
+    }
+
+    var totalAmount: String
+    when {
+        total.toString().startsWith("-") -> {
+            totalAmount =
+                ((total * -1).toString().toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                ))
+            totalAmount = "- ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+        else -> {
+            totalAmount = (total.toString()
+                .toFormattedCurrency(false, currency = SessionManager.getDefaultCurrency()))
+            totalAmount = "+ ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+    }
+    return totalAmount
 }

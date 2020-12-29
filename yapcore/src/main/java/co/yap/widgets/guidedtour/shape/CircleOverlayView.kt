@@ -13,6 +13,8 @@ class CircleOverlayView : LinearLayout {
     private var bitmap: Bitmap? = null
     var centerX: Float = 10f
     var centerY: Float = 10f
+    var viewTop: Float = 0f
+    var viewBottom: Float = 0f
     var canvas: Canvas? = null
     var updateCircle: Boolean = false
     var radius = resources.getDimensionPixelSize(R.dimen._50sdp).toFloat()
@@ -73,9 +75,9 @@ class CircleOverlayView : LinearLayout {
         if (isRectangle) {
             osCanvas.drawRect(
                 0f,
-                centerY - centerY.div(6.5).toFloat(),
+                viewTop,
                 width.toFloat(),
-                centerY + centerY.div(3.1).toFloat(), paint
+                viewBottom, paint
             )
         } else
             osCanvas.drawCircle(centerX, centerY, radius, paint)

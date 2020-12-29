@@ -61,6 +61,7 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
 
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
+        viewModel.state.card.set(viewModel.card)
         etName.append(viewModel.card.cardName?.trim())
         etName.requestFocus()
 
