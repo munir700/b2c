@@ -4,8 +4,10 @@ import android.graphics.Color
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
+import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.enums.Y4YAchievement
+import co.yap.yapcore.enums.YFYAchievementTaskType
 
 class Y4YGraphComposer : IY4YComposer {
     var list: ArrayList<Achievement> = arrayListOf()
@@ -40,6 +42,7 @@ class Y4YGraphComposer : IY4YComposer {
                         lottieFileName = "abc.json",
                         title = "Set a profile photo",
                         buttonTitle = "Set it now",
+                        activityOnAction = SetCardPinWelcomeActivity::javaClass.name,
                         isDone = false
                     )
                 )
@@ -214,4 +217,12 @@ class Y4YGraphComposer : IY4YComposer {
             Color.parseColor(it)
         } ?: return -1
     }
+
+//    private fun checkIfTaskCompleted(
+//        currentAchievement: Y4YAchievement,
+//        achievementTask: YFYAchievementTaskType
+//    ): Boolean =
+//        list.firstOrNull { it.acheivementType == currentAchievement.name }?.tasks.filter {
+//            it.achievementTaskType == achievementTask.name
+//        }
 }
