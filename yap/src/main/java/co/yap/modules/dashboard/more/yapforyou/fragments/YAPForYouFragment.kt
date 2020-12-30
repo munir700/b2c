@@ -38,10 +38,11 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Y4YAchievementData) {
-                if (!data.isLocked)
+                if (!data.isLocked) {
                     viewModel.parentViewModel?.achievement =
-                        viewModel.parentViewModel?.achievements?.get(pos)
-                navigate(R.id.achievementFragment)
+                        viewModel.parentViewModel?.achievementsList?.get(pos)
+                    navigate(R.id.achievementFragment)
+                }
             }
         }
     }

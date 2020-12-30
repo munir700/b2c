@@ -277,6 +277,9 @@ class Y4YGraphComposer : IY4YComposer {
     private fun checkIfLocked(previousAchievement: Y4YAchievement): Boolean =
         list.firstOrNull { it.acheivementType == previousAchievement.name }?.isCompleted == false
 
+    private fun isForceLocked(currentAchievement: Y4YAchievement): Boolean =
+        list.firstOrNull { it.acheivementType == currentAchievement.name }?.isForceLocked == false
+
     private fun getAchievementPercentage(currentAchievement: Y4YAchievement): Int =
         list.firstOrNull { it.acheivementType == currentAchievement.name }?.percentage?.toInt() ?: 0
 

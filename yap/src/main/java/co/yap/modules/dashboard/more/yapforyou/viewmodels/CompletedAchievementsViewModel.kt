@@ -19,7 +19,7 @@ class CompletedAchievementsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setupToolbar()
-        val list = parentViewModel?.achievements ?: mutableListOf()
+        val list = parentViewModel?.achievementsList ?: mutableListOf()
         adapter.setList(list.filter { it.isCompleted })
     }
 

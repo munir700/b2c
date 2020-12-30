@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.databinding.FragmentAchievementBinding
+import co.yap.databinding.FragmentAchievementTasksBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievement
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
@@ -14,10 +14,10 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
+class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
     IAchievement.View {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_achievement
+    override fun getLayoutId(): Int = R.layout.fragment_achievement_tasks
 
     override val viewModel: AchievementViewModel
         get() = ViewModelProviders.of(this).get(AchievementViewModel::class.java)
@@ -52,9 +52,8 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
         }
     }
 
-
-    override fun getBinding(): FragmentAchievementBinding {
-        return (viewDataBinding as FragmentAchievementBinding)
+    override fun getBinding(): FragmentAchievementTasksBinding {
+        return (viewDataBinding as FragmentAchievementTasksBinding)
     }
 
 }

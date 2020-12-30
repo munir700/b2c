@@ -50,9 +50,9 @@ class YAPForYouViewModel(application: Application) :
         launch {
             when (val response = repository.getAchievements()) {
                 is RetroApiResponse.Success -> {
-                    parentViewModel?.achievements =
+                    parentViewModel?.achievementsList =
                         y4yComposer.compose(response.data.data as ArrayList<Achievement>)
-                    adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
+                    adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
                         state.loading = false
                 }
                 is RetroApiResponse.Error -> {
@@ -98,11 +98,11 @@ class YAPForYouViewModel(application: Application) :
                         tasks = tasksList
                     )
                 )
-                state.loading = true
             }
-            parentViewModel?.achievements =
+            state.loading = false
+            parentViewModel?.achievementsList =
                 y4yComposer.compose(list)
-            adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
+            adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
         }
 
     }

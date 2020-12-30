@@ -20,9 +20,9 @@
     </fragment>
     <fragment
         android:id="@+id/achievementFragment"
-        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementTasksFragment"
         android:label="AchievementDetailFragment"
-        tools:layout="@layout/fragment_achievement">
+        tools:layout="@layout/fragment_achievement_tasks">
         <action
             android:id="@+id/action_achievementFragment_to_achievementDetailFragment"
             app:destination="@id/achievementDetailFragment" />

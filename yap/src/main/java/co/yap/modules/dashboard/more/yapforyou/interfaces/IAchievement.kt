@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.more.yapforyou.interfaces
 
 import androidx.databinding.ObservableField
-import co.yap.databinding.FragmentAchievementBinding
+import co.yap.databinding.FragmentAchievementTasksBinding
 import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementTaskAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -9,7 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 interface IAchievement {
 
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAchievementBinding
+        fun getBinding(): FragmentAchievementTasksBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {

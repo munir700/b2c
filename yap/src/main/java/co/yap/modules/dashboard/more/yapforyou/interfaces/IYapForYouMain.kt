@@ -16,7 +16,7 @@ interface IYapForYouMain {
         var clickEvent: SingleClickEvent
         var achievement: Y4YAchievementData?
         var selectedPosition: Int
-        var achievements: MutableList<Y4YAchievementData>
+        var achievementsList: MutableList<Y4YAchievementData>
         fun handlePressButton(id: Int)
         fun getDescriptionContent(tag: String): YapForYouDataModel?
         fun configureYFYManager(tag : String)

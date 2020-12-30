@@ -43,7 +43,7 @@
       {
          "achievementType":"UP_AND_RUNNING",
          "title":"Up and running",
-         "percentage":0.0,
+         "percentage":100.0,
          "order":0,
          "colorCode":"#478DF4",
          "lastUpdated":"2020-12-30T07:34:21",
@@ -82,7 +82,7 @@
       {
          "achievementType":"BETTER_TOGETHER",
          "title":"Better together",
-         "percentage":25.0,
+         "percentage":100.0,
          "order":0,
          "colorCode":"#F1C092",
          "lastUpdated":"2020-12-30T07:37:22",
@@ -121,7 +121,7 @@
       {
          "achievementType":"TAKE_THE_LEAP",
          "title":"Take the leap",
-         "percentage":50.0,
+         "percentage":100.0,
          "order":0,
          "colorCode":"#00B9AE",
          "lastUpdated":"2020-12-30T07:36:23",
@@ -160,7 +160,7 @@
       {
          "achievementType":"YAP_STORE",
          "title":"YAP Store",
-         "percentage":0.0,
+         "percentage":100.0,
          "order":0,
          "colorCode":"#FF3630",
          "lastUpdated":"2020-12-30T07:35:23",
@@ -194,15 +194,6 @@
                "completion":false
             }
          ],
-         "lock":false
-      },
-      {
-         "achievementType":"YOU_ARE_A_PRO",
-         "title":"You're a Pro!",
-         "percentage":0.0,
-         "order":0,
-         "colorCode":"#24235B",
-         "lastUpdated":"2020-12-30T07:33:23",
          "lock":false
       }
    ]
