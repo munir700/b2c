@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.translation.Strings
@@ -46,10 +47,27 @@ class YAPForYouViewModel(application: Application) :
 
     override fun getAchievements() {
         launch {
+            when (val response = repository.getAchievements()) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel?.achievements =
+                        y4yComposer.compose(response.data.data as ArrayList<Achievement>)
+                    adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
+                        state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    showDialogWithCancel(response.error.message)
+                }
+            }
+        }
+    }
+
+    fun getMockApiResponse() {
+        launch {
             val list: ArrayList<Achievement> = arrayListOf()
             state.loading = true
             delay(500)
-            val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
+            val mainObj = JSONObject(loadTransactionFromJsonAssets(context)?:"")
             val mainDataList = mainObj.getJSONArray("data")
             for (i in 0 until mainDataList.length()) {
                 val parentArrayList = mainDataList.getJSONObject(i)
@@ -68,29 +86,13 @@ class YAPForYouViewModel(application: Application) :
                         order = order
                     )
                 )
+                state.loading = true
             }
-
-            parentViewModel?.achievements = y4yComposer.compose(list)
+            parentViewModel?.achievements =
+                y4yComposer.compose(list)
             adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
-
-            state.loading = false
-//            when (val response = repository.getAchievements()) {
-//                is RetroApiResponse.Success -> {
-//                    parentViewModel?.achievements =
-//                        response.data.data as MutableList<Achievement>
-//                    achievementDataFactory()
-//                    adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
-//                    if (!response.data.data.isNullOrEmpty())
-//                        setInitialAchievement()
-//
-//                    state.loading = false
-//                }
-//                is RetroApiResponse.Error -> {
-//                    state.loading = false
-//                    showDialogWithCancel(response.error.message)
-//                }
-//            }
         }
+
     }
 
     private fun loadTransactionFromJsonAssets(context: Context): String? {
