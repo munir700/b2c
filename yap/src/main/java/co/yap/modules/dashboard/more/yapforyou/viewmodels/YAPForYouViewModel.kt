@@ -11,6 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.delay
@@ -70,20 +71,31 @@ class YAPForYouViewModel(application: Application) :
             val mainObj = JSONObject(loadTransactionFromJsonAssets(context)?:"")
             val mainDataList = mainObj.getJSONArray("data")
             for (i in 0 until mainDataList.length()) {
+                val tasksList: ArrayList<AchievementTask> = arrayListOf()
                 val parentArrayList = mainDataList.getJSONObject(i)
                 val title: String = parentArrayList.getString("title")
                 val color: String = parentArrayList.getString("color")
                 val percentage: Double = parentArrayList.getDouble("percentage")
                 val acheivementType: String = parentArrayList.getString("acheivementType")
                 val order: Int = parentArrayList.getInt("order")
-
+                val tasks = parentArrayList.getJSONArray("tasks")
+                for (j in 0 until tasks.length()) {
+                    tasksList.add(
+                        AchievementTask(
+                            title = tasks.getJSONObject(i).getString("title"),
+                            completion = tasks.getJSONObject(i).getBoolean("completion"),
+                            achievementTaskType = tasks.getJSONObject(i).getString("taskType")
+                        )
+                    )
+                }
                 list.add(
                     Achievement(
                         title = title,
                         color = color,
                         percentage = percentage,
                         acheivementType = acheivementType,
-                        order = order
+                        order = order,
+                        tasks = tasksList
                     )
                 )
                 state.loading = true
@@ -98,7 +110,7 @@ class YAPForYouViewModel(application: Application) :
     private fun loadTransactionFromJsonAssets(context: Context): String? {
         val json: String?
         try {
-            val `is` = context.assets.open("y4yMockResponse.json")
+            val `is` = context.assets.open("yapachievement.json")
             val size = `is`.available()
             val buffer = ByteArray(size)
             `is`.read(buffer)
