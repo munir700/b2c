@@ -84,8 +84,8 @@
 
         <activity
             android:name=".modules.dashboard.more.main.activities.MoreActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/CoreAppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
@@ -209,6 +209,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.dashboard.more.notification.activities.NotificationsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.addionalinfo.activities.AdditionalInfoActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".modules.dashboard.yapit.sendmoney.landing.SendMoneyDashboardActivity"

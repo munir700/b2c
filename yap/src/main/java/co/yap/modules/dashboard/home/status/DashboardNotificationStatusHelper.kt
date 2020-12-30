@@ -2,9 +2,10 @@ package co.yap.modules.dashboard.home.status
 
 import android.content.Context
 import android.view.View
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import co.yap.R
 import co.yap.databinding.FragmentYapHomeBinding
+import co.yap.modules.dashboard.addionalinfo.activities.AdditionalInfoActivity
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
@@ -24,23 +25,37 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
 
 class DashboardNotificationStatusHelper(
-    val context: Context, val binding: FragmentYapHomeBinding,
-    val viewModel: IYapHome.ViewModel, val fragment: FragmentActivity? = null
-
+    val fragment: Fragment,
+    val binding: FragmentYapHomeBinding,
+    val viewModel: IYapHome.ViewModel
 ) {
+    var dashboardNotificationStatusAdapter: DashboardNotificationStatusAdapter? = null
     private fun getStringHelper(resourceKey: String): String =
-        Translator.getString(context, resourceKey)
+        Translator.getString(getContext(), resourceKey)
 
     init {
+        val onboardingStagesList = when {
+            PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status == SessionManager.user?.partnerBankStatus
+                    || PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status == SessionManager.user?.partnerBankStatus
+                    || PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status == SessionManager.user?.partnerBankStatus
+                    || SessionManager.user?.additionalDocSubmitionDate != null -> {
+                getStatusList()
+            }
+            else -> {
+                val list = getStatusList()
+                list.removeAt(2)
+                list
+            }
+        }
+        dashboardNotificationStatusAdapter =
+            DashboardNotificationStatusAdapter(getContext(), onboardingStagesList)
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
         setUpAdapter()
     }
 
     private fun setUpAdapter() {
-        val dashboardNotificationStatusAdapter =
-            DashboardNotificationStatusAdapter(context, getStatusList())
-        dashboardNotificationStatusAdapter.allowFullItemClickListener = false
-
-        dashboardNotificationStatusAdapter.setItemListener(object : OnItemClickListener {
+        dashboardNotificationStatusAdapter?.allowFullItemClickListener = false
+        dashboardNotificationStatusAdapter?.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 val statusDataModel: StatusDataModel = data as StatusDataModel
                 when {
@@ -53,6 +68,9 @@ class DashboardNotificationStatusHelper(
                     PaymentCardOnboardingStage.TOP_UP == statusDataModel.stage && statusDataModel.progressStatus.name != StageProgress.INACTIVE.name -> {
                         openTopUpScreen()
                     }
+                    PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT == statusDataModel.stage && statusDataModel.progressStatus.name != StageProgress.INACTIVE.name -> {
+                        openAdditionalRequirementScreen()
+                    }
                 }
             }
         })
@@ -60,7 +78,7 @@ class DashboardNotificationStatusHelper(
         binding.lyInclude.rvNotificationStatus.adapter = dashboardNotificationStatusAdapter
     }
 
-    private fun getStatusList(): MutableList<StatusDataModel> {
+    fun getStatusList(): MutableList<StatusDataModel> {
         val list = ArrayList<StatusDataModel>()
         list.add(
             StatusDataModel(
@@ -71,9 +89,9 @@ class DashboardNotificationStatusHelper(
                     getNotificationStatus(PaymentCardOnboardingStage.SHIPPING)
                 ),
                 statusAction = getStringHelper(Strings.dashboard_timeline_shipping_stage_action_title),
-                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.SHIPPING) == StageProgress.COMPLETED) context.resources.getDrawable(
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.SHIPPING) == StageProgress.COMPLETED) getContext().resources.getDrawable(
                     R.drawable.ic_dashboard_finish
-                ) else context.resources.getDrawable(R.drawable.ic_dashboard_delivery),
+                ) else getContext().resources.getDrawable(R.drawable.ic_dashboard_delivery),
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.SHIPPING)
             )
         )
@@ -86,10 +104,26 @@ class DashboardNotificationStatusHelper(
                     getNotificationStatus(PaymentCardOnboardingStage.DELIVERY)
                 ),
                 statusAction = null,
-                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.DELIVERY) == StageProgress.COMPLETED) context.resources.getDrawable(
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.DELIVERY) == StageProgress.COMPLETED) getContext().resources.getDrawable(
                     R.drawable.ic_dashboard_finish
-                ) else context.resources.getDrawable(R.drawable.ic_card_small),
+                ) else getContext().resources.getDrawable(R.drawable.ic_card_small),
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.DELIVERY)
+            )
+        )
+
+        list.add(
+            StatusDataModel(
+                stage = PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
+                statusTitle = getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_title),
+                statusDescription = getSubheading(
+                    PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT,
+                    getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
+                ),
+                statusAction = getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_action_title),
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT) == StageProgress.COMPLETED) getContext().resources.getDrawable(
+                    R.drawable.ic_dashboard_finish
+                ) else getContext().resources.getDrawable(R.drawable.file),
+                progressStatus = getNotificationStatus(PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT)
             )
         )
 
@@ -102,9 +136,9 @@ class DashboardNotificationStatusHelper(
                     getNotificationStatus(PaymentCardOnboardingStage.SET_PIN)
                 ),
                 statusAction = getStringHelper(Strings.dashboard_timeline_set_pin_stage_action_title),
-                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.SET_PIN) == StageProgress.COMPLETED) context.resources.getDrawable(
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.SET_PIN) == StageProgress.COMPLETED) getContext().resources.getDrawable(
                     R.drawable.ic_dashboard_finish
-                ) else context.resources.getDrawable(R.drawable.ic_dashboard_set_pin),
+                ) else getContext().resources.getDrawable(R.drawable.ic_dashboard_set_pin),
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.SET_PIN)
             )
         )
@@ -117,9 +151,9 @@ class DashboardNotificationStatusHelper(
                     getNotificationStatus(PaymentCardOnboardingStage.TOP_UP)
                 ),
                 statusAction = getStringHelper(Strings.dashboard_timeline_top_up_stage_action_title),
-                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.TOP_UP) == StageProgress.COMPLETED) context.resources.getDrawable(
+                statusDrawable = if (getNotificationStatus(PaymentCardOnboardingStage.TOP_UP) == StageProgress.COMPLETED) getContext().resources.getDrawable(
                     R.drawable.ic_dashboard_finish
-                ) else context.resources.getDrawable(R.drawable.ic_dashboard_topup),
+                ) else getContext().resources.getDrawable(R.drawable.ic_dashboard_topup),
                 progressStatus = getNotificationStatus(PaymentCardOnboardingStage.TOP_UP),
                 hideLine = true
             )
@@ -135,36 +169,27 @@ class DashboardNotificationStatusHelper(
                         SessionManager.user?.partnerBankStatus == PartnerBankStatus.SIGN_UP_PENDING.status -> {
                             StageProgress.INACTIVE
                         }
-
                         card.deliveryStatus == CardDeliveryStatus.ORDERED.name || card.deliveryStatus == CardDeliveryStatus.BOOKED.name || card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
                             StageProgress.ACTIVE
                         }
-
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
                             StageProgress.COMPLETED
                         }
-
                         else -> StageProgress.INACTIVE
                     })
                 }
-
                 PaymentCardOnboardingStage.DELIVERY -> {
                     return (when {
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
+                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name
+                                && (SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status
+                                || SessionManager.user?.partnerBankStatus == PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status) -> {
                             StageProgress.COMPLETED
                         }
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPING.name -> {
-                            StageProgress.INACTIVE
-                        }
-
-                        card.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> {
-                            StageProgress.IN_PROGRESS
-                        }
-
                         else -> StageProgress.INACTIVE
                     })
                 }
-
                 PaymentCardOnboardingStage.SET_PIN -> {
                     return (when {
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !card.pinCreated && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
@@ -181,6 +206,21 @@ class DashboardNotificationStatusHelper(
                     return (when {
                         card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && SessionManager.user?.partnerBankStatus == PartnerBankStatus.ACTIVATED.status -> {
                             StageProgress.ACTIVE
+                        }
+                        else -> StageProgress.INACTIVE
+                    })
+                }
+
+                PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> {
+                    return (when (SessionManager.user?.partnerBankStatus) {
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_REQ.status -> {
+                            StageProgress.INACTIVE
+                        }
+                        PartnerBankStatus.ADD_INFO_NOTIFICATION_DONE.status -> {
+                            StageProgress.IN_PROGRESS
+                        }
+                        PartnerBankStatus.ADDITIONAL_COMPLIANCE_INFO_PROVIDED.status -> {
+                            StageProgress.COMPLETED
                         }
                         else -> StageProgress.INACTIVE
                     })
@@ -220,25 +260,39 @@ class DashboardNotificationStatusHelper(
             PaymentCardOnboardingStage.SET_PIN -> return (when (progress) {
                 StageProgress.ACTIVE, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_description)
                 StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_completed_description).format(
-                    DateUtils.reformatStringDate(SessionManager.card.value?.activationDate ?: "",
-                    SERVER_DATE_FORMAT,
-                    DEFAULT_DATE_FORMAT
-                ))
+                    DateUtils.reformatStringDate(
+                        SessionManager.card.value?.activationDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                )
                 else -> getStringHelper(Strings.dashboard_timeline_set_pin_stage_description)
             })
 
             PaymentCardOnboardingStage.TOP_UP -> getStringHelper(Strings.dashboard_timeline_top_up_stage_description)
+
+            PaymentCardOnboardingStage.ADDITIONAL_REQUIREMENT -> return (when (progress) {
+                StageProgress.IN_PROGRESS, StageProgress.INACTIVE -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+                StageProgress.COMPLETED -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_completed_description).format(
+                    DateUtils.reformatStringDate(
+                        SessionManager.user?.additionalDocSubmitionDate ?: "",
+                        SERVER_DATE_FORMAT,
+                        DEFAULT_DATE_FORMAT
+                    )
+                )
+                else -> getStringHelper(Strings.dashboard_timeline_additional_requirement_stage_description)
+            })
         })
     }
 
     private fun openTopUpScreen() {
-        context.launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
+        getContext().launchActivity<AddMoneyActivity>(type = FeatureSet.TOP_UP)
     }
 
     private fun openCardDeliveryStatusScreen() {
-        fragment?.startActivityForResult(
+        getMyFragment().startActivityForResult(
             FragmentPresenterActivity.getIntent(
-                context,
+                getContext(),
                 Constants.MODE_STATUS_SCREEN,
                 SessionManager.card.value
             ), Constants.EVENT_CREATE_CARD_PIN
@@ -246,13 +300,32 @@ class DashboardNotificationStatusHelper(
     }
 
     private fun openSetCardPinScreen() {
-        fragment?.startActivityForResult(
-            SessionManager.getPrimaryCard()?.let {
+        getMyFragment().startActivityForResult(
+            SessionManager.getPrimaryCard()?.let { card ->
                 SetCardPinWelcomeActivity.newIntent(
-                    context,
-                    it
+                    getContext(),
+                    card
                 )
             }, RequestCodes.REQUEST_FOR_SET_PIN
         )
+    }
+
+    private fun getContext(): Context {
+        return fragment.requireContext()
+    }
+
+    private fun getMyFragment(): Fragment {
+        return fragment
+    }
+
+    fun notifyAdapter() {
+        dashboardNotificationStatusAdapter?.setItemAt(
+            2,
+            getStatusList()[2]
+        )
+    }
+
+    private fun openAdditionalRequirementScreen() {
+        getMyFragment().launchActivity<AdditionalInfoActivity>(requestCode = RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT)
     }
 }

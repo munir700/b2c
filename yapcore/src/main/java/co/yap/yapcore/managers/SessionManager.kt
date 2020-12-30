@@ -1,6 +1,7 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -44,6 +45,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
+    var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -100,14 +102,16 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getAccountInfo() {
+    fun getAccountInfo(success: () -> Unit = {}) {
         GlobalScope.launch {
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
+                    isFounder.postValue(user?.currentCustomer?.founder)
                     setupDataSetForBlockedFeatures()
                     onAccountInfoSuccess.postValue(true)
+                    success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -230,7 +234,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
-
             override fun onLogoutFailed() {
             }
         })
