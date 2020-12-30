@@ -74,17 +74,17 @@ class YAPForYouViewModel(application: Application) :
                 val tasksList: ArrayList<AchievementTask> = arrayListOf()
                 val parentArrayList = mainDataList.getJSONObject(i)
                 val title: String = parentArrayList.getString("title")
-                val color: String = parentArrayList.getString("color")
+                val color: String = parentArrayList.getString("colorCode")
                 val percentage: Double = parentArrayList.getDouble("percentage")
-                val acheivementType: String = parentArrayList.getString("acheivementType")
+                val acheivementType: String = parentArrayList.getString("achievementType")
                 val order: Int = parentArrayList.getInt("order")
                 val tasks = parentArrayList.getJSONArray("tasks")
                 for (j in 0 until tasks.length()) {
                     tasksList.add(
                         AchievementTask(
-                            title = tasks.getJSONObject(i).getString("title"),
-                            completion = tasks.getJSONObject(i).getBoolean("completion"),
-                            achievementTaskType = tasks.getJSONObject(i).getString("taskType")
+                            title = tasks.getJSONObject(j).getString("title"),
+                            completion = tasks.getJSONObject(j).getBoolean("completion"),
+                            achievementTaskType = tasks.getJSONObject(j).getString("taskType")
                         )
                     )
                 }
