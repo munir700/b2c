@@ -6,6 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class AchievementTask(
+    @SerializedName("taskType")
+    val achievementTaskType: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("completion")

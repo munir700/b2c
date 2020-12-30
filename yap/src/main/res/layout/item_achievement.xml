@@ -20,7 +20,7 @@
             android:layout_marginStart="@dimen/small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@{viewModel.task.completion? @drawable/empty_circle : @drawable/empty_circle}"
+            android:drawableStart="@{viewModel.task.done? @drawable/empty_circle : @drawable/empty_circle}"
             android:text="@{viewModel.task.title}"
             android:drawablePadding="@dimen/margin_medium"
             android:gravity="center_vertical"

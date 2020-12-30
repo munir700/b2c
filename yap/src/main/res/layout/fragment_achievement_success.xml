@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.yapforyou.achievementsuccess.AchievementSuccessViewModel" />
 
         <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -25,7 +27,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:gravity="center"
-            android:text="@{viewModel.parentViewModel.achievement.name}"
+            android:text="@{viewModel.parentViewModel.achievement.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,11 +66,11 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:gravity="center"
-            app:text="@{Strings.screen_yfy_get_started_success_description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
-            tools:text=""/>
+            app:text="@{Strings.screen_yfy_get_started_success_description}"
+            tools:text="@string/screen_yfy_get_started_success_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

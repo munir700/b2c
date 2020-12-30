@@ -27,7 +27,7 @@ class AchievementFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.parentViewModel?.achievement?.let {
             getBinding().multiStateView.viewState =
-                if (it.features.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT
+                if (it.tasks.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT
         }
         viewModel.adapter.setItemListener(detailItemClickListener)
         viewModel.adapter.allowFullItemClickListener = true

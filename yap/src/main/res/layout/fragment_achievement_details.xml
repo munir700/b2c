@@ -28,7 +28,7 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_width="match_parent"
-                android:text="@{viewModel.parentViewModel.achievement.name}"
+                android:text="@{viewModel.parentViewModel.achievement.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -47,14 +47,16 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animationView"
-                    android:layout_width="@dimen/_250sdp"
-                    android:layout_height="@dimen/_250sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/lottie_animation" />
+                    android:scaleType="fitXY"
+                    app:lottie_rawRes="@raw/freez_and_unfreeze_your_card" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSubTitle"

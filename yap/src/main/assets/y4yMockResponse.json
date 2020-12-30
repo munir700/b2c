@@ -1,0 +1,94 @@
+{
+  "data": [
+    {
+      "acheivementType": "GET_STARTED",
+      "title": "Get started",
+      "order": 0,
+      "percentage": 100.0,
+      "color": "#5E35B1",
+      "tasks": [
+        {
+          "taskType": "GET_STARTED_OPEN_ACCOUNT",
+          "title": "Open YAP account",
+          "order": 0,
+          "status": "PENDING/DONE"
+        }
+      ]
+    },
+    {
+      "acheivementType": "UP_AND_RUNNING",
+      "title": "Up and running",
+      "order": 0,
+      "percentage": 100.0,
+      "color": "#478df4",
+      "tasks": [
+        {
+          "taskType": "GET_STARTED_OPEN_ACCOUNT",
+          "title": "Open YAP account",
+          "order": 0,
+          "status": "PENDING/DONE"
+        }
+      ]
+    },
+    {
+      "acheivementType": "BETTER_TOGETHER",
+      "title": "Better together",
+      "order": 0,
+      "percentage": 100.0,
+      "color": "#f57f17",
+      "tasks": [
+        {
+          "taskType": "GET_STARTED_OPEN_ACCOUNT",
+          "title": "Open YAP account",
+          "order": 0,
+          "status": "PENDING/DONE"
+        }
+      ]
+    },
+    {
+      "acheivementType": "TAKE_THE_LEAP",
+      "title": "Take the leap",
+      "order": 0,
+      "percentage": 75.0,
+      "color": "#5E35B1",
+      "tasks": [
+        {
+          "taskType": "GET_STARTED_OPEN_ACCOUNT",
+          "title": "Open YAP account",
+          "order": 0,
+          "status": "PENDING/DONE"
+        }
+      ]
+    },
+    {
+      "acheivementType": "YAP_STORE",
+      "title": "Yap Store",
+      "order": 0,
+      "percentage": 0.0,
+      "color": "#5E35B1",
+      "tasks": [
+        {
+          "taskType": "GET_STARTED_OPEN_ACCOUNT",
+          "title": "Open YAP account",
+          "order": 0,
+          "status": "PENDING/DONE"
+        }
+      ]
+    },
+    {
+      "acheivementType": "YOU_ARE_PRO",
+      "title": "You are a pro",
+      "order": 0,
+      "percentage": 0.0,
+      "color": "#5E35B1",
+      "tasks": [
+        {
+          "taskType": "GET_STARTED_OPEN_ACCOUNT",
+          "title": "Open YAP account",
+          "order": 0,
+          "status": "PENDING/DONE"
+        }
+      ]
+    }
+  ]
+}
