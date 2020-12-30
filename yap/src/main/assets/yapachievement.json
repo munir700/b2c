@@ -195,6 +195,38 @@
             }
          ],
          "lock":false
+      },
+      {
+         "achievementType":"YOU_ARE_A_PRO",
+         "title":"You're a Pro!",
+         "percentage":0.0,
+         "order":0,
+         "colorCode":"#24235B",
+         "lastUpdated":"2020-12-30T07:33:23",
+         "tasks":[
+            {
+               "taskType":"INVITE_TEN_FRIENDS",
+               "title":"Get YAP Young",
+               "description":"",
+               "order":1,
+               "completion":false
+            },
+            {
+               "taskType":"SPEND_THOUSAND_AED",
+               "title":"Sign up to Household",
+               "description":"",
+               "order":2,
+               "completion":false
+            },
+            {
+               "taskType":"COMPLETE_RENEWAL",
+               "title":"Set missions on YAP Young",
+               "description":"",
+               "order":3,
+               "completion":false
+            }
+         ],
+         "lock":false
       }
    ]
 }
