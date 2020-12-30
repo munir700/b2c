@@ -6,7 +6,6 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.YFYAchievementType
@@ -17,7 +16,7 @@ class YapForYouMainViewModel(application: Application) :
 
     override val state: YapForYouMainState = YapForYouMainState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var achievement: Achievement? = null
+    override var achievement: Y4YAchievementData? = null
     override var selectedPosition: Int = 0
     override var achievements: MutableList<Y4YAchievementData> = mutableListOf()
     private val yapForYouManager: YapForYouManager = YapForYouManager(context)

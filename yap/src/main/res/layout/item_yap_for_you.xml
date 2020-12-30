@@ -74,6 +74,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Locked"
+            tools:visibility="gone"
             android:visibility="@{viewModel.achievement.locked? View.VISIBLE : View.GONE}"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />

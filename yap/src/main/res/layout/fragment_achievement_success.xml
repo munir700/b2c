@@ -27,7 +27,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_medium_large"
             android:gravity="center"
-            android:text="@{viewModel.parentViewModel.achievement.name}"
+            android:text="@{viewModel.parentViewModel.achievement.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

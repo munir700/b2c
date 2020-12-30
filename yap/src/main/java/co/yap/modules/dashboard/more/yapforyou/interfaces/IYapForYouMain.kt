@@ -5,7 +5,6 @@ import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.more.yapforyou.YapForYouManager
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -15,7 +14,7 @@ interface IYapForYouMain {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        var achievement: Achievement?
+        var achievement: Y4YAchievementData?
         var selectedPosition: Int
         var achievements: MutableList<Y4YAchievementData>
         fun handlePressButton(id: Int)

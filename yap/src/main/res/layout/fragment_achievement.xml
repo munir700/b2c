@@ -24,35 +24,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+<!--            app:src="@{viewModel.parentViewModel.achievement.icon}"-->
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivAchievement"
                 android:layout_width="@dimen/_84sdp"
                 android:layout_height="@dimen/_84sdp"
                 android:layout_marginTop="@dimen/margin_large"
                 android:contentDescription="@string/empty_string"
-                app:src="@{viewModel.parentViewModel.achievement.icon}"
+                app:srcCompat="@drawable/ic_yap_for_you"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAchievementName"
                 style="@style/ARegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
-                android:text="@{viewModel.parentViewModel.achievement.name}"
+                android:text="@{viewModel.parentViewModel.achievement.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivAchievement"
                 tools:text="Better together" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAchievementPercentage"
                 style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.achievement.percentage)}"
+                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.achievement.completedPercentage)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:visibility="gone"

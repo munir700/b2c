@@ -6,5 +6,4 @@ data class Y4YAchievementTaskData(
     var buttonTitle: String? = null,
     var isDone: Boolean,
     var activityOnAction: String? = null
-) {
-}
+)

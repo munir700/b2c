@@ -22,24 +22,24 @@ class Y4YGraphComposer : IY4YComposer {
                         lottieFileName = "abc.json",
                         title = "Open yap Account",
                         buttonTitle = null,
-                        isDone = false
+                        isDone = true
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Set your PIN",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
+                        title = "Add money to your account",
+                        buttonTitle = "Add money now",
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
+                        title = "Set a profile photo",
+                        buttonTitle = "Set it now",
                         isDone = false
                     )
                 )
@@ -52,25 +52,25 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Use YAP locally",
+                        buttonTitle = null,
+                        isDone = true
+                    ),
+                    Y4YAchievementTaskData(
+                        lottieFileName = "abc.json",
+                        title = "Freeze and unfreeze your card",
+                        buttonTitle = "Try freezing now",
+                        isDone = false
+                    ),
+                    Y4YAchievementTaskData(
+                        lottieFileName = "abc.json",
+                        title = "Spend AED 100",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Explore card controls",
                         buttonTitle = null,
                         isDone = false
                     )
@@ -85,25 +85,25 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Invite a friend",
+                        buttonTitle = "Invite a friend",
+                        isDone = false
+                    ),
+                    Y4YAchievementTaskData(
+                        lottieFileName = "abc.json",
+                        title = "Make a Y2Y transfer",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Split bills with YAP",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Send money outside YAP",
                         buttonTitle = null,
                         isDone = false
                     )
@@ -117,26 +117,26 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Order a virtual card",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
+                        title = "Upgrade to Prime",
+                        buttonTitle = "Upgrade now",
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
+                        title = "Go Metal",
+                        buttonTitle = "Upgrade now",
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
+                        title = "Set up a multi-currency account",
+                        buttonTitle = "Set up",
                         isDone = false
                     )
                 )
@@ -149,25 +149,25 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Get YAP Young",
+                        buttonTitle = "Get YAP Young now",
+                        isDone = false
+                    ),
+                    Y4YAchievementTaskData(
+                        lottieFileName = "abc.json",
+                        title = "Sign up to Household",
+                        buttonTitle = "Get YAP Household now",
+                        isDone = false
+                    ),
+                    Y4YAchievementTaskData(
+                        lottieFileName = "abc.json",
+                        title = "Set missions on YAP Young",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Pay your help using Household",
                         buttonTitle = null,
                         isDone = false
                     )
@@ -181,25 +181,19 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Invite 10 friends to YAP",
+                        buttonTitle = "Invite friend",
+                        isDone = false
+                    ),
+                    Y4YAchievementTaskData(
+                        lottieFileName = "abc.json",
+                        title = "Spend AED 1000",
                         buttonTitle = null,
                         isDone = false
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
-                        buttonTitle = null,
-                        isDone = false
-                    ),
-                    Y4YAchievementTaskData(
-                        lottieFileName = "abc.json",
-                        title = "Open yap Account",
+                        title = "Complete a renewal",
                         buttonTitle = null,
                         isDone = false
                     )
