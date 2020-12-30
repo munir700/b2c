@@ -38,7 +38,7 @@
                "completion":true
             }
          ],
-         "lock":true
+         "lock":false
       },
       {
          "achievementType":"UP_AND_RUNNING",
@@ -155,7 +155,7 @@
                "completion":true
             }
          ],
-         "lock":false
+         "lock":true
       },
       {
          "achievementType":"YAP_STORE",
@@ -194,10 +194,10 @@
                "completion":false
             }
          ],
-         "lock":false
+         "lock":true
       },
       {
-         "achievementType":"YOU_ARE_A_PRO",
+         "achievementType":"YOU_ARE_PRO",
          "title":"You're a Pro!",
          "percentage":0.0,
          "order":0,
@@ -226,7 +226,7 @@
                "completion":false
             }
          ],
-         "lock":false
+         "lock":true
       }
    ]
 }

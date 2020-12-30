@@ -78,6 +78,7 @@ class YAPForYouViewModel(application: Application) :
                 val percentage: Double = parentArrayList.getDouble("percentage")
                 val acheivementType: String = parentArrayList.getString("achievementType")
                 val order: Int = parentArrayList.getInt("order")
+                val lock = parentArrayList.getBoolean("lock")
                 val tasks = parentArrayList.getJSONArray("tasks")
                 for (j in 0 until tasks.length()) {
                     tasksList.add(
@@ -95,6 +96,7 @@ class YAPForYouViewModel(application: Application) :
                         percentage = percentage,
                         acheivementType = acheivementType,
                         order = order,
+                        isForceLocked = lock,
                         tasks = tasksList
                     )
                 )
