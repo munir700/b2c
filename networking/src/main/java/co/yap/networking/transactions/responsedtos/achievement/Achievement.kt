@@ -16,10 +16,12 @@ data class Achievement(
     val color: String? = null,
     @SerializedName("percentage")
     val percentage: Double? = null,
+    @SerializedName("isLocked")
+    val isForceLocked: Boolean? = null,
     @SerializedName("tasks")
     val tasks: List<AchievementTask>? = null,
 
-
+//todo remove these when no use
     @SerializedName("colorCode")
     val colorCode: String? = null,
     @SerializedName("name")

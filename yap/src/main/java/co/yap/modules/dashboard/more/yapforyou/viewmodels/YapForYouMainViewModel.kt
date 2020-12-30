@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.more.yapforyou.YapForYouManager
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
@@ -18,7 +19,7 @@ class YapForYouMainViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var achievement: Achievement? = null
     override var selectedPosition: Int = 0
-    override var achievements: MutableList<Achievement> = mutableListOf()
+    override var achievements: MutableList<Y4YAchievementData> = mutableListOf()
     private val yapForYouManager: YapForYouManager = YapForYouManager(context)
 
     override fun handlePressButton(id: Int) {
@@ -33,6 +34,5 @@ class YapForYouMainViewModel(application: Application) :
         yapForYouManager.configure(tag = tag)
     }
 
-//    override fun getYfyTag(): String = yapForYouManager.yfyTag ?: ""
     override fun getYfyTag(): String = YFYAchievementType.ADD_CARD.type
 }

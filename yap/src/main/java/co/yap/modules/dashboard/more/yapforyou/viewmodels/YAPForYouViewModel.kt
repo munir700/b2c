@@ -2,8 +2,9 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
 import android.content.Context
-import co.yap.R
+import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
+import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -20,6 +21,7 @@ class YAPForYouViewModel(application: Application) :
     YapForYouBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
     IRepositoryHolder<TransactionsRepository> {
 
+    private val y4yComposer: IY4YComposer = Y4YGraphComposer()
     override val repository: TransactionsRepository = TransactionsRepository
     override val state: YAPForYouState =
         YAPForYouState()
@@ -40,13 +42,6 @@ class YAPForYouViewModel(application: Application) :
         state.toolbarTitle = getString(Strings.screen_yap_for_you_display_text_title)
         toggleToolBarVisibility(false)
         state.toolbarVisibility.set(true)
-    }
-
-    private fun setInitialAchievement() {
-        parentViewModel?.achievement = parentViewModel?.achievements?.get(0)
-        state.selectedAchievementPercentage =
-            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${parentViewModel?.achievement?.percentage}%")
-        state.selectedAchievementTitle = parentViewModel?.achievement?.name ?: ""
     }
 
     override fun getAchievements() {
@@ -74,7 +69,8 @@ class YAPForYouViewModel(application: Application) :
                     )
                 )
             }
-            parentViewModel?.achievements = list
+
+            parentViewModel?.achievements = y4yComposer.compose(list)
             adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
 
             state.loading = false
@@ -94,28 +90,6 @@ class YAPForYouViewModel(application: Application) :
 //                    showDialogWithCancel(response.error.message)
 //                }
 //            }
-        }
-    }
-
-    private fun achievementDataFactory() {
-        var position = 0
-        for (achievement in parentViewModel?.achievements ?: mutableListOf()) {
-            achievement.also {
-                it.icon = getAchievementIcon(position)
-                position++
-            }
-        }
-    }
-
-    override fun getAchievementIcon(position: Int, isWithBadged: Boolean): Int {
-        return when (position) {
-            0 -> if (!isWithBadged) R.drawable.ic_round_badge_light_purple else R.drawable.ic_badge_light_purple
-            1 -> if (!isWithBadged) R.drawable.ic_round_badge_light_blue else R.drawable.ic_badge_dark_blue
-            2 -> if (!isWithBadged) R.drawable.ic_round_badge_light_peach else R.drawable.ic_badge_light_peach
-            3 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_2 else R.drawable.ic_y4y_rounded_locked_2
-            4 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_3 else R.drawable.ic_y4y_rounded_locked_3
-            5 -> if (!isWithBadged) R.drawable.ic_y4y_rounded_locked_1 else R.drawable.ic_y4y_rounded_locked_1
-            else -> R.drawable.ic_round_badge_dark_grey
         }
     }
 

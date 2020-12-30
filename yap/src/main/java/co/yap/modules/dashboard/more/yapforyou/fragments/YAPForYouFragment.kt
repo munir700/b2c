@@ -8,15 +8,11 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
-import co.yap.translation.Strings
-import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_yap_for_you.*
 
-class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
-
+class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPForYou.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_for_you
 
@@ -26,6 +22,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getAchievements()
+        addObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,69 +30,32 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
         setupRecycleView()
     }
 
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
+    private fun setupRecycleView() {
+        viewModel.adaptor.allowFullItemClickListener = true
+        viewModel.adaptor.setItemListener(listener)
     }
 
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
-
+    private val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Y4YAchievementData) {
+                if (!data.isLocked)
+                    navigate(R.id.achievementFragment)
+            }
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    override fun addObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnView -> {
-                    viewModel.parentViewModel?.selectedPosition = 0
-                    if (!viewModel.parentViewModel?.achievements.isNullOrEmpty()) {
-                        viewModel.parentViewModel?.achievement =
-                            viewModel.parentViewModel?.achievements?.get(0)
-                        viewModel.state.toolbarVisibility.set(false)
-                        navigate(R.id.achievementFragment)
-                    }
                 }
             }
         })
     }
 
-
-    private fun setupRecycleView() {
-        viewModel.adaptor.allowFullItemClickListener = true
-        viewModel.adaptor.setItemListener(listener)
-//        rvYapForYou.adapter = viewModel.adaptor
-//        viewModel.state.selectedAchievementPercentage =
-//            viewModel.getAchievements()[0].percentage.toString()
-//        viewModel.state.selectedAchievementImage =
-//            viewModel.getAchievements()[0].achievmentIcons?.mainBadgeIcon
-//        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].name ?: ""
-    }
-
-    private val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (pos in 3..5)
-                return
-            if (data is Achievement) {
-                viewModel.parentViewModel?.selectedPosition = pos
-                viewModel.parentViewModel?.achievement = data.copy()
-                    .also { it.icon = viewModel.getAchievementIcon(pos, isWithBadged = true) }
-                viewModel.state.toolbarVisibility.set(false)
-//                data.name?.let { viewModel.parentViewModel?.configureYFYManager(it) }
-                viewModel.parentViewModel?.configureYFYManager(YFYAchievementType.GET_STARTED.type)
-                navigate(R.id.achievementFragment)
-            }
-        }
-    }
-
-    private fun setSelectedAchievement(achievement: Achievement) {
-        viewModel.parentViewModel?.achievement = achievement
-        viewModel.state.selectedAchievementTitle = achievement.name ?: ""
-//        viewModel.state.selectedAchievementImage = achievement.achievmentIcons?.mainBadgeIcon
-        viewModel.state.selectedAchievementPercentage =
-            getString(Strings.screen_yap_for_you_display_text_completed_percentage).format("${achievement.percentage}%")
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     override fun onToolBarClick(id: Int) {
@@ -108,5 +68,4 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
             }
         }
     }
-
 }
