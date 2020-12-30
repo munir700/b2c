@@ -6,7 +6,7 @@ enum class YFYAchievementTaskType(val title: String) {
     //Get started enums
     OPEN_YOUR_YAP_ACCOUNT("Open your YAP account"),
     SET_PIN("Set your PIN"),
-    TOP_UP(Strings.common_add_money),
+    TOP_UP("Add money to your account"),
     SET_PROFILE_PICTURE("Set a profile picture"),
 
     //Up & Running

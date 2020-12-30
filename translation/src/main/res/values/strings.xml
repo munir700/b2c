@@ -1200,6 +1200,13 @@
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
     <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
 
+<!--    Achievements screen get started-->
+    <string name="screen_yfy_get_started_text_open_account">Open your YAP account</string>
+    <string name="screen_yfy_get_started_text_set_pin">Set your PIN</string>
+    <string name="screen_yfy_get_started_text_add_money">Add money to your account</string>
+    <string name="screen_yfy_get_started_text_set_profile">Set a profile picture</string>
+
+
     <!--YAP For YOU GET Started-->
     <string name="screen_yfy_open_yap_account_description">That first step was easy! Welcome to YAP. We\'re so happy you\'re here :)</string>
     <string name="screen_yfy_get_started_success_description">You’ve completed this task! \nTime for a little celebration 🥳</string>
