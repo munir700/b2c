@@ -1212,6 +1212,29 @@
     <string name="screen_yfy_up_and_running_text_spend_money">Spend AED 100</string>
     <string name="screen_yfy_up_and_running_text_explore_card_controls">Explore card controls</string>
 
+    <!--  Achievements better together-->
+    <string name="screen_yfy_better_together_text_invite_friend">Invite a friend</string>
+    <string name="screen_yfy_better_together_text_y2y_transfer">Make a Y2Y transfer</string>
+    <string name="screen_yfy_better_together_text_split_bills">Split bills with YAP</string>
+    <string name="screen_yfy_better_together_text_send_money">Send money outside YAP</string>
+
+    <!--  Achievements take a leap-->
+    <string name="screen_yfy_take_a_leap_text_send_money">Order a virtual card</string>
+    <string name="screen_yfy_take_a_leap_text_upgrade_to_prime">Upgrade to Prime</string>
+    <string name="screen_yfy_take_a_leap_text_go_metal">Go Metal</string>
+    <string name="screen_yfy_take_a_leap_text_set_mc_account">Set up a multi-currency account</string>
+
+    <!--  Achievements You are a Pro-->
+    <string name="screen_yfy_you_are_pro_text_invite_friends">Invite 10 friends to YAP</string>
+    <string name="screen_yfy_you_are_pro_text_spend_amount">Spend AED 1000</string>
+    <string name="screen_yfy_you_are_pro_text_complete_a_renewal">Complete a renewal</string>
+
+    <!--  Achievements Yap store-->
+    <string name="screen_yfy_you_are_pro_text_get_yap_young">Get YAP Young</string>
+    <string name="screen_yfy_you_are_pro_text_sign_up_house_hold">Sign up to Household</string>
+    <string name="screen_yfy_you_are_pro_text_set_mission">Set missions on YAP Young</string>
+    <string name="screen_yfy_you_are_pro_text_pay_your_help">Pay your help using Household</string>
+
     <!--YAP For YOU GET Started-->
     <string name="screen_yfy_open_yap_account_description">That first step was easy! Welcome to YAP. We\'re so happy you\'re here :)</string>
     <string name="screen_yfy_get_started_success_description">You’ve completed this task! \nTime for a little celebration 🥳</string>
