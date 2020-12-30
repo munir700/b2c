@@ -2,36 +2,36 @@ package co.yap.yapcore.enums
 
 import co.yap.translation.Strings
 
-enum class YFYAchievementTaskType(val type: String) {
+enum class YFYAchievementTaskType(val title: String) {
     //Get started enums
+    OPEN_YOUR_YAP_ACCOUNT("Open your YAP account"),
+    SET_PIN("Set your PIN"),
     TOP_UP(Strings.common_add_money),
     SET_PROFILE_PICTURE("Set a profile picture"),
-    OPEN_YAP_ACCOUNT("Open your YAP account"),
-    ADD_CARD("Add a Card"),
 
     //Up & Running
     USE_YAP_LOCALLY("Use YAP locally"),
-    FREEZE_AND_UNFREEZE("Freeze and unfreeze your card"),
-    SPEND_HUNDRED_AED("Spend AED 100"),
+    FREEZE_UNFREEZE_CARD("Freeze and unfreeze your card"),
+    SPEND_AMOUNT("Spend AED 100"),
     EXPLORE_CARD_CONTROLS("Explore card controls"),
 
     //Better Together
-    INVITE_A_FRIEND("Invite a friend"),
+    INVITE_FRIEND("Invite a friend"),
     MAKE_Y2Y_TRANSFER("Make a Y2Y transfer"),
-    SPLIT_BILLS("Split bills with YAP"),
-    SEND_MONEY("Send money outside YAP"),
+    SPLIT_BILLS_WITH_YAP("Split bills with YAP"),
+    SEND_MONEY_OUTSIDE_YAP("Send money outside YAP"),
 
     //Take the leap
-    ORDER_VIRTUAL_CARD("Order a virtual card"),
+    ORDER_SPARE_CARD("Order a virtual card"),
     UPGRADE_TO_PRIME("Upgrade to Prime"),
-    GO_METAL("Go Metal"),
-    SET_UP_MULTI_CURRENCY("Set up a multi-currency account"),
+    UPGRADE_TO_METAL("Go Metal"),
+    SETUP_MULTI_CURRENCY("Set up a multi-currency account"),
 
     //Yap Store
-    GET_YOUNG("Get YAP Young"),
-    SIGN_UP_TO_HOUSEHOLD("Sign up to Household"),
-    MISSION_ON_YOUNG("Set missions on YAP Young"),
-    PAY_YOU_HELP("Pay your help using Household"),
+    GET_YAP_YOUNG("Get YAP Young"),
+    GET_YAP_HOUSEHOLD("Sign up to Household"),
+    SET_MISSIONS_ON_YAP_YOUNG("Set missions on YAP Young"),
+    SALARY_TRANSFER_ON_YAP_HOUSEHOLD("Pay your help using Household"),
 
     // You are a pro
     INVITE_TEN_FRIENDS("Invite 10 friends to YAP"),
