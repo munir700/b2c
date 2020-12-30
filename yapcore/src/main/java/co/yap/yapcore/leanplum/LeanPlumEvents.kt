@@ -31,3 +31,25 @@ enum class KYCEvents(val type: String) {
     EID_EXPIRE("eid_expired"),
     EID_EXPIRE_DATE("eid_expiry_date")
 }
+
+@Keep
+enum class CardEvents(val type: String) {
+    VIRTUAL_CARD_SUCCESS("virtual_card_success"),
+    CARD_CONTROL_INTERNATIONAL_ON("card_control_international_on"),
+    CARD_CONTROL_INTERNATIONAL_OFF("card_control_international_off"),
+    CARD_CONTROL_POS_ON("card_control_pos_on"),
+    CARD_CONTROL_POS_OFF("card_control_pos_off"),
+    CARD_CONTROL_ATM_ON("card_control_atm_on"),
+    CARD_CONTROL_ATM_OFF("card_control_atm_off"),
+    CARD_CONTROL_ONLINE_ON("card_control_online_on"),
+    CARD_CONTROL_ONLINE_OFF("card_control_online_off"),
+    ANALYTICS_OPEN("analytics_open"),
+    YAP_TO_YAP_SENT("yap_to_yap_sent"),
+    ACCOUNT_TOP_UP_CARD("account_top_up_card"),
+    ACCOUNT_TOP_UP_TRANSFER("account_top_up_transfer"),
+    SEND_MONEY_LOCAL("send_money_local"),
+    SEND_MONEY_INTERNATIONAL("send_money_international"), // params  (LastCountry, LastType )
+    QR_PAYMENT_SUCCESS("qr_payment_success"),
+    OPEN_ATM_MAP("open_atm_map"),
+    SIGN_IN("sign_in")
+}

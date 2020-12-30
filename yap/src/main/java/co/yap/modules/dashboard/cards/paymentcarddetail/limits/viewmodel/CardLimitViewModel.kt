@@ -11,6 +11,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.leanplum.CardEvents
+import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.trackEvent
 
 class CardLimitViewModel(application: Application) :
     BaseViewModel<ICardLimits.State>(application),
@@ -28,15 +31,35 @@ class CardLimitViewModel(application: Application) :
         if (switch.isPressed) {
             when (switch.id) {
                 R.id.swWithdrawal -> {
+                    if(isChecked) {
+                        trackEvent(CardEvents.CARD_CONTROL_ATM_ON.type)
+                    } else {
+                        trackEvent(CardEvents.CARD_CONTROL_ATM_OFF.type)
+                    }
                     updateAllowAtm()
                 }
                 R.id.swOnlineTra -> {
+                    if(isChecked) {
+                        trackEvent(CardEvents.CARD_CONTROL_ONLINE_ON.type)
+                    } else {
+                        trackEvent(CardEvents.CARD_CONTROL_ONLINE_OFF.type)
+                    }
                     updateOnlineTransaction()
                 }
                 R.id.swAbroad -> {
+                    if(isChecked) {
+                        trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_ON.type)
+                    } else {
+                        trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_OFF.type)
+                    }
                     updateAbroadPayment()
                 }
                 R.id.swRetail -> {
+                    if(isChecked) {
+                        trackEvent(CardEvents.CARD_CONTROL_POS_ON.type)
+                    } else {
+                        trackEvent(CardEvents.CARD_CONTROL_POS_OFF.type)
+                    }
                     updateRetailPayment()
                 }
             }

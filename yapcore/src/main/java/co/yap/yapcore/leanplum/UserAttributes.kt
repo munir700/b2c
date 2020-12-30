@@ -22,5 +22,11 @@ data class UserAttributes(
     val biometric_login_enabled: String = "biometric_login_enabled",
     val eid_expired: String = "eid_expired",
     val account_active: String = "account_active",
-    val eid_expiry_date: String =  "eid_expiry_date"
+    val eid_expiry_date: String =  "eid_expiry_date",
+    val primary_card_status: String = "primary_card_status",
+    val last_transaction_type: String = "last_transaction_type",
+    val last_transaction_time: String = "last_transaction_time",
+    val last_pos_txn_category: String = "last_pos_txn_category",
+    val total_transaction_count: String = "total_transaction_count",
+    val total_transaction_value: String = "total_transaction_value"
 )
