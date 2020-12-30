@@ -165,7 +165,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Upgrade to Prime",
+                        title = YFYAchievementTaskType.UPGRADE_TO_PRIME.title,
                         buttonTitle = "Upgrade now",
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
@@ -174,7 +174,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Go Metal",
+                        title = YFYAchievementTaskType.UPGRADE_TO_METAL.title,
                         buttonTitle = "Upgrade now",
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
@@ -183,7 +183,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Set up a multi-currency account",
+                        title = YFYAchievementTaskType.SETUP_MULTI_CURRENCY.title,
                         buttonTitle = "Set up",
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
@@ -200,7 +200,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Get YAP Young",
+                        title = YFYAchievementTaskType.GET_YAP_YOUNG.title,
                         buttonTitle = "Get YAP Young now",
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
@@ -209,7 +209,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Sign up to Household",
+                        title = YFYAchievementTaskType.GET_YAP_HOUSEHOLD.title,
                         buttonTitle = "Get YAP Household now",
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
@@ -218,7 +218,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Set missions on YAP Young",
+                        title = YFYAchievementTaskType.SET_MISSIONS_ON_YAP_YOUNG.title,
                         buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
@@ -227,7 +227,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Pay your help using Household",
+                        title = YFYAchievementTaskType.SALARY_TRANSFER_ON_YAP_HOUSEHOLD.title,
                         buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
@@ -244,7 +244,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Invite 10 friends to YAP",
+                        title = YFYAchievementTaskType.INVITE_TEN_FRIENDS.title,
                         buttonTitle = "Invite friend",
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YOU_ARE_PRO,
@@ -253,7 +253,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Spend AED 1000",
+                        title = YFYAchievementTaskType.SPEND_THOUSAND_AED.title,
                         buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YOU_ARE_PRO,
@@ -262,7 +262,7 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     Y4YAchievementTaskData(
                         lottieFileName = "abc.json",
-                        title = "Complete a renewal",
+                        title = YFYAchievementTaskType.COMPLETE_RENEWAL.title,
                         buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YOU_ARE_PRO,
