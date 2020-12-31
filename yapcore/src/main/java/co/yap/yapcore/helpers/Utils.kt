@@ -444,7 +444,7 @@ object Utils {
     fun getOpenFacebookIntent(context: Context): Intent? {
         return try {
             context.packageManager.getPackageInfo("com.facebook.katana", 0)
-            Intent(ACTION_VIEW, Uri.parse("fb://page/yapbanking"))  // ID needs to be added here instead of username
+            Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
         } catch (e: Exception) {
             try {
                 Intent(ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK))
