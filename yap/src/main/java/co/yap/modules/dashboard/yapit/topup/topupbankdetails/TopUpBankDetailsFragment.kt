@@ -15,7 +15,7 @@ import co.yap.databinding.FragmentTopUpBankDetailsBinding
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
-import co.yap.yapcore.leanplum.CardEvents
+import co.yap.yapcore.leanplum.TopUpEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
@@ -30,7 +30,7 @@ class TopUpBankDetailsFragment : BaseBindingFragment<ITopUpBankDetails.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        trackEvent(CardEvents.ACCOUNT_TOP_UP_TRANSFER.type)
+        trackEvent(TopUpEvents.ACCOUNT_TOP_UP_TRANSFER.type)
         viewModel.clickEvent.observe(this, clickEvent)
 
     }

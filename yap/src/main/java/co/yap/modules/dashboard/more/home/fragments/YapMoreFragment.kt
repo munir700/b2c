@@ -36,7 +36,7 @@ import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.leanplum.CardEvents
+import co.yap.yapcore.leanplum.MoreB2CEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
@@ -204,7 +204,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 Utils.showComingSoon(requireContext())
             }
             Constants.MORE_LOCATE_ATM -> {
-                trackEvent(CardEvents.OPEN_ATM_MAP.type)
+                trackEvent(MoreB2CEvents.OPEN_ATM_MAP.type)
                 startFragment(CdmMapFragment::class.java.name)
             }
             Constants.MORE_INVITE_FRIEND -> {

@@ -43,13 +43,37 @@ enum class CardEvents(val type: String) {
     CARD_CONTROL_ATM_OFF("card_control_atm_off"),
     CARD_CONTROL_ONLINE_ON("card_control_online_on"),
     CARD_CONTROL_ONLINE_OFF("card_control_online_off"),
-    ANALYTICS_OPEN("analytics_open"),
+}
+
+@Keep
+enum class AnalyticsEvents(val type: String) {
+    ANALYTICS_OPEN("analytics_open")
+}
+
+@Keep
+enum class Y2YEvents(val type: String) {
     YAP_TO_YAP_SENT("yap_to_yap_sent"),
+}
+
+@Keep
+enum class TopUpEvents(val type: String) {
     ACCOUNT_TOP_UP_CARD("account_top_up_card"),
     ACCOUNT_TOP_UP_TRANSFER("account_top_up_transfer"),
+}
+
+@Keep
+enum class SendMoneyEvents(val type: String) {
     SEND_MONEY_LOCAL("send_money_local"),
     SEND_MONEY_INTERNATIONAL("send_money_international"), // params  (LastCountry, LastType )
-    QR_PAYMENT_SUCCESS("qr_payment_success"),
-    OPEN_ATM_MAP("open_atm_map"),
+    QR_PAYMENT_SUCCESS("qr_payment_success")
+}
+
+@Keep
+enum class MoreB2CEvents(val type: String) {
+    OPEN_ATM_MAP("open_atm_map")
+}
+
+@Keep
+enum class SignInEvents(val type: String) {
     SIGN_IN("sign_in")
 }
