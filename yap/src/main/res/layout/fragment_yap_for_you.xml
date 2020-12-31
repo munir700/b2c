@@ -81,8 +81,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
-        <!--screen_yap_for_you_display_text_completed_percentage-->\
-
         <co.yap.widgets.CoreButton
             android:id="@+id/btnView"
             style="@style/RectangleBtnSmallStyle"

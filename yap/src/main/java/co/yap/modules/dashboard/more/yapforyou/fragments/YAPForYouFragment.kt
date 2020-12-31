@@ -21,7 +21,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getAchievements()
+        viewModel.getMockApiResponse()
         addObservers()
     }
 
@@ -38,10 +38,10 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Y4YAchievementData) {
-                if (!data.isLocked)
-                    viewModel.parentViewModel?.achievement =
-                        viewModel.parentViewModel?.achievements?.get(pos)
-                navigate(R.id.achievementFragment)
+                if (!data.isLocked) {
+                    viewModel.setSelectedAchievement(y4YAchievementData = data)
+                    navigate(R.id.achievementFragment)
+                }
             }
         }
     }

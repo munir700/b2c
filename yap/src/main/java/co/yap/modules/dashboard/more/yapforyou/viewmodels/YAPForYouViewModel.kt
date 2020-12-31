@@ -6,10 +6,13 @@ import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.delay
@@ -46,57 +49,75 @@ class YAPForYouViewModel(application: Application) :
 
     override fun getAchievements() {
         launch {
+            when (val response = repository.getAchievements()) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel?.achievementsList =
+                        y4yComposer.compose(response.data.data as ArrayList<Achievement>)
+                    adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
+                    state.loading = false
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    showDialogWithCancel(response.error.message)
+                }
+            }
+        }
+    }
+
+    override fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData) {
+        parentViewModel?.selectedAchievement = y4YAchievementData
+    }
+
+    fun getMockApiResponse() {
+        launch {
             val list: ArrayList<Achievement> = arrayListOf()
             state.loading = true
             delay(500)
-            val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
+            val mainObj = JSONObject(loadTransactionFromJsonAssets(context) ?: "")
             val mainDataList = mainObj.getJSONArray("data")
             for (i in 0 until mainDataList.length()) {
+                val tasksList: ArrayList<AchievementTask> = arrayListOf()
                 val parentArrayList = mainDataList.getJSONObject(i)
                 val title: String = parentArrayList.getString("title")
-                val color: String = parentArrayList.getString("color")
+                val color: String = parentArrayList.getString("colorCode")
                 val percentage: Double = parentArrayList.getDouble("percentage")
-                val acheivementType: String = parentArrayList.getString("acheivementType")
+                val acheivementType: String = parentArrayList.getString("achievementType")
                 val order: Int = parentArrayList.getInt("order")
-
+                val lock = parentArrayList.getBoolean("lock")
+                val tasks = parentArrayList.getJSONArray("tasks")
+                for (j in 0 until tasks.length()) {
+                    tasksList.add(
+                        AchievementTask(
+                            title = tasks.getJSONObject(j).getString("title"),
+                            completion = tasks.getJSONObject(j).getBoolean("completion"),
+                            achievementTaskType = tasks.getJSONObject(j).getString("taskType")
+                        )
+                    )
+                }
                 list.add(
                     Achievement(
                         title = title,
                         color = color,
                         percentage = percentage,
                         acheivementType = acheivementType,
-                        order = order
+                        order = order,
+                        isForceLocked = lock,
+                        tasks = tasksList
                     )
                 )
             }
-
-            parentViewModel?.achievements = y4yComposer.compose(list)
-            adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
-
             state.loading = false
-//            when (val response = repository.getAchievements()) {
-//                is RetroApiResponse.Success -> {
-//                    parentViewModel?.achievements =
-//                        response.data.data as MutableList<Achievement>
-//                    achievementDataFactory()
-//                    adaptor.setList(parentViewModel?.achievements ?: mutableListOf())
-//                    if (!response.data.data.isNullOrEmpty())
-//                        setInitialAchievement()
-//
-//                    state.loading = false
-//                }
-//                is RetroApiResponse.Error -> {
-//                    state.loading = false
-//                    showDialogWithCancel(response.error.message)
-//                }
-//            }
+            parentViewModel?.achievementsList =
+                y4yComposer.compose(list)
+            adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
         }
+
     }
 
     private fun loadTransactionFromJsonAssets(context: Context): String? {
         val json: String?
         try {
-            val `is` = context.assets.open("y4yMockResponse.json")
+            val `is` = context.assets.open("yapachievement.json")
             val size = `is`.available()
             val buffer = ByteArray(size)
             `is`.read(buffer)
