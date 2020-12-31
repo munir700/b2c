@@ -39,8 +39,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Y4YAchievementData) {
                 if (!data.isLocked) {
-                    viewModel.parentViewModel?.achievement =
-                        viewModel.parentViewModel?.achievementsList?.get(pos)
+                    viewModel.setSelectedAchievement(y4YAchievementData = data)
                     navigate(R.id.achievementFragment)
                 }
             }

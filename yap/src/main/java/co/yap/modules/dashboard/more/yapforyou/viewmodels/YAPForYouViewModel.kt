@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -53,7 +54,7 @@ class YAPForYouViewModel(application: Application) :
                     parentViewModel?.achievementsList =
                         y4yComposer.compose(response.data.data as ArrayList<Achievement>)
                     adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
-                        state.loading = false
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -63,12 +64,16 @@ class YAPForYouViewModel(application: Application) :
         }
     }
 
+    override fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData) {
+        parentViewModel?.selectedAchievement = y4YAchievementData
+    }
+
     fun getMockApiResponse() {
         launch {
             val list: ArrayList<Achievement> = arrayListOf()
             state.loading = true
             delay(500)
-            val mainObj = JSONObject(loadTransactionFromJsonAssets(context)?:"")
+            val mainObj = JSONObject(loadTransactionFromJsonAssets(context) ?: "")
             val mainDataList = mainObj.getJSONArray("data")
             for (i in 0 until mainDataList.length()) {
                 val tasksList: ArrayList<AchievementTask> = arrayListOf()

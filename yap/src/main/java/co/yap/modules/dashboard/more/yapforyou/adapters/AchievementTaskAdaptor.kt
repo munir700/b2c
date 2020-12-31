@@ -24,7 +24,6 @@ class AchievementTaskAdaptor(private val list: MutableList<Y4YAchievementTaskDat
         holder.onBind(list[position])
     }
 
-
     class AchievementTaskViewHolder(private val itemAchievementBinding: ItemTaskAchievementBinding) :
         RecyclerView.ViewHolder(itemAchievementBinding.root) {
 

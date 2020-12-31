@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel" />
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:alpha="0.25"
-                android:tint="@{viewModel.parentViewModel.achievement.tintColor}"
+                android:tint="@{viewModel.parentViewModel.selectedAchievement.tintColor}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +45,7 @@
                 android:layout_height="@dimen/_24sdp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:src="@{viewModel.parentViewModel.achievement.isCompleted? @drawable/ic_baseline_check : @drawable/ic_yap_it}"
+                android:src="@{viewModel.parentViewModel.selectedAchievement.isCompleted? @drawable/ic_baseline_check : @drawable/ic_yap_it}"
                 android:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/ivAchievement"
                 app:layout_constraintEnd_toEndOf="@+id/ivAchievement"
@@ -59,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small"
-                android:text="@{viewModel.parentViewModel.achievement.title}"
+                android:text="@{viewModel.parentViewModel.selectedAchievement.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivAchievement"
@@ -70,10 +71,10 @@
                 style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.achievement.completedPercentage+`%`)}"
+                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.selectedAchievement.completedPercentage+`%`)}"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@+id/tvAchievementName"
                 tools:text="75% completed" />
 
@@ -87,11 +88,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/achievementContainer"
             app:msv_emptyView="@layout/layout_empty_view_no_results"
             app:msv_errorView="@layout/layout_error_view"
             app:msv_loadingView="@layout/layout_loading_view"
-            app:msv_viewState="empty"
-            app:layout_constraintTop_toBottomOf="@id/achievementContainer">
+            app:msv_viewState="empty">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAchievements"

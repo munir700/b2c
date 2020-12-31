@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.FragmentAchievementTasksBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievement
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
-import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.widgets.MultiStateView
 import co.yap.yapcore.BR
-import co.yap.yapcore.enums.YFYAchievementType
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>(),
@@ -25,7 +24,7 @@ class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>()
     private var descriptionContent: YapForYouDataModel? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.parentViewModel?.achievement?.let {
+        viewModel.parentViewModel?.selectedAchievement?.let {
             getBinding().multiStateView.viewState =
                 if (it.tasks.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT
         }
@@ -36,18 +35,9 @@ class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>()
     private val detailItemClickListener = object :
         OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is AchievementTask) {
-                /* descriptionContent =
-                     viewModel.parentViewModel?.getDescriptionContent(data.title)?.also {
-                         it.title = data.title
-                     }*/
-                descriptionContent =
-                    viewModel.parentViewModel?.getDescriptionContent(YFYAchievementType.ADD_CARD.type)
-                        ?.also {
-                            it.title = data.title
-                        }
-                viewModel.parentViewModel?.state?.descriptionDataModel?.set(descriptionContent)
-                if (data.completion) navigate(R.id.achievementDetailFragment) else navigate(R.id.achievementSuccessFragment)
+            if (data is Y4YAchievementTaskData) {
+                viewModel.setSelectedAchievementTask(y4YAchievementTaskData = data)
+                if (data.isDone) navigate(R.id.achievementSuccessFragment) else navigate(R.id.achievementDetailFragment)
             }
         }
     }
@@ -55,5 +45,4 @@ class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>()
     override fun getBinding(): FragmentAchievementTasksBinding {
         return (viewDataBinding as FragmentAchievementTasksBinding)
     }
-
 }
