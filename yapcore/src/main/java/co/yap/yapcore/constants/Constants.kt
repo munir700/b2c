@@ -65,6 +65,9 @@ object Constants {
     const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
     const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
+    const val URL_INSTAGRAM = "https://www.instagram.com/yapbanking"
+    const val URL_FACEBOOK = "https://www.facebook.com/yapbanking"
+    const val URL_TWITTER = "https://twitter.com/yapbanking"
 
 
     //HTML Key
