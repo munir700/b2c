@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -48,10 +47,10 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
             this,
             Observer { selectedPosition ->
                 val view = getBinding().recycler.layoutManager?.findViewByPosition(selectedPosition)
-                    getBinding().recycler.removeOnScrollListener(onScrollListener)
-                    getBinding().recycler.addOnScrollListener(onScrollListener)
-                    getBinding().recycler.smoothScrollToPosition(selectedPosition)
-                
+                getBinding().recycler.removeOnScrollListener(onScrollListener)
+                getBinding().recycler.addOnScrollListener(onScrollListener)
+                getBinding().recycler.smoothScrollToPosition(selectedPosition)
+
             })
     }
 
