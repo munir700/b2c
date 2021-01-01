@@ -12,10 +12,12 @@ import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
+import co.yap.yapcore.helpers.extentions.loadCardImage
+import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import com.airbnb.lottie.LottieAnimationView
 
 object ImageBinding {
     @JvmStatic
@@ -134,7 +136,7 @@ object ImageBinding {
         showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName?:""
+        val fName = fullName ?: ""
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
@@ -274,6 +276,17 @@ object ImageBinding {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
+    }
 
+    @JvmStatic
+    @BindingAdapter(value = ["loadLottieAnimation", "isLottie"])
+    fun loadLottieAnimation(
+        lottieView: LottieAnimationView,
+        rawPathName: String?,
+        isLottie: Boolean
+    ) {
+        if (isLottie) lottieView.setAnimation(rawPathName) else lottieView.loadImage(
+            rawPathName ?: ""
+        )
     }
 }

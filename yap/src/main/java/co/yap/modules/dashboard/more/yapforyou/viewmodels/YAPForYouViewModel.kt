@@ -48,6 +48,8 @@ class YAPForYouViewModel(application: Application) :
     }
 
     override fun getAchievements() {
+        //TODO do this in background
+        state.loading = true
         launch {
             when (val response = repository.getAchievements()) {
                 is RetroApiResponse.Success -> {
@@ -99,7 +101,7 @@ class YAPForYouViewModel(application: Application) :
                         title = title,
                         color = color,
                         percentage = percentage,
-                        acheivementType = acheivementType,
+                        achievementType = acheivementType,
                         order = order,
                         isForceLocked = lock,
                         tasks = tasksList
