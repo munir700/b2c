@@ -28,7 +28,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
-
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap
@@ -41,7 +40,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         viewModel.parentViewModel?.beneficiary?.let {
             skipYapHomeFragment()
         } ?: viewModel.clickEvent.observe(this, clickEventObserver)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

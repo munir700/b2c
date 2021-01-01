@@ -28,7 +28,7 @@ interface IY2Y {
         var errorEvent: MutableLiveData<String>
         var beneficiary: Beneficiary?
         var position: Int
-        fun getY2YAndY2YRecentBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit)
+        fun getY2YAndY2YRecentBeneficiaries(success: (List<IBeneficiary>) -> Unit)
 
     }
 

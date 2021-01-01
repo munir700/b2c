@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentPhoneContactsBinding
 import co.yap.sendmoney.y2y.home.fragments.YapToYapFragment
@@ -35,7 +36,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         initState()
         initComponents()
-//        setObservers()
+        setObservers()
 //        viewModel.getY2YBeneficiaries()
     }
 
@@ -113,14 +114,13 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     sendInvite((data as Contact))
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser == true && data.accountDetailList != null && data.accountDetailList?.isNotEmpty() == true) {
+                    if (data is IBeneficiary && data.isYapUser) {
                         if (parentFragment is YapToYapFragment) {
                             navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl ?: "",
-                                    data.accountDetailList?.get(0)?.accountUuid ?: "",
-                                    data.title ?: "",
-                                    pos
+                                    data.imgUrl ?: "",
+                                    data.accountUUID,
+                                    data.fullName ?: "", pos, data.creationDateOfBeneficiary
                                 ), screenType = FeatureSet.Y2Y_TRANSFER
                             )
                         }

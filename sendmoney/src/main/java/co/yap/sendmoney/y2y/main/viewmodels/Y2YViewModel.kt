@@ -42,13 +42,13 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
         SessionManager.getCurrenciesFromServer { _, _ -> }
     }
 
-    override fun getY2YAndY2YRecentBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit) {
+    override fun getY2YAndY2YRecentBeneficiaries(success: (List<IBeneficiary>) -> Unit) {
         fetchCombinedBeneficiariesApis { y2yRecentResponse ->
             launch(Dispatcher.Main) {
                 val combinedList: ArrayList<IBeneficiary> = arrayListOf()
                 when (y2yRecentResponse) {
                     is RetroApiResponse.Success -> {
-                        y2yRecentResponse.data.data.parseRecentItems()
+                        y2yRecentResponse.data.data.parseRecentItems(context)
                         y2yRecentBeneficiries.value = y2yRecentResponse.data.data
                         combinedList.addAll(
                             y2yRecentResponse.data.data as ArrayList<IBeneficiary>
@@ -63,12 +63,24 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
                             it.mobileNo =
                                 Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
                         }
+                        val a = y2yBeneficiaries.partition { it.yapUser == true }
 
-                        combinedList.addAll(y2yBeneficiaries.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
 
-                        y2yBeneficiries.value = combinedList
-                        yapContactLiveData.value = y2yBeneficiaries as ArrayList<IBeneficiary>
-                        success(combinedList)
+                        combinedList.addAll(a.first)
+                        val sortedList = combinedList.sortedBy {
+                            it.fullName
+                        }
+                        val distinctList = sortedList.distinctBy {
+                            it.accountUUID
+                        } as ArrayList<IBeneficiary>
+
+                        y2yBeneficiries.value = distinctList
+                        distinctList.addAll(a.second)
+                        val sortedList2 = distinctList.sortedBy {
+                            it.fullName
+                        }
+                        yapContactLiveData.value = sortedList2
+                        success(distinctList)
                     }
                 }
             }

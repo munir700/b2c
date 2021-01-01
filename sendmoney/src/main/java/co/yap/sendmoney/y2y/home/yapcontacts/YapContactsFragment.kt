@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapContactsBinding
 import co.yap.sendmoney.y2y.home.fragments.YapToYapFragment
@@ -112,13 +113,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser == true && data.accountDetailList != null && !data.accountDetailList.isNullOrEmpty()) {
+                    if (data is IBeneficiary && data.isYapUser) {
                         if (parentFragment is YapToYapFragment) {
                             navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl ?: "",
-                                    data.accountDetailList?.get(0)?.accountUuid ?: "",
-                                    data.title ?: "", pos,data.beneficiaryCreationDate?:""
+                                    data.imgUrl ?: "",
+                                    data.accountUUID,
+                                    data.fullName ?: "", pos, data.creationDateOfBeneficiary
                                 ), screenType = FeatureSet.Y2Y_TRANSFER
                             )
                         }

@@ -67,7 +67,7 @@ data class Beneficiary(
 ), IBeneficiary, Parcelable {
     @IgnoredOnParcel
     override val fullName: String?
-        get() = title
+        get() = if (beneficiaryType == "Y2Y") fullName() else title
 
     @IgnoredOnParcel
     override val subtitle: String?
@@ -82,6 +82,14 @@ data class Beneficiary(
 
     override val isYapUser: Boolean
         get() = beneficiaryType == "Y2Y"
+
+    override val accountUUID: String
+        get() = beneficiaryUuid ?: ""
+
+    override val imgUrl: String?
+        get() = beneficiaryPictureUrl
+    override val creationDateOfBeneficiary: String
+        get() = beneficiaryCreationDate ?: ""
 
     fun fullName() = "$firstName $lastName"
 }
@@ -98,4 +106,6 @@ interface IBeneficiary : IYapUser {
 
 interface IYapUser {
     val isYapUser: Boolean get() = false
+    val accountUUID: String get() = ""
+    val creationDateOfBeneficiary: String get() = ""
 }
