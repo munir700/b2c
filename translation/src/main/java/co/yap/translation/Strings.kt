@@ -5,6 +5,7 @@ object Strings {
 
     // Common
     const val common_display_text_retry: String = "common_display_text_retry"
+    const val common_empty_string: String = "common_empty_string"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
     const val common_button_continue: String = "common_button_continue"
