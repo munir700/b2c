@@ -25,7 +25,6 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = false,
                         lottieFileName = "R.drawable.card_spare",
                         title = YFYAchievementTaskType.OPEN_YOUR_YAP_ACCOUNT.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.GET_STARTED,
                             YFYAchievementTaskType.OPEN_YOUR_YAP_ACCOUNT
@@ -37,7 +36,6 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.SET_PIN.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.GET_STARTED,
                             YFYAchievementTaskType.SET_PIN
@@ -49,25 +47,25 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.TOP_UP.title,
-                        buttonTitle = "Add money now",
+                        buttonTitle = Strings.screen_yfy_add_money_to_account_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.GET_STARTED,
                             YFYAchievementTaskType.TOP_UP
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_add_money_to_account_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "set_profile_picture_lottie.json",
                         title = YFYAchievementTaskType.SET_PROFILE_PICTURE.title,
-                        buttonTitle = "Set it now",
+                        buttonTitle = Strings.screen_yfy_set_a_profile_photo_button_label,
                         activityOnAction = SetCardPinWelcomeActivity::javaClass.name,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.GET_STARTED,
                             YFYAchievementTaskType.SET_PROFILE_PICTURE
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_set_a_profile_photo_description,
                         successDescription = ""
                     )
                 )
@@ -82,48 +80,45 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "use_yap_locally.json",
                         title = YFYAchievementTaskType.USE_YAP_LOCALLY.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.UP_AND_RUNNING,
                             YFYAchievementTaskType.USE_YAP_LOCALLY
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_use_yap_locally_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
-                        lottieFileName = "freez _and_unfreeze_your_card_lottie.json",
+                        lottieFileName = "freez_and_unfreeze_your_card_lottie.json",
                         title = YFYAchievementTaskType.FREEZE_UNFREEZE_CARD.title,
-                        buttonTitle = "Try freezing now",
+                        buttonTitle = Strings.screen_yfy_freeze_unfreeze_card_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.UP_AND_RUNNING,
                             YFYAchievementTaskType.FREEZE_UNFREEZE_CARD
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_freeze_unfreeze_card_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "spend_aed_amount.json",
                         title = YFYAchievementTaskType.SPEND_AMOUNT.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.UP_AND_RUNNING,
                             YFYAchievementTaskType.SPEND_AMOUNT
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_spend_aed_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.EXPLORE_CARD_CONTROLS.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.UP_AND_RUNNING,
                             YFYAchievementTaskType.EXPLORE_CARD_CONTROLS
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_explore_card_control_description,
                         successDescription = ""
                     )
                 )
@@ -138,48 +133,45 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "invite_friend_lottie.json",
                         title = YFYAchievementTaskType.INVITE_FRIEND.title,
-                        buttonTitle = "Invite a friend",
+                        buttonTitle = Strings.screen_yfy_invite_a_friend_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.BETTER_TOGETHER,
                             YFYAchievementTaskType.INVITE_FRIEND
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_invite_a_friend_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "make_a_y2y_transfer_lottie.json",
                         title = YFYAchievementTaskType.MAKE_Y2Y_TRANSFER.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.BETTER_TOGETHER,
                             YFYAchievementTaskType.MAKE_Y2Y_TRANSFER
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_send_money_to_someone_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.SPLIT_BILLS_WITH_YAP.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.BETTER_TOGETHER,
                             YFYAchievementTaskType.SPLIT_BILLS_WITH_YAP
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_split_bills_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.SEND_MONEY_OUTSIDE_YAP.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.BETTER_TOGETHER,
                             YFYAchievementTaskType.SEND_MONEY_OUTSIDE_YAP
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_send_money_outside_yap_description,
                         successDescription = ""
                     )
                 )
@@ -194,7 +186,6 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.ORDER_SPARE_CARD.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
                             YFYAchievementTaskType.ORDER_SPARE_CARD
@@ -206,36 +197,36 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.UPGRADE_TO_PRIME.title,
-                        buttonTitle = "Upgrade now",
+                        buttonTitle = Strings.screen_yfy_upgrade_to_prime_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
                             YFYAchievementTaskType.UPGRADE_TO_PRIME
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_upgrade_to_prime_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.UPGRADE_TO_METAL.title,
-                        buttonTitle = "Upgrade now",
+                        buttonTitle = Strings.screen_yfy_upgrade_to_prime_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
                             YFYAchievementTaskType.UPGRADE_TO_METAL
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_go_metal_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "multicurrency_lottie.json",
                         title = YFYAchievementTaskType.SETUP_MULTI_CURRENCY.title,
-                        buttonTitle = "Set up",
+                        buttonTitle = Strings.screen_yfy_set_multi_currency_account_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.TAKE_THE_LEAP,
                             YFYAchievementTaskType.SETUP_MULTI_CURRENCY
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_set_multi_currency_account_description,
                         successDescription = ""
                     )
                 )
@@ -250,48 +241,46 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "cards_lottie.json",
                         title = YFYAchievementTaskType.GET_YAP_YOUNG.title,
-                        buttonTitle = "Get YAP Young now",
+                        buttonTitle = Strings.screen_yfy_get_yap_young_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
                             YFYAchievementTaskType.GET_YAP_YOUNG
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_get_yap_young_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.GET_YAP_HOUSEHOLD.title,
-                        buttonTitle = "Get YAP Household now",
+                        buttonTitle = Strings.screen_yfy_signup_to_hh_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
                             YFYAchievementTaskType.GET_YAP_HOUSEHOLD
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_signup_to_hh_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "set_missions_lottie.json",
                         title = YFYAchievementTaskType.SET_MISSIONS_ON_YAP_YOUNG.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
                             YFYAchievementTaskType.SET_MISSIONS_ON_YAP_YOUNG
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_set_a_mission_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.SALARY_TRANSFER_ON_YAP_HOUSEHOLD.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
                             YFYAchievementTaskType.SALARY_TRANSFER_ON_YAP_HOUSEHOLD
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_pay_your_help_description,
                         successDescription = ""
                     )
                 )
@@ -306,36 +295,34 @@ class Y4YGraphComposer : IY4YComposer {
                         isLottie = true,
                         lottieFileName = "invite_friend_lottie.json",
                         title = YFYAchievementTaskType.INVITE_TEN_FRIENDS.title,
-                        buttonTitle = "Invite friend",
+                        buttonTitle = Strings.screen_yfy_invite_ten_friends_button_label,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YOU_ARE_PRO,
                             YFYAchievementTaskType.INVITE_TEN_FRIENDS
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_invite_ten_friends_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.SPEND_THOUSAND_AED.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YOU_ARE_PRO,
                             YFYAchievementTaskType.SPEND_THOUSAND_AED
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_spend_thousand_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
                         isLottie = true,
                         lottieFileName = "top_up_lottie.json",
                         title = YFYAchievementTaskType.COMPLETE_RENEWAL.title,
-                        buttonTitle = null,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YOU_ARE_PRO,
                             YFYAchievementTaskType.COMPLETE_RENEWAL
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_complete_renewal_description,
                         successDescription = ""
                     )
                 )
