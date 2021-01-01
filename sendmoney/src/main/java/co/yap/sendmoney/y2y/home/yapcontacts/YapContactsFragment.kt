@@ -65,7 +65,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     @SuppressLint("SetTextI18n")
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
-        viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
+        viewModel.parentViewModel?.y2yBeneficiries?.observe(this, Observer {
             viewModel.contactsAdapter.setList(it)
             getBinding().txtError.visibility = View.GONE
             getBinding().ivNoYapContact.visibility = View.GONE

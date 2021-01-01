@@ -6,10 +6,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
-import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapToYapBinding
+import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.sendmoney.y2y.home.adaptors.PHONE_CONTACTS
 import co.yap.sendmoney.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.sendmoney.y2y.home.adaptors.YAP_CONTACTS
@@ -55,7 +56,10 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         if (viewModel.parentViewModel?.isSearching?.value == true) {
             layoutRecent.visibility = View.GONE
         } else {
-            viewModel.getRecentBeneficiaries()
+            viewModel.parentViewModel?.getY2YAndY2YRecentBeneficiaries {
+                viewModel.state.isNoRecents.set(it.isNullOrEmpty())
+                viewModel.recentsAdapter.setList(viewModel.parentViewModel?.y2yRecentBeneficiries?.value as List<CoreRecentBeneficiaryItem>)
+            }
         }
     }
 

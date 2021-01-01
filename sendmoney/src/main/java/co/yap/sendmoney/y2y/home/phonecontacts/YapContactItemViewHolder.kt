@@ -2,6 +2,7 @@ package co.yap.sendmoney.y2y.home.phonecontacts
 
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.databinding.ItemContactsBinding
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -10,7 +11,7 @@ class YapContactItemViewHolder(private val itemContactsBinding: ItemContactsBind
     RecyclerView.ViewHolder(itemContactsBinding.root) {
 
     fun onBind(
-        contact: Contact?,
+        contact: IBeneficiary?,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {

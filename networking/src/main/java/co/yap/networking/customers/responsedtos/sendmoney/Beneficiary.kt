@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Beneficiary(
-
     @SerializedName("id")
     var id: Int? = null,
     @SerializedName("beneficiaryId")
@@ -72,7 +71,7 @@ data class Beneficiary(
 
     @IgnoredOnParcel
     override val subtitle: String?
-        get() = fullName()
+        get() = if (beneficiaryType == "Y2Y") mobileNo else fullName()
 
     @IgnoredOnParcel
     override val userType: String?
@@ -81,10 +80,13 @@ data class Beneficiary(
     override val flag: String?
         get() = country
 
+    override val isYapUser: Boolean
+        get() = beneficiaryType == "Y2Y"
+
     fun fullName() = "$firstName $lastName"
 }
 
-interface IBeneficiary {
+interface IBeneficiary : IYapUser {
     val fullName: String? get() = null
     val subtitle: String? get() = null
     val icon: String? get() = null
@@ -92,4 +94,8 @@ interface IBeneficiary {
     val userType: String? get() = null
     val imgUrl: String? get() = null
     val sendMoneyType: String? get() = null
+}
+
+interface IYapUser {
+    val isYapUser: Boolean get() = false
 }

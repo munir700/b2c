@@ -35,8 +35,8 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         initState()
         initComponents()
-        setObservers()
-        viewModel.getY2YBeneficiaries()
+//        setObservers()
+//        viewModel.getY2YBeneficiaries()
     }
 
     private fun initComponents() {
@@ -69,7 +69,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun setObservers() {
-        viewModel.phoneContactLiveData.observe(this, Observer {
+        viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             adaptor.setList(it)
             getBinding().tvContactListDescription.visibility =
                 if (it.isEmpty()) {

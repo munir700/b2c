@@ -48,7 +48,6 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-
         }
     }
 }
