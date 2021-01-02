@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.home.interfaces
 
-import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.networking.notification.HomeNotification
 
 interface NotificationItemClickListener {
     fun onClick(notification: HomeNotification, position: Int)

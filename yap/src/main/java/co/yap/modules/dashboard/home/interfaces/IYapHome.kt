@@ -4,7 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
-import co.yap.modules.dashboard.home.models.HomeNotification
+import co.yap.networking.notification.HomeNotification
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData

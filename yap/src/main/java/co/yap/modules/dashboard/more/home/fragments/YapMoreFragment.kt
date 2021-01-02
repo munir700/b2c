@@ -21,7 +21,7 @@ import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
+import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.translation.Strings
@@ -115,7 +115,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+                dimen(R.dimen.margin_normal_large), 2, true
             )
         )
         adapter.allowFullItemClickListener = true
@@ -158,10 +158,6 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         }
     }
 
-    private fun openNotifications() {
-        startActivity(Intent(requireContext(), NotificationsActivity::class.java))
-    }
-
     private fun openMaps() {
         //for zoom level z=zoom
         val uri = Uri.parse("geo:3.4241,53.847?q=" + Uri.encode("Rakbank Atm"))
@@ -199,7 +195,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
             }
             Constants.MORE_NOTIFICATION -> {
-                Utils.showComingSoon(requireContext())
+                launchActivity<NotificationsActivity> {  }
             }
             Constants.MORE_LOCATE_ATM -> {
                 startFragment(CdmMapFragment::class.java.name)

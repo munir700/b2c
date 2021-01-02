@@ -54,8 +54,8 @@ class AddVirtualCardFragment : AddPaymentChildFragment<IAddVirtualCard.ViewModel
                         val view =
                             layoutInflater.inflate(R.layout.item_circle_view, null) as CircleView
                         view.layoutParams = ViewGroup.LayoutParams(
-                            dimen(R.dimen._20sdp) ?: R.dimen._20sdp,
-                            dimen(R.dimen._20sdp) ?: R.dimen._20sdp
+                            dimen(R.dimen._20sdp),
+                            dimen(R.dimen._20sdp)
                         )
                         try {
                             view.circleColorStart =

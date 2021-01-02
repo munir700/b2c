@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
@@ -177,6 +178,11 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
+        imageView.setImageResource(resource)
+    }
+    @JvmStatic
+    @BindingAdapter("app:srcCompat")
+    fun setImageViewResource(imageView: CoreCircularImageView, resource: Int) {
         imageView.setImageResource(resource)
     }
 

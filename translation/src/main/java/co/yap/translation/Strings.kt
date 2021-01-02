@@ -16,6 +16,7 @@ object Strings {
     const val common_button_settings: String = "common_button_settings"
     const val common_button_save: String = "common_button_save"
     const val common_button_activate: String = "common_button_activate"
+    const val common_button_delete: String = "common_button_delete"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
     const val common_display_text_nothing_to_report: String =
@@ -1870,19 +1871,19 @@ object Strings {
 
     // Send Money Home Screen
     const val screen_send_money_home_display_text_send_money: String =
-            "screen_send_money_home_display_text_send_money"
+        "screen_send_money_home_display_text_send_money"
     const val screen_send_money_home_display_text_recent_transfers: String =
-            "screen_send_money_home_display_text_recent_transfers"
+        "screen_send_money_home_display_text_recent_transfers"
     const val screen_send_money_home_display_text_send_money_home: String =
-            "screen_send_money_home_display_text_send_money_home"
+        "screen_send_money_home_display_text_send_money_home"
     const val screen_send_money_home_display_text_get_best_rates: String =
-            "screen_send_money_home_display_text_get_best_rates"
+        "screen_send_money_home_display_text_get_best_rates"
     const val screen_send_money_home_display_text_change_home_country: String =
-            "screen_send_money_home_display_text_change_home_country"
+        "screen_send_money_home_display_text_change_home_country"
     const val screen_send_money_home_display_text_hide: String =
-            "screen_send_money_home_display_text_hide"
+        "screen_send_money_home_display_text_hide"
     const val screen_send_money_home_title: String =
-            "screen_send_money_home_title"
+        "screen_send_money_home_title"
     const val screen_send_money_home_display_text_compare: String =
         "screen_send_money_home_display_text_compare"
 
@@ -1901,4 +1902,20 @@ object Strings {
         "screen_dashboard_menu_display_text_my_profile"
     const val screen_change_passcode_success_display_text_heading: String =
         "screen_change_passcode_success_display_text_heading"
+
+    // Notifications
+    const val screen_home_help_and_support_desc: String =
+        "screen_home_help_and_support_desc"
+    const val screen_home_complete_verification_desc: String =
+        "screen_home_complete_verification_desc"
+    const val screen_home_set_pin_desc: String =
+        "screen_home_set_pin_desc"
+    const val screen_home_renewed_id_title: String =
+        "screen_home_renewed_id_title"
+    const val screen_home_renewed_id_desc: String =
+        "screen_home_renewed_id_desc"
+    const val screen_notification_listing_display_text_delete_alert_title: String =
+        "screen_notification_listing_display_text_delete_alert_title"
+    const val screen_notification_listing_display_text_delete_message: String =
+        "screen_notification_listing_display_text_delete_message"
 }

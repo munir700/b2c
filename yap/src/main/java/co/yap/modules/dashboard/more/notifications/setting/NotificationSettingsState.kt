@@ -1,8 +1,7 @@
-package co.yap.modules.dashboard.more.notification.states
+package co.yap.modules.dashboard.more.notifications.setting
 
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.dashboard.more.notification.interfaces.INotificationSettings
 import co.yap.yapcore.BaseState
 
 class NotificationSettingsState : BaseState(), INotificationSettings.State {
