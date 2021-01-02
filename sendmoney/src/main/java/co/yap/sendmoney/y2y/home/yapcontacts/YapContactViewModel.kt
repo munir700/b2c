@@ -14,19 +14,10 @@ class YapContactViewModel(application: Application) :
 
     override val state: IYapContact.State = YapContactState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var contactsAdapter: YapContactsAdaptor = YapContactsAdaptor(mutableListOf())
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
-    }
-
-    override fun getState(): LiveData<PagingState> {
-        return pagingState
-    }
-
-    override fun retry() {
-
     }
 
 }

@@ -1,12 +1,10 @@
 package co.yap.sendmoney.y2y.home.yapcontacts
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import co.yap.networking.customers.requestdtos.Contact
-import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableInt
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.PagingState
 
 interface IYapContact {
 
@@ -15,12 +13,14 @@ interface IYapContact {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var contactsAdapter: YapContactsAdaptor
-        fun getState(): LiveData<PagingState>
         fun handlePressOnView(id: Int)
-        fun retry()
     }
 
     interface State : IBase.State {
-        var listCountDescription: String
+        var stateLiveData: MutableLiveData<co.yap.widgets.State>
+        var isNoYapContacts: ObservableBoolean
+        var isNoSearchResult: ObservableBoolean
+        var isShowContactsCounter: ObservableBoolean
+        var contactsCounts: ObservableInt
     }
 }

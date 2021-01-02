@@ -45,14 +45,10 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
     override fun getY2YAndY2YRecentBeneficiaries(success: (List<IBeneficiary>) -> Unit) {
         fetchCombinedBeneficiariesApis { y2yRecentResponse ->
             launch(Dispatcher.Main) {
-                val combinedList: ArrayList<IBeneficiary> = arrayListOf()
                 when (y2yRecentResponse) {
                     is RetroApiResponse.Success -> {
                         y2yRecentResponse.data.data.parseRecentItems(context)
                         y2yRecentBeneficiries.value = y2yRecentResponse.data.data
-                        combinedList.addAll(
-                            y2yRecentResponse.data.data as ArrayList<IBeneficiary>
-                        )
                     }
                     is RetroApiResponse.Error -> {
                     }
@@ -63,28 +59,38 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
                             it.mobileNo =
                                 Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
                         }
-                        val a = y2yBeneficiaries.partition { it.yapUser == true }
-
-
-                        combinedList.addAll(a.first)
-                        val sortedList = combinedList.sortedBy {
-                            it.fullName
-                        }
-                        val distinctList = sortedList.distinctBy {
-                            it.accountUUID
-                        } as ArrayList<IBeneficiary>
-
-                        y2yBeneficiries.value = distinctList
-                        distinctList.addAll(a.second)
-                        val sortedList2 = distinctList.sortedBy {
-                            it.fullName
-                        }
-                        yapContactLiveData.value = sortedList2
-                        success(distinctList)
+                        val partitionedContactList =
+                            y2yBeneficiaries.partition { it.yapUser == true }
+                        val contacts = composingYapContacts(
+                            partitionedContactList,
+                            y2yRecentBeneficiries.value ?: arrayListOf()
+                        )
+                        y2yBeneficiries.value = contacts.first
+                        yapContactLiveData.value = contacts.second
+                        success.invoke(y2yRecentBeneficiries.value ?: arrayListOf())
                     }
                 }
             }
         }
+    }
+
+    private fun composingYapContacts(
+        contactsList: Pair<List<Contact>, List<Contact>>,
+        recents: List<IBeneficiary>
+    ): Pair<List<IBeneficiary>, List<IBeneficiary>> {
+        var yapContacts: ArrayList<IBeneficiary> = arrayListOf()
+        yapContacts.addAll(contactsList.first)
+        yapContacts.addAll(recents)
+        yapContacts =
+            yapContacts.distinctBy { it.accountUUID } as ArrayList<IBeneficiary>
+        yapContacts.sortedBy { it.fullName }
+
+        val allContacts: ArrayList<IBeneficiary> = arrayListOf()
+        allContacts.addAll(contactsList.second)
+        allContacts.addAll(yapContacts)
+        allContacts.sortedBy { it.fullName }
+
+        return Pair(yapContacts, allContacts)
     }
 
     private fun fetchCombinedBeneficiariesApis(
