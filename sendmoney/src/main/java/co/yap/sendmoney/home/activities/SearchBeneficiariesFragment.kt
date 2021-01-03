@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 class SearchBeneficiariesFragment :
     SMBeneficiaryParentBaseFragment<ISMSearchBeneficiary.ViewModel>(),
     ISMSearchBeneficiary.View {
-    private lateinit var onTouchListener: RecyclerTouchListener
+    private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_search_beneficiary
 
@@ -99,7 +99,7 @@ class SearchBeneficiariesFragment :
                         viewModel.clickEvent.setValue(viewID)
                     }
 
-            onTouchListener.setSwipeable(viewModel.parentViewModel?.state?.sendMoneyType?.value != SendMoneyTransferType.ALL_Y2Y_SM.name)
+            onTouchListener?.setSwipeable(viewModel.parentViewModel?.state?.sendMoneyType?.value != SendMoneyTransferType.ALL_Y2Y_SM.name)
         }
     }
 
@@ -230,6 +230,7 @@ class SearchBeneficiariesFragment :
             }
             Status.ERROR -> {
                 getBindings().multiStateView.viewState = MultiStateView.ViewState.ERROR
+                getBindings().rvAllBeneficiaries.showOriginalAdapter()
             }
             Status.SUCCESS -> {
                 getBindings().multiStateView.viewState = MultiStateView.ViewState.CONTENT
@@ -269,12 +270,12 @@ class SearchBeneficiariesFragment :
 
     override fun onPause() {
         super.onPause()
-        getBindings().rvAllBeneficiaries.removeOnItemTouchListener(onTouchListener)
+        onTouchListener?.let { getBindings().rvAllBeneficiaries.removeOnItemTouchListener(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        getBindings().rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
+        onTouchListener?.let { getBindings().rvAllBeneficiaries.addOnItemTouchListener(it) }
     }
 
     override fun removeObservers() {

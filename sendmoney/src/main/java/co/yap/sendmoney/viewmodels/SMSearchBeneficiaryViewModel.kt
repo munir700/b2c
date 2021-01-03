@@ -12,6 +12,7 @@ import co.yap.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.sendmoney.home.interfaces.ISMSearchBeneficiary
 import co.yap.sendmoney.home.main.SMBeneficiaryParentBaseViewModel
 import co.yap.sendmoney.home.states.SMSearchBeneficiaryState
+import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyTransferType
@@ -42,6 +43,7 @@ class SMSearchBeneficiaryViewModel(application: Application) :
             getY2YAndSMBeneficiaries {
                 adapter.setList(it.sortedBy { beneficiary -> beneficiary.fullName })
                 state.viewState.value = false
+                if (it.isNullOrEmpty()) state.stateLiveData.value = State.error(null)
             }
         } else {
             adapter.setList(parentViewModel?.beneficiariesList?.value ?: arrayListOf())
