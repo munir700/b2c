@@ -3,6 +3,7 @@ package co.yap.sendmoney.viewmodels
 import android.app.Application
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -16,6 +17,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyTransferType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getLocalContacts
+import co.yap.yapcore.helpers.extentions.parseRecentItems
 import co.yap.yapcore.helpers.extentions.removeOwnContact
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -47,16 +49,21 @@ class SMSearchBeneficiaryViewModel(application: Application) :
     }
 
     private fun getY2YAndSMBeneficiaries(success: (ArrayList<IBeneficiary>) -> Unit) {
-        fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse ->
+        fetchCombinedBeneficiariesApis { sendMoneyBeneficiariesResponse, y2yRecentsResponse ->
             launch(Dispatcher.Main) {
                 val combinedList: ArrayList<IBeneficiary> = arrayListOf()
+                val combinedY2YAndRecentsList: ArrayList<IBeneficiary> = arrayListOf()
                 when (sendMoneyBeneficiariesResponse) {
                     is RetroApiResponse.Success -> {
-                        combinedList.addAll(
-                            sendMoneyBeneficiariesResponse.data.data as ArrayList<IBeneficiary>
-                        )
+                        combinedList.addAll(sendMoneyBeneficiariesResponse.data.data)
                     }
-                    is RetroApiResponse.Error -> {
+                }
+                when (y2yRecentsResponse) {
+                    is RetroApiResponse.Success -> {
+                        y2yRecentsResponse.data.data.parseRecentItems(context)
+                        combinedY2YAndRecentsList.addAll(
+                            y2yRecentsResponse.data.data ?: arrayListOf()
+                        )
                     }
                 }
                 getLocalContactsFromServer { y2yBeneficiaries ->
@@ -65,7 +72,10 @@ class SMSearchBeneficiaryViewModel(application: Application) :
                             it.mobileNo =
                                 Utils.getFormattedPhoneNumber(context, it.countryCode + it.mobileNo)
                         }
-                        combinedList.addAll(y2yBeneficiaries?.filter { it.yapUser == true } as ArrayList<IBeneficiary>)
+                        combinedY2YAndRecentsList.addAll(y2yBeneficiaries.filter { it.yapUser == true })
+                        val distinctY2YList =
+                            combinedY2YAndRecentsList.distinctBy { it.accountUUID }
+                        combinedList.addAll(distinctY2YList)
                         success(combinedList)
                     }
                 }
@@ -74,17 +84,17 @@ class SMSearchBeneficiaryViewModel(application: Application) :
     }
 
     private fun fetchCombinedBeneficiariesApis(
-        responses: (RetroApiResponse<GetAllBeneficiaryResponse>?) -> Unit
+        responses: (RetroApiResponse<GetAllBeneficiaryResponse>?, RetroApiResponse<RecentBeneficiariesResponse>) -> Unit
     ) {
         launch(Dispatcher.Background) {
             state.viewState.postValue(true)
             coroutineScope {
                 val deferredSM = async { repository.getAllBeneficiaries() }
-                responses(deferredSM.await())
+                val deferredY2YRecents = async { repository.getRecentY2YBeneficiaries() }
+                responses(deferredSM.await(), deferredY2YRecents.await())
             }
         }
     }
-
     private suspend fun getLocalContactsFromServer(contactsList: (List<Contact>) -> Unit) {
         launch(Dispatcher.LongOperation) {
             val localContacts = getLocalContacts(context).removeOwnContact()

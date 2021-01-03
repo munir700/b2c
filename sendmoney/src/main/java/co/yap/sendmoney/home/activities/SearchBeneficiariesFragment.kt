@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentSearchBeneficiaryBinding
@@ -116,14 +116,17 @@ class SearchBeneficiariesFragment :
             R.id.foregroundContainer -> {
                 viewModel.clickEvent.getPayload()?.let { payload ->
                     when (payload.itemData) {
-                        is Beneficiary -> {
-                            startMoneyTransfer(payload.itemData as Beneficiary, payload.position)
-                        }
-                        is Contact -> {
-                            startY2YTransfer(
-                                viewModel.parentViewModel?.getBeneficiaryFromContact(payload.itemData as Contact),
-                                payload.position
-                            )
+                        is IBeneficiary -> {
+                            if ((payload.itemData as IBeneficiary).isYapUser) {
+                                startY2YTransfer(
+                                    viewModel.parentViewModel?.getBeneficiaryFromContact(payload.itemData as IBeneficiary),
+                                    payload.position
+                                )
+                            } else
+                                startMoneyTransfer(
+                                    payload.itemData as Beneficiary,
+                                    payload.position
+                                )
                         }
                     }
                 }
