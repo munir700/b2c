@@ -83,12 +83,12 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
         yapContacts.addAll(recents)
         yapContacts =
             yapContacts.distinctBy { it.accountUUID } as ArrayList<IBeneficiary>
-        yapContacts.sortedBy { it.fullName }
+        yapContacts.sortBy { it.fullName }
 
         val allContacts: ArrayList<IBeneficiary> = arrayListOf()
         allContacts.addAll(contactsList.second)
         allContacts.addAll(yapContacts)
-        allContacts.sortedBy { it.fullName }
+        allContacts.sortBy { it.fullName }
 
         return Pair(yapContacts, allContacts)
     }

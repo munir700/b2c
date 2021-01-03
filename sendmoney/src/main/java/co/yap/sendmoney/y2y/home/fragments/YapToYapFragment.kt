@@ -9,7 +9,6 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapToYapBinding
-import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.sendmoney.y2y.home.adaptors.PHONE_CONTACTS
 import co.yap.sendmoney.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.sendmoney.y2y.home.adaptors.YAP_CONTACTS
@@ -20,8 +19,6 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
@@ -83,6 +80,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
+                viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
                 navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
             }
             R.id.tvCancel -> {
@@ -91,13 +89,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             R.id.tvHideRecents, R.id.recents -> {
                 viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
             }
-        }
-    }
-
-    private fun openY2YScreen() {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
-            putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, true)
-            putExtra(ExtraKeys.Y2Y_SELECTED_TAB_POS.name, tabLayout.selectedTabPosition)
         }
     }
 

@@ -7,10 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapContactsBinding
-import co.yap.sendmoney.y2y.home.fragments.Y2YSearchContactsFragment
-import co.yap.sendmoney.y2y.home.fragments.Y2YSearchContactsFragmentDirections
-import co.yap.sendmoney.y2y.home.fragments.YapToYapFragment
-import co.yap.sendmoney.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.widgets.State
 import co.yap.widgets.Status
@@ -21,7 +17,7 @@ import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
+class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>(), IYapContact.View {
     private lateinit var skeleton: Skeleton
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_contacts
@@ -74,27 +70,22 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
             when (view.id) {
                 R.id.lyContact -> {
                     if (data is IBeneficiary && data.isYapUser) {
-                        if (parentFragment is YapToYapFragment) {
-                            navigate(
-                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.imgUrl ?: "",
-                                    data.accountUUID,
-                                    data.fullName ?: "", pos, data.creationDateOfBeneficiary
-                                ), screenType = FeatureSet.Y2Y_TRANSFER
-                            )
-                        } else if (parentFragment is Y2YSearchContactsFragment) {
-                            navigate(
-                                Y2YSearchContactsFragmentDirections.actionY2YSearchContactsFragmentToY2YTransferFragment(
-                                    data.imgUrl ?: "",
-                                    data.accountUUID,
-                                    data.fullName ?: "", pos, data.creationDateOfBeneficiary
-                                ), screenType = FeatureSet.Y2Y_TRANSFER
-                            )
-                        }
+                        navigateToTransferScreen(
+                            viewModel.getBundle(data, pos),
+                            viewModel.getActionId(parentFragment)
+                        )
                     }
                 }
             }
         }
+    }
+
+    override fun navigateToTransferScreen(args: Bundle, actionId: Int) {
+        navigate(
+            actionId,
+            args = args,
+            screenType = FeatureSet.Y2Y_TRANSFER
+        )
     }
 
 
