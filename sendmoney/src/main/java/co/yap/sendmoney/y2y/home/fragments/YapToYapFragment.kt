@@ -2,12 +2,11 @@ package co.yap.sendmoney.y2y.home.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
-import co.yap.sendmoney.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.CoreRecentBeneficiaryItem
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentYapToYapBinding
 import co.yap.sendmoney.y2y.home.adaptors.PHONE_CONTACTS
@@ -20,13 +19,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.helpers.ExtraKeys
-import co.yap.yapcore.helpers.extentions.hideKeyboard
-import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
-
 
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -39,23 +34,20 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         super.onCreate(savedInstanceState)
         viewModel.parentViewModel?.beneficiary?.let {
             skipYapHomeFragment()
-        } ?: viewModel.clickEvent.observe(this, clickEventObserver)
-
+        } ?:setupRecent()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdaptor()
         setupTabs()
-        setSearchView(viewModel.parentViewModel?.isSearching?.value == true)
-        setupRecent()
     }
 
     private fun setupRecent() {
-        if (viewModel.parentViewModel?.isSearching?.value == true) {
-            layoutRecent.visibility = View.GONE
-        } else {
-            viewModel.getRecentBeneficiaries()
+        viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.parentViewModel?.getY2YAndY2YRecentBeneficiaries {
+            viewModel.state.isNoRecents.set(it.isNullOrEmpty())
+            viewModel.recentsAdapter.setList(viewModel.parentViewModel?.y2yRecentBeneficiries?.value as List<CoreRecentBeneficiaryItem>)
         }
     }
 
@@ -85,45 +77,11 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         }
     }
 
-    private fun setSearchView(show: Boolean) {
-        getBindingView().layoutSearchView.ivSearch.visibility =
-            if (!show) View.VISIBLE else View.GONE
-        getBindingView().layoutSearchView.tvSearch.visibility =
-            if (!show) View.VISIBLE else View.GONE
-        getBindingView().layoutSearchView.svContacts.visibility =
-            if (!show) View.GONE else View.VISIBLE
-
-        if (!show) {
-            getBindingView().layoutSearchView.svContacts.isIconified = true
-            getBindingView().run { layoutSearchView.svContacts.setIconifiedByDefault(false) }
-            getBindingView().tvCancel.visibility = View.GONE
-        } else {
-            getBindingView().tvCancel.visibility = View.VISIBLE
-            getBindingView().layoutSearchView.svContacts.isIconified = false
-            getBindingView().run { layoutSearchView.svContacts.setIconifiedByDefault(false) }
-            getBindingView().layoutSearchView.svContacts.setOnQueryTextListener(object :
-                SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    viewModel.parentViewModel?.searchQuery?.value = query
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.parentViewModel?.searchQuery?.value = newText
-                    return true
-                }
-            })
-            getBindingView().layoutSearchView.svContacts.onFocusChangeListener =
-                View.OnFocusChangeListener { view, hasFoucs -> if (!hasFoucs) view.hideKeyboard() }
-        }
-    }
-
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
-                if (viewModel.parentViewModel?.isSearching?.value == false) {
-                    openY2YScreen()
-                }
+                viewModel.parentViewModel?.selectedTabPos?.value = tabLayout.selectedTabPosition
+                navigate(R.id.action_yapToYapHome_to_y2YSearchContactsFragment)
             }
             R.id.tvCancel -> {
                 activity?.finish()
@@ -131,13 +89,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             R.id.tvHideRecents, R.id.recents -> {
                 viewModel.state.isRecentsVisible.set(getBindingView().layoutRecent.recyclerView.visibility == View.VISIBLE)
             }
-        }
-    }
-
-    private fun openY2YScreen() {
-        launchActivity<YapToYapDashboardActivity>(type = FeatureSet.YAP_TO_YAP) {
-            putExtra(ExtraKeys.IS_Y2Y_SEARCHING.name, true)
-            putExtra(ExtraKeys.Y2Y_SELECTED_TAB_POS.name, tabLayout.selectedTabPosition)
         }
     }
 

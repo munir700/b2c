@@ -282,7 +282,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 SessionManager.getDefaultCurrency(),
                 viewModel.state.amount ?: "", args.position
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     override fun onDestroy() {

@@ -16,9 +16,4 @@ abstract class Y2YBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>(
                 ViewModelProviders.of(activity!!).get(Y2YViewModel::class.java)
         }
     }
-
-    override fun onBackPressed(): Boolean {
-        return false
-    }
-
 }
