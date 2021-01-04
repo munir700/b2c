@@ -150,18 +150,9 @@ fun fireEventWithAttribute(eventName: String, value: String) {
 
 fun ViewModel.trackEventWithAttributes(
     uuid: String?,
-    last_transaction_type: String? = null,
-    last_transaction_time: String? = null,
-    last_pos_txn_category: String? = null,
-    total_transaction_count: String? = null,
-    total_transaction_value: String? = null
+    info:HashMap<String, Any?>
 ) {
-    val info: HashMap<String, Any> = HashMap()
-    info[UserAttributes().last_transaction_type] = last_transaction_type ?: ""
-    info[UserAttributes().last_transaction_time] = last_transaction_time ?: ""
-    info[UserAttributes().last_pos_txn_category] = last_pos_txn_category ?: ""
-    info[UserAttributes().total_transaction_count] = total_transaction_count ?: ""
-    uuid?.let { Leanplum.setUserAttributes(it, info) }
+    Leanplum.setUserAttributes(uuid, info)
 }
 
 fun Fragment.trackEvent(

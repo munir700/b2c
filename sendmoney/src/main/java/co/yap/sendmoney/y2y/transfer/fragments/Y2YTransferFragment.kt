@@ -161,7 +161,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
-                trackEvent(Y2YEvents.YAP_TO_YAP_SENT.type)
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
@@ -188,6 +187,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         }
                         else -> {
                             viewModel.proceedToTransferAmount {
+                                trackEvent(Y2YEvents.YAP_TO_YAP_SENT.type)
                                 moveToFundTransferSuccess()
                             }
                         }

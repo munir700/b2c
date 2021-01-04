@@ -162,7 +162,6 @@ class InternationalTransactionConfirmationFragment :
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    trackEvent(SendMoneyEvents.SEND_MONEY_INTERNATIONAL.type)
                     viewModel.requestForTransfer()
                 }
             }

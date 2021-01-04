@@ -456,6 +456,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 showHomeTourGuide()
             }
         })
+
+        SessionManager.card.value?.let {
+            viewModel.fetchTransactionDetailsForLeanplum(it.cardSerialNumber)
+        }
+
     }
 
     private fun getTransactionPosition(item: HomeTransactionListData): Int? {

@@ -31,35 +31,15 @@ class CardLimitViewModel(application: Application) :
         if (switch.isPressed) {
             when (switch.id) {
                 R.id.swWithdrawal -> {
-                    if(isChecked) {
-                        trackEvent(CardEvents.CARD_CONTROL_ATM_ON.type)
-                    } else {
-                        trackEvent(CardEvents.CARD_CONTROL_ATM_OFF.type)
-                    }
                     updateAllowAtm()
                 }
                 R.id.swOnlineTra -> {
-                    if(isChecked) {
-                        trackEvent(CardEvents.CARD_CONTROL_ONLINE_ON.type)
-                    } else {
-                        trackEvent(CardEvents.CARD_CONTROL_ONLINE_OFF.type)
-                    }
                     updateOnlineTransaction()
                 }
                 R.id.swAbroad -> {
-                    if(isChecked) {
-                        trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_ON.type)
-                    } else {
-                        trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_OFF.type)
-                    }
                     updateAbroadPayment()
                 }
                 R.id.swRetail -> {
-                    if(isChecked) {
-                        trackEvent(CardEvents.CARD_CONTROL_POS_ON.type)
-                    } else {
-                        trackEvent(CardEvents.CARD_CONTROL_POS_OFF.type)
-                    }
                     updateRetailPayment()
                 }
             }
@@ -84,6 +64,11 @@ class CardLimitViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.card.get()?.atmAllowed = !state.card.get()!!.atmAllowed
+                    if(state.card.get()?.atmAllowed == true){
+                        trackEvent(CardEvents.CARD_CONTROL_ATM_ON.type)
+                    }else{
+                        trackEvent(CardEvents.CARD_CONTROL_ATM_OFF.type)
+                    }
                 }
             }
         }
@@ -107,6 +92,11 @@ class CardLimitViewModel(application: Application) :
                     state.loading = false
                     state.card.get()?.onlineBankingAllowed =
                         !state.card.get()!!.onlineBankingAllowed
+                    if(state.card.get()?.onlineBankingAllowed == true){
+                        trackEvent(CardEvents.CARD_CONTROL_ONLINE_ON.type)
+                    }else{
+                        trackEvent(CardEvents.CARD_CONTROL_ONLINE_OFF.type)
+                    }
                 }
             }
         }
@@ -131,6 +121,11 @@ class CardLimitViewModel(application: Application) :
                     state.loading = false
                     state.card.get()?.retailPaymentAllowed =
                         !state.card.get()!!.retailPaymentAllowed
+                    if(state.card.get()?.retailPaymentAllowed == true){
+                        trackEvent(CardEvents.CARD_CONTROL_POS_ON.type)
+                    }else{
+                        trackEvent(CardEvents.CARD_CONTROL_POS_OFF.type)
+                    }
                 }
             }
         }
@@ -154,7 +149,11 @@ class CardLimitViewModel(application: Application) :
                     state.loading = false
                     state.card.get()?.paymentAbroadAllowed =
                         !state.card.get()!!.paymentAbroadAllowed
-
+                    if(state.card.get()?.paymentAbroadAllowed == true){
+                        trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_ON.type)
+                    }else{
+                        trackEvent(CardEvents.CARD_CONTROL_INTERNATIONAL_OFF.type)
+                    }
                 }
             }
         }

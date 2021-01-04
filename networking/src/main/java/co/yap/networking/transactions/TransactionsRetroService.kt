@@ -7,9 +7,7 @@ import co.yap.networking.transactions.responsedtos.achievement.AchievementsRespo
 import co.yap.networking.transactions.responsedtos.purposepayment.PaymentPurposeResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
-import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
-import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -204,4 +202,8 @@ interface TransactionsRetroService {
         @Query("date") date: String?,
         @Body merchantName: ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)
+    suspend fun getTransactionDetailForLeanplum(@Path("cardSerialNo") cardSerialNo: String): Response<TransactionDataResponseForLeanplum>
+
 }

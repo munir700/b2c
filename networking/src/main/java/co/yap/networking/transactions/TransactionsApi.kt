@@ -9,6 +9,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
 
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
@@ -83,4 +84,5 @@ interface TransactionsApi {
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
+    suspend fun getTransDetailForLeanplum(cardSerialNo: String): RetroApiResponse<TransactionDataResponseForLeanplum>
 }
