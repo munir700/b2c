@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -28,12 +27,23 @@ class CardAnalyticsViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     var currentCalendar: Calendar = Calendar.getInstance()
     var creationCalender: Calendar = Calendar.getInstance()
+    var currentDate: Date? = Date()
+    private var listOfMonths: List<Date> = arrayListOf()
 
     override fun onCreate() {
         super.onCreate()
+        val startDate = SessionManager.user?.creationDate ?: ""
+        val endDate = DateUtils.dateToString(
+            Date(),
+            "yyyy-MM-dd"
+        )
+        listOfMonths = DateUtils.geMonthsBetweenTwoDates(
+            startDate,
+            endDate
+        )
         setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        SessionManager.user?.creationDate?.let {str ->
+        SessionManager.user?.creationDate?.let { str ->
             val date =
                 DateUtils.stringToDate(
                     str,
@@ -49,7 +59,7 @@ class CardAnalyticsViewModel(application: Application) :
             date?.let { dates ->
                 creationCalender.time = dates
                 if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
-                    state.previousMonth = false
+                    state.previousMonth = true
                 } else {
                     if (creationCalender.get(Calendar.MONTH) < currentCalendar.get(Calendar.MONTH)) {
                         state.previousMonth = true
@@ -63,64 +73,65 @@ class CardAnalyticsViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.ivPrevious -> {
-                if ((currentCalendar.get(Calendar.MONTH) - 1) > creationCalender.get(Calendar.MONTH)) {
-                    currentCalendar.add(Calendar.MONTH, -1)
-                    state.nextMonth = true
-                } else if ((currentCalendar.get(Calendar.MONTH) - 1) == creationCalender.get(
-                        Calendar.MONTH
-                    )
-                ) {
-                    currentCalendar.add(Calendar.MONTH, -1)
-                    state.previousMonth = false
-                    // // Proper testing remaining
-                    state.nextMonth = true
-                }
-
-                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
-                state.selectedMonth =
-                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-                fetchCardCategoryAnalytics(
-                    DateUtils.dateToString(
-                        currentCalendar.time,
-                        "yyyy-MM-dd"
-                    )
+                currentDate = DateUtils.getPriviousMonthFromCurrentDate(
+                    listOfMonths,
+                    currentDate
                 )
-                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-                parentViewModel?.state?.currentSelectedDate =
-                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
+                if (currentDate != null) {
+                    fetchCardCategoryAnalytics(
+                        DateUtils.reformatToLocalString(
+                            currentDate,
+                            "yyyy-MM-dd"
+                        )
+                    )
+                }
+                state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
+                state.nextMonth = true
+
+
+//                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
+//                state.selectedMonth =
+//                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
+//
+//                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+//                parentViewModel?.state?.currentSelectedDate =
+//                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
             R.id.ivNext -> {
-                val tempCalendar = Calendar.getInstance()
-                if ((tempCalendar.get(Calendar.MONTH) - 1) > (currentCalendar.get(Calendar.MONTH))) {
-                    currentCalendar.add(Calendar.MONTH, 1)
-                    state.previousMonth = true
-                } else if ((tempCalendar.get(Calendar.MONTH) - 1) == currentCalendar.get(Calendar.MONTH)) {
-                    currentCalendar.add(Calendar.MONTH, 1)
-                    state.nextMonth = false
-                    // Proper testing remaining
-                    state.previousMonth = true
-                }
-
-                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
-                state.selectedMonth =
-                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-                fetchCardCategoryAnalytics(
-                    DateUtils.dateToString(
-                        currentCalendar.time,
-                        "yyyy-MM-dd"
-                    )
+                currentDate = DateUtils.getNextMonthFromCurrentDate(
+                    listOfMonths,
+                    currentDate
                 )
-                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-                parentViewModel?.state?.currentSelectedDate =
-                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
+                if (currentDate != null) {
+                    fetchCardCategoryAnalytics(
+                        DateUtils.reformatToLocalString(
+                            currentDate,
+                            "yyyy-MM-dd"
+                        )
+                    )
+                }
+                state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
+                state.previousMonth = true
+
+//
+//                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
+//                state.selectedMonth =
+//                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
+//                fetchCardCategoryAnalytics(
+//                    DateUtils.dateToString(
+//                        currentCalendar.time,
+//                        "yyyy-MM-dd"
+//                    )
+//                )
+//                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+//                parentViewModel?.state?.currentSelectedDate =
+//                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
         }
         clickEvent.setValue(id)
     }
 
     override fun fetchCardCategoryAnalytics(currentMonth: String) {
-        val categoryList = ArrayList<TxnAnalytic>()
-        //call api here
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
@@ -177,56 +188,34 @@ class CardAnalyticsViewModel(application: Application) :
                     state.loading = false
                 }
             }
-            //state.loading = false
         }
-        /*merchantList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        merchantList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        merchantList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        merchantList.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        merchantList.add(
-                TxnAnalytic(
-                    "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                    "Amazon",
-                    "887.12",
-                    20.00,
-                    24
-                )
-                )
+    }
 
+    private fun isPreviousIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
+        var index: Int = -1
+        currentDate?.let {
+            for (i in listOfMonths.indices) {
+                if (DateUtils.isDateMatched(listOfMonths[i], currentDate)) {
+                    index = i
+                    break
+                }
+            }
+        }
 
-           parentVM?.merchantAnalyticsItemLiveData?.value = merchantList*/
+        return index - 1 >= 0
+    }
 
+    private fun isNextIconEnabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
+        var index: Int = -1
+        currentDate?.let {
+            for (i in listOfMonths.indices) {
+                if (DateUtils.isDateMatched(listOfMonths[i], currentDate)) {
+                    index = i
+                    break
+                }
+            }
+        }
+
+        return listOfMonths.size >= index + 2
     }
 }
