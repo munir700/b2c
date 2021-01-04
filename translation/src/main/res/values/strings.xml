@@ -1227,39 +1227,46 @@
     <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
 
     <!--    Achievements screen get started-->
+    <string name="screen_yfy_get_started_text_title">Get Started</string>
     <string name="screen_yfy_get_started_text_open_account">Open your YAP account</string>
     <string name="screen_yfy_get_started_text_set_pin">Set your PIN</string>
     <string name="screen_yfy_get_started_text_add_money">Add money to your account</string>
     <string name="screen_yfy_get_started_text_set_profile">Set a profile picture</string>
+    <string name="screen_yfy_text_locked">Locked</string>
 
     <!--  Achievements up and running-->
+    <string name="screen_yfy_up_and_running_text_title">Up and running</string>
     <string name="screen_yfy_up_and_running_text_use_yap_locally">Use YAP locally</string>
     <string name="screen_yfy_up_and_running_text_freeze_unfreeze">Freeze and unfreeze your card</string>
     <string name="screen_yfy_up_and_running_text_spend_money">Spend AED 100</string>
     <string name="screen_yfy_up_and_running_text_explore_card_controls">Explore card controls</string>
 
     <!--  Achievements better together-->
+    <string name="screen_yfy_better_together_text_title">Better Together</string>
     <string name="screen_yfy_better_together_text_invite_friend">Invite a friend</string>
     <string name="screen_yfy_better_together_text_y2y_transfer">Make a Y2Y transfer</string>
     <string name="screen_yfy_better_together_text_split_bills">Split bills with YAP</string>
     <string name="screen_yfy_better_together_text_send_money">Send money outside YAP</string>
 
     <!--  Achievements take a leap-->
+    <string name="screen_yfy_take_a_leap_text_title">Take the leap</string>
     <string name="screen_yfy_take_a_leap_text_send_money">Order a virtual card</string>
     <string name="screen_yfy_take_a_leap_text_upgrade_to_prime">Upgrade to Prime</string>
     <string name="screen_yfy_take_a_leap_text_go_metal">Go Metal</string>
     <string name="screen_yfy_take_a_leap_text_set_mc_account">Set up a multi-currency account</string>
 
+    <!--  Achievements Yap store-->
+    <string name="screen_yfy_yap_store_text_title">Yap store</string>
+    <string name="screen_yfy_yap_store_text_get_yap_young">Get YAP Young</string>
+    <string name="screen_yfy_yap_store_text_sign_up_house_hold">Sign up to Household</string>
+    <string name="screen_yfy_yap_store_text_set_mission">Set missions on YAP Young</string>
+    <string name="screen_yfy_yap_store_text_pay_your_help">Pay your help using Household</string>
+
     <!--  Achievements You are a Pro-->
+    <string name="screen_yfy_you_are_pro_text_title">You\'re a Pro!</string>
     <string name="screen_yfy_you_are_pro_text_invite_friends">Invite 10 friends to YAP</string>
     <string name="screen_yfy_you_are_pro_text_spend_amount">Spend AED 1000</string>
     <string name="screen_yfy_you_are_pro_text_complete_a_renewal">Complete a renewal</string>
-
-    <!--  Achievements Yap store-->
-    <string name="screen_yfy_you_are_pro_text_get_yap_young">Get YAP Young</string>
-    <string name="screen_yfy_you_are_pro_text_sign_up_house_hold">Sign up to Household</string>
-    <string name="screen_yfy_you_are_pro_text_set_mission">Set missions on YAP Young</string>
-    <string name="screen_yfy_you_are_pro_text_pay_your_help">Pay your help using Household</string>
 
     <!--YAP For YOU GET Started-->
     <string name="screen_yfy_open_yap_account_description">That first step was easy! Welcome to YAP. We\'re so happy you\'re here :)</string>

@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.more.yapforyou.interfaces
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import co.yap.modules.dashboard.more.yapforyou.YapForYouManager
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
@@ -20,9 +19,6 @@ interface IYapForYouMain {
         var selectedPosition: Int
         var achievementsList: MutableList<Y4YAchievementData>
         fun handlePressButton(id: Int)
-        fun getDescriptionContent(tag: String): YapForYouDataModel?
-        fun configureYFYManager(tag: String)
-        fun getYfyTag(): String
     }
 
     interface State : IBase.State {
@@ -30,6 +26,5 @@ interface IYapForYouMain {
         var leftIcon: ObservableField<Int>
         var leftIconVisibility: ObservableBoolean
         var descriptionDataModel: ObservableField<YapForYouDataModel>?
-        var yapForYouManager: YapForYouManager
     }
 }

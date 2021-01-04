@@ -14,6 +14,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.translation.Strings
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.delay
 import org.json.JSONObject
@@ -48,19 +49,21 @@ class YAPForYouViewModel(application: Application) :
     }
 
     override fun getAchievements() {
-        //TODO do this in background
-        state.loading = true
-        launch {
-            when (val response = repository.getAchievements()) {
-                is RetroApiResponse.Success -> {
-                    parentViewModel?.achievementsList =
-                        y4yComposer.compose(response.data.data as ArrayList<Achievement>)
-                    adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
-                    state.loading = false
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    showDialogWithCancel(response.error.message)
+        launch(Dispatcher.Background) {
+            state.viewState.postValue(true)
+            val response = repository.getAchievements()
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        parentViewModel?.achievementsList =
+                            y4yComposer.compose(response.data.data as ArrayList<Achievement>)
+                        adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
+                        state.viewState.value = false
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.viewState.value = false
+                        showToast(response.error.message)
+                    }
                 }
             }
         }

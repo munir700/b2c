@@ -32,7 +32,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@{viewModel.parentViewModel.selectedAchievement.title}"
+                app:text="@{viewModel.parentViewModel.selectedAchievement.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:loadLottieAnimation="@{viewModel.parentViewModel.selectedAchievementTask.lottieFileName}"
+                app:loadLottieAnimation="@{viewModel.parentViewModel.selectedAchievementTask.done?viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName :viewModel.parentViewModel.selectedAchievementTask.lottieDetailsFileName}"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
 
@@ -90,18 +90,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
-                app:text="@{viewModel.parentViewModel.selectedAchievementTask.description}"
+                app:text="@{viewModel.parentViewModel.selectedAchievementTask.done?Strings.screen_yfy_get_started_success_description :viewModel.parentViewModel.selectedAchievementTask.description}"
                 tools:text="Teach your kids how to be good with money. Set up a YAP Young account for your child and send them pocket money through the app into their YAP Young card! " />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnGetYapYoungNow"
+                android:id="@+id/btnAction"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.buttonTitle ==null? View.GONE:View.VISIBLE}"
+                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.buttonTitle ==null || viewModel.parentViewModel.selectedAchievementTask.done? View.GONE:View.VISIBLE}"
                 app:btn_size="small"
                 app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
