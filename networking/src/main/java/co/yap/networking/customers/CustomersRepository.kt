@@ -5,6 +5,7 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
@@ -115,6 +116,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
     const val URL_TOUR_GUIDES = "customers/api/tour-guides"
 
+    const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
+    const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
+    const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -379,4 +383,35 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
         executeSafely(call = { api.getTourGuides() })
+
+    override suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse> =
+        executeSafely(call = { api.getAdditionalInfoRequired() })
+
+    override suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        uploadAdditionalInfo.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData("files", uploadAdditionalInfo.files?.name, reqFile)
+            executeSafely(call = {
+                api.uploadAdditionalDocuments(
+                    files = body,
+                    documentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        documentType ?: ""
+                    )
+                )
+            })
+        }
+
+
+    override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.uploadAdditionalQuestion(uploadAdditionalInfo)
+        })
+
+
 }

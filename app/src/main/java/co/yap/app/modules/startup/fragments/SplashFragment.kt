@@ -51,14 +51,16 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
                     activity?.finish()
                 }
             } else {
-                    playAnimationAndMoveNext()
-                }
-         })
+                playAnimationAndMoveNext()
+            }
+        })
     }
 
     private fun playAnimationAndMoveNext() {
-        val scaleLogo = ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
-        val scaleDot = ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
+        val scaleLogo =
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivLogo, 1500)
+        val scaleDot =
+            ScaleAnimator(1.0f, 150.0f, AccelerateDecelerateInterpolator()).with(ivDot, 1500)
         scaleDot.startDelay = 400
 
         val set = AnimatorSet()
@@ -66,11 +68,12 @@ class SplashFragment : MainChildFragment<ISplash.ViewModel>(), ISplash.View {
         set.interpolator = AccelerateDecelerateInterpolator()
         set.start()
 
-        set.addListener(object: Animator.AnimatorListener {
+        set.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {}
             override fun onAnimationEnd(animation: Animator?) {
                 moveNext()
             }
+
             override fun onAnimationCancel(animation: Animator?) {}
             override fun onAnimationStart(animation: Animator?) {}
 

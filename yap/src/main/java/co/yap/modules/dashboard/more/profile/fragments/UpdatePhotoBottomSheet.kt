@@ -11,20 +11,35 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_update_card.view.*
 
 
-class UpdatePhotoBottomSheet(private val mListener: CardClickListener, private val showRemove: Boolean) : BottomSheetDialogFragment() {
+class UpdatePhotoBottomSheet(
+    private val mListener: CardClickListener,
+    private val showRemove: Boolean,
+    private val title: String? = null,
+    private val subTitle: String? = null
+) : BottomSheetDialogFragment() {
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_update_card, container, false)
-        view.tvChoosePhoto.setOnClickListener { mListener.onClick(Constants.EVENT_CHOOSE_PHOTO)}
-        view.tvOpenCamera.setOnClickListener { mListener.onClick(Constants.EVENT_ADD_PHOTO)}
+        view.tvChoosePhoto.setOnClickListener { mListener.onClick(Constants.EVENT_CHOOSE_PHOTO) }
+        view.tvOpenCamera.setOnClickListener { mListener.onClick(Constants.EVENT_ADD_PHOTO) }
+        title?.let {
+            view.tvUpdateProfilePotoTitle.text = it
+        }
 
-        if(showRemove){
+        subTitle?.let {
+            view.tvSubTitle.visibility = View.VISIBLE
+            view.tvSubTitle.text = it
+        }
+
+        if (showRemove) {
             view.separatorRemovePhoto.visibility = View.VISIBLE
             view.tvRemovePhoto.visibility = View.VISIBLE
-            view.tvRemovePhoto.setOnClickListener { mListener.onClick(Constants.EVENT_REMOVE_PHOTO)}
-        }else{
+            view.tvRemovePhoto.setOnClickListener { mListener.onClick(Constants.EVENT_REMOVE_PHOTO) }
+        } else {
             view.separatorRemovePhoto.visibility = View.GONE
             view.tvRemovePhoto.visibility = View.GONE
         }
