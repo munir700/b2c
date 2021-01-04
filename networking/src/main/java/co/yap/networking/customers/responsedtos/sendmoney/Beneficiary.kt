@@ -59,7 +59,9 @@ data class Beneficiary(
     @SerializedName("countryOfResidenceName")
     var countryOfResidenceName: String? = null,
     @SerializedName("beneficiaryCreationDate")
-    var beneficiaryCreationDate: String? = null
+    var beneficiaryCreationDate: String? = null,
+    @SerializedName("countryCode")
+    var countryCode: String? = ""
 ) : CoreRecentBeneficiaryItem(
     name = "$firstName $lastName",
     profilePictureUrl = beneficiaryPictureUrl,
@@ -67,7 +69,7 @@ data class Beneficiary(
 ), IBeneficiary, Parcelable {
     @IgnoredOnParcel
     override val fullName: String?
-        get() = if (beneficiaryType == "Y2Y") fullName() else title
+        get() = title
 
     @IgnoredOnParcel
     override val subtitle: String?
@@ -88,6 +90,7 @@ data class Beneficiary(
 
     override val imgUrl: String?
         get() = beneficiaryPictureUrl
+
     override val creationDateOfBeneficiary: String
         get() = beneficiaryCreationDate ?: ""
 
