@@ -458,7 +458,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
         SessionManager.card.value?.let {
-            viewModel.fetchTransactionDetailsForLeanplum(it.cardSerialNumber)
+            viewModel.fetchTransactionDetailsForLeanplum(it.cardSerialNumber, it.status.toLowerCase())
         }
 
     }

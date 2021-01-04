@@ -302,12 +302,22 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    override fun fetchTransactionDetailsForLeanplum(cardSerialNo: String) {
+    override fun fetchTransactionDetailsForLeanplum(cardSerialNo: String, status:String) {
+        var leaplumStatus = when(status) {
+            "active" -> "active"
+            "blocked" -> "frozen"
+            "inActive" -> "in-active"
+            "hotlisted" -> "hotlisted"
+            "expired" -> "expired"
+            "pinBlocked" -> "pin-blocked"
+            else -> ""
+        }
         launch {
             when (val response = transactionsRepository.getTransDetailForLeanplum(SessionManager.getCardSerialNumber())) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { resp ->
                         val info: HashMap<String, Any?> = HashMap()
+                        info[UserAttributes().primary_card_status] = leaplumStatus
                         info[UserAttributes().last_transaction_type] = resp.lastTransactionType ?: ""
                         info[UserAttributes().last_transaction_time] = resp.lastTransactionTime ?: ""
                         info[UserAttributes().last_pos_txn_category] = resp.lastPOSTransactionCategory ?: ""
