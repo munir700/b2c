@@ -61,7 +61,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
             android:gravity="center"
-            android:text="@{viewModel.achievement.title}"
+            app:text="@{viewModel.achievement.title}"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/imgIcon"
             tools:text="android:asdasdas" />
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Locked"
+            app:text="@{Strings.screen_yfy_text_locked}"
             tools:visibility="gone"
             android:visibility="@{viewModel.achievement.locked? View.VISIBLE : View.GONE}"
             android:textSize="@dimen/_10sdp"

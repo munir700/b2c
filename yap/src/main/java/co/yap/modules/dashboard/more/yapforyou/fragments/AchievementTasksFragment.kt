@@ -37,7 +37,9 @@ class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>()
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Y4YAchievementTaskData) {
                 viewModel.setSelectedAchievementTask(y4YAchievementTaskData = data)
-                if (data.isDone) navigate(R.id.achievementSuccessFragment) else navigate(R.id.achievementDetailFragment)
+                //TODO remomve this success fragment implementation
+//                if (data.isDone) navigate(R.id.achievementSuccessFragment) else navigate(R.id.achievementDetailFragment)
+                navigate(R.id.achievementDetailFragment)
             }
         }
     }

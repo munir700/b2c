@@ -1,10 +1,12 @@
 package co.yap.yapcore.enums
 
-enum class Y4YAchievement {
-    GET_STARTED,
-    UP_AND_RUNNING,
-    BETTER_TOGETHER,
-    TAKE_THE_LEAP,
-    YAP_STORE,
-    YOU_ARE_PRO,
+import co.yap.translation.Strings
+
+enum class Y4YAchievement(var type:String) {
+    GET_STARTED(Strings.screen_yfy_get_started_text_title),
+    UP_AND_RUNNING(Strings.screen_yfy_up_and_running_text_title),
+    BETTER_TOGETHER(Strings.screen_yfy_better_together_text_title),
+    TAKE_THE_LEAP(Strings.screen_yfy_take_a_leap_text_title),
+    YAP_STORE(Strings.screen_yfy_yap_store_text_title),
+    YOU_ARE_PRO(Strings.screen_yfy_you_are_pro_text_title),
 }

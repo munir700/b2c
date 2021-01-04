@@ -28,10 +28,10 @@ enum class YFYAchievementTaskType(val title: String) {
     SETUP_MULTI_CURRENCY(Strings.screen_yfy_take_a_leap_text_set_mc_account),
 
     //Yap Store
-    GET_YAP_YOUNG(Strings.screen_yfy_you_are_pro_text_get_yap_young),
-    GET_YAP_HOUSEHOLD(Strings.screen_yfy_you_are_pro_text_sign_up_house_hold),
-    SET_MISSIONS_ON_YAP_YOUNG(Strings.screen_yfy_you_are_pro_text_set_mission),
-    SALARY_TRANSFER_ON_YAP_HOUSEHOLD(Strings.screen_yfy_you_are_pro_text_pay_your_help),
+    GET_YAP_YOUNG(Strings.screen_yfy_yap_store_text_get_yap_young),
+    GET_YAP_HOUSEHOLD(Strings.screen_yfy_yap_store_text_sign_up_house_hold),
+    SET_MISSIONS_ON_YAP_YOUNG(Strings.screen_yfy_yap_store_text_set_mission),
+    SALARY_TRANSFER_ON_YAP_HOUSEHOLD(Strings.screen_yfy_yap_store_text_pay_your_help),
 
     // You are a pro
     INVITE_TEN_FRIENDS(Strings.screen_yfy_you_are_pro_text_invite_friends),

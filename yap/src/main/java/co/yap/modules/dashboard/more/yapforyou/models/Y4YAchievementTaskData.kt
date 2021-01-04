@@ -1,7 +1,8 @@
 package co.yap.modules.dashboard.more.yapforyou.models
 
 data class Y4YAchievementTaskData(
-    var lottieFileName: String?,
+    var lottieDetailsFileName: String?,
+    var lottieSuccessFileName: String?,
     var isLottie: Boolean = true,
     var title: String,
     var buttonTitle: String? = null,
