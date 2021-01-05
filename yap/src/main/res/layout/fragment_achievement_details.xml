@@ -21,7 +21,6 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/freeze_unfreeze_gradient"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -48,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:media="@{viewModel.parentViewModel.selectedAchievementTask.done?viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName :viewModel.parentViewModel.selectedAchievementTask.media}" />
+                app:media="@{viewModel.parentViewModel.selectedAchievementTask.done? viewModel.parentViewModel.selectedAchievementTask.media:viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName}" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"
@@ -63,6 +62,18 @@
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
 
+            <View
+                android:id="@+id/tvFreezeAnimationView"
+                style="@style/Regular"
+                android:background="@drawable/freeze_unfreeze_gradient_animation"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/animationView"
+                 />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSubTitle"
                 style="@style/Regular"
