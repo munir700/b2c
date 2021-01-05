@@ -39,7 +39,6 @@ import com.digitify.identityscanner.camera.controls.Hdr;
 import com.digitify.identityscanner.camera.controls.Mode;
 import com.digitify.identityscanner.camera.controls.Preview;
 import com.digitify.identityscanner.camera.controls.WhiteBalance;
-import com.digitify.identityscanner.camera.engine.Camera1Engine;
 import com.digitify.identityscanner.camera.engine.Camera2Engine;
 import com.digitify.identityscanner.camera.engine.CameraEngine;
 import com.digitify.identityscanner.camera.engine.offset.Reference;
@@ -312,7 +311,7 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
             return new Camera2Engine(callback);
         } else {
             mEngine = Engine.CAMERA1;
-            return new Camera1Engine(callback);
+            return new Camera2Engine(callback);
         }
     }
 

@@ -1,21 +1,22 @@
 package co.yap.modules.dashboard.cards.analytics.main.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 
 abstract class CardAnalyticsBaseViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
-
-    var parentVM: ICardAnalyticsMain.ViewModel? = null
+    var parentViewModel: CardAnalyticsMainViewModel? = CardAnalyticsMainViewModel(application)
 
     fun setToolBarTitle(title: String) {
-        parentVM?.state?.toolBarTitle?.set(title)
+        parentViewModel?.state?.toolbarTitle = title
     }
 
-    fun setToolBarVisibility(visibility: Boolean) {
-        parentVM?.state?.toolBarVisibility?.set(visibility)
+    fun toggleToolBarVisibility(visibility: Boolean) {
+        parentViewModel?.state?.toolbarVisibility?.set(visibility)
     }
 
+    fun setSelectedDate(date: String) {
+        parentViewModel?.state?.currentSelectedMonth = date
+    }
 }

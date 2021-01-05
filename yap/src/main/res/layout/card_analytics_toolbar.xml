@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsMainViewModel" />
-
-        <import type="android.view.View" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp"
-        android:visibility="@{viewModel.state.toolBarVisibility? View.VISIBLE : View.GONE }">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:padding="@dimen/_8sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ImageView
             android:id="@+id/tbIvClose"
@@ -30,8 +17,6 @@
             android:clickable="true"
             android:contentDescription="@string/todo"
             android:focusable="true"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:visibility="@{viewModel.state.leftButtonVisibility ? View.VISIBLE : View.GONE }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +28,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{viewModel.state.toolBarTitle}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tbIvGift"
             app:layout_constraintStart_toEndOf="@+id/tbIvClose"
@@ -63,4 +47,3 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_gift_vector" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

@@ -46,8 +46,14 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     private fun setTransactionNoteDate() {
-        state.transactionNoteDate = transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT)
-
+        if (transaction.get().getTransactionNoteDate(FORMAT_LONG_OUTPUT).isEmpty()) {
+            state.transactionNoteDate =
+                state.editNotePrefixText + transaction.get()?.transactionNoteDate
+        } else {
+            state.transactionNoteDate =
+                state.editNotePrefixText + transaction.get()
+                    .getTransactionNoteDate(FORMAT_LONG_OUTPUT)
+        }
     }
 
     private fun setSenderOrReceiver(transaction: Transaction) {

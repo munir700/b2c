@@ -7,6 +7,7 @@ import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IAddFunds
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 
 class AddFundsState : BaseState(), IAddFunds.State {
     override var card: ObservableField<Card> = ObservableField()
@@ -22,7 +23,7 @@ class AddFundsState : BaseState(), IAddFunds.State {
     @get:Bindable
     override var amount: String = ""
         set(value) {
-            field = value
+            field = value.getValueWithoutComa()
             notifyPropertyChanged(BR.amount)
         }
 
@@ -41,5 +42,4 @@ class AddFundsState : BaseState(), IAddFunds.State {
         }
 
     override var valid: ObservableBoolean = ObservableBoolean(false)
-
 }

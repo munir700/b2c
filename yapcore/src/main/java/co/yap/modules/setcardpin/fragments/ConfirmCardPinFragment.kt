@@ -2,6 +2,7 @@ package co.yap.modules.setcardpin.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -9,18 +10,21 @@ import androidx.navigation.fragment.navArgs
 import co.yap.modules.setcardpin.activities.SetPinChildFragment
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
+import co.yap.modules.webview.WebViewFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPinBinding
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_EVENT_FORMAT
+import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,6 +49,8 @@ class ConfirmCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View 
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
+        getBindings().tvTitle.visibility = View.VISIBLE
+        viewModel.state.clTermsAndConditionsVisibility.set(true)
     }
 
     override fun setObservers() {
@@ -66,6 +72,17 @@ class ConfirmCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View 
                         findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                     }
                 }
+
+                R.id.tvTermsAndConditions -> {
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            Constants.PAGE_URL to Constants.URL_TERMS_CONDITION,
+                            Constants.TOOLBAR_TITLE to getString(
+                                Strings.screen_profile_settings_display_terms_and_conditions
+                            )
+                        ), showToolBar = false
+                    )
+                }
             }
         })
     }
@@ -85,13 +102,13 @@ class ConfirmCardPinFragment : SetPinChildFragment<IPin.ViewModel>(), IPin.View 
     }
 
     private fun setDebitCardData() {
-        MyUserManager.getAccountInfo()
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer {
+        SessionManager.getAccountInfo()
+        SessionManager.onAccountInfoSuccess.observe(this, Observer {
             if (it) {
-                if (MyUserManager.user?.notificationStatuses == AccountStatus.CARD_ACTIVATED.name) {
+                if (SessionManager.user?.notificationStatuses == AccountStatus.CARD_ACTIVATED.name) {
                     trackEvent(KYCEvents.CARD_ACTIVE.type)
                     trackEventInFragments(
-                        MyUserManager.user,
+                        SessionManager.user,
                         account_active = SimpleDateFormat(LEAN_PLUM_EVENT_FORMAT).format(
                             Calendar.getInstance().time
                         )

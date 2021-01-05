@@ -61,15 +61,21 @@ object Constants {
     const val CATEGORY_AVERAGE_AMOUNT_VALUE: Int = 7
     const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
 
-
-    const val URL_TERMS_CONDITION = "https://yap.com/terms"
+    const val URL_YAP_WEBSITE = "https://www.yap.com/"
+    const val URL_TERMS_CONDITION = "https://www.yap.com/terms"
     const val URL_DISCLAIMER_TERMS = "https://www.yap.com/terms/transfers"
+    const val URL_FEES_AND_PRICING_PLAN = URL_TERMS_CONDITION
+    const val URL_INSTAGRAM = "https://www.instagram.com/yapbanking"
+    const val URL_FACEBOOK = "https://www.facebook.com/yapbanking"
+    const val URL_TWITTER = "https://twitter.com/yapbanking"
+
 
     //HTML Key
     const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
 
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+    const val REQUEST_CODE_CREATE_PASSCODE: Int = 127
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"
@@ -96,6 +102,7 @@ object Constants {
     const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
     const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
     const val IS_TRANSFER_MONEY = "IS_TRANSFER_MONEY"
+    const val TERMINATE_ADD_BENEFICIARY = "TERMINATE_ADD_BENEFICIARY"
 
     //Location Selection
     const val ADDRESS = "address"
@@ -141,6 +148,7 @@ object Constants {
     const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
     const val KEY_THEME = "KEY_THEME"
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
+    const val KEY_IS_REMEMBER = "IS_REMEMBER"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
@@ -149,4 +157,31 @@ object Constants {
     const val REFERRAL_ID = "customer_id"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
+    const val SUCCESS_BUTTON_LABEL = "successButtonLabel"
+
+    //Sms consent
+    const val SMS_CONSENT_REQUEST = 2
+
+    // Add Money Constants
+    const val ADD_MONEY_TOP_UP_VIA_CARD: Int = 1
+    const val ADD_MONEY_SAMSUNG_PAY: Int = 2
+    const val ADD_MONEY_GOOGLE_PAY: Int = 3
+    const val ADD_MONEY_BANK_TRANSFER: Int = 4
+    const val ADD_MONEY_CASH_OR_CHEQUE: Int = 5
+    const val ADD_MONEY_QR_CODE: Int = 6
+
+    //Analytics
+    const val TRANSACTION_DETAIL = "TxnAnalytics_Model"
+    const val TRANSACTION_POSITION = "Transaction_Item_Position"
+    var MERCHANT_TYPE: String = "merchant-name"
+
+    //ATM/CDM
+    const val LOCATION_TYPE = "ATM_OR_CDM"
+    const val LOCATION_ATM = "ATM"
+    const val LOCATION_CDM = "CDM"
+
+    //Core Bottom Sheet
+    const val VIEW_WITHOUT_FLAG = 1
+    const val VIEW_WITH_FLAG = 2
+
 }

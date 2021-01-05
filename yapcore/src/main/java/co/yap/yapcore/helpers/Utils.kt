@@ -20,6 +20,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.Patterns
+import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -40,7 +41,7 @@ import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -50,7 +51,7 @@ import java.util.regex.Pattern
 
 @SuppressLint("StaticFieldLeak")
 object Utils {
-
+    @JvmStatic
     fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
         val dimensions = IntArray(2)
         dimensions[0] = getDimensionInPercent(context, true, width)
@@ -412,34 +413,22 @@ object Utils {
         }
     }
 
-    fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
-        return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
-    }
-
     fun openTwitter(context: Context) {
         var intent: Intent?
         try {
             context.packageManager.getPackageInfo("com.twitter.android", 0)
-            intent = Intent(
-                ACTION_VIEW,
-                Uri.parse("twitter.com/intent/follow?screen_name=YapTweets")
-            )
+            intent = Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         } catch (e: Exception) {
             // no Twitter app, revert to browser
-            context.startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://twitter.com/intent/follow?screen_name=YapTweets")
-                )
+            context.startActivity(Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             )
         }
-
     }
 
     fun openInstagram(context: Context) {
-        val uri = Uri.parse("https://www.instagram.com/yapnow/")
+        val uri = Uri.parse(Constants.URL_INSTAGRAM)
         val likeIng = Intent(ACTION_VIEW, uri)
         likeIng.setPackage("com.instagram.android")
 
@@ -447,32 +436,22 @@ object Utils {
             context.startActivity(likeIng)
         } catch (e: ActivityNotFoundException) {
             context.startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://www.instagram.com/yapnow/")
-                )
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM))
             )
         }
-
     }
 
     fun getOpenFacebookIntent(context: Context): Intent? {
-
         return try {
             context.packageManager.getPackageInfo("com.facebook.katana", 0)
             Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
         } catch (e: Exception) {
             try {
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
-                )
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK))
             } catch (e: Exception) {
                 null
             }
-
         }
-
     }
 
     fun getFormattedPhone(mobileNo: String): String {
@@ -664,6 +643,9 @@ object Utils {
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
+    fun getBackgroundColorForAnalytics(context: Context, position: Int) =
+        ContextCompat.getColor(context, backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
+
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(
             context,
@@ -682,6 +664,14 @@ object Utils {
         R.color.bg_round_light_blue,
         R.color.bg_round_light_green,
         R.color.bg_round_light_orange
+    )
+
+    private val backgroundColorsOfAnalytics = intArrayOf(
+        R.color.bg_round_light_red,
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_primary_soft
     )
 
     private val contactColors = intArrayOf(
@@ -707,7 +697,6 @@ object Utils {
         R.color.bg_round_light_secondary_blue,
         R.color.bg_round_light_green,
         R.color.bg_round_light_primary
-
     )
 
     fun getTwoDecimalPlaces(value: Double): Double {
@@ -721,7 +710,7 @@ object Utils {
             context,
             Strings.common_display_text_y2y_share,
             StringUtils.getFirstname(contact.title!!),
-            MyUserManager.user?.currentCustomer?.firstName!!,
+            SessionManager.user?.currentCustomer?.firstName!!,
             getAdjustURL()
         )
     }
@@ -730,7 +719,7 @@ object Utils {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_general_share,
-            MyUserManager.user?.currentCustomer?.firstName!!,
+            SessionManager.user?.currentCustomer?.firstName!!,
             getAdjustURL()
         )
     }
@@ -817,19 +806,24 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            MyUserManager.helpPhoneNumber
+            SessionManager.helpPhoneNumber
         )}^${AlertType.DIALOG.name}"
     }
 
-    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {
+    fun parseCountryList(
+        list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?,
+        addOIndex: Boolean = true
+    ): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
         var countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
-            countries.add(
-                0,
-                Country(name = "Select country")
-            )
+            if (addOIndex) {
+                countries.add(
+                    0,
+                    Country(name = "Select country")
+                )
+            }
             countries.addAll(it.map {
                 Country(
                     id = it.id,
@@ -891,7 +885,7 @@ object Utils {
     }
 
     fun getAdjustURL(): String {
-        val userId = MyUserManager.user?.currentCustomer?.customerId
+        val userId = SessionManager.user?.currentCustomer?.customerId
         val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
         return (when (YAPApplication.configManager?.flavor) {
@@ -917,4 +911,33 @@ object Utils {
         })
     }
 
+    @JvmStatic
+    fun getConfiguredDecimals(currencyCode: String): Int {
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
+    }
+
+    @JvmStatic
+    fun getConfiguredDecimalsDashboard(currencyCode: String): Int? {
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt()
+    }
+
+    fun dpToFloat(context: Context, dp: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, dp,
+            context.resources.displayMetrics
+        )
+    }
+
+    fun spToFloat(context: Context, dp: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP, dp,
+            context.resources.displayMetrics
+        )
+    }
 }

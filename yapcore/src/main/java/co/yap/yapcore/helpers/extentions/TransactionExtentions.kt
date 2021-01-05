@@ -8,11 +8,15 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.DateUtils
-import java.text.SimpleDateFormat
+import co.yap.yapcore.helpers.DateUtils.FORMATE_MONTH_DAY
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.ImageBinding
+import co.yap.yapcore.helpers.TransactionAdapterType
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 fun Transaction?.getTransactionTitle(): String {
-    this?.let { transaction ->
+    this?.let { transaction -> // poo4 poo6
         return (when (transaction.productCode) {
             TransactionProductCode.Y2Y_TRANSFER.pCode -> {
                 String.format(
@@ -27,14 +31,14 @@ fun Transaction?.getTransactionTitle(): String {
                 transaction.maskedCardNo?.let {
                     String.format(
                         "%s %s",
-                        "Top-Up by",
+                        "Money added via",
                         "*" + it.substring(it.length - 4, it.length)
                     )
-                }
-                    ?: transaction.title ?: "Unknown"
+                } ?: transaction.title ?: "Unknown"
 
             }
-
+            TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Withdraw from Virtual Card"
+            TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> "Add to Virtual Card"
 
             else -> transaction.title ?: "Unknown"
         })
@@ -44,24 +48,35 @@ fun Transaction?.getTransactionTitle(): String {
 fun Transaction?.getTransactionIcon(): Int {
     return this?.let { transaction ->
         return when (transaction.status) {
-            TransactionStatus.CANCELLED.name -> R.drawable.ic_exclamation
-            TransactionStatus.FAILED.name -> {
-                R.drawable.ic_reverted
+            TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> {
+                when (transaction.productCode) {
+                    TransactionProductCode.POS_PURCHASE.pCode -> R.drawable.ic_reverted
+                    TransactionProductCode.TOP_UP_VIA_CARD.pCode -> R.drawable.ic_reverted
+                    TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode -> R.drawable.ic_reverted
+                    else -> -1
+                }
             }
             else -> when (transaction.getLabelValues()) {
                 TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
                 TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
                 TransactionLabelsCode.IS_REFUND -> R.drawable.ic_refund
-                TransactionLabelsCode.IS_INCOMING -> R.drawable.ic_rounded_plus
+                TransactionLabelsCode.IS_INCOMING -> R.drawable.ic_plus_transactions
                 else -> {
                     when {
                         TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" || TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == transaction.productCode ?: "" -> {
-                            if (transaction.txnType == TxnType.DEBIT.type) R.drawable.ic_grey_minus_transactions else R.drawable.ic_grey_plus_transactions
+                            R.drawable.ic_transfer
                         }
-                        TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode -> {
-                            R.drawable.ic_rounded_plus
+                        TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode || TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == transaction.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == transaction.productCode -> {
+                            R.drawable.ic_plus_transactions
                         }
+                        TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == transaction.productCode -> {
+                            R.drawable.ic_cash_out_trasaction
+                        }
+                        TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
+                            transaction.merchantCategoryName.getMerchantCategoryIcon()
+                        }
+
                         else -> -1
                     }
                 }
@@ -70,30 +85,53 @@ fun Transaction?.getTransactionIcon(): Int {
     } ?: 0
 }
 
-fun Transaction?.getTransactionTypeTitle(): String {
+fun Transaction?.getTransactionStatus(): String {
+    when (this?.productCode) {
+        TransactionProductCode.ATM_WITHDRAWL.pCode -> return this.cardAcceptorLocation
+            ?: ""
+        TransactionProductCode.FUND_LOAD.pCode -> return this.otherBankName ?: ""
+        else -> this?.let { txn ->
+            return (when (txn.status) {
+                TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
+                TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
+                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
+                }
+                else -> ""
+            })
+        } ?: return ""
+    }
+}
+
+fun Transaction?.getTransactionTypeTitle(transactionType: TransactionAdapterType? = TransactionAdapterType.TRANSACTION): String {
     this?.let { txn ->
-        if (txn.status == TransactionStatus.CANCELLED.name) return "Transfer rejected"
         return when {
             txn.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE -> "Fee"
             txn.getLabelValues() == TransactionLabelsCode.IS_REFUND -> "Refund"
-            txn.getLabelValues() == TransactionLabelsCode.IS_INCOMING -> "Incoming transfer"
-            TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY transfer"
-            TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Top-Up"
+            txn.getLabelValues() == TransactionLabelsCode.IS_INCOMING -> "Inward Bank Transfer"
+            TransactionProductCode.Y2Y_TRANSFER.pCode == txn.productCode -> "YTY"
+            TransactionProductCode.TOP_UP_VIA_CARD.pCode == txn.productCode -> "Add money"
             TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == txn.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == txn.productCode || TransactionProductCode.FUND_LOAD.pCode == txn.productCode -> {
                 if (txn.category.equals("REVERSAL", true)) "Reversal" else "Deposit"
             }
             TransactionProductCode.ATM_WITHDRAWL.pCode == txn.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == txn.productCode -> {
-                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Cash"
+                if (txn.category.equals("REVERSAL", true)) "Reversal" else "Withdraw money"
             }
             TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                "Added to Virtual Card"
+                "Money moved"
             }
             TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode == txn.productCode -> {
-                "Withdrawn from Virtual Card"
+                "Money moved"
+            }
+            transactionType == TransactionAdapterType.ANALYTICS_DETAILS -> {
+                DateUtils.reformatStringDate(
+                    date = this.creationDate ?: "",
+                    inputFormatter = SERVER_DATE_FORMAT,
+                    outFormatter = FORMATE_MONTH_DAY
+                )
             }
             else -> return (when (txn.productCode) {
                 TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.UAEFTS.pCode -> {
-                    "Transfer"
+                    "Send money"
                 }
                 else ->
                     "Transaction"
@@ -104,17 +142,16 @@ fun Transaction?.getTransactionTypeTitle(): String {
 
 fun Transaction?.getTransactionTypeIcon(): Int {
     this?.let { transaction ->
-        if (TransactionStatus.FAILED.name == transaction.status || transaction.status == TransactionStatus.CANCELLED.name || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
-        return if (TransactionStatus.PENDING.name == transaction.status || TransactionStatus.IN_PROGRESS.name == transaction.status && transaction.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
+        if (transaction.isTransactionRejected() || transaction.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE) return android.R.color.transparent
+        return if (isTransactionInProgress())
             R.drawable.ic_time
-        else if (productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
-            android.R.color.transparent
-        } else (when (txnType) {
+        else (when (txnType) {
             TxnType.DEBIT.type -> {
-                R.drawable.ic_outgoing_transaction
-            }
-            TxnType.CREDIT.type -> {
-                android.R.color.transparent
+                when {
+                    transaction.getLabelValues() == TransactionLabelsCode.IS_BANK -> R.drawable.ic_outgoing_transaction
+                    productCode == TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_outgoing_transaction_y2y
+                    else -> android.R.color.transparent
+                }
             }
             else -> android.R.color.transparent
         })
@@ -136,7 +173,7 @@ fun Transaction?.getCategoryIcon(): Int {
             TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.TOP_UP_VIA_CARD.pCode, TransactionProductCode.FUND_LOAD.pCode -> {
                 R.drawable.ic_cash
             }
-            TransactionProductCode.POS_PURCHASE.pCode -> getMerchantCategoryIcon()
+            TransactionProductCode.POS_PURCHASE.pCode -> transaction.merchantCategoryName.getMerchantCategoryIcon()
 
             else -> 0
         })
@@ -170,32 +207,15 @@ fun Transaction?.getCategoryTitle(): String {
     } ?: return ""
 }
 
-fun Transaction?.getMerchantCategoryIcon(): Int {
-    this?.let { transaction ->
-        return (when {
-            transaction.merchantCategoryName.equals(
-                "shopping",
-                true
-            ) -> R.drawable.ic_shopping_no_bg
-            transaction.merchantCategoryName.equals(
-                "education",
-                true
-            ) -> R.drawable.ic_education_no_bg
-            transaction.merchantCategoryName.equals(
-                "utilities",
-                true
-            ) -> R.drawable.ic_utilities_no_bg
-            transaction.merchantCategoryName.equals(
-                "healthAndBeauty",
-                true
-            ) -> R.drawable.ic_health_and_beauty_no_bg
-            transaction.merchantCategoryName.equals(
-                "Insurance",
-                true
-            ) -> R.drawable.ic_insurance_no_bg
-            else -> R.drawable.ic_other_no_bg
-        })
-    } ?: return R.drawable.ic_other_no_bg
+
+fun String?.getMerchantCategoryIcon(): Int {
+    this?.let { title ->
+        return ImageBinding.getResId(
+            "ic_" + ImageBinding.getDrawableName(
+                title
+            ) + "_no_bg"
+        )
+    } ?: return -1
 }
 
 fun Transaction?.getMapImage(): Int {
@@ -218,19 +238,19 @@ fun Transaction?.getSpentLabelText(): String {
     this?.let { transaction ->
         transaction.productCode?.let { productCode ->
             return (when (productCode) {
-                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Moved"
+                TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode, TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode -> "Amount"
                 else -> {
                     when (transaction.txnType) {
-                        TxnType.CREDIT.type -> "Received"
+                        TxnType.CREDIT.type -> "Amount"
                         TxnType.DEBIT.type -> {
                             when (transaction.productCode) {
                                 TransactionProductCode.Y2Y_TRANSFER.pCode, TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.CASH_PAYOUT.pCode -> {
-                                    "Sent"
+                                    "Amount"
                                 }
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                                    if (transaction.currency == "AED") "Sent" else "Sent in AED"
+                                    if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
-                                else -> "Spent"
+                                else -> "Amount"
                             }
                         }
                         else -> ""
@@ -249,19 +269,7 @@ fun Transaction?.getCurrency(): String {
             }
             else -> transaction.currency.toString()
         })
-    } ?: return "AED"
-}
-
-fun Transaction?.getAmount(): String? {
-    this?.let { transaction ->
-        return (when (transaction.productCode) {
-            TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
-                (transaction.amount?.div(transaction.fxRate.parseToDouble())).toString()
-                    .toFormattedCurrency()
-            }
-            else -> transaction.totalAmount.toString().toFormattedCurrency()
-        })
-    } ?: return "0.0"
+    } ?: return SessionManager.getDefaultCurrency()
 }
 
 fun Transaction?.getLabelValues(): TransactionLabelsCode? {
@@ -273,43 +281,17 @@ fun Transaction?.getLabelValues(): TransactionLabelsCode? {
             TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                 TransactionLabelsCode.IS_BANK
             }
-            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode, TransactionProductCode.CASH_ADVANCE.pCode -> {
+            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.CASH_ADVANCE.pCode -> {
                 TransactionLabelsCode.IS_CASH
             }
             TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {
                 TransactionLabelsCode.IS_REFUND
             }
-            TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode, TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode -> {
+            TransactionProductCode.FUND_LOAD.pCode, TransactionProductCode.LOCAL_INWARD_TRANSFER.pCode, TransactionProductCode.INWARD_REMITTANCE.pCode -> {
                 TransactionLabelsCode.IS_INCOMING
             }
             else -> null
         })
-    } ?: return null
-}
-
-fun Transaction?.getFormattedDate2(): String? {
-    this?.creationDate?.let {
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        sdf.timeZone = TimeZone.getTimeZone("UTC")
-        val convertedDate = sdf.parse(creationDate)
-
-        val smsTime: Calendar = Calendar.getInstance()
-        smsTime.timeZone = TimeZone.getDefault()
-        smsTime.timeInMillis = convertedDate.time
-
-        val now: Calendar = Calendar.getInstance()
-        val timeFormatString = "MMMM dd"
-        val dateTimeFormatString = "EEEE, MMMM d"
-        val HOURS = 60 * 60 * 60.toLong()
-        return if (now.get(Calendar.DATE) === smsTime.get(Calendar.DATE)) {
-            "Today, " + DateFormat.format(timeFormatString, smsTime)
-        } else if (now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) === 1) {
-            "Yesterday, " + DateFormat.format(timeFormatString, smsTime)
-        } else if (now.get(Calendar.YEAR) === smsTime.get(Calendar.YEAR)) {
-            DateFormat.format(dateTimeFormatString, smsTime).toString()
-        } else {
-            DateFormat.format(timeFormatString, smsTime).toString()
-        }
     } ?: return null
 }
 
@@ -342,6 +324,18 @@ fun Transaction?.getFormattedDate(): String? {
     } ?: return null
 }
 
+
+fun Transaction.getTransactionTime(adapterType: TransactionAdapterType = TransactionAdapterType.TRANSACTION): String {
+    return when (adapterType) {
+        TransactionAdapterType.ANALYTICS_DETAILS -> {
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
+        }
+        TransactionAdapterType.TRANSACTION -> {
+            getFormattedTime(DateUtils.FORMAT_TIME_12H)
+        }
+    }
+}
+
 fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
     return (when {
         DateUtils.reformatStringDate(
@@ -362,14 +356,111 @@ fun Transaction?.getFormattedTime(outputFormat: String = DateUtils.FORMAT_TIME_2
 }
 
 fun Transaction?.getTransactionNoteDate(outputFormat: String = DateUtils.FORMAT_TIME_24H): String {
-    return ( DateUtils.reformatStringDate(
-        this?.updatedDate ?: "",
+    return (DateUtils.reformatStringDate(
+        this?.transactionNoteDate ?: "",
         DateUtils.SERVER_DATE_FORMAT,
         outputFormat
     ))
 }
 
 fun Transaction?.isTransactionCancelled(): Boolean {
-    return this?.status == TransactionStatus.CANCELLED.name
+    return this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name
 }
 
+fun Transaction?.isTransactionInProgress(): Boolean {
+    return (TransactionStatus.PENDING.name == this?.status || TransactionStatus.IN_PROGRESS.name == this?.status && this.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE)
+}
+
+fun Transaction?.getTransactionAmountPrefix(): String {
+    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.ATM_WITHDRAWL.pCode) {
+        return ""
+    } else {
+        (return when (this?.txnType) {
+            TxnType.DEBIT.type -> "-"
+            TxnType.CREDIT.type -> "+"
+            else -> ""
+        })
+    }
+}
+
+fun Transaction?.getTransactionAmount(): String? {
+    (return when (this?.txnType) {
+        TxnType.DEBIT.type -> this.totalAmount.toString().toFormattedCurrency(
+            showCurrency = false,
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        )
+        TxnType.CREDIT.type -> this.amount.toString().toFormattedCurrency(
+            showCurrency = false,
+            currency = this.currency ?: SessionManager.getDefaultCurrency()
+        )
+        else -> ""
+    })
+}
+
+fun Transaction?.getFormattedTransactionAmount(): String? {
+    return String.format(
+        "%s %s", this?.getTransactionAmountPrefix(),
+        this?.getTransactionAmount()
+    )
+}
+
+fun Transaction?.getTransactionAmountColor(): Int {
+    if (this?.productCode == TransactionProductCode.WITHDRAW_SUPPLEMENTARY_CARD.pCode || this?.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode) {
+        return R.color.colorPrimaryDark
+    } else {
+        (return when (this?.txnType) {
+            TxnType.DEBIT.type -> R.color.colorPrimaryDark
+            TxnType.CREDIT.type -> {
+                if (!this.isTransactionInProgress() && this.status != TransactionStatus.FAILED.name)
+                    R.color.colorSecondaryGreen
+                else
+                    R.color.colorPrimaryDark
+            }
+            else -> R.color.colorPrimaryDark
+        })
+    }
+}
+
+fun Transaction?.isTransactionRejected(): Boolean {
+    return (this?.status == TransactionStatus.CANCELLED.name || this?.status == TransactionStatus.FAILED.name)
+}
+
+fun Transaction?.showCutOffMsg(): Boolean {
+    return (this?.productCode == TransactionProductCode.SWIFT.pCode)
+}
+
+fun List<Transaction>?.getTotalAmount(): String {
+    var total = 0.0
+    this?.map {
+        when (it.productCode) {
+            TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
+                if (it.txnType == TxnType.DEBIT.type) {
+                    val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0)
+                    total -= ((it.settlementAmount ?: 0.00).plus(totalFee))
+                } else total += (it.settlementAmount ?: 0.0)
+            }
+            else -> {
+                if (it.txnType == TxnType.DEBIT.type) total -= (it.totalAmount
+                    ?: 0.0) else total += (it.amount ?: 0.0)
+            }
+        }
+    }
+
+    var totalAmount: String
+    when {
+        total.toString().startsWith("-") -> {
+            totalAmount =
+                ((total * -1).toString().toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                ))
+            totalAmount = "- ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+        else -> {
+            totalAmount = (total.toString()
+                .toFormattedCurrency(false, currency = SessionManager.getDefaultCurrency()))
+            totalAmount = "+ ${SessionManager.getDefaultCurrency()} $totalAmount"
+        }
+    }
+    return totalAmount
+}

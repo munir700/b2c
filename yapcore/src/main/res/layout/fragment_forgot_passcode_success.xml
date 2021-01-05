@@ -10,7 +10,7 @@
             name="viewModel"
             type="co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -20,29 +20,30 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBubbles"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:layout_height="@dimen/_165sdp"
+            android:layout_marginTop="-5dp"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/bg_bubbles" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
             android:lineSpacingExtra="9sp"
-            app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
             android:text="@{viewModel.state.title}"
+            app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
             tools:text="@string/screen_passcode_success_display_text_heading_for_yap_core" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSubTitle"
             style="@style/ASmallGrey"
             android:layout_width="match_parent"
@@ -61,11 +62,10 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCreatePin"
             style="@style/RectangleBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_normal"
+            app:btn_size="small"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v)-> viewModel.handlePressOnGoToDashboardButton(v.id)}"
             android:text="@{viewModel.state.buttonTitle}"
             android:textColor="?attr/colorPrimaryAttr"

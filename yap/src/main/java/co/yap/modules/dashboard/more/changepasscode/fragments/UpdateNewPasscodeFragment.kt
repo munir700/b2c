@@ -22,13 +22,12 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
 
 class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(),
     IPassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
-    override val viewModel: IPassCode.ViewModel
+    override val viewModel: PassCodeViewModel
         get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +72,8 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
@@ -117,5 +117,14 @@ class UpdateNewPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel
 
     fun getBinding(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
+        }
     }
 }

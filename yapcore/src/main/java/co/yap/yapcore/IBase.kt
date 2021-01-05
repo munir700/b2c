@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.helpers.NetworkConnectionManager
 
 interface IBase {
@@ -27,10 +28,11 @@ interface IBase {
         var loading: Boolean
         var toolbarTitle: String
         var error: String
+        var viewState : MutableLiveData<Any?>
         fun reset()
+
         // fun getString(key: String): String
         fun destroy()
-
         fun init()
         fun resume()
         fun pause()

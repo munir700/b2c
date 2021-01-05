@@ -35,6 +35,7 @@ interface TransactionsApi {
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
     suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun searchTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
@@ -71,4 +72,15 @@ interface TransactionsApi {
 
     suspend fun getAchievements(): RetroApiResponse<ApiResponse>
     suspend fun getPurposeOfPayment(productCode: String): RetroApiResponse<PaymentPurposeResponseDTO>
+    suspend fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?
+    ): RetroApiResponse<ApiResponse>
+    suspend fun getTransactionsOfMerchant(
+        merchantType: String,
+        cardSerialNo: String?,
+        date: String?, merchantName: ArrayList<String>?
+    ): RetroApiResponse<AnalyticsDetailResponseDTO>
 }

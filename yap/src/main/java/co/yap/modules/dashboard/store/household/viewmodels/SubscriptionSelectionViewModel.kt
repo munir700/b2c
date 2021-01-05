@@ -16,7 +16,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.PackageType
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
@@ -95,7 +96,7 @@ class SubscriptionSelectionViewModel(application: Application) :
 
         return benefitsModelList
     }
-    
+
     override fun fetchHouseholdPackagesFee() {
         launch {
             val monthly = viewModelBGScope.async(Dispatchers.IO) {
@@ -119,8 +120,12 @@ class SubscriptionSelectionViewModel(application: Application) :
             if (monthlyFeeResponse.data.data != null) {
                 if (monthlyFeeResponse.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                     val feeAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                    val VATAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                    monthlyFee = feeAmount?.plus(VATAmount ?: 0.0)
+                    val vatAmount =
+                        ((feeAmount
+                            ?: 0.0) * (yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatPercentage?.parseToDouble()
+                            ?.div(100)
+                            ?: 0.0))
+                    monthlyFee = feeAmount?.plus(vatAmount ?: 0.0)
                 }
             } else {
                 monthlyFee = 0.0
@@ -129,15 +134,19 @@ class SubscriptionSelectionViewModel(application: Application) :
             if (yearlyFeeResponse.data.data != null) {
                 if (yearlyFeeResponse.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                     val feeAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                    val VATAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                    yearlyFee = feeAmount?.plus(VATAmount ?: 0.0)
+                    val vatAmount =
+                        ((feeAmount
+                            ?: 0.0) * (yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatPercentage?.parseToDouble()
+                            ?.div(100)
+                            ?: 0.0))
+                    yearlyFee = feeAmount?.plus(vatAmount ?: 0.0)
                 }
             } else {
                 yearlyFee = 0.0
             }
 
-            state.monthlyFee = monthlyFee.toString().toFormattedAmountWithCurrency()
-            state.annuallyFee = yearlyFee.toString().toFormattedAmountWithCurrency()
+            state.monthlyFee = monthlyFee.toString().toFormattedCurrency()
+            state.annuallyFee = yearlyFee.toString().toFormattedCurrency()
 
             plansList.add(
                 HouseHoldPlan(

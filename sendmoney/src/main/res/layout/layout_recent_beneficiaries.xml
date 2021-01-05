@@ -7,7 +7,7 @@
 
         <variable
             name="adapter"
-            type="co.yap.sendmoney.home.adapters.RecentTransferAdaptor" />
+            type="co.yap.widgets.recent_transfers.CoreRecentTransferAdapter" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -38,9 +38,9 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal"
             android:layout_marginStart="@dimen/margin_normal_large"
-            app:adapter="@{adapter}"
+            app:recycleViewAdapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_recent_beneficiaries_transfer" />
+            tools:listitem="@layout/item_core_recent_beneficiary" />
 
         <View
             android:layout_width="match_parent"

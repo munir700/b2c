@@ -2,6 +2,7 @@ package co.yap.sendmoney.editbeneficiary.states
 
 import android.app.Application
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.countryutils.country.Country
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.sendmoney.BR
@@ -9,8 +10,11 @@ import co.yap.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.SessionManager
 
 class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBeneficiary.State {
+    override var rightButtonText: ObservableField<String> = ObservableField("Cancel")
+
 
     @get:Bindable
     override var country: String? = ""
@@ -26,7 +30,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             // beneficiary?.beneficiaryType = field
         }
     @get:Bindable
-    override var currency: String? = "AED"
+    override var currency: String? = SessionManager.getDefaultCurrency()
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)

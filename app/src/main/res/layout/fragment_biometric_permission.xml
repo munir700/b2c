@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:paddingHorizontal="@dimen/margin_medium"
         tools:context="co.yap.app.modules.login.fragments.SystemPermissionFragment">
 
         <ImageView
@@ -37,7 +38,9 @@
             style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_two_dp"
             android:layout_marginTop="@dimen/_37sdp"
+            android:layout_marginRight="@dimen/margin_two_dp"
             android:lineSpacingExtra="9sp"
             android:text="@{viewModel.state.title}"
             android:textAlignment="center"
@@ -51,14 +54,14 @@
             style="@style/RegularGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_two_dp"
             android:layout_marginTop="@dimen/small"
+            android:layout_marginRight="@dimen/margin_two_dp"
+            android:justificationMode="inter_word"
             android:lineSpacingExtra="3sp"
             android:text="@{viewModel.state.subTitle}"
-            android:justificationMode="inter_word"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_h2"
-            android:layout_marginLeft="@dimen/_18sdp"
-            android:layout_marginRight="@dimen/_18sdp"
             app:layout_constraintTop_toBottomOf="@+id/tvTouchIdPermissionTitle"
             tools:layout_editor_absoluteX="22dp"
             tools:text="@string/screen_system_permission_text_sub_title" />
@@ -68,6 +71,8 @@
             style="@style/AMicroGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_two_dp"
+            android:layout_marginRight="@dimen/margin_two_dp"
             android:textAlignment="center"
             android:visibility="@{viewModel.state.termsAndConditionsVisibility ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
@@ -93,22 +98,17 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnTouchId"
             style="@style/RectangleBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_marginRight="@dimen/_37sdp"
-            android:layout_marginLeft="@dimen/_37sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_18sdp"
+            app:btn_size="medium"
+            android:layout_marginBottom="@dimen/small"
             android:gravity="center"
             android:onClick="@{(v)->viewModel.permissionGranted()}"
-            android:paddingStart="@dimen/_50sdp"
-            android:paddingTop="8dp"
-            android:paddingEnd="@dimen/_50sdp"
-            android:paddingBottom="8dp"
             android:text="@{viewModel.state.buttonTitle}"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.75"
             tools:ignore="MissingConstraints"
             tools:text="@string/screen_system_permission_button_touch_id" />
@@ -126,7 +126,5 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="@string/screen_system_permission_text_denied" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

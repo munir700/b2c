@@ -5,7 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.enums.ProductFlavour
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
@@ -89,8 +89,8 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
-    adjustEvent.setCallbackId(MyUserManager.user?.currentCustomer?.customerId)
-    adjustEvent.addCallbackParameter("account_id", MyUserManager.user?.currentCustomer?.customerId)
+    adjustEvent.setCallbackId(SessionManager.user?.currentCustomer?.customerId)
+    adjustEvent.addCallbackParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
     Adjust.trackEvent(adjustEvent)
 }
 

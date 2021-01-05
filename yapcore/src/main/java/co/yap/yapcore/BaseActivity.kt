@@ -12,8 +12,8 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
-import co.yap.app.YAPApplication
 import androidx.lifecycle.Observer
+import co.yap.app.YAPApplication
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
@@ -23,6 +23,7 @@ import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
 import co.yap.yapcore.helpers.extentions.toast
 import com.google.android.material.snackbar.Snackbar
+
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener,
@@ -36,9 +37,12 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     open lateinit var context: Context
     open fun onToolBarClick(id: Int) {}
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+//        setUpFirebaseAnalytics()
+
         applySelectedTheme(SharedPreferenceManager(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -50,9 +54,24 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
-        preventTakeScreenShot(true)
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
+        })
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
         })
     }
 
@@ -93,22 +112,26 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
                 when (messages.last()) {
                     AlertType.TOAST.name -> toast(messages.first())
                     AlertType.DIALOG.name -> {
-                        showAlertDialogAndExitApp("", messages.first(), closeActivity = false)
+                        showAlertDialogAndExitApp(
+                            "",
+                            message = messages.first(),
+                            closeActivity = false
+                        )
                     }
                     AlertType.DIALOG_WITH_FINISH.name -> showAlertDialogAndExitApp(
                         "",
-                        messages.first(),
+                        message = messages.first(),
                         closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CUSTOM_BUTTON_TEXT.name -> showAlertDialogAndExitApp(
                         "",
-                        messages.first(),
-                        buttonText = "CLOSE",
+                        message = messages.first(),
+                        rightButtonText = "CLOSE",
                         closeActivity = true
                     )
                     AlertType.DIALOG_WITH_CLICKABLE.name -> {
                         showAlertDialogAndExitApp(
-                            title = "",
+                            Title = "",
                             message = messages.first(),
                             closeActivity = false,
                             isOtpBlocked = true
@@ -192,6 +215,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         cancelAllSnackBar()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroy()
     }
 

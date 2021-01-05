@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
 
         <variable
             name="viewModel"
@@ -16,12 +19,20 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_cards_toolbar"
-            app:viewModel="@{viewModel}"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="1dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_search}"
+            app:leftIconVisibility="@{false}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{viewModel.state.enableAddCard}"
+            app:titleString='@{"Your cards"}' />
+
 
         <TextView
             android:id="@+id/tvCardQty"

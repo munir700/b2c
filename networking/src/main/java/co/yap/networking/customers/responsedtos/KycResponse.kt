@@ -1,14 +1,11 @@
 package co.yap.networking.customers.responsedtos
 
-import co.yap.networking.models.ApiError
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 
 data class KycResponse(
-    @SerializedName("Data")
-    val data: Data?,
-    @SerializedName("error")
-    var errors: ApiError?
+    @SerializedName("data")
+    val data: Data?
 ) : ApiResponse() {
     data class Data(
         @SerializedName("check_composite")

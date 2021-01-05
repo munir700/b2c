@@ -25,16 +25,16 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.longToast
 import co.yap.yapcore.initializeAdjustSdk
-import com.crashlytics.android.Crashlytics
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.util.*
 
-class AAPApplication : ChatApplication(), NavigatorProvider {
+class AAPApplication : YAPApplication(), NavigatorProvider {
 
     private external fun signatureKeysFromJNI(
         name: String,
@@ -93,6 +93,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         initNetworkLayer()
         setAppUniqueId(this)
         inItLeanPlum()
+        LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents()
         initializeAdjustSdk(configManager)
         initFacebook()
     }
@@ -117,12 +118,9 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
     private fun initFireBase() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .build()
-            Fabric.with(fabric)
         }
+        FirebaseAnalytics.getInstance(this)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun inItLeanPlum() {
@@ -145,7 +143,7 @@ class AAPApplication : ChatApplication(), NavigatorProvider {
         Leanplum.start(this)
     }
 
-    private fun initFacebook(){
+    private fun initFacebook() {
         AppEventsLogger.activateApp(this)
     }
 

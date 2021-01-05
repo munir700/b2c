@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.main.interfaces
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.networking.authentication.AuthRepository
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -18,6 +20,7 @@ interface IYapDashboard {
         var availableBalance: String
         var userNameImage: ObservableField<String>
         var appVersion: ObservableField<String>
+        var isFounder: ObservableField<Boolean>
 
     }
 
@@ -25,14 +28,30 @@ interface IYapDashboard {
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
+        fun getAccountInfo(): String
         val showUnverifedscreen: MutableLiveData<Boolean>
-        fun resendVerificationEmail()
+        fun resendVerificationEmail(callBack: () -> Unit)
+        fun logout()
+        val authRepository: AuthRepository
+        var EVENT_LOGOUT_SUCCESS: Int
+        var isYapHomeFragmentVisible: MutableLiveData<Boolean>
+        var isYapStoreFragmentVisible: MutableLiveData<Boolean>
+        var isYapCardsFragmentVisible: MutableLiveData<Boolean>
+        var isYapMoreFragmentVisible: MutableLiveData<Boolean>
+        var isUnverifiedScreenNotVisible: MutableLiveData<Boolean>
+        var isShowHomeTour: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {
         fun closeDrawer()
         fun openDrawer()
         fun toggleDrawer()
+        fun isDrawerOpen():Boolean
         fun enableDrawerSwipe(enable: Boolean)
+        val YAP_HOME_FRAGMENT: Int get() = 0
+        val YAP_STORE_FRAGMENT: Int get() = 1
+        val YAP_CARDS_FRAGMENT: Int get() = 2
+        val YAP_MORE_FRAGMENT: Int get() = 3
+
     }
 }

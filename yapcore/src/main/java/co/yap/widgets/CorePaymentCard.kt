@@ -30,6 +30,12 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
     private var cardSizeTypeMedium: Int = 1
     private var cardSizeTypeLarge: Int = 2
 
+    var infoIconVisibility: Boolean = true
+        set(value) {
+            field = value
+            ivInfo.visibility = if (infoIconVisibility) View.VISIBLE else View.INVISIBLE
+        }
+
     var view: View = LayoutInflater.from(context)
         .inflate(R.layout.core_payment_card, this, true)
 
@@ -65,6 +71,11 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
 
                 setUpImageDimensions(
                     ivChip,
+                    ivChipHeight.roundToInt(),
+                    ivChipWidth.roundToInt()
+                )
+                setUpImageDimensions(
+                    ivInfo,
                     ivChipHeight.roundToInt(),
                     ivChipWidth.roundToInt()
                 )
@@ -106,11 +117,16 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
                     context.applicationContext.resources.getDimension(R.dimen._10sdp)
                 )
 
-                val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._21sdp)
+                val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._22sdp)
                 val ivChipWidth =
-                    context.applicationContext.resources.getDimension(R.dimen._21sdp)
+                    context.applicationContext.resources.getDimension(R.dimen._22sdp)
+
+                val ivInfoHeight = context.applicationContext.resources.getDimension(R.dimen._18sdp)
+                val ivInfoWidth =
+                    context.applicationContext.resources.getDimension(R.dimen._18sdp)
 
                 setUpImageDimensions(ivChip, ivChipHeight.roundToInt(), ivChipWidth.roundToInt())
+                setUpImageDimensions(ivInfo, ivInfoHeight.roundToInt(), ivInfoWidth.roundToInt())
                 setUpImageDimensions(
                     ivCardType,
                     ivChipHeight.roundToInt(),

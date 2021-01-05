@@ -12,15 +12,22 @@ import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
+import co.yap.yapcore.helpers.extentions.loadCardImage
+import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
-
 
 object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl")
     fun setImageUrl(imageView: AppCompatImageView, url: String) {
         setImage(imageView, url)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardImageUrl")
+    fun setCardImageUrl(imageView: AppCompatImageView, url: String) {
+        imageView.loadCardImage(url)
     }
 
     @JvmStatic
@@ -47,9 +54,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.purple))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture?:"",
+            beneficiaryPicture ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, R.color.disabledLight)
             )
         )
@@ -70,9 +77,9 @@ object ImageBinding {
             .textColor(ContextCompat.getColor(imageView.context, R.color.colorPrimary))
         setCircleCropImage(
             imageView,
-            beneficiaryPicture?:"",
+            beneficiaryPicture ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, color)
             )
         )
@@ -101,9 +108,9 @@ object ImageBinding {
             )
         setCircleCropImage(
             imageView,
-            imageUrl?:"",
+            imageUrl ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
+                Utils.shortName(fullName ?: ""),
                 getBgColorFromType(
                     colorType,
                     imageView,
@@ -115,23 +122,24 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "fullName", "position", "isBackground"],
+        value = ["imageUrl", "fullName", "position", "isBackground", "showFirstInitials"],
         requireAll = false
     )
-    fun loadAvatar1(
+    fun loadAnalyticsAvatar(
         imageView: ImageView,
         imageUrl: String?,
         fullName: String?,
         position: Int,
-        isBackground: Boolean = true
+        isBackground: Boolean = true,
+        showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
         val fName = fullName?:""
 
-        val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
-        val resId = getResId(
-            "ic_${getDrawableName(fName)}"
-        )
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
+        val resId =
+            if (isBackground) getResId("ic_${getDrawableName(fName)}") else fName.getMerchantCategoryIcon()
+
         if (resId != -1) {
             val resImg = ContextCompat.getDrawable(imageView.context, resId)
             if (isBackground)
@@ -149,13 +157,12 @@ object ImageBinding {
                     )
                 )
             }
-            setCircleCropImage(imageView, imageUrl?:"", resImg!!)
-
+            setCircleCropImage(imageView, imageUrl ?: "", resImg!!)
         } else {
             setDrawable(
                 imageView,
                 imageUrl,
-                fName,
+                if (showFirstInitials) fName.split(" ")[0] else fName,
                 position
             )
         }
@@ -164,7 +171,6 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl", "app:srcCompat")
     fun setNavigationViewImageUrl(imageView: AppCompatImageView, url: String, resource: Int) {
-
         if (resource > 0) imageView.setImageResource(resource) else setImage(imageView, url)
     }
 
@@ -194,7 +200,7 @@ object ImageBinding {
         fullName: String?,
         position: Int
     ) {
-        val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp))
@@ -206,12 +212,13 @@ object ImageBinding {
                     position
                 )
             )
+
         setCircleCropImage(
             imageView,
-            imageUrl?:"",
+            imageUrl ?: "",
             builder.buildRect(
-                Utils.shortName(fullName?:""),
-                Utils.getBackgroundColor(imageView.context, position = position)
+                Utils.shortName(fullName ?: ""),
+                Utils.getBackgroundColorForAnalytics(imageView.context, position = position)
             )
         )
     }
@@ -220,11 +227,11 @@ object ImageBinding {
         return colors[position % colors.size]
     }
 
-     fun getDrawableName(title: String): String {
+    fun getDrawableName(title: String): String {
         return title.replace(" ", "_").toLowerCase()
     }
 
-     fun getResId(drawableName: String): Int {
+    fun getResId(drawableName: String): Int {
         return try {
             val res = R.drawable::class.java
             val field = res.getField(drawableName)
@@ -236,11 +243,9 @@ object ImageBinding {
 
 
     private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
-
         return when (colorType) {
             "Beneficiary" -> Utils.getBeneficiaryColors(imageView.context, position = position)
             else -> Utils.getContactColors(imageView.context, position = position)
-
         }
     }
 
@@ -251,7 +256,6 @@ object ImageBinding {
                 position = position
             )
             else -> Utils.getBackgroundColor(imageView.context, position = position)
-
         }
     }
 
@@ -260,9 +264,11 @@ object ImageBinding {
     fun setPhonePrefix(view: PrefixSuffixEditText, countryCode: String, countryName: String) {
 
         val resId = getResId(
-            "flag_${getDrawableName(
-                countryName
-            )}"
+            "flag_${
+                getDrawableName(
+                    countryName
+                )
+            }"
         )
         if (resId != -1) {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)

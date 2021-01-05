@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
-import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
@@ -17,7 +16,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
@@ -26,28 +25,29 @@ class CardAnalyticsViewModel(application: Application) :
     override val state: CardAnalyticsState = CardAnalyticsState(application)
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
-    override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     var currentCalendar: Calendar = Calendar.getInstance()
     var creationCalender: Calendar = Calendar.getInstance()
 
     override fun onCreate() {
         super.onCreate()
-        parentVM?.let {
-            parentViewModel = it
-        }
+        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        fetchCardCategoryAnalytics(DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd"))
-        state.nextMonth = false
-        MyUserManager.user?.creationDate?.let {
+        SessionManager.user?.creationDate?.let {str ->
             val date =
                 DateUtils.stringToDate(
-                    it,
+                    str,
                     DateUtils.SERVER_DATE_FORMAT
                 )
+
+            state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
             state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-            date?.let { it ->
-                creationCalender.time = it
+            parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+            parentViewModel?.state?.currentSelectedDate =
+                DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
+
+            date?.let { dates ->
+                creationCalender.time = dates
                 if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
                     state.previousMonth = false
                 } else {
@@ -57,19 +57,12 @@ class CardAnalyticsViewModel(application: Application) :
                 }
             }
 
-
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
     }
 
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.ivPrevious -> {
-
                 if ((currentCalendar.get(Calendar.MONTH) - 1) > creationCalender.get(Calendar.MONTH)) {
                     currentCalendar.add(Calendar.MONTH, -1)
                     state.nextMonth = true
@@ -82,6 +75,8 @@ class CardAnalyticsViewModel(application: Application) :
                     // // Proper testing remaining
                     state.nextMonth = true
                 }
+
+                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
                 fetchCardCategoryAnalytics(
@@ -90,6 +85,9 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
+                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedDate =
+                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
             R.id.ivNext -> {
                 val tempCalendar = Calendar.getInstance()
@@ -102,6 +100,8 @@ class CardAnalyticsViewModel(application: Application) :
                     // Proper testing remaining
                     state.previousMonth = true
                 }
+
+                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
                 fetchCardCategoryAnalytics(
@@ -110,6 +110,9 @@ class CardAnalyticsViewModel(application: Application) :
                         "yyyy-MM-dd"
                     )
                 )
+                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+                parentViewModel?.state?.currentSelectedDate =
+                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
         }
         clickEvent.setValue(id)
@@ -121,21 +124,21 @@ class CardAnalyticsViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
-                MyUserManager.getCardSerialNumber(), currentMonth
+                SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
+                    response.data.data?.let {analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
-                        state.setUpString(
-                            state.currencyType,
-                            state.monthlyCategoryAvgAmount?.toFormattedCurrency()
-                        )
-                        state.totalCategorySpent =
-                            state.currencyType + "${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
+
+                        state.totalCategorySpent = response.data.data?.totalTxnAmount.toString()
+                            .toFormattedCurrency(
+                                showCurrency = true,
+                                currency = state.currencyType ?: SessionManager.getDefaultCurrency()
+                            )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value = analyticsDTO.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)
@@ -154,19 +157,18 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
         launch {
             when (val response = repository.getAnalyticsByMerchantName(
-                MyUserManager.getCardSerialNumber(),
-                currentMonth
+                SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
-                    state.totalMerchantSpent =
-                        state.currencyType + "${response.data.data?.totalTxnAmount.toString().toFormattedCurrency()}"
-                    state.setUpStringForMerchant(
-                        state.currencyType,
-                        state.monthlyMerchantAvgAmount?.toFormattedCurrency()
-                    )
-                    parentVM?.merchantAnalyticsItemLiveData?.value =
+                    state.totalMerchantSpent = response.data.data?.totalTxnAmount.toString()
+                        .toFormattedCurrency(
+                            showCurrency = true,
+                            currency = state.currencyType ?: SessionManager.getDefaultCurrency()
+                        )
+
+                    parentViewModel?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics
                     state.loading = false
                 }

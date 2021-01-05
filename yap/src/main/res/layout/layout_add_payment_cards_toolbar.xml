@@ -8,16 +8,16 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        >
 
         <ImageView
             android:id="@+id/tbBtnBack"

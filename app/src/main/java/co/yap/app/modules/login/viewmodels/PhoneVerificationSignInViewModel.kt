@@ -16,7 +16,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.enums.AlertType
@@ -24,7 +26,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class PhoneVerificationSignInViewModel(application: Application) :
     MainChildViewModel<IPhoneVerificationSignIn.State>(application),
@@ -33,11 +35,12 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override val repository: AuthRepository = AuthRepository
     override val state: PhoneVerificationSignInState =
-        PhoneVerificationSignInState(application)
+        PhoneVerificationSignInState()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    private val customersRepository: CustomersRepository = CustomersRepository;
+    private val customersRepository: CustomersRepository = CustomersRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
     override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
+    override var clickEvent: SingleClickEvent =SingleClickEvent()
 
     override fun onCreate() {
         super.onCreate()
@@ -57,7 +60,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         clientId = parentViewModel?.signingInData?.clientId,
                         clientSecret = parentViewModel?.signingInData?.clientSecret,
                         deviceId = parentViewModel?.signingInData?.deviceID,
-                        otp = state.otp
+                        otp = state.otp.get()
                     )
                 )) {
                 is RetroApiResponse.Success -> {
@@ -67,24 +70,32 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         if (tokens.size > 1)
                             repository.setJwtToken(tokens.last())
                     }
-                    val sharedPreferenceManager = SharedPreferenceManager(context)
+                    val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
                     sharedPreferenceManager.save(
                         KEY_IS_USER_LOGGED_IN,
                         true
                     )
+                    SessionManager.isRemembered.value?.let {
+                        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER, it)
+                    }
+
                     sharedPreferenceManager.savePassCodeWithEncryption(state.passcode)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.username)
                     postDemographicData()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
-                    state.otp = ""
-                    otpUiBlocked(response.error.actualCode)
                     state.loading = false
+                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.otp.set("")
+                    otpUiBlocked(response.error.actualCode)
                 }
             }
-
         }
+    }
+
+    fun isValidOtpLength(otp: String): Boolean {
+        state.validateBtn = otp.isNotEmpty() && otp.length == 6
+        return otp.isNotEmpty() && otp.length == 6
     }
 
     override fun handlePressOnResend(context: Context) {
@@ -147,10 +158,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        MyUserManager.user = response.data.data[0]
+                        SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                        SessionManager.setupDataSetForBlockedFeatures()
                         trackEventWithAttributes(
-                            MyUserManager.user
+                            SessionManager.user
                         )
                     }
                     state.loading = false

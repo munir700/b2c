@@ -6,8 +6,8 @@ import java.util.*
 object DateUtils {
 
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
-    private val GMT: TimeZone = TimeZone.getTimeZone("GMT")
-    private val UTC: TimeZone = TimeZone.getTimeZone("UTC")
+    val GMT: TimeZone = TimeZone.getTimeZone("GMT")
+    val UTC: TimeZone = TimeZone.getTimeZone("UTC")
     private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
     const val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm"//2015-11-28 10:17:18
@@ -16,7 +16,11 @@ object DateUtils {
     const val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     const val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
     const val LEAN_PLUM_FORMAT = "dd MMMM, yyyy"
-    const val FORMAT_TIME_24H = "hh:mm a"
+    const val FORMAT_TIME_24H = "HH:mm"
+    const val FORMAT_TIME_12H = "hh:mm a"
+    const val FXRATE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm a"//20/11/2020 10:17
+    const val FORMATE_MONTH_DAY = "MMM dd" // jan 1
+
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -71,6 +75,48 @@ object DateUtils {
 
     }
 
+    fun reformatDate(
+        date: String?,
+        inputFormatter: String = DEFAULT_DATE_FORMAT,
+        outFormatter: String = DEFAULT_DATE_FORMAT,
+        inputTimeZone: TimeZone = GMT,
+        outTimeZone: TimeZone = TIME_ZONE_Default
+    ): String {
+        var result = ""
+        date?.let {
+            try {
+                val formatter = SimpleDateFormat(outFormatter, Locale.US)
+                formatter.timeZone = outTimeZone
+                result = formatter.format(
+                    stringToDate(
+                        dateStr = it,
+                        format = inputFormatter,
+                        timeZone = inputTimeZone
+                    )
+                )
+            } catch (e: Exception) {
+            }
+        }
+        return result
+    }
+
+    fun reformatLiveStringDate(
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
+    ): String {
+        var result = ""
+        val formatter = SimpleDateFormat(outFormatter, Locale.US)
+        try {
+            formatter.timeZone = TIME_ZONE_Default
+            result = formatter.format(stringToDate(date, inputFormatter ?: ""))
+        } catch (e: Exception) {
+        }
+
+        return result
+
+    }
+
     fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
         return try {
             SimpleDateFormat(format, Locale.US).format(date)
@@ -92,6 +138,19 @@ object DateUtils {
             formatter.timeZone = TIME_ZONE_Default
             val newDate = SimpleDateFormat(format, Locale.US).format(d)
             d = formatter.parse(newDate)
+        } catch (e: Exception) {
+            d = null
+        }
+        return d
+    }
+
+    fun stringToDate(dateStr: String, format: String?, timeZone: TimeZone = GMT): Date? {
+        var d: Date? = null
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
+        formatter.timeZone = timeZone
+        try {
+            formatter.isLenient = false
+            d = formatter.parse(dateStr)
         } catch (e: Exception) {
             d = null
         }
@@ -125,6 +184,7 @@ object DateUtils {
             ""
         }
     }
+
     fun stringToDateLeanPlum(dateStr: String): Date? {
         var d: Date? = null
         val formatter = SimpleDateFormat(LEAN_PLUM_FORMAT, Locale.US)
@@ -181,6 +241,16 @@ object DateUtils {
             e.printStackTrace()
             null
         }
+    }
 
+    fun getStartAndEndOfMonthAndDay(
+        calendar: Calendar,
+        format: String = FORMATE_MONTH_DAY
+    ): String {
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
+        val startDay = dateToString(calendar.time, format)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val endDay = dateToString(calendar.time, format)
+        return "${startDay.replace("0", "")} - $endDay"
     }
 }

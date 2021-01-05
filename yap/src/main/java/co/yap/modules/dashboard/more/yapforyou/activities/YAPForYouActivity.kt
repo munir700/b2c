@@ -30,7 +30,6 @@ class YAPForYouActivity : BaseBindingActivity<IYapForYouMain.ViewModel>(), INavi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, backButtonObserver)
-
     }
 
     override fun onDestroy() {
@@ -48,6 +47,12 @@ class YAPForYouActivity : BaseBindingActivity<IYapForYouMain.ViewModel>(), INavi
         val fragment = supportFragmentManager.findFragmentById(R.id.yap_for_you_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
+        }
+    }
+    override fun onToolBarClick(id: Int) {
+        super.onToolBarClick(id)
+        when(id){
+            R.id.ivLeftIcon -> onBackPressed()
         }
     }
 }

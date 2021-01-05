@@ -3,19 +3,28 @@ package co.yap.modules.dashboard.store.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.states.YapStoreState
 import co.yap.networking.store.responsedtos.Store
-import co.yap.yapcore.BaseViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.delay
 
-class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.State>(application),
+class YapStoreViewModel(application: Application) :
+    YapDashboardChildViewModel<IYapStore.State>(application),
     IYapStore.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapStoreState = YapStoreState()
     override val storesLiveData: MutableLiveData<MutableList<Store>> = MutableLiveData()
+
+    override fun onCreate() {
+        super.onCreate()
+        state.toolbarVisibility.set(true)
+        state.rightIconVisibility.set(true)
+        state.toolbarTitle = getString(Strings.screen_yap_store_display_text_title)
+    }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

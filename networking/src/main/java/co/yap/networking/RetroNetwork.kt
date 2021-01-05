@@ -73,19 +73,16 @@ object RetroNetwork : Network {
                     networkConstraintsListener?.onSessionInvalid()
                 }
             })
-        //return okHttpClientBuilder.build()
-        return sslImplementation(context, okHttpClientBuilder, appData)
+        return sslImplementation(okHttpClientBuilder, appData)
     }
 
     private fun sslImplementation(
-        context: Context,
         builder: OkHttpClient.Builder,
         appData: AppData
     ): OkHttpClient {
-        return if (appData.isStgOrLiveMode()) {
+        return if (appData.isReleaseMode()) {
             SSLPiningHelper.setSSLContext(builder)
             builder.certificatePinner(getCertificatePinner(appData)).build()
-
             /* implementation with certificate in assets
             builder.sslSocketFactory(
                 SSLPiningHelper(context).getSSLFactory(),

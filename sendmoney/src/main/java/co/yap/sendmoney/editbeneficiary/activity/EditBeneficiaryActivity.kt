@@ -30,21 +30,21 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
+import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
-
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
-
 
     override val viewModel: IEditBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
@@ -62,7 +62,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         bundleData.getParcelable(Beneficiary::class.java.name)
                     if (viewModel.state.beneficiary.isRMTAndSWIFT()) {
                         viewModel.getAllCountries(beneficiary = viewModel.state.beneficiary) { countries ->
-                            populateCountriesList(countries)
                         }
                     }
                 }
@@ -86,36 +85,9 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         }
     }
 
-    private fun populateCountriesList(countries: ArrayList<Country>?) {
-        getBinding().spinner.setItemSelectedListener(selectedItemListener)
-        getBinding().spinner.setAdapter(countries)
-        if (viewModel.state.selectedCountryOfResidence != null) {
-            getBinding().spinner.setSelectedItem(
-                countries?.indexOf(viewModel.state.selectedCountryOfResidence ?: Country()) ?: 0
-            )
-        }
-    }
-
-    private val selectedItemListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Country) {
-                if (data.getName() != "Select country") {
-                    viewModel.state.selectedCountryOfResidence = data
-                } else {
-                    viewModel.state.selectedCountryOfResidence = null
-                }
-            }
-        }
-    }
-
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                R.id.tbBtnBack -> {
-                    val intent = Intent()
-                    setResult(Activity.RESULT_CANCELED, intent)
-                    finish()
-                }
                 R.id.confirmButton -> {
                     if (viewModel.state.needOverView == true) {
                         viewModel.state.beneficiary?.let { beneficiary ->
@@ -125,9 +97,15 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                         viewModel.requestUpdateBeneficiary()
                     }
                 }
-                R.id.tvChangeCurrency ->
+                R.id.tvChangeCurrency -> {
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
-
+                }
+                R.id.bcountries -> {
+                    this.launchBottomSheet(
+                        itemClickListener = itemListener,
+                        label = "Select Country",
+                        viewType = Constants.VIEW_WITH_FLAG)
+                }
             }
         })
 
@@ -148,6 +126,19 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     }
 
+    private val itemListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Country) {
+                val country: Country = data as Country
+                if (country.getName() != "Select country") {
+                    viewModel.state.selectedCountryOfResidence = data
+                } else {
+                    viewModel.state.selectedCountryOfResidence = null
+                }
+            }
+        }
+    }
+
     private val isBeneficiaryValidObserver = Observer<Boolean> { isValid ->
         if (isValid) {
             var action = ""
@@ -165,12 +156,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundleOf(
                     OtpDataModel::class.java.name to OtpDataModel(
                         otpAction = action,
-                        mobileNumber = MyUserManager.user?.currentCustomer?.getCompletePhone(),
-                        username = MyUserManager.user?.currentCustomer?.getFullName(),
+                        mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),
+                        username = SessionManager.user?.currentCustomer?.getFullName(),
                         emailOtp = false,
                         toolBarData = OtpToolBarData()
                     )
-                ), true
+                ), false
             ) { resultCode, data ->
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.createBeneficiaryRequest()
@@ -206,14 +197,19 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             }
                         }
                     }
-                },isCancelable = false)
+                }, isCancelable = false
+            )
         }
     }
 
-    private fun setIntentResult(isMoneyTransfer: Boolean = false) {
+    private fun setIntentResult(
+        isMoneyTransfer: Boolean = false,
+        cancelFlow: Boolean = false
+    ) {
         val intent = Intent()
         intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
+        intent.putExtra(Constants.TERMINATE_ADD_BENEFICIARY, cancelFlow)
         intent.putExtra(Beneficiary::class.java.name, viewModel.state.beneficiary)
         this.setResult(Activity.RESULT_OK, intent)
         this.finish()
@@ -224,20 +220,32 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_TRANSFER_MONEY -> {
-                    val isTransferred = data?.getBooleanExtra(
-                        Constants.MONEY_TRANSFERED,
-                        false
-                    )
-                    if (isTransferred == true) {
-                        setIntentResult()
-                    } else {
-                        setIntentResult()
-                    }
+                    setIntentResult()
                 }
             }
         }
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+            R.id.tvRightText -> {
+                showAlertDialogAndExitApp(
+                    dialogTitle = "Are you sure you want to exit?",
+                    message = "The information you've entered will be lost.",
+                    leftButtonText = "Confirm",
+                    callback = {
+                        setIntentResult(cancelFlow = true)
+                    },
+                    closeActivity = false,
+                    titleVisibility = true,
+                    isTwoButton = true
+                )
+            }
+        }
+    }
 
     private fun getBinding(): ActivityEditBeneficiaryBinding {
         return viewDataBinding as ActivityEditBeneficiaryBinding

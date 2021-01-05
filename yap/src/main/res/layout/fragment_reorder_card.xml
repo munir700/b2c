@@ -37,7 +37,6 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -123,22 +122,17 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <FrameLayout
-                                android:id="@+id/flLocationPin"
-                                android:layout_width="@dimen/_42sdp"
-                                android:layout_height="@dimen/_42sdp"
-                                android:background="@drawable/bg_round_purple">
-
-
-                                <ImageView
-                                    android:layout_width="@dimen/_26sdp"
-                                    android:layout_height="@dimen/_26sdp"
-                                    android:layout_gravity="center_vertical|center"
-                                    android:src="@drawable/ic_pin_card_location"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
-                            </FrameLayout>
+                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                style="@style/Yap.App.Widget.FloatingActionButton"
+                                android:layout_gravity="center_vertical"
+                                android:backgroundTint="#297C4DFF"
+                                app:backgroundTint="#297C4DFF"
+                                android:src="@drawable/ic_pin_card_location"
+                                app:fabCustomSize="@dimen/_40sdp"
+                                app:maxImageSize="@dimen/_22sdp"
+                                app:srcCompat="@drawable/ic_chat"
+                                android:tint="?attr/colorPrimaryAttr"
+                                app:tint="?attr/colorPrimaryAttr" />
 
                             <LinearLayout
                                 android:id="@+id/llAddPhysicalCard"
@@ -201,9 +195,9 @@
                                 android:layout_marginTop="@dimen/margin_extra_small"
                                 android:layout_marginEnd="@dimen/margin_small"
                                 android:gravity="start"
+                                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/text_size_c3"
-                                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                                 app:text="@{Strings.screen_add_spare_card_button_change_location}"
                                 tools:text="@string/screen_add_spare_card_button_change_location" />
 
@@ -211,7 +205,8 @@
                                 android:id="@+id/btnConfirm"
                                 style="@style/confirmLocationBtnStyle"
                                 android:layout_width="wrap_content"
-                                android:layout_height="@dimen/_22sdp"
+                                android:layout_height="wrap_content"
+                                app:btn_size="small"
                                 android:layout_marginTop="7dp"
                                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                                 android:paddingLeft="0dp"
@@ -232,12 +227,11 @@
                     <co.yap.widgets.CoreButton
                         android:id="@+id/btnConfirmPurchase"
                         style="@style/FragmentsBtnStyle"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_btn_side_paddings"
+                        app:btn_size="small"
                         android:layout_marginTop="@dimen/_25sdp"
-                        android:layout_marginRight="@dimen/margin_btn_side_paddings"
-                        android:layout_marginBottom="@dimen/margin_medium_large"
+                        android:layout_marginBottom="@dimen/margin_extra_large"
                         android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                         android:text="@string/screen_add_spare_card_button_confirm_purchase"
                         android:textAllCaps="false"

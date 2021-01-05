@@ -92,9 +92,18 @@ class CoreToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSe
         set(value) {
             field = value
             tvRightText.visibility =
-                if (rightTitleVisibility == true) View.VISIBLE else View.INVISIBLE
+                if (rightTitleVisibility == true) View.VISIBLE else View.GONE
             invalidate()
 
+        }
+
+    var rigthTitleDisabled: Boolean = true
+        set(value) {
+            field = value
+            tvRightText.isEnabled = value
+            if (!value) tvRightText.alpha = 0.5f
+            else tvRightText.alpha = 1f
+            invalidate()
         }
 
     var rightIcon: Int? = null

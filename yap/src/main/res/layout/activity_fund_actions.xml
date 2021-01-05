@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.R" />
+
 
     </data>
 
@@ -20,10 +22,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_fund_actions_tool_bar"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close_dark}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator='@{viewModel.state.isAddFundScreen ? Strings.screen_add_funds_display_text_add_funds : Strings.screen_remove_funds_display_text_remove_funds}' />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clFTSnackbar"
@@ -321,19 +331,17 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnAction"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
+                    app:btn_size="small"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="@dimen/margin_xxl"
-                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
                     android:text="@{viewModel.state.isAddFundScreen ? @string/screen_add_funds_button_add : @string/screen_remove_funds_button_remove}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clBottom"
                     app:layout_constraintVertical_bias="0.967"
                     tools:text="Add" />

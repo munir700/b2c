@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.home.viewmodels.InviteFriendViewModel" />
@@ -20,10 +24,19 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <include
+            <co.yap.widgets.CoreToolbar
                 android:id="@+id/toolBar"
-                layout="@layout/layout_invite_friend_toolbar"
-                app:viewModel="@{viewModel}" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+                app:leftIconVisibility="@{true}"
+                app:onClick="@{viewModel::onToolBarClick}"
+                app:rightIcon="@{R.drawable.ic_gift_vector}"
+                app:rightIconVisibility="@{false}"
+                app:titleString="@{viewModel.state.toolbarTitle}" />
 
             <TextView
                 android:id="@+id/tvInviteTitle"
@@ -59,13 +72,13 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
                 android:text="@{viewModel.state.inviteDescription}"
-                tools:text="@string/screen_invite_friend_display_text_referal_reward"
                 app:layout_constraintBottom_toTopOf="@+id/tvReferralCode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivInvite"
-                app:layout_constraintVertical_bias="0.262" />
+                app:layout_constraintVertical_bias="0.262"
+                tools:text="@string/screen_invite_friend_display_text_referal_reward" />
 
             <TextView
                 android:id="@+id/tvReferralCode"
@@ -77,28 +90,29 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 android:gravity="center"
                 android:text="@{viewModel.state.referralLinkTextHeading}"
-                tools:text="@string/screen_invite_friend_display_text_referal_code"
                 app:layout_constraintBottom_toTopOf="@+id/btnShare"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/screen_invite_friend_display_text_referal_code" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnShare"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xxl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginRight="@dimen/margin_xxl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 android:text="@{viewModel.state.buttonTitle}"
                 app:btn_drawable="@drawable/ic_share_white"
-                app:btn_drawable_padding_left="10"
+                app:btn_drawable_padding_right="1.26"
                 app:btn_drawable_padding_top="4"
                 app:btn_drawable_position="right"
                 app:enableCoreButton="@{true}"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

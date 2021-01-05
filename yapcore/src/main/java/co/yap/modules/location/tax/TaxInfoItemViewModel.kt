@@ -35,4 +35,5 @@ class TaxInfoItemViewModel(
         }
         onItemClickListener?.onItemClick(view, taxModel, position)
     }
+
 }

@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog.CardDetailsDialogItemViewModel" />
@@ -17,26 +19,64 @@
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_150sdp"
-            android:background="@drawable/card_spare"
+            app:background="@drawable/card_spare"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            style="@style/AMicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:maxLength="26"
+            android:maxLines="2"
+            android:text="@{viewModel.cardDetailsModel.displayName}"
+            android:textColor="@color/colorLightGreyWithOpacity"
+            android:textSize="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCard"
+            app:layout_constraintEnd_toEndOf="@id/ivCard"
+            app:layout_constraintStart_toStartOf="@+id/ivCard"
+            app:layout_constraintTop_toTopOf="@+id/ivCard"
+            tools:text="Amazone Card" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardType"
-            style="@style/Large"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivCard"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_large"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:text="@{viewModel.cardDetailsModel.cardType}"
+            android:textColor="@color/greyDark"
+            android:textSize="@dimen/text_size_h2"
+            app:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivCard"
+            tools:text="Virtual  card" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardName"
+            style="@style/Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_three_dp"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@{StringExtensionsKt.toCamelCase(viewModel.cardDetailsModel.displayName)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardType"
             tools:text="Spare Card" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -44,18 +84,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCardType"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/tvCardType">
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumber"
-                style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card number" />
+                android:fontFamily="@font/roboto_regular"
+                android:text="Card number"
+                android:textColor="@color/greyDark"
+                android:textSize="@dimen/text_size_h2"
+                app:fontFamily="@font/roboto_regular" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCardNumberValue"

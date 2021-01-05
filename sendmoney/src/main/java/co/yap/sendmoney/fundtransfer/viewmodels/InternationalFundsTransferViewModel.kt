@@ -19,11 +19,11 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
 import co.yap.yapcore.helpers.extentions.roundVal
+import co.yap.yapcore.helpers.extentions.roundValHalfEven
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
-import java.math.RoundingMode
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -50,13 +50,15 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.state?.toolBarTitle = getString(Strings.screen_funds_toolbar_header)
+        parentViewModel?.state?.toolbarTitle = getString(Strings.screen_funds_toolbar_header)
         state.availableBalanceString =
             context.resources.getText(
                 getString(Strings.screen_cash_transfer_display_text_available_balance),
                 context.color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                    SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(
+                        showCurrency = true
+                    ) ?: ""
                 )
             )
     }
@@ -83,8 +85,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     if (parentViewModel?.isSameCurrency == true) {
-                        state.sourceCurrency.set("AED")
-                        state.destinationCurrency.set("AED")
+                        state.sourceCurrency.set(SessionManager.getDefaultCurrency())
+                        state.destinationCurrency.set(SessionManager.getDefaultCurrency())
                         parentViewModel?.transferData?.value?.rate = "1.0"
                     } else {
                         isAPIFailed.value = true
@@ -177,17 +179,26 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
     fun updateFees() {
-        updateFees(state.etOutputAmount.toString())
+        updateFees(
+            enterAmount = getEnterAmountOnFeeCurrency(),
+            fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+        )
     }
 
     fun getTotalAmountWithFee(): Double {
         return (when (feeType) {
             FeeType.TIER.name -> {
-                val transferFee = getFeeFromTier(state.etOutputAmount.toString())
+                val transferFee = getFeeFromTier(
+                    enterAmount = getEnterAmountOnFeeCurrency(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             FeeType.FLAT.name -> {
-                val transferFee = getFlatFee(state.etOutputAmount.toString())
+                val transferFee = getFlatFee(
+                    enterAmount = getEnterAmountOnFeeCurrency(),
+                    fxRate = fxRateResponse.value?.fxRates?.get(0)?.rate.parseToDouble()
+                )
                 state.etOutputAmount.parseToDouble().plus(transferFee.parseToDouble())
             }
             else -> {
@@ -196,15 +207,60 @@ class InternationalFundsTransferViewModel(application: Application) :
         })
     }
 
+    private fun getEnterAmountOnFeeCurrency(): String {
+        return if (parentViewModel?.beneficiary?.value?.currency.equals(
+                slabCurrency,
+                true
+            )
+        ) state.etInputAmount.toString() else state.etOutputAmount.toString()
+    }
+
     fun setDestinationAmount() {
         if (!state.etInputAmount.isNullOrBlank()) {
             val totalDestinationAmount = state.etInputAmount?.toDoubleOrNull()
                 ?.times(parentViewModel?.transferData?.value?.rate?.toDoubleOrNull() ?: 0.0)
             totalDestinationAmount?.let {
-                state.etOutputAmount = it.roundVal().toString()
+                state.etOutputAmount =
+                    if (parentViewModel?.beneficiary?.value?.beneficiaryType == SendMoneyBeneficiaryType.RMT.type) {
+                        it.roundValHalfEven().toString()
+                            .toFormattedCurrency(false, state.sourceCurrency.get(), false)
+                    } else {
+                        it.roundVal().toString()
+                            .toFormattedCurrency(false, state.sourceCurrency.get(), false)
+                    }
             }
         } else {
             state.etOutputAmount = ""
+        }
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate = beneficiaryCreationDate,
+                    beneficiaryName = beneficiaryName,
+                    amount = state.etOutputAmount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
         }
     }
 
@@ -219,7 +275,9 @@ class InternationalFundsTransferViewModel(application: Application) :
                                     mTransactionsRepository.getCutOffTimeConfiguration(
                                         getProductCode(),
                                         currency,
-                                        if (state.etInputAmount.toString().isEmpty()) "0.0" else state.etInputAmount.toString(),
+                                        if (state.etInputAmount.toString()
+                                                .isEmpty()
+                                        ) "0.0" else state.etInputAmount.toString(),
                                         parentViewModel?.selectedPop?.cbwsi ?: false
                                     )) {
                                     is RetroApiResponse.Success -> {
@@ -252,5 +310,4 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
         return null
     }
-
 }

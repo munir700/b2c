@@ -61,7 +61,7 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
 
     override fun onCreate() {
         super.onCreate()
-        getCardsAtmCdm()
+        getCardsAtmCdm(state.locationType?.value)
     }
 
     override fun handleClickEvent(id: Int) {
@@ -95,39 +95,46 @@ class CdmMapViewModel(application: Application) : BaseViewModel<ICdmMap.State>(a
         mMap?.addMarker(option)
     }
 
-    override fun getCardsAtmCdm() {
+    override fun getCardsAtmCdm(type: String?) {
         launch {
             state.stateLiveData.postValue(State.loading(""))
             //state.loading = true
             when (val response = cardsRepository.getCardsAtmCdm()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
+                        var data = it
                         if (it.isNotEmpty()) {
-                            moveCameraToCurrentLocation = false
-                            state.stateLiveData.postValue(State.success(""))
-                            val latLans = ArrayList<LatLng>()
-                            var validLatLng: LatLng = LatLng(0.0, 0.0)
-                            for (i in it.indices) {
-                                val latLan = LatLng(
-                                    it[i]?.latitude?.parseToDouble()!!,
-                                    it[i]?.longitude?.parseToDouble()!!
-                                )
-                                if (i == 0) {
-                                    state.atmCdmData = it[i]
-                                    //animateMapToLocation(latLan)
-                                }
-                                if(isValidLatLng(latLan.latitude,latLan.longitude))
-                                {
-                                    addMarker(latLan, it[i], i)
-                                    latLans.add(latLan)
-                                    if(validLatLng.latitude==0.0 && validLatLng.longitude==0.0)
-                                    {moveCameraToCurrentLocation = false
-                                        validLatLng = latLan
-                                        animateMapToLocation(validLatLng)
+                            // filter data here based on type
+                            if (!state.locationType?.value.isNullOrBlank()) data = it.filter {
+                                it?.type == state.locationType?.value
+                            }
+
+                            if (data.isNotEmpty()) {
+                                moveCameraToCurrentLocation = false
+                                state.stateLiveData.postValue(State.success(""))
+                                val latLans = ArrayList<LatLng>()
+                                var validLatLng: LatLng = LatLng(0.0, 0.0)
+                                for (i in data.indices) {
+                                    val latLan = LatLng(
+                                        data[i]?.latitude?.parseToDouble()!!,
+                                        data[i]?.longitude?.parseToDouble()!!
+                                    )
+                                    if (i == 0) {
+                                        state.atmCdmData = data[i]
+                                        //animateMapToLocation(latLan)
                                     }
+                                    if (isValidLatLng(latLan.latitude, latLan.longitude)) {
+                                        addMarker(latLan, data[i], i)
+                                        latLans.add(latLan)
+                                        if (validLatLng.latitude == 0.0 && validLatLng.longitude == 0.0) {
+                                            moveCameraToCurrentLocation = false
+                                            validLatLng = latLan
+                                            animateMapToLocation(validLatLng)
+                                        }
+                                    }
+
+
                                 }
-
-
                             }
                             //animateMapToLocation(latLans)
                         } else {

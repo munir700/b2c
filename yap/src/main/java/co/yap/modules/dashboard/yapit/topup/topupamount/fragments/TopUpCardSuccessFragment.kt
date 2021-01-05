@@ -19,7 +19,9 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.managers.SessionManager
 
 class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel>(),
     ITopUpCardSuccess.View {
@@ -45,19 +47,13 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-        MyUserManager.cardBalance.observe(this, Observer {
-            viewModel.state.availableBalanceSpanable.set(
-                getString(Strings.screen_topup_success_display_text_account_balance_title).format(
-                    args.currencyType,
-                    it.availableBalance?.toFormattedCurrency()
+        SessionManager.cardBalance.observe(this, Observer {
+            getBindings().tvNewSpareCardBalance.text = requireContext().resources.getText(
+                getString(Strings.screen_topup_success_display_text_account_balance_title),
+                requireContext().color(
+                    R.color.colorPrimaryDark,
+                    it.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
                 )
-            )
-
-            getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
-                requireContext(),
-                viewModel.state.availableBalanceSpanable.get().toString(),
-                args.currencyType,
-                Utils.getFormattedCurrencyWithoutComma(it.availableBalance)
             )
             getBindings().ivSuccessCheckMark.visibility = View.VISIBLE
             viewModel.state.loading = false

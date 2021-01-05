@@ -4,6 +4,8 @@ data class CardDetailsModel(
     var cardType: String? = "",
     var cardNumber: String? = "",
     var cardExpiry: String? = "",
-    var cardCvv: String? = ""
+    var cardCvv: String? = "",
+    var displayName: String? = "",
+    var cardImg: String? = ""
 ) {
 }

@@ -15,7 +15,17 @@
         android:layout_height="match_parent"
         android:background="@drawable/show_gradient"
         android:paddingStart="@dimen/_12sdp"
-        android:paddingEnd="@dimen/_10sdp">
+        android:paddingEnd="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/ivInfo"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/ic_card_status"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardExpiry"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.07" />
 
         <ImageView
             android:id="@+id/ivChip"
@@ -33,6 +43,7 @@
             style="@style/Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:lines="1"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_normal"
@@ -41,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivChip"
             app:layout_constraintTop_toTopOf="@id/ivChip"
-            tools:text="Citi Bank Card" />
+            tools:text="Citi Bank Csdfsdfsdf dsf sdf sd fsdf dss dfsdf sdfsd ard" />
 
         <TextView
             android:id="@+id/tvCardNumber"

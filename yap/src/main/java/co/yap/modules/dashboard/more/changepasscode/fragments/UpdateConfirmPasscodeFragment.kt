@@ -15,6 +15,7 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
@@ -26,7 +27,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     IPassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
-    override val viewModel: IPassCode.ViewModel
+    override val viewModel: PassCodeViewModel
         get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +70,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     private fun moveToSuccessScreen() {
         val sharedPreferenceManager = SharedPreferenceManager(requireContext())
         sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.passCode)
-        findNavController().navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
+
+        navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
     }
 
     private fun startOtpFragment(name: String) {
@@ -82,7 +84,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
@@ -112,7 +115,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
                         viewModel.token,
                         Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                     )
-                findNavController().navigate(action)
+            navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
+            findNavController().navigate(action)
         }
     }
 
@@ -125,4 +129,11 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
         return (viewDataBinding as FragmentPassCodeBinding)
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                activity?.onBackPressed()
+            }
+        }
+    }
 }

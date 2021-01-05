@@ -13,6 +13,7 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
     </data>
 
 
@@ -21,49 +22,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
-            android:gravity="center_vertical"
-            android:minHeight="?android:actionBarSize"
-            android:paddingStart="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingEnd="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/tbIvClose"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_alignParentStart="true"
-                android:clickable="true"
-                android:contentDescription="@string/empty_string"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{(v)->viewModel.handleOnPressView(v.id)}"
-                android:src="@drawable/ic_close_dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/Regular"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/screen_remove_funds_display_text_remove_funds"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/screen_remove_funds_display_text_remove_funds" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close_dark}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator='@{Strings.screen_remove_funds_display_text_remove_funds}' />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clSnackBar"
@@ -91,8 +61,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:buttonVisibility="@{false}"
-                    app:cardName="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Spare virtual card` : `Spare virtual card`}"
+                    app:cardName="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                     app:cardNumber="@{viewModel.state.card.maskedCardNo}"
+                    app:cardImgUrl="@{viewModel.state.card.frontImage == null ? `` : viewModel.state.card.frontImage}"
+                    app:virtualCardName="@{viewModel.state.card.cardName}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -128,37 +100,18 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvEnterAmountHeading"
                         tools:text="AED" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/etAmountLayout"
-                        android:layout_width="@dimen/_170sdp"
-                        android:layout_height="@dimen/_50sdp"
-                        android:layout_marginTop="@dimen/margin_extra_small"
-                        android:background="@drawable/bg_funds"
-                        android:paddingStart="@dimen/small"
-                        android:paddingEnd="@dimen/small"
+                    <!--app:decimals="@{YAPApplication.selectedCurrency}"-->
+                    <co.yap.widgets.EasyMoneyEditText
+                        android:id="@+id/etAmount"
+                        style="@style/ATitle2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="@={viewModel.state.amount}"
                         app:layout_constraintLeft_toLeftOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintRight_toRightOf="@+id/tvEnterAmountHeading"
-                        app:layout_constraintTop_toBottomOf="@+id/tvCurrency">
-
-                        <EditText
-                            android:id="@+id/etAmount"
-                            style="@style/ATitle2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:gravity="center_horizontal|center_vertical"
-                            android:imeOptions="actionDone"
-                            android:inputType="numberDecimal"
-                            android:maxLength="@integer/unitsCount"
-                            android:maxLines="1"
-                            android:text="@={viewModel.state.amount}"
-                            app:hint="@{Strings.common_amount_hint}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="0.00" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                        tools:text="1234567891" />
 
                     <LinearLayout
                         android:id="@+id/llDenominations"
@@ -170,7 +123,7 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:visibility="@{viewModel.state.firstDenomination.empty ? View.INVISIBLE :View.VISIBLE}"
-                        app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
+                        app:layout_constraintTop_toBottomOf="@+id/etAmount">
 
                         <TextView
                             android:id="@+id/tvDominationFirstAmount"
@@ -271,7 +224,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium_large"
-                        android:text="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Spare virtual card` : `Spare virtual card`}"
+                        android:text="@{viewModel.state.card.cardType.equals(`PREPAID`) ? `Virtual card` : `Virtual card`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -349,19 +302,17 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnAction"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
+                    app:btn_size="small"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="@dimen/margin_xxl"
-                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v)-> viewModel.handleOnPressView(v.id)}"
                     android:text="@string/screen_remove_funds_button_remove"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clBottom"
                     app:layout_constraintVertical_bias="0.967"
                     tools:text="Add" />

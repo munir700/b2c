@@ -8,7 +8,6 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
-import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
@@ -16,13 +15,17 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.State
+import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
+import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
+import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -31,8 +34,6 @@ class YapHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
-
-    private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
@@ -43,7 +44,6 @@ class YapHomeViewModel(application: Application) :
     override var MAX_CLOSING_BALANCE: Double = 0.0
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
-
     init {
         YAPApplication.clearFilters()
     }
@@ -51,7 +51,7 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
-        getDebitCards()
+        SessionManager.getDebitCard()
     }
 
     override fun filterTransactions() {
@@ -65,19 +65,21 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun requestAccountTransactions() {
-        launch {
-            if (isLoadMore.value == false)
-                state.loading = true
+        launch(Dispatcher.LongOperation) {
+            if (isLoadMore.value == false) {
+                // state.loading = true
+                state.showTxnShimmer.postValue(State.loading(null))
+            }
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    isLast.value = response.data.data.last
+                    isLast.postValue(response.data.data.last)
                     val transactionModelData = setUpSectionHeader(response)
 
                     if (isRefreshing.value == true) {
                         sortedCombinedTransactionList.clear()
                     }
-                    isRefreshing.value = false
+                    isRefreshing.postValue(false)
 
                     if (sortedCombinedTransactionList != transactionModelData) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
@@ -104,7 +106,7 @@ class YapHomeViewModel(application: Application) :
 
                             var transactionModel = HomeTransactionListData(
                                 "Type",
-                                "AED",
+                                SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
                                 transactionList[0].getFormattedDate(),
                                 transactionList[0].totalAmount.toString(),
@@ -124,7 +126,6 @@ class YapHomeViewModel(application: Application) :
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
-
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
@@ -143,18 +144,22 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
-                    transactionsLiveData.value = sortedCombinedTransactionList
-                    isLoadMore.value = false
-                    state.loading = false
+                    if (isLoadMore.value == false) {
+                        state.showTxnShimmer.postValue(State.success(null))
+                    }
+                    transactionsLiveData.postValue(sortedCombinedTransactionList)
+                    //isLoadMore.value = false
+                    //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
-                    isRefreshing.value = false
-                    isLoadMore.value = false
+                    // state.loading = false
+                    isRefreshing.postValue(false)
+                    isLoadMore.postValue(false)
+                    state.showTxnShimmer.postValue(State.error(""))
                 }
             }
         }
-        state.loading = false
+//        state.loading = false
     }
 
     override fun loadMore() {
@@ -188,7 +193,7 @@ class YapHomeViewModel(application: Application) :
 
             val transactionModel = HomeTransactionListData(
                 "Type",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 mapEntry.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
@@ -212,29 +217,6 @@ class YapHomeViewModel(application: Application) :
         return transactionModelData
     }
 
-    override fun getDebitCards() {
-        launch {
-            when (val response = cardsRepository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            MyUserManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
-                        }
-                    }
-                }
-                is RetroApiResponse.Error ->
-                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
-            }
-        }
-    }
-
-    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
-        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
-    }
-
     override fun getNotifications(
         accountInfo: AccountInfo,
         paymentCard: Card
@@ -243,7 +225,7 @@ class YapHomeViewModel(application: Application) :
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
         ) {
             trackEvent(KYCEvents.EID_EXPIRE.type)
-            trackEventWithAttributes(MyUserManager.user, eidExpire = true)
+            trackEventWithAttributes(SessionManager.user, eidExpire = true)
         }
         val list = ArrayList<HomeNotification>()
         if (accountInfo.otpBlocked == true) {
@@ -276,31 +258,46 @@ class YapHomeViewModel(application: Application) :
                 HomeNotification(
                     id = "3",
                     title = "Set PIN",
-                    description = "Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.",
+                    description = "This 4-digit code is yours to keep. Please don't share it with anyone",
                     action = NotificationAction.SET_PIN
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
-                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
-            && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+        if (accountInfo.getUserAccessRestrictions()
+                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
         ) {
+            SessionManager.eidStatus = EIDStatus.EXPIRED
             list.add(
                 HomeNotification(
                     id = "4",
-                    title = "Renewed ID",
-                    description = "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                    title = "Renew ID",
+                    description = accountInfo.EIDExpiryMessage
+                        ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
                     action = NotificationAction.UPDATE_EMIRATES_ID
                 )
             )
+        }
 
+        accountInfo.getUserAccessRestrictions().forEach {
+            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
+                list.add(
+                    HomeNotification(
+                        id = "5",
+                        description = description,
+                        action = NotificationAction.CARD_FEATURES_BLOCKED
+                    )
+                )
+            }
         }
 
         return list
     }
 
-    private fun shouldShowSetPin(paymentCard: Card): Boolean {
-        return (paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name && !paymentCard.pinCreated)
+    override fun shouldShowSetPin(paymentCard: Card): Boolean {
+       return when {
+            paymentCard.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
+            paymentCard.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true
+            else -> false
+        }
     }
 }
-

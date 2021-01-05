@@ -13,6 +13,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
+
     </data>
 
 
@@ -48,19 +50,31 @@
             android:src="@drawable/ic_close"
             android:visibility="@{viewModel.taxModel.taxRowNumber ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry" />
+            app:layout_constraintTop_toTopOf="@+id/tvSelectCountry"
+            tools:visibility="gone" />
 
-        <co.yap.widgets.country_spinner.CountrySpinner
-            android:id="@+id/spinner"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bcountries"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_small"
+            android:background="@drawable/bg_edit_text_disable_grey_under_line"
+            android:drawableEnd="@{viewModel.taxModel.selectedCountry == null ? @drawable/iv_drown_down: null}"
+            android:drawablePadding="@dimen/_6sdp"
+            android:ellipsize="end"
+            android:text="@{viewModel.taxModel.selectedCountry == null ? @string/screen_add_beneficiary_display_text_select_country : viewModel.taxModel.selectedCountry.name}"
+            android:gravity="center|start"
+            android:onClick="@{v->viewModel.onViewClicked(v)}"
+            android:paddingTop="@dimen/margin_extra_small"
+            android:singleLine="true"
+            android:textColor="@{viewModel.taxModel.selectedCountry == null ? @color/greyDark : @color/colorPrimaryDark}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry" />
+            app:flagOnDrawableStart="@{viewModel.taxModel.selectedCountry.isoCountryCode2Digit}"
+            app:showDropDown="@{viewModel.position == 0 ? false : true}"
+            app:layout_constraintStart_toStartOf="@+id/tvSelectCountry"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectCountry"
+            tools:text="Select Country" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvlabelOptions"
@@ -72,7 +86,7 @@
             android:gravity="center"
             android:text="@string/screen_place_of_birth_display_text_select_country"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner"
+            app:layout_constraintTop_toBottomOf="@+id/bcountries"
             app:text="@{Strings.screen_tax_info_display_text_have_tin_number}"
             tools:text="@string/screen_tax_info_display_text_have_tin_number" />
 
@@ -93,10 +107,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/bg_spinner"
                 android:drawSelectorOnTop="false"
                 android:dropDownHeight="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="bottom"
                 android:overScrollMode="never"
                 android:overlapAnchor="false"
@@ -113,7 +127,7 @@
 
         <LinearLayout
             android:id="@+id/spinner_reasons"
-            android:layout_width="376dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_small"
@@ -141,9 +155,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/bg_spinner"
                 android:drawSelectorOnTop="false"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:dropDownHeight="@dimen/_50sdp"
                 android:gravity="bottom"
                 android:overScrollMode="never"
@@ -191,8 +205,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@null"
                 android:gravity="bottom"
                 android:imeOptions="actionDone"

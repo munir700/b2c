@@ -1,6 +1,7 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
 import android.os.Parcelable
+import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -69,7 +70,7 @@ data class Transaction(
     @SerializedName("merchantCategory")
     val merchantCategory: String? = null,
     @SerializedName("merchantCategoryName")
-    val merchantCategoryName: String? = null,
+    var merchantCategoryName: String? = null,
     @SerializedName("merchantCode")
     val merchantCode: String? = null,
     @SerializedName("merchantLogo")
@@ -135,9 +136,9 @@ data class Transaction(
     @SerializedName("transactionId")
     val transactionId: String? = null,
     @SerializedName("transactionNote")
-    val transactionNote: String? = null,
+    var transactionNote: String? = null,
     @SerializedName("transactionNoteDate")
-    val transactionNoteDate: String? = null,
+    var transactionNoteDate: String? = null,
     @SerializedName("txnRefNo")
     val txnRefNo: String? = null,
     @SerializedName("txnState")
@@ -147,7 +148,7 @@ data class Transaction(
     @SerializedName("updatedBy")
     val updatedBy: String? = null,
     @SerializedName("updatedDate")
-    val updatedDate: String? = null,
+    var updatedDate: String? = null,
     @SerializedName("userType1")
     val userType1: String? = null,
     @SerializedName("userType2")
@@ -161,4 +162,4 @@ data class Transaction(
     @SerializedName("cancelReason")
     val cancelReason: String? = null
 
-) : Parcelable
+):ApiResponse() ,Parcelable

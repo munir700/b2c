@@ -20,18 +20,18 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgSettings"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
-            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:tint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_settings" />
-
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
@@ -51,11 +51,12 @@
             style="@style/ALarge"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:background="@drawable/bg_round_purple"
+            android:background="@drawable/tag_background"
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@{viewModel.state.initials}"
-            android:textColor="?attr/colorPrimaryDarkAttr"
+            android:textColor="?attr/colorPrimaryAttr"
+            android:textSize="@dimen/_24sdp"
             android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -107,10 +108,9 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnBankDetails"
             style="@style/RectangleBtnSmallStyle"
-            android:layout_width="match_parent"
-            android:layout_marginStart="@dimen/_86sdp"
-            android:layout_marginEnd="@dimen/_86sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:btn_size="mini_medium"
             android:layout_marginTop="@dimen/margin_normal"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:paddingTop="0dp"
@@ -138,6 +138,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnBankDetails">
 
             <LinearLayout
+                android:id="@+id/llYapForYou"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_90sdp"
                 android:background="@drawable/cornor_edges_grey_less_radius"

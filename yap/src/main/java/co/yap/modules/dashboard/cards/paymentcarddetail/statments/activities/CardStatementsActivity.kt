@@ -33,14 +33,16 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
         } else {
             viewModel.loadStatements(viewModel.card.cardSerialNumber)
         }
-        viewModel.clickEvent.observe(this, Observer {
-            if (it == R.id.tbBtnBack) {
-                onBackPressed()
-            }
-        })
         viewModel.adapter.set(CardStatementsAdaptor(mutableListOf()))
         viewModel.adapter.get()?.allowFullItemClickListener = true
         viewModel.adapter.get()?.setItemListener(listener)
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> onBackPressed()
+        }
     }
 
     val listener = object : OnItemClickListener {

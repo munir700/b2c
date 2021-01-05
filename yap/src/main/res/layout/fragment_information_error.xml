@@ -43,7 +43,6 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_xl"
             android:contentDescription="@string/empty_string"
-            android:visibility="@{viewModel.state.isUSACitizen==true ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:srcCompat="@drawable/ic_country"
             tools:src="@drawable/ic_country" />
@@ -68,18 +67,17 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnGoToDashboard"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/RectangleBtnStyle"
+            app:btn_size="small"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/screen_kyc_information_error_button_go_to_dashboard"
             android:text="@{viewModel.state.buttonTitle}"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnGoToDashboard()}"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
-            tools:layout_editor_absoluteX="34dp"
-            app:layout_constraintVertical_bias="0.988"/>
+            android:layout_marginBottom="@dimen/margin_extra_large"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

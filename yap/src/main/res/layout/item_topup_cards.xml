@@ -37,13 +37,12 @@
 
         <ImageView
             android:id="@+id/imgStatus"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_margin="@dimen/_5sdp"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:padding="@dimen/_5sdp"
-            android:src="@drawable/ic_status_expired"
             app:cardStatus="@{viewModel.cardInfo}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

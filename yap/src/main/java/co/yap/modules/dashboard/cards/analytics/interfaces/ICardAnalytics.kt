@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.cards.analytics.interfaces
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.IBase
@@ -15,11 +14,9 @@ interface ICardAnalytics {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var selectedModel: MutableLiveData<AnalyticsItem>
-        var parentViewModel: ICardAnalyticsMain.ViewModel
         fun fetchCardCategoryAnalytics(currentMonth: String)
         fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)
-
     }
 
     interface State : IBase.State {
@@ -36,9 +33,10 @@ interface ICardAnalytics {
         var totalCategorySpent: String?
         var totalMerchantSpent: String?
         var selectedMonth: String?
-        var monthCount:Int
+        var monthCount: Int
         var selectedTxnAnalyticsItem: TxnAnalytic?
         var nextMonth: Boolean?
         var previousMonth: Boolean?
+        var displayMonth:String
     }
 }

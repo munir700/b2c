@@ -2,14 +2,19 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -44,6 +49,7 @@ interface CustomersApi {
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
+    suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse>
 
 
 /*  send money */
@@ -71,7 +77,7 @@ interface CustomersApi {
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest): RetroApiResponse<HouseholdOnBoardingResponse>
     suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ApiResponse>
     suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse>
-    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
+    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit>
     suspend fun getCountryTransactionLimits(
         countryCode: String,
         currencyCode: String
@@ -92,5 +98,15 @@ interface CustomersApi {
     suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
     suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse>
-
+    suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse>
+    suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
+    suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
+    suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
+    suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
+    suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse>
+    suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse>
+    suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
+    suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
+    suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
 }

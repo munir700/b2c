@@ -24,16 +24,18 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.afterTextChanged
-import co.yap.yapcore.helpers.extentions.applyAmountFilters
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_add_funds.*
 import kotlinx.android.synthetic.main.activity_remove_funds.*
+import kotlinx.android.synthetic.main.activity_remove_funds.cardInfoLayout
+import kotlinx.android.synthetic.main.activity_remove_funds.etAmount
 
 class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemoveFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -77,7 +79,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             resources.getText(
                 getString(Strings.common_text_fee), this.color(
                     R.color.colorPrimaryDark,
-                    "${feeAmount?.toFormattedAmountWithCurrency()}"
+                    "${feeAmount?.toFormattedCurrency()}"
                 )
             )
         )
@@ -93,7 +95,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setEditTextWatcher() {
-        getBinding().etAmount.applyAmountFilters()
         etAmount.afterTextChanged {
             if (!viewModel.state.amount.isBlank() && viewModel.state.amount.parseToDouble() > 0) {
                 checkOnTextChangeValidation()
@@ -128,7 +129,12 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             R.id.tvDominationThirdAmount -> setDenominationValue(
                 viewModel.state.thirdDenomination.get() ?: ""
             )
-            R.id.tbIvClose -> finish()
+        }
+    }
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> finish()
         }
     }
 
@@ -158,8 +164,8 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         viewModel.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_min_max_limit_error_transaction,
-            viewModel.state.minLimit.toString().toFormattedAmountWithCurrency(),
-            viewModel.state.maxLimit.toString().toFormattedAmountWithCurrency()
+            viewModel.state.minLimit.toString().toFormattedCurrency(),
+            viewModel.state.maxLimit.toString().toFormattedCurrency()
         )
     }
 
@@ -167,7 +173,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         viewModel.errorDescription = Translator.getString(
             this,
             Strings.common_display_text_available_balance_error
-        ).format(viewModel.state.amount.toFormattedAmountWithCurrency())
+        ).format(viewModel.state.amount.toFormattedCurrency())
         showErrorSnackBar(viewModel.errorDescription)
     }
 
@@ -181,11 +187,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-        getBinding().etAmountLayout.background =
-            this.resources.getDrawable(
-                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-                null
-            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
@@ -208,7 +209,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
                 getString(Strings.screen_success_remove_funds_transaction_display_text_moved_success),
                 this.color(
                     R.color.colorPrimaryDark,
-                    viewModel.state.amount.toFormattedAmountWithCurrency()
+                    viewModel.state.amount.toFormattedCurrency()
                 )
             )
         )
@@ -218,8 +219,8 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
                 getString(Strings.screen_success_funds_transaction_display_text_primary_balance),
                 this.color(
                     R.color.colorPrimaryDark,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedAmountWithCurrency()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
+                        .toFormattedCurrency()
                 )
             )
         )
@@ -230,7 +231,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
                 this.color(
                     R.color.colorPrimaryDark,
                     (viewModel.state.card.get()?.availableBalance.parseToDouble() - viewModel.state.amount.parseToDouble()).toString()
-                        .toFormattedAmountWithCurrency()
+                        .toFormattedCurrency()
                 )
             )
         )
@@ -244,12 +245,13 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             YoYo.with(Techniques.FadeOut)
                 .duration(300)
                 .repeat(0)
-                .playOn(getBinding().tbIvClose)
+                .playOn(getBinding().toolbar.getChildAt(0))
             getBinding().clBottom.children.forEach { it.alpha = 0f }
             getBinding().btnAction.alpha = 0f
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
             Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
             runCardAnimation()
+            runCardNameAnimation()
         }
     }
 
@@ -292,6 +294,14 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         }, 500)
     }
 
+    private fun runCardNameAnimation() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            cardNameAnimation().apply {
+                addListener(onEnd = {
+                })
+            }.start()
+        }, 500)
+    }
 
     private fun cardAnimation(): AnimatorSet {
         val checkBtnEndPosition =
@@ -306,6 +316,22 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             AnimationUtils.pulse(getBinding().cardInfoLayout.ivCustomCard)
         )
     }
+
+    private fun cardNameAnimation(): AnimatorSet {
+        val checkBtnEndPosition =
+            (cardInfoLayout.measuredWidth / 2) - (getBinding().cardInfoLayout.tvCardNameOnCardImage.width / 2)
+        return AnimationUtils.runSequentially(
+            AnimationUtils.slideHorizontal(
+                view = getBinding().cardInfoLayout.tvCardNameOnCardImage,
+                from = getBinding().cardInfoLayout.tvCardNameOnCardImage.x,
+                to = checkBtnEndPosition.toFloat(),
+                duration = 500
+            ),
+            AnimationUtils.pulse(getBinding().cardInfoLayout.tvCardNameOnCardImage)
+        )
+
+    }
+
 
     private fun setupActionsIntent() {
         val returnIntent = Intent()
@@ -330,4 +356,9 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         return (viewDataBinding as ActivityRemoveFundsBinding)
     }
 
+    override fun onBackPressed() {
+        if (getBinding().btnAction.text != getString(Strings.screen_success_funds_transaction_display_text_button)) {
+            super.onBackPressed()
+        }
+    }
 }

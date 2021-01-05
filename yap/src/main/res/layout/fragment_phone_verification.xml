@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -22,11 +22,11 @@
 
             android:id="@+id/layout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_normal"
             android:paddingRight="@dimen/margin_medium"
-            android:paddingBottom="@dimen/_24sdp"
+            android:paddingBottom="@dimen/margin_extra_large"
             tools:context=".modules.onboarding.fragments.PhoneVerificationFragment">
 
             <TextView
@@ -56,7 +56,6 @@
                 android:lineSpacingExtra="1dp"
                 android:textAlignment="center"
                 app:concat="@{viewModel.state.mobileNumber}"
-                app:layout_constraintBottom_toTopOf="@+id/layout2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -72,7 +71,6 @@
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 app:bar_enabled="false"
                 app:bar_height="@dimen/_2sdp"
-                app:layout_constraintBottom_toTopOf="@+id/layout2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
@@ -115,7 +113,6 @@
                 android:textColor="@{viewModel.state.color}"
                 app:layout_constraintBottom_toTopOf="@+id/done"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTimer"
                 app:layout_constraintVertical_bias="0.123"
@@ -125,11 +122,10 @@
             <co.yap.widgets.CoreButton
                 android:id="@+id/done"
                 style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxl"
+                app:btn_size="small"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_xxl"
                 android:onClick="@{(v) -> viewModel.handlePressOnSendButton(v.id)}"
                 android:text="@string/screen_phone_number_button_send"
                 app:enableCoreButton="@{viewModel.state.valid}"
@@ -137,7 +133,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintVertical_bias="1.0"
-                tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

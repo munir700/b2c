@@ -16,7 +16,7 @@ import com.liveperson.messaging.TaskType
 import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
 
-
+@Deprecated("Use LivePersonChat like this LivePersonChat.getInstance(applicationContext).registerToLivePersonEvents() ")
 open class ChatApplication : YAPApplication() {
 
     private val authKey = "17038977"

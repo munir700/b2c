@@ -17,7 +17,7 @@ interface IChangePassCode {
     }
 
     interface State : IBase.State {
-        var toolbarVisibility: ObservableBoolean
+        var toolbarVisibility: Boolean?
         var rightIcon: ObservableBoolean
         var leftIcon: ObservableBoolean
         var toolBarTitle: String?

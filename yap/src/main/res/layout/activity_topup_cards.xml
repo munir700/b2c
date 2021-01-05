@@ -9,6 +9,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.R" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesViewModel" />
@@ -21,12 +23,19 @@
         android:animateLayoutChanges="true"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_topup_cards_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_add_sign}"
+            app:rightIconVisibility="@{viewModel.state.enableAddCard}"
+            app:titleString='@{"Add money using a card"}' />
 
         <TextView
             android:id="@+id/txtCardsCount"
@@ -142,12 +151,11 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/btnSelect"
             style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
+            app:btn_size="small"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
             android:text="Select"
             android:visibility="@{viewModel.state.valid &amp;&amp; viewModel.state.responseReceived ? View.VISIBLE:View.GONE}"

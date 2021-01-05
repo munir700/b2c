@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel"/>
+            type="co.yap.modules.dashboard.cards.addpaymentcard.main.viewmodels.AddPaymentCardViewModel"/>
     </data>
 
     <LinearLayout
@@ -19,7 +19,8 @@
             android:id="@+id/toolbar"
              android:visibility="@{viewModel.state.tootlBarVisibility}"
              layout="@layout/layout_add_payment_cards_toolbar"
-             app:viewModel="@{viewModel}"/>
+             app:viewModel="@{viewModel}"
+            />
 
         <fragment
             android:id="@+id/main_cards_nav_host_fragment"

@@ -11,7 +11,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class CardStatementsViewModel(application: Application) :
@@ -20,7 +20,6 @@ class CardStatementsViewModel(application: Application) :
 
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     override val state: CardStatementsState = CardStatementsState()
-    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override lateinit var card: Card
     override val adapter: ObservableField<CardStatementsAdaptor> = ObservableField()
     private val currentCalendar = Calendar.getInstance()
@@ -31,7 +30,7 @@ class CardStatementsViewModel(application: Application) :
         super.onCreate()
         state.nextMonth = false
         state.year.set(currentCalendar.get(Calendar.YEAR).toString())
-        MyUserManager.user?.creationDate?.let { it ->
+        SessionManager.user?.creationDate?.let { it ->
             val date =
                 DateUtils.stringToDate(
                     it,
@@ -138,7 +137,4 @@ class CardStatementsViewModel(application: Application) :
 //        }
     }
 
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-    }
 }

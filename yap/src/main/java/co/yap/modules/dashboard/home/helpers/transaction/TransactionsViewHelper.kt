@@ -20,6 +20,7 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
@@ -124,10 +125,12 @@ class TransactionsViewHelper(
     fun setTooltipVisibility(visibility: Int = View.VISIBLE) {
         transactionsView.tvTransactionDate?.visibility = visibility
         tooltip?.visibility = visibility
+        tooltip?.arrowView = transactionsView.findViewById(R.id.arrowView)
+        tooltip?.arrowView?.visibility = visibility
     }
 
     fun addTooltip(view: View?, data: HomeTransactionListData, firstTime: Boolean = false) {
-        transactionsView.tvTransactionDate.visibility = View.VISIBLE
+        setTooltipVisibility(View.VISIBLE)
         transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(
             data.originalDate ?: "",
             "yyyy-MM-dd",
@@ -143,12 +146,13 @@ class TransactionsViewHelper(
                     "yyyy-MM-dd",
                     DateUtils.FORMAT_DATE_MON_YEAR
                 ),
-                data.closingBalance.toString().toFormattedCurrency()
+                data.closingBalance.toString()
+                    .toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())
             )
             tooltip?.apply {
                 visibility = View.VISIBLE
                 it.bringToFront()
-                this.text = data.date?.let {
+                this.text.text = data.date?.let {
                     SpannableString(text).apply {
                         setSpan(
                             ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
@@ -158,41 +162,59 @@ class TransactionsViewHelper(
                         )
                     }
                 }
+                this.ivCross.setOnClickListener { setTooltipVisibility(View.GONE) }
 
                 val viewPosition = IntArray(2)
-                view.getLocationInWindow(viewPosition)
+                val arrowViewPosition = IntArray(2)
+                it.getLocationInWindow(viewPosition)
+                tooltip?.arrowView?.getLocationInWindow(arrowViewPosition)
                 val screen = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(screen)
-
+                var rightPadding = 0
                 if (viewPosition[0] + this.width >= screen.widthPixels) {
                     // It is the end of the screen so adjust X
+//                    if((arrowViewPosition[0].minus(this.width))>screen.widthPixels/2){
+//                        translationX =
+//                            screen.widthPixels.toFloat() - this.width-10
+//                    }else {
                     translationX =
-                        screen.widthPixels.toFloat() - this.width
+                        screen.widthPixels.toFloat() - this.width - rightPadding/2
+
+//                    }
 
                     // Adjust position of arrow of tooltip
-                    arrowX = viewPosition[0] - x + (it.width / 2)
+                    arrowX = viewPosition[0] - x + (it.width / 2) - rightPadding/2
+                    tooltip?.arrowView?.translationX =
+                        ((viewPosition[0].toFloat() - (it.width / 2))) + context.dimen(R.dimen.tooltip_default_corner_radius) - rightPadding/2 // translationX-it.width / 2//viewPosition[0] - x + (it.width / 2)
                 } else {
                     val viewWidth = it.width + (context.dimen(R.dimen.margin_one_dp) * 2)
                     if ((viewPosition[0] - viewWidth) > 0) {
-                        translationX = viewPosition[0].toFloat() - context.dimen(R.dimen._2sdp)
+                        translationX =
+                            viewPosition[0].toFloat() - tooltip?.arrowView?.width!!//context.dimen(R.dimen._2sdp)
                         arrowX =
                             viewPosition[0] - x + (it.width / 2)
+                        tooltip?.arrowView?.translationX =
+                            viewPosition[0].toFloat() - (it.width / 2) + context.dimen(R.dimen.tooltip_default_corner_radius)
                     } else {
                         translationX = 0f
                         arrowX = 0f
+                        tooltip?.arrowView?.translationX = viewPosition[0].toFloat()
                     }
                 }
                 val notificationView =
                     transactionsView.findViewById<DiscreteScrollView>(R.id.rvNotificationList)
                 if (firstTime) {
                     addToolTipDelay(10) {
-                        y = (it.y - this.height) + context.dimen(R.dimen._6sdp)
+                        y = (it.y - this.height) - (tooltip?.arrowView?.height?.div(2)
+                            ?: context.dimen(R.dimen._6sdp))
                         if (notificationView.adapter?.itemCount ?: 0 > 0) {
                             y += notificationView.height
                         }
                     }
                 } else {
-                    y = (it.y - this.height) + context.dimen(R.dimen._6sdp)
+                    y = (it.y - this.height) - (tooltip?.arrowView?.height?.div(2) ?: context.dimen(
+                        R.dimen._6sdp
+                    ))
                     if (notificationView.adapter?.itemCount ?: 0 > 0) {
                         y += notificationView.height
                     }
@@ -255,8 +277,6 @@ class TransactionsViewHelper(
                 }
             }
         rvTransactionScrollListener?.let { transactionsView.rvTransaction.addOnScrollListener(it) }
-
-
     }
 
     fun onToolbarCollapsed() {

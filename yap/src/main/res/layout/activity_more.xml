@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.R" />
     </data>
 
     <LinearLayout
@@ -15,11 +19,19 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_more_toolbar"
-            android:visibility="@{viewModel.state.tootlBarVisibility}"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_trade}"
+            app:rightIconVisibility="@{viewModel.state.tootlBarBadgeVisibility}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <fragment
             android:id="@+id/main_more_nav_host_fragment"

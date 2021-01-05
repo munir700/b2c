@@ -1,13 +1,20 @@
 package co.yap.modules.others.helper
 
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
+import co.yap.modules.dashboard.home.status.StageProgress
 import co.yap.networking.transactions.responsedtos.CardStatement
+import co.yap.translation.Strings
+import co.yap.translation.Translator
+import co.yap.widgets.timelineview.TimelineView
+import com.liveperson.infra.utils.Utils.getResources
 
 object BindingHelper {
-
 
     @BindingAdapter("adaptorList")
     @JvmStatic
@@ -26,4 +33,75 @@ object BindingHelper {
 //    }
 
 
+/*
+  Dashboard notification status
+ */
+
+    @BindingAdapter("status")
+    @JvmStatic
+    fun setStatus(
+        view: androidx.appcompat.widget.AppCompatTextView,
+        status: StageProgress
+    ) {
+
+        when (status) {
+
+            StageProgress.COMPLETED -> {
+                view.background.setColorFilter(
+                    getResources().getColor(R.color.colorOpaquAqua),
+                    PorterDuff.Mode.SRC_IN
+                )
+                view.text = Translator.getString(
+                    view.context,
+                    Strings.dashboard_timeline_top_up_stage_completion_title
+                )
+            }
+
+            StageProgress.IN_PROGRESS -> {
+                view.background.setColorFilter(
+                    getResources().getColor(R.color.colorOpaquSecondaryOrange),
+                    PorterDuff.Mode.SRC_IN
+                )
+                view.text = Translator.getString(
+                    view.context,
+                    Strings.dashboard_timeline_top_up_stage_in_process_title
+                )
+            }
+            else -> {
+                view.background.setColorFilter(
+                    getResources().getColor(R.color.transparent),
+                    PorterDuff.Mode.SRC_IN
+                )
+                view.text = ""
+            }
+
+        }
+    }
+
+    @BindingAdapter("setOpacity")
+    @JvmStatic
+    fun setMarkerOpacity(view: TimelineView, isNotActive: Boolean = false) {
+        if (isNotActive) {
+            view.alpha = 0.4f
+        }
+    }
+
+    @BindingAdapter("markerDrawable")
+    @JvmStatic
+    fun setMarkerDrawable(view: TimelineView, drawable: Drawable) {
+        view.marker = drawable
+    }
+
+    @BindingAdapter("endLineColor")
+    @JvmStatic
+    fun setEndLineColor(view: TimelineView, hideLine: Boolean) {
+        when (hideLine) {
+            true -> {
+                view.setEndLineColor(R.color.transparent, 3)
+            }
+            false -> {
+                view.setEndLineColor(R.color.colorPrimary, 1)
+            }
+        }
+    }
 }

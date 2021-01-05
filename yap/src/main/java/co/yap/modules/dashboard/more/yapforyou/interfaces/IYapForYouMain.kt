@@ -20,7 +20,7 @@ interface IYapForYouMain {
 
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
-        var rightIcon: ObservableField<Int>
         var leftIcon: ObservableField<Int>
+        var leftIconVisibility : ObservableBoolean
     }
 }

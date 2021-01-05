@@ -57,5 +57,6 @@ interface IPaymentCardDetail {
         var filterCount: ObservableField<Int>
         var cardStatus: ObservableField<String>
         var isTxnsEmpty: ObservableField<Boolean>
+        var cardImageUrl: String
     }
 }

@@ -1,20 +1,24 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.content.Context
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ViewNotificationsBinding
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.HomeNotification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.databinding.ViewNotificationsBinding
+import co.yap.yapcore.helpers.Utils
 
 class NotificationAdapter(
+    val context: Context,
     val listItems: MutableList<HomeNotification>,
     val clickListener: NotificationItemClickListener
 ) :
     BaseBindingRecyclerAdapter<HomeNotification, NotificationAdapter.ViewHolder>(listItems) {
 
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 80, 15)
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
         return ViewHolder(binding as ViewNotificationsBinding)
@@ -23,43 +27,33 @@ class NotificationAdapter(
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.view_notifications
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val notification: HomeNotification = listItems[position]
-
-        holder.binding?.tvTitle?.text = notification.title
-        holder.binding?.tvDescription?.text = notification.description
-        if (notification.title.isBlank()) {
-            holder.binding?.tvTitle?.visibility = View.GONE
-        } else {
-            holder.binding?.tvTitle?.visibility = View.VISIBLE
-        }
+        holder.onBind(listItems[position])
     }
 
-    inner class ViewHolder(binding: ViewNotificationsBinding) :
+    inner class ViewHolder(val binding: ViewNotificationsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-//        val ivNotification: ImageView = itemView.ivNotification
-//        val ivCross: ImageView = itemView.ivCross
-//        val tvTitle: TextView = itemView.tvTitle
-//        val tvDescription: TextView = itemView.tvDescription
-//        val cvNotification: CardView = itemView.cvNotification
 
-        val binding: ViewNotificationsBinding?
+        fun onBind(notification: HomeNotification) {
 
-        init {
-            this.binding = binding
+            val params = binding.cvNotification.layoutParams as RecyclerView.LayoutParams
+            params.width = dimensions[0]
+            //params.height = dimensions[1]
+            binding.cvNotification.layoutParams = params
+
+            binding.tvTitle.text = notification.title
+            binding.tvDescription.text = notification.description
+            if (notification.title.isBlank()) {
+                binding.tvTitle.visibility = View.INVISIBLE
+            } else {
+                binding.tvTitle.visibility = View.VISIBLE
+            }
+
             binding.cvNotification.setOnClickListener {
-                try {
-                    clickListener.onClick(listItems[adapterPosition])
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                clickListener.onClick(listItems[adapterPosition], adapterPosition)
             }
 
             binding.ivCross.setOnClickListener {
-                try {
-                    clickListener.onCloseClick(listItems[adapterPosition])
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
+                clickListener.onCloseClick(listItems[adapterPosition], adapterPosition)
             }
         }
     }

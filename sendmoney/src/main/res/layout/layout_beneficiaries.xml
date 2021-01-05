@@ -7,10 +7,16 @@
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+            type="co.yap.sendmoney.home.viewmodels.SMBeneficiariesViewModel" />
 
         <import type="co.yap.translation.Strings" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
+        <import type="co.yap.sendmoney.R" />
+
+        <import type="co.yap.yapcore.enums.SendMoneyTransferType" />
+
 
     </data>
 
@@ -19,10 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
+        android:background="@android:color/white"
         android:focusableInTouchMode="true"
-        android:paddingEnd="@dimen/small"
         android:paddingStart="@dimen/small"
-        android:background="@android:color/white">
+        android:paddingEnd="@dimen/small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyTo"
@@ -35,22 +41,23 @@
             android:lineSpacingExtra="6sp"
             android:textColor="?attr/colorPrimaryDarkAttr"
             android:textSize="@dimen/_14sdp"
-            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:text="@{Strings.screen_send_money_no_contacts_display_text_sub_heading}"
             tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
+
         <include
             android:id="@+id/layoutRecent"
             layout="@layout/layout_recent_beneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.state.isSearching || viewModel.state.isNoRecentBeneficiary? View.GONE : View.VISIBLE}"
-            app:adapter="@{viewModel.adapter}"
+            android:visibility="@{viewModel.state.isNoRecentBeneficiary? View.GONE : View.VISIBLE}"
+            app:adapter="@{viewModel.recentsAdapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSendMoneyTo" />
+
         <include
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_beneficiairy_search"
@@ -105,14 +112,12 @@
             android:gravity="start"
             android:layout_marginStart="@dimen/margin_normal_large"
             android:text="@string/screen_send_money_display_text_all_beneficiaries"
-            android:visibility="@{viewModel.state.isSearching?View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutSearchView"
-            app:text="@{Strings.screen_send_money_display_text_all_beneficiaries}" />
+            app:text="@{viewModel.state.sendMoneyType.equals(SendMoneyTransferType.LOCAL.name) ? Strings.screen_send_money_display_text_all_local_beneficiaries : Strings.screen_send_money_display_text_all_beneficiaries}" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
+        <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
             android:id="@+id/rvAllBeneficiaries"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -125,8 +130,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAllBeneficiaries"
             app:layout_constraintVertical_bias="0.0"
+            app:recycleViewAdapter="@{viewModel.beneficiariesAdapter}"
             tools:listitem="@layout/layout_item_beneficiary"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            app:shimmerLayoutId="@layout/layout_item_beneficiary_shimmer"
+            app:itemCount = "@integer/skeleton_layout_item_count"
+            app:rvAdapter="@{viewModel.beneficiariesAdapter}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,6 +46,16 @@
             <enum name="right" value="1" />
             <enum name="center" value="2" />
         </attr>
+
+        <attr name="btn_size" format="enum">
+            <enum name="small" value="0" />
+            <enum name="medium" value="1" />
+            <enum name="large" value="2" />
+            <enum name="mini_small" value="3" />
+            <enum name="mini_medium" value="4" />
+            <enum name="mini_large" value="5" />
+            <enum name="mini" value="6" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CustomImageButton">
@@ -232,7 +242,7 @@
     <declare-styleable name="MyyMap">
         <attr name="latitude" format="float" />
         <attr name="longitude" format="float" />
-        <attr name="marker" format="string" />
+        <attr name="map_marker" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RoundedImageView">
@@ -425,6 +435,12 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
+        <attr name="decimalDigits" format="integer" />
+        <attr name="em_setBackgroundColor" format="color" />
+        <attr name="em_custom_width" format="dimension" />
+        <attr name="em_custom_height" format="dimension" />
+        <attr name="em_currency" format="string" />
+        <attr name="android:maxLength" format="integer" min="10" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">
@@ -534,6 +550,15 @@
             <flag name="to_left" value="2" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="ShapeOfView">
+        <attr name="shape_clip_drawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TriangleView">
+        <attr name="shape_triangle_percentLeft" format="float" />
+        <attr name="shape_triangle_percentBottom" format="float" />
+        <attr name="shape_triangle_percentRight" format="float" />
+    </declare-styleable>
 
     <declare-styleable name="CollapsedColoredHintTextInputLayout">
         <attr name="hintTextColorNormal" format="color" />
@@ -541,6 +566,171 @@
         <attr name="android:drawablePadding" format="dimension|reference" />
     </declare-styleable>
 
-    <declare-styleable name="CoreToolbar">
+    <declare-styleable name="CoreToolbar"></declare-styleable>
+
+    <declare-styleable name="RoundedImageViewV2">
+        <attr name="rounded_radius" format="float" />
+    </declare-styleable>
+    <declare-styleable name="SearchableSpinner">
+        <!-- View attributes -->
+        <attr name="RevealViewBackgroundColor" format="color" />
+        <attr name="StartSearchTintColor" format="color" />
+        <attr name="SearchViewBackgroundColor" format="color" />
+        <attr name="SearchViewTextColor" format="color" />
+        <attr name="DoneSearchTintColor" format="color" />
+        <attr name="AnimDuration" format="integer" />
+        <attr name="ShowBorders" format="boolean" />
+        <attr name="BordersSize" format="dimension" />
+        <attr name="BoarderColor" format="color" />
+        <attr name="SpinnerExpandHeight" format="dimension" />
+        <attr name="KeepLastSearch" format="boolean" />
+        <attr name="RevealEmptyText" format="string" />
+        <attr name="SearchHintText" format="string" />
+        <attr name="NoItemsFoundText" format="string" />
+        <attr name="ItemsDivider" format="reference" />
+        <attr name="DividerHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CounterFloatingActionButton">
+        <attr name="badgeTextColor" format="color" />
+        <attr name="badgeBackgroundColor" format="color" />
+        <attr name="badgeVisibility" format="integer" />
+        <attr name="badgePosition" format="enum">
+            <enum name="RightTop" value="0" />
+            <enum name="LeftBottom" value="1" />
+            <enum name="LeftTop" value="2" />
+            <enum name="RightBottom" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CoreEditText">
+        <attr name="ce_setBackgroundColor" format="color" />
+        <attr name="ce_custom_width" format="dimension" />
+        <attr name="ce_custom_height" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="TimelineView">
+        <attr name="marker" format="color|reference" />
+        <attr name="markerSize" format="dimension" />
+        <attr name="markerPaddingLeft" format="dimension" />
+        <attr name="markerPaddingTop" format="dimension" />
+        <attr name="markerPaddingRight" format="dimension" />
+        <attr name="markerPaddingBottom" format="dimension" />
+        <attr name="markerInCenter" format="boolean" />
+        <attr name="startLineColor" format="color" />
+        <attr name="endLineColor" format="color|reference" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="lineStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="dash" value="1" />
+        </attr>
+        <attr name="lineStyleDashGap" format="dimension" />
+        <attr name="lineStyleDashLength" format="dimension" />
+        <attr name="lineOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="linePadding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SkeletonLayout">
+        <attr name="maskColor" format="color" />
+        <attr name="maskCornerRadius" format="dimension" />
+        <attr name="showShimmer" format="boolean" />
+        <attr name="shimmerColor" format="color" />
+        <attr name="shimmerDurationInMillis" format="integer" />
+        <attr name="shimmerDirection" format="enum">
+            <enum name="left_to_right" value="0" />
+            <enum name="right_to_left" value="1" />
+        </attr>
+        <attr name="shimmerAngle" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="CoreCircleView"></declare-styleable>
+
+    <declare-styleable name="CircleView">
+        <attr name="cv_color" format="color" />
+        <attr name="cv_color_start" format="color" />
+        <attr name="cv_color_end" format="color" />
+        <attr name="cv_color_direction">
+            <flag name="left_to_right" value="1" />
+            <flag name="right_to_left" value="2" />
+            <flag name="top_to_bottom" value="3" />
+            <flag name="bottom_to_top" value="4" />
+        </attr>
+        <attr name="cv_border" format="boolean" />
+        <attr name="cv_border_width" format="dimension" />
+        <attr name="cv_border_color" format="color" />
+        <attr name="cv_border_color_start" format="color" />
+        <attr name="cv_border_color_end" format="color" />
+        <attr name="cv_border_color_direction">
+            <flag name="left_to_right" value="1" />
+            <flag name="right_to_left" value="2" />
+            <flag name="top_to_bottom" value="3" />
+            <flag name="bottom_to_top" value="4" />
+        </attr>
+        <attr name="cv_shadow" format="boolean" />
+        <attr name="cv_shadow_color" format="color" />
+        <attr name="cv_shadow_radius" format="float" />
+        <attr name="cv_shadow_gravity">
+            <flag name="center" value="1" />
+            <flag name="top" value="2" />
+            <flag name="bottom" value="3" />
+            <flag name="start" value="4" />
+            <flag name="end" value="5" />
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="ShimmerRecyclerview">
+        <attr name="shimmerLayoutId" format="integer|reference" />
+        <attr name="itemCount" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="PaginatedRecyclerView">
+        <!--
+        Set the offset from the end of the list at which onNextPage event needs to be triggered, default is 5.
+        Follows convention of `AutoCompleteTextView.completionThreshold`.
+        -->
+        <attr name="paginationThreshold" format="integer" />
+
+        <!-- Class name of placeholder adapter, instance of the class will be created reflectively. -->
+        <attr name="placeholderAdapter" format="string" />
+
+        <!-- Class name of error adapter, instance of the class will be created reflectively. -->
+        <attr name="errorAdapter" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="StepView">
+        <attr name="sv_selectedCircleColor" format="color" />
+        <attr name="sv_selectedCircleRadius" format="dimension" />
+        <attr name="sv_selectedTextColor" format="color" />
+        <attr name="sv_selectedStepNumberColor" format="color" />
+        <attr name="sv_stepNumberTextSize" format="dimension" />
+        <attr name="sv_doneStepMarkColor" format="color" />
+        <attr name="sv_doneCircleColor" format="color" />
+        <attr name="sv_doneCircleRadius" format="dimension" />
+        <attr name="sv_doneTextColor" format="color" />
+        <attr name="sv_nextTextColor" format="color" />
+        <attr name="sv_nextStepLineColor" format="color" />
+        <attr name="sv_doneStepLineColor" format="color" />
+        <attr name="sv_stepPadding" format="dimension" />
+        <attr name="sv_textPadding" format="dimension" />
+        <attr name="sv_stepLineWidth" format="dimension" />
+        <attr name="sv_textSize" format="dimension" />
+        <attr name="sv_background" format="color" />
+        <attr name="sv_animationDuration" format="integer" />
+        <attr name="sv_stepViewStyle" format="reference" />
+        <attr name="sv_animationType" format="enum">
+            <enum name="Line" value="0" />
+            <enum name="Circle" value="1" />
+            <enum name="All" value="2" />
+            <enum name="None" value="3" />
+        </attr>
+        <attr name="sv_stepsNumber" format="integer" />
+        <attr name="sv_steps" format="reference" />
+        <attr name="sv_typeface" format="reference" />
+        <attr name="sv_nextStepCircleEnabled" format="boolean" />
+        <attr name="sv_nextStepCircleColor" format="color" />
     </declare-styleable>
 </resources>

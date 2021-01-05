@@ -8,22 +8,19 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IYapCards {
 
-    interface State : IBase.State {
-        var noOfCard: String
-        var enableAddCard: ObservableBoolean
-    }
+    interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val cards: MutableLiveData<ArrayList<Card>>
         fun getCards()
-        fun getUpdatedCard(cardPosition:Int,card: (Card?) -> Unit)
-        fun handlePressOnView(id: Int)
+        fun getUpdatedCard(cardPosition: Int, card: (Card?) -> Unit)
         fun updateCardCount(id: Int)
-        fun getPrimaryCard(cards: ArrayList<Card>?):Card?
-        fun getDebitCard()
         fun unFreezeCard(cardSerialNumber: String, success: () -> Unit)
     }
 
-    interface View : IBase.View<ViewModel>
+    interface State : IBase.State {
+        var noOfCard: String
+        var enableAddCard: ObservableBoolean
+    }
 }

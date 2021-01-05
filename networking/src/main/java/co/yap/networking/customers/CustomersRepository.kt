@@ -5,16 +5,17 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.customers.responsedtos.sendmoney.Country
-import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -35,6 +36,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
     const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
+    const val URL_DELETE_PROFILE_PICTURE = "customers/api/customers/profile-picture"
     const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
     const val URL_VALIDATE_EMAIL = "customers/api/validate-email"
     const val URL_CHANGE_MOBILE_NUMBER =
@@ -72,6 +74,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     val URL_SEND_MONEY_UAEFT = "/transactions/api/uaefts"
     val URL_GET_FEE = "/transactions/api/product-codes/{product-code}/fees"
     val URL_BENEFICIARY_CHECK_OTP_STATUS = "customers/api/beneficiaries/bank-transfer/otp-req"
+    const  val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
+
 
 
     val URL_RMT = "transactions/api/rmt"
@@ -93,6 +97,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
+    const val URL_GET_QR_CONTACT = "customers/api/customers-info"
 
     /*
    * Url's that comes from admin repo
@@ -104,8 +109,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
     const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
+    const val URL_GET_ALL_CURRENCIES = "/customers/api/currencies"
+    const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
+    const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
+    const val URL_TOUR_GUIDES = "customers/api/tour-guides"
+
+    const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
+    const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
+    const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -294,7 +307,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
-    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =
+    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit> =
         executeSafely(call = { api.getCountryDataWithISODigit(countryCodeWith2Digit) })
 
     override suspend fun getCountryTransactionLimits(
@@ -336,6 +349,69 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
+    override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
+        executeSafely(call = { api.getAllCurrencies() })
+
+    override suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse> =
+        executeSafely(call = { api.getCurrencyByCode(currencyCode ?: "") })
+
     override suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.resendVerificationEmail() })
+
+    override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.removeProfilePicture() })
+
+    override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
+        executeSafely(call = {
+            api.getCoolingPeriod(
+                smCoolingPeriodRequest.beneficiaryId,
+                smCoolingPeriodRequest.productCode
+            )
+        })
+
+    override suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse> =
+        executeSafely(call = { api.getQRContact(qrContactRequest) })
+
+    override suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
+
+    override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
+    executeSafely(call = { api.updateFxRate(fxRate) })
+
+    override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
+        executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
+
+    override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
+        executeSafely(call = { api.getTourGuides() })
+
+    override suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse> =
+        executeSafely(call = { api.getAdditionalInfoRequired() })
+
+    override suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        uploadAdditionalInfo.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData("files", uploadAdditionalInfo.files?.name, reqFile)
+            executeSafely(call = {
+                api.uploadAdditionalDocuments(
+                    files = body,
+                    documentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        documentType ?: ""
+                    )
+                )
+            })
+        }
+
+
+    override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.uploadAdditionalQuestion(uploadAdditionalInfo)
+        })
+
+
 }

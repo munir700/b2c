@@ -17,7 +17,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class AddBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IAddBeneficiary.State>(application), IAddBeneficiary.ViewModel,
@@ -28,7 +28,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val otpCreateObserver: MutableLiveData<Boolean> = MutableLiveData()
-    override var beneficiary: Beneficiary? = Beneficiary()
+    override var beneficiary: Beneficiary? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -98,7 +98,7 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     private fun isLoggedinUserIBAN(beneficiary: Beneficiary): Boolean {
-        MyUserManager.user?.iban?.let {
+        SessionManager.user?.iban?.let {
             return beneficiary.accountNo.equals(it, true)
         } ?: return false
 
@@ -186,6 +186,6 @@ class AddBeneficiaryViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         parentViewModel?.state?.toolbarVisibility?.set(true)
-        parentViewModel?.state?.leftIcon?.set(true)
+        parentViewModel?.state?.leftIconVisibility?.set(true)
     }
 }

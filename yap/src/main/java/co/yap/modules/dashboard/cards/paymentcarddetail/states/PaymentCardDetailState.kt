@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.managers.SessionManager
 
 class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
 
@@ -39,7 +40,7 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
         }
 
     @get:Bindable
-    override var cardBalance: String = "AED 0.00"
+    override var cardBalance: String = "${SessionManager.getDefaultCurrency()}0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.cardBalance)
@@ -71,6 +72,13 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.balanceLoading)
+        }
+
+    @get:Bindable
+    override var cardImageUrl: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardImageUrl)
         }
 
     override var filterCount: ObservableField<Int> = ObservableField(0)

@@ -10,7 +10,7 @@ import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.leanplum.Leanplum
 
 class MoreHomeViewModel(application: Application) :
@@ -19,16 +19,17 @@ class MoreHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
 
+
     override fun onResume() {
         super.onResume()
         setPicture()
     }
 
     private fun setPicture() {
-        MyUserManager.user?.currentCustomer?.getPicture()?.let {
+        SessionManager.user?.currentCustomer?.getPicture()?.let {
             state.image.set(it)
         }
-        MyUserManager.user?.currentCustomer?.getFullName()?.let {
+        SessionManager.user?.currentCustomer?.getFullName()?.let {
             state.initials.set(Utils.shortName(it))
         }
     }

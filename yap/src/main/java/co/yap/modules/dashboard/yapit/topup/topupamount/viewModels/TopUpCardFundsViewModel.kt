@@ -12,11 +12,11 @@ import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionReques
 import co.yap.networking.transactions.requestdtos.CreateSessionRequest
 import co.yap.networking.transactions.requestdtos.Order
 import co.yap.translation.Strings
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.helpers.extentions.getValueWithoutComa
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
@@ -27,10 +27,11 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     private lateinit var topupCrad: TopUpCard
     private var secureId: String? = null
     private var orderId: String? = null
+
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.cardInfo.set(item)
-        state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
+        state.toolbarTitle = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
         state.currencyType = getString(Strings.common_text_currency_type)
@@ -40,8 +41,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
                     state.currencyType,
-                    MyUserManager.cardBalance.value?.availableBalance.toString()
-                        .toFormattedCurrency()
+                    SessionManager.cardBalance.value?.availableBalance.toString()
+                        .toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency())
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }
@@ -58,7 +59,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.createTransactionSession(
-                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.toString()))
+                CreateSessionRequest(Order(state.currencyType, enteredAmount.value.getValueWithoutComa()))
             )) {
                 is RetroApiResponse.Success -> {
                     orderId = response.data.data.order.id
@@ -87,7 +88,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toIntOrNull(),
-                    Order(state.currencyType, enteredAmount.value.toString()),
+                    Order(state.currencyType, enteredAmount.value.getValueWithoutComa()),
                     Session(sessionId)
                 )
             )) {
@@ -124,7 +125,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             topUpTransactionModelLiveData?.value = TopUpTransactionModel(
                                 orderId,
                                 state.currencyType,
-                                enteredAmount.value.toString(),
+                                enteredAmount.value.getValueWithoutComa(),
                                 topupCrad.id?.toInt(),
                                 secureId
                             )

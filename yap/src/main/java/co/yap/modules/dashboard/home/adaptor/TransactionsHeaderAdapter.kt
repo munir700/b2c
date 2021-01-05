@@ -16,6 +16,7 @@ import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TxnType
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.SessionManager
 
 class TransactionsHeaderAdapter(
     private val list: MutableList<HomeTransactionListData>,
@@ -38,7 +39,7 @@ class TransactionsHeaderAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is HeaderViewHolder) {
-            holder.onBind(list[position], adaptorClick)
+            holder.onBind(list[position], adaptorClick, position)
         } else {
             if (holder is EmptyItemViewHolder)
                 holder.onBind(position)
@@ -60,7 +61,11 @@ class TransactionsHeaderAdapter(
     class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
         RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
 
-        fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
+        fun onBind(
+            homeTransaction: HomeTransactionListData,
+            adaptorClick: OnItemClickListener,
+            groupPosition: Int
+        ) {
 
             //itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
             //itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
@@ -84,7 +89,7 @@ class TransactionsHeaderAdapter(
             adaptor.allowFullItemClickListener = true
             adaptor.setItemListener(object : OnItemClickListener {
                 override fun onItemClick(view: View, data: Any, pos: Int) {
-                    adaptorClick.onItemClick(view, data, pos)
+                    adaptorClick.onItemClick(view, groupPosition, pos)
                 }
             })
 
@@ -107,12 +112,13 @@ class TransactionsHeaderAdapter(
             var value: String
             when {
                 total.toString().startsWith("-") -> {
-                    value = ((total * -1).toString().toFormattedCurrency()) ?: ""
-                    value = "- AED $value"
+                    value =
+                        ((total * -1).toString().toFormattedCurrency(showCurrency = false,currency = SessionManager.getDefaultCurrency()))
+                    value = "- ${SessionManager.getDefaultCurrency()} $value"
                 }
                 else -> {
-                    value = (total.toString().toFormattedCurrency()) ?: ""
-                    value = "+ AED $value"
+                    value = (total.toString().toFormattedCurrency(false,currency = SessionManager.getDefaultCurrency()))
+                    value = "+ ${SessionManager.getDefaultCurrency()} $value"
                 }
             }
 

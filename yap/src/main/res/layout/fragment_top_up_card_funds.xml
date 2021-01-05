@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.R" />
+
 
     </data>
 
@@ -21,10 +23,17 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
-            layout="@layout/layout_top_up_card_funds_tool_bar"
-            app:viewModel="@{viewModel}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_close_dark}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -79,38 +88,17 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvEnterAmountHeading"
                         tools:text="AED" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/etAmountLayout"
-                        android:layout_width="@dimen/_170sdp"
-                        android:layout_height="@dimen/_50sdp"
-                        android:layout_marginTop="@dimen/margin_extra_small"
-                        android:background="@{viewModel.state.amountBackground}"
-                        android:paddingStart="@dimen/small"
-                        android:paddingEnd="@dimen/small"
+                    <co.yap.widgets.EasyMoneyEditText
+                        android:id="@+id/etAmount"
+                        style="@style/ATitle2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="@={viewModel.enteredAmount}"
                         app:layout_constraintLeft_toLeftOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintRight_toRightOf="@+id/tvEnterAmountHeading"
                         app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-                        tools:background="@drawable/bg_funds">
-
-                        <EditText
-                            android:id="@+id/etAmount"
-                            style="@style/ATitle2"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:gravity="center"
-                            android:imeOptions="actionDone"
-                            android:inputType="numberDecimal"
-                            android:maxLength="@integer/unitsCount"
-                            android:maxLines="1"
-                            android:text="@={viewModel.enteredAmount}"
-                            app:hint="@{Strings.common_amount_hint}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:hint="0.00" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        tools:text="1234567891" />
 
                     <LinearLayout
                         android:id="@+id/llDenominations"
@@ -121,7 +109,7 @@
                         android:layout_marginEnd="@dimen/text_content_margin"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
+                        app:layout_constraintTop_toBottomOf="@+id/etAmount">
 
                         <TextView
                             android:id="@+id/tvDominationFirstAmount"
@@ -197,7 +185,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_small"
-                            android:text="@{viewModel.state.availableBalanceGuide}"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvFeeDescription"
                             tools:text="Your available balance is AED 500.00" />
@@ -210,17 +197,15 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnAction"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
+                    app:btn_size="small"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="@dimen/margin_xxl"
-                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v)-> viewModel.buttonClickEvent(v.id)}"
                     android:text="@{viewModel.state.buttonTitle}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clBottom"

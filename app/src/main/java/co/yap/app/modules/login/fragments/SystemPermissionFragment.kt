@@ -18,7 +18,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
@@ -96,7 +96,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
 
     private fun navigateToDashboard() {
-        if (MyUserManager.user?.otpBlocked == true)
+        if (SessionManager.user?.otpBlocked == true|| SessionManager.user?.freezeInitiator != null)
             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
         else
             findNavController().navigate(R.id.action_goto_yapDashboardActivity)

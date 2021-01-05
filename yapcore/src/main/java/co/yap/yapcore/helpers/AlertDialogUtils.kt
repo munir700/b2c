@@ -1,17 +1,24 @@
 package co.yap.yapcore.helpers
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import co.yap.widgets.CoreButton
+import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.makeLinks
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.ChatManager
+import co.yap.yapcore.managers.SessionManager
 
 /**
  * Display AlertDialog instantly with confirm
@@ -171,34 +178,82 @@ fun Context.showYapAlertDialog(
 
 }
 
+fun Activity.showAlertCustomDialog(
+    title: String? = "",
+    message: String? = "",
+    buttonText: String? = "OK"
+) {
+    val dialogLayout = Dialog(this)
+    dialogLayout.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialogLayout.setCancelable(false)
+    dialogLayout.setContentView(R.layout.alert_dialogue_custom)
+    val dialogTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
+    label.text = message
+    dialogTitle.text = title
+    val ok = dialogLayout.findViewById<CoreButton>(R.id.btnAction)
+    ok.text = buttonText
+    ok.setOnClickListener {
+        dialogLayout.dismiss()
+    }
+    dialogLayout.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    dialogLayout.show()
+
+}
+
 fun Activity.showAlertDialogAndExitApp(
-    title: String? = null,
+    Title: String? = null,
+    dialogTitle: String? = "",
     message: String?,
-    buttonText: String = "OK",
+    leftButtonText: String = "OK",
+    rightButtonText: String = "Cancel",
     callback: () -> Unit = {},
+    titleVisibility: Boolean = false,
     closeActivity: Boolean = true,
-    isOtpBlocked: Boolean = false
+    isOtpBlocked: Boolean = false,
+    isTwoButton: Boolean = false
 ) {
     val builder = android.app.AlertDialog.Builder(this)
     var alertDialog: android.app.AlertDialog? = null
     val inflater: LayoutInflater = layoutInflater
-    title?.let { builder.setTitle(title) }
+    Title?.let { builder.setTitle(Title) }
     val dialogLayout: View =
         inflater.inflate(R.layout.alert_dialogue, null)
     val label = dialogLayout.findViewById<TextView>(R.id.tvTitle)
     label.text = message
+    val dTitle = dialogLayout.findViewById<TextView>(R.id.tvDialogTitle)
+    val cancel = dialogLayout.findViewById<TextView>(R.id.tvButtonCancel)
     val ok = dialogLayout.findViewById<TextView>(R.id.tvButtonTitle)
-    ok.text = buttonText
+    val btnDivider = dialogLayout.findViewById<View>(R.id.btnDivider)
+    ok.text = leftButtonText
+    cancel.text = rightButtonText
+    cancel.setOnClickListener {
+        alertDialog?.dismiss()
+    }
+    if (titleVisibility) {
+        dTitle.text = dialogTitle
+        dTitle.visibility = View.VISIBLE
+    }
     ok.setOnClickListener {
         alertDialog?.dismiss()
         if (closeActivity)
             finish()
         callback()
     }
+
+    if (isTwoButton) {
+        cancel.visibility = View.VISIBLE
+        btnDivider.visibility = View.VISIBLE
+    }
     if (isOtpBlocked) {
-        label.makeLinks(Pair(MyUserManager.helpPhoneNumber, View.OnClickListener {
-            makeCall(MyUserManager.helpPhoneNumber)
-        }))
+        label.makeLinks(
+            Pair(SessionManager.helpPhoneNumber, View.OnClickListener {
+                makeCall(SessionManager.helpPhoneNumber)
+            }),
+            Pair("live chat", View.OnClickListener {
+                ChatManager.config(ok.context as BaseActivity<*>)
+            })
+        )
     }
 
     builder.setView(dialogLayout)

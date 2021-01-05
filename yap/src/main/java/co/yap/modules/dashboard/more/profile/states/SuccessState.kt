@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.profile.states
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
@@ -15,17 +14,26 @@ class SuccessState : BaseState(), ISuccess.State {
             field = value
             notifyPropertyChanged(BR.topMainHeading)
         }
+
     @get:Bindable
-    override var staticString: String = ""
+    override var topSubHeading: String = "Your email address has been changed to newemail@website.com"
         set(value) {
             field = value
-            notifyPropertyChanged(BR.staticString)
+            notifyPropertyChanged(BR.topSubHeading)
         }
+
     @get:Bindable
-    override var destination: String = ""
+    override var address1: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.destination)
+            notifyPropertyChanged(BR.address1)
+        }
+
+    @get:Bindable
+    override var address2: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.address2)
         }
 
     @get:Bindable
@@ -34,8 +42,9 @@ class SuccessState : BaseState(), ISuccess.State {
             field = value
             notifyPropertyChanged(BR.buttonTitle)
         }
+
     @get:Bindable
-    override var placeBitmap: Bitmap?= null
+    override var placeBitmap: Bitmap? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.placeBitmap)

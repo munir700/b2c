@@ -32,12 +32,13 @@ import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
@@ -66,6 +67,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         onbackPressLogic()
         dialer.setNumberKeyboardListener(this)
         dialer.upDatedDialerPad(viewModel.state.passcode)
+        dialer.removeError()
     }
 
     private fun addObservers() {
@@ -177,7 +179,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
@@ -195,7 +198,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,
-                            it
+                            it,
+                            "VERIFY_PASSCODE_FRAGMENT"
                         )
                     findNavController().navigate(action)
                 }
@@ -204,7 +208,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun doLogout() {
-        activity?.let { MyUserManager.doLogout(it, true) }
+        activity?.let { SessionManager.doLogout(it, true) }
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -245,7 +249,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     viewModel.login()
             }
             R.id.tvForgotPassword -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (!isUserLoginIn()) {
@@ -264,7 +268,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private fun updateName() {
         if (isUserLoginIn()) {
-            viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
+            viewModel.state.username = SessionManager.user?.currentCustomer?.email ?: ""
             return
         }
 
@@ -296,53 +300,57 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-            viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
-            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
-                    KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                    false
-                ) != true
-            ) {
-                if (BiometricUtil.hasBioMetricFeature(requireContext())) {
-                    val action =
-                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-                            Constants.TOUCH_ID_SCREEN_TYPE
-                        )
-                    findNavController().navigate(action)
-                    viewModel.parentViewModel?.shardPrefs?.save(
+            TourGuideManager.getTourGuides()
+            SessionManager.getDebitCard { card ->
+                SessionManager.updateCardBalance { }
+                viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
+                if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        true
-                    )
-                } else {
-                    viewModel.parentViewModel?.shardPrefs?.save(
-                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        true
-                    )
-                    val action =
-                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-                            Constants.NOTIFICATION_SCREEN_TYPE
+                        false
+                    ) != true
+                ) {
+                    if (BiometricUtil.hasBioMetricFeature(requireContext())) {
+                        val action =
+                            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                                Constants.TOUCH_ID_SCREEN_TYPE
+                            )
+                        navigate(action)
+                        viewModel.parentViewModel?.shardPrefs?.save(
+                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
                         )
-                    findNavController().navigate(action)
-                }
-            } else {
-                if (accountType == AccountType.B2C_HOUSEHOLD.name) {
-                    SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
-                    val bundle = Bundle()
-                    bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
-                    bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
-                    startActivity(
-                        OnBoardingHouseHoldActivity.getIntent(
-                            requireContext(),
-                            bundle
+                    } else {
+                        viewModel.parentViewModel?.shardPrefs?.save(
+                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
                         )
-                    )
-                    activity?.finish()
+                        val action =
+                            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                                Constants.NOTIFICATION_SCREEN_TYPE
+                            )
+                        navigate(action)
+                    }
                 } else {
-                    if (it.otpBlocked == true)
-                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                    else
-                        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+                    if (accountType == AccountType.B2C_HOUSEHOLD.name) {
+                        SharedPreferenceManager(requireContext()).setThemeValue(co.yap.yapcore.constants.Constants.THEME_HOUSEHOLD)
+                        val bundle = Bundle()
+                        bundle.putBoolean(OnBoardingHouseHoldActivity.EXISTING_USER, false)
+                        bundle.putParcelable(OnBoardingHouseHoldActivity.USER_INFO, it)
+                        startActivity(
+                            OnBoardingHouseHoldActivity.getIntent(
+                                requireContext(),
+                                bundle
+                            )
+                        )
+                        activity?.finish()
+                    } else {
+                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                        else
+                            navigate(R.id.action_goto_yapDashboardActivity)
 
-                    activity?.finish()
+                        activity?.finish()
+                    }
                 }
             }
         }
@@ -354,7 +362,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 viewModel.state.username,
                 viewModel.state.passcode
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     private fun setUsername() {

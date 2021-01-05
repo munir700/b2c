@@ -1,14 +1,11 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
-import android.util.Log
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.states.SuccessState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import com.facebook.FacebookSdk
-import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
@@ -22,9 +19,9 @@ class SuccessViewModel(application: Application) :
         buttonClickEvent.call()
     }
 
-    override fun placesApiCall(photoPlacedId: String) {
+    override fun placesApiCall(photoPlacedId: String, success: () -> Unit) {
         Places.initialize(
-            FacebookSdk.getApplicationContext(),
+            context,
             getString(R.string.google_maps_key)
         )
         val placesClient: PlacesClient = Places.createClient(context)
@@ -36,7 +33,7 @@ class SuccessViewModel(application: Application) :
                 val place = response.place
                 val metada = place.photoMetadatas
                 if (metada == null || metada.isEmpty()) {
-                     return@addOnSuccessListener
+                    return@addOnSuccessListener
                 }
                 val photoMetadata = metada.first()
                 val attributions = photoMetadata?.attributions
@@ -48,10 +45,8 @@ class SuccessViewModel(application: Application) :
                     .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
                         val bitmap = fetchPhotoResponse.bitmap
                         state.placeBitmap = bitmap
-                    }.addOnFailureListener { exception: Exception ->
-                        if (exception is ApiException) {
-                        }
-                    }
+                        success.invoke()
+                    }.addOnFailureListener {}
             }
     }
 }

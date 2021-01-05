@@ -1,6 +1,5 @@
 package co.yap.sendmoney.addbeneficiary.fragments
 
-
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -36,10 +35,14 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
-
 
 class AddBeneficiaryInternationlTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -47,6 +50,7 @@ class AddBeneficiaryInternationlTransferFragment :
     private var currencyPopMenu: PopupMenu? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
+
     override val viewModel: AddBeneficiaryViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
@@ -109,7 +113,6 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun initComponents() {
-
         val currencies = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
         currencyPopMenu =
             requireContext().getCurrencyPopMenu(
@@ -152,7 +155,7 @@ class AddBeneficiaryInternationlTransferFragment :
                     bundleOf(
                         OtpDataModel::class.java.name to OtpDataModel(
                             OTPActions.CHANGE_EMAIL.name,
-                            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
                                 requireContext()
                             )
                                 ?: ""
@@ -188,11 +191,11 @@ class AddBeneficiaryInternationlTransferFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             ),
-            showToolBar = true,
+            showToolBar = false,
             toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_otp_header)
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
@@ -269,7 +272,10 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let {
-            launchActivity<BeneficiaryFundTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            launchActivity<BeneficiaryFundTransferActivity>(
+                requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
+                type = it.getBeneficiaryTransferType()
+            ) {
                 putExtra(Constants.BENEFICIARY, it)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)

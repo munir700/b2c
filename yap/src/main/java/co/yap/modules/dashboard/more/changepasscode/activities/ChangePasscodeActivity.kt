@@ -12,7 +12,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(), IFragmentHolder,
@@ -20,7 +19,7 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_change_passcode
     override val passCodeData: PassCodeData = PassCodeData()
-    override val viewModel: IChangePassCode.ViewModel
+    override val viewModel: ChangePassCodeViewModel
         get() = ViewModelProviders.of(this).get(ChangePassCodeViewModel::class.java)
 
     override val navigator: IBaseNavigator
@@ -31,26 +30,32 @@ class ChangePasscodeActivity : BaseBindingActivity<IChangePassCode.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEvent)
-    }
-
-    val clickEvent = Observer<Int> {
-        when (it) {
-            R.id.tbIvClose -> onBackPressed()
-
-        }
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.tbIvClose -> {
+                    onBackPressed()
+                }
+            }
+        })
     }
 
     override fun onBackPressed() {
-        val fragment =
-            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
-        if (!BackPressImpl(fragment).onBackPressed()) {
+//        val fragment =
+//            supportFragmentManager.findFragmentById(R.id.change_passcode_nav_host_fragment)
+//        if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-        }
+//        }
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+        }
     }
 }

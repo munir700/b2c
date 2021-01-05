@@ -12,7 +12,7 @@ interface IChangePassCodeSuccess {
     }
 
     interface State : IBase.State {
-        var topMainHeading: String
+        var title: String?
         var topSubHeading: String
     }
 }

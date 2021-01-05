@@ -1,31 +1,38 @@
 package co.yap.modules.dashboard.cards.home.viewmodels
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
+import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.states.YapCardsState
+import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.coroutines.delay
 
-class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
+class YapCardsViewModel(application: Application) :
+    YapDashboardChildViewModel<IYapCards.State>(application),
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: YapCardsState = YapCardsState()
     override val repository: CardsRepository = CardsRepository
+    override val state: YapCardsState = YapCardsState()
     override val cards: MutableLiveData<ArrayList<Card>> = MutableLiveData(arrayListOf())
+    lateinit var adapter: YapCardsAdaptor
+
+    fun setupAdaptor(context: Context) {
+        adapter = YapCardsAdaptor(context, mutableListOf())
+    }
 
     override fun getCards() {
         launch {
@@ -34,17 +41,14 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
                         if (it.isNotEmpty()) {
-
                             val cardsList = response.data.data
-                            val primaryCard = getPrimaryCard(cardsList)
+                            val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
-
                             primaryCard?.let {
                                 cardsList?.add(0, primaryCard)
                             }
                             if (state.enableAddCard.get())
                                 cardsList?.add(getAddCard())
-
                             cards.value = cardsList
                         }
                     }
@@ -66,7 +70,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                         if (it.isNotEmpty()) {
 
                             val cardsList = response.data.data
-                            val primaryCard = getPrimaryCard(cardsList)
+                            val primaryCard = SessionManager.getDebitFromList(cardsList)
                             cardsList?.remove(primaryCard)
 
                             primaryCard?.let {
@@ -90,29 +94,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         }
     }
 
-
-    override fun getDebitCard() {
-        launch {
-            when (val response = repository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            MyUserManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found."
-                        }
-                    }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-        }
-    }
-
-    override fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
-        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
-    }
-
     override fun updateCardCount(size: Int) {
         val message = Translator.getString(
             context,
@@ -122,10 +103,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             state.noOfCard = message.substring(0, message.length - 1)
         else
             state.noOfCard = message
-    }
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
     }
 
     private fun getAddCard(): Card {
@@ -142,7 +119,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             deliveryStatus = "BOOKED",
             blocked = false,
             delivered = false,
-            cardSerialNumber = "1000000000612",
+            cardSerialNumber = "100",
             maskedCardNo = "5384",
             atmAllowed = true,
             onlineBankingAllowed = true,
@@ -154,13 +131,12 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             cardScheme = "Master Card",
             currentBalance = "0.00",
             availableBalance = "0.00",
-            customerId = "1100000000071",
-            accountNumber = "1199999000000071",
+            customerId = "10",
+            accountNumber = "100",
             productCode = "CD",
             pinCreated = true
         )
     }
-
 
     override fun unFreezeCard(cardSerialNumber: String, success: () -> Unit) {
         launch {
@@ -177,7 +153,6 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                     state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
                 }
             }
-
         }
     }
 }
