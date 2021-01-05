@@ -78,6 +78,17 @@ class CardAnalyticsTest {
         )
     }
 
+    @Test
+    fun getMonthStartDayAndEndDay() {
+        val currentDate = "2021-01-05"
+        val convertedDate = DateUtils.stringToDate(currentDate, "yyyy-MM-dd")!!
+        Assert.assertEquals(
+            "Jan 1 - Jan 31",
+            DateUtils.getStartAndEndOfMonthAndDay(convertedDate)
+        )
+    }
+
+    //DateUtils.getStartAndEndOfMonthAndDay(it)
     private fun isPreviousIconDisabled(listOfMonths: List<Date>, currentDate: Date?): Boolean {
         var index: Int = -1
         currentDate?.let {

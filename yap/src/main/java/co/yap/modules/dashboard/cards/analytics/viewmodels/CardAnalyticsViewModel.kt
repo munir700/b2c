@@ -14,6 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
+import co.yap.yapcore.helpers.DateUtils.SIMPLE_DATE_FORMAT
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.managers.SessionManager
 import java.util.*
@@ -25,49 +26,23 @@ class CardAnalyticsViewModel(application: Application) :
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    var currentCalendar: Calendar = Calendar.getInstance()
-    var creationCalender: Calendar = Calendar.getInstance()
-    var currentDate: Date? = Date()
+    private var currentDate: Date? = Date()
     private var listOfMonths: List<Date> = arrayListOf()
 
     override fun onCreate() {
         super.onCreate()
+        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         val startDate = SessionManager.user?.creationDate ?: ""
         val endDate = DateUtils.dateToString(
             Date(),
-            "yyyy-MM-dd"
+            SIMPLE_DATE_FORMAT
         )
         listOfMonths = DateUtils.geMonthsBetweenTwoDates(
             startDate,
             endDate
         )
-        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
-        DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        SessionManager.user?.creationDate?.let { str ->
-            val date =
-                DateUtils.stringToDate(
-                    str,
-                    DateUtils.SERVER_DATE_FORMAT
-                )
-
-            state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
-            state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-            parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-            parentViewModel?.state?.currentSelectedDate =
-                DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-
-            date?.let { dates ->
-                creationCalender.time = dates
-                if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
-                    state.previousMonth = true
-                } else {
-                    if (creationCalender.get(Calendar.MONTH) < currentCalendar.get(Calendar.MONTH)) {
-                        state.previousMonth = true
-                    }
-                }
-            }
-
-        }
+        setSelectedDate(currentDate)
+        state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
     }
 
     override fun handlePressOnView(id: Int) {
@@ -77,58 +52,20 @@ class CardAnalyticsViewModel(application: Application) :
                     listOfMonths,
                     currentDate
                 )
-                if (currentDate != null) {
-                    fetchCardCategoryAnalytics(
-                        DateUtils.reformatToLocalString(
-                            currentDate,
-                            "yyyy-MM-dd"
-                        )
-                    )
-                }
+                fetchAnalytics(currentDate)
                 state.previousMonth = isPreviousIconEnabled(listOfMonths, currentDate)
                 state.nextMonth = true
-
-
-//                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
-//                state.selectedMonth =
-//                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-//
-//                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-//                parentViewModel?.state?.currentSelectedDate =
-//                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
             R.id.ivNext -> {
                 currentDate = DateUtils.getNextMonthFromCurrentDate(
                     listOfMonths,
                     currentDate
                 )
-                if (currentDate != null) {
-                    fetchCardCategoryAnalytics(
-                        DateUtils.reformatToLocalString(
-                            currentDate,
-                            "yyyy-MM-dd"
-                        )
-                    )
-                }
+                fetchAnalytics(currentDate)
                 state.nextMonth = isNextIconEnabled(listOfMonths, currentDate)
                 state.previousMonth = true
-
-//
-//                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
-//                state.selectedMonth =
-//                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
-//                fetchCardCategoryAnalytics(
-//                    DateUtils.dateToString(
-//                        currentCalendar.time,
-//                        "yyyy-MM-dd"
-//                    )
-//                )
-//                parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-//                parentViewModel?.state?.currentSelectedDate =
-//                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
         }
-        clickEvent.setValue(id)
     }
 
     override fun fetchCardCategoryAnalytics(currentMonth: String) {
@@ -217,5 +154,26 @@ class CardAnalyticsViewModel(application: Application) :
         }
 
         return listOfMonths.size >= index + 2
+    }
+
+    private fun fetchAnalytics(currentDate: Date?){
+        if (currentDate != null) {
+            fetchCardCategoryAnalytics(
+                DateUtils.reformatToLocalString(
+                    currentDate,
+                    SIMPLE_DATE_FORMAT
+                )
+            )
+            setSelectedDate(currentDate)
+        }
+    }
+
+    private fun setSelectedDate(currentDate: Date?) {
+        state.displayMonth =
+            currentDate?.let { DateUtils.getStartAndEndOfMonthAndDay(it) } ?: ""
+        state.selectedMonth = DateUtils.dateToString(currentDate, FORMAT_MONTH_YEAR)
+        parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
+        parentViewModel?.state?.currentSelectedDate =
+            DateUtils.dateToString(currentDate, SIMPLE_DATE_FORMAT)
     }
 }

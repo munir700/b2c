@@ -8,6 +8,7 @@ import java.util.*
 object DateUtils {
 
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
+    const val SIMPLE_DATE_FORMAT: String = "yyyy-MM-dd"
     val GMT: TimeZone = TimeZone.getTimeZone("GMT")
     val UTC: TimeZone = TimeZone.getTimeZone("UTC")
     private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
@@ -119,11 +120,16 @@ object DateUtils {
 
     }
 
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
+    fun dateToString(
+        date: Date?,
+        format: String = DEFAULT_DATE_FORMAT,
+        isApplyTimeZone: Boolean = true
+    ): String {
         return try {
             SimpleDateFormat(format, Locale.US).format(date)
             val sdf = SimpleDateFormat(format, Locale.US)
-            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            if (isApplyTimeZone) sdf.timeZone = TimeZone.getTimeZone("UTC")
+
             return sdf.format(date)
         } catch (e: Exception) {
             " ";
@@ -246,14 +252,15 @@ object DateUtils {
     }
 
     fun getStartAndEndOfMonthAndDay(
-        calendar: Calendar,
+        currentDate: Date,
         format: String = FORMATE_MONTH_DAY
     ): String {
-
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
-        val startDay = dateToString(calendar.time, format)
+        val startDay = dateToString(calendar.time, format, false)
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val endDay = dateToString(calendar.time, format)
+        val endDay = dateToString(calendar.time, format, false)
         return "${startDay.replace("0", "")} - $endDay"
     }
 
