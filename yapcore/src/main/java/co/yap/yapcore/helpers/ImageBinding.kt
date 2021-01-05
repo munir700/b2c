@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.loadCardImage
@@ -282,11 +283,16 @@ object ImageBinding {
     @BindingAdapter(value = ["loadLottieAnimation", "isLottie"])
     fun loadLottieAnimation(
         lottieView: LottieAnimationView,
-        rawPathName: String?,
-        isLottie: Boolean
+        media: YAPForYouGoalMedia
     ) {
-        if (isLottie) lottieView.setAnimation(rawPathName) else lottieView.loadImage(
-            rawPathName ?: ""
-        )
+        when (media) {
+            is YAPForYouGoalMedia.Image -> {
+                media.imageName
+                lottieView.loadImage(media.imageName)
+            }
+            is YAPForYouGoalMedia.LottieAnimation -> {
+                lottieView.setAnimation(media.jsonFileName)
+            }
+        }
     }
 }
