@@ -279,7 +279,7 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["loadLottieAnimation", "isLottie"])
+    @BindingAdapter(value = ["media"])
     fun loadLottieAnimation(
         lottieView: LottieAnimationView,
         media: YAPForYouGoalMedia

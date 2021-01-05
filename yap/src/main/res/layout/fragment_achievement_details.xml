@@ -42,14 +42,12 @@
                 android:id="@+id/animationView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_240sdp"
-                app:isLottie="@{viewModel.parentViewModel.selectedAchievementTask.isLottie}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:loadLottieAnimation="@{viewModel.parentViewModel.selectedAchievementTask.lottieDetailsFileName}"
+                app:media="@{viewModel.parentViewModel.selectedAchievementTask.media}"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
-            <!--            app:loadLottieAnimation="@{viewModel.parentViewModel.selectedAchievementTask.done?viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName :viewModel.parentViewModel.selectedAchievementTask.lottieDetailsFileName}"-->
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"

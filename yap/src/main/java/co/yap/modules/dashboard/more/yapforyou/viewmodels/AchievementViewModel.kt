@@ -27,7 +27,7 @@ class AchievementViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         setupToolbar()
-        parentViewModel?.selectedAchievement?.tasks?.let {
+        parentViewModel?.selectedAchievement?.goals?.let {
             adapter.setList(it)
         }
     }
