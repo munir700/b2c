@@ -22,7 +22,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tintColor = getAchievementTintColor(Y4YAchievement.GET_STARTED),
                 completedPercentage = getAchievementPercentage(Y4YAchievement.GET_STARTED),
                 isLocked = isForceLocked(Y4YAchievement.GET_STARTED),
-                tasks = arrayListOf(
+                goals = arrayListOf(
                     YAPForYouGoal(
                         isLottie = false,
                         lottieDetailsFileName = "ic_spare_card",
@@ -34,7 +34,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_open_yap_account_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.image("R.drawable.ic_spare_card")
+                        media = YAPForYouGoalMedia.Image("R.drawable.ic_spare_card")
                     ),
                     YAPForYouGoal(
                         isLottie = false,
@@ -46,7 +46,8 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SET_PIN
                         ),
                         description = Strings.screen_yfy_set_your_pin_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.lottieAnimation("R.drawable.ic_spare_card")
                     ),
                     YAPForYouGoal(
                         isLottie = false,
@@ -83,7 +84,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tintColor = getAchievementTintColor(Y4YAchievement.UP_AND_RUNNING),
                 completedPercentage = getAchievementPercentage(Y4YAchievement.UP_AND_RUNNING),
                 isLocked = isForceLocked(Y4YAchievement.UP_AND_RUNNING),
-                tasks = arrayListOf(
+                goals = arrayListOf(
                     YAPForYouGoal(
                         isLottie = true,
                         lottieDetailsFileName = "use_yap_locally.json",
@@ -140,7 +141,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tintColor = getAchievementTintColor(Y4YAchievement.BETTER_TOGETHER),
                 completedPercentage = getAchievementPercentage(Y4YAchievement.BETTER_TOGETHER),
                 isLocked = isForceLocked(Y4YAchievement.BETTER_TOGETHER),
-                tasks = arrayListOf(
+                goals = arrayListOf(
                     YAPForYouGoal(
                         isLottie = true,
                         lottieDetailsFileName = "invite_friend_lottie.json",
@@ -198,7 +199,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tintColor = getAchievementTintColor(Y4YAchievement.TAKE_THE_LEAP),
                 completedPercentage = getAchievementPercentage(Y4YAchievement.TAKE_THE_LEAP),
                 isLocked = isForceLocked(Y4YAchievement.TAKE_THE_LEAP),
-                tasks = arrayListOf(
+                goals = arrayListOf(
                     YAPForYouGoal(
                         isLottie = true,
                         lottieDetailsFileName = "top_up_lottie.json",
@@ -257,7 +258,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tintColor = getAchievementTintColor(Y4YAchievement.YAP_STORE),
                 completedPercentage = getAchievementPercentage(Y4YAchievement.YAP_STORE),
                 isLocked = isForceLocked(Y4YAchievement.YAP_STORE),
-                tasks = arrayListOf(
+                goals = arrayListOf(
                     YAPForYouGoal(
                         isLottie = true,
                         lottieDetailsFileName = "cards_lottie.json",
@@ -315,7 +316,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tintColor = getAchievementTintColor(Y4YAchievement.YOU_ARE_PRO),
                 completedPercentage = getAchievementPercentage(Y4YAchievement.YOU_ARE_PRO),
                 isLocked = isForceLocked(Y4YAchievement.YOU_ARE_PRO),
-                tasks = arrayListOf(
+                goals = arrayListOf(
                     YAPForYouGoal(
                         isLottie = true,
                         lottieDetailsFileName = "invite_friend_lottie.json",
