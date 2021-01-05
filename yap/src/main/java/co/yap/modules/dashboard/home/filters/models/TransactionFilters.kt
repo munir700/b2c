@@ -11,20 +11,25 @@ data class TransactionFilters(
     var amountEndRange: Double? = null,
     var incomingTxn: Boolean? = false,
     var outgoingTxn: Boolean? = false,
-    var totalAppliedFilter: Int = 0
-) : Parcelable {
+    var pendingTxn: Boolean? = false,
+    var totalAppliedFilter: Int = 0,
+    var catagories: ArrayList<String>? = arrayListOf()
+
+    ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (other is TransactionFilters) {
             return other.amountStartRange == amountStartRange
                     && other.amountEndRange == amountEndRange
                     && other.incomingTxn == incomingTxn
                     && other.outgoingTxn == outgoingTxn
+                    && other.catagories == catagories
+                    && other.pendingTxn == pendingTxn
         }
         return false
     }
 
     fun getTxnType(): String? {
-        return if (incomingTxn == false && outgoingTxn == false || incomingTxn == true && outgoingTxn == true) {
+        return if (incomingTxn == false && outgoingTxn == false && pendingTxn == false || incomingTxn == true && outgoingTxn == true && pendingTxn == true) {
             null
         } else if (incomingTxn == true)
             MANUAL_CREDIT

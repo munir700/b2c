@@ -234,37 +234,10 @@
                 android:orientation="horizontal"
                 android:theme="@style/Theme.MaterialComponents.Light"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:selectedListener="@{viewModel.chipGroupItemClickListener}"
                 app:singleSelection="false">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/choice1"
-                    style="@style/ChipsTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:padding="@dimen/margin_small"
-                    android:text="Food and Drink"
-                    android:textColor="@color/chip_text_color"
-                    app:chipBackgroundColor="@color/chip_background_color"
-                    app:chipStrokeColor="@color/dividerNew"
-                    app:chipStrokeWidth="1dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/choice2"
-                    style="@style/ChipsTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:padding="@dimen/margin_small"
-                    android:text="Shopping"
-                    android:textColor="@color/chip_text_color"
-                    app:chipBackgroundColor="@color/chip_background_color"
-                    app:chipStrokeColor="@color/dividerNew"
-                    app:chipStrokeWidth="1dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/choice3"
                     style="@style/ChipsTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -277,13 +250,39 @@
                     app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/choice2"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Utilities"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice3"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Shopping"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
                     android:id="@+id/choice4"
                     style="@style/ChipsTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:padding="@dimen/margin_small"
-                    android:text="Payment"
+                    android:text="Groceries"
                     android:textColor="@color/chip_text_color"
                     app:chipBackgroundColor="@color/chip_background_color"
                     app:chipStrokeColor="@color/dividerNew"
@@ -296,7 +295,79 @@
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:padding="@dimen/margin_small"
-                    android:text="Other"
+                    android:text="Media and entertainment"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice6"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Food and drinks"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice7"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Services"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice8"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Transport"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice9"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Health and beauty"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice10"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Insurance"
+                    android:textColor="@color/chip_text_color"
+                    app:chipBackgroundColor="@color/chip_background_color"
+                    app:chipStrokeColor="@color/dividerNew"
+                    app:chipStrokeWidth="1dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/choice11"
+                    style="@style/ChipsTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="@dimen/margin_small"
+                    android:text="Education"
                     android:textColor="@color/chip_text_color"
                     app:chipBackgroundColor="@color/chip_background_color"
                     app:chipStrokeColor="@color/dividerNew"

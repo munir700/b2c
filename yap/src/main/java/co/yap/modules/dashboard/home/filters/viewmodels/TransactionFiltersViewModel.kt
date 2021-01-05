@@ -54,9 +54,5 @@ class TransactionFiltersViewModel(application: Application) :
         state.rangeEndValue.set(endRangeValues)
     }
 
-    val chipGroupItemClickListener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-        }
-    }
 
 }

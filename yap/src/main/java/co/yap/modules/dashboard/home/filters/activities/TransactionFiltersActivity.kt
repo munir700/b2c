@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.CompoundButton
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,9 +19,11 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.isNetworkAvailable
+import com.google.android.material.chip.Chip
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
+import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
@@ -37,7 +40,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             context: Context,
             txnFilters: TransactionFilters
         ): Intent {
-
             val intent = Intent(context, TransactionFiltersActivity::class.java)
             intent.putExtra(KEY_FILTER_TXN_FILTERS, txnFilters)
             return intent
@@ -48,6 +50,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         super.onCreate(savedInstanceState)
         setObservers()
         intent?.let {
+            viewModel.txnFilters.value?.catagories?.clear()
             if (it.hasExtra(KEY_FILTER_TXN_FILTERS)) {
                 viewModel.txnFilters.value = it.getParcelableExtra(KEY_FILTER_TXN_FILTERS)
             }
@@ -65,12 +68,35 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
         }
+        setChipListener()
+    }
+
+    private fun setChipListener() {
+        for (index in 0 until chipGroup.childCount) {
+            val chip:Chip = chipGroup.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener{view, isChecked ->
+                if (isChecked && !viewModel.txnFilters.value?.catagories?.contains(view.text.toString())!!){
+                    viewModel.txnFilters.value?.catagories?.add(view.text.toString())
+                }else{
+                    viewModel.txnFilters.value?.catagories?.remove(view.text.toString())
+                }
+            }
+        }
     }
 
     private fun initViews() {
         viewModel.txnFilters.value?.let {
             cbInTransFilter.isChecked = it.incomingTxn ?: false
             cbOutTransFilter.isChecked = it.outgoingTxn ?: false
+            cbPenTransFilter.isChecked =  it.pendingTxn ?: false
+            setCheckedCategories(it)
+        }
+    }
+
+    private fun setCheckedCategories(it: TransactionFilters) {
+        for (index in 0 until chipGroup.childCount){
+            val chip:Chip = chipGroup.getChildAt(index) as Chip
+           chip.isChecked = it.catagories?.contains(chip.text.toString()) ?: false
         }
     }
 
@@ -153,7 +179,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private fun resetAllFilters() {
         val request = TransactionFilters(
             null,
-            null, false, outgoingTxn = false
+            null, false, pendingTxn = false,outgoingTxn = false,catagories = arrayListOf()
         )
         val intent = Intent()
         intent.putExtra("txnRequest", request)
@@ -165,8 +191,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         var appliedFilter = 0
         if (cbInTransFilter.isChecked) appliedFilter++
         if (cbOutTransFilter.isChecked) appliedFilter++
+        if (cbPenTransFilter.isChecked) appliedFilter++
+        if (viewModel.txnFilters.value?.catagories?.size ?: 0 >= 1) appliedFilter = viewModel.txnFilters.value?.catagories?.size ?: appliedFilter
         viewModel.txnFilters.value?.amountEndRange?.let {
-            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
+            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat() ) appliedFilter++
             setIntentRequest(appliedFilter)
         } ?: setIntentRequest(appliedFilter + 1)
     }
@@ -177,6 +205,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             amountEndRange = Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
             incomingTxn = cbInTransFilter.isChecked,
             outgoingTxn = cbOutTransFilter.isChecked,
+            catagories = viewModel.txnFilters.value?.catagories,
             totalAppliedFilter = appliedFilter
         )
         val intent = Intent()
