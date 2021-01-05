@@ -26,7 +26,6 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
     }
 
     private val onClickObserver = Observer<Int> {
-
         when (it) {
             R.id.btnAction -> {
                 when (viewModel.parentViewModel?.selectedAchievementTask?.activityOnAction) {

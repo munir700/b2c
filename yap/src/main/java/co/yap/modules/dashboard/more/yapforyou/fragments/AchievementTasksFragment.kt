@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.FragmentAchievementTasksBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievement
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
+import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.modules.dashboard.more.yapforyou.models.YapForYouDataModel
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
 import co.yap.widgets.MultiStateView
@@ -35,8 +35,8 @@ class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>()
     private val detailItemClickListener = object :
         OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Y4YAchievementTaskData) {
-                viewModel.setSelectedAchievementTask(y4YAchievementTaskData = data)
+            if (data is YAPForYouGoal) {
+                viewModel.setSelectedAchievementTask(YAPForYouGoal = data)
                 //TODO remomve this success fragment implementation
 //                if (data.isDone) navigate(R.id.achievementSuccessFragment) else navigate(R.id.achievementDetailFragment)
                 navigate(R.id.achievementDetailFragment)

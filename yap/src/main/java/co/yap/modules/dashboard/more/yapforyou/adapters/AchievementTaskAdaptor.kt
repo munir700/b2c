@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemTaskAchievementBinding
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.AchievementTaskItemViewModel
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
+import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class AchievementTaskAdaptor(private val list: MutableList<Y4YAchievementTaskData>) :
-    BaseBindingRecyclerAdapter<Y4YAchievementTaskData, AchievementTaskAdaptor.AchievementTaskViewHolder>(
+class AchievementTaskAdaptor(private val list: MutableList<YAPForYouGoal>) :
+    BaseBindingRecyclerAdapter<YAPForYouGoal, AchievementTaskAdaptor.AchievementTaskViewHolder>(
         list
     ) {
 
@@ -27,7 +27,7 @@ class AchievementTaskAdaptor(private val list: MutableList<Y4YAchievementTaskDat
     class AchievementTaskViewHolder(private val itemAchievementBinding: ItemTaskAchievementBinding) :
         RecyclerView.ViewHolder(itemAchievementBinding.root) {
 
-        fun onBind(task: Y4YAchievementTaskData) {
+        fun onBind(task: YAPForYouGoal) {
             itemAchievementBinding.viewModel =
                 AchievementTaskItemViewModel(
                     task

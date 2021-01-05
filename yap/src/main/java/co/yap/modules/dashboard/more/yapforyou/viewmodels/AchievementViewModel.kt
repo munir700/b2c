@@ -4,7 +4,7 @@ import android.app.Application
 import co.yap.R
 import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementTaskAdaptor
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievement
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
+import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.modules.dashboard.more.yapforyou.states.AchievementState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -20,8 +20,8 @@ class AchievementViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun setSelectedAchievementTask(y4YAchievementTaskData: Y4YAchievementTaskData?) {
-        parentViewModel?.selectedAchievementTask = y4YAchievementTaskData
+    override fun setSelectedAchievementTask(YAPForYouGoal: YAPForYouGoal?) {
+        parentViewModel?.selectedAchievementTask = YAPForYouGoal
     }
 
     override fun onCreate() {

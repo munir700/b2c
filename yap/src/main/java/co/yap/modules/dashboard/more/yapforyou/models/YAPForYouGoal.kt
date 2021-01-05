@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.more.yapforyou.models
 
-data class Y4YAchievementTaskData(
+import co.yap.yapcore.enums.YAPForYouGoalMedia
+
+data class YAPForYouGoal(
     var lottieDetailsFileName: String?,
     var lottieSuccessFileName: String?,
     var isLottie: Boolean = true,
@@ -9,5 +11,6 @@ data class Y4YAchievementTaskData(
     var isDone: Boolean,
     var activityOnAction: String? = null,
     var description: String = "",
-    var successDescription: String = ""
+    var successDescription: String = "",
+    var media: YAPForYouGoalMedia? = null
 )
