@@ -32,21 +32,20 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
-                app:text="@{viewModel.parentViewModel.selectedAchievement.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:text="@{viewModel.parentViewModel.selectedAchievement.title}"
                 tools:text="YAP Store" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_240sdp"
-                app:isLottie="@{viewModel.parentViewModel.selectedAchievementTask.isLottie}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:loadLottieAnimation="@{viewModel.parentViewModel.selectedAchievementTask.done?viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName :viewModel.parentViewModel.selectedAchievementTask.lottieDetailsFileName}"
+                app:media="@{viewModel.parentViewModel.selectedAchievementTask.media}"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
 

@@ -15,7 +15,6 @@ import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.loadCardImage
-import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 import com.airbnb.lottie.LottieAnimationView
@@ -280,15 +279,22 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["loadLottieAnimation", "isLottie"])
+    @BindingAdapter(value = ["media"])
     fun loadLottieAnimation(
         lottieView: LottieAnimationView,
         media: YAPForYouGoalMedia
     ) {
         when (media) {
             is YAPForYouGoalMedia.Image -> {
-                media.imageName
-                lottieView.loadImage(media.imageName)
+                val id = lottieView.context.resources.getIdentifier(
+                    media.imageName,
+                    "drawable",
+                    lottieView.context.packageName
+                )
+                val drawable = lottieView.context.resources.getDrawable(id, null)
+                lottieView.setImageDrawable(
+                    drawable
+                )
             }
             is YAPForYouGoalMedia.LottieAnimation -> {
                 lottieView.setAnimation(media.jsonFileName)

@@ -24,8 +24,6 @@ class Y4YGraphComposer : IY4YComposer {
                 isLocked = isForceLocked(Y4YAchievement.GET_STARTED),
                 goals = arrayListOf(
                     YAPForYouGoal(
-                        isLottie = false,
-                        lottieDetailsFileName = "R.drawable.ic_spare_card",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.OPEN_YOUR_YAP_ACCOUNT.title,
                         isDone = checkIfTaskCompleted(
@@ -34,11 +32,9 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_open_yap_account_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.Image("R.drawable.ic_spare_card")
+                        media = YAPForYouGoalMedia.Image("ic_spare_card")
                     ),
                     YAPForYouGoal(
-                        isLottie = false,
-                        lottieDetailsFileName = "R.drawable.ic_spare_card",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SET_PIN.title,
                         isDone = checkIfTaskCompleted(
@@ -47,11 +43,9 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_set_your_pin_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("R.drawable.ic_spare_card")
+                        media = YAPForYouGoalMedia.Image("ic_set_pin")
                     ),
                     YAPForYouGoal(
-                        isLottie = false,
-                        lottieDetailsFileName = "R.drawable.ic_add_money",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.TOP_UP.title,
                         buttonTitle = Strings.screen_yfy_add_money_to_account_button_label,
@@ -61,11 +55,10 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         activityOnAction = AddMoneyActivity::class.simpleName,
                         description = Strings.screen_yfy_add_money_to_account_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.Image("ic_add_money")
                     ),
                     YAPForYouGoal(
-                        isLottie = false,
-                        lottieDetailsFileName = "R.drawable.ic_set_profile",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SET_PROFILE_PICTURE.title,
                         buttonTitle = Strings.screen_yfy_set_a_profile_photo_button_label,
@@ -75,7 +68,9 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SET_PROFILE_PICTURE
                         ),
                         description = Strings.screen_yfy_set_a_profile_photo_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.Image("ic_set_profile")
+
                     )
                 )
             ),
@@ -86,8 +81,6 @@ class Y4YGraphComposer : IY4YComposer {
                 isLocked = isForceLocked(Y4YAchievement.UP_AND_RUNNING),
                 goals = arrayListOf(
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "use_yap_locally.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.USE_YAP_LOCALLY.title,
                         isDone = checkIfTaskCompleted(
@@ -95,11 +88,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.USE_YAP_LOCALLY
                         ),
                         description = Strings.screen_yfy_use_yap_locally_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("use_yap_locally.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "freez_and_unfreeze_your_card_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.FREEZE_UNFREEZE_CARD.title,
                         buttonTitle = Strings.screen_yfy_freeze_unfreeze_card_button_label,
@@ -108,11 +101,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.FREEZE_UNFREEZE_CARD
                         ),
                         description = Strings.screen_yfy_freeze_unfreeze_card_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("freez_and_unfreeze_your_card_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "spend_aed_amount.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SPEND_AMOUNT.title,
                         isDone = checkIfTaskCompleted(
@@ -120,11 +113,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SPEND_AMOUNT
                         ),
                         description = Strings.screen_yfy_spend_aed_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.EXPLORE_CARD_CONTROLS.title,
                         isDone = checkIfTaskCompleted(
@@ -132,7 +125,9 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.EXPLORE_CARD_CONTROLS
                         ),
                         description = Strings.screen_yfy_explore_card_control_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.Image("ic_card_controls")
+
                     )
                 )
             ),
@@ -143,8 +138,6 @@ class Y4YGraphComposer : IY4YComposer {
                 isLocked = isForceLocked(Y4YAchievement.BETTER_TOGETHER),
                 goals = arrayListOf(
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "invite_friend_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.INVITE_FRIEND.title,
                         buttonTitle = Strings.screen_yfy_invite_a_friend_button_label,
@@ -154,11 +147,11 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         activityOnAction = YFYAchievementTaskType.INVITE_FRIEND.title,
                         description = Strings.screen_yfy_invite_a_friend_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("invite_friend_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "make_a_y2y_transfer_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.MAKE_Y2Y_TRANSFER.title,
                         isDone = checkIfTaskCompleted(
@@ -166,11 +159,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.MAKE_Y2Y_TRANSFER
                         ),
                         description = Strings.screen_yfy_send_money_to_someone_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("make_a_y2y_transfer_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SPLIT_BILLS_WITH_YAP.title,
                         isDone = checkIfTaskCompleted(
@@ -178,11 +171,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SPLIT_BILLS_WITH_YAP
                         ),
                         description = Strings.screen_yfy_split_bills_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.Image("ic_split_yap_bill")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SEND_MONEY_OUTSIDE_YAP.title,
                         isDone = checkIfTaskCompleted(
@@ -190,7 +183,9 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SEND_MONEY_OUTSIDE_YAP
                         ),
                         description = Strings.screen_yfy_send_money_outside_yap_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.Image("ic_sm_out_side_yap")
+
                     )
                 )
             ),
@@ -201,8 +196,6 @@ class Y4YGraphComposer : IY4YComposer {
                 isLocked = isForceLocked(Y4YAchievement.TAKE_THE_LEAP),
                 goals = arrayListOf(
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.ORDER_SPARE_CARD.title,
                         isDone = checkIfTaskCompleted(
@@ -210,11 +203,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.ORDER_SPARE_CARD
                         ),
                         description = Strings.screen_yfy_open_yap_account_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.UPGRADE_TO_PRIME.title,
                         buttonTitle = Strings.screen_yfy_upgrade_to_prime_button_label,
@@ -223,11 +216,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.UPGRADE_TO_PRIME
                         ),
                         description = Strings.screen_yfy_upgrade_to_prime_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.UPGRADE_TO_METAL.title,
                         buttonTitle = Strings.screen_yfy_upgrade_to_prime_button_label,
@@ -236,11 +229,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.UPGRADE_TO_METAL
                         ),
                         description = Strings.screen_yfy_go_metal_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "multicurrency_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SETUP_MULTI_CURRENCY.title,
                         buttonTitle = Strings.screen_yfy_set_multi_currency_account_button_label,
@@ -249,7 +242,9 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SETUP_MULTI_CURRENCY
                         ),
                         description = Strings.screen_yfy_set_multi_currency_account_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("multicurrency_lottie.json")
+
                     )
                 )
             ),
@@ -260,8 +255,6 @@ class Y4YGraphComposer : IY4YComposer {
                 isLocked = isForceLocked(Y4YAchievement.YAP_STORE),
                 goals = arrayListOf(
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "cards_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.GET_YAP_YOUNG.title,
                         buttonTitle = Strings.screen_yfy_get_yap_young_button_label,
@@ -270,11 +263,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.GET_YAP_YOUNG
                         ),
                         description = Strings.screen_yfy_get_yap_young_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("cards_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.GET_YAP_HOUSEHOLD.title,
                         buttonTitle = Strings.screen_yfy_signup_to_hh_button_label,
@@ -283,11 +276,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.GET_YAP_HOUSEHOLD
                         ),
                         description = Strings.screen_yfy_signup_to_hh_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "set_missions_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SET_MISSIONS_ON_YAP_YOUNG.title,
                         isDone = checkIfTaskCompleted(
@@ -295,11 +288,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SET_MISSIONS_ON_YAP_YOUNG
                         ),
                         description = Strings.screen_yfy_set_a_mission_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("set_missions_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SALARY_TRANSFER_ON_YAP_HOUSEHOLD.title,
                         isDone = checkIfTaskCompleted(
@@ -307,7 +300,9 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SALARY_TRANSFER_ON_YAP_HOUSEHOLD
                         ),
                         description = Strings.screen_yfy_pay_your_help_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     )
                 )
             ),
@@ -318,8 +313,6 @@ class Y4YGraphComposer : IY4YComposer {
                 isLocked = isForceLocked(Y4YAchievement.YOU_ARE_PRO),
                 goals = arrayListOf(
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "invite_friend_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.INVITE_TEN_FRIENDS.title,
                         buttonTitle = Strings.screen_yfy_invite_ten_friends_button_label,
@@ -329,11 +322,11 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         activityOnAction = YFYAchievementTaskType.INVITE_FRIEND.title,
                         description = Strings.screen_yfy_invite_ten_friends_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("invite_friend_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SPEND_THOUSAND_AED.title,
                         isDone = checkIfTaskCompleted(
@@ -341,11 +334,11 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.SPEND_THOUSAND_AED
                         ),
                         description = Strings.screen_yfy_spend_thousand_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     ),
                     YAPForYouGoal(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.COMPLETE_RENEWAL.title,
                         isDone = checkIfTaskCompleted(
@@ -353,7 +346,9 @@ class Y4YGraphComposer : IY4YComposer {
                             YFYAchievementTaskType.COMPLETE_RENEWAL
                         ),
                         description = Strings.screen_yfy_complete_renewal_description,
-                        successDescription = ""
+                        successDescription = "",
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json")
+
                     )
                 )
             )
