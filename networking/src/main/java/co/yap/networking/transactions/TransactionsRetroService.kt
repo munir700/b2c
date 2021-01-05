@@ -71,7 +71,8 @@ interface TransactionsRetroService {
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
         @Query("title") title: String?,
-        @Query("merchantCategoryNames") category: ArrayList<String>?
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?
 
     ): Response<HomeTransactionsResponse>
 

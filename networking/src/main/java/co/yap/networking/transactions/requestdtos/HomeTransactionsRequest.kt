@@ -22,5 +22,7 @@ data class HomeTransactionsRequest(
     @SerializedName("searchField")
     var searchField: String? = null,
     @SerializedName("merchantCategoryNames")
-    var categories: ArrayList<String>? = null
+    var categories: ArrayList<String>? = null,
+    @SerializedName("statuses")
+    var statues: ArrayList<String>? = null
 )

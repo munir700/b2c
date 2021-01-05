@@ -15,6 +15,8 @@ interface ITransactionFilters {
         fun updateRangeValue(seekBar: RangeSeekBar)
         val transactionFilters: MutableLiveData<TransactionFilters>
         var txnFilters: MutableLiveData<co.yap.modules.dashboard.home.filters.models.TransactionFilters>
+        fun getCategoriesList(): ArrayList<String>
+
     }
 
     interface State : IBase.State {

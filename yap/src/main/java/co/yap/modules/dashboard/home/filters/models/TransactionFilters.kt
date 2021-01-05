@@ -13,7 +13,7 @@ data class TransactionFilters(
     var outgoingTxn: Boolean? = false,
     var pendingTxn: Boolean? = false,
     var totalAppliedFilter: Int = 0,
-    var catagories: ArrayList<String>? = arrayListOf()
+    var categories: ArrayList<String>? = arrayListOf()
 
     ) : Parcelable {
     override fun equals(other: Any?): Boolean {
@@ -22,7 +22,7 @@ data class TransactionFilters(
                     && other.amountEndRange == amountEndRange
                     && other.incomingTxn == incomingTxn
                     && other.outgoingTxn == outgoingTxn
-                    && other.catagories == catagories
+                    && other.categories == categories
                     && other.pendingTxn == pendingTxn
         }
         return false
@@ -44,7 +44,7 @@ data class TransactionFilters(
         result = 31 * result + (outgoingTxn?.hashCode() ?: 0)
         result = 31 * result + (pendingTxn?.hashCode() ?: 0)
         result = 31 * result + totalAppliedFilter
-        result = 31 * result + (catagories?.hashCode() ?: 0)
+        result = 31 * result + (categories?.hashCode() ?: 0)
         return result
     }
 }
