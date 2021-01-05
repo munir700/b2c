@@ -417,7 +417,7 @@
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}"
-                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
+                    app:ibanMask="@{`#### #### #### #### #### #### #### #### ###`}" />
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"
@@ -508,7 +508,7 @@
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}"
-                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
+                    app:ibanMask="@{`#### #### #### #### #### #### #### #### ###`}" />
                 <!---->
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
