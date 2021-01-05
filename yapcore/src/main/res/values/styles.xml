@@ -681,7 +681,7 @@
         <item name="closeIconVisible">false</item>
         <item name="android:checkable">true</item>
         <item name="checkedIcon">@null</item>
-        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="rippleColor">@color/greyLight</item>
 
     </style>

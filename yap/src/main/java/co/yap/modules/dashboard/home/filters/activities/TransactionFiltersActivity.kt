@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.CompoundButton
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,7 +22,6 @@ import com.google.android.material.chip.Chip
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
@@ -89,6 +87,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             cbInTransFilter.isChecked = it.incomingTxn ?: false
             cbOutTransFilter.isChecked = it.outgoingTxn ?: false
             cbPenTransFilter.isChecked =  it.pendingTxn ?: false
+            viewModel.txnFilters.value?.catagories?.addAll(it.catagories ?: arrayListOf())
             setCheckedCategories(it)
         }
     }
@@ -192,7 +191,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         if (cbInTransFilter.isChecked) appliedFilter++
         if (cbOutTransFilter.isChecked) appliedFilter++
         if (cbPenTransFilter.isChecked) appliedFilter++
-        if (viewModel.txnFilters.value?.catagories?.size ?: 0 >= 1) appliedFilter = viewModel.txnFilters.value?.catagories?.size ?: appliedFilter
+        if (viewModel.txnFilters.value?.catagories?.size ?: 0 >= 1) appliedFilter++
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat() ) appliedFilter++
             setIntentRequest(appliedFilter)

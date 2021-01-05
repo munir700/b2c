@@ -36,4 +36,15 @@ data class TransactionFilters(
         else
             MANUAL_DEBIT
     }
+
+    override fun hashCode(): Int {
+        var result = amountStartRange?.hashCode() ?: 0
+        result = 31 * result + (amountEndRange?.hashCode() ?: 0)
+        result = 31 * result + (incomingTxn?.hashCode() ?: 0)
+        result = 31 * result + (outgoingTxn?.hashCode() ?: 0)
+        result = 31 * result + (pendingTxn?.hashCode() ?: 0)
+        result = 31 * result + totalAppliedFilter
+        result = 31 * result + (catagories?.hashCode() ?: 0)
+        return result
+    }
 }
