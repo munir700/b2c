@@ -195,7 +195,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat() ) appliedFilter++
             setIntentRequest(appliedFilter)
-        } ?: setIntentRequest(appliedFilter + 1)
+        } ?: setIntentRequest(appliedFilter)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
@@ -205,6 +205,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             incomingTxn = cbInTransFilter.isChecked,
             outgoingTxn = cbOutTransFilter.isChecked,
             catagories = viewModel.txnFilters.value?.catagories,
+            pendingTxn = cbPenTransFilter.isChecked,
             totalAppliedFilter = appliedFilter
         )
         val intent = Intent()

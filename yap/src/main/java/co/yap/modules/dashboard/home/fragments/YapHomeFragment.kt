@@ -784,7 +784,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
-            homeTransactionsRequest.categories?.clear()
             homeTransactionsRequest.categories = it.catagories
         }
     }
