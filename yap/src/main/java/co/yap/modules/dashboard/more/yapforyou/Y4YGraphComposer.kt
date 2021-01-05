@@ -47,7 +47,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_set_your_pin_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.lottieAnimation("R.drawable.ic_spare_card")
+                        media = YAPForYouGoalMedia.LottieAnimation("R.drawable.ic_spare_card")
                     ),
                     YAPForYouGoal(
                         isLottie = false,
