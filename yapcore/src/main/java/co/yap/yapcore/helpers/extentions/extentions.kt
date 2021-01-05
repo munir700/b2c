@@ -22,6 +22,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView

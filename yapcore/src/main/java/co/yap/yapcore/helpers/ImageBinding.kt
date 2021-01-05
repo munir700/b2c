@@ -14,7 +14,6 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
 import co.yap.yapcore.helpers.extentions.loadCardImage
-import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
 import com.airbnb.lottie.LottieAnimationView
@@ -285,8 +284,16 @@ object ImageBinding {
         rawPathName: String?,
         isLottie: Boolean
     ) {
-        if (isLottie) lottieView.setAnimation(rawPathName) else lottieView.loadImage(
-            rawPathName ?: ""
-        )
+        if (isLottie) lottieView.setAnimation(rawPathName) else {
+            val id = lottieView.context.resources.getIdentifier(
+                rawPathName,
+                "drawable",
+                lottieView.context.packageName
+            )
+            val drawable = lottieView.context.resources.getDrawable(id, null)
+            lottieView.setImageDrawable(
+                drawable
+            )
+        }
     }
 }
