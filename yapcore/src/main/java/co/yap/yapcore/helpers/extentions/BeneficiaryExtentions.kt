@@ -56,6 +56,11 @@ fun List<Beneficiary>?.parseRecentItems(context: Context? = null) {
         it.profilePictureUrl = it.beneficiaryPictureUrl
         it.type = it.beneficiaryType
         it.isoCountryCode = it.country
-        it.mobileNo = context?.let { it1 -> Utils.getFormattedPhoneNumber(it1, "00971" + it.mobileNo) }
+        it.mobileNo = context?.let { it1 ->
+            Utils.getFormattedPhoneNumber(
+                it1,
+                if (it.countryCode.isNullOrBlank()) "00971" else it.countryCode + it.mobileNo
+            )
+        }
     }
 }
