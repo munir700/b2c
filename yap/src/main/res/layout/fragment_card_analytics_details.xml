@@ -67,8 +67,8 @@
             android:layout_marginTop="@dimen/_6sdp"
             android:layout_weight="1"
             app:msv_animateViewChanges="true"
-            app:msv_emptyView="@layout/layout_empty_view_no_results"
-            app:msv_errorView="@layout/layout_error_view"
+            app:msv_emptyView="@layout/error_view_no_transaction_found"
+            app:msv_errorView="@layout/error_view_no_transaction_found"
             app:msv_loadingView="@layout/layout_loading_view">
 
             <androidx.appcompat.widget.LinearLayoutCompat
