@@ -14,14 +14,14 @@
                "title":"Open you YAP account",
                "description":"That first step was easy! Welcome to YAP We're so happy you're here :)",
                "order":1,
-               "completion":true
+               "completion":false
             },
             {
                "taskType":"SET_PIN",
                "title":"Set your PIN",
                "description":"What are you waiting for? Go ahead and set a unique 4-digit PIN to start using your card.",
                "order":2,
-               "completion":true
+               "completion":false
             },
             {
                "taskType":"TOP_UP",

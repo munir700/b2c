@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.more.yapforyou.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -11,6 +13,7 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
+import java.util.*
 
 class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPForYou.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -21,7 +24,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getAchievements()
+        viewModel.getMockApiResponse()
         addObservers()
     }
 

@@ -1,10 +1,11 @@
 package co.yap.modules.dashboard.more.yapforyou
 
 import android.graphics.Color
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementTaskData
-import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.translation.Strings
 import co.yap.yapcore.enums.Y4YAchievement
@@ -23,7 +24,7 @@ class Y4YGraphComposer : IY4YComposer {
                 tasks = arrayListOf(
                     Y4YAchievementTaskData(
                         isLottie = false,
-                        lottieDetailsFileName = "R.drawable.card_spare",
+                        lottieDetailsFileName = "R.drawable.ic_spare_card",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.OPEN_YOUR_YAP_ACCOUNT.title,
                         isDone = checkIfTaskCompleted(
@@ -34,8 +35,8 @@ class Y4YGraphComposer : IY4YComposer {
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
+                        isLottie = false,
+                        lottieDetailsFileName = "R.drawable.ic_spare_card",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SET_PIN.title,
                         isDone = checkIfTaskCompleted(
@@ -46,8 +47,8 @@ class Y4YGraphComposer : IY4YComposer {
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
-                        isLottie = true,
-                        lottieDetailsFileName = "top_up_lottie.json",
+                        isLottie = false,
+                        lottieDetailsFileName = "R.drawable.ic_add_money",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.TOP_UP.title,
                         buttonTitle = Strings.screen_yfy_add_money_to_account_button_label,
@@ -55,16 +56,17 @@ class Y4YGraphComposer : IY4YComposer {
                             Y4YAchievement.GET_STARTED,
                             YFYAchievementTaskType.TOP_UP
                         ),
+                        activityOnAction = AddMoneyActivity::class.simpleName,
                         description = Strings.screen_yfy_add_money_to_account_description,
                         successDescription = ""
                     ),
                     Y4YAchievementTaskData(
-                        isLottie = true,
-                        lottieDetailsFileName = "set_profile_picture_lottie.json",
+                        isLottie = false,
+                        lottieDetailsFileName = "R.drawable.ic_set_profile",
                         lottieSuccessFileName = "success_lottie.json",
                         title = YFYAchievementTaskType.SET_PROFILE_PICTURE.title,
                         buttonTitle = Strings.screen_yfy_set_a_profile_photo_button_label,
-                        activityOnAction = SetCardPinWelcomeActivity::javaClass.name,
+                        activityOnAction = MoreActivity::javaClass.name,
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.GET_STARTED,
                             YFYAchievementTaskType.SET_PROFILE_PICTURE
@@ -147,6 +149,7 @@ class Y4YGraphComposer : IY4YComposer {
                             Y4YAchievement.BETTER_TOGETHER,
                             YFYAchievementTaskType.INVITE_FRIEND
                         ),
+                        activityOnAction = YFYAchievementTaskType.INVITE_FRIEND.title,
                         description = Strings.screen_yfy_invite_a_friend_description,
                         successDescription = ""
                     ),
@@ -321,6 +324,7 @@ class Y4YGraphComposer : IY4YComposer {
                             Y4YAchievement.YOU_ARE_PRO,
                             YFYAchievementTaskType.INVITE_TEN_FRIENDS
                         ),
+                        activityOnAction = YFYAchievementTaskType.INVITE_FRIEND.title,
                         description = Strings.screen_yfy_invite_ten_friends_description,
                         successDescription = ""
                     ),
