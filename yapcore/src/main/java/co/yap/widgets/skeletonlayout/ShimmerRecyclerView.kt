@@ -25,7 +25,7 @@ class ShimmerRecyclerView @JvmOverloads constructor(
             }
         }
 
-    var rvAdapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>? = null
+    var rvAdapter: Adapter<out ViewHolder>? = null
         set(value) {
             field = value
             rvAdapter?.let {

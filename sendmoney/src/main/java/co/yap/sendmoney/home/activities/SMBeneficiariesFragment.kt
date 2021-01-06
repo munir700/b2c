@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.layout_item_beneficiary.*
 class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries.ViewModel>(),
     ISMBeneficiaries.View {
 
-    private lateinit var onTouchListener: RecyclerTouchListener
+    private var onTouchListener: RecyclerTouchListener? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
 
@@ -74,7 +74,6 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
     private fun initComponents() {
         viewModel.recentsAdapter.allowFullItemClickListener = true
         viewModel.recentsAdapter.setItemListener(recentItemClickListener)
-        initSwipeListener()
     }
 
     private fun setObservers() {
@@ -85,6 +84,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 viewModel.state.isNoBeneficiary.set(true)
                 viewModel.state.hasBeneficiary.set(false)
             } else {
+                initSwipeListener()
                 viewModel.state.isNoBeneficiary.set(false)
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
@@ -176,14 +176,14 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
     }
 
 
-    override fun onPause() {
-        rvAllBeneficiaries.removeOnItemTouchListener(onTouchListener)
-        super.onPause()
-    }
-
     override fun onResume() {
         super.onResume()
-        rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
+        onTouchListener?.let { rvAllBeneficiaries.addOnItemTouchListener(it) }
+    }
+
+    override fun onPause() {
+        onTouchListener?.let { rvAllBeneficiaries.removeOnItemTouchListener(it) }
+        super.onPause()
     }
 
     override fun onDestroy() {

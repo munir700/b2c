@@ -47,7 +47,9 @@ class Customer(
     @SerializedName("mobileNoVerified")
     var mobileNoVerified: Boolean? = false,
     @SerializedName("homeCountry")
-    var homeCountry: String? = null
+    var homeCountry: String? = null,
+    @SerializedName("founder")
+    var founder: Boolean? = false
 
 ) : Parcelable {
 

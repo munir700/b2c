@@ -138,4 +138,16 @@
     <color name="skeleton_mask">#E8ECF6</color>
     <color name="skeleton_shimmer">#d5d5d5</color>
 
+
+<!--    StepView-->
+
+    <color name="stepview_line_done">#4D272262</color>
+    <color name="stepview_line_next">#26ffffff</color>
+    <color name="stepview_text_next">#40ffffff</color>
+    <color name="stepview_text_done">#40ffffff</color>
+    <color name="stepview_text_selected">@android:color/white</color>
+    <color name="stepview_circle_done">@android:color/white</color>
+    <color name="stepview_circle_selected">@android:color/white</color>
+    <color name="stepview_selected_number">#25448a</color>
+    <color name="stepview_mark">@color/stepview_selected_number</color>
 </resources>
