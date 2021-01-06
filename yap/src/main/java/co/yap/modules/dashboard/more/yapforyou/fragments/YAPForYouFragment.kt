@@ -24,7 +24,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getMockApiResponse()
+        viewModel.getAchievements()
         addObservers()
     }
 
