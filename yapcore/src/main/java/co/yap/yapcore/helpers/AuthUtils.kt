@@ -21,7 +21,8 @@ object AuthUtils {
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
-        val isFingerprintPermissionShown: Boolean =
+        //commenting below until we finalize this change
+       /* val isFingerprintPermissionShown: Boolean =
             sharedPreferenceManager.getValueBoolien(
                 KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                 false
@@ -30,7 +31,7 @@ object AuthUtils {
             sharedPreferenceManager.getValueBoolien(
                 Constants.KEY_TOUCH_ID_ENABLED,
                 false
-            )
+            )*/
         var userName:String?=""
         val isRemember= sharedPreferenceManager.getValueBoolien(Constants.KEY_IS_REMEMBER,false)
         if (isRemember) {
@@ -52,17 +53,17 @@ object AuthUtils {
             sharedPreferenceManager.saveUserNameWithEncryption(userName?:"")
         }
         sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER,isRemember)
-        sharedPreferenceManager.save(
+       /* sharedPreferenceManager.save(
             KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
             isFingerprintPermissionShown
         )
         sharedPreferenceManager.save(
-            KEY_IS_FIRST_TIME_USER,
-            isFirstTimeUser
-        )
-        sharedPreferenceManager.save(
             Constants.KEY_TOUCH_ID_ENABLED,
             isTouchIdEnabled
+        )*/
+        sharedPreferenceManager.save(
+            KEY_IS_FIRST_TIME_USER,
+            isFirstTimeUser
         )
     }
 
