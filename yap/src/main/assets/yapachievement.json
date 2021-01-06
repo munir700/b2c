@@ -14,7 +14,7 @@
           "title": "Open you YAP account",
           "description": "That first step was easy! Welcome to YAP We're so happy you're here :)",
           "order": 1,
-          "completion": true
+          "completion": false
         },
         {
           "taskType": "SET_PIN",
