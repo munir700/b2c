@@ -32,6 +32,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
+            tools:tint="#f57f17"
             android:alpha="@{viewModel.achievement.isCompleted ? 0.9f : 0.25f }"
             android:tint="@{viewModel.achievement.tintColor}"
             app:layout_constraintEnd_toEndOf="parent"

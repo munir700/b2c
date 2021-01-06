@@ -1283,17 +1283,17 @@
     <string name="screen_yfy_freeze_unfreeze_card_description">Try to freeze and unfreeze your card. You’ll know what to do if you misplace it or if your card has been stolen</string>
     <string name="screen_yfy_freeze_unfreeze_card_button_label">Try freezing now</string>
     <string name="screen_yfy_spend_aed_description">Make your next AED 100 purchase a YAP one. Don’t forget to buy yourself something nice!</string>
-    <string name="screen_yfy_explore_card_control_description">You have full control of your card! Set limits against spending online, abroad, retail and at an ATM</string>
+    <string name="screen_yfy_explore_card_control_description">You have full control of your card! \n\nSet limits against spending online, abroad, retail and at an ATM</string>
 
     <!-- YFY Better Together -->
-    <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP. The more the merrier!</string>
+    <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP.\n\n The more the merrier!</string>
     <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
-    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps. Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
-    <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount. Yes, It\'s that simple!</string>
-    <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends. To split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly. Psst… you can also send reminders!</string>
+    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
+    <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
+    <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\n To split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
 
     <!--YFY Take a leap-->
-    <string name="screen_yfy_order_virtual_card_description">Virtual cards let you make online payments without sharing your main card details. You can order a virtual card through the Cards section. It is available immediately, so the next time you need to enter your card details online but aren\'t comfortable doing it, just use your virtual card! </string>
+    <string name="screen_yfy_order_virtual_card_description">Virtual cards let you make online payments without sharing your main card details.\n \n You can order a virtual card through the Cards section. It is available immediately, so the next time you need to enter your card details online but aren\'t comfortable doing it, just use your virtual card! </string>
     <string name="screen_yfy_upgrade_to_prime_description">A shiny new card available in 4 metallic shades and a world of perks! \n \nChoose from audacious amber, sparkly sterling, romantic rose or glorious granite.</string>
     <string name="screen_yfy_upgrade_to_prime_button_label">Upgrade now</string>
     <string name="screen_yfy_go_metal_description">The ultimate YAP card – a 100% metal card with exclusive benefits. \n \nThe Metal card – or experience – is available in Black, Rose Gold and Chrome.</string>

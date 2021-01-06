@@ -9,12 +9,10 @@ import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.translation.Strings
-import co.yap.yapcore.Dispatcher
 import co.yap.yapcore.SingleClickEvent
 import kotlinx.coroutines.delay
 import org.json.JSONObject
@@ -50,25 +48,26 @@ class YAPForYouViewModel(application: Application) :
     }
 
     override fun getAchievements() {
-        launch(Dispatcher.Background) {
-            state.viewState.postValue(true)
-            val response = repository.getAchievements()
-            launch {
-                when (response) {
-                    is RetroApiResponse.Success -> {
-                        parentViewModel?.achievementsList =
-                            y4yComposer.compose(response.data.data as ArrayList<Achievement>)
-                        adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
-                        state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
-                        state.viewState.value = false
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.viewState.value = false
-                        showToast(response.error.message)
-                    }
-                }
-            }
-        }
+//        launch(Dispatcher.Background) {
+//            state.viewState.postValue(true)
+//            val response = repository.getAchievements()
+//            launch {
+//                when (response) {
+//                    is RetroApiResponse.Success -> {
+//                        parentViewModel?.achievementsList =
+//                            y4yComposer.compose(response.data.data as ArrayList<Achievement>)
+//                        adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
+//                        state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
+//                        state.viewState.value = false
+//                    }
+//                    is RetroApiResponse.Error -> {
+//                        state.viewState.value = false
+//                        showToast(response.error.message)
+//                    }
+//                }
+//            }
+//        }
+        getMockApiResponse()
     }
 
     override fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData) {
@@ -127,6 +126,7 @@ class YAPForYouViewModel(application: Application) :
             state.loading = false
             parentViewModel?.achievementsList =
                 y4yComposer.compose(list)
+            state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
             adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
         }
 

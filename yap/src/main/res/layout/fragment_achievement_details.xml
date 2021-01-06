@@ -48,21 +48,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"
+                android:layout_marginStart="@dimen/margin_extra_large"
+                android:layout_marginEnd="@dimen/margin_extra_large"
+                app:completedMedia="@{viewModel.parentViewModel.selectedAchievementTask.done? viewModel.parentViewModel.selectedAchievementTask.completedMedia :null}"
+                app:lottie_loop="false"
                 app:media="@{viewModel.parentViewModel.selectedAchievementTask.media}" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_200sdp"
                 android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.done? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/animationView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="false"
-                app:media="@{viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName}" />
+                app:lottie_fileName="success_lottie.json" />
 
             <View
                 android:id="@+id/tvFreezeAnimationView"
@@ -74,7 +76,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/animationView" />
+                app:layout_constraintTop_toBottomOf="@id/animationView" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSubTitle"
@@ -96,27 +98,26 @@
                 style="@style/SmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginStart="@dimen/margin_extra_large"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_extra_large"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
                 app:text="@{viewModel.parentViewModel.selectedAchievementTask.done?Strings.screen_yfy_get_started_success_description :viewModel.parentViewModel.selectedAchievementTask.description}"
-                tools:text="Teach your kids how to be good with money. Set up a YAP Young account for your child and send them pocket money through the app into their YAP Young card! " />
+                tools:text="@string/screen_yfy_explore_card_control_description" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnAction"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.buttonTitle ==null || viewModel.parentViewModel.selectedAchievementTask.done? View.GONE:View.VISIBLE}"
-                app:btn_size="small"
-                app:enableCoreButton="@{true}"
+                app:btn_size="medium"
+                app:enableCoreButton="@{false}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

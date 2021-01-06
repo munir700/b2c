@@ -35,6 +35,7 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
                 getBindings().tvFreezeAnimationView.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(1000)
             animationDrawable.setExitFadeDuration(1500)
+            animationDrawable.isOneShot = true
             animationDrawable.start()
         }
     }

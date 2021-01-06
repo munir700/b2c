@@ -279,25 +279,45 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["media"])
+    @BindingAdapter(value = ["media", "completedMedia"], requireAll = false)
     fun loadLottieAnimation(
         lottieView: LottieAnimationView,
-        media: YAPForYouGoalMedia
+        media: YAPForYouGoalMedia,
+        completedMedia: YAPForYouGoalMedia? = null
     ) {
-        when (media) {
-            is YAPForYouGoalMedia.Image -> {
-                val id = lottieView.context.resources.getIdentifier(
-                    media.imageName,
-                    "drawable",
-                    lottieView.context.packageName
-                )
-                val drawable = lottieView.context.resources.getDrawable(id, null)
-                lottieView.setImageDrawable(
-                    drawable
-                )
+        if (completedMedia == null) {
+            when (media) {
+                is YAPForYouGoalMedia.Image -> {
+                    val id = lottieView.context.resources.getIdentifier(
+                        media.imageName,
+                        "drawable",
+                        lottieView.context.packageName
+                    )
+                    val drawable = lottieView.context.resources.getDrawable(id, null)
+                    lottieView.setImageDrawable(
+                        drawable
+                    )
+                }
+                is YAPForYouGoalMedia.LottieAnimation -> {
+                    lottieView.setAnimation(media.jsonFileName)
+                }
             }
-            is YAPForYouGoalMedia.LottieAnimation -> {
-                lottieView.setAnimation(media.jsonFileName)
+        } else {
+            when (completedMedia) {
+                is YAPForYouGoalMedia.Image -> {
+                    val id = lottieView.context.resources.getIdentifier(
+                        completedMedia.imageName,
+                        "drawable",
+                        lottieView.context.packageName
+                    )
+                    val drawable = lottieView.context.resources.getDrawable(id, null)
+                    lottieView.setImageDrawable(
+                        drawable
+                    )
+                }
+                is YAPForYouGoalMedia.LottieAnimation -> {
+                    lottieView.setAnimation(completedMedia.jsonFileName)
+                }
             }
         }
     }

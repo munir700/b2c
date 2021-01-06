@@ -57,7 +57,8 @@ class Y4YGraphComposer : IY4YComposer {
                         activityOnAction = AddMoneyActivity::class.simpleName,
                         description = Strings.screen_yfy_add_money_to_account_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.Image("ic_add_money")
+                        media = YAPForYouGoalMedia.LottieAnimation("top_up_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_add_money_completed")
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -70,7 +71,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_set_a_profile_photo_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.Image("ic_set_profile")
+                        media = YAPForYouGoalMedia.LottieAnimation("set_profile_picture_lottie.json")
 
                     )
                 )
@@ -127,8 +128,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_explore_card_control_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.Image("ic_card_controls")
-
+                        media = YAPForYouGoalMedia.Image("ic_card_controls"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_card_controls_completed")
                     )
                 )
             ),
@@ -205,7 +206,7 @@ class Y4YGraphComposer : IY4YComposer {
                             Y4YAchievement.TAKE_THE_LEAP,
                             YapForYouGoalType.ORDER_SPARE_CARD
                         ),
-                        description = Strings.screen_yfy_open_yap_account_description,
+                        description = Strings.screen_yfy_order_virtual_card_description,
                         successDescription = "",
                         media = YAPForYouGoalMedia.Image("ic_virtual_card")
 
@@ -281,7 +282,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_signup_to_hh_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("ic_hh_card")
+                        media = YAPForYouGoalMedia.Image("ic_hh_card")
 
                     ),
                     YAPForYouGoal(
@@ -305,7 +306,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_pay_your_help_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("ic_hh_salary_transfer")
+                        media = YAPForYouGoalMedia.Image("ic_hh_salary_transfer")
 
                     )
                 )
@@ -351,7 +352,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_complete_renewal_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("ic_complete_renewal")
+                        media = YAPForYouGoalMedia.Image("ic_complete_renewal")
 
                     )
                 )

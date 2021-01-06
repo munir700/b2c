@@ -10,5 +10,6 @@ data class YAPForYouGoal(
     var activityOnAction: String? = null,
     var description: String = "",
     var successDescription: String = "",
-    var media: YAPForYouGoalMedia? = null
+    var media: YAPForYouGoalMedia? = null,
+    var completedMedia: YAPForYouGoalMedia? = null
 )
