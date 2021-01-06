@@ -307,6 +307,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         SessionManager.card.value?.let {
             startFlowForSetPin(it)
+            SessionManager.card.value?.let {
+                viewModel.fetchTransactionDetailsForLeanplum(it.status)
+            }
         } ?: SessionManager.getDebitCard { card ->
             startFlowForSetPin(card)
         }
@@ -462,11 +465,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 showHomeTourGuide()
             }
         })
-
-        SessionManager.card.value?.let {
-            viewModel.fetchTransactionDetailsForLeanplum(it.cardSerialNumber, it.status.toLowerCase())
-        }
-
     }
 
     private fun getTransactionPosition(item: HomeTransactionListData): Int? {

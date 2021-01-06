@@ -75,7 +75,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
-    const val URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM = "/transactions/api/lean-plum/transaction-states/{cardSerialNo}"
+    const val URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM = "/transactions/api/lean-plum/transaction-states"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -279,8 +279,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             )
         })
 
-    override suspend fun getTransDetailForLeanplum(cardSerialNo: String): RetroApiResponse<TransactionDataResponseForLeanplum> =
-        executeSafely(call = { api.getTransactionDetailForLeanplum(cardSerialNo) })
+    override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
+        executeSafely(call = { api.getTransactionDetailForLeanplum() })
 
 }
 

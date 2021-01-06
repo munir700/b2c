@@ -204,6 +204,6 @@ interface TransactionsRetroService {
     ): Response<AnalyticsDetailResponseDTO>
 
     @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM)
-    suspend fun getTransactionDetailForLeanplum(@Path("cardSerialNo") cardSerialNo: String): Response<TransactionDataResponseForLeanplum>
+    suspend fun getTransactionDetailForLeanplum(): Response<TransactionDataResponseForLeanplum>
 
 }

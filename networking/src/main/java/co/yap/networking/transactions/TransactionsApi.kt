@@ -84,5 +84,5 @@ interface TransactionsApi {
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
-    suspend fun getTransDetailForLeanplum(cardSerialNo: String): RetroApiResponse<TransactionDataResponseForLeanplum>
+    suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
 }

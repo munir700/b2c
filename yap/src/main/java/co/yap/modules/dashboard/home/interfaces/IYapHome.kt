@@ -39,7 +39,7 @@ interface IYapHome {
             paymentCard: Card
         ): ArrayList<HomeNotification>
         fun shouldShowSetPin(paymentCard: Card): Boolean
-        fun fetchTransactionDetailsForLeanplum(cardSerialNo: String, status:String)
+        fun fetchTransactionDetailsForLeanplum(cardStatus:String?)
     }
 
     interface State : IBase.State {
