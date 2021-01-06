@@ -94,7 +94,7 @@ fun Transaction?.getTransactionStatus(): String {
             return (when (txn.status) {
                 TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
                 TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
-                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
+                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in process" else ""
                 }
                 else -> ""
             })
