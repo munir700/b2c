@@ -47,33 +47,33 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:media="@{viewModel.parentViewModel.selectedAchievementTask.done? viewModel.parentViewModel.selectedAchievementTask.media:viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName}" />
+                app:media="@{viewModel.parentViewModel.selectedAchievementTask.media}" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.done? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/animationView"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true" />
+                app:lottie_loop="false"
+                app:media="@{viewModel.parentViewModel.selectedAchievementTask.lottieSuccessFileName}" />
 
             <View
                 android:id="@+id/tvFreezeAnimationView"
                 style="@style/Regular"
-                android:background="@drawable/freeze_unfreeze_gradient_animation"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@drawable/freeze_unfreeze_gradient_animation"
                 android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/animationView"
-                 />
+                app:layout_constraintTop_toBottomOf="@+id/animationView" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSubTitle"
                 style="@style/Regular"
