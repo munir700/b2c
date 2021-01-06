@@ -25,7 +25,6 @@ fun trackEventWithScreenName(event: FirebaseEvent) {
     event.event?.let { e ->
         firebaseAnalytics.logEvent(e.trim()) {
             param(FirebaseAnalytics.Param.SCREEN_NAME, event.screenName?.trim() ?: "")
-
         }
     }
 }
@@ -49,8 +48,4 @@ fun trackEventWithScreenName(event: FirebaseEvent, additionalParams: Bundle? = n
         }
         firebaseAnalytics.logEvent(e.trim(), Params)
     }
-}
-
-fun setUserId() {
-
 }
