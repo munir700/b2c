@@ -36,6 +36,8 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
@@ -106,7 +108,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     SignupEvents.SIGN_UP_LENGTH.type,
                     viewModel.elapsedOnboardingTime.toString()
                 )
-
+                trackEventWithScreenName(FirebaseEvent.COMPLETE_VERIFICATION)
                 val totalSecs = viewModel.elapsedOnboardingTime
                 val minutes = (totalSecs % 3600) / 60;
                 val seconds = totalSecs % 60;

@@ -28,7 +28,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.utils.CurrencyUtils
@@ -45,6 +45,8 @@ import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -727,27 +729,31 @@ object UIBinder {
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
-    @BindingAdapter("drawableClick")
-    fun setDrawableRightListener(view: EditText, onDrawableClick: Boolean) {
+    @BindingAdapter(requireAll = true, value = ["drawableClick", "deleteAddressField"])
+    fun setDrawableRightListener(
+        view: EditText,
+        onDrawableClick: Boolean,
+        deleteAddressField: String
+    ) {
         if (onDrawableClick) {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_clear_field, 0)
-
-            view.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(v: View, m: MotionEvent): Boolean {
-                    var hasConsumed = false
-                    if (v is EditText) {
-                        if (m.x >= v.width - v.totalPaddingRight) {
-                            if (m.action == MotionEvent.ACTION_UP) {
-                                view.text.clear()
-
-                                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                            }
-                            hasConsumed = true
+            view.setOnTouchListener { v, m ->
+                var hasConsumed = false
+                if (v is EditText) {
+                    if (m.x >= v.width - v.totalPaddingRight) {
+                        if (m.action == MotionEvent.ACTION_UP) {
+                            view.text.clear()
+                            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                            trackEventWithScreenName(
+                                FirebaseEvent.DELETE_ADDRESS_FIELD,
+                                bundleOf("field_name" to deleteAddressField)
+                            )
                         }
+                        hasConsumed = true
                     }
-                    return hasConsumed
                 }
-            })
+                hasConsumed
+            }
         } else {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 

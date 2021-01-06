@@ -18,6 +18,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getColors
@@ -95,6 +97,7 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun handlePressOnResendClick(context: Context) {
+        logFirebaseEvent(true)
         when (state.otpDataModel?.otpAction) {
             OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(true, context)
             OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(true, context)
@@ -115,7 +118,7 @@ class GenericOtpViewModel(application: Application) :
                                 state.otp.get() ?: ""
                             )
                         )
-                    ) {
+                        ) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }
@@ -352,5 +355,13 @@ class GenericOtpViewModel(application: Application) :
             getString(Strings.screen_verify_phone_number_display_text_sub_title).format(
                 state.mobileNumber[0]
             )
+    }
+
+    override fun logFirebaseEvent(resend: Boolean?) {
+        when (state.otpDataModel?.otpAction) {
+            OTPActions.DOMESTIC_TRANSFER.name, OTPActions.UAEFTS.name, OTPActions.CASHPAYOUT.name -> {
+                trackEventWithScreenName(if (resend == true) FirebaseEvent.CLICK_RESEND_TRANSFEROTP else FirebaseEvent.CLICK_CONFIRM_TRANSFER)
+            }
+        }
     }
 }

@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.yapcore.BR
 import co.yap.yapcore.R
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ImageBinding
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.permissions.PermissionHelper
@@ -121,6 +123,7 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
                 checkGalleryPermission()
             }
             R.id.tvShareMyCode -> {
+                trackEventWithScreenName(FirebaseEvent.SHARE_QR_CODE)
                 context?.shareImage(qrContainer)
             }
             R.id.ivBack -> {
@@ -145,6 +148,7 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
                 context?.storeBitmap(qrContainer) {
+                    trackEventWithScreenName(FirebaseEvent.SAVE_QR_CODE)
                     Toast.makeText(
                         context,
                         getString(R.string.common_saved_image_to_gallery),

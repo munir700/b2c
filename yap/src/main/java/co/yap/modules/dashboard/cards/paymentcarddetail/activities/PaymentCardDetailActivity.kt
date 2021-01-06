@@ -57,6 +57,8 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.spannables.underline
@@ -193,6 +195,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.llAddFunds -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_ADD_FUNDS)
                 trackAdjustPlatformEvent(AdjustEvents.TOP_UP_START.type)
                 viewModel.card.value?.let { card ->
                     launchActivity<AddFundsActivity>(
@@ -205,6 +208,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llFreezeSpareCard -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_FREEZE_VIRTUAL_CARD_DASHBOARD)
                 if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
                     showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
                 } else {
@@ -212,6 +216,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llFreezePrimaryCard -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_FREEZE_CARD_MAIN_SCREEN)
                 if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
                     showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
                 } else {
@@ -219,6 +224,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llRemoveFunds -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_REMOVE_FUNDS)
                 if (viewModel.card.value?.blocked == false) {
                     viewModel.card.value?.let { card ->
                         launchActivity<RemoveFundsActivity>(
@@ -234,6 +240,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llCardLimits -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_LIMITS)
                 startActivityForResult(
                     CardLimitsActivity.getIntent(this, viewModel.card.value!!),
                     Constants.REQUEST_SET_LIMITS
@@ -286,6 +293,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     primaryCardBottomSheet =
                         PrimaryCardBottomSheet(viewModel.card.value?.status ?: "", this)
                     primaryCardBottomSheet.show(supportFragmentManager, "")
+                    trackEventWithScreenName(FirebaseEvent.CLICK_MORE_CARD_MAIN_SCREEN)
                 } else {
                     spareCardBottomSheet =
                         SpareCardBottomSheet(viewModel.card.value?.physical ?: false, this)
@@ -364,6 +372,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         btnCardDetails.setOnClickListener {
+            trackEventWithScreenName(if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
             viewModel.getCardDetails()
         }
         CoroutineScope(Dispatchers.Main).launch {

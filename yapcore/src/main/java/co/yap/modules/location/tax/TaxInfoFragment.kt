@@ -13,6 +13,8 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentTaxInfoBinding
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.helpers.extentions.makeLinks
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -34,6 +36,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
+                    trackEventWithScreenName(FirebaseEvent.FATCA_KNOW_MORE)
                     viewModel.saveInfoDetails(false) { pdf ->
                         startActivity(
                             PDFActivity.newIntent(view.context, pdf ?: "", true)
@@ -78,6 +81,7 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
+                trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
                 viewModel.saveInfoDetails(true) {
                     setIntentResult()
                 }

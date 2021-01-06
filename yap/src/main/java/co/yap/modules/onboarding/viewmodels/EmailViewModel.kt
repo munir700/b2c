@@ -102,6 +102,7 @@ class EmailViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.emailError = response.error.message
+                    parentViewModel?.state?.emailError = true
                 }
             }
         }
@@ -135,6 +136,7 @@ class EmailViewModel(application: Application) :
         launch {
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
@@ -144,6 +146,7 @@ class EmailViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Error -> {
                     state.emailError = response.error.message
+                    parentViewModel?.state?.emailError = true
                     state.loading = false
 
                 }
@@ -163,6 +166,7 @@ class EmailViewModel(application: Application) :
             state.valid = false
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.postDemographicData(
                 DemographicDataRequest(
                     "SIGNUP",
@@ -190,6 +194,7 @@ class EmailViewModel(application: Application) :
         launch {
             state.loading = true
             state.refreshField = true
+            parentViewModel?.state?.emailError = false
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {

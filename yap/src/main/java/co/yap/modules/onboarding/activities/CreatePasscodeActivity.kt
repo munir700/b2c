@@ -17,6 +17,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -65,8 +67,10 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                     )
                 }
                 R.id.btnAction -> {
-                    if (viewModel.isValidPassCode())
+                    if (viewModel.isValidPassCode()) {
+                        trackEventWithScreenName(FirebaseEvent.CREATE_PIN)
                         setIntentResults()
+                    }
                 }
             }
         })

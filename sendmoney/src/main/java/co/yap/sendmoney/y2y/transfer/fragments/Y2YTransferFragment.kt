@@ -13,18 +13,20 @@ import androidx.navigation.fragment.navArgs
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.LogoData
 import co.yap.modules.otp.OtpDataModel
-import co.yap.sendmoney.R
+import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.sendmoney.BR
+import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.FragmentY2yFundsTransferBinding
 import co.yap.sendmoney.y2y.main.fragments.Y2YBaseFragment
 import co.yap.sendmoney.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.sendmoney.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
-import co.yap.networking.customers.requestdtos.SMCoolingPeriodRequest
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
@@ -162,6 +164,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
+                    if (viewModel.parentViewModel?.state?.fromQR?.get() == true)
+                        trackEventWithScreenName(FirebaseEvent.SEND_QR_PAYMENT)
+                    else
+                        trackEventWithScreenName(
+                            FirebaseEvent.CLICK_CONFIRM_YTY,
+                            bundleOf("yty_currency" to viewModel.state.currencyType)
+                        )
                     when {
                         viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                             showUpperLowerLimitError()
@@ -230,7 +239,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 showCurrency = true,
                 currency = SessionManager.getDefaultCurrency()
             )
-       viewModel.getCoolingPeriod(
+        viewModel.getCoolingPeriod(
             SMCoolingPeriodRequest(
                 beneficiaryId = viewModel.receiverUUID,
                 productCode = TransactionProductCode.Y2Y_TRANSFER.pCode

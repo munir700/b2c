@@ -58,6 +58,8 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.extentions.*
@@ -181,6 +183,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_YAPIT)
                     overLayButtonVisibility(View.GONE)
                 }
 
@@ -188,6 +191,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     Handler().postDelayed({ overLayButtonVisibility(View.VISIBLE) }, 200)
                     when (subActionButtonId) {
                         1 -> {
+                            trackEventWithScreenName(FirebaseEvent.CLICK_ACTIONS_SENDMONEY)
                             launchActivity<SendMoneyDashboardActivity>(type = FeatureSet.SEND_MONEY)
                             /*if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                 checkPermission()
@@ -292,6 +296,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.id.btnCopy -> shareAccountInfo()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
                 R.id.imgProfile -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
                     startActivity(MoreActivity.newIntent(this))
                 }
                 R.id.tvLogOut -> {
@@ -312,6 +317,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun shareAccountInfo() {
+        trackEventWithScreenName(FirebaseEvent.SHARE_ACCOUNT_DETAILS)
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_TEXT, viewModel.getAccountInfo())
@@ -341,6 +347,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val myClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 dialog.dismiss()
+                trackEventWithScreenName(FirebaseEvent.CHANGE_MAIL)
                 startActivity(
                     UnVerifiedEmailActivity.newIntent(widget.context)
                 )
@@ -370,6 +377,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         tvTroubleDescription.text = spanStr
 
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.OPEN_MAIL_APP)
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_APP_EMAIL)
             startActivity(Intent.createChooser(intent, "Choose Email App"))
@@ -380,6 +388,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
+            trackEventWithScreenName(FirebaseEvent.MAIL_VERIFICATION_RESEND)
             viewModel.resendVerificationEmail() {
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
@@ -402,6 +411,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun openDrawer() {
+        trackEventWithScreenName(FirebaseEvent.CLICK_MAIN_MENU)
         drawerLayout.openDrawer(GravityCompat.END)
     }
 
@@ -442,10 +452,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_ANALYTICS_MAIN_MENU)
             launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lRefer.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_REFER_FRIEND)
             startFragment<InviteFriendFragment>(
                 InviteFriendFragment::class.java.name, false,
                 bundleOf()
@@ -454,6 +466,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lStatements.lnAnalytics.setOnClickListener {
             SessionManager.getPrimaryCard()?.let {
+                trackEventWithScreenName(FirebaseEvent.CLICK_STATEMENTS)
                 launchActivity<CardStatementsActivity> {
                     putExtra("card", it)
                     putExtra("isFromDrawer", true)
@@ -471,6 +484,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             closeDrawer()
         }
         getViewBinding().includedDrawerLayout.lyContact.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_HELP_MAIN_MENU)
             startActivity(
                 FragmentPresenterActivity.getIntent(
                     this,
@@ -481,11 +495,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
 
         getViewBinding().includedDrawerLayout.lLiveChat.lnAnalytics.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_LIVECHAT_MAIN_MENU)
             chatSetup()
             closeDrawer()
         }
 
         getViewBinding().includedDrawerLayout.ivSettings.setOnClickListener {
+            trackEventWithScreenName(FirebaseEvent.CLICK_PROFILE)
             startActivity(Intent(this, MoreActivity::class.java))
             closeDrawer()
         }
@@ -493,19 +509,23 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.yapHome -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_HOME)
                     getViewBinding().viewPager.setCurrentItem(0, false)
                     SessionManager.getAccountInfo()
                 }
                 R.id.yapStore -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_STORE)
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
 
                 }
                 R.id.yapCards -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CARDS)
                     getViewBinding().viewPager.setCurrentItem(2, false)
                 }
                 R.id.yapMore -> {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_MORE_DASHBOARD)
                     getViewBinding().viewPager.setCurrentItem(3, false)
                 }
             }

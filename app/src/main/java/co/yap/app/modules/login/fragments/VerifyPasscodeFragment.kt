@@ -31,6 +31,8 @@ import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.constants.Constants.VERIFY_PASS_CODE_BTN_TEXT
 import co.yap.yapcore.enums.OTPActions
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
@@ -252,6 +254,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
+                    trackEventWithScreenName(if (viewModel.state.isAccountLocked.get() == true) FirebaseEvent.FORGOT_PWD_BLOCKED else FirebaseEvent.CLICK_FORGOT_PWD)
                     if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)
                     } else {
@@ -300,6 +303,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+            trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
             TourGuideManager.getTourGuides()
             SessionManager.getDebitCard { card ->
                 SessionManager.updateCardBalance { }

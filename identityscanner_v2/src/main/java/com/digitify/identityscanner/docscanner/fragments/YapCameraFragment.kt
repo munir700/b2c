@@ -18,6 +18,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.translation.Strings
 import co.yap.translation.Translator.getString
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.rx.Task
 import com.digitify.identityscanner.BR
@@ -246,7 +248,10 @@ class YapCameraFragment : BaseFragment(),
     override fun onCameraOpened(options: CameraOptions) {
         viewModel?.state?.isCapturing = true
         binding.camFab.isEnabled = true
-        binding.camFab.setOnClickListener { v: View? -> capturePicture() }
+        binding.camFab.setOnClickListener { v: View? ->
+            trackEventWithScreenName(if (viewModel?.scanMode == DocumentPageType.FRONT) FirebaseEvent.CLICK_SCAN_FRONT else FirebaseEvent.CLICK_SCAN_BACK)
+            capturePicture()
+        }
     }
 
     override fun onCameraClosed() {

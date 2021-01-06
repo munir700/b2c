@@ -29,6 +29,8 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.cancelAllSnackBar
 import co.yap.yapcore.helpers.extentions.*
@@ -138,6 +140,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
+                    trackEventWithScreenName(FirebaseEvent.CLICK_CONFIRM_AMOUNT)
                     when {
                         viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                             viewModel.showUpperLowerLimitError()

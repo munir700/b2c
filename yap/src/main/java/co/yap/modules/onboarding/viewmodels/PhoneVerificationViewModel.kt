@@ -14,6 +14,8 @@ import co.yap.translation.Strings
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.getColors
 import co.yap.yapcore.leanplum.SignupEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -50,6 +52,7 @@ class PhoneVerificationViewModel(application: Application) :
 
     override fun handlePressOnResendOTP(context: Context) {
         launch {
+            trackEventWithScreenName(FirebaseEvent.RESEND_OTP)
             state.loading = true
             when (val response =
                 repository.createOtpOnboarding(

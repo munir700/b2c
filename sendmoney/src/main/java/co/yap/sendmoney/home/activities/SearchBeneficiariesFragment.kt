@@ -26,6 +26,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.SendMoneyTransferType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.confirm
@@ -159,6 +161,7 @@ class SearchBeneficiariesFragment :
                 FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
             )
         } else {
+            trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
             confirmDeleteBeneficiary(beneficiary, position)
         }
     }
@@ -181,6 +184,7 @@ class SearchBeneficiariesFragment :
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getBindings().etSearch)
+        trackEventWithScreenName(FirebaseEvent.CLICK_BENEFICIARY)
         launchActivityForActivityResult<BeneficiaryFundTransferActivity>(
             requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
             type = beneficiary.getBeneficiaryTransferType()
@@ -207,6 +211,7 @@ class SearchBeneficiariesFragment :
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getBindings().etSearch)
         beneficiary?.let {
+            trackEventWithScreenName(FirebaseEvent.EDIT_BENEFICIARY)
             val bundle = Bundle()
             bundle.putBoolean(Constants.OVERVIEW_BENEFICIARY, false)
             bundle.putString(Constants.IS_IBAN_NEEDED, "loadFromServer")

@@ -68,6 +68,8 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
@@ -205,7 +207,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTransactionFilters() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            trackEventWithScreenName(FirebaseEvent.CLICK_FILTER_TRANSACTIONS)
             startActivityForResult(
                 TransactionFiltersActivity.newIntent(
                     requireContext(),
@@ -213,6 +216,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 ),
                 RequestCodes.REQUEST_TXN_FILTER
             )
+        }
     }
 
     override fun setObservers() {
