@@ -38,6 +38,7 @@ class YAPForYouViewModel(application: Application) :
     }
 
     override fun onCreate() {
+        context
         super.onCreate()
         setToolbarData()
     }
@@ -58,6 +59,7 @@ class YAPForYouViewModel(application: Application) :
                         parentViewModel?.achievementsList =
                             y4yComposer.compose(response.data.data as ArrayList<Achievement>)
                         adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
+                        state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
                         state.viewState.value = false
                     }
                     is RetroApiResponse.Error -> {
@@ -71,6 +73,17 @@ class YAPForYouViewModel(application: Application) :
 
     override fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData) {
         parentViewModel?.selectedAchievement = y4YAchievementData
+    }
+
+    private fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData {
+        from.sortWith(Comparator { first, second ->
+            if (first.completedPercentage > second.completedPercentage && first.lastUpdated > second.lastUpdated) {
+                1
+            } else {
+                0
+            }
+        })
+        return from.first()
     }
 
     fun getMockApiResponse() {

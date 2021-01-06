@@ -8,5 +8,5 @@ enum class Y4YAchievement(var type:String) {
     BETTER_TOGETHER(Strings.screen_yfy_better_together_text_title),
     TAKE_THE_LEAP(Strings.screen_yfy_take_a_leap_text_title),
     YAP_STORE(Strings.screen_yfy_yap_store_text_title),
-    YOU_ARE_PRO(Strings.screen_yfy_you_are_pro_text_title),
+    YOU_ARE_A_PRO(Strings.screen_yfy_you_are_pro_text_title),
 }

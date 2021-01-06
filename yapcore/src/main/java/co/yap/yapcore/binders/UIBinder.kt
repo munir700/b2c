@@ -28,7 +28,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.countryutils.country.utils.CurrencyUtils
@@ -390,8 +389,10 @@ object UIBinder {
 
     @BindingAdapter("text")
     @JvmStatic
-    fun setText(view: TextView, text: String) {
-        view.text = Translator.getString(view.context, text)
+    fun setText(view: TextView, text: String?) {
+        text?.let {
+            view.text = Translator.getString(view.context, text)
+        }
     }
 
     @BindingAdapter("text")

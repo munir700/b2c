@@ -302,7 +302,7 @@ class CoreButton : AppCompatButton {
                 dimensions = Utils.getDimensionsByPercentage(context, 36, 5)
             }
             ButtonSize.MINI_SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 36, 4) // used in card details
+                dimensions = Utils.getDimensionsByPercentage(context, 30, 4) // used in card details
             }
             ButtonSize.MINI_MEDIUM.type -> {
                 dimensions =

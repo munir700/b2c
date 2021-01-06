@@ -2,7 +2,7 @@ package co.yap.yapcore.enums
 
 import co.yap.translation.Strings
 
-enum class YFYAchievementTaskType(val title: String) {
+enum class YapForYouGoalType(val title: String) {
     //Get started enums
     OPEN_YOUR_YAP_ACCOUNT(Strings.screen_yfy_get_started_text_open_account),
     SET_PIN(Strings.screen_yfy_get_started_text_set_pin),
@@ -10,7 +10,7 @@ enum class YFYAchievementTaskType(val title: String) {
     SET_PROFILE_PICTURE(Strings.screen_yfy_get_started_text_set_profile),
 
     //Up & Running
-    USE_YAP_LOCALLY(Strings.screen_yfy_up_and_running_text_use_yap_locally),
+    LOCAL_USE(Strings.screen_yfy_up_and_running_text_use_yap_locally),  //LOCAL_USE
     FREEZE_UNFREEZE_CARD(Strings.screen_yfy_up_and_running_text_freeze_unfreeze),
     SPEND_AMOUNT(Strings.screen_yfy_up_and_running_text_spend_money),
     EXPLORE_CARD_CONTROLS(Strings.screen_yfy_up_and_running_text_explore_card_controls),

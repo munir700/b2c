@@ -11,7 +11,7 @@ import co.yap.databinding.FragmentAchievementDetailsBinding
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.yapcore.enums.YFYAchievementTaskType
+import co.yap.yapcore.enums.YapForYouGoalType
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.extentions.launchActivity
 
@@ -30,7 +30,7 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (viewModel.parentViewModel?.selectedAchievementTask?.title == YFYAchievementTaskType.FREEZE_UNFREEZE_CARD.title) {
+        if (viewModel.parentViewModel?.selectedAchievementTask?.title == YapForYouGoalType.FREEZE_UNFREEZE_CARD.title) {
             val animationDrawable: AnimationDrawable =
                 getBindings().tvFreezeAnimationView.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(1000)
@@ -43,7 +43,7 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
         when (it) {
             R.id.btnAction -> {
                 when (viewModel.parentViewModel?.selectedAchievementTask?.activityOnAction) {
-                    YFYAchievementTaskType.INVITE_FRIEND.title -> {
+                    YapForYouGoalType.INVITE_FRIEND.title -> {
                         context?.inviteFriendIntent()
                     }
                     AddMoneyActivity::class.simpleName -> {

@@ -21,6 +21,11 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+
     productFlavors {
         live {
             versionCode 31

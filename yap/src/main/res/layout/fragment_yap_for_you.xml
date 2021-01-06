@@ -8,6 +8,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+        <import type="androidx.core.graphics.ColorUtils" />
 
         <import type="co.yap.R" />
 
@@ -54,21 +55,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Current achievement"
+                    android:layout_marginTop="@dimen/margin_extra_large"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/imgProfile"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAchievement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
-                    android:contentDescription="@string/empty_string"
-                    android:src="@drawable/ic_badge_light_purple"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    tools:alpha="0.5"
+                    android:alpha="@{viewModel.state.currentAchievement.completed ? 1f : 0.5f}"
+                    tools:tint="#24235B"
+                    android:tint="@{viewModel.state.currentAchievement.tintColor}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvHeading"
-                    tools:src="@drawable/ic_badge_light_purple" />
+                    app:srcCompat="@drawable/ic_y4y_tail_badge" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgIconInner"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@{viewModel.parentViewModel.selectedAchievement.isCompleted? @drawable/ic_baseline_check : @drawable/ic_yap_it}"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivAchievement"
+                    app:layout_constraintEnd_toEndOf="@+id/ivAchievement"
+                    app:layout_constraintStart_toStartOf="@+id/ivAchievement"
+                    app:layout_constraintTop_toTopOf="@+id/ivAchievement"
+                    app:layout_constraintVertical_bias="0.37"
+                    tools:src="@drawable/ic_yap_it" />
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -76,20 +95,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@={viewModel.state.selectedAchievementTitle}"
+                    app:layout_constraintTop_toBottomOf="@+id/ivAchievement"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+                    app:text="@{viewModel.state.currentAchievement.title}"
                     tools:text="Better together" />
 
                 <TextView
                     android:id="@+id/tvCompltedPercentage"
-                    style="@style/SmallGrey"
+                    style="@style/MicroGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage , viewModel.state.currentAchievement.completedPercentage+`%`)}"
                     app:layout_constraintStart_toStartOf="parent"
+                    tools:text="100% completed"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
                 <co.yap.widgets.CoreButton

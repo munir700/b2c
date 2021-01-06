@@ -7,7 +7,8 @@ data class Y4YAchievementData(
     var completedPercentage: Int,
     @ColorInt var tintColor: Int,
     var isLocked: Boolean,
-    var goals: ArrayList<YAPForYouGoal>? = null
-) {
+    var goals: ArrayList<YAPForYouGoal>? = null,
+    val lastUpdated: String
+)  {
     val isCompleted: Boolean get() = completedPercentage == 100
 }
