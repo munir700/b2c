@@ -388,8 +388,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
-            trackEventWithScreenName(FirebaseEvent.MAIL_VERIFICATION_RESEND)
             viewModel.resendVerificationEmail() {
+                trackEventWithScreenName(FirebaseEvent.MAIL_VERIFICATION_RESEND)
                 viewModel.isUnverifiedScreenNotVisible.value = true
             }
         }

@@ -3,6 +3,8 @@ package co.yap.yapcore.firebase
 import android.content.Context
 import android.os.Bundle
 import androidx.core.os.bundleOf
+import co.yap.yapcore.BaseActivity
+import co.yap.yapcore.BaseFragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -47,5 +49,23 @@ fun trackEventWithScreenName(event: FirebaseEvent, additionalParams: Bundle? = n
                 Params.putAll(it)
         }
         firebaseAnalytics.logEvent(e.trim(), Params)
+    }
+}
+
+fun BaseFragment<*>.trackScreenViewEvent() {
+    getScreenName()?.let {
+        Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, it)
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, javaClass.simpleName)
+        }
+    }
+}
+
+fun BaseActivity<*>.trackScreenViewEvent() {
+    getScreenName()?.let {
+        Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, it)
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, javaClass.simpleName)
+        }
     }
 }

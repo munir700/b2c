@@ -81,8 +81,8 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnDone -> {
-                viewModel.logFirebaseEvent(false)
                 viewModel.verifyOtp {
+                    viewModel.logFirebaseEvent(false)
                     setResultData()
                 }
             }

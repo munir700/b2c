@@ -81,8 +81,8 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
                 viewModel.saveInfoDetails(true) {
+                    trackEventWithScreenName(FirebaseEvent.TAX_RESIDENCE_SUBMIT)
                     setIntentResult()
                 }
             }

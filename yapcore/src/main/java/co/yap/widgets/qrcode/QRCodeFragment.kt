@@ -175,4 +175,6 @@ class QRCodeFragment(callBack: () -> Unit) : DialogFragment(), IQRCode.View {
             }
         })
     }
+
+    override fun getScreenName(): String? = null
 }
