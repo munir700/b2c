@@ -269,6 +269,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             viewModel.EVENT_CARD_DETAILS -> {
+                trackEventWithScreenName(if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
                 showCardDetailsPopup()
             }
 
@@ -372,7 +373,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlSpareCardActions.visibility = View.VISIBLE
         }
         btnCardDetails.setOnClickListener {
-            trackEventWithScreenName(if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) FirebaseEvent.CLICK_CARD_DETAILS_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_CARD_DETAILS_VIRTUAL_CARD_DASHBOARD)
             viewModel.getCardDetails()
         }
         CoroutineScope(Dispatchers.Main).launch {

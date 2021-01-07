@@ -18,6 +18,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_USER_LOGGED_IN
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.toast
@@ -92,6 +94,7 @@ class EmailViewModel(application: Application) :
                     } ?: toast(context, "Invalid pass code")
 
                     trackEvent(SignupEvents.SIGN_UP_EMAIL.type, state.twoWayTextWatcher)
+                    trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL)
                     sharedPreferenceManager.saveUserNameWithEncryption(state.twoWayTextWatcher)
                     setVerificationLabel()
                     state.setSuccessUI()

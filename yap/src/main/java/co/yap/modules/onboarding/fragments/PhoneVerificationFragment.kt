@@ -113,6 +113,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
                     //trackEvent(TrackEvents.OTP_CODE_ENTERED)
                     viewModel.setPasscode(data.getStringExtra("PASSCODE") ?: "")
                     findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+                    trackEventWithScreenName(FirebaseEvent.CREATE_PIN)
                     trackEvent(SignupEvents.SIGN_UP_PASSCODE_CREATED.type)
                 }
             }

@@ -52,7 +52,6 @@ class PhoneVerificationViewModel(application: Application) :
 
     override fun handlePressOnResendOTP(context: Context) {
         launch {
-            trackEventWithScreenName(FirebaseEvent.RESEND_OTP)
             state.loading = true
             when (val response =
                 repository.createOtpOnboarding(
@@ -63,6 +62,7 @@ class PhoneVerificationViewModel(application: Application) :
                     )
                 )) {
                 is RetroApiResponse.Success -> {
+                    trackEventWithScreenName(FirebaseEvent.RESEND_OTP)
                     state.toast =
                         getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10, context)

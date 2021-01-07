@@ -36,8 +36,8 @@ class TaxInfoFragment : LocationChildFragment<ITaxInfo.ViewModel>(), ITaxInfo.Vi
         getBinding().tvTermsConditions.makeLinks(
             Pair("Individual Self Certification Form for CRS & FATCA.", View.OnClickListener {
                 if (viewModel.state.valid.get() == true) {
-                    trackEventWithScreenName(FirebaseEvent.FATCA_KNOW_MORE)
                     viewModel.saveInfoDetails(false) { pdf ->
+                        trackEventWithScreenName(FirebaseEvent.FATCA_KNOW_MORE)
                         startActivity(
                             PDFActivity.newIntent(view.context, pdf ?: "", true)
                         )

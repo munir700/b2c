@@ -249,7 +249,7 @@ class YapCameraFragment : BaseFragment(),
         viewModel?.state?.isCapturing = true
         binding.camFab.isEnabled = true
         binding.camFab.setOnClickListener { v: View? ->
-            trackEventWithScreenName(if (viewModel?.scanMode == DocumentPageType.FRONT) FirebaseEvent.CLICK_SCAN_FRONT else FirebaseEvent.CLICK_SCAN_BACK)
+
             capturePicture()
         }
     }
@@ -319,6 +319,7 @@ class YapCameraFragment : BaseFragment(),
                                         boundingBox.width(),
                                         boundingBox.height()
                                     )
+                                    trackEventWithScreenName(if (viewModel?.scanMode == DocumentPageType.FRONT) FirebaseEvent.CLICK_SCAN_FRONT else FirebaseEvent.CLICK_SCAN_BACK)
                                     if (parentViewModel?.state?.scanMode != DocumentPageType.BACK) {
                                         reWriteImage(filename, croppedBmp)
                                     } else {

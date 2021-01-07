@@ -164,13 +164,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
-                    if (viewModel.parentViewModel?.state?.fromQR?.get() == true)
-                        trackEventWithScreenName(FirebaseEvent.SEND_QR_PAYMENT)
-                    else
-                        trackEventWithScreenName(
-                            FirebaseEvent.CLICK_CONFIRM_YTY,
-                            bundleOf("yty_currency" to viewModel.state.currencyType)
-                        )
                     when {
                         viewModel.state.amount.parseToDouble() < viewModel.state.minLimit -> {
                             showUpperLowerLimitError()
@@ -281,6 +274,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     private fun moveToFundTransferSuccess() {
+        if (viewModel.parentViewModel?.state?.fromQR?.get() == true)
+            trackEventWithScreenName(FirebaseEvent.SEND_QR_PAYMENT)
+        else
+            trackEventWithScreenName(
+                FirebaseEvent.CLICK_CONFIRM_YTY,
+                bundleOf("yty_currency" to viewModel.state.currencyType)
+            )
         // Send Broadcast for updating transactions list in `Home Fragment`
         val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)

@@ -68,7 +68,6 @@ class CreatePasscodeActivity : BaseBindingActivity<IPassCode.ViewModel>(),
                 }
                 R.id.btnAction -> {
                     if (viewModel.isValidPassCode()) {
-                        trackEventWithScreenName(FirebaseEvent.CREATE_PIN)
                         setIntentResults()
                     }
                 }
