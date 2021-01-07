@@ -195,8 +195,8 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
-    <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 18</string>
-    <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 18</string>
+    <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 21</string>
+    <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 21</string>
     <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
     <string name="screen_b2c_eid_info_review_button_valid_emirates_id">No, I have a valid Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from %1s</string>
