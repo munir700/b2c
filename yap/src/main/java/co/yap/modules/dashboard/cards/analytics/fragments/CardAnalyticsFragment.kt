@@ -23,6 +23,8 @@ import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.AnalyticsEvents
+import co.yap.yapcore.leanplum.trackEvent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -41,6 +43,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackEvent(AnalyticsEvents.ANALYTICS_OPEN.type)
         viewModel.fetchCardCategoryAnalytics(
             DateUtils.dateToString(
                 Calendar.getInstance().time,

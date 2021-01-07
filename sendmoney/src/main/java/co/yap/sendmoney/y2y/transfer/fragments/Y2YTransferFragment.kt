@@ -31,6 +31,8 @@ import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.showAlertCustomDialog
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.Y2YEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 
@@ -185,6 +187,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
                         }
                         else -> {
                             viewModel.proceedToTransferAmount {
+                                trackEvent(Y2YEvents.YAP_TO_YAP_SENT.type)
                                 moveToFundTransferSuccess()
                             }
                         }
