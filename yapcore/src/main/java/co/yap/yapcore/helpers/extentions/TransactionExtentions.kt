@@ -58,11 +58,10 @@ fun Transaction?.getTransactionIcon(): Int {
             }
             else -> when (transaction.getLabelValues()) {
                 TransactionLabelsCode.IS_CASH -> {
-                    if (TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == transaction.productCode) {
+                    if (TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == transaction.productCode)
                         R.drawable.ic_cash_out_trasaction
-                    } else {
+                    else
                         R.drawable.ic_transaction_cash
-                    }
                 }
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
                 TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
