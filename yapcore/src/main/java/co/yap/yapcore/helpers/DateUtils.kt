@@ -1,11 +1,14 @@
 package co.yap.yapcore.helpers
 
+import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
 
     const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
+    const val SIMPLE_DATE_FORMAT: String = "yyyy-MM-dd"
     val GMT: TimeZone = TimeZone.getTimeZone("GMT")
     val UTC: TimeZone = TimeZone.getTimeZone("UTC")
     private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
@@ -117,11 +120,16 @@ object DateUtils {
 
     }
 
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
+    fun dateToString(
+        date: Date?,
+        format: String = DEFAULT_DATE_FORMAT,
+        isApplyTimeZone: Boolean = true
+    ): String {
         return try {
             SimpleDateFormat(format, Locale.US).format(date)
             val sdf = SimpleDateFormat(format, Locale.US)
-            sdf.timeZone = TimeZone.getTimeZone("UTC")
+            if (isApplyTimeZone) sdf.timeZone = TimeZone.getTimeZone("UTC")
+
             return sdf.format(date)
         } catch (e: Exception) {
             " ";
@@ -244,13 +252,89 @@ object DateUtils {
     }
 
     fun getStartAndEndOfMonthAndDay(
-        calendar: Calendar,
+        currentDate: Date,
         format: String = FORMATE_MONTH_DAY
     ): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
-        val startDay = dateToString(calendar.time, format)
+        val startDay = dateToString(calendar.time, format, false)
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val endDay = dateToString(calendar.time, format)
+        val endDay = dateToString(calendar.time, format, false)
         return "${startDay.replace("0", "")} - $endDay"
     }
+
+    fun geMonthsBetweenTwoDates(startDate: String, endDate: String): List<Date> {
+        val dates = ArrayList<Date>()
+        val df1: DateFormat = SimpleDateFormat("yyyy-MM")
+        var parsedStartDate: Date? = null
+        var parsedEndDate: Date? = null
+        try {
+            parsedStartDate = df1.parse(startDate)
+            parsedEndDate = df1.parse(endDate)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        val cal1 = Calendar.getInstance()
+        cal1.time = parsedStartDate
+
+
+        val cal2 = Calendar.getInstance()
+        cal2.time = parsedEndDate
+
+        while (!cal1.after(cal2)) {
+            dates.add(cal1.time)
+            cal1.add(Calendar.MONTH, 1)
+        }
+        return dates
+    }
+
+    fun getPriviousMonthFromCurrentDate(listOfMonths: List<Date>, currentDate: Date?): Date? {
+        var index: Int = -1
+        currentDate?.let {
+            for (i in listOfMonths.indices) {
+                if (isDateMatched(listOfMonths[i], currentDate)) {
+                    index = i
+                    break
+                }
+            }
+        }
+
+        return if (index != -1) {
+            if (index - 1 >= 0 && listOfMonths.size > (index - 1)) listOfMonths[index - 1] else null
+        } else {
+            null
+        }
+    }
+
+    fun getNextMonthFromCurrentDate(listOfMonths: List<Date>, currentDate: Date?): Date? {
+        var index: Int = -1
+        currentDate?.let {
+            for (i in 0..listOfMonths.size) {
+                if (isDateMatched(listOfMonths[i], currentDate)) {
+                    index = i
+                    break
+                }
+            }
+        }
+
+        return if (index != -1) {
+            if (listOfMonths.size > (index + 1)) listOfMonths[index + 1] else null
+        } else {
+            null
+        }
+    }
+
+    fun isDateMatched(date1: Date, date2: Date): Boolean {
+        val calendar1 = Calendar.getInstance()
+        calendar1.time = date1
+        val calendar2 = Calendar.getInstance()
+        calendar2.time = date2
+        val sameYear = calendar1[Calendar.YEAR] == calendar2[Calendar.YEAR]
+        val sameMonth =
+            calendar1[Calendar.MONTH] == calendar2[Calendar.MONTH]
+        return sameMonth && sameYear
+    }
+
 }

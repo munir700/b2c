@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-
-        <import type="co.yap.translation.Strings" />
-
-        <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="co.yap.sendmoney.viewmodels.SMSearchBeneficiaryViewModel" />
+            type="co.yap.sendmoney.y2y.home.viewmodel.Y2YSearchContactsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +30,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etSearch"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="3"
                 android:background="@drawable/bg_search_widget"
@@ -61,7 +57,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/small"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="0.5"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:text="@string/common_button_cancel"
                 android:textColor="?attr/colorPrimaryAttr"
@@ -73,34 +68,31 @@
                 tools:textColor="@color/colorPrimary" />
         </LinearLayout>
 
-        <co.yap.widgets.MultiStateView
-            android:id="@+id/multiStateView"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lySearchView"
+            app:tabBackground="@drawable/contacts_tab_layout_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabPaddingEnd="16dp"
+            app:tabRippleColor="@null"
+            app:tabTextAppearance="@style/TabTextAppearance" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lySearchView"
-            app:emptyViewText="@{@string/common_display_text_no_results}"
-            app:msv_emptyView="@layout/layout_beneficiaries_no_results"
-            app:msv_errorView="@layout/layout_beneficiaries_no_results"
-            app:msv_viewState="content">
-
-            <co.yap.widgets.skeletonlayout.ShimmerRecyclerView
-                android:id="@+id/rvAllBeneficiaries"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:recycleViewAdapter="@{viewModel.adapter}"
-                tools:listitem="@layout/layout_item_beneficiary"
-                tools:itemCount="1"
-                tools:visibility="visible"
-                app:shimmerLayoutId="@layout/layout_item_beneficiary_shimmer"
-                app:itemCount = "@integer/skeleton_layout_item_count"
-                app:rvAdapter="@{viewModel.adapter}" />
-        </co.yap.widgets.MultiStateView>
-
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
