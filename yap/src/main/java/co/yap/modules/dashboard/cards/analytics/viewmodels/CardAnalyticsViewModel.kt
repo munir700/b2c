@@ -13,6 +13,8 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -33,7 +35,7 @@ class CardAnalyticsViewModel(application: Application) :
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        SessionManager.user?.creationDate?.let {str ->
+        SessionManager.user?.creationDate?.let { str ->
             val date =
                 DateUtils.stringToDate(
                     str,
@@ -75,7 +77,7 @@ class CardAnalyticsViewModel(application: Application) :
                     // // Proper testing remaining
                     state.nextMonth = true
                 }
-
+                trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
                 state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
@@ -100,7 +102,7 @@ class CardAnalyticsViewModel(application: Application) :
                     // Proper testing remaining
                     state.previousMonth = true
                 }
-
+                trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
                 state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
@@ -127,7 +129,7 @@ class CardAnalyticsViewModel(application: Application) :
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {analyticsDTO ->
+                    response.data.data?.let { analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
 
@@ -138,7 +140,8 @@ class CardAnalyticsViewModel(application: Application) :
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentViewModel?.categoryAnalyticsItemLiveData?.value = analyticsDTO.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value =
+                            analyticsDTO.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)

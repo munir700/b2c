@@ -29,6 +29,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
@@ -155,6 +157,7 @@ class CashTransferConfirmationFragment :
 
     private fun cashTransferSuccess() {
         // Send Broadcast for updating transactions list in `Home Fragment`
+        trackEventWithScreenName(FirebaseEvent.CLICK_CONFIRM_TRANSFER)
         val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
         val action =

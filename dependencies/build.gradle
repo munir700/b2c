@@ -119,7 +119,7 @@ project.ext {
             //Firebase Crashlytics
             FirebaseCrashlyticsSdk   : 'com.google.firebase:firebase-crashlytics:17.2.2',
             FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
-            analytics                : 'com.google.firebase:firebase-analytics:18.0.0',
+            analytics                : 'com.google.firebase:firebase-analytics-ktx:18.0.0',
             messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
             playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
 

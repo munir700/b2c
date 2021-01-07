@@ -31,6 +31,8 @@ import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
@@ -195,25 +197,30 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             R.id.tvIban -> {
             }
             R.id.btnBankDetails -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_BANK_DETAILS)
                 startActivity(BankDetailActivity.newIntent(requireContext()))
             }
             R.id.yapForYou -> {
                 launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
             }
             Constants.MORE_NOTIFICATION -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
                 Utils.showComingSoon(requireContext())
             }
             Constants.MORE_LOCATE_ATM -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_ATM_LOCATION)
                 trackEvent(MoreB2CEvents.OPEN_ATM_MAP.type)
                 startFragment(CdmMapFragment::class.java.name)
             }
             Constants.MORE_INVITE_FRIEND -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE_FRIEND)
                 startFragment(
                     InviteFriendFragment::class.java.name, false,
                     bundleOf()
                 )
             }
             Constants.MORE_HELP_SUPPORT -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_HELP_MORE_SCREEN)
                 startActivity(
                     FragmentPresenterActivity.getIntent(
                         requireContext(),

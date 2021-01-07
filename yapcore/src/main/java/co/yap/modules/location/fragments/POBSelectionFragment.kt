@@ -15,6 +15,8 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPlaceOfBirthSelectionBinding
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.launchBottomSheet
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.SessionManager
@@ -46,6 +48,7 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
+                trackEventWithScreenName(FirebaseEvent.BIRTH_LOCATION_SUBMIT)
                 viewModel.saveDOBInfo {
                     navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
                 }
