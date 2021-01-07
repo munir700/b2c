@@ -30,6 +30,8 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startSmsConsent
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.coroutines.Dispatchers
@@ -129,11 +131,12 @@ class PhoneVerificationSignInFragment :
                         }
 
                     } else {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                        else
+                        }else {
+                            trackEvent(SignInEvents.SIGN_IN.type)
                             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
-
+                        }
                         activity?.finish()
                     }
                 }

@@ -311,6 +311,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         SessionManager.card.value?.let {
             startFlowForSetPin(it)
+            SessionManager.card.value?.let {
+                viewModel.fetchTransactionDetailsForLeanplum(it.status)
+            }
         } ?: SessionManager.getDebitCard { card ->
             startFlowForSetPin(card)
         }

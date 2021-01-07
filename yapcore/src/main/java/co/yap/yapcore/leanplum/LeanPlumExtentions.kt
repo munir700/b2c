@@ -150,3 +150,26 @@ fun fireEventWithAttribute(eventName: String, value: String) {
         Leanplum.track(eventName, value)
     }
 }
+
+fun ViewModel.trackEventWithAttributes(
+    uuid: String?,
+    info:HashMap<String, Any?>
+) {
+    Leanplum.setUserAttributes(uuid, info)
+}
+
+fun Fragment.trackEvent(
+    eventName: String,
+    lastCountry: String? = null,
+    lastType: String? = null) {
+
+    val params: HashMap<String, Any> = HashMap()
+    params["LastCountry"] = lastCountry ?: ""
+    params["LastType"] = lastType ?: ""
+
+    fireEvent(eventName, params)
+}
+
+fun fireEvent(eventName: String, params: Map<String, Any>) {
+    Leanplum.track(eventName, params)
+}

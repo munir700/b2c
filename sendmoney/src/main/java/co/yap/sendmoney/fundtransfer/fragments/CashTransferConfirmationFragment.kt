@@ -37,6 +37,8 @@ import co.yap.yapcore.helpers.extentions.startFragmentForResult
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
+import co.yap.yapcore.leanplum.SendMoneyEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 
 class CashTransferConfirmationFragment :
@@ -142,6 +144,7 @@ class CashTransferConfirmationFragment :
                     if (isOtpRequired()) {
                         startOtpFragment()
                     } else {
+                        trackEvent(SendMoneyEvents.SEND_MONEY_LOCAL.type)
                         viewModel.proceedToTransferAmount()
                     }
                 }
