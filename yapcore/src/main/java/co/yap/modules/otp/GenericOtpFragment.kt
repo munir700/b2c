@@ -82,7 +82,6 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         when (it) {
             R.id.btnDone -> {
                 viewModel.verifyOtp {
-                    viewModel.logFirebaseEvent(false)
                     setResultData()
                 }
             }

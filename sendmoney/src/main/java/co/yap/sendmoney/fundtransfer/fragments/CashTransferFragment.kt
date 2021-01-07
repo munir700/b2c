@@ -173,6 +173,7 @@ class CashTransferFragment : BeneficiaryFundTransferBaseFragment<ICashTransfer.V
             R.id.tvSelectReason, R.id.ivSelector -> setupPOP(viewModel.purposeCategories)
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 // Send Broadcast for updating transactions list in `Home Fragment`
+                trackEventWithScreenName(FirebaseEvent.CLICK_CONFIRM_TRANSFER)
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                 viewModel.parentViewModel?.transferData?.value?.sourceCurrency = SessionManager.getDefaultCurrency()

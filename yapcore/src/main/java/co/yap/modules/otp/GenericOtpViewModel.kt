@@ -97,7 +97,6 @@ class GenericOtpViewModel(application: Application) :
     }
 
     override fun handlePressOnResendClick(context: Context) {
-        logFirebaseEvent(true)
         when (state.otpDataModel?.otpAction) {
             OTPActions.CHANGE_MOBILE_NO.name -> createOtpForPhoneNumber(true, context)
             OTPActions.FORGOT_PASS_CODE.name -> createForgotPassCodeOtpRequest(true, context)
@@ -337,10 +336,11 @@ class GenericOtpViewModel(application: Application) :
     }
 
     private fun handleResendEvent(resend: Boolean, context: Context) {
-        if (resend)
+        if (resend) {
             state.toast =
                 getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
-
+            logFirebaseEvent(true)
+        }
         requestKeyBoard.value = true
         state.reverseTimer(10, context)
         state.validResend = false

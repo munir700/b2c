@@ -161,7 +161,6 @@ class SearchBeneficiariesFragment :
                 FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
             )
         } else {
-            trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
             confirmDeleteBeneficiary(beneficiary, position)
         }
     }
@@ -174,6 +173,7 @@ class SearchBeneficiariesFragment :
             negativeButton = getString(Strings.common_button_cancel)
         ) {
             viewModel.parentViewModel?.requestDeleteBeneficiary(beneficiary.id.toString()) {
+                trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
                 viewModel.parentViewModel?.beneficiariesList?.value?.remove(beneficiary)
                 viewModel.parentViewModel?.beneficiariesList?.value =
                     viewModel.parentViewModel?.beneficiariesList?.value
