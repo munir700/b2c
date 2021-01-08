@@ -200,10 +200,11 @@
                 android:id="@+id/clNoteParent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="@{viewModel.state.noteVisibility? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vLine">
+                app:layout_constraintTop_toBottomOf="@+id/vLine"
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clEditIcon"

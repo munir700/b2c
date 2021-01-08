@@ -82,12 +82,12 @@ class TransactionsListingAdapter(
             val context: Context = itemTransactionListBinding.tvCurrency.context
             handleProductBaseCases(context, transaction, position)
 
-            transaction.transactionNote?.let {
+            transaction.remarks?.let {
                 itemTransactionListBinding.tvTransactionNote.text = it
             }
 
             itemTransactionListBinding.tvTransactionNote.visibility =
-                if (transaction.transactionNote.isNullOrEmpty() || transaction.transactionNote.equals(
+                if (transaction.remarks.isNullOrEmpty() || transaction.remarks.equals(
                         "null"
                     )
                 ) View.GONE else View.VISIBLE

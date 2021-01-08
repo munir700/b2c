@@ -62,7 +62,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(showCurrency = false)
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
+                    showCurrency = false
+                )
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
@@ -118,10 +120,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvTotalAmountValueCalculated.text =
             totalAmount.toFormattedCurrency()
         getBindings().tvTotalAmountValue.text =
-            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())}"
+            if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
+            }" else "+ ${
+                totalAmount.toFormattedCurrency(
+                    showCurrency = false,
+                    currency = SessionManager.getDefaultCurrency()
+                )
+            }"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
@@ -195,6 +204,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     private fun setTransactionTitle() {
         viewModel.state.transactionTitle.set(viewModel.transaction.get().getTransactionTitle())
+        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.accountUuid1 == SessionManager.user?.uuid)
     }
 
     private fun setMapImageView() {
