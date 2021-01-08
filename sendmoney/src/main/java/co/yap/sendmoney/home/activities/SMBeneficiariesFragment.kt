@@ -251,7 +251,6 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                 FeatureSet.DELETE_SEND_MONEY_BENEFICIARY
             )
         } else {
-            trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
             confirmDeleteBeneficiary(beneficiary, position)
         }
     }
@@ -264,6 +263,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
             negativeButton = getString(Strings.common_button_cancel)
         ) {
             viewModel.parentViewModel?.requestDeleteBeneficiary(beneficiary.id.toString()) {
+                trackEventWithScreenName(FirebaseEvent.DELETE_BENEFICIARY)
                 viewModel.parentViewModel?.beneficiariesList?.value?.remove(beneficiary)
                 viewModel.beneficiariesAdapter.removeItemAt(position)
             }

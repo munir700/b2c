@@ -49,8 +49,8 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     private val nextButtonObserver = Observer<Int> {
         when (it) {
             viewModel.EVENT_NAVIGATE_NEXT -> {
-                navigate(R.id.congratulationsFragment)
                 trackEventWithScreenName(FirebaseEvent.SIGNUP_EMAIL_SUCCESS)
+                navigate(R.id.congratulationsFragment)
             }
             viewModel.EVENT_POST_VERIFICATION_EMAIL -> {
                 viewModel.sendVerificationEmail()

@@ -48,8 +48,8 @@ class POBSelectionFragment : LocationChildFragment<IPOBSelection.ViewModel>(), I
     private val clickObserver = Observer<Int> {
         when (it) {
             R.id.nextButton -> {
-                trackEventWithScreenName(FirebaseEvent.BIRTH_LOCATION_SUBMIT)
                 viewModel.saveDOBInfo {
+                    trackEventWithScreenName(FirebaseEvent.BIRTH_LOCATION_SUBMIT)
                     navigate(R.id.action_POBSelectionFragment_to_taxInfoFragment)
                 }
             }
