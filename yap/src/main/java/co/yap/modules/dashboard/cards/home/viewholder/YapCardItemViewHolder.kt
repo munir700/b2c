@@ -40,20 +40,18 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
                     if (paymentCard.physical) {
                         cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
                     } else {
-                        cardName = getString(
-                            itemYapCardBinding.tvCardName.context,
-                            screen_spare_card_landing_display_text_virtual_card
-                        )
+                        cardName = paymentCard.cardName ?: ""
+                        /* cardName = getString(
+                             itemYapCardBinding.tvCardName.context,
+                             screen_spare_card_landing_display_text_virtual_card
+                         )*/
                     }
                 }
             } else {
                 if (paymentCard?.physical!!) {
                     cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    cardName = getString(
-                        itemYapCardBinding.tvCardName.context,
-                        screen_spare_card_landing_display_text_virtual_card
-                    )
+                    cardName = paymentCard.cardName ?: ""
                 }
 
             }
