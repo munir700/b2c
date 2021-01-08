@@ -208,7 +208,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llFreezeSpareCard -> {
-                trackEventWithScreenName(FirebaseEvent.CLICK_FREEZE_VIRTUAL_CARD_DASHBOARD)
                 if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
                     showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
                 } else {
@@ -216,7 +215,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
             R.id.llFreezePrimaryCard -> {
-                trackEventWithScreenName(FirebaseEvent.CLICK_FREEZE_CARD_MAIN_SCREEN)
                 if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD) && viewModel.card.value?.blocked == true) {
                     showBlockedFeatureAlert(this, FeatureSet.UNFREEZE_CARD)
                 } else {
@@ -265,6 +263,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
                 cardFreezeUnfreeze = true
                 viewModel.card.value?.blocked = viewModel.card.value?.blocked != true
+                if (viewModel.card.value?.blocked == true)
+                    trackEventWithScreenName(if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) FirebaseEvent.CLICK_FREEZE_CARD_MAIN_SCREEN else FirebaseEvent.CLICK_FREEZE_VIRTUAL_CARD_DASHBOARD)
                 checkFreezeUnfreezStatus()
             }
 
