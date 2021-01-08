@@ -37,5 +37,6 @@ data class Card(
     val productCode: String,
     var shipmentDate: String? = null,
     var activationDate: String? = null,
-    var frontImage: String? = null
+    var frontImage: String? = null,
+    var pinStatus: String? = null
 ) : Parcelable
