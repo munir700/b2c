@@ -1290,7 +1290,7 @@
     <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
     <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
     <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
-    <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\n To split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
+    <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\nTo split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
 
     <!--YFY Take a leap-->
     <string name="screen_yfy_order_virtual_card_description">Virtual cards let you make online payments without sharing your main card details.\n \n You can order a virtual card through the Cards section. It is available immediately, so the next time you need to enter your card details online but aren\'t comfortable doing it, just use your virtual card! </string>
@@ -1303,7 +1303,7 @@
     <!--    YFY You are a Pro-->
     <string name="screen_yfy_invite_ten_friends_description">Show us your social skills! Invite 10 friends to YAP to complete this level. \n \nYou know the drill. </string>
     <string name="screen_yfy_invite_ten_friends_button_label">Invite friend</string>
-    <string name="screen_yfy_spend_thousand_description">Go out and buy yourself something nice using your YAP card. We won\'t tell anyone 😉</string>
+    <string name="screen_yfy_spend_thousand_description">Make your next AED 1000 purchase a YAP one. Don’t forget to buy yourself something nice!</string>
     <string name="screen_yfy_complete_renewal_description">365 days of any YAP membership calls for a celebration! We\'re glad you\'re enjoying YAP so far. </string>
 
     <!--    YFY Yap Store-->

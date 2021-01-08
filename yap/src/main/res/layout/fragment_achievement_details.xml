@@ -12,6 +12,14 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="android.view.View" />
+
+        <import type="co.yap.widgets.CoreButton.ButtonSize" />
+
+        <variable
+            name="yapForYouAction"
+            type="co.yap.yapcore.enums.YAPForYouGoalAction" />
+
+
     </data>
 
     <ScrollView
@@ -53,6 +61,20 @@
                 app:completedMedia="@{viewModel.parentViewModel.selectedAchievementTask.done? viewModel.parentViewModel.selectedAchievementTask.completedMedia :null}"
                 app:lottie_loop="false"
                 app:media="@{viewModel.parentViewModel.selectedAchievementTask.media}" />
+
+
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_110sdp"
+                android:contentDescription="@string/app_name"
+                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.completedMedia == null? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toTopOf="@+id/tvSubTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintVertical_bias="0.561"
+                app:urlMedia="@{viewModel.parentViewModel.selectedAchievementTask.completedMedia}" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"
@@ -115,16 +137,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.buttonTitle ==null || viewModel.parentViewModel.selectedAchievementTask.done? View.GONE:View.VISIBLE}"
-                app:btn_size="medium"
-                app:enableCoreButton="@{false}"
+                app:isDone="@{viewModel.parentViewModel.selectedAchievementTask.done}"
+                app:yapForYouAction="@{viewModel.parentViewModel.selectedAchievementTask.action}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription"
                 app:layout_constraintVertical_bias="50"
-                app:text="@{viewModel.parentViewModel.selectedAchievementTask.buttonTitle ==null ? Strings.common_empty_string:viewModel.parentViewModel.selectedAchievementTask.buttonTitle}"
                 tools:text="Get YAP Young now" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

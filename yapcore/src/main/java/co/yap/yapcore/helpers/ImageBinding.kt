@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
@@ -27,6 +28,14 @@ object ImageBinding {
     }
 
     @JvmStatic
+    @BindingAdapter("circularImageUrl")
+    fun setCircularImageUrl(imageView: ImageView, url: String?) {
+        url?.let {
+            setImage(imageView, url)
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("cardImageUrl")
     fun setCardImageUrl(imageView: AppCompatImageView, url: String) {
         imageView.loadCardImage(url)
@@ -34,8 +43,10 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter("circularImageUrl")
-    fun setCircularImageUrl(imageView: AppCompatImageView, url: String) {
-        setCircleCropImage(imageView, url)
+    fun setCircularImageUrl(imageView: AppCompatImageView, url: String?) {
+        url?.let {
+            setCircleCropImage(imageView, url)
+        }
     }
 
     @JvmStatic
@@ -317,6 +328,20 @@ object ImageBinding {
                 }
                 is YAPForYouGoalMedia.LottieAnimation -> {
                     lottieView.setAnimation(completedMedia.jsonFileName)
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("urlMedia")
+    fun setCircularImageUrlYapForYou(imageView: CoreCircularImageView, goal: YAPForYouGoalMedia?) {
+        goal?.let {
+            when (goal) {
+                is YAPForYouGoalMedia.ImageUrl -> {
+                    setCircularImageUrl(imageView, goal.imageUrl)
+                }
+                else -> {
                 }
             }
         }

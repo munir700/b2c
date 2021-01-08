@@ -9,5 +9,6 @@ import co.yap.yapcore.BaseState
 class YAPForYouState : BaseState(), IYAPForYou.State {
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean(true)
     override var currentAchievement: ObservableField<Y4YAchievementData> = ObservableField()
+    override var isNoCompletedAchievements: ObservableBoolean = ObservableBoolean()
 
 }

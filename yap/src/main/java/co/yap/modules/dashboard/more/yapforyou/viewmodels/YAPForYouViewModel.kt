@@ -128,6 +128,8 @@ class YAPForYouViewModel(application: Application) :
                 y4yComposer.compose(list)
             state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
             adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
+            state.isNoCompletedAchievements.set(parentViewModel?.achievementsList?.filter { it.isCompleted }
+                .isNullOrEmpty())
         }
 
     }

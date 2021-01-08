@@ -990,4 +990,29 @@ object UIBinder {
 
         }
     }
+
+    @BindingAdapter("yapForYouAction","isDone")
+    @JvmStatic
+    fun setYapForYouButton(
+        view: CoreButton,
+        action: YAPForYouGoalAction,
+        isDone: Boolean? = false
+    ) {
+        if (isDone == true) {
+            view.visibility = GONE
+        } else {
+            when (action) {
+                is YAPForYouGoalAction.Button -> {
+                    view.visibility = VISIBLE
+                    setText(view, action.title)
+                    view.enableButton(action.enabled)
+                    view.buttonSize = action.buttonSize
+                }
+
+                is YAPForYouGoalAction.None -> {
+                    view.visibility = GONE
+                }
+            }
+        }
+    }
 }

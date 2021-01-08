@@ -52,6 +52,23 @@ class CoreButton : AppCompatButton {
     lateinit var bitmapIcon: Bitmap
     private var btnSize: Int = -1
 
+    var buttonSize: ButtonSize = ButtonSize.SMALL
+        set(value) {
+            field = value
+            btnSize = value.type
+            setButtonDimension()
+        }
+
+    var buttonText: String = ""
+        set(value) {
+            field = value
+            text = value
+            if (!value.isNullOrBlank()) {
+                btnSize = ButtonSize.DYNAMIC.type
+                setButtonDimension()
+            }
+        }
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -150,19 +167,16 @@ class CoreButton : AppCompatButton {
 
         /* text paint styling */
 
-        paintText.setColor(labelTextColor)
-        paintText.setTextSize(labelTextSize)
+        paintText.color = labelTextColor
+        paintText.textSize = labelTextSize
         paintText.textAlign = Paint.Align.CENTER
         paintText.style = Paint.Style.FILL
         if (hasBoldText) {
-            paintText.setFakeBoldText(true)
+            paintText.isFakeBoldText = true
         }
-
-//         ContextThemeWrapper(context, R.attr.primaryButtonTheme)
 
         Button(ContextThemeWrapper(context, R.attr.primaryButtonTheme))
 
-// this.theme
     }
 
     override fun onAttachedToWindow() {
@@ -278,7 +292,6 @@ class CoreButton : AppCompatButton {
     }
 
     fun enableButton(enable: Boolean) {
-
         if (!enable) {
 //            defaultStateColor = resources.getColor(R.color.greyLight)
             defaultStateColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
@@ -320,7 +333,13 @@ class CoreButton : AppCompatButton {
             ButtonSize.LARGE.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 80, 8)
             }
-            else -> throw IllegalStateException("Invalid button type found $btnSize")
+            ButtonSize.DYNAMIC.type -> {
+                dimensions =
+                    Utils.getDimensionsByPercentage(context, 0, 8)
+            }
+            else -> {
+                throw IllegalStateException("Invalid button type found $btnSize")
+            }
         }
         val params = layoutParams
         params.width = dimensions[0]
@@ -335,6 +354,7 @@ class CoreButton : AppCompatButton {
         MINI_SMALL(3),
         MINI_MEDIUM(4),
         MINI_LARGE(5),
-        MINI(6)
+        MINI(6),
+        DYNAMIC(7)
     }
 }

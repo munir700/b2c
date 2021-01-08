@@ -11,6 +11,8 @@ interface IYAPForYou {
     interface State : IBase.State {
         var toolbarVisibility: ObservableBoolean
         var currentAchievement: ObservableField<Y4YAchievementData>
+        var isNoCompletedAchievements: ObservableBoolean
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
