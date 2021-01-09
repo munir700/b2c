@@ -107,7 +107,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_use_yap_locally_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("use_yap_locally.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("use_yap_locally.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_spare_card")
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -135,7 +136,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_spend_aed_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_spend_aed_amount_completed")
 
                     ),
                     YAPForYouGoal(
@@ -174,7 +176,8 @@ class Y4YGraphComposer : IY4YComposer {
                         activityOnAction = YapForYouGoalType.INVITE_FRIEND.title,
                         description = Strings.screen_yfy_invite_a_friend_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("invite_friend_lottie.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("invite_friend_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_goal_invite_friend_completed")
 
                     ),
                     YAPForYouGoal(
@@ -282,7 +285,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_set_multi_currency_account_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("multicurrency_lottie.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("multicurrency_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_goal_setup_multi_currency_completed")
 
                     )
                 )
@@ -308,7 +312,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_get_yap_young_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("cards_lottie.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("cards_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_goal_young_card_completed")
 
                     ),
                     YAPForYouGoal(
@@ -337,7 +342,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_set_a_mission_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("set_missions_lottie.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("set_missions_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_goal_set_mission_young_completed")
 
                     ),
                     YAPForYouGoal(
@@ -376,7 +382,8 @@ class Y4YGraphComposer : IY4YComposer {
                         activityOnAction = YapForYouGoalType.INVITE_FRIEND.title,
                         description = Strings.screen_yfy_invite_ten_friends_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("invite_friend_lottie.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("invite_friend_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_goal_invite_friend_completed")
 
                     ),
                     YAPForYouGoal(
@@ -388,7 +395,8 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_spend_thousand_description,
                         successDescription = "",
-                        media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json")
+                        media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_spend_aed_amount_completed")
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
