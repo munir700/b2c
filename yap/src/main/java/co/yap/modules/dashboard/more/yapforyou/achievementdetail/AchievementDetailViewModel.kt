@@ -14,5 +14,7 @@ class AchievementDetailViewModel(application: Application) :
     }
 
     override val state: AchievementDetailState = AchievementDetailState()
-
+    override fun onResume() {
+        super.onResume()
+    }
 }

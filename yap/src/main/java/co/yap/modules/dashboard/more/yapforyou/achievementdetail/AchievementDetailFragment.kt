@@ -13,7 +13,7 @@ import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.yapcore.enums.YapForYouGoalType
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
-import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.launchActivityForResult
 
 class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewModel>(),
     IAchievementDetail.View {
@@ -30,7 +30,7 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (viewModel.parentViewModel?.selectedAchievementTask?.title == YapForYouGoalType.FREEZE_UNFREEZE_CARD.title) {
+        if (viewModel.parentViewModel?.selectedAchievementGoal?.get()?.title == YapForYouGoalType.FREEZE_UNFREEZE_CARD.title) {
             val animationDrawable: AnimationDrawable =
                 getBindings().tvFreezeAnimationView.background as AnimationDrawable
             animationDrawable.setEnterFadeDuration(1000)
@@ -43,15 +43,20 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
     private val onClickObserver = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                when (viewModel.parentViewModel?.selectedAchievementTask?.activityOnAction) {
+                when (viewModel.parentViewModel?.selectedAchievementGoal?.get()?.activityOnAction) {
                     YapForYouGoalType.INVITE_FRIEND.title -> {
                         context?.inviteFriendIntent()
                     }
                     AddMoneyActivity::class.simpleName -> {
-                        launchActivity<AddMoneyActivity> { }
+                        launchActivityForResult<AddMoneyActivity> { resultCode, _ ->
+                            viewModel.parentViewModel?.getAchievements()
+                        }
                     }
+
                     MoreActivity::javaClass.name -> {
-                        launchActivity<MoreActivity> { }
+                        launchActivityForResult<MoreActivity> { resultCode, _ ->
+                            viewModel.parentViewModel?.getAchievements()
+                        }
                     }
                 }
             }
@@ -73,4 +78,5 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
 
     private fun getBindings(): FragmentAchievementDetailsBinding =
         viewDataBinding as FragmentAchievementDetailsBinding
+
 }

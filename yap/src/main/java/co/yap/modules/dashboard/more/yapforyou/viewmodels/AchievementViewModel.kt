@@ -21,15 +21,12 @@ class AchievementViewModel(application: Application) :
     }
 
     override fun setSelectedAchievementTask(YAPForYouGoal: YAPForYouGoal?) {
-        parentViewModel?.selectedAchievementTask = YAPForYouGoal
+        parentViewModel?.selectedAchievementGoal?.set(YAPForYouGoal)
     }
 
     override fun onCreate() {
         super.onCreate()
         setupToolbar()
-        parentViewModel?.selectedAchievement?.goals?.let {
-            adapter.setList(it)
-        }
     }
 
     private fun setupToolbar() {

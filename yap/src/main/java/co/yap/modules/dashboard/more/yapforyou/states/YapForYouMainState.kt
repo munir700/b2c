@@ -9,6 +9,5 @@ import co.yap.yapcore.BaseState
 class YapForYouMainState : BaseState(), IYapForYouMain.State {
     override var leftIcon: ObservableField<Int> = ObservableField(-1)
     override var leftIconVisibility: ObservableBoolean = ObservableBoolean(false)
-    override var descriptionDataModel: ObservableField<YapForYouDataModel>? = ObservableField()
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean(true)
 }

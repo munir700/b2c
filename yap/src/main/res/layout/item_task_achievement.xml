@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/ASmall"
-            android:layout_marginStart="@dimen/small"
+            android:layout_marginStart="@dimen/margin_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@{viewModel.task.done? @drawable/ic_checked_icon : @drawable/empty_circle}"

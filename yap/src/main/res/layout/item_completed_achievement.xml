@@ -63,10 +63,10 @@
                     style="@style/ALarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.achievement.title}"
+                    app:text="@{viewModel.achievement.title}"
                     app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.17"
+                    android:layout_marginStart="@dimen/margin_small"
                     app:layout_constraintStart_toEndOf="@+id/imgIcon"
                     app:layout_constraintTop_toTopOf="@+id/imgIcon"
                     tools:text="Better together" />
@@ -78,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.completedPercentage+`%`)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="@dimen/margin_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                     tools:text="75% completed" />
