@@ -21,7 +21,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getAchievements()
+        viewModel.parentViewModel?.getAchievements()
         addObservers()
     }
 
@@ -47,16 +47,21 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
     }
 
     override fun addObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnView -> {
-                    viewModel.state.currentAchievement.get()?.let { y4YAchievementData ->
-                        viewModel.setSelectedAchievement(y4YAchievementData)
-                        navigate(R.id.achievementFragment)
-                    }
+        viewModel.clickEvent.observe(this, clickObserver)
+        viewModel.parentViewModel?.achievementsResponse?.observe(this, Observer {
+            viewModel.setAchievements(it)
+        })
+    }
+
+    private val clickObserver = Observer<Int> {
+        when (it) {
+            R.id.btnView -> {
+                viewModel.state.currentAchievement.get()?.let { y4YAchievementData ->
+                    viewModel.setSelectedAchievement(y4YAchievementData)
+                    navigate(R.id.achievementFragment)
                 }
             }
-        })
+        }
     }
 
     override fun onDestroy() {

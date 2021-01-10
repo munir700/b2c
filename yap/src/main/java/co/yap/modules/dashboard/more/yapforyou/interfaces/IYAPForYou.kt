@@ -4,6 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.networking.transactions.responsedtos.achievement.Achievement
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,7 +20,7 @@ interface IYAPForYou {
         var clickEvent: SingleClickEvent
         var adaptor: YAPForYouAdapter
         fun handlePressOnView(id: Int)
-        fun getAchievements()
+        fun setAchievements(achievementsResponse: ArrayList<Achievement>)
         fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData)
     }
 

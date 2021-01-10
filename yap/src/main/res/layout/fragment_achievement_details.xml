@@ -58,9 +58,9 @@
                 app:lottie_autoPlay="true"
                 android:layout_marginStart="@dimen/margin_extra_large"
                 android:layout_marginEnd="@dimen/margin_extra_large"
-                app:completedMedia="@{viewModel.parentViewModel.selectedAchievementTask.done? viewModel.parentViewModel.selectedAchievementTask.completedMedia :null}"
+                app:completedMedia="@{viewModel.parentViewModel.selectedAchievementGoal.done? viewModel.parentViewModel.selectedAchievementGoal.completedMedia :null}"
                 app:lottie_loop="false"
-                app:media="@{viewModel.parentViewModel.selectedAchievementTask.media}" />
+                app:media="@{viewModel.parentViewModel.selectedAchievementGoal.media}" />
 
 
             <co.yap.widgets.CoreCircularImageView
@@ -68,19 +68,19 @@
                 android:layout_width="@dimen/_110sdp"
                 android:layout_height="@dimen/_110sdp"
                 android:contentDescription="@string/app_name"
-                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.completedMedia == null? View.GONE : View.VISIBLE}"
+                android:visibility="@{viewModel.parentViewModel.selectedAchievementGoal.completedMedia == null? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toTopOf="@+id/tvSubTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:layout_constraintVertical_bias="0.561"
-                app:urlMedia="@{viewModel.parentViewModel.selectedAchievementTask.completedMedia}" />
+                app:urlMedia="@{viewModel.parentViewModel.selectedAchievementGoal.completedMedia}" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
-                android:visibility="@{viewModel.parentViewModel.selectedAchievementTask.done? View.VISIBLE:View.GONE}"
+                android:visibility="@{viewModel.parentViewModel.selectedAchievementGoal.done? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/animationView"
-                app:text="@{viewModel.parentViewModel.selectedAchievementTask.title}"
+                app:text="@{viewModel.parentViewModel.selectedAchievementGoal.title}"
                 tools:text="Get YAP Young" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -127,7 +127,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
-                app:text="@{viewModel.parentViewModel.selectedAchievementTask.done?Strings.screen_yfy_get_started_success_description :viewModel.parentViewModel.selectedAchievementTask.description}"
+                app:text="@{viewModel.parentViewModel.selectedAchievementGoal.done?Strings.screen_yfy_get_started_success_description :viewModel.parentViewModel.selectedAchievementGoal.description}"
                 tools:text="@string/screen_yfy_explore_card_control_description" />
 
             <co.yap.widgets.CoreButton
@@ -137,8 +137,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-                app:isDone="@{viewModel.parentViewModel.selectedAchievementTask.done}"
-                app:yapForYouAction="@{viewModel.parentViewModel.selectedAchievementTask.action}"
+                app:isDone="@{viewModel.parentViewModel.selectedAchievementGoal.done}"
+                app:yapForYouAction="@{viewModel.parentViewModel.selectedAchievementGoal.action}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

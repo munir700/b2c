@@ -59,16 +59,6 @@ class CoreButton : AppCompatButton {
             setButtonDimension()
         }
 
-    var buttonText: String = ""
-        set(value) {
-            field = value
-            text = value
-            if (!value.isNullOrBlank()) {
-                btnSize = ButtonSize.DYNAMIC.type
-                setButtonDimension()
-            }
-        }
-
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -194,11 +184,10 @@ class CoreButton : AppCompatButton {
             }
         }
 
-        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            bitmap =
-                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         } else {
-            bitmap = Bitmap.createBitmap(
+            Bitmap.createBitmap(
                 drawable.intrinsicWidth,
                 drawable.intrinsicHeight,
                 Bitmap.Config.ARGB_8888
@@ -220,7 +209,6 @@ class CoreButton : AppCompatButton {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
         if (shapeType == 0) {
             canvas.drawCircle(
                 (btnWeight / 2).toFloat(), (btnHeight / 2).toFloat(), btnRadius.toFloat(),
@@ -238,8 +226,6 @@ class CoreButton : AppCompatButton {
                 yPos,
                 paintText
             )
-
-
         }
 
         if (null != drawable) {
