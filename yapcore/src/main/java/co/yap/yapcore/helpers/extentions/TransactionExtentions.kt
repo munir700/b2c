@@ -57,7 +57,12 @@ fun Transaction?.getTransactionIcon(): Int {
                 }
             }
             else -> when (transaction.getLabelValues()) {
-                TransactionLabelsCode.IS_CASH -> R.drawable.ic_transaction_cash
+                TransactionLabelsCode.IS_CASH -> {
+                    if (TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.ATM_DEPOSIT.pCode == transaction.productCode)
+                        R.drawable.ic_cash_out_trasaction
+                    else
+                        R.drawable.ic_transaction_cash
+                }
                 TransactionLabelsCode.IS_BANK -> R.drawable.ic_transaction_bank
                 TransactionLabelsCode.IS_TRANSACTION_FEE -> R.drawable.ic_package_standered
                 TransactionLabelsCode.IS_REFUND -> R.drawable.ic_refund
@@ -70,9 +75,9 @@ fun Transaction?.getTransactionIcon(): Int {
                         TransactionProductCode.TOP_UP_VIA_CARD.pCode == transaction.productCode || TransactionProductCode.CASH_DEPOSIT_AT_RAK.pCode == transaction.productCode || TransactionProductCode.CHEQUE_DEPOSIT_AT_RAK.pCode == transaction.productCode -> {
                             R.drawable.ic_plus_transactions
                         }
-                        TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == transaction.productCode -> {
+                        /*TransactionProductCode.ATM_WITHDRAWL.pCode == transaction.productCode || TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode == transaction.productCode -> {
                             R.drawable.ic_cash_out_trasaction
-                        }
+                        }*/
                         TransactionProductCode.POS_PURCHASE.pCode == transaction.productCode -> {
                             transaction.merchantCategoryName.getMerchantCategoryIcon()
                         }
@@ -94,7 +99,7 @@ fun Transaction?.getTransactionStatus(): String {
             return (when (txn.status) {
                 TransactionStatus.CANCELLED.name, TransactionStatus.FAILED.name -> "Rejected transaction"
                 TransactionStatus.PENDING.name, TransactionStatus.IN_PROGRESS.name -> {
-                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in progress" else ""
+                    if (txn.getLabelValues() != TransactionLabelsCode.IS_TRANSACTION_FEE) "Transaction in process" else ""
                 }
                 else -> ""
             })
@@ -150,6 +155,13 @@ fun Transaction?.getTransactionTypeIcon(): Int {
                 when {
                     transaction.getLabelValues() == TransactionLabelsCode.IS_BANK -> R.drawable.ic_outgoing_transaction
                     productCode == TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_outgoing_transaction_y2y
+                    productCode == TransactionProductCode.ATM_WITHDRAWL.pCode -> R.drawable.ic_identifier_atm_withdrawl
+                    else -> android.R.color.transparent
+                }
+            }
+            TxnType.CREDIT.type -> {
+                when (productCode) {
+                    TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_identifier_atm_deposite
                     else -> android.R.color.transparent
                 }
             }
@@ -278,10 +290,10 @@ fun Transaction?.getLabelValues(): TransactionLabelsCode? {
             TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
                 TransactionLabelsCode.IS_TRANSACTION_FEE
             }
-            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
+            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode-> {
                 TransactionLabelsCode.IS_BANK
             }
-            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.CASH_ADVANCE.pCode -> {
+            TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.CASH_ADVANCE.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
                 TransactionLabelsCode.IS_CASH
             }
             TransactionProductCode.REFUND_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_MASTER_CARD.pCode, TransactionProductCode.REVERSAL_OF_TXN_ON_FAILURE.pCode -> {

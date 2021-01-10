@@ -50,14 +50,22 @@ class ShimmerRecyclerView @JvmOverloads constructor(
         attributes.recycle()
     }
 
-    inner class MyDataObserverAdapter: RecyclerView.AdapterDataObserver() {
+    inner class MyDataObserverAdapter : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
-            if(rvAdapter?.itemCount==0){
-                skeleton?.showSkeleton()
-            }else{
-                skeleton?.showOriginal()
+            if (rvAdapter?.itemCount == 0) {
+                showSkeletonAdapter()
+            } else {
+                showOriginalAdapter()
             }
         }
+    }
+
+    fun showOriginalAdapter() {
+        skeleton?.showOriginal()
+    }
+
+    fun showSkeletonAdapter() {
+        skeleton?.showSkeleton()
     }
 }
