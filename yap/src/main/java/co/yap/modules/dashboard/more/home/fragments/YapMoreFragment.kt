@@ -21,7 +21,7 @@ import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.notification.activities.NotificationsActivity
+import co.yap.modules.dashboard.more.notifications.main.NotificationsActivity
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.translation.Strings
@@ -191,6 +191,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             R.id.tvName -> {
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
+
             R.id.tvNameInitials -> {
                 startActivity(MoreActivity.newIntent(requireContext()))
             }
@@ -205,7 +206,6 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             Constants.MORE_NOTIFICATION -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
-                Utils.showComingSoon(requireContext())
                 launchActivity<NotificationsActivity> {  }
             }
             Constants.MORE_LOCATE_ATM -> {
