@@ -21,14 +21,12 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         dimensions: IntArray,
         onItemClickListener: OnItemClickListener?
     ) {
-
         val params = itemYapCardBinding.imgCard.layoutParams as ConstraintLayout.LayoutParams
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemYapCardBinding.imgCard.layoutParams = params
         itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
-
-        var cardName: String
+        val cardName: String
 
         if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
             cardName = Constants.TEXT_PRIMARY_CARD
