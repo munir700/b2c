@@ -109,4 +109,7 @@ interface CustomersApi {
     suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
     suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun getMsCustomerNotification(msCustomerNotifications: MsCustomerNotificationsRequest): RetroApiResponse<CustomerNotificationResponse>
+    suspend fun updateReadNotifications(notificationId: String, isRead : Boolean): RetroApiResponse<ApiResponse>
+    suspend fun deleteMsCustomerNotification(notificationId: String): RetroApiResponse<ApiResponse>
 }
