@@ -193,6 +193,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         param.putBoolean("incoming", cbInTransFilter.isChecked)
         param.putBoolean("outgoing", cbOutTransFilter.isChecked)
         param.putDouble("value_from", request.amountStartRange ?: 0.0)
+        param.putDouble("value_to", request.amountEndRange ?: 0.0)
         trackEventWithScreenName(FirebaseEvent.APPLY_FILTERS, param)
         val intent = Intent()
         intent.putExtra("txnRequest", request)

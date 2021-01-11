@@ -281,5 +281,5 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         }
     }
 
-    override fun getScreenName():String? = null
+    override fun getScreenName():String? = ""
 }
