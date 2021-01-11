@@ -1,7 +1,6 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -16,8 +15,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.AuthUtils
-import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -234,10 +233,29 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })
     }
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
+
+    fun sendFcmTokenToServer(success: () -> Unit = {}) {
+        getFCMToken() {
+            it?.let { token ->
+                GlobalScope.launch {
+                    when (val response = customerRepository.getAccountInfo()) {
+                        is RetroApiResponse.Success -> {
+                            success.invoke()
+                        }
+
+                        is RetroApiResponse.Error -> {
+                        }
+                    }
+                }
+            }
+
+        }
+    }
 }

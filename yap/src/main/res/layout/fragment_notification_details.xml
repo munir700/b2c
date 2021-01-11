@@ -30,7 +30,7 @@
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:titleTranslator="@{Strings.screen_topup_card_cvv_display_text_title}" />
+            app:titleString="@{viewModel.state.notification.title}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -94,15 +94,17 @@
                     tools:text="At Spotify, we want to give you the bred.We are contacting you today to let you know that we will." />
 
                 <co.yap.widgets.CoreButton
-                    android:id="@+id/btnReOrder"
+                    android:id="@+id/btnAction"
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:gravity="center"
                     app:btn_enable="true"
                     app:btn_size="medium"
-                    app:text="@{Strings.screen_card_blocked_button_reorder_new_card}"
+                    android:text="@{viewModel.state.notification.title + ` now`}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     tools:text="@string/screen_card_blocked_button_reorder_new_card" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -110,12 +112,12 @@
                     style="@style/Large"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:foregroundGravity="bottom"
                     android:gravity="center"
                     android:padding="@dimen/margin_small"
                     android:textColor="@color/colorPrimary"
+                    android:visibility="gone"
                     app:text="@{Strings.screen_notification_detail_display_text_delete}"
                     tools:text="@string/screen_notification_detail_display_text_delete" />
 
