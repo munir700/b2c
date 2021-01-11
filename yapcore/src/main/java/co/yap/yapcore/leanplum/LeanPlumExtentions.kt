@@ -11,6 +11,8 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
 import java.text.SimpleDateFormat
 
@@ -120,6 +122,7 @@ private fun trackAttributes(
         }
         it.currentCustomer.customerId?.let { customerId ->
             info[UserAttributes().customerId] = customerId
+            Firebase.analytics.setUserId(customerId)
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
     }
@@ -165,4 +168,27 @@ fun fireEventWithAttribute(eventName: String, value: String) {
     } else {
         Leanplum.track(eventName, value)
     }
+}
+
+fun ViewModel.trackEventWithAttributes(
+    uuid: String?,
+    info:HashMap<String, Any?>
+) {
+    Leanplum.setUserAttributes(uuid, info)
+}
+
+fun Fragment.trackEvent(
+    eventName: String,
+    lastCountry: String? = null,
+    lastType: String? = null) {
+
+    val params: HashMap<String, Any> = HashMap()
+    params["LastCountry"] = lastCountry ?: ""
+    params["LastType"] = lastType ?: ""
+
+    fireEvent(eventName, params)
+}
+
+fun fireEvent(eventName: String, params: Map<String, Any>) {
+    Leanplum.track(eventName, params)
 }

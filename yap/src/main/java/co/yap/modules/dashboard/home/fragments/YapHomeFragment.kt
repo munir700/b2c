@@ -68,6 +68,8 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.networking.notification.NotificationAction
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
@@ -79,10 +81,8 @@ import com.liveperson.infra.configuration.Configuration.getDimension
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -207,7 +207,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTransactionFilters() {
-        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+            trackEventWithScreenName(FirebaseEvent.CLICK_FILTER_TRANSACTIONS)
             startActivityForResult(
                 TransactionFiltersActivity.newIntent(
                     requireContext(),
@@ -215,6 +216,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 ),
                 RequestCodes.REQUEST_TXN_FILTER
             )
+        }
     }
 
     override fun setObservers() {
@@ -224,6 +226,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.state.isPartnerBankStatusActivated.set(PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             }
         })
+        getBindings().ivSearch.setOnLongClickListener {
+            return@setOnLongClickListener activity?.let {
+                //val tour = TourSetup(it, setViewsArray())
+                //tour.startTour()
+                //showToast("YAP Signature Info${YAPApplication.configManager?.toString()}" + "^" + AlertType.DIALOG)
+                true
+            } ?: false
+        }
 
         listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
@@ -301,6 +311,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         SessionManager.card.value?.let {
             startFlowForSetPin(it)
+            SessionManager.card.value?.let {
+                viewModel.fetchTransactionDetailsForLeanplum(it.status)
+            }
         } ?: SessionManager.getDebitCard { card ->
             startFlowForSetPin(card)
         }
@@ -755,6 +768,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
                 }
             }
+
+            RequestCodes.REQUEST_FOR_ADDITIONAL_REQUIREMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    SessionManager.getAccountInfo {
+                        GlobalScope.launch(Dispatchers.Main) {
+                            dashboardNotificationStatusHelper?.notifyAdapter()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -901,10 +924,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setUpDashBoardNotificationsView() {
         dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
-            requireContext(),
+            this,
             getBindings(),
-            viewModel,
-            activity
+            viewModel
         )
     }
 

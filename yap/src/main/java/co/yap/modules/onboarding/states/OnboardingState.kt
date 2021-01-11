@@ -21,4 +21,11 @@ class OnboardingState : BaseState(), IOnboarding.State {
             field = value
             notifyPropertyChanged(BR.currentProgress)
         }
+
+    @get:Bindable
+    override var emailError: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.emailError)
+        }
 }

@@ -15,6 +15,8 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -132,6 +134,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_INVITE)
                 Utils.shareText(requireContext(), Utils.getGeneralInvitationBody(requireContext()))
             }
         }

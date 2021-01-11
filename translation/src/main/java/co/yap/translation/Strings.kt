@@ -7,7 +7,11 @@ object Strings {
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
+    const val common_button_continue: String = "common_button_continue"
     const val common_button_submit: String = "common_button_submit"
+    const val common_text_thanks: String = "common_text_thanks"
+    const val common_text_hey: String = "common_text_hey"
+
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
@@ -1823,6 +1827,14 @@ object Strings {
     const val dashboard_timeline_top_up_stage_action_title: String =
         "dashboard_timeline_top_up_stage_action_title"
 
+    const val dashboard_timeline_additional_requirement_stage_title: String =
+        "dashboard_timeline_additional_requirement_stage_title"
+    const val dashboard_timeline_additional_requirement_stage_description: String =
+        "dashboard_timeline_additional_requirement_stage_description"
+    const val dashboard_timeline_additional_requirement_stage_completed_description: String =
+        "dashboard_timeline_additional_requirement_stage_completed_description"
+    const val dashboard_timeline_additional_requirement_stage_action_title: String =
+        "dashboard_timeline_additional_requirement_stage_action_title"
     const val dashboard_timeline_top_up_stage_completion_title: String =
         "dashboard_timeline_top_up_stage_completion_title"
     const val dashboard_timeline_top_up_stage_in_process_title: String =
@@ -1845,10 +1857,8 @@ object Strings {
         "screen_fragment_yap_it_add_money_text_cash_or_cheque"
     const val screen_fragment_yap_it_add_money_text_qr_code: String =
         "screen_fragment_yap_it_add_money_text_qr_code"
-
     const val screen_yap_analytics_detail_transaction_count: String =
         "screen_yap_analytics_detail_transaction_count"
-
 
     // yap it QR Code screen
     const val screen_fragment_yap_it_qr_code_share_my_code: String =
@@ -1863,7 +1873,6 @@ object Strings {
         "screen_fragment_yap_it_qr_code_text_image_library"
     const val screen_fragment_yap_it_qr_code_text_my_qr_code: String =
         "screen_fragment_yap_it_qr_code_text_my_qr_code"
-
 
     // Transaction Detail Screen
     const val screen_transaction_detail_text_cut_off_msg: String =
@@ -1918,4 +1927,28 @@ object Strings {
         "screen_notification_listing_display_text_delete_alert_title"
     const val screen_notification_listing_display_text_delete_message: String =
         "screen_notification_listing_display_text_delete_message"
+    const val screen_additional_info_label_text_do_it_later: String =
+        "screen_additional_info_label_text_do_it_later"
+    const val common_display_text_founder: String =
+        "common_display_text_founder"
+    const val screen_additional_info_label_text_question_hint: String =
+        "screen_additional_info_label_text_question_hint"
+
+
+    const val screen_additional_info_label_text_additional_info: String =
+        "screen_additional_info_label_text_additional_info"
+    const val screen_additional_info_label_text_upload_document_complete: String =
+        "screen_additional_info_label_text_upload_document_complete"
+    const val screen_additional_info_label_text_upload_document: String =
+        "screen_additional_info_label_text_upload_document"
+    const val screen_additional_info_label_text_complete: String =
+        "screen_additional_info_label_text_complete"
+    const val screen_additional_info_label_text_final_question: String =
+        "screen_additional_info_label_text_final_question"
+    const val screen_additional_info_label_text_required_des: String =
+        "screen_additional_info_label_text_required_des"
+    const val screen_additional_info_label_text_bottom_sheet_des: String =
+        "screen_additional_info_label_text_bottom_sheet_des"
+    const val common_display_text_copy: String =
+        "common_display_text_copy"
 }

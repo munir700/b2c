@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
@@ -24,6 +25,7 @@ import co.yap.yapcore.helpers.extentions.getFormattedDate
 import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.leanplum.KYCEvents
+import co.yap.yapcore.leanplum.UserAttributes
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
@@ -295,10 +297,42 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun shouldShowSetPin(paymentCard: Card): Boolean {
-       return when {
+        return when {
             paymentCard.status == PaymentCardStatus.INACTIVE.name && paymentCard.deliveryStatus == CardDeliveryStatus.SHIPPED.name -> true
             paymentCard.status == PaymentCardStatus.ACTIVE.name && !paymentCard.pinCreated -> true
             else -> false
+        }
+    }
+
+    override fun fetchTransactionDetailsForLeanplum(cardStatus: String?) {
+        launch {
+            when (val response = transactionsRepository.getTransDetailForLeanplum()) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let { resp ->
+                        val info: HashMap<String, Any?> = HashMap()
+                        info[UserAttributes().primary_card_status] = cardStatus?.let {
+                            if (CardStatus.valueOf(it) == CardStatus.BLOCKED)
+                                "frozen"
+                            else it.toLowerCase()
+                        } ?: ""
+                        info[UserAttributes().last_transaction_type] =
+                            resp.lastTransactionType ?: ""
+                        info[UserAttributes().last_transaction_time] =
+                            resp.lastTransactionTime ?: ""
+                        info[UserAttributes().last_pos_txn_category] =
+                            resp.lastPOSTransactionCategory ?: ""
+                        info[UserAttributes().total_transaction_count] =
+                            resp.totalTransactionCount ?: ""
+                        info[UserAttributes().total_transaction_value] =
+                            resp.totalTransactionValue ?: ""
+
+                        SessionManager.user?.uuid?.let { trackEventWithAttributes(it, info) }
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    Log.d("", "")
+                }
+            }
         }
     }
 }

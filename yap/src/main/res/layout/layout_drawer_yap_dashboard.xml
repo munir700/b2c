@@ -130,6 +130,18 @@
                         android:layout_marginTop="@dimen/_8sdp"
                         android:text="@{viewModel.state.fullName}" />
 
+                    <TextView
+                        android:id="@+id/tvFounder"
+                        style="@style/ASmallGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvUserName"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/_11sdp"
+                        android:visibility="@{viewModel.state.isFounder() == true ? View.VISIBLE : View.GONE}"
+                        app:text="@{Strings.common_display_text_founder}" />
+
                 </RelativeLayout>
 
                 <net.cachapa.expandablelayout.ExpandableLayout

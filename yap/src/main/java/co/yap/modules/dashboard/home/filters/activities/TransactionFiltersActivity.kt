@@ -16,6 +16,8 @@ import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewMo
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.isNetworkAvailable
 import com.jaygoo.widget.OnRangeChangedListener
@@ -124,11 +126,14 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             R.id.tvClearFilters -> {
                 resetAllFilters()
             }
-            R.id.btnApplyFilters -> if (isNetworkAvailable()) setIntentAction() else showToast(
-                getString(
-                    Strings.common_display_text_error_no_internet
+            R.id.btnApplyFilters -> if (isNetworkAvailable()) {
+                setIntentAction()
+            } else
+                showToast(
+                    getString(
+                        Strings.common_display_text_error_no_internet
+                    )
                 )
-            )
 
         }
     }
@@ -164,8 +169,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setIntentAction() {
         var appliedFilter = 0
-        if (cbInTransFilter.isChecked) appliedFilter++
-        if (cbOutTransFilter.isChecked) appliedFilter++
+        if (cbInTransFilter.isChecked) {
+            appliedFilter++
+        }
+        if (cbOutTransFilter.isChecked) {
+            appliedFilter++
+        }
         viewModel.txnFilters.value?.amountEndRange?.let {
             if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
             setIntentRequest(appliedFilter)
@@ -180,6 +189,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             outgoingTxn = cbOutTransFilter.isChecked,
             totalAppliedFilter = appliedFilter
         )
+        val param = Bundle()
+        param.putBoolean("incoming", cbInTransFilter.isChecked)
+        param.putBoolean("outgoing", cbOutTransFilter.isChecked)
+        param.putDouble("value_from", request.amountStartRange ?: 0.0)
+        trackEventWithScreenName(FirebaseEvent.APPLY_FILTERS, param)
         val intent = Intent()
         intent.putExtra("txnRequest", request)
         setResult(Activity.RESULT_OK, intent)

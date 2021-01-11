@@ -14,7 +14,6 @@ import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import co.yap.countryutils.country.utils.CurrencyUtils
 import co.yap.modules.location.helper.MapSupportFragment
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.webview.WebViewFragment
@@ -29,6 +28,8 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.databinding.LocationSelectionFragmentBinding
 import co.yap.yapcore.enums.AccountStatus
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
@@ -213,6 +214,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
 
             R.id.btnConfirm -> {
+                if (viewModel.parentViewModel?.isOnBoarding == true)
+                    trackEventWithScreenName(FirebaseEvent.MAP_CONFIRM_LOCATION)
                 startAnimateLocationCard()
             }
             R.id.tvTermsAndConditions -> {
@@ -246,6 +249,7 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
             }
         }
     }
+
     private fun setupCitiesList(citiesList: ArrayList<City>?) {
         /*   citiesList?.let { cities ->
                this.childFragmentManager.let {
@@ -311,6 +315,8 @@ class LocationSelectionFragment : MapSupportFragment(), ILocationSelection.View 
     }
 
     private fun expandMap() {
+        if (viewModel.parentViewModel?.isOnBoarding == true)
+            trackEventWithScreenName(FirebaseEvent.MAP_FIND_LOCATION)
         viewModel.isMapExpanded.value = true
         YoYo.with(Techniques.FadeOut)
             .duration(200)
