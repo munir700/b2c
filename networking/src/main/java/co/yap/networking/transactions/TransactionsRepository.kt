@@ -139,7 +139,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsRequest.amountStartRange,
                 homeTransactionsRequest.amountEndRange,
                 homeTransactionsRequest.txnType,
-                homeTransactionsRequest.title
+                homeTransactionsRequest.title,
+                homeTransactionsRequest.categories,
+                homeTransactionsRequest.statues
             )
         })
 

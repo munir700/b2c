@@ -64,10 +64,7 @@ import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
 import co.yap.yapcore.constants.Constants.BROADCAST_UPDATE_TRANSACTION
 import co.yap.yapcore.constants.Constants.MODE_MEETING_CONFORMATION
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.enums.FeatureSet
-import co.yap.yapcore.enums.NotificationAction
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
@@ -784,6 +781,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.amountEndRange = it.amountEndRange
             homeTransactionsRequest.title = null
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
+            homeTransactionsRequest.categories = it.categories
+            homeTransactionsRequest.statues =
+                if (it.pendingTxn == true) arrayListOf(TransactionStatus.PENDING.name) else null
         }
     }
 
