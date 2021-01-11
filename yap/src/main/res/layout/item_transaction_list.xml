@@ -56,8 +56,8 @@
         <TextView
             android:id="@+id/tvTransactionAmount"
             style="@style/SmallGrey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="18dp"
             android:layout_marginTop="@dimen/_2sdp"
             android:textColor="@color/colorSecondaryGreen"
             app:layout_constraintEnd_toEndOf="parent"
