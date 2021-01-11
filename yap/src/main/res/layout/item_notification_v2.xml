@@ -84,13 +84,14 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvName"
                     style="@style/Small"
+                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.item.title}"
+                    android:text="@{viewModel.item.description}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
                 <androidx.appcompat.widget.AppCompatTextView
