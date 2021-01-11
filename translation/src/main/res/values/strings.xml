@@ -1213,6 +1213,11 @@
     <string name="screen_dashboard_tour_guide_display_text_limit_des">Customize your card’s usage by setting limits on where and how it can be used.</string>
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
     <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
+    <string name="screen_home_help_and_support_desc">Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.</string>
+    <string name="screen_home_complete_verification_desc">Complete verification to activate your account.</string>
+    <string name="screen_home_set_pin_desc">Now create a unique 4-digit PIN to be able to use your primary card for purchases and withdrawals.</string>
+    <string name="screen_home_renewed_id_title">Renewed ID</string>
+    <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
 
 
 </resources>
