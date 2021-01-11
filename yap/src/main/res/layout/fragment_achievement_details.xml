@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,14 +79,15 @@
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animationViewFull"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_230sdp"
                 android:visibility="@{viewModel.parentViewModel.selectedAchievementGoal.done? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="false"
-                app:lottie_fileName="success_lottie.json" />
+                app:lottie_fileName="success_lottie.json"
+                app:lottie_loop="false" />
 
             <View
                 android:id="@+id/tvFreezeAnimationView"
@@ -138,12 +139,13 @@
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                 app:isDone="@{viewModel.parentViewModel.selectedAchievementGoal.done}"
-                app:yapForYouAction="@{viewModel.parentViewModel.selectedAchievementGoal.action}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-                app:layout_constraintVertical_bias="50"
+                app:layout_constraintVertical_bias="1.0"
+                app:yapForYouAction="@{viewModel.parentViewModel.selectedAchievementGoal.action}"
                 tools:text="Get YAP Young now" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
