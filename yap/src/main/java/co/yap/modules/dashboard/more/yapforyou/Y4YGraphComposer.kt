@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.yapforyou
 
 import android.graphics.Color
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
@@ -123,6 +124,7 @@ class Y4YGraphComposer : IY4YComposer {
                             enabled = true,
                             buttonSize = CoreButton.ButtonSize.MEDIUM
                         ),
+                        activityOnAction = PaymentCardDetailActivity::class.simpleName,
                         isDone = checkIfTaskCompleted(
                             YapForYouGoalType.FREEZE_UNFREEZE_CARD
                         ),

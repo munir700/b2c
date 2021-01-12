@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             tools:tint="#00B9AE"
-            android:alpha="@{viewModel.achievement.isCompleted ? 0.9f : 0.25f }"
+            android:alpha="@{viewModel.achievement.isCompleted ? 1f : 0.25f }"
             android:tint="@{viewModel.achievement.tintColor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

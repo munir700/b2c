@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.yapforyou.achievementdetail
 
+import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
@@ -8,12 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAchievementDetailsBinding
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.yapcore.enums.YapForYouGoalType
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
+import co.yap.yapcore.managers.SessionManager
 
 class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewModel>(),
     IAchievementDetail.View {
@@ -54,13 +57,30 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
                     }
 
                     MoreActivity::javaClass.name -> {
-                        launchActivityForResult<MoreActivity> { resultCode, _ ->
+                        launchActivityForResult<MoreActivity> { _, _ ->
                             viewModel.parentViewModel?.getAchievements()
+                        }
+                    }
+
+                    PaymentCardDetailActivity::class.simpleName -> {
+                        SessionManager.getPrimaryCard()?.let {debitCard->
+                            startActivityForResult(
+                                PaymentCardDetailActivity.newIntent(
+                                    requireContext(),
+                                    debitCard
+                                ),
+                                9999
+                            )
                         }
                     }
                 }
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        viewModel.parentViewModel?.getAchievements()
     }
 
     override fun addObservers() {
