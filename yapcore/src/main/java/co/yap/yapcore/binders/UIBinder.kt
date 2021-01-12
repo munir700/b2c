@@ -57,6 +57,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -988,6 +991,17 @@ object UIBinder {
         } else {
             view.setImageResource(R.drawable.card_spare)
 
+        }
+    }
+
+    @BindingAdapter("selectedListener")
+    @JvmStatic
+    fun getChipSelection(chipGroup: ChipGroup, listener: OnItemClickListener?) {
+          for (index in 0 until chipGroup.childCount) {
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                listener?.onItemClick(view, isChecked, index)
+            }
         }
     }
 
