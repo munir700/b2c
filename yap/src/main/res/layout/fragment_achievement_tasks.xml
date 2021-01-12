@@ -56,10 +56,10 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAchievementName"
-                style="@style/ARegular"
+                style="@style/ALarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
+                android:layout_marginTop="@dimen/margin_medium"
                 app:text="@{viewModel.parentViewModel.selectedAchievement.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.parentViewModel.selectedAchievement.completedPercentage+`%`)}"
                 android:visibility="visible"
+                android:layout_marginTop="@dimen/margin_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAchievementName"

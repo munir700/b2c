@@ -304,7 +304,7 @@ class Y4YGraphComposer : IY4YComposer {
                         action = YAPForYouGoalAction.Button(
                             title = Strings.screen_yfy_get_yap_young_button_label,
                             enabled = false,
-                            buttonSize = CoreButton.ButtonSize.LARGE
+                            buttonSize = CoreButton.ButtonSize.MEDIUM
                         ),
                         isDone = checkIfTaskCompleted(
                             Y4YAchievement.YAP_STORE,
