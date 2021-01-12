@@ -18,7 +18,7 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_CSRF_TOKEN = "/auth/login"
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/login-token"
     const val URL_LOGOUT = "/auth/oauth/oidc/logout"
-    const val URL_MS_LOGIN_TOKEN ="/api/notifications/customer-token"
+    const val URL_MS_LOGIN_TOKEN = "/api/notifications/customer-token"
 
     private val API: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
@@ -71,14 +71,8 @@ object AuthRepository : BaseRepository(), AuthApi {
     }
 
     //FCM API
-    override suspend fun getMsToken(msObject: MsTokenRequest): RetroApiResponse<MsTokenResponse> {
-        val response = executeSafely(call = { API.getMsToken(msObject) })
-        when (response) {
-            is RetroApiResponse.Success -> {
-            }
-        }
-        return response
-    }
+    override suspend fun getMsToken(msObject: MsTokenRequest): RetroApiResponse<MsTokenResponse> =
+        executeSafely(call = { API.getMsToken(msObject) })
 
     override fun getJwtToken(): String? {
         return CookiesManager.jwtToken
