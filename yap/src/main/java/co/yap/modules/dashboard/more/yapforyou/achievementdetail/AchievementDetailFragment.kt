@@ -80,15 +80,25 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        viewModel.parentViewModel?.getAchievements()
+        viewModel.parentViewModel?.getMockApiResponse()
     }
 
     override fun addObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
+        viewModel.parentViewModel?.achievementsResponse?.observe(this, Observer {
+            val updatedYapForYouGoal =
+                viewModel.parentViewModel?.achievementsList?.flatMap { it.goals!!.toList() }
+                    ?.firstOrNull {
+                        it.title == viewModel.parentViewModel?.selectedAchievementGoal?.get()?.title
+                    }
+
+            viewModel.parentViewModel?.selectedAchievementGoal?.set(updatedYapForYouGoal)
+        })
     }
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObserver(onClickObserver)
+        viewModel.parentViewModel?.achievementsResponse?.removeObservers(this)
     }
 
     override fun onDestroyView() {

@@ -1,9 +1,7 @@
 package co.yap.modules.dashboard.more.yapforyou.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
-import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
@@ -17,11 +15,8 @@ class YAPForYouViewModel(application: Application) :
     YapForYouBaseViewModel<IYAPForYou.State>(application), IYAPForYou.ViewModel,
     IRepositoryHolder<TransactionsRepository> {
 
-    private val y4yComposer: IY4YComposer = Y4YGraphComposer()
     override val repository: TransactionsRepository = TransactionsRepository
-    override val state: YAPForYouState =
-        YAPForYouState()
-
+    override val state: YAPForYouState = YAPForYouState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var adaptor: YAPForYouAdapter = YAPForYouAdapter(mutableListOf())
 
@@ -41,8 +36,6 @@ class YAPForYouViewModel(application: Application) :
     }
 
     override fun setAchievements(achievementsResponse: ArrayList<Achievement>) {
-        parentViewModel?.achievementsList =
-            y4yComposer.compose(achievementsResponse)
         adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
         state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
         state.isNoCompletedAchievements.set(parentViewModel?.achievementsList?.filter { it.isCompleted }
@@ -53,7 +46,7 @@ class YAPForYouViewModel(application: Application) :
         parentViewModel?.selectedAchievement?.set(y4YAchievementData)
     }
 
-    private fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData {
+    private fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData? {
         from.sortWith(Comparator { first, second ->
             if (first.completedPercentage > second.completedPercentage && first.lastUpdated > second.lastUpdated) {
                 1
@@ -61,6 +54,6 @@ class YAPForYouViewModel(application: Application) :
                 0
             }
         })
-        return from.first()
+        return from.firstOrNull()
     }
 }

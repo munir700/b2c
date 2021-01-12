@@ -64,6 +64,7 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.parentViewModel?.achievementsResponse?.removeObservers(this)
         super.onDestroy()
     }
 

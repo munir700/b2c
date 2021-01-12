@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
+import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
 import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
@@ -33,6 +35,7 @@ class YapForYouMainViewModel(application: Application) :
     override var achievementsList: MutableList<Y4YAchievementData> = mutableListOf()
     override var achievementsResponse: MutableLiveData<ArrayList<Achievement>> =
         MutableLiveData(arrayListOf())
+    private val y4yComposer: IY4YComposer = Y4YGraphComposer()
 
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)
@@ -46,6 +49,8 @@ class YapForYouMainViewModel(application: Application) :
                 when (response) {
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
+                        achievementsList.clear()
+                        achievementsList.addAll(y4yComposer.compose(response.data.data as ArrayList<Achievement>))
                         achievementsResponse.value = (response.data.data as ArrayList<Achievement>)
                     }
 
@@ -98,6 +103,8 @@ class YapForYouMainViewModel(application: Application) :
                 )
             }
             state.loading = false
+            achievementsList.clear()
+            achievementsList.addAll(y4yComposer.compose(list))
             achievementsResponse.value = list
         }
 
