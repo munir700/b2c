@@ -26,6 +26,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
@@ -58,6 +59,7 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
+
 
 object UIBinder {
     @BindingAdapter(requireAll = false, value = ["adaptor", "selectedListener"])
@@ -991,7 +993,7 @@ object UIBinder {
         }
     }
 
-    @BindingAdapter("yapForYouAction","isDone")
+    @BindingAdapter("yapForYouAction", "isDone")
     @JvmStatic
     fun setYapForYouButton(
         view: CoreButton,

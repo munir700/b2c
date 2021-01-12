@@ -32,12 +32,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
-                android:alpha="0.5"
-                android:tint="@{viewModel.parentViewModel.selectedAchievement.tintColor}"
+                android:alpha="@{viewModel.parentViewModel.selectedAchievement.completed ? 1f : 0.5f}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_y4y_tail_badge" />
+                app:srcCompat="@{viewModel.parentViewModel.selectedAchievement.completed ? viewModel.parentViewModel.selectedAchievement.completeAchievementIcon : viewModel.parentViewModel.selectedAchievement.incompleteAchievementIcon}"
+                />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgIconInner"
