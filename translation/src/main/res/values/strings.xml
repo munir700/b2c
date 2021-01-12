@@ -1256,7 +1256,7 @@
     <string name="screen_yfy_take_a_leap_text_set_mc_account">Set up a multi-currency account</string>
 
     <!--  Achievements Yap store-->
-    <string name="screen_yfy_yap_store_text_title">YAP store</string>
+    <string name="screen_yfy_yap_store_text_title">YAP Store</string>
     <string name="screen_yfy_yap_store_text_get_yap_young">Get YAP Young</string>
     <string name="screen_yfy_yap_store_text_sign_up_house_hold">Sign up to Household</string>
     <string name="screen_yfy_yap_store_text_set_mission">Set missions on YAP Young</string>
