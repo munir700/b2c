@@ -4,6 +4,8 @@ import android.app.Application
 import co.yap.R
 import co.yap.modules.dashboard.more.yapforyou.adapters.CompletedAchievementsAdaptor
 import co.yap.modules.dashboard.more.yapforyou.interfaces.ICompletedAchievements
+import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.modules.dashboard.more.yapforyou.states.CompletedAchievementsState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -28,6 +30,10 @@ class CompletedAchievementsViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_your_achievements_display_text_toolbar_title))
         setLeftIcon(R.drawable.ic_close_primary)
         setLeftIconVisibility(true)
+    }
+
+    override fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData) {
+        parentViewModel?.selectedAchievement?.set(y4YAchievementData)
     }
 
     override fun handlePressOnButton(id: Int) {
