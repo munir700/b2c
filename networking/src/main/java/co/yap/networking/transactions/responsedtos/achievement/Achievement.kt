@@ -19,7 +19,7 @@ data class Achievement(
     @SerializedName("lock")
     val isForceLocked: Boolean? = null,
     @SerializedName("tasks")
-    val tasks: List<AchievementTask>? = null,
+    val goals: List<AchievementTask>? = null,
     @SerializedName("lastUpdated")
     val lastUpdated: String? = null
 ) : Parcelable {

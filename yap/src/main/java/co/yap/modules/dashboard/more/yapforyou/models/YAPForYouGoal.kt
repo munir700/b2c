@@ -12,5 +12,6 @@ data class YAPForYouGoal(
     var description: String = "",
     var successDescription: String = "",
     var media: YAPForYouGoalMedia? = null,
-    var completedMedia: YAPForYouGoalMedia? = null
+    var completedMedia: YAPForYouGoalMedia? = null,
+    var locked: Boolean? = null
 )

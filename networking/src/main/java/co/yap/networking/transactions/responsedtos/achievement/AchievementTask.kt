@@ -11,5 +11,7 @@ data class AchievementTask(
     @SerializedName("title")
     val title: String,
     @SerializedName("completion")
-    val completion: Boolean
+    val completion: Boolean,
+    @SerializedName("lock")
+    val locked: Boolean
 ) : Parcelable

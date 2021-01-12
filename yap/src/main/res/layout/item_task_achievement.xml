@@ -14,21 +14,30 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/small">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivGoalState"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:src="@{viewModel.task.locked? @drawable/ic_goal_locked : viewModel.task.done? @drawable/ic_checked_icon : @drawable/;
+             'l;\}"
+            tools:src="@drawable/ic_goal_locked" />
+
         <TextView
             android:id="@+id/tvTitle"
             style="@style/ASmall"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@{viewModel.task.done? @drawable/ic_checked_icon : @drawable/empty_circle}"
             app:text="@{viewModel.task.title}"
-            android:drawablePadding="@dimen/margin_medium"
             android:gravity="center_vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="@{viewModel.task.locked ? 0.44f : 1f}"
+            android:layout_marginStart="@dimen/margin_medium"
             android:textSize="@dimen/_12sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:drawableStart="@drawable/ic_checked_icon"
+            app:layout_constraintBottom_toBottomOf="@id/ivGoalState"
+            app:layout_constraintStart_toEndOf="@+id/ivGoalState"
+            app:layout_constraintTop_toTopOf="@id/ivGoalState"
             android:textColor="?attr/colorPrimaryAttr"
             tools:textColor="@color/colorPrimary"
             tools:text="Send money to someone outside YAP" />

@@ -80,7 +80,8 @@ class YapForYouMainViewModel(application: Application) :
                         AchievementTask(
                             title = tasks.getJSONObject(j).getString("title"),
                             completion = tasks.getJSONObject(j).getBoolean("completion"),
-                            achievementTaskType = tasks.getJSONObject(j).getString("taskType")
+                            achievementTaskType = tasks.getJSONObject(j).getString("taskType"),
+                            locked = tasks.getJSONObject(j).getBoolean("lock")
                         )
                     )
                 }
@@ -92,7 +93,7 @@ class YapForYouMainViewModel(application: Application) :
                         achievementType = acheivementType,
                         order = order,
                         isForceLocked = lock,
-                        tasks = tasksList
+                        goals = tasksList
                     )
                 )
             }
