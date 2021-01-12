@@ -17,7 +17,7 @@ public class EncodingUtils {
         return encoding == FieldLevelEncryptionConfig.FieldValueEncoding.HEX ? hexDecode(value) : base64Decode(value);
     }
 
-    protected static String hexEncode(byte[] bytes) {
+    public static String hexEncode(byte[] bytes) {
         if (null == bytes) {
             throw new IllegalArgumentException("Can't hex encode a null value!");
         }
@@ -26,6 +26,18 @@ public class EncodingUtils {
             stringBuilder.append(String.format("%02x", b));
         }
         return stringBuilder.toString();
+    }
+
+    protected static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
     protected static byte[] hexDecode(String value) {

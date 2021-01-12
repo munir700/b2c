@@ -17,6 +17,7 @@ import java.security.SignatureException;
 
 import co.yap.wallet.encriptions.utils.EncodingUtils;
 
+import static co.yap.wallet.encriptions.encryption.FieldLevelEncryptionConfigBuilder.sha256digestBytes;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -118,8 +119,12 @@ public class TAVSignatureMethod {
             signer.initSign(privateKey);
             signer.update(signatureBaseString.getBytes(UTF_8));
             byte[] signatureBytes = signer.sign();
-            //String hexEncode = EncodingUtils.base64Encode(signatureBytes);
-            //signatureBytes = Base64.encode(signatureBytes, Base64.DEFAULT);
+
+            String hashData = EncodingUtils.hexEncode(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
+            System.out.println("HASH_DATA" + hashData);
+            System.out.println("Signature" + EncodingUtils.hexEncode(signatureBytes));
+            // String hexEncode = EncodingUtils.base64Encode(signatureBytes);
+            // signatureBytes = Base64.encode(signatureBytes, Base64.DEFAULT);
             return EncodingUtils.base64Encode(signatureBytes);//new String(signatureBytes, UTF_8);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new InvalidSignatureException("Invalid signature for signature method:" + e.getLocalizedMessage(), e);

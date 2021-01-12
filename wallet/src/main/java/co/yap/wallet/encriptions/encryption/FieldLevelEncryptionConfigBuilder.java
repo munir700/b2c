@@ -338,7 +338,7 @@ public final class FieldLevelEncryptionConfigBuilder {
         }
     }
 
-    private static byte[] sha256digestBytes(byte[] bytes) throws NoSuchAlgorithmException {
+    protected static byte[] sha256digestBytes(byte[] bytes) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         messageDigest.update(bytes);
         return messageDigest.digest();
