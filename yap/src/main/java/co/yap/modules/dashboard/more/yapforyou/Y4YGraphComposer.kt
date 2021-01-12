@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.yapforyou
 
 import android.graphics.Color
+import co.yap.R
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
 import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
@@ -26,6 +27,8 @@ class Y4YGraphComposer : IY4YComposer {
                 completedPercentage = getAchievementPercentage(Y4YAchievement.GET_STARTED),
                 isLocked = isForceLocked(Y4YAchievement.GET_STARTED),
                 lastUpdated = getAchievementLastFunction(Y4YAchievement.GET_STARTED),
+                completeAchievementIcon = R.drawable.ic_gs_badge,
+                incompleteAchievementIcon = R.drawable.ic_gs_badge_faded,
                 goals = arrayListOf(
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -97,6 +100,8 @@ class Y4YGraphComposer : IY4YComposer {
                 completedPercentage = getAchievementPercentage(Y4YAchievement.UP_AND_RUNNING),
                 isLocked = isForceLocked(Y4YAchievement.UP_AND_RUNNING),
                 lastUpdated = getAchievementLastFunction(Y4YAchievement.UP_AND_RUNNING),
+                completeAchievementIcon = R.drawable.ic_uar_badge,
+                incompleteAchievementIcon = R.drawable.ic_uar_badge_faded,
                 goals = arrayListOf(
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -160,6 +165,8 @@ class Y4YGraphComposer : IY4YComposer {
                 completedPercentage = getAchievementPercentage(Y4YAchievement.BETTER_TOGETHER),
                 isLocked = isForceLocked(Y4YAchievement.BETTER_TOGETHER),
                 lastUpdated = getAchievementLastFunction(Y4YAchievement.BETTER_TOGETHER),
+                completeAchievementIcon = R.drawable.ic_bt_badge,
+                incompleteAchievementIcon = R.drawable.ic_bt_badge_faded,
                 goals = arrayListOf(
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -224,6 +231,8 @@ class Y4YGraphComposer : IY4YComposer {
                 completedPercentage = getAchievementPercentage(Y4YAchievement.TAKE_THE_LEAP),
                 isLocked = isForceLocked(Y4YAchievement.TAKE_THE_LEAP),
                 lastUpdated = getAchievementLastFunction(Y4YAchievement.TAKE_THE_LEAP),
+                completeAchievementIcon = R.drawable.ic_ttl_badge,
+                incompleteAchievementIcon = R.drawable.ic_ttl_badge_faded,
                 goals = arrayListOf(
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -297,6 +306,8 @@ class Y4YGraphComposer : IY4YComposer {
                 completedPercentage = getAchievementPercentage(Y4YAchievement.YAP_STORE),
                 isLocked = isForceLocked(Y4YAchievement.YAP_STORE),
                 lastUpdated = getAchievementLastFunction(Y4YAchievement.YAP_STORE),
+                completeAchievementIcon = R.drawable.ic_ys_badge,
+                incompleteAchievementIcon = R.drawable.ic_ys_badge_faded,
                 goals = arrayListOf(
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
@@ -366,6 +377,8 @@ class Y4YGraphComposer : IY4YComposer {
                 completedPercentage = getAchievementPercentage(Y4YAchievement.YOU_ARE_A_PRO),
                 isLocked = isForceLocked(Y4YAchievement.YOU_ARE_A_PRO),
                 lastUpdated = getAchievementLastFunction(Y4YAchievement.YOU_ARE_A_PRO),
+                completeAchievementIcon = R.drawable.ic_yrp_badge,
+                incompleteAchievementIcon = R.drawable.ic_yrp_badge_faded,
                 goals = arrayListOf(
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
