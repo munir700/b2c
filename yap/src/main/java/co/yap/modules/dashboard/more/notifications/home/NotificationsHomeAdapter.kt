@@ -50,7 +50,8 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
 
     override fun getVariableId() = BR.viewModel
     override fun onGetSwipeReactionType(holder: ViewHolder, position: Int, x: Int, y: Int) =
-        SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT
+        if (datas[position].isDeleteAble) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
+
 
     override fun onSwipeItemStarted(holder: ViewHolder, position: Int) {
         notifyDataSetChanged()
@@ -80,6 +81,7 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
         super.removeAt(position)
         oldSwipePosition = RecyclerView.NO_POSITION
     }
+
     class ViewHolder(
         view: View,
         viewModel: NotificationItemViewModel,

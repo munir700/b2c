@@ -13,10 +13,16 @@ import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 object ImageBinding {
     @JvmStatic
@@ -135,7 +141,7 @@ object ImageBinding {
         showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName?:""
+        val fName = fullName ?: ""
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
@@ -180,6 +186,34 @@ object ImageBinding {
     fun setImageViewResource(imageView: AppCompatImageView, resource: Int) {
         imageView.setImageResource(resource)
     }
+
+    @JvmStatic
+    @BindingAdapter("app:srcCompatGif")
+    fun setGifImageViewResource(imageView: AppCompatImageView, resource: Int) {
+        Glide.with(imageView.context).asGif().load(resource)
+            .listener(object : RequestListener<GifDrawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<GifDrawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return true
+                }
+
+                override fun onResourceReady(
+                    resource: GifDrawable?,
+                    model: Any?,
+                    target: Target<GifDrawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    resource?.setLoopCount(1)
+                    return false
+                }
+            }).into(imageView)
+    }
+
     @JvmStatic
     @BindingAdapter("app:srcCompat")
     fun setImageViewResource(imageView: CoreCircularImageView, resource: Int) {
@@ -271,9 +305,9 @@ object ImageBinding {
 
         val resId = getResId(
             "flag_${
-                getDrawableName(
-                    countryName
-                )
+            getDrawableName(
+                countryName
+            )
             }"
         )
         if (resId != -1) {

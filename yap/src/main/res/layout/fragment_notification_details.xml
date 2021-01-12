@@ -49,7 +49,7 @@
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium">
 
-                <co.yap.widgets.CoreCircularImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivNotificationImage"
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
@@ -58,7 +58,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@{viewModel.state.notification.imgResId}"
+                    app:srcCompatGif="@{viewModel.state.notification.imgResId}"
                     tools:src="@drawable/ic_store_b2b" />
 
                 <androidx.appcompat.widget.AppCompatTextView

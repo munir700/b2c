@@ -18,6 +18,7 @@ import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.NotificationHelper.getNotificationTestData
+import co.yap.yapcore.helpers.NotificationHelper.getNotifications
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -59,7 +60,7 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
         }
         mRecyclerViewSwipeManager = RecyclerViewSwipeManager().apply {
             mNotificationsAdapter = NotificationsHomeAdapter(
-                getNotificationTestData(
+                getNotifications(
                     SessionManager.user,
                     SessionManager.card.value,
                     requireContext()
