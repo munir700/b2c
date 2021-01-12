@@ -85,11 +85,11 @@
             <TextView
                 android:id="@+id/tvAmount"
                 style="@style/Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="71dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:textSize="@dimen/text_size_h2"
                 android:text="@{CurrencyExtensionsKt.toFormattedCurrency(viewModel.analyticsItem.totalSpending,true,SessionManager.INSTANCE.defaultCurrency,true)}"
+                android:textSize="@dimen/text_size_h2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/content"
                 tools:text="AED 600.30" />
