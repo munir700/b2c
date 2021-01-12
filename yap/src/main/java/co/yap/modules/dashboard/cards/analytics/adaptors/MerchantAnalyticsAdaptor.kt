@@ -4,6 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
+import co.yap.databinding.ItemMarchentAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.MerchantAnalyticsItemViewHolder
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.BaseBindingRecyclerAdapter
@@ -14,10 +15,10 @@ class MerchantAnalyticsAdaptor(private val list: MutableList<TxnAnalytic>) :
     var checkedPosition: Int = -1
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return MerchantAnalyticsItemViewHolder(binding as ItemAnalyticsBinding)
+        return MerchantAnalyticsItemViewHolder(binding as ItemMarchentAnalyticsBinding)
     }
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_analytics
+    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_marchent_analytics
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
