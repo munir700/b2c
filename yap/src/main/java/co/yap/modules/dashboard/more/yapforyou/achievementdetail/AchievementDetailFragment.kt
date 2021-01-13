@@ -78,11 +78,6 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        viewModel.parentViewModel?.getMockApiResponse()
-    }
-
     override fun addObservers() {
         viewModel.clickEvent.observe(this, onClickObserver)
         viewModel.parentViewModel?.achievementsResponse?.observe(this, Observer {
@@ -94,6 +89,11 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
 
             viewModel.parentViewModel?.selectedAchievementGoal?.set(updatedYapForYouGoal)
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        viewModel.parentViewModel?.getAchievements()
     }
 
     override fun removeObservers() {
