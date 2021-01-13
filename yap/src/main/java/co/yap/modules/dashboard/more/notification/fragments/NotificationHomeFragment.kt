@@ -17,7 +17,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.leanplum.Leanplum
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import java.util.*
-
+@Deprecated("")
 class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.ViewModel>() {
     private lateinit var onTouchListener: RecyclerTouchListener
 
@@ -43,9 +43,9 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbBtnSettings -> {
-                val action =
-                    NotificationHomeFragmentDirections.actionNotificationHomeFragmentToNotificationSettingsFragment()
-                findNavController().navigate(action)
+//                val action =
+//                    NotificationHomeFragmentDirections.actionNotificationHomeFragmentToNotificationSettingsFragment()
+//                findNavController().navigate(action)
             }
         }
     }
@@ -119,9 +119,9 @@ class NotificationHomeFragment : NotificationsBaseFragment<INotificationHome.Vie
 
         Leanplum.getInbox().messageForId(viewModel.parentViewModel?.notification?.id).read()
 
-        val action =
-            NotificationHomeFragmentDirections.actionNotificationHomeFragmentToNotificationDetailFragment()
-        findNavController().navigate(action)
+//        val action =
+//            NotificationHomeFragmentDirections.actionNotificationHomeFragmentToNotificationDetailFragment()
+//        findNavController().navigate(action)
     }
 
     private fun deleteNotification(position: Int) {

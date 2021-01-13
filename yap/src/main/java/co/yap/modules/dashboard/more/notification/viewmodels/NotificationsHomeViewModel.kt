@@ -9,7 +9,7 @@ import co.yap.modules.yapnotification.models.Notification
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import com.leanplum.Leanplum
-
+@Deprecated("")
 class NotificationsHomeViewModel(application: Application) :
     NotificationsBaseViewModel<INotificationHome.State>(application),
     INotificationHome.ViewModel {

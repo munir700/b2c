@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.more.notification.interfaces
+package co.yap.modules.dashboard.more.notifications.setting
 
 import co.yap.yapcore.IBase
 

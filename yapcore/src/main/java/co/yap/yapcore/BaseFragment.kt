@@ -167,5 +167,5 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
     }
 
-    override fun getScreenName(): String? = null
+    override fun getScreenName(): String? = ""
 }

@@ -273,4 +273,16 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
     suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_CUSTOMER_NOTIFICATIONS)
+    suspend fun getMsCustomerNotifications(@Body msCustomerNotifications: MsCustomerNotificationsRequest): Response<CustomerNotificationResponse>
+
+    @PUT(CustomersRepository.URL_CUSTOMER_NOTIFICATION_READABLE)
+    suspend fun updateMsNotificationsRead(
+        @Query("notificationId") notificationId: String,
+        @Query("is_read") is_read: Boolean
+    ): Response<ApiResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_CUSTOMER_NOTIFICATION)
+    suspend fun deleteMsCustomerNotification(@Query("notificationId") notificationId: String): Response<ApiResponse>
 }

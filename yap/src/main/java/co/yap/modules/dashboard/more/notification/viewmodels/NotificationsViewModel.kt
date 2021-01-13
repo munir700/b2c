@@ -6,7 +6,7 @@ import co.yap.modules.dashboard.more.notification.states.NotificationState
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 class NotificationsViewModel(application: Application) :
     BaseViewModel<INotifications.State>(application),
     INotifications.ViewModel {

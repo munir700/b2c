@@ -66,6 +66,25 @@ fun ViewModel.trackEventWithAttributes(
     )
 }
 
+fun trackEventWithAttributes(
+    user: AccountInfo?,
+    signup_length: String? = null,
+    account_active: String? = null,
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = "",
+    city: String? = null
+) {
+    trackAttributes(
+        user,
+        signup_length,
+        account_active,
+        context,
+        eidExpire,
+        eidExpireDate, city
+    )
+}
+
 private fun trackAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
