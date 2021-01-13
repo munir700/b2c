@@ -28,7 +28,7 @@ class CompletedAchievementsViewModel(application: Application) :
     private fun setupToolbar() {
         toggleToolBarVisibility(true)
         setToolBarTitle(getString(Strings.screen_your_achievements_display_text_toolbar_title))
-        setLeftIcon(R.drawable.ic_close_primary)
+        setLeftIcon(R.drawable.ic_back_arrow_left)
         setLeftIconVisibility(true)
     }
 

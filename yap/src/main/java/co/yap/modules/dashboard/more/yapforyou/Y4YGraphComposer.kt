@@ -54,6 +54,7 @@ class Y4YGraphComposer : IY4YComposer {
                         description = Strings.screen_yfy_set_your_pin_description,
                         successDescription = "",
                         media = YAPForYouGoalMedia.Image("ic_set_pin"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_completed_set_pin_goal"),
                         locked = isGoalLocked(YapForYouGoalType.SET_PIN)
                     ),
                     YAPForYouGoal(
@@ -201,8 +202,8 @@ class Y4YGraphComposer : IY4YComposer {
                         description = Strings.screen_yfy_send_money_to_someone_description,
                         successDescription = "",
                         media = YAPForYouGoalMedia.LottieAnimation("make_a_y2y_transfer_lottie.json"),
+                        completedMedia = YAPForYouGoalMedia.Image("ic_make_y2y_completed"),
                         locked = isGoalLocked(YapForYouGoalType.MAKE_Y2Y_TRANSFER)
-
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),

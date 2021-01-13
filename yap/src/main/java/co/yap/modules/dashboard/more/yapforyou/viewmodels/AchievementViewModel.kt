@@ -31,7 +31,7 @@ class AchievementViewModel(application: Application) :
 
     private fun setupToolbar() {
         setToolBarTitle(getString(Strings.screen_yap_for_you_display_text_title))
-        setLeftIcon(R.drawable.ic_close_primary)
+        setLeftIcon(R.drawable.ic_back_arrow_left)
         setLeftIconVisibility(true)
         toggleToolBarVisibility(true)
     }
