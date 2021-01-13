@@ -12,7 +12,7 @@ enum class YapForYouGoalType(val title: String) {
     //Up & Running
     LOCAL_USE(Strings.screen_yfy_up_and_running_text_use_yap_locally),  //LOCAL_USE
     FREEZE_UNFREEZE_CARD(Strings.screen_yfy_up_and_running_text_freeze_unfreeze),
-    SPEND_AMOUNT(Strings.screen_yfy_up_and_running_text_spend_money),
+    SPEND_AMOUNT_100(Strings.screen_yfy_up_and_running_text_spend_money),
     EXPLORE_CARD_CONTROLS(Strings.screen_yfy_up_and_running_text_explore_card_controls),
 
     //Better Together
@@ -35,7 +35,7 @@ enum class YapForYouGoalType(val title: String) {
 
     // You are a pro
     INVITE_TEN_FRIENDS(Strings.screen_yfy_you_are_pro_text_invite_friends),
-    SPEND_THOUSAND_AED(Strings.screen_yfy_you_are_pro_text_spend_amount),
+    SPEND_AMOUNT_1000(Strings.screen_yfy_you_are_pro_text_spend_amount),
     COMPLETE_RENEWAL(Strings.screen_yfy_you_are_pro_text_complete_a_renewal),
 
 }

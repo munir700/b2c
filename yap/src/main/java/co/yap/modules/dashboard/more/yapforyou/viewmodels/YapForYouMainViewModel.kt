@@ -79,6 +79,7 @@ class YapForYouMainViewModel(application: Application) :
                 val acheivementType: String = parentArrayList.getString("achievementType")
                 val order: Int = parentArrayList.getInt("order")
                 val lock = parentArrayList.getBoolean("lock")
+                val lastUpdatedDate = parentArrayList.getString("lastUpdated")
                 val tasks = parentArrayList.getJSONArray("tasks")
                 for (j in 0 until tasks.length()) {
                     tasksList.add(
@@ -98,6 +99,7 @@ class YapForYouMainViewModel(application: Application) :
                         achievementType = acheivementType,
                         order = order,
                         isForceLocked = lock,
+                        lastUpdated = lastUpdatedDate,
                         goals = tasksList
                     )
                 )

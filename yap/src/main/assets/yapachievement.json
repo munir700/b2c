@@ -7,7 +7,7 @@
       "percentage": 75.0,
       "order": 0,
       "colorCode": "#BB42EB",
-      "lastUpdated": "2021-01-06T19:20:17",
+      "lastUpdated": "2021-01-06T19:17:17",
       "tasks": [
         {
           "taskType": "OPEN_YOUR_YAP_ACCOUNT",
@@ -47,7 +47,7 @@
     {
       "achievementType": "UP_AND_RUNNING",
       "title": "Up and running",
-      "percentage": 0.0,
+      "percentage": 75.0,
       "order": 0,
       "colorCode": "#478DF4",
       "lastUpdated": "2021-01-06T19:16:17",

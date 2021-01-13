@@ -139,15 +139,15 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
-                        title = YapForYouGoalType.SPEND_AMOUNT.title,
+                        title = YapForYouGoalType.SPEND_AMOUNT_100.title,
                         isDone = checkIfTaskCompleted(
-                            YapForYouGoalType.SPEND_AMOUNT
+                            YapForYouGoalType.SPEND_AMOUNT_100
                         ),
                         description = Strings.screen_yfy_spend_aed_description,
                         successDescription = "",
                         media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_spend_aed_amount_completed"),
-                        locked = isGoalLocked(YapForYouGoalType.SPEND_AMOUNT)
+                        locked = isGoalLocked(YapForYouGoalType.SPEND_AMOUNT_100)
 
                     ),
                     YAPForYouGoal(
@@ -406,15 +406,15 @@ class Y4YGraphComposer : IY4YComposer {
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
-                        title = YapForYouGoalType.SPEND_THOUSAND_AED.title,
+                        title = YapForYouGoalType.SPEND_AMOUNT_1000.title,
                         isDone = checkIfTaskCompleted(
-                            YapForYouGoalType.SPEND_THOUSAND_AED
+                            YapForYouGoalType.SPEND_AMOUNT_1000
                         ),
                         description = Strings.screen_yfy_spend_thousand_description,
                         successDescription = "",
                         media = YAPForYouGoalMedia.LottieAnimation("spend_aed_amount.json"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_spend_aed_amount_completed"),
-                        locked = isGoalLocked(YapForYouGoalType.SPEND_THOUSAND_AED)
+                        locked = isGoalLocked(YapForYouGoalType.SPEND_AMOUNT_1000)
                     ),
                     YAPForYouGoal(
                         lottieSuccessFileName = YAPForYouGoalMedia.LottieAnimation("success_lottie.json"),
