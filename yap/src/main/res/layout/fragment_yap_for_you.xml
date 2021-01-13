@@ -66,11 +66,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:alpha="@{viewModel.state.currentAchievement.completed ? 1f : 0.5f}"
-                    android:tint="@{viewModel.state.currentAchievement.tintColor}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvHeading"
-                    app:srcCompat="@drawable/ic_y4y_tail_badge" />
+                    app:srcCompat="@{viewModel.state.currentAchievement.completed ? viewModel.state.currentAchievement.completeAchievementIcon : viewModel.state.currentAchievement.incompleteAchievementIcon}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgIconInner"
