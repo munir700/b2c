@@ -36,7 +36,7 @@ class UploadAdditionalDocumentAdapter(
                 if (additionalDocument.status == "DONE") View.VISIBLE else View.GONE
 
             itemUploadAdditionalDocumentBinding.tvDocumentDescription.text =
-                if (additionalDocument.status == "DONE") "Verification completed" else "Tap to scan your " + additionalDocument.name?.toLowerCase() + " copy"
+                if (additionalDocument.status == "DONE") "Document uploaded. \nTap to rescan" else "Tap to scan your " + additionalDocument.name?.toLowerCase() + " copy"
 
             itemUploadAdditionalDocumentBinding.viewModel =
                 UploadAdditionalDocumentItemViewModel(

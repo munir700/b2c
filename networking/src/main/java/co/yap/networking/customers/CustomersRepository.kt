@@ -74,8 +74,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     val URL_SEND_MONEY_UAEFT = "/transactions/api/uaefts"
     val URL_GET_FEE = "/transactions/api/product-codes/{product-code}/fees"
     val URL_BENEFICIARY_CHECK_OTP_STATUS = "customers/api/beneficiaries/bank-transfer/otp-req"
-    const  val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
-
+    const val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
 
 
     val URL_RMT = "transactions/api/rmt"
@@ -119,6 +118,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
+    const val URL_ADDITIONAL_SUBMIT =
+        "customers/api/additional/documents/update-notification-status"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -376,7 +377,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
 
     override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
-    executeSafely(call = { api.updateFxRate(fxRate) })
+        executeSafely(call = { api.updateFxRate(fxRate) })
 
     override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
         executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
@@ -395,7 +396,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
                     uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
                 )
             val body =
-                MultipartBody.Part.createFormData("files", uploadAdditionalInfo.files?.name, reqFile)
+                MultipartBody.Part.createFormData(
+                    "files",
+                    uploadAdditionalInfo.files?.name,
+                    reqFile
+                )
             executeSafely(call = {
                 api.uploadAdditionalDocuments(
                     files = body,
@@ -411,6 +416,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
         executeSafely(call = {
             api.uploadAdditionalQuestion(uploadAdditionalInfo)
+        })
+
+    override suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.submitAdditionalInfo(uploadAdditionalInfo)
         })
 
 

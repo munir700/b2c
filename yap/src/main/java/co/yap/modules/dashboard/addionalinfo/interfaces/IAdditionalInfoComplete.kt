@@ -1,13 +1,14 @@
 package co.yap.modules.dashboard.addionalinfo.interfaces
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 
 interface IAdditionalInfoComplete {
     interface View : IBase.View<ViewModel>
 
-    interface ViewModel : IBase.ViewModel<State>
+    interface ViewModel : IBase.ViewModel<State> {
+        fun submitAdditionalInfo(success: () -> Unit)
+    }
 
     interface State : IBase.State {
         val title: ObservableField<String>

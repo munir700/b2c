@@ -273,4 +273,7 @@ interface CustomersRetroService {
 
     @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
     suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_ADDITIONAL_SUBMIT)
+    suspend fun submitAdditionalInfo(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 }

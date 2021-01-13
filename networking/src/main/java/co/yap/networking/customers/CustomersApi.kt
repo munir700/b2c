@@ -14,7 +14,6 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
-import retrofit2.Response
 import retrofit2.http.Body
 
 interface CustomersApi {
@@ -84,6 +83,7 @@ interface CustomersApi {
     ): RetroApiResponse<CountryLimitsResponseDTO>
 
     suspend fun saveReferalInvitation(@Body saveReferalRequest: SaveReferalRequest): RetroApiResponse<ApiResponse>
+
     /*
     * fun that comes from admin repo to be replaced
     * */
@@ -109,4 +109,5 @@ interface CustomersApi {
     suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
     suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
     suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun submitAdditionalInfo(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
 }
