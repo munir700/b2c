@@ -57,7 +57,7 @@ class AddMoneyLandingFragment : AddMoneyBaseFragment<IAddMoneyLanding.ViewModel>
     private fun setupRecycleView() {
         getBinding().recyclerOptions.addItemDecoration(
             SpaceGridItemDecoration(
-                dimen(R.dimen.margin_normal_large) ?: 16, 2, true
+                dimen(R.dimen.margin_normal_large), 2, true
             )
         )
         viewModel.landingAdapter.allowFullItemClickListener = true

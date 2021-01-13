@@ -208,7 +208,7 @@
             android:name=".modules.dashboard.cards.reordercard.activities.ReorderCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".modules.dashboard.more.notification.activities.NotificationsActivity"
+            android:name=".modules.dashboard.more.notifications.main.NotificationsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.dashboard.addionalinfo.activities.AdditionalInfoActivity"

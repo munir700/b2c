@@ -4,7 +4,7 @@ import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.more.notification.adaptor.NotificationsAdaptor
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface INotificationHome {
     interface View : IBase.View<ViewModel>
 

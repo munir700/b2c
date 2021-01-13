@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.more.notification.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-
+@Deprecated("")
 interface INotificationDetail {
 
     interface State : IBase.State

@@ -6,7 +6,7 @@ import co.yap.modules.dashboard.more.notification.viewmodels.NotificationItemVie
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.helpers.DateUtils
 import java.util.*
-
+@Deprecated("")
 class NotificationViewHolder(private val itemNotificationBinding: ItemNotificationBinding) :
     RecyclerView.ViewHolder(itemNotificationBinding.root) {
 

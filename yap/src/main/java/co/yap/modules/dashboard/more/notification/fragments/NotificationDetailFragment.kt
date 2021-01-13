@@ -13,7 +13,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.leanplum.Leanplum
-
+@Deprecated("")
 class NotificationDetailFragment : NotificationsBaseFragment<INotificationDetail.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel

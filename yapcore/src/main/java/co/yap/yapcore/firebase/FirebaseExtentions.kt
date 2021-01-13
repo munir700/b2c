@@ -1,6 +1,5 @@
 package co.yap.yapcore.firebase
 
-import android.content.Context
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import co.yap.yapcore.BaseActivity
@@ -9,12 +8,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
-
-fun Context?.firebaseTagManagerEvent(tagModel: FirebaseTagManagerModel) {
-    this?.let {
-        FirebaseAnalytics.getInstance(it).logEvent(tagModel.action, null)
-    }
-}
 
 /**
  * Log Events manual on  firebase.

@@ -7,33 +7,25 @@
 
     <fragment
         android:id="@+id/notificationHomeFragment"
-        android:name="co.yap.modules.dashboard.more.notification.fragments.NotificationHomeFragment"
-        tools:layout="@layout/fragment_notifications_home"
-        android:label="NotificationHomeFragment">
+        android:name="co.yap.modules.dashboard.more.notifications.home.NotificationsHomeFragment"
+        android:label="NotificationHomeFragment"
+        tools:layout="@layout/fragment_notifications_home_v2">
         <action
             android:id="@+id/action_notificationHomeFragment_to_notificationDetailFragment"
             app:destination="@id/notificationDetailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_down"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_notificationHomeFragment_to_notificationSettingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_down"
             app:destination="@id/notificationSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationDetailFragment"
-        android:name="co.yap.modules.dashboard.more.notification.fragments.NotificationDetailFragment"
+        android:name="co.yap.modules.dashboard.more.notifications.details.NotificationDetailsFragment"
         android:label="NotificationDetailFragment"
-        tools:layout="@layout/fragment_notification_detail" />
+        tools:layout="@layout/fragment_notification_details" />
     <fragment
         android:id="@+id/notificationSettingsFragment"
-        android:name="co.yap.modules.dashboard.more.notification.fragments.NotificationSettingsFragment"
-        tools:layout="@layout/fragment_notification_settings"
-        android:label="NotificationSettingsFragment" />
+        android:name="co.yap.modules.dashboard.more.notifications.setting.NotificationSettingsFragment"
+        android:label="NotificationSettingsFragment"
+        tools:layout="@layout/fragment_notification_settings" />
 </navigation>

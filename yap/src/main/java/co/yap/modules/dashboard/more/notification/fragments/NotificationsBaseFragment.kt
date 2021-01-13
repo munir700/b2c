@@ -6,7 +6,7 @@ import co.yap.modules.dashboard.more.notification.viewmodels.NotificationsBaseVi
 import co.yap.modules.dashboard.more.notification.viewmodels.NotificationsViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
-
+@Deprecated("")
 abstract class NotificationsBaseFragment<V : IBase.ViewModel<*>> :
     BaseBindingFragment<V>() {
     override fun onCreate(savedInstanceState: Bundle?) {

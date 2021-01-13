@@ -6,7 +6,7 @@ import co.yap.databinding.ItemNotificationBinding
 import co.yap.modules.dashboard.more.notification.viewholder.NotificationViewHolder
 import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-
+@Deprecated("")
 class NotificationsAdaptor(private val list: MutableList<Notification>) :
     BaseBindingRecyclerAdapter<Notification, NotificationViewHolder>(list) {
 
