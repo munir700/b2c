@@ -119,10 +119,9 @@ public class TAVSignatureMethod {
             signer.initSign(privateKey);
             signer.update(signatureBaseString.getBytes(UTF_8));
             byte[] signatureBytes = signer.sign();
-
             String hashData = EncodingUtils.hexEncode(sha256digestBytes(signatureBaseString.getBytes(UTF_8)));
-            System.out.println("HASH_DATA" + hashData);
-            System.out.println("Signature" + EncodingUtils.hexEncode(signatureBytes));
+            System.out.println("TAVSignatureMethod HASH_DATA>>" + hashData);
+            System.out.println("TAVSignatureMethod Signed_Hashed_Data>>" + EncodingUtils.hexEncode(signatureBytes));
             // String hexEncode = EncodingUtils.base64Encode(signatureBytes);
             // signatureBytes = Base64.encode(signatureBytes, Base64.DEFAULT);
             return EncodingUtils.base64Encode(signatureBytes);//new String(signatureBytes, UTF_8);
@@ -166,11 +165,12 @@ public class TAVSignatureMethod {
     public static String createBase64DigitalSignature(TAVSignatureConfig config) throws InvalidSignatureException {
         TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey);
         String signature = signatureMethod.sign(config.concatenatedData.toString());
+        System.out.println("TAVSignatureMethod Bas64 Encoded Data>>" + signature);
         TAVStructure tavStructure = new TAVStructure(version, SIGNATURE_NAME, config.dataValidUntilTimestamp, config.includedFieldsInOrder.toString(), signature);
         String toJson = new GsonBuilder().disableHtmlEscaping().create().toJson(tavStructure);
+        System.out.println("TAVSignatureMethod JSON Payload>>" + toJson);
         byte[] data = toJson.getBytes(UTF_8);
-        Log.d("TAV Base64", EncodingUtils.base64Encode(data));
-        Log.d("TAV signature ", signature);
+        System.out.println("TAVSignatureMethod Base64 Encoded JSON Payload>>" + EncodingUtils.base64Encode(data));
         return EncodingUtils.base64Encode(data); //new String(Base64.encode(data, Base64.DEFAULT), UTF_8);
     }
 

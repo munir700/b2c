@@ -4,7 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,11 +15,13 @@ import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 
 import static co.yap.wallet.encriptions.utils.EncodingUtils.base64Decode;
@@ -62,7 +63,7 @@ public final class EncryptionUtils {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static PrivateKey loadDecryptionKey(String keyFilePath) throws GeneralSecurityException, IOException {
-        byte[] keyDataBytes=Files.readAllBytes(Paths.get(keyFilePath));
+        byte[] keyDataBytes = Files.readAllBytes(Paths.get(keyFilePath));
 
         String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
 
@@ -87,7 +88,7 @@ public final class EncryptionUtils {
      * Load a RSA decryption key from a file (PEM or DER).
      */
     public static PrivateKey loadDecryptionKey(InputStream source) throws GeneralSecurityException, IOException {
-        byte[] keyDataBytes=read(source ,source.available());
+        byte[] keyDataBytes = read(source, source.available());
 
         String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
 
@@ -105,7 +106,7 @@ public final class EncryptionUtils {
             return readPkcs8PrivateKey(base64Decode(keyDataString));
         }
         // We assume it's a PKCS#8 DER encoded binary file
-        return readPkcs8PrivateKey(read(source ,source.available()));
+        return readPkcs8PrivateKey(read(source, source.available()));
     }
 
     private static byte[] read(InputStream source, int initialSize) throws IOException {
@@ -192,5 +193,14 @@ public final class EncryptionUtils {
         System.arraycopy(byteArray1, 0, bytes, 0, byteArray1.length);
         System.arraycopy(byteArray2, 0, bytes, byteArray1.length, byteArray2.length);
         return bytes;
+    }
+
+    public static PublicKey loadPublicKey(InputStream source)
+            throws Exception {
+        byte[] keyBytes = read(source, source.available());
+        X509EncodedKeySpec spec =
+                new X509EncodedKeySpec(keyBytes);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        return kf.generatePublic(spec);
     }
 }

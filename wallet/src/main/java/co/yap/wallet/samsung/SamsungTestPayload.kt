@@ -1,7 +1,6 @@
 package co.yap.wallet.samsung
 
 import android.content.Context
-import android.util.Base64
 import android.util.Log
 import co.yap.wallet.R
 import co.yap.wallet.encriptions.encryption.*
@@ -17,11 +16,15 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
         val tavSignatureConfig =
             TAVSignatureConfigBuilder.aTAVSignatureConfig()
                 .withAccountExpiry("0125")
-                .withAccountNumber("5381230100016386")
-                .withDataValidUntilTimestamp("2020-12-23T16:10:59Z")
+                .withAccountNumber("5381230100016543")
+                .withDataValidUntilTimestamp("2021-01-29T16:10:59Z")
                 .withPrivateKey(
                     EncryptionUtils.loadDecryptionKey(
                         resources.openRawResource(R.raw.privatekey)
+                    )
+                ).withPublicKey(
+                    EncryptionUtils.loadPublicKey(
+                        resources.openRawResource(R.raw.tav_public_key)
                     )
                 ).build()
         val base64DigitalSignature =
@@ -29,7 +32,7 @@ fun Context.getTestPayloadForSamsung(payload: (String) -> Unit) {
         val iss =
             resources.openRawResource(R.raw.test_certificate_new)
         val cardInfoData =
-            "{\"CardInfoData\": {\"accountNumber\": \"5381230100016386\",\"expiryYear\": \"2025\",\"expiryMonth\": \"01\",\"source\": \"CARD_ADDED_VIA_APPLICATION\",\"cardholderName\": \"MICHAEL GUNGON\"}}"
+            "{\"CardInfoData\": {\"accountNumber\": \"5381230100016543\",\"expiryYear\": \"2025\",\"expiryMonth\": \"01\",\"source\": \"CARD_ADDED_VIA_APPLICATION\",\"cardholderName\": \"UAT MOBILE DEVICE\"}}"
         //            Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate("<insert public certificate file path>");
         val encryptionCertificate =
             EncryptionUtils.loadEncryptionCertificate(iss)
