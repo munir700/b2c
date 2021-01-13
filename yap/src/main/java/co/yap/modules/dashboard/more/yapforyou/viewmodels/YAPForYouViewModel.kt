@@ -47,13 +47,15 @@ class YAPForYouViewModel(application: Application) :
     }
 
     private fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData? {
-        from.sortWith(Comparator { first, second ->
-            if (first.completedPercentage > second.completedPercentage && first.lastUpdated > second.lastUpdated) {
+        from.sortWith(Comparator { second, first ->
+            if (first.completedPercentage > second.completedPercentage || first.lastUpdated > second.lastUpdated) {
                 1
             } else {
-                0
+                -1
             }
         })
-        return from.firstOrNull()
+        return from.firstOrNull {
+            it.completedPercentage != 100
+        }
     }
 }

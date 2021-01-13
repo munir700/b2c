@@ -15,7 +15,10 @@ import co.yap.yapcore.enums.Y4YAchievement
 import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.enums.YapForYouGoalType
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FULL_FORMAT
 import co.yap.yapcore.managers.SessionManager
+import java.util.*
 
 class Y4YGraphComposer : IY4YComposer {
     var list: ArrayList<Achievement> = arrayListOf()
@@ -435,8 +438,12 @@ class Y4YGraphComposer : IY4YComposer {
     private fun getAchievementPercentage(currentAchievement: Y4YAchievement): Int =
         list.firstOrNull { it.achievementType == currentAchievement.name }?.percentage?.toInt() ?: 0
 
-    private fun getAchievementLastFunction(currentAchievement: Y4YAchievement): String =
-        list.firstOrNull { it.achievementType == currentAchievement.name }?.lastUpdated ?: ""
+    private fun getAchievementLastFunction(currentAchievement: Y4YAchievement): Date {
+        val lastUpdatedDateString =
+            list.firstOrNull { it.achievementType == currentAchievement.name }?.lastUpdated ?: ""
+        return DateUtils.stringToDate(lastUpdatedDateString, SERVER_DATE_FULL_FORMAT) ?: Date(0)
+    }
+
 
     private fun getAchievementTintColor(currentAchievement: Y4YAchievement): Int {
         return list.firstOrNull { it.achievementType == currentAchievement.name }?.color?.let {
