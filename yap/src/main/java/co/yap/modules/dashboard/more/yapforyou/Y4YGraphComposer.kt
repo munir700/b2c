@@ -93,7 +93,7 @@ class Y4YGraphComposer : IY4YComposer {
                             YAPForYouGoalMedia.ImageUrl(
                                 it
                             )
-                        } ?: YAPForYouGoalMedia.LottieAnimation("set_profile_picture_lottie.json"),
+                        } ?: YAPForYouGoalMedia.None,
                         locked = isGoalLocked(YapForYouGoalType.SET_PROFILE_PICTURE)
                     )
                 )
@@ -443,7 +443,6 @@ class Y4YGraphComposer : IY4YComposer {
             list.firstOrNull { it.achievementType == currentAchievement.name }?.lastUpdated ?: ""
         return DateUtils.stringToDate(lastUpdatedDateString, SERVER_DATE_FULL_FORMAT) ?: Date(0)
     }
-
 
     private fun getAchievementTintColor(currentAchievement: Y4YAchievement): Int {
         return list.firstOrNull { it.achievementType == currentAchievement.name }?.color?.let {

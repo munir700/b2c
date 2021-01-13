@@ -8,13 +8,9 @@ class AchievementDetailViewModel(application: Application) :
     YapForYouBaseViewModel<IAchievementDetail.State>(application = application),
     IAchievementDetail.ViewModel {
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-
+    override val state: AchievementDetailState = AchievementDetailState()
     override fun handlePressOnButton(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override val state: AchievementDetailState = AchievementDetailState()
-    override fun onResume() {
-        super.onResume()
-    }
 }

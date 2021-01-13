@@ -783,7 +783,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.totalAppliedFilter = it.totalAppliedFilter
             homeTransactionsRequest.categories = it.categories
             homeTransactionsRequest.statues =
-                if (it.pendingTxn == true) arrayListOf(TransactionStatus.PENDING.name) else null
+                if (it.pendingTxn == true) arrayListOf(
+                    TransactionStatus.PENDING.name,
+                    TransactionStatus.IN_PROGRESS.name
+                ) else null
         }
     }
 

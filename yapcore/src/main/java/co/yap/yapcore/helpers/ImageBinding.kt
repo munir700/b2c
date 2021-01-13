@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers
 
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -312,6 +313,10 @@ object ImageBinding {
                 is YAPForYouGoalMedia.LottieAnimation -> {
                     lottieView.setAnimation(media.jsonFileName)
                 }
+
+                is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
             }
         } else {
             when (completedMedia) {
@@ -326,8 +331,13 @@ object ImageBinding {
                         drawable
                     )
                 }
+
                 is YAPForYouGoalMedia.LottieAnimation -> {
                     lottieView.setAnimation(completedMedia.jsonFileName)
+                }
+
+                is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
                 }
             }
         }
@@ -339,9 +349,13 @@ object ImageBinding {
         goal?.let {
             when (goal) {
                 is YAPForYouGoalMedia.ImageUrl -> {
-                    setCircularImageUrl(imageView, goal.imageUrl)
+                    if (goal.imageUrl.isNullOrBlank())
+                        imageView.visibility = View.GONE
+                    else
+                        setCircularImageUrl(imageView, goal.imageUrl)
                 }
                 else -> {
+
                 }
             }
         }
