@@ -7,13 +7,12 @@ import co.yap.modules.dashboard.addionalinfo.states.AdditionalInfoState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.additionalinfo.AdditionalDocument
 import co.yap.networking.customers.models.additionalinfo.AdditionalQuestion
+import co.yap.networking.customers.requestdtos.UploadAdditionalInfo
 import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfo
-import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AdditionalInfoScreenType
-import kotlinx.coroutines.delay
 
 class AdditionalInfoViewModel(application: Application) :
     BaseViewModel<IAdditionalInfo.State>(application = application),
@@ -96,5 +95,21 @@ class AdditionalInfoViewModel(application: Application) :
             )
         )
         return AdditionalInfo(documentList, questionList)
+    }
+
+    override fun submitAdditionalInfo(success: () -> Unit) {
+        launch {
+            state.loading = true
+            when (val response = repository.submitAdditionalInfo(UploadAdditionalInfo())) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    success()
+                }
+                is RetroApiResponse.Error -> {
+                    showToast(response.error.message)
+                    state.loading = false
+                }
+            }
+        }
     }
 }

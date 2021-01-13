@@ -88,7 +88,9 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                     viewModel.moveToNext()
                     navigate(R.id.action_selectDocumentFragment_to_additionalInfoQuestion)
                 } else {
-                    navigate(R.id.action_selectDocumentFragment_to_additionalInfoComplete)
+                    viewModel.parentViewModel?.submitAdditionalInfo {
+                        navigate(R.id.action_selectDocumentFragment_to_additionalInfoComplete)
+                    }
                 }
             }
             R.id.tvDoItLater -> {

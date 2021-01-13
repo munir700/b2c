@@ -6,9 +6,7 @@ import co.yap.yapcore.IBase
 interface IAdditionalInfoComplete {
     interface View : IBase.View<ViewModel>
 
-    interface ViewModel : IBase.ViewModel<State> {
-        fun submitAdditionalInfo(success: () -> Unit)
-    }
+    interface ViewModel : IBase.ViewModel<State>
 
     interface State : IBase.State {
         val title: ObservableField<String>

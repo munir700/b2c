@@ -18,6 +18,7 @@ interface IAdditionalInfo {
         val stepCount: MutableLiveData<Int>
         fun getAdditionalInfo(success: (AdditionalInfo?) -> Unit)
         fun setSteps(additionalInfo: AdditionalInfo?, success: () -> Unit)
+        fun submitAdditionalInfo(success: () -> Unit)
     }
 
     interface State : IBase.State {
