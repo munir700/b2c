@@ -13,6 +13,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.AdditionalInfoScreenType
+import kotlinx.coroutines.delay
 
 class AdditionalInfoViewModel(application: Application) :
     BaseViewModel<IAdditionalInfo.State>(application = application),
@@ -34,10 +35,13 @@ class AdditionalInfoViewModel(application: Application) :
                     showToast(response.error.message)
                 }
             }
-//            additionalInfoResponse.value = getMockData()
-//            setSteps()
 //            delay(5000)
 //            state.loading = false
+//            success( getData())
+//            additionalInfoResponse.value = getMockData()
+//            setSteps()
+//
+//
 
         }
     }
@@ -74,9 +78,9 @@ class AdditionalInfoViewModel(application: Application) :
         state.screenType.set(screenType.name)
     }
 
-    private fun getMockData(): AdditionalInfoResponse {
-        return AdditionalInfoResponse(getData())
-    }
+//    private fun getMockData(): AdditionalInfo {
+//        return AdditionalInfo(getData() , listOf())
+//    }
 
     private fun getData(): AdditionalInfo {
         val documentList: ArrayList<AdditionalDocument> = arrayListOf()

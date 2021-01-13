@@ -119,7 +119,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
     const val URL_ADDITIONAL_SUBMIT =
-        "customers/api/additional/documents/update-notification-status"
+        "customers/api/update-notification-status"
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
