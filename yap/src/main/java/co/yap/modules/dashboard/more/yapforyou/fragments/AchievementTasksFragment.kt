@@ -49,6 +49,7 @@ class AchievementTasksFragment : YapForYouBaseFragment<IAchievement.ViewModel>()
     }
 
     private fun setGoalsList(achievement: Y4YAchievementData?) {
+        viewModel.parentViewModel?.selectedAchievement?.set(achievement)
         getBinding().multiStateView.viewState =
             if (achievement?.goals.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT
         achievement?.goals?.let { goals ->

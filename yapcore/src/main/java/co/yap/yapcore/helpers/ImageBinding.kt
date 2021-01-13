@@ -317,6 +317,10 @@ object ImageBinding {
                 is YAPForYouGoalMedia.None -> {
                     lottieView.visibility = View.INVISIBLE
                 }
+
+                else -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
             }
         } else {
             when (completedMedia) {
@@ -337,6 +341,10 @@ object ImageBinding {
                 }
 
                 is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+
+                else -> {
                     lottieView.visibility = View.INVISIBLE
                 }
             }

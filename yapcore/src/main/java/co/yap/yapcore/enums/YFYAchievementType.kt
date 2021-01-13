@@ -12,7 +12,7 @@ enum class YFYAchievementType(val type: String) {
     UP_RUNNING("Up and running"),
     USE_YAP_LOCALLY("Use YAP locally"),
     FREEZE_AND_UNFREEZE("Freeze and unfreeze your card"),
-    SPEND_HUNDRED_AED("Spend AED 100"),
+    SPEND_AED_100("Spend AED 100"),
     EXPLORE_CARD_CONTROLS("Explore card controls"),
 
     //Better Together
@@ -39,7 +39,7 @@ enum class YFYAchievementType(val type: String) {
     // You are a pro
     YOU_ARE_PRO("You’re a Pro!"),
     INVITE_TEN_FRIENDS("Invite 10 friends to YAP"),
-    SPEND_THOUSAND_AED("Spend AED 1000"),
+    SPEND_AED_1000("Spend AED 1000"),
     COMPLETE_RENEWAL("Complete a renewal"),
 
 }
