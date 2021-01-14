@@ -1,6 +1,7 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -14,9 +15,11 @@ import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -45,6 +48,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
     var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -242,6 +246,11 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
     fun sendFcmTokenToServer(success: () -> Unit = {}) {
+        val deviceId : String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+        val deviceName : String? = Build.BRAND
+        val osType : String? = "Android"
+        val osVersion : String? = Build.VERSION.RELEASE
+
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
