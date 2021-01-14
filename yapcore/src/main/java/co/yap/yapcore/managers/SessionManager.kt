@@ -258,7 +258,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }
-
                         is RetroApiResponse.Error -> {
                         }
                     }
