@@ -14,6 +14,7 @@
 /authentication/build
 /coachmark/build
 /household/build
+/wallet/build
 /splitbill/build
 /send_money/*
 /coachmark/*
@@ -43,3 +44,4 @@ app/~/tmp/full-r8-config.txt
 /app/yapinternal/release
 /multicurrency
 /qrcodereaderview/build/*
+/wallet/build/*
