@@ -58,7 +58,7 @@
                 app:lottie_autoPlay="true"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
-                app:completedMedia="@{viewModel.parentViewModel.selectedAchievementGoal.done? viewModel.parentViewModel.selectedAchievementGoal.completedMedia :null}"
+                app:completedMedia="@{viewModel.parentViewModel.selectedAchievementGoal.completed? viewModel.parentViewModel.selectedAchievementGoal.completedMedia :null}"
                 app:lottie_loop="false"
                 app:media="@{viewModel.parentViewModel.selectedAchievementGoal.media}" />
 
@@ -80,7 +80,7 @@
                 android:id="@+id/animationViewFull"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
-                android:visibility="@{viewModel.parentViewModel.selectedAchievementGoal.done? View.VISIBLE:View.GONE}"
+                android:visibility="@{viewModel.parentViewModel.selectedAchievementGoal.completed? View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +132,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
                 app:layout_constraintBottom_toTopOf="@+id/btnAction"
                 android:layout_marginBottom="@dimen/margin_extra_large"
-                app:text="@{viewModel.parentViewModel.selectedAchievementGoal.done?Strings.screen_yfy_get_started_success_description :viewModel.parentViewModel.selectedAchievementGoal.description}"
+                app:text="@{viewModel.parentViewModel.selectedAchievementGoal.completed?Strings.screen_yfy_get_started_success_description :viewModel.parentViewModel.selectedAchievementGoal.description}"
                 tools:text="@string/screen_yfy_set_multi_currency_account_description" />
 
             <co.yap.widgets.CoreButton
@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
-                app:isDone="@{viewModel.parentViewModel.selectedAchievementGoal.done}"
+                app:isDone="@{viewModel.parentViewModel.selectedAchievementGoal.completed}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

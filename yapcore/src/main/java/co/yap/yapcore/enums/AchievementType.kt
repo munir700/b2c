@@ -2,7 +2,7 @@ package co.yap.yapcore.enums
 
 import co.yap.translation.Strings
 
-enum class Y4YAchievement(var type:String) {
+enum class AchievementType(var title:String) {
     GET_STARTED(Strings.screen_yfy_get_started_text_title),
     UP_AND_RUNNING(Strings.screen_yfy_up_and_running_text_title),
     BETTER_TOGETHER(Strings.screen_yfy_better_together_text_title),

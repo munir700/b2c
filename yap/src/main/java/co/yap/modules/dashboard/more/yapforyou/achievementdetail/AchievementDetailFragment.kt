@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
+import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YapForYouGoalType
 import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
@@ -44,35 +45,45 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
     }
 
     private val onClickObserver = Observer<Int> {
+        val action = viewModel.parentViewModel?.selectedAchievementGoal?.get()?.action
         when (it) {
             R.id.btnAction -> {
-                when (viewModel.parentViewModel?.selectedAchievementGoal?.get()?.activityOnAction) {
-                    YapForYouGoalType.INVITE_FRIEND.title -> {
-                        context?.inviteFriendIntent()
+                when (action) {
+                    is YAPForYouGoalAction.Button -> {
+                        performActionOnClick(controller = action.controllerOnAction ?: "")
                     }
-                    AddMoneyActivity::class.simpleName -> {
-                        launchActivityForResult<AddMoneyActivity> { resultCode, _ ->
-                            viewModel.parentViewModel?.getAchievements()
-                        }
+                    is YAPForYouGoalAction.None -> {
                     }
+                }
+            }
+        }
+    }
 
-                    MoreActivity::javaClass.name -> {
-                        launchActivityForResult<MoreActivity> { _, _ ->
-                            viewModel.parentViewModel?.getAchievements()
-                        }
-                    }
+    private fun performActionOnClick(controller: String) {
+        when (controller) {
+            YapForYouGoalType.INVITE_FRIEND.name -> {
+                context?.inviteFriendIntent()
+            }
+            AddMoneyActivity::class.simpleName -> {
+                launchActivityForResult<AddMoneyActivity> { resultCode, _ ->
+                    viewModel.parentViewModel?.getAchievements()
+                }
+            }
 
-                    PaymentCardDetailActivity::class.simpleName -> {
-                        SessionManager.getPrimaryCard()?.let {debitCard->
-                            startActivityForResult(
-                                PaymentCardDetailActivity.newIntent(
-                                    requireContext(),
-                                    debitCard
-                                ),
-                                9999
-                            )
-                        }
-                    }
+            MoreActivity::javaClass.name -> {
+                launchActivityForResult<MoreActivity> { _, _ ->
+                    viewModel.parentViewModel?.getAchievements()
+                }
+            }
+            PaymentCardDetailActivity::class.simpleName -> {
+                SessionManager.getPrimaryCard()?.let { debitCard ->
+                    startActivityForResult(
+                        PaymentCardDetailActivity.newIntent(
+                            requireContext(),
+                            debitCard
+                        ),
+                        9999
+                    )
                 }
             }
         }

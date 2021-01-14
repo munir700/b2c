@@ -6,6 +6,7 @@ sealed class YAPForYouGoalAction {
     class Button(
         val title: String,
         val enabled: Boolean,
+        val controllerOnAction: String? = null,
         val buttonSize: CoreButton.ButtonSize = CoreButton.ButtonSize.LARGE
     ) : YAPForYouGoalAction()
 

@@ -10,8 +10,7 @@ data class Y4YAchievementData(
     var isLocked: Boolean,
     var goals: ArrayList<YAPForYouGoal>? = null,
     val lastUpdated: Date = Date(0),
-    val completeAchievementIcon: Int? = null,
-    val incompleteAchievementIcon: Int? = null
+    val achievementImage: Int? = null
 )  {
     val isCompleted: Boolean get() = completedPercentage == 100
 }

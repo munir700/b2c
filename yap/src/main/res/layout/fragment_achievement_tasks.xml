@@ -37,7 +37,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_gs_badge"
-                app:srcCompat="@{viewModel.parentViewModel.selectedAchievement.completed ? viewModel.parentViewModel.selectedAchievement.completeAchievementIcon : viewModel.parentViewModel.selectedAchievement.incompleteAchievementIcon}" />
+                app:srcCompat="@{viewModel.parentViewModel.selectedAchievement.achievementImage}" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgIconInner"

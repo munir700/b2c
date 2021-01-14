@@ -4,13 +4,10 @@ import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YAPForYouGoalMedia
 
 data class YAPForYouGoal(
-    var lottieSuccessFileName: YAPForYouGoalMedia? = null,
     var title: String,
     var action: YAPForYouGoalAction = YAPForYouGoalAction.None,
-    var isDone: Boolean,
-    var activityOnAction: String? = null,
+    var completed: Boolean,
     var description: String = "",
-    var successDescription: String = "",
     var media: YAPForYouGoalMedia? = null,
     var completedMedia: YAPForYouGoalMedia? = null,
     var locked: Boolean? = null
