@@ -144,7 +144,8 @@ class SelectDocumentFragment : AdditionalInfoBaseFragment<ISelectDocument.ViewMo
                 file,
                 data.documentType ?: ""
             ) {
-                data.status = if (data.status == "PENDING") "DONE" else "PENDING"
+                if (data.status == "PENDING")
+                    data.status = "DONE"
                 viewModel.uploadAdditionalDocumentAdapter.setItemAt(
                     pos,
                     data
