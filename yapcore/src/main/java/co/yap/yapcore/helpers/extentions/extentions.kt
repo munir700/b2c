@@ -22,7 +22,6 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -334,4 +333,12 @@ private fun getBody(context: Context): String {
         Strings.screen_invite_friend_display_text_share_url,
         Utils.getAdjustURL()
     )
+}
+
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
+    if (first.size != second.size) {
+        return false
+    }
+
+    return first.zip(second).all { (x, y) -> x == y }
 }

@@ -46,7 +46,7 @@
             android:layout_height="@dimen/_24sdp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@{viewModel.achievement.locked ? @drawable/ic_lock : viewModel.achievement.isCompleted? @drawable/ic_baseline_check : @drawable/ic_yap_it}"
+            app:srcCompat="@{viewModel.achievement.achievementStatusIcon}"
             app:layout_constraintEnd_toEndOf="@+id/imgIcon"
             app:layout_constraintStart_toStartOf="@+id/imgIcon"
             app:layout_constraintTop_toTopOf="@+id/imgIcon"

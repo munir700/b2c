@@ -27,7 +27,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -69,6 +69,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvHeading"
+                    tools:src="@drawable/ic_gs_badge"
                     app:srcCompat="@{viewModel.state.currentAchievement.achievementImage}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -77,7 +78,7 @@
                     android:layout_height="@dimen/_24sdp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@{viewModel.parentViewModel.selectedAchievement.isCompleted? @drawable/ic_baseline_check : @drawable/ic_yap_it}"
+                    app:srcCompat="@{viewModel.state.currentAchievement.achievementStatusIcon}"
                     android:tint="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/ivAchievement"
                     app:layout_constraintEnd_toEndOf="@+id/ivAchievement"
@@ -126,7 +127,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvCompltedPercentage"
                     app:text="@{Strings.screen_yap_for_you_display_text_view}"
                     tools:text="@string/screen_yap_for_you_display_text_view" />
-                <!--        android:visibility="@{viewModel.state.selectedAchievementPercentage == null? View.INVISIBLE : View.VISIBLE}"-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvYapForYou"

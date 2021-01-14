@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.yapforyou
 import android.graphics.Color
 import co.yap.R
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.yapcore.enums.AchievementStatus
 import co.yap.yapcore.enums.AchievementType
 import co.yap.yapcore.enums.YapForYouGoalType
 import co.yap.yapcore.helpers.DateUtils
@@ -19,6 +20,14 @@ fun ArrayList<Achievement>.achievementImage(forAchievementType: AchievementType)
         AchievementType.YAP_STORE.name -> if (achievement.isCompleted) R.drawable.ic_ys_badge else R.drawable.ic_ys_badge_faded
         AchievementType.YOU_ARE_A_PRO.name -> if (achievement.isCompleted) R.drawable.ic_yrp_badge else R.drawable.ic_yrp_badge_faded
         else -> -1
+    }
+}
+
+fun ArrayList<Achievement>.achievementStatusIcon(forAchievementType: AchievementType): Int {
+    return when (this.getAchievementStatus(forAchievementType)) {
+        AchievementStatus.LOCKED -> R.drawable.ic_lock
+        AchievementStatus.COMPLETED -> R.drawable.ic_baseline_check
+        AchievementStatus.IN_COMPLETE -> R.drawable.ic_yap_it
     }
 }
 
@@ -54,3 +63,13 @@ fun ArrayList<Achievement>.getLockedStatus(forGoalType: YapForYouGoalType): Bool
     this.flatMap { it.goals?.toList() ?: emptyList() }.firstOrNull {
         it.achievementTaskType == forGoalType.name
     }?.locked ?: false
+
+fun ArrayList<Achievement>.getAchievementStatus(forAchievementType: AchievementType): AchievementStatus {
+    return when {
+        this.isLocked(forAchievementType) -> AchievementStatus.LOCKED
+        this.firstOrNull { it.achievementType == forAchievementType.name }?.isCompleted == true -> AchievementStatus.COMPLETED
+        else -> {
+            AchievementStatus.IN_COMPLETE
+        }
+    }
+}

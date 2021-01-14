@@ -67,14 +67,13 @@ class Y4YGraphComposer : IY4YComposer {
                             buttonSize = CoreButton.ButtonSize.SMALL
                         ),
                         description = Strings.screen_yfy_set_a_profile_photo_description,
-                        media = YAPForYouGoalMedia.Image("set_profile_picture_lottie.json"),
+                        media = YAPForYouGoalMedia.LottieAnimation("set_profile_picture_lottie.json"),
                         completedMedia = SessionManager.user?.currentCustomer?.getPicture()?.let {
                             YAPForYouGoalMedia.ImageUrl(
                                 it
                             )
                         } ?: YAPForYouGoalMedia.None,
                         response = response
-
                     )
                 )
             ),
@@ -88,7 +87,7 @@ class Y4YGraphComposer : IY4YComposer {
                         title = YapForYouGoalType.LOCAL_USE.title,
                         action = YAPForYouGoalAction.None,
                         description = Strings.screen_yfy_use_yap_locally_description,
-                        media = YAPForYouGoalMedia.Image("use_yap_locally.json"),
+                        media = YAPForYouGoalMedia.LottieAnimation("use_yap_locally.json"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_spare_card"),
                         response = response
                     ),
@@ -102,7 +101,7 @@ class Y4YGraphComposer : IY4YComposer {
                             buttonSize = CoreButton.ButtonSize.MEDIUM
                         ),
                         description = Strings.screen_yfy_freeze_unfreeze_card_description,
-                        media = YAPForYouGoalMedia.Image("freez_and_unfreeze_your_card_lottie.json"),
+                        media = YAPForYouGoalMedia.LottieAnimation("freez_and_unfreeze_your_card_lottie.json"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_completed_set_pin_goal"),
                         response = response
                     ),
@@ -351,6 +350,7 @@ class Y4YGraphComposer : IY4YComposer {
             isLocked = response.isLocked(forAchievementType = achievementType),
             tintColor = response.tintColor(forAchievementType = achievementType),
             achievementImage = response.achievementImage(forAchievementType = achievementType),
+            achievementStatusIcon = response.achievementStatusIcon(forAchievementType = achievementType),
             goals = goals
         )
     }
