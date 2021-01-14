@@ -199,7 +199,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
 
     private fun goToDashboard() {
-        sendFcmTokenToServer(){}
+        sendFcmTokenToServer(requireContext()){}
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
         findNavController().navigate(action)

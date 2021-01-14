@@ -119,7 +119,7 @@ class PhoneVerificationSignInFragment :
                             if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                                 startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                             else {
-                                SessionManager.sendFcmTokenToServer() {}
+                                SessionManager.sendFcmTokenToServer(requireContext()) {}
                                 findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                             }
 
@@ -136,7 +136,7 @@ class PhoneVerificationSignInFragment :
                         if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         }else {
-                            SessionManager.sendFcmTokenToServer() {}
+                            SessionManager.sendFcmTokenToServer(requireContext()) {}
                             trackEvent(SignInEvents.SIGN_IN.type)
                             findNavController().navigate(R.id.action_goto_yapDashboardActivity)
                         }

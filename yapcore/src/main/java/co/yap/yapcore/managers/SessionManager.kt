@@ -5,6 +5,8 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
+import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.authentication.requestdtos.MsTokenRequest
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -35,6 +37,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     override val repository: CardsRepository = CardsRepository
     private val customerRepository: CustomersRepository = CustomersRepository
+    private val authRepository: AuthRepository = AuthRepository
     private var usersList: List<AccountInfo?> = arrayListOf()
     var user: AccountInfo? = null
     var userAddress: Address? = null
@@ -48,7 +51,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
     var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val sharedPreferenceManager = SharedPreferenceManager(context)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -245,16 +247,30 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
-    fun sendFcmTokenToServer(success: () -> Unit = {}) {
-        val deviceId : String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
-        val deviceName : String? = Build.BRAND
-        val osType : String? = "Android"
-        val osVersion : String? = Build.VERSION.RELEASE
+    fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
+        val sharedPreferenceManager = SharedPreferenceManager(context)
+        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+        val deviceName: String? = Build.BRAND
+        val osType: String? = "Android"
+        val osVersion: String? = Build.VERSION.RELEASE
 
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
                     when (val response = customerRepository.getAccountInfo()) {
+                        is RetroApiResponse.Success -> {
+                            success.invoke()
+                        }
+                        is RetroApiResponse.Error -> {
+                        }
+                    }
+                }
+                GlobalScope.launch {
+                    when (val response = authRepository.getMsToken(MsTokenRequest(token,
+                        deviceId,
+                        deviceName,
+                        osType,
+                        osVersion))) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }
