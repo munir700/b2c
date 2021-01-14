@@ -124,6 +124,7 @@ public class TAVSignatureMethod {
             System.out.println("TAVSignatureMethod Signed_Hashed_Data>>" + EncodingUtils.hexEncode(signatureBytes));
             // String hexEncode = EncodingUtils.base64Encode(signatureBytes);
             // signatureBytes = Base64.encode(signatureBytes, Base64.DEFAULT);
+            verify(signatureBaseString,EncodingUtils.base64Encode(signatureBytes));
             return EncodingUtils.base64Encode(signatureBytes);//new String(signatureBytes, UTF_8);
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new InvalidSignatureException("Invalid signature for signature method:" + e.getLocalizedMessage(), e);
@@ -140,7 +141,7 @@ public class TAVSignatureMethod {
      * @throws InvalidSignatureException     If the signature is invalid for the specified base string.
      * @throws UnsupportedOperationException If there is no public key.
      */
-    public void verify(String signatureBaseString, String signature) throws InvalidSignatureException {
+    public boolean verify(String signatureBaseString, String signature) throws InvalidSignatureException {
         if (publicKey == null) {
             throw new UnsupportedOperationException("A public key must be provided to verify signatures.");
         }
@@ -152,6 +153,7 @@ public class TAVSignatureMethod {
             if (!verifier.verify(signatureBytes)) {
                 throw new InvalidSignatureException("Invalid signature for signature method " + getName());
             }
+            return true;
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new IllegalStateException(e);
         }
@@ -163,7 +165,7 @@ public class TAVSignatureMethod {
     }
 
     public static String createBase64DigitalSignature(TAVSignatureConfig config) throws InvalidSignatureException {
-        TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey);
+        TAVSignatureMethod signatureMethod = new TAVSignatureMethod(config.privateKey,config.publicKey);
         String signature = signatureMethod.sign(config.concatenatedData.toString());
         System.out.println("TAVSignatureMethod Bas64 Encoded Data>>" + signature);
         TAVStructure tavStructure = new TAVStructure(version, SIGNATURE_NAME, config.dataValidUntilTimestamp, config.includedFieldsInOrder.toString(), signature);
@@ -217,7 +219,7 @@ public class TAVSignatureMethod {
     // Generating the asymmetric key pair for Testing purpose only
     // using SecureRandom class
     // functions and RSA algorithm.
-    public static PrivateKey generateTestPrivateKey() throws InvalidSignatureException {
+    public static PrivateKey generateTestPrivateKey()  {
 //            throws Exception {
 
         SecureRandom secureRandom
@@ -228,7 +230,6 @@ public class TAVSignatureMethod {
             keyPairGenerator = KeyPairGenerator
                     .getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
-            throw new InvalidSignatureException(e.getLocalizedMessage(), e);
         }
         keyPairGenerator
                 .initialize(

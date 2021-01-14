@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
@@ -25,6 +24,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 
 import static co.yap.wallet.encriptions.utils.EncodingUtils.base64Decode;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Utility class for loading certificates and keys.
@@ -35,6 +35,9 @@ public final class EncryptionUtils {
     private static final String PKCS_1_PEM_FOOTER = "-----END RSA PRIVATE KEY-----";
     private static final String PKCS_8_PEM_HEADER = "-----BEGIN PRIVATE KEY-----";
     private static final String PKCS_8_PEM_FOOTER = "-----END PRIVATE KEY-----";
+
+    private static final String PUK_PEM_HEADER = "-----BEGIN PUBLIC KEY-----";
+    private static final String PUK_PEM_FOOTER = "-----END PUBLIC KEY-----";
     private static final int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
     // buffer size used for reading and writing
     private static final int BUFFER_SIZE = 8192;
@@ -65,7 +68,7 @@ public final class EncryptionUtils {
     public static PrivateKey loadDecryptionKey(String keyFilePath) throws GeneralSecurityException, IOException {
         byte[] keyDataBytes = Files.readAllBytes(Paths.get(keyFilePath));
 
-        String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
+        String keyDataString = new String(keyDataBytes, UTF_8);
 
         if (keyDataString.contains(PKCS_1_PEM_HEADER)) {
             // OpenSSL / PKCS#1 Base64 PEM encoded file
@@ -90,7 +93,7 @@ public final class EncryptionUtils {
     public static PrivateKey loadDecryptionKey(InputStream source) throws GeneralSecurityException, IOException {
         byte[] keyDataBytes = read(source, source.available());
 
-        String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
+        String keyDataString = new String(keyDataBytes, UTF_8);
 
         if (keyDataString.contains(PKCS_1_PEM_HEADER)) {
             // OpenSSL / PKCS#1 Base64 PEM encoded file
@@ -100,6 +103,7 @@ public final class EncryptionUtils {
         }
 
         if (keyDataString.contains(PKCS_8_PEM_HEADER)) {
+//            generateTestPrivateKey();
             // PKCS#8 Base64 PEM encoded file
             keyDataString = keyDataString.replace(PKCS_8_PEM_HEADER, "");
             keyDataString = keyDataString.replace(PKCS_8_PEM_FOOTER, "");
@@ -197,9 +201,13 @@ public final class EncryptionUtils {
 
     public static PublicKey loadPublicKey(InputStream source)
             throws Exception {
+
         byte[] keyBytes = read(source, source.available());
+        String keyDataString = new String(keyBytes, UTF_8);
+        keyDataString = keyDataString.replace(PUK_PEM_HEADER, "");
+        keyDataString = keyDataString.replace(PUK_PEM_FOOTER, "");
         X509EncodedKeySpec spec =
-                new X509EncodedKeySpec(keyBytes);
+                new X509EncodedKeySpec(base64Decode(keyDataString));
         KeyFactory kf = KeyFactory.getInstance("RSA");
         return kf.generatePublic(spec);
     }
