@@ -39,7 +39,9 @@ object NotificationHelper {
                         context,
                         Strings.screen_home_help_and_support_desc
                     ),
-                    action = NotificationAction.HELP_AND_SUPPORT
+                    action = NotificationAction.HELP_AND_SUPPORT,
+                    imgResId = R.raw.gif_notification_bel,
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
                 )
             )
         }
@@ -60,7 +62,9 @@ object NotificationHelper {
                         context,
                         Strings.screen_home_complete_verification_desc
                     ),
-                    action = NotificationAction.COMPLETE_VERIFICATION
+                    action = NotificationAction.COMPLETE_VERIFICATION,
+                    imgResId = R.raw.gif_general_notification,
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
                 )
             )
         }
@@ -74,7 +78,9 @@ object NotificationHelper {
                         Strings.dashboard_timeline_set_pin_stage_action_title
                     ),
                     description = Translator.getString(context, Strings.screen_home_set_pin_desc),
-                    action = NotificationAction.SET_PIN
+                    action = NotificationAction.SET_PIN,
+                    imgResId = R.raw.gif_set_pin,
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
                 )
             )
         }
@@ -89,7 +95,9 @@ object NotificationHelper {
                         context,
                         Strings.screen_home_renewed_id_desc
                     ),
-                    action = NotificationAction.UPDATE_EMIRATES_ID
+                    action = NotificationAction.UPDATE_EMIRATES_ID,
+                    imgResId = R.raw.gif_general_notification,
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
                 )
             )
         }
@@ -99,7 +107,9 @@ object NotificationHelper {
                     HomeNotification(
                         id = "5",
                         description = description,
-                        action = NotificationAction.CARD_FEATURES_BLOCKED
+                        action = NotificationAction.CARD_FEATURES_BLOCKED,
+                        imgResId = R.raw.gif_general_notification,
+                        createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
                     )
                 )
             }
