@@ -25,7 +25,6 @@ import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
 
-
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -99,7 +98,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private fun setCheckedCategories(it: TransactionFilters) {
         for (index in 0 until chipGroup.childCount){
             val chip:Chip = chipGroup.getChildAt(index) as Chip
-           chip.isChecked = it.categories?.contains(chip.text.toString()) ?: false
+            chip.isChecked = it.categories?.contains(chip.text.toString()) ?: false
         }
     }
 
@@ -197,9 +196,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         if (cbPenTransFilter.isChecked) appliedFilter++
         if (viewModel.txnFilters.value?.categories?.size ?: 0 >= 1) appliedFilter++
         viewModel.txnFilters.value?.amountEndRange?.let {
-            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat() ) appliedFilter++
+            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()) appliedFilter++
             setIntentRequest(appliedFilter)
-        } ?: setIntentRequest(appliedFilter+1)
+        } ?: if (rsbAmount.leftSeekBar.progress == rsbAmount.rightSeekBar.progress) setIntentRequest(appliedFilter+1) else setIntentRequest(appliedFilter)
     }
 
     private fun setIntentRequest(appliedFilter: Int) {
