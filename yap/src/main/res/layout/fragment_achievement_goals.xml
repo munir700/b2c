@@ -102,7 +102,7 @@
                 app:adapter="@{viewModel.adapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="4"
-                tools:listitem="@layout/item_task_achievement" />
+                tools:listitem="@layout/item_goal_achievement" />
         </co.yap.widgets.MultiStateView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

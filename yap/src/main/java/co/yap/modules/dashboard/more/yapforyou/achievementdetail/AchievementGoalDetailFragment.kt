@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentAchievementDetailsBinding
+import co.yap.databinding.FragmentAchievementGoalDetailsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.yapforyou.fragments.YapForYouBaseFragment
@@ -19,13 +19,13 @@ import co.yap.yapcore.helpers.extentions.inviteFriendIntent
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.managers.SessionManager
 
-class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewModel>(),
-    IAchievementDetail.View {
+class AchievementGoalDetailFragment : YapForYouBaseFragment<IAchievementGoalDetail.ViewModel>(),
+    IAchievementGoalDetail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_achievement_details
-    override val viewModel: AchievementDetailViewModel
-        get() = ViewModelProviders.of(this).get(AchievementDetailViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.fragment_achievement_goal_details
+    override val viewModel: AchievementGoalDetailViewModel
+        get() = ViewModelProviders.of(this).get(AchievementGoalDetailViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +117,7 @@ class AchievementDetailFragment : YapForYouBaseFragment<IAchievementDetail.ViewM
         removeObservers()
     }
 
-    private fun getBindings(): FragmentAchievementDetailsBinding =
-        viewDataBinding as FragmentAchievementDetailsBinding
+    private fun getBindings(): FragmentAchievementGoalDetailsBinding =
+        viewDataBinding as FragmentAchievementGoalDetailsBinding
 
 }

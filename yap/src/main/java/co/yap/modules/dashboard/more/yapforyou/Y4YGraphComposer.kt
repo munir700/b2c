@@ -288,6 +288,7 @@ class Y4YGraphComposer : IY4YComposer {
                         action = YAPForYouGoalAction.Button(
                             title = Strings.screen_yfy_invite_ten_friends_button_label,
                             enabled = true,
+                            controllerOnAction = YapForYouGoalType.INVITE_FRIEND.name,
                             buttonSize = CoreButton.ButtonSize.SMALL
                         ),
                         description = Strings.screen_yfy_invite_ten_friends_description,

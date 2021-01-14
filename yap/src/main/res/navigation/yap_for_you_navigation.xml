@@ -20,9 +20,9 @@
     </fragment>
     <fragment
         android:id="@+id/achievementFragment"
-        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementTasksFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementGoalsFragment"
         android:label="AchievementDetailFragment"
-        tools:layout="@layout/fragment_achievement_tasks">
+        tools:layout="@layout/fragment_achievement_goals">
         <action
             android:id="@+id/action_achievementFragment_to_achievementDetailFragment"
             app:destination="@id/achievementDetailFragment" />
@@ -34,8 +34,8 @@
         tools:layout="@layout/fragment_completed_achievements" />
     <fragment
         android:id="@+id/achievementDetailFragment"
-        android:name="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementDetailFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementGoalDetailFragment"
         android:label="AchievementDetailFragment"
-        tools:layout="@layout/fragment_achievement_details" />
+        tools:layout="@layout/fragment_achievement_goal_details" />
 
 </navigation>

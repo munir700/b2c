@@ -1,21 +1,21 @@
 package co.yap.modules.dashboard.more.yapforyou.interfaces
 
 import androidx.databinding.ObservableField
-import co.yap.databinding.FragmentAchievementTasksBinding
-import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementTaskAdaptor
+import co.yap.databinding.FragmentAchievementGoalsBinding
+import co.yap.modules.dashboard.more.yapforyou.adapters.AchievementGoalAdaptor
 import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IAchievement {
+interface IAchievementGoals {
 
     interface View : IBase.View<ViewModel> {
-        fun getBinding(): FragmentAchievementTasksBinding
+        fun getBinding(): FragmentAchievementGoalsBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        val adapter: AchievementTaskAdaptor
+        val adapter: AchievementGoalAdaptor
         fun handlePressOnButton(id: Int)
         fun setSelectedAchievementTask(YAPForYouGoal: YAPForYouGoal?)
     }

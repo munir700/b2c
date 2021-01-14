@@ -66,7 +66,7 @@ class CardAnalyticsTest {
     fun showVisibilityOfNextMonthButton() {
         val first = "2020-01-02"
         val second = "2021-01-05"
-        val currentDate = "2020-12-01"
+        val currentDate = "2021-01-05"
         Assert.assertEquals(
             false,
             isNextIconDisabled(
@@ -80,7 +80,7 @@ class CardAnalyticsTest {
 
     @Test
     fun getMonthStartDayAndEndDay() {
-        val currentDate = "2021-01-05"
+        val currentDate = "2020-12-05"
         val convertedDate = DateUtils.stringToDate(currentDate, "yyyy-MM-dd")!!
         Assert.assertEquals(
             "Jan 1 - Jan 31",

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementDetailViewModel" />
+            type="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementGoalDetailViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
