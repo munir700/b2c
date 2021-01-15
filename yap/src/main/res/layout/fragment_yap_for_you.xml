@@ -35,7 +35,8 @@
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_trade}"
-            app:rightIconVisibility="@{viewModel.state.isNoCompletedAchievements? false : true}"
+            app:rightIconEnabled="@{viewModel.state.isNoCompletedAchievements? false : true}"
+            app:rightIconVisibility="@{true}"
             app:titleString="@{viewModel.state.toolbarTitle}" />
 
         <ScrollView

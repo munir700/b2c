@@ -12,6 +12,7 @@ import co.yap.yapcore.enums.AchievementType
 import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.enums.YapForYouGoalType
+import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 
@@ -61,6 +62,7 @@ class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
                     makeGoal(
                         type = YapForYouGoalType.SET_PROFILE_PICTURE,
                         title = YapForYouGoalType.SET_PROFILE_PICTURE.title,
+
                         action = YAPForYouGoalAction.Button(
                             title = Strings.screen_yfy_set_a_profile_photo_button_label,
                             enabled = true,
@@ -69,7 +71,11 @@ class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
                         ),
                         description = Strings.screen_yfy_set_a_profile_photo_description,
                         media = YAPForYouGoalMedia.LottieAnimation("set_profile_picture_lottie.json"),
-                        completedMedia = YAPForYouGoalMedia.None,
+                        completedMedia = SessionManager.user?.currentCustomer?.getPicture()?.let {
+                            YAPForYouGoalMedia.ImageUrl(
+                                it
+                            )
+                        } ?: YAPForYouGoalMedia.None,
                         response = response
                     )
                 )
@@ -99,7 +105,7 @@ class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
                         ),
                         description = Strings.screen_yfy_freeze_unfreeze_card_description,
                         media = YAPForYouGoalMedia.LottieAnimation("freez_and_unfreeze_your_card_lottie.json"),
-                        completedMedia = YAPForYouGoalMedia.Image("ic_completed_set_pin_goal"),
+                        completedMedia = YAPForYouGoalMedia.LottieAnimation("freez_and_unfreeze_your_card_lottie.json"),
                         response = response
                     ),
                     makeGoal(
