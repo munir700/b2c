@@ -594,7 +594,7 @@
     <string name="screen_transaction_filter_display_text_incoming_transactions">Incoming transactions</string>
     <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
     <string name="screen_transaction_filter_display_text_pending_transactions">Pending transactions</string>
-    <string name="screen_transaction_filter_display_text_balance">AED balance</string>
+    <string name="screen_transaction_filter_display_text_balance">AED Balance</string>
     <string name="screen_transaction_filter_display_text_categories">Categories</string>
 
     <!--Y2Y Contacts-->
