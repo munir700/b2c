@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class AchievementsResponseDTO(
     @SerializedName("data")
-    val data: List<Achievement>?
+    val data: List<AchievementResponse>?
 ):ApiResponse()

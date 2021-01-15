@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Achievement(
+data class AchievementResponse(
     @SerializedName("achievementType")
     val achievementType: String? = null,
     @SerializedName("title")

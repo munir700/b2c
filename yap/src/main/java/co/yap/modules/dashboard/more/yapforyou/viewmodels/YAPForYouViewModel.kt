@@ -3,11 +3,11 @@ package co.yap.modules.dashboard.more.yapforyou.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.more.yapforyou.adapters.YAPForYouAdapter
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.states.YAPForYouState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.AchievementResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
@@ -35,18 +35,18 @@ class YAPForYouViewModel(application: Application) :
         state.toolbarVisibility.set(true)
     }
 
-    override fun setAchievements(achievementsResponse: ArrayList<Achievement>) {
+    override fun setAchievements(achievementsResponse: ArrayList<AchievementResponse>) {
         adaptor.setList(parentViewModel?.achievementsList ?: mutableListOf())
-        state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Y4YAchievementData>))
+        state.currentAchievement.set(getCurrentAchievement(parentViewModel?.achievementsList as ArrayList<Achievement>))
         state.isNoCompletedAchievements.set(parentViewModel?.achievementsList?.filter { it.isCompleted }
             .isNullOrEmpty())
     }
 
-    override fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData) {
-        parentViewModel?.selectedAchievement?.set(y4YAchievementData)
+    override fun setSelectedAchievement(achievement: Achievement) {
+        parentViewModel?.selectedAchievement?.set(achievement)
     }
 
-    override fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData? {
+    override fun getCurrentAchievement(from: ArrayList<Achievement>): Achievement? {
         from.sortWith(Comparator { second, first ->
             if (first.completedPercentage > second.completedPercentage) {
                 1

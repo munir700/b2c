@@ -8,7 +8,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYAPForYou
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -37,8 +37,8 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>(), IYAPFor
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Y4YAchievementData) {
-                viewModel.setSelectedAchievement(y4YAchievementData = data)
+            if (data is Achievement) {
+                viewModel.setSelectedAchievement(achievement = data)
                 navigate(R.id.achievementFragment)
             }
         }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.databinding.FragmentAchievementGoalsBinding
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IAchievementGoals
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.AchievementViewModel
 import co.yap.widgets.MultiStateView
@@ -48,7 +48,7 @@ class AchievementGoalsFragment : YapForYouBaseFragment<IAchievementGoals.ViewMod
         })
     }
 
-    private fun setGoalsList(achievement: Y4YAchievementData?) {
+    private fun setGoalsList(achievement: Achievement?) {
         viewModel.parentViewModel?.selectedAchievement?.set(achievement)
         getBinding().multiStateView.viewState =
             if (achievement?.goals.isNullOrEmpty()) MultiStateView.ViewState.EMPTY else MultiStateView.ViewState.CONTENT

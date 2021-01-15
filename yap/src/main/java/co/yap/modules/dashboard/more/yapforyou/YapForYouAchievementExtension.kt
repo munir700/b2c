@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.more.yapforyou
 
 import android.graphics.Color
 import co.yap.R
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.AchievementResponse
 import co.yap.yapcore.enums.AchievementStatus
 import co.yap.yapcore.enums.AchievementType
 import co.yap.yapcore.enums.YapForYouGoalType
@@ -10,7 +10,7 @@ import co.yap.yapcore.helpers.DateUtils
 import java.util.*
 
 
-fun ArrayList<Achievement>.achievementImage(forAchievementType: AchievementType): Int {
+fun ArrayList<AchievementResponse>.achievementImage(forAchievementType: AchievementType): Int {
     val achievement = this.firstOrNull { it.achievementType == forAchievementType.name }
     return when (achievement?.achievementType) {
         AchievementType.GET_STARTED.name -> if (achievement.isCompleted) R.drawable.ic_gs_badge else R.drawable.ic_gs_badge_faded
@@ -23,7 +23,7 @@ fun ArrayList<Achievement>.achievementImage(forAchievementType: AchievementType)
     }
 }
 
-fun ArrayList<Achievement>.achievementStatusIcon(forAchievementType: AchievementType): Int {
+fun ArrayList<AchievementResponse>.achievementStatusIcon(forAchievementType: AchievementType): Int {
     return when (this.getAchievementStatus(forAchievementType)) {
         AchievementStatus.LOCKED -> R.drawable.ic_lock
         AchievementStatus.COMPLETED -> R.drawable.ic_baseline_check
@@ -31,13 +31,13 @@ fun ArrayList<Achievement>.achievementStatusIcon(forAchievementType: Achievement
     }
 }
 
-fun ArrayList<Achievement>.isLocked(forAchievementType: AchievementType): Boolean =
+fun ArrayList<AchievementResponse>.isLocked(forAchievementType: AchievementType): Boolean =
     this.firstOrNull { it.achievementType == forAchievementType.name }?.isForceLocked ?: true
 
-fun ArrayList<Achievement>.percentage(forAchievementType: AchievementType): Int =
+fun ArrayList<AchievementResponse>.percentage(forAchievementType: AchievementType): Int =
     this.firstOrNull { it.achievementType == forAchievementType.name }?.percentage?.toInt() ?: 0
 
-fun ArrayList<Achievement>.getLastUpdatedDate(forAchievementType: AchievementType): Date {
+fun ArrayList<AchievementResponse>.getLastUpdatedDate(forAchievementType: AchievementType): Date {
     val lastUpdatedDateString =
         this.firstOrNull { it.achievementType == forAchievementType.name }?.lastUpdated ?: ""
     return DateUtils.stringToDate(lastUpdatedDateString, DateUtils.SERVER_DATE_FULL_FORMAT) ?: Date(
@@ -45,13 +45,13 @@ fun ArrayList<Achievement>.getLastUpdatedDate(forAchievementType: AchievementTyp
     )
 }
 
-fun ArrayList<Achievement>.tintColor(forAchievementType: AchievementType): Int {
+fun ArrayList<AchievementResponse>.tintColor(forAchievementType: AchievementType): Int {
     return this.firstOrNull { it.achievementType == forAchievementType.name }?.color?.let {
         Color.parseColor(it)
     } ?: return -1
 }
 
-fun ArrayList<Achievement>.isCompleted(
+fun ArrayList<AchievementResponse>.isCompleted(
     forGoalType: YapForYouGoalType
 ): Boolean =
     this.flatMap { it.goals?.toList() ?: emptyList() }.firstOrNull {
@@ -59,12 +59,12 @@ fun ArrayList<Achievement>.isCompleted(
     }?.completion ?: false
 
 
-fun ArrayList<Achievement>.getLockedStatus(forGoalType: YapForYouGoalType): Boolean =
+fun ArrayList<AchievementResponse>.getLockedStatus(forGoalType: YapForYouGoalType): Boolean =
     this.flatMap { it.goals?.toList() ?: emptyList() }.firstOrNull {
         it.achievementTaskType == forGoalType.name
     }?.locked ?: false
 
-fun ArrayList<Achievement>.getAchievementStatus(forAchievementType: AchievementType): AchievementStatus {
+fun ArrayList<AchievementResponse>.getAchievementStatus(forAchievementType: AchievementType): AchievementStatus {
     return when {
         this.isLocked(forAchievementType) -> AchievementStatus.LOCKED
         this.firstOrNull { it.achievementType == forAchievementType.name }?.isCompleted == true -> AchievementStatus.COMPLETED

@@ -2,11 +2,10 @@ package co.yap.modules.dashboard.more.yapforyou
 
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.AchievementResponse
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.enums.AchievementType
@@ -15,10 +14,13 @@ import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.enums.YapForYouGoalType
 import java.util.*
 
-class Y4YGraphComposer : IY4YComposer {
-    var list: ArrayList<Achievement> = arrayListOf()
-    override fun compose(response: ArrayList<Achievement>): ArrayList<Y4YAchievementData> {
-        this.list = response
+
+interface YAPForYouItemsComposer {
+    fun compose(response: ArrayList<AchievementResponse>):ArrayList<Achievement>
+}
+
+class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
+    override fun compose(response: ArrayList<AchievementResponse>): ArrayList<Achievement> {
         return arrayListOf(
             makeAchievement(
                 achievementType = AchievementType.GET_STARTED,
@@ -320,7 +322,7 @@ class Y4YGraphComposer : IY4YComposer {
         description: String,
         media: YAPForYouGoalMedia,
         completedMedia: YAPForYouGoalMedia? = null,
-        response: ArrayList<Achievement>
+        response: ArrayList<AchievementResponse>
     ): YAPForYouGoal {
         return YAPForYouGoal(
             type = type,
@@ -337,10 +339,10 @@ class Y4YGraphComposer : IY4YComposer {
     private fun makeAchievement(
         achievementType: AchievementType,
         title: String,
-        response: ArrayList<Achievement>,
+        response: ArrayList<AchievementResponse>,
         goals: ArrayList<YAPForYouGoal>
-    ): Y4YAchievementData {
-        return Y4YAchievementData(
+    ): Achievement {
+        return Achievement(
             achievementType = achievementType,
             title = title,
             lastUpdated = response.getLastUpdatedDate(forAchievementType = achievementType),

@@ -1,11 +1,11 @@
 package co.yap.modules.dashboard.more.yapforyou.itemviewmodels
 
 import android.view.View
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class YAPForYouItemViewModel(
-    val achievement: Y4YAchievementData,
+    val achievement: Achievement,
     val position: Int,
     private val onItemClickListener: OnItemClickListener?
 ) {

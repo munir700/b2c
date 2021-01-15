@@ -4,7 +4,7 @@ import androidx.annotation.ColorInt
 import co.yap.yapcore.enums.AchievementType
 import java.util.*
 
-data class Y4YAchievementData(
+data class Achievement(
     var achievementType: AchievementType,
     var title: String,
     var completedPercentage: Int,

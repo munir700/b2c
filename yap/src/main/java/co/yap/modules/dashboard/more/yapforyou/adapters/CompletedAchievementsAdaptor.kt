@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemCompletedAchievementBinding
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.CompletedAchievementItemViewModel
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class CompletedAchievementsAdaptor(val list: MutableList<Y4YAchievementData>) :
-    BaseBindingRecyclerAdapter<Y4YAchievementData, CompletedAchievementsAdaptor.CompletedItemViewHolder>(
+class CompletedAchievementsAdaptor(val list: MutableList<Achievement>) :
+    BaseBindingRecyclerAdapter<Achievement, CompletedAchievementsAdaptor.CompletedItemViewHolder>(
         list
     ) {
 
@@ -27,7 +27,7 @@ class CompletedAchievementsAdaptor(val list: MutableList<Y4YAchievementData>) :
     class CompletedItemViewHolder(private val itemCompletedAchievementBinding: ItemCompletedAchievementBinding) :
         RecyclerView.ViewHolder(itemCompletedAchievementBinding.root) {
 
-        fun onBind(achievement: Y4YAchievementData) {
+        fun onBind(achievement: Achievement) {
             itemCompletedAchievementBinding.viewModel =
                 CompletedAchievementItemViewModel(achievement)
             itemCompletedAchievementBinding.executePendingBindings()

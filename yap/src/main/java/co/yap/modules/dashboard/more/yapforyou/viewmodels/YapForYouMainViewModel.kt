@@ -4,16 +4,16 @@ import android.app.Application
 import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
-import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
+import co.yap.modules.dashboard.more.yapforyou.YAPForYouAchievementsComposer
+import co.yap.modules.dashboard.more.yapforyou.YAPForYouItemsComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IYapForYouMain
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.models.Achievement
 import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.modules.dashboard.more.yapforyou.states.YapForYouMainState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.achievement.Achievement
+import co.yap.networking.transactions.responsedtos.achievement.AchievementResponse
 import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.Dispatcher
@@ -30,12 +30,12 @@ class YapForYouMainViewModel(application: Application) :
 
     override val state: YapForYouMainState = YapForYouMainState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var selectedAchievement: ObservableField<Y4YAchievementData?> = ObservableField()
+    override var selectedAchievement: ObservableField<Achievement?> = ObservableField()
     override var selectedAchievementGoal: ObservableField<YAPForYouGoal?> = ObservableField()
-    override var achievementsList: MutableList<Y4YAchievementData> = mutableListOf()
-    override var achievementsResponse: MutableLiveData<ArrayList<Achievement>> =
+    override var achievementsList: MutableList<Achievement> = mutableListOf()
+    override var achievementsResponse: MutableLiveData<ArrayList<AchievementResponse>> =
         MutableLiveData(arrayListOf())
-    private val y4yComposer: IY4YComposer = Y4YGraphComposer()
+    private val itemsComposer: YAPForYouItemsComposer = YAPForYouAchievementsComposer()
 
     override fun handlePressButton(id: Int) {
         clickEvent.setValue(id)
@@ -50,8 +50,9 @@ class YapForYouMainViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.viewState.value = false
                         achievementsList.clear()
-                        achievementsList.addAll(y4yComposer.compose(response.data.data as ArrayList<Achievement>))
-                        achievementsResponse.value = (response.data.data as ArrayList<Achievement>)
+                        achievementsList.addAll(itemsComposer.compose(response.data.data as ArrayList<AchievementResponse>))
+                        achievementsResponse.value =
+                            (response.data.data as ArrayList<AchievementResponse>)
                     }
 
                     is RetroApiResponse.Error -> {
@@ -65,7 +66,7 @@ class YapForYouMainViewModel(application: Application) :
 
     override fun getMockApiResponse() {
         launch {
-            val list: ArrayList<Achievement> = arrayListOf()
+            val list: ArrayList<AchievementResponse> = arrayListOf()
             state.loading = true
             delay(500)
             val mainObj = JSONObject(loadTransactionFromJsonAssets(context) ?: "")
@@ -92,7 +93,7 @@ class YapForYouMainViewModel(application: Application) :
                     )
                 }
                 list.add(
-                    Achievement(
+                    AchievementResponse(
                         title = title,
                         color = color,
                         percentage = percentage,
@@ -106,7 +107,7 @@ class YapForYouMainViewModel(application: Application) :
             }
             state.loading = false
             achievementsList.clear()
-            achievementsList.addAll(y4yComposer.compose(list))
+            achievementsList.addAll(itemsComposer.compose(list))
             achievementsResponse.value = list
         }
 
