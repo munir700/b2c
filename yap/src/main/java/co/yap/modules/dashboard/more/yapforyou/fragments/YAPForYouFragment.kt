@@ -18,34 +18,26 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_for_you
-
     override val viewModel: YAPForYouViewModel
         get() = ViewModelProviders.of(this).get(YAPForYouViewModel::class.java)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getAchievements()
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
     }
-
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
-
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
-
     }
-
     override fun onResume() {
         super.onResume()
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnView -> {
@@ -60,8 +52,6 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
             }
         })
     }
-
-
     private fun setupRecycleView() {
         viewModel.adaptor.allowFullItemClickListener = true
         viewModel.adaptor.setItemListener(listener)
@@ -72,7 +62,6 @@ class YAPForYouFragment : YapForYouBaseFragment<IYAPForYou.ViewModel>() {
 //            viewModel.getAchievements()[0].achievmentIcons?.mainBadgeIcon
 //        viewModel.state.selectedAchievementTitle = viewModel.getAchievements()[0].name ?: ""
     }
-
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (pos in 3..5)
