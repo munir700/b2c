@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.more.yapforyou.adapters
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ItemTaskAchievementBinding
+import co.yap.databinding.ItemGoalAchievementBinding
 import co.yap.modules.dashboard.more.yapforyou.itemviewmodels.AchievementGoalItemViewModel
 import co.yap.modules.dashboard.more.yapforyou.models.YAPForYouGoal
 import co.yap.yapcore.BaseBindingRecyclerAdapter
@@ -16,7 +16,7 @@ class AchievementGoalAdaptor(private val list: MutableList<YAPForYouGoal>) :
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_goal_achievement
 
     override fun onCreateViewHolder(binding: ViewDataBinding): AchievementTaskViewHolder {
-        return AchievementTaskViewHolder(binding as ItemTaskAchievementBinding)
+        return AchievementTaskViewHolder(binding as ItemGoalAchievementBinding)
     }
 
     override fun onBindViewHolder(holder: AchievementTaskViewHolder, position: Int) {
@@ -24,7 +24,7 @@ class AchievementGoalAdaptor(private val list: MutableList<YAPForYouGoal>) :
         holder.onBind(list[position])
     }
 
-    class AchievementTaskViewHolder(private val itemAchievementBinding: ItemTaskAchievementBinding) :
+    class AchievementTaskViewHolder(private val itemAchievementBinding: ItemGoalAchievementBinding) :
         RecyclerView.ViewHolder(itemAchievementBinding.root) {
 
         fun onBind(task: YAPForYouGoal) {

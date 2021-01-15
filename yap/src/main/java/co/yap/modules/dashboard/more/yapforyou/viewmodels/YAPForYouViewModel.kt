@@ -46,12 +46,12 @@ class YAPForYouViewModel(application: Application) :
         parentViewModel?.selectedAchievement?.set(y4YAchievementData)
     }
 
-    private fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData? {
+    override fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData? {
         from.sortWith(Comparator { second, first ->
             if (first.completedPercentage > second.completedPercentage) {
                 1
             } else if (first.completedPercentage == second.completedPercentage) {
-                if (first.lastUpdated > second.lastUpdated) 1 else -1
+                if (first.lastUpdated > second.lastUpdated) 1 else if (first.lastUpdated == second.lastUpdated) 0 else -1
             } else {
                 -1
             }

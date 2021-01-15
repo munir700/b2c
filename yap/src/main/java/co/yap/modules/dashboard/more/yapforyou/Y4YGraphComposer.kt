@@ -13,7 +13,6 @@ import co.yap.yapcore.enums.AchievementType
 import co.yap.yapcore.enums.YAPForYouGoalAction
 import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.enums.YapForYouGoalType
-import co.yap.yapcore.managers.SessionManager
 import java.util.*
 
 class Y4YGraphComposer : IY4YComposer {
@@ -68,11 +67,7 @@ class Y4YGraphComposer : IY4YComposer {
                         ),
                         description = Strings.screen_yfy_set_a_profile_photo_description,
                         media = YAPForYouGoalMedia.LottieAnimation("set_profile_picture_lottie.json"),
-                        completedMedia = SessionManager.user?.currentCustomer?.getPicture()?.let {
-                            YAPForYouGoalMedia.ImageUrl(
-                                it
-                            )
-                        } ?: YAPForYouGoalMedia.None,
+                        completedMedia = YAPForYouGoalMedia.None,
                         response = response
                     )
                 )
@@ -328,6 +323,7 @@ class Y4YGraphComposer : IY4YComposer {
         response: ArrayList<Achievement>
     ): YAPForYouGoal {
         return YAPForYouGoal(
+            type = type,
             title = title,
             action = action,
             completed = response.isCompleted(forGoalType = type),
@@ -345,6 +341,7 @@ class Y4YGraphComposer : IY4YComposer {
         goals: ArrayList<YAPForYouGoal>
     ): Y4YAchievementData {
         return Y4YAchievementData(
+            achievementType = achievementType,
             title = title,
             lastUpdated = response.getLastUpdatedDate(forAchievementType = achievementType),
             completedPercentage = response.percentage(forAchievementType = achievementType),

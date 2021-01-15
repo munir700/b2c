@@ -22,6 +22,7 @@ interface IYAPForYou {
         fun handlePressOnView(id: Int)
         fun setAchievements(achievementsResponse: ArrayList<Achievement>)
         fun setSelectedAchievement(y4YAchievementData: Y4YAchievementData)
+        fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData?
     }
 
     interface View : IBase.View<ViewModel> {

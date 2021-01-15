@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.more.yapforyou.models
 
 import androidx.annotation.ColorInt
+import co.yap.yapcore.enums.AchievementType
 import java.util.*
 
 data class Y4YAchievementData(
+    var achievementType: AchievementType,
     var title: String,
     var completedPercentage: Int,
     @ColorInt var tintColor: Int,

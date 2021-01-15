@@ -169,6 +169,8 @@ project.ext {
             [configuration: "testImplementation", dependency: 'junit:junit:4.12'],
             [configuration: "androidTestImplementation", dependency: 'androidx.test:runner:1.2.0'],
             [configuration: "androidTestImplementation", dependency: 'androidx.test.espresso:espresso-core:3.2.0'],
+            [configuration: "testImplementation", dependency: 'org.mockito:mockito-core:3.7.0'],
+            [configuration: "testImplementation", dependency: 'org.mockito:mockito-inline:3.7.0']
     ]
 
     // Common dependencies which need to be added in all modules
@@ -385,6 +387,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 
 }
 

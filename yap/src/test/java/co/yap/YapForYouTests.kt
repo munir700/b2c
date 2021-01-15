@@ -1,91 +1,72 @@
 package co.yap
 
-import android.app.Application
-import android.content.Context
+import co.yap.app.YAPApplication
+import co.yap.base.BaseTestCase
 import co.yap.modules.dashboard.more.yapforyou.Y4YGraphComposer
 import co.yap.modules.dashboard.more.yapforyou.interfaces.IY4YComposer
-import co.yap.modules.dashboard.more.yapforyou.models.Y4YAchievementData
+import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
+import co.yap.networking.AppData
+import co.yap.networking.RetroNetwork
 import co.yap.networking.transactions.responsedtos.achievement.Achievement
-import co.yap.networking.transactions.responsedtos.achievement.AchievementTask
-import org.json.JSONObject
+import co.yap.yapcore.enums.AchievementType
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
+import java.io.BufferedReader
+import java.io.FileInputStream
 import java.io.IOException
-import java.nio.charset.StandardCharsets
+import java.io.InputStreamReader
 
-class YapForYouTests {
+@RunWith(MockitoJUnitRunner::class)
+class YapForYouTests : BaseTestCase() {
 
-//    @Test
-//    fun test_after_onboarding_get_started_is_current_achievement() {
-//        val y4yComposer: IY4YComposer = Y4YGraphComposer()
-//        val mockData = getMockApiResponse()
-//        val mockComposerItems = y4yComposer.compose(mockData as ArrayList<Achievement>)
-//        val a = getCurrentAchievement(mockComposerItems)
-//        print(a.toString())
-//
-//    }
-//
-//    fun getCurrentAchievement(from: ArrayList<Y4YAchievementData>): Y4YAchievementData {
-//        val sortedList = from.sortedWith(compareBy({ it.completedPercentage }, { it.lastUpdated }))
-//
-//        return sortedList.first()
-//    }
-//
-//
-//    fun getMockApiResponse(): List<Achievement> {
-//        val list: ArrayList<Achievement> = arrayListOf()
-//        val mainObj =
-//            JSONObject(loadTransactionFromJsonAssets(Application().applicationContext) ?: "")
-//        val mainDataList = mainObj.getJSONArray("data")
-//        for (i in 0 until mainDataList.length()) {
-//            val tasksList: ArrayList<AchievementTask> = arrayListOf()
-//            val parentArrayList = mainDataList.getJSONObject(i)
-//            val title: String = parentArrayList.getString("title")
-//            val color: String = parentArrayList.getString("colorCode")
-//            val percentage: Double = parentArrayList.getDouble("percentage")
-//            val acheivementType: String = parentArrayList.getString("achievementType")
-//            val order: Int = parentArrayList.getInt("order")
-//            val lock = parentArrayList.getBoolean("lock")
-//            val lastUpdated = parentArrayList.getString("lastUpdated")
-//            val tasks = parentArrayList.getJSONArray("tasks")
-//            for (j in 0 until tasks.length()) {
-//                tasksList.add(
-//                    AchievementTask(
-//                        title = tasks.getJSONObject(j).getString("title"),
-//                        completion = tasks.getJSONObject(j).getBoolean("completion"),
-//                        achievementTaskType = tasks.getJSONObject(j).getString("taskType")
-//                    )
-//                )
-//            }
-//            list.add(
-//                Achievement(
-//                    title = title,
-//                    color = color,
-//                    percentage = 0.0,
-//                    achievementType = acheivementType,
-//                    order = order,
-//                    isForceLocked = false,
-//                    tasks = arrayListOf(),
-//                    lastUpdated = lastUpdated
-//                )
-//            )
-//        }
-//        return list
-//    }
-//
-//    private fun loadTransactionFromJsonAssets(context: Context): String? {
-//        val json: String?
-//        try {
-//            val `is` = context.assets.open("yapachievement.json")
-//            val size = `is`.available()
-//            val buffer = ByteArray(size)
-//            `is`.read(buffer)
-//            `is`.close()
-//            json = String(buffer, StandardCharsets.UTF_8)
-//        } catch (ex: IOException) {
-//            ex.printStackTrace()
-//            return null
-//        }
-//        return json
-//    }
+    @Mock
+    lateinit var context: YAPApplication
 
+    @Mock
+    lateinit var appData: AppData
+
+    @Before
+    fun setup() {
+        MockitoAnnotations.openMocks(this)
+        appData = AppData(baseUrl = "https://stg.yap.co")
+        RetroNetwork.initWith(context, appData)
+    }
+
+    @Test
+    fun test_after_onboarding_get_started_is_current_achievement() {
+        val y4yComposer: IY4YComposer = Y4YGraphComposer()
+        val mockComposerItems = y4yComposer.compose(getMockApiResponse() as ArrayList<Achievement>)
+        val expectedValue =
+            mockComposerItems.first { it.achievementType == AchievementType.GET_STARTED }
+        val sut = YAPForYouViewModel(context)
+        val currentAchievement = sut.getCurrentAchievement(mockComposerItems)
+        Assert.assertEquals(expectedValue, currentAchievement)
+    }
+
+    private fun getMockApiResponse(): List<Achievement> {
+        val gson = GsonBuilder().create();
+        val itemType = object : TypeToken<List<Achievement>>() {}.type
+
+        return gson.fromJson<List<Achievement>>(readJsonFile(), itemType)
+    }
+
+    @Throws(IOException::class)
+    private fun readJsonFile(): String? {
+        val br =
+            BufferedReader(InputStreamReader(FileInputStream("../yap/src/main/assets/y4yMockResponse.json")))
+        val sb = StringBuilder()
+        var line: String? = br.readLine()
+        while (line != null) {
+            sb.append(line)
+            line = br.readLine()
+        }
+        return sb.toString()
+    }
 }
