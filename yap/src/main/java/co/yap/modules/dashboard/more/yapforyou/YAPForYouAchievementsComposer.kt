@@ -55,7 +55,7 @@ class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
                             buttonSize = CoreButton.ButtonSize.SMALL
                         ),
                         description = Strings.screen_yfy_add_money_to_account_description,
-                        media = YAPForYouGoalMedia.Image("top_up_lottie.json"),
+                        media = YAPForYouGoalMedia.LottieAnimation("add_money_lottie.json"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_add_money_completed"),
                         response = response
                     ),
@@ -122,7 +122,7 @@ class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
                         title = YapForYouGoalType.EXPLORE_CARD_CONTROLS.title,
                         action = YAPForYouGoalAction.None,
                         description = Strings.screen_yfy_explore_card_control_description,
-                        media = YAPForYouGoalMedia.LottieAnimation("ic_card_controls"),
+                        media = YAPForYouGoalMedia.Image("ic_card_controls"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_card_controls_completed"),
                         response = response
                     )
@@ -150,12 +150,7 @@ class YAPForYouAchievementsComposer : YAPForYouItemsComposer {
                     makeGoal(
                         type = YapForYouGoalType.MAKE_Y2Y_TRANSFER,
                         title = YapForYouGoalType.MAKE_Y2Y_TRANSFER.title,
-                        action = YAPForYouGoalAction.Button(
-                            title = Strings.screen_yfy_freeze_unfreeze_card_button_label,
-                            enabled = true,
-                            controllerOnAction = PaymentCardDetailActivity::class.simpleName,
-                            buttonSize = CoreButton.ButtonSize.MEDIUM
-                        ),
+                        action = YAPForYouGoalAction.None,
                         description = Strings.screen_yfy_send_money_to_someone_description,
                         media = YAPForYouGoalMedia.LottieAnimation("make_a_y2y_transfer_lottie.json"),
                         completedMedia = YAPForYouGoalMedia.Image("ic_make_y2y_completed"),
