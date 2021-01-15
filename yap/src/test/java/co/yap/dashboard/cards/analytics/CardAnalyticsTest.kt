@@ -1,4 +1,4 @@
-package co.yap
+package co.yap.dashboard.cards.analytics
 
 import co.yap.yapcore.helpers.DateUtils
 import org.junit.Assert
