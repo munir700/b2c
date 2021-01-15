@@ -257,15 +257,6 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
-                    when (val response = customerRepository.getAccountInfo()) {
-                        is RetroApiResponse.Success -> {
-                            success.invoke()
-                        }
-                        is RetroApiResponse.Error -> {
-                        }
-                    }
-                }
-                GlobalScope.launch {
                     when (val response = authRepository.getMsToken(MsTokenRequest(token,
                         deviceId,
                         deviceName,
