@@ -21,5 +21,6 @@ data class HomeNotification(
     val createdAt: String? = "",
     @SerializedName("imgResId")
     val imgResId: Int? = 0,
-    @Transient var isPinned: Boolean? = false
+    @Transient var isPinned: Boolean? = false,
+    @Transient var isDeleteAble: Boolean = false
 ) : ApiResponse(), Parcelable

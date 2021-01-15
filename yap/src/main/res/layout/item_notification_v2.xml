@@ -62,7 +62,7 @@
             android:paddingEnd="@dimen/margin_medium_large"
             android:paddingBottom="@dimen/margin_normal">
 
-            <co.yap.widgets.CoreCircularImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
@@ -70,7 +70,7 @@
                 android:contentDescription="@string/empty_string"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@{viewModel.item.imgResId}"
+                app:srcCompatGif="@{viewModel.item.imgResId}"
                 tools:src="@drawable/ic_bank" />
 
             <androidx.appcompat.widget.LinearLayoutCompat

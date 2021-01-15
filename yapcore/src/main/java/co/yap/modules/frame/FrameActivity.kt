@@ -102,4 +102,6 @@ class FrameActivity : BaseBindingActivity<IFrameActivity.ViewModel>(),
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun getScreenName(): String? = null
 }
