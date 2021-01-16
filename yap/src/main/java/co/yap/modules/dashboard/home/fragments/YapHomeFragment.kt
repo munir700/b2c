@@ -71,6 +71,7 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.ExtraKeys
+import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.extentions.*
@@ -651,6 +652,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         Constants.MODE_HELP_SUPPORT, null
                     )
                 )
+            }
+            NotificationAction.CARD_FEATURES_BLOCKED -> {
+                requireContext().makeCall(SessionManager.helpPhoneNumber)
             }
         }
     }

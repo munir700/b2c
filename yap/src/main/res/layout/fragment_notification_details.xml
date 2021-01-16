@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <import type="co.yap.R" />
 
         <import type="co.yap.yapcore.helpers.DateUtils" />
@@ -79,8 +81,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small"
                     android:gravity="center"
-                    android:text="@{viewModel.state.notification.title}"
+                    android:text="@{viewModel.state.notification.subTitle}"
                     android:textSize="@dimen/text_size_h6"
+                    android:visibility="@{viewModel.state.notification.subTitle.empty?View.GONE:View.VISIBLE}"
                     tools:text="Payment Policy Updates" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -101,10 +104,10 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:gravity="center"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:text="@{viewModel.state.notification.btnTitle}"
                     app:btn_enable="true"
                     app:btn_size="medium"
-                    android:text="@{viewModel.state.notification.title + ` now`}"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     tools:text="@string/screen_card_blocked_button_reorder_new_card" />
 
                 <androidx.appcompat.widget.AppCompatTextView
