@@ -33,6 +33,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.Utils
@@ -76,9 +77,14 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private fun updateNotificationCounter() {
         if (::adapter.isInitialized) {
             if (!adapter.getDataList().isNullOrEmpty()) {
+                val notificationCount: Int = NotificationHelper.getNotifications(
+                    SessionManager.user,
+                    SessionManager.card.value,
+                    requireContext()
+                ).size
                 val item = adapter.getDataForPosition(0)
-                item.hasBadge = false //Leanplum.getInbox().unreadCount() > 0
-                item.badgeCount = Leanplum.getInbox().unreadCount()
+                item.hasBadge = notificationCount > 0 //Leanplum.getInbox().unreadCount() > 0
+                item.badgeCount = Leanplum.getInbox().unreadCount().plus(notificationCount)
                 adapter.setItemAt(0, item)
             }
         }
@@ -206,7 +212,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             Constants.MORE_NOTIFICATION -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
-                launchActivity<NotificationsActivity> {  }
+                launchActivity<NotificationsActivity> { }
             }
             Constants.MORE_LOCATE_ATM -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_ATM_LOCATION)

@@ -2,11 +2,9 @@ package co.yap.modules.dashboard.more.notifications.home
 
 import android.app.Application
 import androidx.databinding.ObservableField
-import co.yap.modules.yapnotification.models.Notification
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.managers.SessionManager
-import com.leanplum.Leanplum
 
 class NotificationsHomeViewModel(application: Application) :
     BaseViewModel<INotificationsHome.State>(application),
@@ -17,16 +15,19 @@ class NotificationsHomeViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        //getNotification()
+        getNotification()
     }
+
     override fun getNotification() {
         SessionManager.user?.let { account ->
             SessionManager.card.value?.let { card ->
-                mNotificationsHomeAdapter?.get()?.setData(
+                state.mNotifications?.value =
                     NotificationHelper.getNotifications(
                         account,
                         card, context
                     )
+                mNotificationsHomeAdapter?.get()?.setData(
+                    state.mNotifications?.value ?: arrayListOf()
                 )
             }
         }
