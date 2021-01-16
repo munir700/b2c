@@ -18,6 +18,7 @@ import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.managers.SessionManager
 
@@ -77,7 +78,10 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                         )
                                     }
                                 } else {
-                                    showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
+                                    showBlockedFeatureAlert(
+                                        requireActivity(),
+                                        FeatureSet.UPDATE_EID
+                                    )
                                 }
                             } else {
                                 launchActivity<DocumentsDashboardActivity>(
@@ -105,6 +109,9 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
                                     Constants.MODE_HELP_SUPPORT, null
                                 )
                             )
+                        }
+                        NotificationAction.CARD_FEATURES_BLOCKED -> {
+                            requireContext().makeCall(SessionManager.helpPhoneNumber)
                         }
                     }
                 }

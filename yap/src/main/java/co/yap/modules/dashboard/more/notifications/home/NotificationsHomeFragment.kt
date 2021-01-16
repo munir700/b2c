@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.notifications.home
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -12,17 +13,15 @@ import co.yap.networking.notification.HomeNotification
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_alert_title
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_message
 import co.yap.widgets.DividerItemDecoration
+import co.yap.widgets.MultiStateView
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import co.yap.widgets.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.NotificationHelper.getNotificationTestData
-import co.yap.yapcore.helpers.NotificationHelper.getNotifications
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_notifications_home_v2.*
 
 class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewModel>(),
@@ -60,11 +59,7 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
         }
         mRecyclerViewSwipeManager = RecyclerViewSwipeManager().apply {
             mNotificationsAdapter = NotificationsHomeAdapter(
-                getNotifications(
-                    SessionManager.user,
-                    SessionManager.card.value,
-                    requireContext()
-                ), null
+                mutableListOf(), null
             )
             viewModel.mNotificationsHomeAdapter?.set(mNotificationsAdapter)
             mWrappedAdapter = createWrappedAdapter(mNotificationsAdapter)
@@ -94,6 +89,15 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
                 }
             mNotificationsAdapter.onItemClickListener = this@NotificationsHomeFragment
         }
+        viewModel.state.mNotifications?.observe(this, Observer {
+            if (it.isEmpty()) {
+                multiStateView.viewState = MultiStateView.ViewState.EMPTY
+            } else {
+                mNotificationsAdapter.setData(it)
+                multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            }
+
+        })
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
