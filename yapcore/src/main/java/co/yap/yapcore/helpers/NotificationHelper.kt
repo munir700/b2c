@@ -47,14 +47,6 @@ object NotificationHelper {
             list.add(
                 HomeNotification(
                     id = "1",
-                    title = Translator.getString(
-                        context,
-                        Strings.screen_help_support_display_text_title
-                    ),
-                    subTitle = Translator.getString(
-                        context,
-                        Strings.screen_help_support_display_text_title
-                    ),
                     description = Translator.getString(
                         context,
                         Strings.screen_home_help_and_support_desc
@@ -152,10 +144,6 @@ object NotificationHelper {
                 list.add(
                     HomeNotification(
                         id = "5",
-                        title = Translator.getString(
-                            context,
-                            Strings.screen_notification_listing_display_text_toolbar_title
-                        ),
                         description = description,
                         action = NotificationAction.CARD_FEATURES_BLOCKED,
                         imgResId = R.raw.gif_notification_bel,
@@ -190,14 +178,6 @@ object NotificationHelper {
         list.add(
             HomeNotification(
                 id = "1",
-                title = Translator.getString(
-                    context,
-                    Strings.screen_help_support_display_text_title
-                ),
-                subTitle = Translator.getString(
-                    context,
-                    Strings.screen_help_support_display_text_title
-                ),
                 description = Translator.getString(
                     context,
                     Strings.screen_home_help_and_support_desc
@@ -280,10 +260,6 @@ object NotificationHelper {
         list.add(
             HomeNotification(
                 id = "5",
-                title = Translator.getString(
-                    context,
-                    Strings.screen_notification_listing_display_text_toolbar_title
-                ),
                 description = Translator.getString(
                     context,
                     Strings.iban_or_debit_card_freeze_or_blocked_message
