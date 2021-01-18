@@ -30,11 +30,10 @@ import co.yap.yapcore.constants.Constants.URL_DISCLAIMER_TERMS
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class InternationalTransactionConfirmationFragment :
     BeneficiaryFundTransferBaseFragment<IInternationalTransactionConfirmation.ViewModel>(),
@@ -58,7 +57,7 @@ class InternationalTransactionConfirmationFragment :
         viewModel.parentViewModel?.state?.toolbarVisibility?.set(true)
         viewModel.parentViewModel?.state?.rightIcon?.set(false)
         viewModel.parentViewModel?.state?.leftIcon?.set(true)
-        viewModel.parentViewModel?.state?.toolBarTitle = viewModel.state.confirmHeading
+        viewModel.parentViewModel?.state?.toolbarTitle = viewModel.state.confirmHeading ?: ""
     }
 
     override fun setData() {
@@ -70,25 +69,25 @@ class InternationalTransactionConfirmationFragment :
                 viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
-                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedAmountWithCurrency()
+                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency()
                         ?: ""
                 )
             )
         } else {
             viewModel.state.transferDescription = resources.getText(
-                getString(Strings.screen_funds_confirmation_success_description)
-                ,
+                getString(Strings.screen_funds_confirmation_success_description),
                 requireContext().color(
                     R.color.colorPrimaryDark,
                     viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: ""
-                )
-                , requireContext().color(
+                ), requireContext().color(
                     R.color.colorPrimaryDark,
-                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency()
+                    viewModel.parentViewModel?.transferData?.value?.destinationAmount?.toFormattedCurrency(
+                        false,
+                        viewModel.parentViewModel?.transferData?.value?.destinationCurrency ?: SessionManager.getDefaultCurrency()
+                    )
                         ?: ""
                 ),
-                viewModel.parentViewModel?.beneficiary?.value?.firstName
-                ,
+                viewModel.parentViewModel?.beneficiary?.value?.firstName,
                 requireContext().color(
                     R.color.colorPrimaryDark,
                     "${viewModel.parentViewModel?.transferData?.value?.toFxRate} to ${viewModel.parentViewModel?.transferData?.value?.fromFxRate}"
@@ -98,8 +97,7 @@ class InternationalTransactionConfirmationFragment :
 
             viewModel.state.receivingAmountDescription =
                 resources.getText(
-                    getString(Strings.screen_funds_receive_description)
-                    ,
+                    getString(Strings.screen_funds_receive_description),
                     requireContext().color(
                         R.color.colorPrimaryDark,
                         "${viewModel.parentViewModel?.transferData?.value?.sourceCurrency} ${viewModel.parentViewModel?.transferData?.value?.sourceAmount}"
@@ -111,7 +109,10 @@ class InternationalTransactionConfirmationFragment :
             resources.getText(
                 getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
                     R.color.colorPrimaryDark,
-                    "${"AED"} ${viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency()}"
+                    viewModel.parentViewModel?.transferData?.value?.transferFee?.toFormattedCurrency(
+                        showCurrency = true,
+                        currency = SessionManager.getDefaultCurrency()
+                    ) ?: ""
                 )
             )
     }
@@ -130,7 +131,7 @@ class InternationalTransactionConfirmationFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     otpAction = viewModel.parentViewModel?.transferData?.value?.otpAction,
-                    mobileNumber = MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                    mobileNumber = SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
                         requireContext()
                     ),
                     amount = viewModel.parentViewModel?.transferData?.value?.sourceAmount,
@@ -156,7 +157,7 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     viewModel.requestForTransfer()

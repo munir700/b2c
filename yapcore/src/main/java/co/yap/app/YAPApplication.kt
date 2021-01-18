@@ -21,7 +21,6 @@ abstract class YAPApplication : DaggerApplication() {
             totalAppliedFilter = 0
         )
 
-
         fun clearFilters() {
             homeTransactionsRequest = HomeTransactionsRequest(
                 0, pageSize,

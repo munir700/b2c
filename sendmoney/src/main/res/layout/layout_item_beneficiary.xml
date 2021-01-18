@@ -97,7 +97,10 @@
                 android:id="@+id/lyUserImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_small"
+                android:paddingStart="@dimen/margin_normal_large"
+                android:paddingEnd="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -162,6 +165,7 @@
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:layout_marginEnd="@dimen/margin_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

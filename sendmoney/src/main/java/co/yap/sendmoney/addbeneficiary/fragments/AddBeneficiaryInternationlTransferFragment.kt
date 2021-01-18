@@ -3,6 +3,7 @@ package co.yap.sendmoney.addbeneficiary.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -17,6 +18,8 @@ import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
 import co.yap.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.sendmoney.currencyPicker.fragment.CurrencyPickerFragment
+import co.yap.sendmoney.currencyPicker.model.MultiCurrencyWallet
 import co.yap.sendmoney.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
 import co.yap.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.sendmoney.fundtransfer.activities.BeneficiaryFundTransferActivity
@@ -26,16 +29,19 @@ import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.widgets.popmenu.PopupMenuItem
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.Constants.CURRENCYWALLET
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.helpers.extentions.getBeneficiaryTransferType
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
 class AddBeneficiaryInternationlTransferFragment :
@@ -144,12 +150,34 @@ class AddBeneficiaryInternationlTransferFragment :
             }
 
             R.id.tvChangeCurrency -> {
-                currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency, 0, 30)
-
+                startFragmentDialogForResult<CurrencyPickerFragment>(
+                    CurrencyPickerFragment::class.java.name,
+                    bundleOf(
+                        OtpDataModel::class.java.name to OtpDataModel(
+                            OTPActions.CHANGE_EMAIL.name,
+                            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(
+                                requireContext()
+                            )
+                                ?: ""
+                        ),
+                        CurrencyPickerFragment.IS_DIALOG_POP_UP to true,
+                        CurrencyPickerFragment.LIST_OF_CURRENCIES to ArrayList<Parcelable>(
+                            getMultiCurrencyWalletList()
+                        )
+                    )
+                ) { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) {
+                        (data?.getValue(
+                            CURRENCYWALLET,
+                            ExtraType.PARCEABLE.name
+                        ) as? MultiCurrencyWallet)?.let { multiCurrencyWallet ->
+                            updateStates(multiCurrencyWallet.position)
+                        }
+                    }
+                }
             }
         }
     }
-
 
     private val otpCreateObserver = Observer<Boolean> {
         if (it) {
@@ -163,7 +191,7 @@ class AddBeneficiaryInternationlTransferFragment :
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.CASHPAYOUT_BENEFICIARY.name,//action,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             ),
@@ -175,6 +203,7 @@ class AddBeneficiaryInternationlTransferFragment :
             }
         }
     }
+
     private val popupItemClickListener =
         OnMenuItemClickListener<PopupMenuItem?> { position, _ ->
             val currencyItem =
@@ -207,7 +236,8 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun addBeneficiaryDialog() {
         context?.let { it ->
-            Utils.confirmationDialog(it,
+            Utils.confirmationDialog(
+                it,
                 Translator.getString(
                     it,
                     R.string.screen_add_beneficiary_detail_display_text_alert_title
@@ -235,13 +265,17 @@ class AddBeneficiaryInternationlTransferFragment :
                             }
                         }
                     }
-                })
+                }, false
+            )
         }
     }
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let {
-            launchActivity<BeneficiaryFundTransferActivity>(requestCode = RequestCodes.REQUEST_TRANSFER_MONEY) {
+            launchActivity<BeneficiaryFundTransferActivity>(
+                requestCode = RequestCodes.REQUEST_TRANSFER_MONEY,
+                type = it.getBeneficiaryTransferType()
+            ) {
                 putExtra(Constants.BENEFICIARY, it)
                 putExtra(Constants.POSITION, 0)
                 putExtra(Constants.IS_NEW_BENEFICIARY, true)
@@ -272,6 +306,55 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun getBinding(): FragmentAddBeneficiaryInternationalBankTransferBinding {
         return (viewDataBinding as FragmentAddBeneficiaryInternationalBankTransferBinding)
+    }
+
+    fun getMultiCurrencyWalletList(): ArrayList<MultiCurrencyWallet> {
+        val countryList = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
+
+        val currencyWalletArray: ArrayList<MultiCurrencyWallet> = ArrayList()
+
+        for ((index, country) in countryList!!.withIndex()) {
+            currencyWalletArray.add(
+                MultiCurrencyWallet(
+                    country.code.toString().getCountryTwoDigitCodeFromThreeDigitCode(),
+                    country.code.toString(),
+                    country.name.toString(),
+                    index
+                )
+            )
+
+        }
+        return currencyWalletArray
+    }
+
+    fun updateStates(position: Int) {
+        val currencyItem =
+            viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies?.get(position)
+        if (currencyItem != null) {
+            currencyPopMenu?.selectedPosition = position
+            viewModel.state.currency = currencyItem.code ?: ""
+            viewModel.parentViewModel?.selectedCountry?.value?.setCurrency(currencyItem)
+            viewModel.parentViewModel?.selectedCountry?.value?.let { country ->
+                if (country.isoCountryCode2Digit == "AE") {
+                    viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                        SendMoneyBeneficiaryType.DOMESTIC.name
+                } else {
+                    country.getCurrency()?.rmtCountry?.let { isRmt ->
+                        if (isRmt) {
+                            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                SendMoneyBeneficiaryType.RMT.name
+                            viewModel.state.transferType = "Bank Transfer"
+                        } else {
+                            viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                SendMoneyBeneficiaryType.SWIFT.name
+                            viewModel.state.transferType = "Bank Transfer"
+                        }
+                    }
+
+                }
+            }
+        }
+
     }
 
 }

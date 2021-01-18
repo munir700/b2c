@@ -5,20 +5,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
 
 class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -111,19 +111,15 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
                 R.id.lyContact -> {
-                    if (MyUserManager.user?.otpBlocked == true ) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        if (data is Contact && data.yapUser == true && data.accountDetailList != null && !data.accountDetailList.isNullOrEmpty()) {
-                            if (parentFragment is YapToYapFragment) {
-                                (parentFragment as YapToYapFragment).findNavController().navigate(
-                                    YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                        data.beneficiaryPictureUrl ?: "",
-                                        data.accountDetailList?.get(0)?.accountUuid ?: "",
-                                        data.title ?: "", pos
-                                    )
-                                )
-                            }
+                    if (data is Contact && data.yapUser == true && data.accountDetailList != null && !data.accountDetailList.isNullOrEmpty()) {
+                        if (parentFragment is YapToYapFragment) {
+                            navigate(
+                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                                    data.beneficiaryPictureUrl ?: "",
+                                    data.accountDetailList?.get(0)?.accountUuid ?: "",
+                                    data.title ?: "", pos,data.beneficiaryCreationDate?:""
+                                ), screenType = FeatureSet.Y2Y_TRANSFER
+                            )
                         }
                     }
                 }

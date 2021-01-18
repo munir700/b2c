@@ -14,6 +14,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.sendmoney.R" />
+
         <variable
             name="editBeneficiaryViewModel"
             type="co.yap.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel" />
@@ -25,46 +27,20 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorSendMoneyToolBarAttr"
-            android:gravity="center_vertical"
-            android:padding="@dimen/_8sdp">
-
-            <ImageView
-                android:id="@+id/tbBtnBack"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back_arrow_left"
-                app:tint="?attr/colorIconsTintAttr"
-                tools:ignore="ContentDescription" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitle"
-                style="@style/Regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:layout_toEndOf="@id/tbBtnBack"
-                android:gravity="center"
-                android:text="@{editBeneficiaryViewModel.state.needOverView ? @string/screen_add_beneficiary_display_text_title:@string/screen_edit_beneficiary_display_text_title}"
-                android:textColor="?attr/colorTextAttr"
-                app:text="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title:Strings.screen_edit_beneficiary_display_text_title}"
-                tools:text="@string/screen_edit_beneficiary_display_text_title" />
-
-        </RelativeLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{editBeneficiaryViewModel::onToolBarClick}"
+            app:rightIconVisibility="@{false}"
+            app:titleTranslator="@{editBeneficiaryViewModel.state.needOverView ? Strings.screen_add_beneficiary_display_text_title : Strings.screen_edit_beneficiary_display_text_title}"
+            app:rightTitleVisibility="@{editBeneficiaryViewModel.state.needOverView}"
+            app:rightTitle="@{editBeneficiaryViewModel.state.rightButtonText}"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -380,6 +356,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -437,7 +414,7 @@
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("UAEFTS") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("DOMESTIC")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}"
-                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
+                    app:ibanMask="@{`#### #### #### #### #### #### #### #### ###`}" />
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"
@@ -526,9 +503,9 @@
                     android:text="@{editBeneficiaryViewModel.state.accountNumber}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}"
-                    app:ibanMask="@{`#### #### #### #### #### #### ####`}" />
-
-                 <androidx.appcompat.widget.AppCompatTextView
+                    app:ibanMask="@{`#### #### #### #### #### #### #### #### ###`}" />
+                <!---->
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -553,8 +530,8 @@
                     android:text="@={editBeneficiaryViewModel.state.swiftCode}"
                     android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:editable="@{false}" />
-
-                 <TextView
+                <!---->
+                <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

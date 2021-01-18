@@ -27,7 +27,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
@@ -98,7 +98,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     private fun onAddPhysicalCard() {
         updateTransactionOnHome()
-        MyUserManager.updateCardBalance(){}
+        SessionManager.updateCardBalance(){}
 
         if (!viewModel.isFromBlockCardScreen) {
             if (activity is AddPaymentCardActivity) {
@@ -110,7 +110,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     private fun onAddVirtualCard() {
         updateTransactionOnHome()
-        MyUserManager.updateCardBalance(){}
+        SessionManager.updateCardBalance(){}
         if (!viewModel.isFromBlockCardScreen) {
             if (activity is AddPaymentCardActivity)
                 (activity as AddPaymentCardActivity).hideToolbar()
@@ -138,10 +138,10 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         try {
             // todo temporary logic added to fix a bug, balance should be stored as double in view model
             val virtualCardFee =
-                viewModel.state.virtualCardFee.replace("AED ", "").replace(",", "")
+                viewModel.state.virtualCardFee.replace("${SessionManager.getDefaultCurrency()} ", "").replace(",", "")
                     .toDouble()
             val availableCardBalance =
-                viewModel.state.avaialableCardBalance.replace("AED ", "")
+                viewModel.state.avaialableCardBalance.replace("${SessionManager.getDefaultCurrency()} ", "")
                     .replace(",", "")
                     .toDouble()
             if (virtualCardFee > availableCardBalance) {
@@ -158,12 +158,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         // todo temporary logic added to fix a bug, balance should be stored as double in view model
         try {
             val physicalCardFee =
-                viewModel.state.physicalCardFee.replace("AED ", "").replace(
+                viewModel.state.physicalCardFee.replace("${SessionManager.getDefaultCurrency()} ", "").replace(
                     ",",
                     ""
                 ).toDouble()
             val availableCardBalance =
-                viewModel.state.avaialableCardBalance.replace("AED ", "").replace(
+                viewModel.state.avaialableCardBalance.replace("${SessionManager.getDefaultCurrency()} ", "").replace(
                     ",",
                     ""
                 ).toDouble()

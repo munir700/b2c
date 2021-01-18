@@ -70,12 +70,18 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/cut-off-time-configuration"
     const val URL_GET_ACHIEVEMENTS = "/transactions/api/yap-achievements"
     const val URL_GET_PURPOSE_OF_PAYMENT = "/transactions/api/purpose-of-payments/{product-code}"
+    const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
+
+    const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
+
 
     // Household
-    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{productPlan}/{feeFrequency}"
+    const val URL_HOUSEHOLD_CARD_FEE_PACKAGE =
+        "/transactions/api/fees/subscriptions/{productPlan}/{feeFrequency}"
     const val URL_HOUSEHOLD_PAY_SALARY_NOW = "/transactions/api/y2y-household"
     const val URL_GET_FAILED_TRANSACTIONS = "/transactions/api/household/get-failed-transactions"
-    const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS = "/transactions/api/account-statements/{householdAccountUUID}"
+    const val URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS =
+        "/transactions/api/account-statements/{householdAccountUUID}"
 
 
     private val api: TransactionsRetroService =
@@ -235,8 +241,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.getPurposeOfPayment(productCode) })
 
     //House Hold Api Calls start here
-    override suspend fun getPrepaidUserSubscriptionsPlans(productPlan: String, feeFrequency:String): RetroApiResponse<RemittanceFeeResponse> =
-        executeSafely(call = { api.getPrepaidUserSubscriptionsPlans(productPlan,feeFrequency) })
+    override suspend fun getPrepaidUserSubscriptionsPlans(
+        productPlan: String,
+        feeFrequency: String
+    ): RetroApiResponse<RemittanceFeeResponse> =
+        executeSafely(call = { api.getPrepaidUserSubscriptionsPlans(productPlan, feeFrequency) })
 
     //    House Hold Pay Salary Now
     override suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse> =
@@ -247,4 +256,35 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getHouseHoldAccountStatements(householdAccountUUID: String?): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getHouseHoldAccountStatements(householdAccountUUID) })
+
+    override suspend fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.checkCoolingPeriodRequest(
+                beneficiaryId,
+                beneficiaryCreationDate,
+                beneficiaryName,
+                amount
+            )
+        })
+
+    override suspend fun getTransactionsOfMerchant(
+        merchantType: String,
+        cardSerialNo: String?,
+        date: String?,
+        merchantName: ArrayList<String>?
+    ): RetroApiResponse<AnalyticsDetailResponseDTO> =
+        executeSafely(call = {
+            api.getTransactionsOfMerchant(
+                merchantType,
+                cardSerialNo,
+                date,
+                merchantName
+            )
+        })
 }
+

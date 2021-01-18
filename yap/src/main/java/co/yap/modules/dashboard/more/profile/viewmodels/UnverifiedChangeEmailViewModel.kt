@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailViewModel(application) {
     override val success: MutableLiveData<Boolean> = MutableLiveData()
@@ -41,7 +41,7 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
             when (val response =
                 repository.changeUnverifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.user?.currentCustomer?.email = state.newEmail
+                    SessionManager.user?.currentCustomer?.email = state.newEmail
                     sharedPreferenceManager.saveUserNameWithEncryption(state.newEmail)
                     success.value = true
                 }

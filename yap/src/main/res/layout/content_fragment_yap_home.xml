@@ -30,7 +30,8 @@
                 android:id="@+id/rvNotificationList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dsv_orientation="horizontal" />
+                app:dsv_orientation="horizontal"
+                tools:listitem="@layout/view_notifications" />
 
             <!--     Content Graph Center       -->
             <include
@@ -58,10 +59,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_7sdp"
+                android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                android:enabled="@{viewModel.state.isUserAccountActivated}"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/lyAdd"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -92,7 +97,7 @@
                         android:layout_marginTop="8dp"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="6sp"
-                        android:text="Add"
+                        android:text="@string/screen_fragment_yap_home_add_money"
                         android:textColor="#5e35b1"
                         android:textSize="12sp"
                         android:textStyle="normal" />
@@ -100,16 +105,18 @@
 
                 <LinearLayout
                     android:id="@+id/lyAnalytics"
-                    android:layout_width="wrap_content"
+                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_18sdp"
+                    android:alpha="@{viewModel.state.isUserAccountActivated ? 1f : 0.5f}"
+                    android:enabled="@{viewModel.state.isUserAccountActivated}"
                     android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:orientation="vertical">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/eamf"
+                        android:id="@+id/fbAnalytics"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -146,7 +153,8 @@
                 android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_small">
+                android:layout_marginBottom="@dimen/margin_small"
+                android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.INVISIBLE}">
 
                 <TextView
                     android:id="@+id/tvTransactionTitle"
@@ -185,7 +193,8 @@
                         android:layout_marginEnd="2dp"
                         android:layout_toEndOf="@+id/tvFilterCount"
                         android:src="@drawable/ic_filter"
-                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
+                        android:tint="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}"
+                        android:visibility="@{viewModel.state.filterCount > 0 ? View.GONE:View.VISIBLE}" />
 
                     <TextView
                         android:id="@+id/tvFilters"
@@ -196,7 +205,6 @@
                         android:layout_toEndOf="@+id/ivFilters"
                         android:text="Filter"
                         android:textColor="@{viewModel.state.isTransEmpty() &amp;&amp; viewModel.state.filterCount==0? @color/grey: @color/colorPrimary}" />
-                    <!--                        android:textColor="?attr/colorPrimaryAttr" />-->
 
                 </RelativeLayout>
 
@@ -219,47 +227,67 @@
                     android:id="@+id/rvTransaction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.state.isUserAccountActivated ? View.VISIBLE : View.GONE}"
                     tools:listitem="@layout/item_transaction_list" />
-            </co.yap.widgets.MultiStateView>
 
-            <!--            <ImageView-->
-            <!--                android:id="@+id/ivNoTransaction"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_gravity="center_horizontal"-->
-            <!--                android:layout_marginBottom="@dimen/margin_extra_large"-->
-            <!--                android:visibility="@{viewModel.state.isTransEmpty?View.VISIBLE:View.GONE}"-->
-            <!--                app:srcCompat="@drawable/ic_no_transaction" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNotificationStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.state.isUserAccountActivated ? View.GONE : View.VISIBLE}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_dashboard_notification_status" />
+
+            </co.yap.widgets.MultiStateView>
 
         </LinearLayout>
 
         <co.yap.widgets.tooltipview.TooltipView
             android:id="@+id/tooltip"
-            style="@style/Small"
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/divider"
-            android:elevation="5dp"
-            android:gravity="center"
-            android:paddingStart="@dimen/_6sdp"
-            android:paddingTop="@dimen/_2sdp"
-            android:paddingEnd="@dimen/_6sdp"
-            android:paddingBottom="@dimen/_8sdp"
-            android:textColor="?attr/colorPrimaryDark"
-            android:textSize="@dimen/text_size_h1"
+            android:elevation="@dimen/tooltip_elevation"
             android:visibility="gone"
             app:arrowAlignment="custom"
-            app:arrowHeight="@dimen/_6sdp"
+            app:arrowHeight="@dimen/_16sdp"
             app:arrowLocation="bottom"
-            app:arrowWidth="@dimen/_6sdp"
+            app:arrowWidth="@dimen/_16sdp"
+            app:cardCornerRadius="@dimen/tooltip_radius"
+            app:cardElevation="@dimen/tooltip_elevation"
+            app:contentPaddingBottom="@dimen/_8sdp"
+            app:contentPaddingLeft="@dimen/_6sdp"
+            app:contentPaddingRight="@dimen/_6sdp"
+            app:contentPaddingTop="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tooltipColor="@color/white"
-            tools:text="Tooltip" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:lineSpacingExtra="3sp"
+                android:minWidth="@dimen/_100sdp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_h1"
+                tools:text="Tooltip" />
+        </co.yap.widgets.tooltipview.TooltipView>
+
+        <co.yap.widgets.tooltipview.TriangleView
+            android:id="@+id/arrowView"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:elevation="@dimen/tooltip_elevation"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+        </co.yap.widgets.tooltipview.TriangleView>
     </RelativeLayout>
-
-
 </layout>

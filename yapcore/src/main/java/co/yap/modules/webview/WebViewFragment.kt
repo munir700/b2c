@@ -14,8 +14,8 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import co.yap.translation.Strings
 import co.yap.widgets.AdvancedWebView
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
@@ -42,25 +42,26 @@ class WebViewFragment : BaseBindingFragment<IWebViewFragment.ViewModel>(), IWebV
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             pageUrl = it.getString(PAGE_URL, "")
-            title = it.getString(TOOLBAR_TITLE, "")
+            title = it.getString(
+                TOOLBAR_TITLE,
+                getString(Strings.screen_help_support_display_text_title)
+            )
         }
+        viewModel.state.toolbarTitle =
+            title ?: getString(
+                Strings.screen_help_support_display_text_title
+            )
         initAdvanceWebView()
-        setObservers()
-    }
 
-    fun setObservers() {
-        viewModel.clickEvent.observe(this, observer)
     }
 
     override fun onDestroyView() {
-        viewModel.clickEvent.removeObserver(observer)
         super.onDestroyView()
-
     }
 
-    private val observer = Observer<Int> {
-        when (it) {
-            R.id.tbBtnBack -> {
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
                 if (webView.canGoBack()) {
                     webView.goBack()
                 } else {

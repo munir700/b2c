@@ -15,7 +15,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.EIDStatus
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
@@ -24,6 +24,8 @@ class PersonalDetailsViewModel(application: Application) :
     override var UPDATE_ADDRESS_UI: Int = 10
     override var onUpdateAddressSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override val orderCardSuccess: MutableLiveData<Boolean> = MutableLiveData()
+
+
 
     override val repository: CardsRepository = CardsRepository
     var address: Address? = null
@@ -64,14 +66,14 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
-        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+        state.fullName = SessionManager.user?.currentCustomer?.getFullName() ?: ""
         state.phoneNumber =
-            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
-        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
-        state.fullName = MyUserManager.user?.currentCustomer?.getFullName() ?: ""
+            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = SessionManager.user?.currentCustomer?.email ?: ""
+        state.fullName = SessionManager.user?.currentCustomer?.getFullName() ?: ""
         state.phoneNumber =
-            MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
-        state.email = MyUserManager.user?.currentCustomer?.email ?: ""
+            SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(context) ?: ""
+        state.email = SessionManager.user?.currentCustomer?.email ?: ""
         setUpVerificationLayout()
     }
 
@@ -83,7 +85,7 @@ class PersonalDetailsViewModel(application: Application) :
 
                     address = response.data.data
                     setUpAddressFields()
-                    MyUserManager.userAddress = address
+                    SessionManager.userAddress = address
                     clickEvent.setValue(UPDATE_ADDRESS_UI)
                     state.loading = false
                 }
@@ -156,7 +158,7 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     override fun setUpVerificationLayout() {
-        when (MyUserManager.eidStatus) {
+        when (SessionManager.eidStatus) {
             EIDStatus.EXPIRED -> populateExpiredDocumentData()
             EIDStatus.VALID -> populateVerifiedDocumentData()
             EIDStatus.NOT_SET -> populateRequiredDocumentData()
@@ -166,7 +168,7 @@ class PersonalDetailsViewModel(application: Application) :
     private fun populateVerifiedDocumentData() {
         //context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
         state.drawbleRight =
-            context.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
+            context.resources.getDrawable(R.drawable.ic_achievement_completed_personal_details)
         state.verificationText = Translator.getString(
             context,
             Strings.screen_personal_details_display_text_emirates_id_details_update

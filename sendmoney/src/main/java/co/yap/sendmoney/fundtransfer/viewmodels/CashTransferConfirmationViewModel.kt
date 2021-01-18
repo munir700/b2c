@@ -12,6 +12,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferConfirmationViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransferConfirmation.State>(application),
@@ -25,7 +26,7 @@ class CashTransferConfirmationViewModel(application: Application) :
         super.onCreate()
         parentViewModel?.state?.leftIcon?.set(true)
         parentViewModel?.state?.rightIcon?.set(false)
-        parentViewModel?.state?.toolBarTitle = "Confirm transfer"
+        parentViewModel?.state?.toolbarTitle = "Confirm transfer"
         getCutOffTimeConfiguration()
     }
 
@@ -53,7 +54,7 @@ class CashTransferConfirmationViewModel(application: Application) :
             when (val response =
                 repository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
-                    currency = "AED",
+                    currency = SessionManager.getDefaultCurrency(),
                     amount = parentViewModel?.transferData?.value?.transferAmount,
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
                         ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant
@@ -91,14 +92,14 @@ class CashTransferConfirmationViewModel(application: Application) :
                 repository.uaeftsTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId?.toInt(),
-                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount,
                         settlementAmount = 0.0,
                         purposeCode = parentViewModel?.selectedPop?.purposeCode,
                         purposeReason = parentViewModel?.selectedPop?.purposeDescription,
                         cbwsi = if (parentViewModel?.isCutOffTimeStarted == true) !checkCBWSI() else false,
                         cbwsiFee = parentViewModel?.selectedPop?.cbwsiFee,
                         nonChargeable = parentViewModel?.selectedPop?.nonChargeable,
-                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue?.trim()
 
                     )
                 )
@@ -123,11 +124,11 @@ class CashTransferConfirmationViewModel(application: Application) :
                 repository.domesticTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId?.toInt(),
-                        amount = parentViewModel?.transferData?.value?.transferAmount?.toDoubleOrNull(),
+                        amount = parentViewModel?.transferData?.value?.transferAmount,
                         settlementAmount = 0.0,
                         purposeCode = parentViewModel?.selectedPop?.purposeCode,
                         purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue
+                        remarks = if (parentViewModel?.transferData?.value?.noteValue.isNullOrBlank()) null else parentViewModel?.transferData?.value?.noteValue?.trim()
                     )
 
                 )

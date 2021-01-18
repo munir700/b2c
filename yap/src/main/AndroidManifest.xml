@@ -107,11 +107,6 @@
         </activity>
 
         <activity
-            android:name=".modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
@@ -123,6 +118,9 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.yapit.addmoney.main.AddMoneyActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -148,7 +146,8 @@
 
         <activity
             android:name=".modules.others.fragmentpresenter.activities.FragmentPresenterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
         <activity
             android:name="co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity"

@@ -20,11 +20,10 @@ import co.yap.yapcore.enums.FeeType
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.helpers.spannables.color
 import co.yap.yapcore.helpers.spannables.getText
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class CashTransferViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<ICashTransfer.State>(application),
@@ -53,7 +52,7 @@ class CashTransferViewModel(application: Application) :
             getString(Strings.screen_cash_transfer_display_text_available_balance),
             context.color(
                 R.color.colorPrimaryDark,
-                "${"AED"} ${MyUserManager.cardBalance.value?.availableBalance?.toFormattedCurrency()}"
+                SessionManager.cardBalance.value?.availableBalance?.toFormattedCurrency(showCurrency = true) ?: ""
             )
         )
     }
@@ -70,10 +69,10 @@ class CashTransferViewModel(application: Application) :
         parentViewModel?.state?.rightIcon?.set(true)
         parentViewModel?.beneficiary?.value?.let { beneficiary ->
             if (beneficiary.beneficiaryType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
-                parentViewModel?.state?.toolBarTitle =
+                parentViewModel?.state?.toolbarTitle =
                     getString(Strings.screen_cash_pickup_funds_display_text_header)
             } else {
-                parentViewModel?.state?.toolBarTitle =
+                parentViewModel?.state?.toolbarTitle =
                     getString(Strings.screen_funds_local_toolbar_header)
             }
         }
@@ -166,10 +165,10 @@ class CashTransferViewModel(application: Application) :
                 transactionRepository.cashPayoutTransferRequest(
                     SendMoneyTransferRequest(
                         beneficiaryId = beneficiaryId,
-                        amount = state.amount.toDouble(),
-                        currency = "AED",
+                        amount = state.amount,
+                        currency = SessionManager.getDefaultCurrency(),
                         purposeCode = "8",
-                        remarks = state.noteValue
+                        remarks = state.noteValue?.trim()
                     )
                 )
                 ) {
@@ -299,7 +298,7 @@ class CashTransferViewModel(application: Application) :
     }
 
     fun trxWillHold(): Boolean {
-       // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
+        // todo: cuttoff time , uaefts , AED , cbwsi , bank cbwsi complaintent ,less than equal to cbwsi limit
         return if (!isOnlyUAEFTS()) return false else
             parentViewModel?.selectedPop?.let { pop ->
                 return (when {
@@ -316,8 +315,9 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.getCutOffTimeConfiguration(
                     productCode = getProductCode(),
-                    currency = "AED",
-                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1).toString(),
+                    currency = SessionManager.getDefaultCurrency(),
+                    amount = parentViewModel?.transactionThreshold?.value?.cbwsiPaymentLimit?.plus(1)
+                        .toString(),
                     isCbwsi = if (parentViewModel?.beneficiary?.value?.cbwsicompliant == true) parentViewModel?.selectedPop?.cbwsi
                         ?: false else parentViewModel?.beneficiary?.value?.cbwsicompliant
                 )) {
@@ -348,10 +348,40 @@ class CashTransferViewModel(application: Application) :
         state.errorDescription = Translator.getString(
             context,
             Strings.common_display_text_min_max_limit_error_transaction,
-            state.minLimit.toString().toFormattedAmountWithCurrency(),
-            state.maxLimit.toString().toFormattedAmountWithCurrency()
+            state.minLimit.toString().toFormattedCurrency(),
+            state.maxLimit.toString().toFormattedCurrency()
         )
         parentViewModel?.errorEvent?.value = state.errorDescription
 
+    }
+
+    override fun checkCoolingPeriodRequest(
+        beneficiaryId: String?,
+        beneficiaryCreationDate: String?,
+        beneficiaryName: String?,
+        amount: String?,
+        success: () -> Unit
+    ) {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.checkCoolingPeriodRequest(
+                    beneficiaryId = beneficiaryId,
+                    beneficiaryCreationDate =beneficiaryCreationDate,
+                    beneficiaryName =beneficiaryName,
+                    amount = state.amount
+                )) {
+                is RetroApiResponse.Success -> {
+                    success.invoke()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.errorDescription = response.error.message
+                    parentViewModel?.errorEvent?.value = state.errorDescription
+                }
+            }
+            state.loading = false
+        }
     }
 }

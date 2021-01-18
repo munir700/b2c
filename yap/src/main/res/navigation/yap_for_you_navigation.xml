@@ -13,16 +13,10 @@
 
         <action
             android:id="@+id/action_YAPForYouFragment_to_achievementDetailFragment"
-            app:destination="@id/achievementDetailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:destination="@id/achievementDetailFragment" />
         <action
             android:id="@+id/action_YAPForYouFragment_to_completedAchievementsFragment"
-            app:destination="@id/completedAchievementsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_down" />
+            app:destination="@id/completedAchievementsFragment" />
     </fragment>
     <fragment
         android:id="@+id/achievementDetailFragment"

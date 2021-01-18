@@ -95,7 +95,7 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/drawerNav"
-            android:layout_width="@dimen/_250sdp"
+            android:layout_width="@dimen/_265sdp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@color/white"

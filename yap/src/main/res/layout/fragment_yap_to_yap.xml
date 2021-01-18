@@ -30,34 +30,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/layoutSearchView"
-            layout="@layout/layout_contact_search"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_26sdp"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/_16sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvCancel"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSerchviewContainer"
             app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
-            app:viewModel="@{viewModel}" />
-
-        <TextView
-            android:id="@+id/tvCancel"
-            style="@style/ASmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="@string/common_button_cancel"
-            android:textColor="?attr/colorPrimaryAttr"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/layoutSearchView"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_width="0dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layoutSearchView"
-            app:layout_constraintTop_toTopOf="@id/layoutSearchView" />
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/layoutSearchView"
+                layout="@layout/layout_contact_search"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvCancel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:viewModel="@{viewModel}" />
+
+            <TextView
+                android:id="@+id/tvCancel"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="@string/common_button_cancel"
+                android:textColor="?attr/colorPrimaryAttr"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/layoutSearchView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutSearchView"
+                app:layout_constraintTop_toTopOf="@id/layoutSearchView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -66,7 +74,7 @@
             android:layout_marginTop="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutSearchView"
+            app:layout_constraintTop_toBottomOf="@+id/clSerchviewContainer"
             app:tabBackground="@drawable/contacts_tab_layout_selector"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"

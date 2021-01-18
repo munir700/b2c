@@ -13,7 +13,7 @@ data class Card(
     val uuid: String,
     var physical: Boolean,
     val active: Boolean,
-    var cardName: String,
+    var cardName: String?,
     var nameUpdated: Boolean?,
     var status: String,
     val shipmentStatus: String?,
@@ -37,5 +37,7 @@ data class Card(
     val productCode: String,
     var pinCreated: Boolean,
     var frontImage: String,
-    var backImage: String
+    var backImage: String,
+    var shipmentDate: String? = null,
+    var activationDate: String? = null
 ) : ApiResponse(), Parcelable

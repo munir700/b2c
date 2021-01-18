@@ -1,23 +1,4 @@
-package co.yap.app.modules.login.fragments
 
-import android.app.Activity
-import android.content.Intent
-import android.hardware.fingerprint.FingerprintManager
-import android.os.Bundle
-import android.view.View
-import androidx.annotation.Keep
-import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
-import co.yap.BR
-import co.yap.app.R
-import co.yap.app.constants.Constants
-import co.yap.app.main.MainActivity
-import co.yap.app.main.MainChildFragment
-import co.yap.app.modules.login.interfaces.IVerifyPasscode
-import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
@@ -50,7 +31,7 @@ import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
@@ -72,7 +53,6 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        preventTakeScreenShot(true)
         dialer.hideFingerprintView()
         receiveData()
         updateUUID()
@@ -80,12 +60,14 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         onbackPressLogic()
         dialer.setNumberKeyboardListener(this)
         dialer.upDatedDialerPad(viewModel.state.passcode)
+        dialer.removeError()
     }
 
     private fun addObservers() {
         viewModel.onClickEvent.observe(this, onClickView)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
+        viewModel.accountInfo.observe(this, onFetchAccountInfo)
         viewModel.createOtpResult.observe(this, createOtpObserver)
     }
 
@@ -190,7 +172,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
@@ -208,7 +191,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
                             viewModel.mobileNumber,
-                            it
+                            it,
+                            "VERIFY_PASSCODE_FRAGMENT"
                         )
                     findNavController().navigate(action)
                 }
@@ -217,7 +201,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun doLogout() {
-        activity?.let { MyUserManager.doLogout(it, true) }
+        activity?.let { SessionManager.doLogout(it, true) }
         if (activity is MainActivity) {
             (activity as MainActivity).onBackPressedDummy()
         } else {
@@ -259,11 +243,11 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     viewModel.login()
             }
             R.id.tvForgotPassword -> {
-                if (MyUserManager.user?.otpBlocked == true) {
+                if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
                     if (!isUserLoginIn()) {
-                        startOtpFragment(viewModel.state.username)
+                        goToNext(viewModel.state.username)
                     } else {
                         viewModel.parentViewModel?.shardPrefs?.getDecryptedUserName()
                             ?.let { username ->
@@ -278,7 +262,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private fun updateName() {
         if (isUserLoginIn()) {
-            viewModel.state.username = MyUserManager.user?.currentCustomer?.email ?: ""
+            viewModel.state.username = SessionManager.user?.currentCustomer?.email ?: ""
             return
         }
         viewModel.state.username = ""
@@ -307,9 +291,10 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         }
     }
 
-    private val onFetchAccountInfo = Observer<AccountInfo?> {
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             trackEvents(it)
+            SessionManager.updateCardBalance {  }
             viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
             if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -321,7 +306,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
                             Constants.TOUCH_ID_SCREEN_TYPE
                         )
-                    findNavController().navigate(action)
+                    navigate(action)
                     viewModel.parentViewModel?.shardPrefs?.save(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                         true
@@ -335,30 +320,22 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
                             Constants.NOTIFICATION_SCREEN_TYPE
                         )
-                    findNavController().navigate(action)
+                    navigate(action)
                 }
             } else {
-                if (MyUserManager.shouldGoToHousehold()) {
-                    MyUserManager.user?.uuid?.let { it1 ->
+                if (SessionManager.shouldGoToHousehold()) {
+                    SessionManager.user?.uuid?.let { it1 ->
                         SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
                             .observe(this@VerifyPasscodeFragment, switchProfileObserver)
                     }
 
                 } else {
-                    if (otpBlocked == true)
-                        startFragment(
-                            fragmentName = OtpBlockedInfoFragment::class.java.name,
-                            clearAllPrevious = true
-                        )
+                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                     else
-//                        launchActivity<NavHostPresenterActivity>(clearPrevious = true) {
-//                            putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
-//                            putExtra(
-//                                NAVIGATION_Graph_START_DESTINATION_ID,
-//                                R.id.householdDashboardFragment
-//                            )
-//                        }
-                        launchActivity<YapDashboardActivity>(clearPrevious = true)
+                        launchActivity<YapDashboardActivity> {  }
+
+                    activity?.finish()
                 }
             }
         }
@@ -368,21 +345,21 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         accountInfo.let {
             if (it.currentCustomer.mobileNoVerified == true) {
                 trackEventInFragments(
-                    MyUserManager.user,
+                    SessionManager.user,
                     phoneNumberVerified = true
                 )  // This was not added before in Core
             }
             if (it.currentCustomer.emailVerified == true) {
                 trackEventInFragments(
-                    MyUserManager.user,
+                    SessionManager.user,
                     emailVerified = true
                 )  // This was not added before in Core
             }
             if (it.active == true) {
-                trackEventInFragments(MyUserManager.user, isAccountActive = true)
+                trackEventInFragments(SessionManager.user, isAccountActive = true)
             }
 
-            MyUserManager.card.value?.let { card ->
+            SessionManager.card.value?.let { card ->
                 if (isCardDelivered(card)) {
                     trackEvent(HHUserOnboardingEvents.HH_USER_KYC_CARD_DELIVERED.type)
                 }
@@ -396,8 +373,8 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (MyUserManager.isOnBoarded()) {
-                if (MyUserManager.isExistingUser()) {
+            if (SessionManager.isOnBoarded()) {
+                if (SessionManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
                     context.switchTheme(HOUSEHOLD())
@@ -414,11 +391,11 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 //                    val user = GsonProvider.fromJson(
 //                        it, AccountInfoResponse::class.java
 //                    )
-//                    MyUserManager.usersList?.value = ArrayList(user.data)
-//                    MyUserManager.user = MyUserManager.getCurrentUser()
+//                    SessionManager.usersList?.value = ArrayList(user.data)
+//                    SessionManager.user = SessionManager.getCurrentUser()
 //                }
                 context.switchTheme(HOUSEHOLD())
-               MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
+                SessionManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)
@@ -433,7 +410,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 viewModel.state.username,
                 viewModel.state.passcode
             )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
 
@@ -449,7 +426,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
             activity?.setResult(Activity.RESULT_OK, intent)
             activity?.finish()
         } else {
-            GetAccountInfoLiveData.get().observe(this, onFetchAccountInfo)
+            viewModel.getAccountInfo()
         }
     }
 

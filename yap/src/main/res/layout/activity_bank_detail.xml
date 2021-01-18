@@ -11,7 +11,9 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.R" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.enums.PartnerBankStatus" />
     </data>
@@ -22,9 +24,24 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
+        <co.yap.widgets.CoreToolbar
             android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
+            app:rightIconVisibility="@{true}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
+
+        <include
             layout="@layout/layout_bank_detail_toolbar"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,11 +50,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_32sdp"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:background="@color/light_grey_background"
             android:orientation="vertical"
             android:paddingStart="@dimen/margin_normal_large"
-            android:paddingTop="@dimen/margin_normal_large"
             android:paddingEnd="@dimen/margin_normal_large"
             android:paddingBottom="@dimen/margin_medium_large"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +65,7 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintTop_toTopOf="parent">
@@ -59,6 +75,7 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:gravity="start"
                     android:lines="1"
@@ -96,8 +113,10 @@
                 <TextView
                     android:id="@+id/tvSwift"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+
                     android:gravity="start"
                     android:lines="1"
                     android:text="SWIFT/BIC"
@@ -134,9 +153,9 @@
                 <TextView
                     android:id="@+id/tvIban"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="0.5"
                     android:gravity="start"
                     android:lines="1"
                     android:text="IBAN"
@@ -173,8 +192,9 @@
                 <TextView
                     android:id="@+id/tvAccount"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:gravity="start"
                     android:lines="1"
@@ -212,8 +232,9 @@
                 <TextView
                     android:id="@+id/tvBank"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
 
                     android:gravity="start"
                     android:lines="1"
@@ -251,12 +272,12 @@
                 <TextView
                     android:id="@+id/tvAddress"
                     style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="0.5"
                     android:gravity="start"
                     android:lines="1"
-                    android:text="Address"
+                    android:text="@string/screen_meeting_location_input_text_address_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
@@ -269,7 +290,6 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:lines="1"
                     android:text="@{viewModel.state.addresse}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -330,7 +350,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Share"
-            android:visibility="@{MyUserManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
+            android:visibility="@{SessionManager.INSTANCE.user.partnerBankStatus.equals(PartnerBankStatus.ACTIVATED.name) ? View.VISIBLE : View.GONE}"
             app:btn_drawable="@drawable/ic_share_white"
             app:btn_drawable_padding_left="10"
             app:btn_drawable_padding_top="4"

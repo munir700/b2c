@@ -110,6 +110,11 @@
             <argument
                 android:name="token"
                 app:argType="string" />
+
+            <argument
+                android:name="navigationType"
+                app:argType="string"
+                android:defaultValue=" "/>
         </action>
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_systemPermissionFragment"

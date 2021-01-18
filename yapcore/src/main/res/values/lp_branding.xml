@@ -147,8 +147,9 @@
     <!--Clear History-->
     <bool name="clear_history_show_confirm_dialog">true</bool>
 
-    <!--Photo sharing-->
-    <bool name="enable_photo_sharing">false</bool>
+    <!--Photo/File sharing-->
+    <bool name="enable_photo_sharing">true</bool>
+    <bool name="enable_file_sharing">true</bool>
     <bool name="upload_photo_using_service">true</bool>
     <integer name="max_number_stored_images">20</integer>
     <integer name="max_number_stored_documents">20</integer>
@@ -250,6 +251,13 @@
     <!--Voice-->
     <bool name="enable_voice_sharing">false</bool>
     <integer name="max_number_stored_voice_files">20</integer>
+
+    <!-- Clear Chat History-->
+    <string name="lp_history_control_api_empty_state">@string/screen_live_chat_no_conversation_message</string>
+
+    <!-- Send Message.  -->
+    <bool name= "enable_markdown_hyperlink">true</bool>
+    <bool name= "lp_markdown_hyperlink_copy_text_only">true</bool>
 
     <!--  Start of scroll behavior settings.  -->
 

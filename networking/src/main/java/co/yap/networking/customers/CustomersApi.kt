@@ -4,6 +4,8 @@ import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
@@ -47,6 +49,7 @@ interface CustomersApi {
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
+    suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse>
 
     /*  send money */
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
@@ -72,7 +75,7 @@ interface CustomersApi {
     suspend fun onboardHousehold(householdOnboardRequest: HouseholdOnboardRequest?): RetroApiResponse<HouseholdOnBoardingResponse>
     suspend fun addHouseholdEmail(addHouseholdEmailRequest: AddHouseholdEmailRequest): RetroApiResponse<ValidateParentMobileResponse>
     suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ValidateParentMobileResponse>
-    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country>
+    suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit>
     suspend fun getCountryTransactionLimits(
         countryCode: String,
         currencyCode: String
@@ -94,5 +97,9 @@ interface CustomersApi {
     suspend fun getTaxReasons(): RetroApiResponse<TaxReasonResponse>
     suspend fun saveBirthInfo(birthInfoRequest: BirthInfoRequest): RetroApiResponse<ApiResponse>
     suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse>
+    suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse>
+    suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse>
+    suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
+    suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
     suspend fun getSubscriptionsNotifications(): RetroApiResponse<BaseListResponse<HomeNotification>>
 }

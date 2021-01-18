@@ -31,6 +31,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
         state.buttonTitle = buttonTitle
     }
 
+
     override fun handlePressView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -69,11 +70,15 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                     success()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }
         }
+    }
+
+    override fun setLayoutVisibility(visibility: Boolean?) {
+        state.needTermsConditions = visibility
     }
 
     override fun forgotPassCodeRequest(success: () -> Unit) {
@@ -94,7 +99,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                     success()
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
 
@@ -129,7 +134,7 @@ class PassCodeViewModel(application: Application) : BaseViewModel<IPassCode.Stat
                         }
                     }
                     is RetroApiResponse.Error -> {
-                        state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                        state.dialerError = response.error.message
                         state.loading = false
                     }
                 }

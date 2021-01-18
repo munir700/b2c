@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.otp.GenericOtpFragment
@@ -16,13 +15,13 @@ import co.yap.modules.passcode.PassCodeViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPassCodeBinding
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
 
 class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(), IPassCode.View {
 
@@ -39,7 +38,8 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
             title = getString(Strings.screen_current_passcode_display_text_heading),
             buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         )
-        parentActivity.viewModel.state.toolbarVisibility.set(false)
+        parentActivity.viewModel.state.toolbarVisibility.set(true)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,16 +53,15 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        viewModel.validatePassCode { isValidPassCode ->
-                            if (isValidPassCode) {
-                                parentActivity.passCodeData.token = viewModel.token
-                                findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
-                            } else
-                                getBinding().dialer.startAnimation()
-                        }
+                    viewModel.validatePassCode { isValidPassCode ->
+                        if (isValidPassCode) {
+                            parentActivity.passCodeData.token = viewModel.token
+                            navigate(
+                                R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment,
+                                screenType = FeatureSet.CHANGE_PASSCODE
+                            )
+                        } else
+                            getBinding().dialer.startAnimation()
                     }
                 }
                 R.id.tvForgotPasscode -> {
@@ -84,7 +83,8 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                     username = name,
                     emailOtp = !Utils.isUsernameNumeric(name)
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =
@@ -116,7 +116,7 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
                         viewModel.token,
                         Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE
                     )
-                findNavController().navigate(action)
+                navigate(action,screenType = FeatureSet.FORGOT_PASSCODE)
             } ?: showToast("Invalid username found")
         }
     }
@@ -128,5 +128,15 @@ class CurrentPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewModel>(
 
     fun getBinding(): FragmentPassCodeBinding {
         return viewDataBinding as FragmentPassCodeBinding
+    }
+
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                 activity?.onBackPressed()
+             }
+        }
     }
 }

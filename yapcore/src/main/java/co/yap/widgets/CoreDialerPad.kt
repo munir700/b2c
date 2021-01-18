@@ -10,12 +10,10 @@ import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AnimationUtils
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.setPadding
@@ -46,6 +44,7 @@ class CoreDialerPad @JvmOverloads constructor(
         }
     var dialerMaxLength = 6
     val animShake = AnimationUtils.loadAnimation(context, R.anim.shake)
+
     //var onButtonClickListener: OnClickListener? = null
     private var inputEditText: EditText? = null
     private var listener: NumberKeyboardListener? = null
@@ -147,10 +146,13 @@ class CoreDialerPad @JvmOverloads constructor(
 
     init {
         orientation = VERTICAL
-        addView(view)
+        val lp =
+            LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        addView(view, lp)
         etPassCodeText = view.findViewById(R.id.etPassCodeText)
         buttonRemove = view.findViewById(R.id.buttonRemove)
         // editText = etPassCodeText
+
         attrs?.let { it ->
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
             dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
@@ -201,38 +203,44 @@ class CoreDialerPad @JvmOverloads constructor(
                     view.findViewById<LinearLayout>(R.id.llPasscodeThirdRow)
                 val row4 =
                     view.findViewById<LinearLayout>(R.id.llPasscodeFourthRow)
+                val tvError = view.findViewById<TextView>(R.id.tvError)
 
 
                 val h = height - topPanelHeight
-                val hp = h - (h / 7)
-                val dimension = hp / 5
+                val dimension = ((h / 10) * 1.4).toInt()
+                val keyDimen = ((h / 10) * 1.4).toInt()
                 for (view in keypads) {
                     val prams = view.layoutParams
-                    prams.width = dimension
-                    prams.height = dimension
+                    prams.width = keyDimen
+                    prams.height = keyDimen
                 }
                 val pramsrow1 = row1.layoutParams as ConstraintLayout.LayoutParams
-                pramsrow1.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                pramsrow1.setMargins(0, 0, 0, 0);
                 row1.layoutParams = pramsrow1
 
+                val error = tvError.layoutParams as ConstraintLayout.LayoutParams
+                error.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                tvError.layoutParams = error
+
+
                 val pramsrow2 = row2.layoutParams as ConstraintLayout.LayoutParams
-                pramsrow2.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                pramsrow2.setMargins(0, 0, 0, 0);
                 row2.layoutParams = pramsrow2
 
                 val pramsrow3 = row3.layoutParams as ConstraintLayout.LayoutParams
-                pramsrow3.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                pramsrow3.setMargins(0, 0, 0, 0);
                 row3.layoutParams = pramsrow3
 
                 val pramsrow4 = row4.layoutParams as ConstraintLayout.LayoutParams
-                pramsrow4.setMargins(0, (dimension / 2.5).toInt(), 0, 0);
+                pramsrow4.setMargins(0, 0, 0, 0);
                 row4.layoutParams = pramsrow4
 
                 val rm = view.findViewById<ImageView>(R.id.buttonRemove)
                 val prams = rm.layoutParams as LinearLayout.LayoutParams
-                prams.width = dimension
-                prams.height = dimension
+                prams.width = keyDimen
+                prams.height = keyDimen
                 rm.layoutParams = prams
-                rm.setPadding(dimension / 4)
+                rm.setPadding((keyDimen / 3.7).toInt())
 
                 viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
@@ -283,7 +291,7 @@ class CoreDialerPad @JvmOverloads constructor(
         return inputEditText?.text.toString()
     }
 
-    private fun clearAllData() {
+    fun clearAllData() {
         etPassCodeText?.setText("")
         inputEditText?.setText("")
         list.clear()
@@ -301,6 +309,7 @@ class CoreDialerPad @JvmOverloads constructor(
         etPassCodeText?.setText("")
         inputEditText?.setText("")
         //editText.setText("")
+//        removeError()
     }
 
     fun updateDialerLength(length: Int) {
@@ -317,10 +326,12 @@ class CoreDialerPad @JvmOverloads constructor(
     fun showError(error: String) {
         tvError.visibility = View.VISIBLE
         tvError.text = error
+        setButtonDimensions()
     }
 
     fun removeError() {
-        tvError.visibility = View.INVISIBLE
+        tvError.visibility = View.GONE
+        setButtonDimensions()
     }
 
     fun settingUIForError(isScreenLocked: Boolean = false) {

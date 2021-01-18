@@ -15,8 +15,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/lycard"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/margin_extra_small"
         android:background="@color/white"
         android:elevation="@dimen/_5sdp"
@@ -40,13 +40,12 @@
 
             <ImageView
                 android:id="@+id/imgAddCard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_round_purple"
+                android:background="@drawable/bd_card_icon_circle"
                 android:contentDescription="@string/empty_string"
                 android:elevation="2dp"
-                android:padding="@dimen/margin_extra_small"
                 app:srcCompat="@drawable/ic_icon_card_transfer" />
 
             <TextView
@@ -58,7 +57,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:elevation="2dp"
                 android:gravity="center"
-                android:text="+ Add a new card"
+                android:text="@{viewModel.topUpCard.id}"
                 android:textColor="?attr/colorPrimaryDarkAttr"
                 tools:text="+ Add a new card" />
         </LinearLayout>

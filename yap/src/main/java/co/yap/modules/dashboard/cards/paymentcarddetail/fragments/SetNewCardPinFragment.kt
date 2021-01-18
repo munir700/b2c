@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
 import co.yap.yapcore.BR
@@ -22,7 +20,7 @@ open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.V
     override fun getLayoutId(): Int = R.layout.fragment_pin
 
     var oldPinCode: String? = null
-    override val viewModel: IPin.ViewModel
+    override val viewModel: PINViewModel
         get() = ViewModelProviders.of(this).get(PINViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,11 +29,6 @@ open class SetNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.V
         getBindings().dialer.hideFingerprintView()
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
-        if (activity is ChangeCardPinActivity) {
-            (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
-        }
-        if (activity is ForgotCardPinActivity)
-            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

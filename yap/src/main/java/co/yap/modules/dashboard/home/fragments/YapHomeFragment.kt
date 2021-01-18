@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.RelativeSizeSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,12 +29,14 @@ import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
+import co.yap.modules.dashboard.home.status.DashboardNotificationStatusHelper
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.more.yapforyou.activities.YAPForYouActivity
 import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.yapit.addmoney.main.AddMoneyActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.location.activities.LocationSelectionActivity
@@ -52,7 +52,11 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
 import co.yap.widgets.MultiStateView
+import co.yap.widgets.State
+import co.yap.widgets.Status
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
+import co.yap.widgets.skeletonlayout.Skeleton
+import co.yap.widgets.skeletonlayout.applySkeleton
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ADDRESS_SUCCESS
@@ -62,10 +66,13 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.appbar.AppBarLayout
+import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_graph.*
 import kotlin.math.abs
@@ -73,9 +80,12 @@ import kotlin.math.abs
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private var mAdapter = NotificationAdapter(mutableListOf(), this)
+    private var mAdapter: NotificationAdapter? = null
     private var parentViewModel: YapDashBoardViewModel? = null
     override var transactionViewHelper: TransactionsViewHelper? = null
+    private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
+    private lateinit var skeleton: Skeleton
+    private lateinit var tvBalanceSkeleton: Skeleton
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -91,9 +101,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun startFlowForSetPin() {
-        if (MyUserManager.getPrimaryCard() != null) {
-            if (isShowSetPin(MyUserManager.getPrimaryCard())) {
-                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+        if (SessionManager.getPrimaryCard() != null) {
+            if (isShowSetPin(SessionManager.getPrimaryCard())) {
+                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
@@ -115,7 +125,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openYapForYou() {
-        startActivity(Intent(requireContext(), YAPForYouActivity::class.java))
+        launchActivity<YAPForYouActivity>(type = FeatureSet.YAP_FOR_YOU)
     }
 
     private fun initComponents() {
@@ -123,7 +133,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
-
+        skeleton = getBindings().lyInclude.rvTransaction.applySkeleton(
+            R.layout.item_transaction_list_shimmer,
+            5
+        )
+        viewModel.state.showTxnShimmer.observe(this, Observer { handleShimmerState(it) })
         getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
@@ -139,15 +153,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             } else {
                 if (Math.abs(verticalOffset) > 0)
-                    getBindings().lyInclude.lyHomeAction.alpha = 10 / abs(verticalOffset).toFloat()
+                    getBindings().lyInclude.lyHomeAction.alpha =
+                        10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
                 getBindings().lyInclude.lyHomeAction.layoutParams = pram
             }
         })
     }
 
+    private fun handleShimmerState(state: State?) {
+        when (state?.status) {
+            Status.LOADING -> skeleton.showSkeleton()
+            else -> skeleton.showOriginal()
+        }
+    }
+
     override fun onRefresh() {
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
             viewModel.isRefreshing.value = true
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
@@ -172,7 +194,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun openTransactionFilters() {
-        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
             startActivityForResult(
                 TransactionFiltersActivity.newIntent(
                     requireContext(),
@@ -183,7 +205,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
-        MyUserManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
+        SessionManager.onAccountInfoSuccess.observe(this, Observer { isSuccess ->
             if (isSuccess) {
                 checkUserStatus()
             }
@@ -202,21 +224,39 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             when (it) {
                 R.id.lyTransaction -> {
                     viewModel.clickEvent.getPayload()?.let {
-                        if (it.itemData is Transaction) {
-                            launchActivity<TransactionDetailsActivity> {
-                                putExtra("transaction", it.itemData as Transaction)
-                            }
+                        val childPosition = it.position
+                        val groupPosition = it.itemData as Int
+                        val transaction: Transaction? =
+                            getRecycleViewAdaptor()?.getDataForPosition(groupPosition)?.transaction?.get(
+                                childPosition
+                            )
+                        launchActivity<TransactionDetailsActivity>(requestCode = RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT) {
+                            putExtra(
+                                ExtraKeys.TRANSACTION_OBJECT_STRING.name,
+                                transaction
+                            )
+                            putExtra(
+                                ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                                groupPosition
+                            )
+                            putExtra(
+                                ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                                childPosition
+                            )
+
                         }
                     }
                     viewModel.clickEvent.setPayload(null)
                 }
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    startActivityForResult(
-                        SetCardPinWelcomeActivity.newIntent(
-                            requireContext(),
-                            MyUserManager.getPrimaryCard()
-                        ), RequestCodes.REQUEST_FOR_SET_PIN
-                    )
+                    SessionManager.getPrimaryCard()?.let { card ->
+                        startActivityForResult(
+                            SetCardPinWelcomeActivity.newIntent(
+                                requireContext(),
+                                card
+                            ), RequestCodes.REQUEST_FOR_SET_PIN
+                        )
+                    } ?: showToast("Debit card not found.")
                 }
                 viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
                     startActivityForResult(
@@ -239,27 +279,23 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         }
                     }
                 }
-                R.id.lyAnalytics -> launchActivity<CardAnalyticsActivity>()//startFragment(CardAnalyticsDetailsFragment::class.java.name)
-                R.id.lyAdd -> {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        launchActivity<TopUpLandingActivity>()
-                    } else {
-                        showToast("Account activation pending")
-
-                    }
+                R.id.lyAnalytics -> {
+                    launchActivity<CardAnalyticsActivity>(type = FeatureSet.ANALYTICS)
                 }
-
+                R.id.lyAdd -> {
+                    openTopUpScreen()
+                }
             }
         })
 
-        MyUserManager.card.observe(this, Observer { primaryCard ->
+        SessionManager.card.observe(this, Observer { primaryCard ->
             primaryCard?.let {
                 startFlowForSetPin()
                 checkUserStatus()
             }
         })
 
-        MyUserManager.cardBalance.observe(this, Observer { value ->
+        SessionManager.cardBalance.observe(this, Observer { value ->
             setAvailableBalance(value.availableBalance.toString())
         })
 
@@ -292,19 +328,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
-                    //if transaction is empty and filer is applied then state would be Error where no transaction image show
+                    //if transaction is empty and filter is applied then state would be Error where no transaction image show
                     if (homeTransactionsRequest.totalAppliedFilter > 0) {
                         getBindings().lyInclude.multiStateView.viewState =
                             MultiStateView.ViewState.ERROR
                     } else {
-                        //if transaction is empty and filer is not applied then state would be Empty where a single row appears welcome to yap
-                        getBindings().lyInclude.multiStateView.viewState =
-                            MultiStateView.ViewState.EMPTY
+                        //if transaction is empty and filter is not applied then state would be Empty where a single row appears welcome to yap
+//                        getBindings().lyInclude.multiStateView.viewState =
+//                            MultiStateView.ViewState.EMPTY
+                        viewModel.state.isUserAccountActivated.set(false)
+                        setUpDashBoardNotificationsView()
                     }
                     transactionViewHelper?.setTooltipVisibility(View.GONE)
                     viewModel.state.isTransEmpty.set(true)
                 } else {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
+                        viewModel.state.isUserAccountActivated.set(true)
                         showTransactionsAndGraph()
                     } else {
                         viewModel.state.isTransEmpty.set(true)
@@ -316,10 +355,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-//        getGraphRecycleViewAdapter()?.setItemListener(listener)
         getRecycleViewAdaptor()?.setItemListener(transactionClickListener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
-        //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
             object :
                 RecyclerView.OnScrollListener() {
@@ -347,37 +384,37 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 item?.totalAmount = "loader"
                 getRecycleViewAdaptor()?.addListItem(item!!)
                 viewModel.loadMore()
-            } else {
-                // if (getRecycleViewAdaptor()?.itemCount!! > 0)
-                //     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
             }
 
         })
     }
 
     private fun checkUserStatus() {
-        setNotificationAdapter(MyUserManager.user, MyUserManager.card.value)
+        setNotificationAdapter(SessionManager.user, SessionManager.card.value)
     }
 
     private fun setNotificationAdapter(accountInfo: AccountInfo?, paymentCard: Card?) {
         accountInfo?.let { account ->
             paymentCard?.let { card ->
                 viewModel.getNotifications(account, card) {
-                    mAdapter = NotificationAdapter(mutableListOf(), this)
-                    mAdapter.setList(viewModel.state.notificationList.value ?: mutableListOf())
+                    mAdapter = NotificationAdapter(requireContext(), mutableListOf(), this)
+                    mAdapter?.setList(viewModel.state.notificationList.value ?: mutableListOf())
                 }
                 viewModel.getFailedTransactionAndSubNotifications() {
-                    mAdapter.addList(viewModel.state.notificationList.value ?: mutableListOf())
+                    mAdapter?.addList(viewModel.state.notificationList.value ?: mutableListOf())
                 }
 
                 getBindings().lyInclude.rvNotificationList.setSlideOnFling(false)
                 getBindings().lyInclude.rvNotificationList.setOverScrollEnabled(true)
                 getBindings().lyInclude.rvNotificationList.adapter = mAdapter
                 getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(0)
-                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(100)
+                getBindings().lyInclude.rvNotificationList.setItemTransitionTimeMillis(150)
                 getBindings().lyInclude.rvNotificationList.setItemTransformer(
                     ScaleTransformer.Builder()
-                        .setMinScale(0.8f)
+                        .setMaxScale(1.05f)
+                        .setMinScale(1f)
+                        .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                        //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
                         .build()
                 )
             }
@@ -385,11 +422,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun clearNotification() {
-        mAdapter.removeAllItems()
+        mAdapter?.removeAllItems()
     }
 
-    override fun onCloseClick(notification: HomeNotification) {
-        super.onCloseClick(notification)
+    override fun onCloseClick(notification: HomeNotification, position: Int) {
+        super.onCloseClick(notification, position)
         clearNotification()
     }
 
@@ -419,7 +456,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
-        MyUserManager.updateCardBalance {}
+        SessionManager.updateCardBalance {}
     }
 
     override fun onDestroyView() {
@@ -430,60 +467,79 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
-        MyUserManager.onAccountInfoSuccess.removeObservers(this)
+        SessionManager.onAccountInfoSuccess.removeObservers(this)
         super.onDestroy()
 
     }
 
-    private fun setAvailableBalance(balance: String) {
-        try {
-            val ss1 = SpannableString(balance.toFormattedCurrency())
-            if (ss1.isNotEmpty() && ss1.contains(".")) {
-                val balanceAfterDot = ss1.split(".")
-                ss1.setSpan(
-                    RelativeSizeSpan(0.5f),
-                    balanceAfterDot[0].length,
-                    balanceAfterDot[0].length + balanceAfterDot[1].length + 1,
-                    0
-                )
-                getBindings().tvAvailableBalance.text = ss1
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun setAvailableBalance(balance: String?) {
+        getBindings().skeletonLayout.apply {
+            if (balance.isNullOrEmpty()) showSkeleton() else showOriginal()
         }
+        getBindings().tvAvailableBalance.text = balance.getAvailableBalanceWithFormat()
     }
 
-    override fun onClick(notification: HomeNotification) {
+    override fun onClick(notification: HomeNotification, position: Int) {
+        if (position != getBindings().lyInclude.rvNotificationList.currentItem) {
+            getBindings().lyInclude.rvNotificationList.smoothScrollToPosition(position)
+            return
+        }
+
         when (notification.action) {
             NotificationAction.COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
                         Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                        SessionManager.user?.currentCustomer?.firstName.toString()
                     )
                     putExtra(Constants.data, false)
                 }
             }
 
             NotificationAction.SET_PIN -> {
-                MyUserManager.card.value?.let {
+                SessionManager.card.value?.let {
                     viewModel.clickEvent.setValue(viewModel.EVENT_SET_CARD_PIN)
                 }
             }
 
             NotificationAction.UPDATE_EMIRATES_ID -> {
-                launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
-                    putExtra(
-                        Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
-                    )
-                    putExtra(Constants.data, true)
-                    putExtra(
-                        "document",
-                        GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
-                            identityNo = MyUserManager.user?.currentCustomer?.identityNo
+                if (SessionManager.user?.otpBlocked == true) {
+                    if (SessionManager.eidStatus == EIDStatus.NOT_SET &&
+                        PartnerBankStatus.ACTIVATED.status != SessionManager.user?.partnerBankStatus
+                    ) {
+                        launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
+                            putExtra(
+                                Constants.name,
+                                SessionManager.user?.currentCustomer?.firstName.toString()
+                            )
+                            putExtra(Constants.data, true)
+                            putExtra(
+                                "document",
+                                GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                    identityNo = SessionManager.user?.currentCustomer?.identityNo
+                                )
+                            )
+                        }
+                    } else {
+                        showBlockedFeatureAlert(requireActivity(), FeatureSet.UPDATE_EID)
+                    }
+                } else {
+                    launchActivity<DocumentsDashboardActivity>(
+                        requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS,
+                        type = FeatureSet.UPDATE_EID
+                    ) {
+                        putExtra(
+                            Constants.name,
+                            SessionManager.user?.currentCustomer?.firstName.toString()
                         )
-                    )
+                        putExtra(Constants.data, true)
+                        putExtra(
+                            "document",
+                            GetMoreDocumentsResponse.Data.CustomerDocument.DocumentInformation(
+                                identityNo = SessionManager.user?.currentCustomer?.identityNo
+                            )
+                        )
+                    }
                 }
             }
             NotificationAction.HELP_AND_SUPPORT -> {
@@ -522,7 +578,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         startActivityForResult(
                             LocationSelectionActivity.newIntent(
                                 context = requireContext(),
-                                address = MyUserManager.userAddress ?: Address(),
+                                address = SessionManager.userAddress ?: Address(),
                                 headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                                 subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
                                 onBoarding = true
@@ -557,7 +613,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
             RequestCodes.REQUEST_MEETING_CONFIRMED -> {
-                MyUserManager.getAccountInfo()
+                SessionManager.getAccountInfo()
             }
             RequestCodes.REQUEST_FOR_SET_PIN -> {
                 data?.let {
@@ -567,11 +623,47 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         it.getBooleanExtra(Constants.IS_TOPUP_SKIP, false)
                     getGraphRecycleViewAdapter()?.notifyDataSetChanged()
                     if (isPinSet && isSkip) {
-                        viewModel.getDebitCards()
+                        SessionManager.getDebitCard()
                     } else {
-                        viewModel.getDebitCards()
-                        launchActivity<TopUpLandingActivity>()
+                        SessionManager.getDebitCard()
+                        launchActivity<AddMoneyActivity>()
                     }
+                }
+            }
+            RequestCodes.REQUEST_FOR_TRANSACTION_NOTE_ADD_EDIT -> {
+
+                val groupPosition = data.let { intent ->
+                    intent?.getIntExtra(
+                        ExtraKeys.TRANSACTION_OBJECT_GROUP_POSITION.name,
+                        -1
+                    )
+                }
+                val childPosition = data.let { intent ->
+                    intent?.getIntExtra(
+                        ExtraKeys.TRANSACTION_OBJECT_CHILD_POSITION.name,
+                        -1
+                    )
+                }
+                if (groupPosition != -1 && childPosition != -1) {
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.transactionNote =
+                        (data?.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNote
+                    getRecycleViewAdaptor()?.getDataForPosition(
+                        groupPosition ?: 0
+                    )?.transaction?.get(
+                        childPosition ?: 0
+                    )?.transactionNoteDate =
+                        (data.getParcelableExtra(ExtraKeys.TRANSACTION_OBJECT_STRING.name) as Transaction).transactionNoteDate
+                    getRecycleViewAdaptor()?.notifyItemChanged(
+                        groupPosition ?: 0,
+                        getRecycleViewAdaptor()?.getDataForPosition(
+                            groupPosition ?: 0
+                        )?.transaction?.get(childPosition ?: 0)
+                    )
+
                 }
             }
         }
@@ -635,6 +727,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
+    private fun openTopUpScreen() {
+        launchActivity<TopUpLandingActivity>(type = FeatureSet.TOP_UP)
+    }
+
     private fun setViewsArray(): ArrayList<GuidedTourViewDetail> {
         val list = ArrayList<GuidedTourViewDetail>()
         list.add(
@@ -677,7 +773,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         return list
     }
 
-    fun getParentActivity(): ActivityYapDashboardBinding {
+    private fun getParentActivity(): ActivityYapDashboardBinding {
         return (activity as? YapDashboardActivity)?.viewDataBinding as ActivityYapDashboardBinding
+    }
+
+    private fun setUpDashBoardNotificationsView() {
+        dashboardNotificationStatusHelper = DashboardNotificationStatusHelper(
+            requireContext(),
+            getBindings(),
+            viewModel,
+            activity
+        )
+
     }
 }

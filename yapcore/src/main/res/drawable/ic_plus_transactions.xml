@@ -9,8 +9,8 @@
 
         <path
             android:fillAlpha="1"
-            android:fillColor="@color/colorPrimaryDark"
+            android:fillColor="@color/colorPrimary"
             android:pathData="M11,11h13v13h-13z"
-            android:strokeColor="@color/colorPrimaryDark" />
+            android:strokeColor="@color/colorPrimary" />
     </group>
 </vector>

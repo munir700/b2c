@@ -20,6 +20,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.util.Patterns
+import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -40,7 +41,7 @@ import co.yap.yapcore.enums.ProductFlavour
 import co.yap.yapcore.helpers.extentions.shortToast
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.io.IOException
 import java.math.RoundingMode
@@ -52,6 +53,13 @@ import java.util.regex.Pattern
 
 @SuppressLint("StaticFieldLeak")
 object Utils {
+    @JvmStatic
+    fun getDimensionsByPercentage(context: Context, width: Int, height: Int): IntArray {
+        val dimensions = IntArray(2)
+        dimensions[0] = getDimensionInPercent(context, true, width)
+        dimensions[1] = getDimensionInPercent(context, false, height)
+        return dimensions
+    }
 
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -715,7 +723,7 @@ object Utils {
             context,
             Strings.common_display_text_y2y_share,
             StringUtils.getFirstname(contact.title!!),
-            MyUserManager.user?.currentCustomer?.firstName!!,
+            SessionManager.user?.currentCustomer?.firstName!!,
             getAdjustURL()
         )
     }
@@ -724,7 +732,7 @@ object Utils {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_general_share,
-            MyUserManager.user?.currentCustomer?.firstName!!,
+            SessionManager.user?.currentCustomer?.firstName!!,
             getAdjustURL()
         )
     }
@@ -734,7 +742,6 @@ object Utils {
             "XXXX XXXX XXXX $cardNumber"
         else
             "XXXX XXXX XXXX XXXX"
-
     }
 
     fun confirmationDialog(
@@ -743,7 +750,8 @@ object Utils {
         message: String,
         positiveButton: String,
         negitiveButton: String,
-        itemClick: OnItemClickListener
+        itemClick: OnItemClickListener,
+        isCancelable: Boolean = true
     ) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(title).setMessage(message)
@@ -757,6 +765,7 @@ object Utils {
             ) { _, _ ->
                 itemClick.onItemClick(View(context), false, 0)
             }
+            .setCancelable(isCancelable)
             .show()
     }
 
@@ -868,19 +877,24 @@ object Utils {
 
     fun getOtpBlockedMessage(context: Context): String {
         return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            MyUserManager.helpPhoneNumber
+            SessionManager.helpPhoneNumber
         )}^${AlertType.DIALOG.name}"
     }
 
-    fun parseCountryList(list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?): ArrayList<Country>? {
+    fun parseCountryList(
+        list: List<co.yap.networking.customers.responsedtos.sendmoney.Country>?,
+        addOIndex: Boolean = true
+    ): ArrayList<Country>? {
         val sortedList = list?.sortedWith(compareBy { it.name })
         var countries: ArrayList<Country> = ArrayList()
         return sortedList?.let { it ->
             countries.clear()
-            countries.add(
-                0,
-                Country(name = "Select country")
-            )
+            if (addOIndex) {
+                countries.add(
+                    0,
+                    Country(name = "Select country")
+                )
+            }
             countries.addAll(it.map {
                 Country(
                     id = it.id,
@@ -942,7 +956,7 @@ object Utils {
     }
 
     fun getAdjustURL(): String {
-        val userId = MyUserManager.user?.currentCustomer?.customerId
+        val userId = SessionManager.user?.currentCustomer?.customerId
         val date = DateUtils.getCurrentDateWithFormat("yyyy-MM-dd hh:mm:ss")
         val time = date.replace(" ", "_")
         return (when (YAPApplication.configManager?.flavor) {
@@ -954,11 +968,12 @@ object Utils {
             }
             ProductFlavour.STG.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-
+            }
+            ProductFlavour.INTERNAL.flavour -> {
+                "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
             }
             ProductFlavour.QA.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
-
             }
             ProductFlavour.DEV.flavour -> {
                 "https://grwl.adj.st?adjust_t=q3o2z0e_sv94i35&${Constants.REFERRAL_ID}=$userId&${Constants.REFERRAL_TIME}=${time.trim()}"
@@ -972,7 +987,35 @@ object Utils {
             else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
         })
     }
+    @JvmStatic
+    fun getConfiguredDecimals(currencyCode: String): Int {
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt() ?: SessionManager.getDefaultCurrencyDecimals()
+    }
 
+    @JvmStatic
+    fun getConfiguredDecimalsDashboard(currencyCode: String): Int? {
+        val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
+            it.currencyCode?.toLowerCase() == currencyCode.toLowerCase()
+        }?.allowedDecimalsNumber
+        return allowedDecimal?.toInt()
+    }
+
+    fun dpToFloat(context: Context, dp: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, dp,
+            context.resources.displayMetrics
+        )
+    }
+
+    fun spToFloat(context: Context, dp: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP, dp,
+            context.resources.displayMetrics
+        )
+    }
     fun setLightStatusBar(activity: Activity, color: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags =
@@ -983,4 +1026,5 @@ object Utils {
             activity.window.statusBarColor = color
         }
     }
+
 }

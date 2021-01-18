@@ -41,7 +41,7 @@ project.ext {
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.2.0-alpha01',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2',
-            numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
+            numberFomater            : 'io.michaelrocks:libphonenumber-android:8.12.10',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
@@ -51,7 +51,6 @@ project.ext {
             bottomsheets_core        : "com.arthurivanets.bottomsheet:bottomsheets-core:1.2.0",
             bottomsheets_ktx         : "com.arthurivanets.bottomsheet:bottomsheets-ktx:1.2.0",
             bottomsheets             : "com.arthurivanets.bottomsheet:bottomsheets-sheets:1.2.0",
-
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
@@ -113,15 +112,15 @@ project.ext {
             livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
 
             //phone lib
-            phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:7.2.2',
+            phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:8.12.10',
             easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
 
             //Firebase Crashlytics
-            creshlytics              : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
-            FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:9.0.0',
-            analytics                : 'com.google.firebase:firebase-analytics:17.2.0',
-            messagingFcm             : 'com.google.firebase:firebase-messaging:19.0.0',
-            playServicesLocation     : 'com.google.android.gms:play-services-location:16.0.0',
+            FirebaseCrashlyticsSdk   :'com.google.firebase:firebase-crashlytics:17.2.2',
+            FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:16.2.1',
+            analytics                : 'com.google.firebase:firebase-analytics:18.0.0',
+            messagingFcm             : 'com.google.firebase:firebase-messaging:20.3.0',
+            playServicesLocation     : 'com.google.android.gms:play-services-location:17.1.0',
 
             //Leanplum
             leanplumFcm              : 'com.leanplum:leanplum-fcm:5.2.3',
@@ -145,12 +144,20 @@ project.ext {
             //adjust
             adjust                   : 'com.adjust.sdk:adjust-android:4.21.0',
             adjustReferrer           : 'com.android.installreferrer:installreferrer:1.1',
+            expand                   : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
             //pdfViewer
             pdfViewer                : 'com.pdfview:pdfview-android:1.0.0',
 
             // Facebook
-            facebook                 :'com.facebook.android:facebook-android-sdk:[5,6)'
+            facebook                 : 'com.facebook.android:facebook-android-sdk:[5,6)',
+
+            //sms consent
+            playservicesAuth         : 'com.google.android.gms:play-services-auth:17.0.0',
+            playservicesAuthPhone    : 'com.google.android.gms:play-services-auth-api-phone:17.4.0',
+
+            tagmanager               : 'com.google.android.gms:play-services-tagmanager:17.0.0'
+
     ]
 
     // Test dependencies which need to be added in all modules
@@ -196,7 +203,9 @@ project.ext {
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.pdfViewer],
             [configuration: "implementation", dependency: libraries.security],
-            [configuration: "implementation", dependency: libraries.facebook]
+            [configuration: "implementation", dependency: libraries.facebook],
+            [configuration: "implementation", dependency: libraries.playservicesAuth],
+            [configuration: "implementation", dependency: libraries.playservicesAuthPhone]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -208,7 +217,8 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.household)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.biometric],
-            [configuration: "implementation", dependency: libraries.creshlytics],
+            [configuration: "implementation", dependency: libraries.viewpagerDots],
+            [configuration: "implementation", dependency: libraries.FirebaseCrashlyticsSdk],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
             [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.androidanimations],
@@ -286,8 +296,11 @@ project.ext {
             [configuration: "api", dependency: libraries.leanplumLocation],
             [configuration: "api", dependency: libraries.messagingFcm],
             [configuration: "api", dependency: libraries.playServicesLocation],
+            [configuration: "implementation", dependency: libraries.tagmanager],
+            [configuration: "implementation", dependency: libraries.analytics],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
             [configuration: "implementation", dependency: libraries.rangeSeekbar]
+
     ]
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
     sendmoneyDependencies = [

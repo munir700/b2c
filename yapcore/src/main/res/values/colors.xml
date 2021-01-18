@@ -7,6 +7,8 @@
     <!-- Zeplin Color palette -->
     <color name="colorPrimary">#5E35B1</color>
     <color name="colorPrimaryDark">#272262</color>
+    <color name="colorPrimaryDarkFaded">#BF272262</color>
+    <color name="colorPrimaryDarkFadedLight">#81272262</color>
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#A682FF</color>
     <color name="colorPrimaryWarm">#502C9E</color>
@@ -14,14 +16,15 @@
     <color name="colorDisabledBtn">#dae0f0</color>
     <color name="colorPressedBtnState">#272262</color>
     <color name="colorPrimaryDarkIcons">#272262</color>
-
     <color name="grey">#c9c8d8</color>
     <color name="red">#d32f2f</color>
     <color name="greyDark">#9391b1</color>
+    <color name="greyDarkOpacity16">#299391B1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
     <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
+    <color name="greyNormalDarkFaded">#80D8D8D8</color>
     <color name="error">#ff3b30</color>
     <color name="errorLightBackground">#fde9ee</color>
     <color name="white">#ffffff</color>
@@ -30,10 +33,14 @@
     <color name="transparent">#00000000</color>
     <color name="disabled">#4D7C4DFF</color>
     <color name="disabledLight">#235e35b1</color>
+    <color name="disabledDark">#AD5E35B1</color>
+    <color name="fadedPurple">#1BC2BEFB</color>
     <color name="divider">#1b979797</color>
+    <color name="dividerNew">#468E7BB6</color>
     <color name="dialogBtnColor">#673ab7</color>
     <color name="dialogTitleColor">#de000000</color>
     <color name="disabledPurple">#297c4dff</color>
+    <color name="subMenuColor">#4DD8D8D8</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#F57F17</color>
@@ -54,14 +61,13 @@
     <color name="bg_round_light_secondary_blue">#29478DF4</color>
     <color name="bg_round_light_primary">#295E35B1</color>
 
-
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
     <color name="itemBackground">#fafafa</color>
-
+    <color name="textGreyDark">#979797</color>
 
     <color name="colorLightGreyGradient">#eff2f9</color>
-    <color name="colorDarkGreyGradient">#dbe1f0</color>
+    <color name="colorDarkGreyGradient">#DAE0F0</color>
 
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>
@@ -86,7 +92,6 @@
         <item>@color/colorSecondaryGreen</item>
         <item>?attr/colorPrimaryAttr</item>
     </array>
-
 
     <color name="textDarkColor">#1a1423</color>
     <color name="colorLightPinkBackground">#FFE3E0</color>
@@ -126,7 +131,6 @@
     <color name="colorDarkPink">#F44774</color>
     <color name="colorDarkGrey">#272262</color>
     <color name="colorDarkPeach">#F57F17</color>
-
     <color name="colorCoachMarkOverlay">#4D272262</color>
     <color name="colorSendMoneyToolBar">#00000000</color>
     <color name="colorSendMoneyToolBarHouseHold">#fc6253</color>
@@ -141,5 +145,11 @@
     <color name="colorControlNormal">#dae0f0</color>
     <color name="colorControlActivated">#dae0f0</color>
     <color name="colorControlHighlight">#dae0f0</color>
+    <color name="colorLightGrey">#59D8D8D8</color>
+    <color name="colorPlaceHolderGrey">#9391B3</color>
+    <color name="colorOpaquAqua">#2400B9AE</color>
+    <color name="colorOpaquSecondaryOrange">#24F57F17</color>
+    <color name="skeleton_mask">#E8ECF6</color>
+    <color name="skeleton_shimmer">#d5d5d5</color>
 
 </resources>

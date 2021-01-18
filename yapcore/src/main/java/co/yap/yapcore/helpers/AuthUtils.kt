@@ -2,11 +2,11 @@ package co.yap.yapcore.helpers
 
 import android.content.Context
 import android.content.Intent
+import co.yap.yapcore.adjust.ReferralInfo
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_IS_FIRST_TIME_USER
-import co.yap.yapcore.adjust.ReferralInfo
 import java.util.*
 
 object AuthUtils {
@@ -21,7 +21,8 @@ object AuthUtils {
                 KEY_IS_FIRST_TIME_USER,
                 false
             )
-        val isFingerprintPermissionShown: Boolean =
+        //commenting below until we finalize this change
+       /* val isFingerprintPermissionShown: Boolean =
             sharedPreferenceManager.getValueBoolien(
                 KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
                 false
@@ -30,11 +31,16 @@ object AuthUtils {
             sharedPreferenceManager.getValueBoolien(
                 Constants.KEY_TOUCH_ID_ENABLED,
                 false
-            )
+            )*/
+        var userName:String?=""
+        val isRemember= sharedPreferenceManager.getValueBoolien(Constants.KEY_IS_REMEMBER,false)
+        if (isRemember) {
+            userName=sharedPreferenceManager.getDecryptedUserName()
+        }
         //Removing it will take user to otp screen will login after logout
         //val uuid: String? =
         //sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
-        val referralInfo: ReferralInfo?= sharedPreferenceManager.getReferralInfo()
+        val referralInfo: ReferralInfo? = sharedPreferenceManager.getReferralInfo()
         sharedPreferenceManager.clearSharedPreference()
         sharedPreferenceManager.setReferralInfo(referralInfo)
 
@@ -43,17 +49,21 @@ object AuthUtils {
             KEY_APP_UUID,
             UUID.randomUUID().toString()
         )
-        sharedPreferenceManager.save(
+        if (isRemember){
+            sharedPreferenceManager.saveUserNameWithEncryption(userName?:"")
+        }
+        sharedPreferenceManager.save(Constants.KEY_IS_REMEMBER,isRemember)
+       /* sharedPreferenceManager.save(
             KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
             isFingerprintPermissionShown
         )
         sharedPreferenceManager.save(
-            KEY_IS_FIRST_TIME_USER,
-            isFirstTimeUser
-        )
-        sharedPreferenceManager.save(
             Constants.KEY_TOUCH_ID_ENABLED,
             isTouchIdEnabled
+        )*/
+        sharedPreferenceManager.save(
+            KEY_IS_FIRST_TIME_USER,
+            isFirstTimeUser
         )
     }
 

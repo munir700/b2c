@@ -259,7 +259,7 @@
     <declare-styleable name="MyyMap">
         <attr name="latitude" format="float" />
         <attr name="longitude" format="float" />
-        <attr name="marker" format="string" />
+        <attr name="map_marker" format="string" />
     </declare-styleable>
 
     <!--    <declare-styleable name="RoundedImageView">-->
@@ -452,10 +452,12 @@
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />
         <attr name="show_commas" format="boolean" />
-        <attr name="show_decimal" format="boolean" />
-        <attr name="amount_drawable" format="reference" />
-        <attr name="enable" format="boolean" />
-        <attr name="text" format="string" />
+        <attr name="decimalDigits" format="integer" />
+        <attr name="em_setBackgroundColor" format="color" />
+        <attr name="em_custom_width" format="dimension" />
+        <attr name="em_custom_height" format="dimension" />
+        <attr name="em_currency" format="string" />
+        <attr name="android:maxLength" format="integer" min="10" />
     </declare-styleable>
 
     <declare-styleable name="MultiStateView">
@@ -720,28 +722,117 @@
     </declare-styleable>
 
     <declare-styleable name="MaterialSpinner">
-        <attr format="color" name="ms_baseColor"/>
-        <attr format="color" name="ms_highlightColor"/>
-        <attr format="color" name="ms_errorColor"/>
-        <attr format="string" name="ms_error"/>
-        <attr format="string" name="ms_hint"/>
-        <attr format="color" name="ms_hintColor"/>
-        <attr format="dimension" name="ms_hintTextSize"/>
-        <attr format="string" name="ms_floatingLabelText"/>
-        <attr format="color" name="ms_floatingLabelColor"/>
-        <attr format="boolean" name="ms_multiline"/>
-        <attr format="integer" name="ms_nbErrorLines"/>
-        <attr format="string" name="ms_typeface"/>
-        <attr format="boolean" name="ms_alignLabels"/>
-        <attr format="dimension" name="ms_thickness"/>
-        <attr format="dimension" name="ms_thickness_error"/>
-        <attr format="dimension" name="ms_arrowSize"/>
-        <attr format="color" name="ms_arrowColor"/>
-        <attr format="boolean" name="ms_enableFloatingLabel"/>
-        <attr format="boolean" name="ms_enableErrorLabel"/>
-        <attr format="boolean" name="ms_alwaysShowFloatingLabel"/>
-        <attr format="boolean" name="ms_isRtl"/>
-        <attr format="reference" name="ms_hintView"/>
-        <attr format="reference" name="ms_dropDownHintView"/>
+        <attr name="ms_baseColor" format="color" />
+        <attr name="ms_highlightColor" format="color" />
+        <attr name="ms_errorColor" format="color" />
+        <attr name="ms_error" format="string" />
+        <attr name="ms_hint" format="string" />
+        <attr name="ms_hintColor" format="color" />
+        <attr name="ms_hintTextSize" format="dimension" />
+        <attr name="ms_floatingLabelText" format="string" />
+        <attr name="ms_floatingLabelColor" format="color" />
+        <attr name="ms_multiline" format="boolean" />
+        <attr name="ms_nbErrorLines" format="integer" />
+        <attr name="ms_typeface" format="string" />
+        <attr name="ms_alignLabels" format="boolean" />
+        <attr name="ms_thickness" format="dimension" />
+        <attr name="ms_thickness_error" format="dimension" />
+        <attr name="ms_arrowSize" format="dimension" />
+        <attr name="ms_arrowColor" format="color" />
+        <attr name="ms_enableFloatingLabel" format="boolean" />
+        <attr name="ms_enableErrorLabel" format="boolean" />
+        <attr name="ms_alwaysShowFloatingLabel" format="boolean" />
+        <attr name="ms_isRtl" format="boolean" />
+        <attr name="ms_hintView" format="reference" />
+        <attr name="ms_dropDownHintView" format="reference" />
     </declare-styleable>
+    <declare-styleable name="ShapeOfView">
+        <attr name="shape_clip_drawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TriangleView">
+        <attr name="shape_triangle_percentLeft" format="float" />
+        <attr name="shape_triangle_percentBottom" format="float" />
+        <attr name="shape_triangle_percentRight" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="CoreToolbar"></declare-styleable>
+
+    <declare-styleable name="RoundedImageViewV2">
+        <attr name="rounded_radius" format="float" />
+    </declare-styleable>
+    <declare-styleable name="SearchableSpinner">
+        <!-- View attributes -->
+        <attr name="RevealViewBackgroundColor" format="color" />
+        <attr name="StartSearchTintColor" format="color" />
+        <attr name="SearchViewBackgroundColor" format="color" />
+        <attr name="SearchViewTextColor" format="color" />
+        <attr name="DoneSearchTintColor" format="color" />
+        <attr name="AnimDuration" format="integer" />
+        <attr name="ShowBorders" format="boolean" />
+        <attr name="BordersSize" format="dimension" />
+        <attr name="BoarderColor" format="color" />
+        <attr name="SpinnerExpandHeight" format="dimension" />
+        <attr name="KeepLastSearch" format="boolean" />
+        <attr name="RevealEmptyText" format="string" />
+        <attr name="SearchHintText" format="string" />
+        <attr name="NoItemsFoundText" format="string" />
+        <attr name="ItemsDivider" format="reference" />
+        <attr name="DividerHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CounterFloatingActionButton">
+        <attr name="badgeTextColor" format="color" />
+        <attr name="badgeBackgroundColor" format="color" />
+        <attr name="badgePosition" format="enum">
+            <enum name="RightTop" value="0" />
+            <enum name="LeftBottom" value="1" />
+            <enum name="LeftTop" value="2" />
+            <enum name="RightBottom" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CoreEditText">
+        <attr name="ce_setBackgroundColor" format="color" />
+        <attr name="ce_custom_width" format="dimension" />
+        <attr name="ce_custom_height" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="TimelineView">
+        <attr name="marker" format="color|reference" />
+        <attr name="markerSize" format="dimension" />
+        <attr name="markerPaddingLeft" format="dimension" />
+        <attr name="markerPaddingTop" format="dimension" />
+        <attr name="markerPaddingRight" format="dimension" />
+        <attr name="markerPaddingBottom" format="dimension" />
+        <attr name="markerInCenter" format="boolean" />
+        <attr name="startLineColor" format="color" />
+        <attr name="endLineColor" format="color|reference" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="lineStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="dash" value="1" />
+        </attr>
+        <attr name="lineStyleDashGap" format="dimension" />
+        <attr name="lineStyleDashLength" format="dimension" />
+        <attr name="lineOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="linePadding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SkeletonLayout">
+        <attr name="maskColor" format="color" />
+        <attr name="maskCornerRadius" format="dimension" />
+        <attr name="showShimmer" format="boolean" />
+        <attr name="shimmerColor" format="color" />
+        <attr name="shimmerDurationInMillis" format="integer" />
+        <attr name="shimmerDirection" format="enum">
+            <enum name="left_to_right" value="0" />
+            <enum name="right_to_left" value="1" />
+        </attr>
+        <attr name="shimmerAngle" format="integer" />
+    </declare-styleable>
+
 </resources>

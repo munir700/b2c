@@ -2,7 +2,6 @@ package co.yap.yapcore.binders
 
 
 import android.annotation.SuppressLint
-import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,6 +11,7 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -21,16 +21,20 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
+import co.yap.modules.placesautocomplete.model.Place
 import androidx.viewpager.widget.ViewPager
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
@@ -39,10 +43,7 @@ import co.yap.widgets.*
 import co.yap.widgets.otptextview.OTPListener
 import co.yap.widgets.otptextview.OtpTextView
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.ThemeColorUtils
@@ -52,12 +53,13 @@ import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.textfield.TextInputLayout
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import java.text.SimpleDateFormat
@@ -113,7 +115,7 @@ object UIBinder {
                 view.setImageResource(R.drawable.ic_status_expired)
                 view.visibility = VISIBLE
             } else {
-                view.setImageResource(R.drawable.ic_card_status)
+                //view.setImageResource(R.drawable.ic_card_status)
                 view.visibility = VISIBLE
             }
         }
@@ -165,9 +167,9 @@ object UIBinder {
     @JvmStatic
     fun setCardDetailLayoutVisibility(linearLayout: LinearLayout, card: Card) {
         when (card.status) {
-            CardStatus.ACTIVE.name -> {
+            CardStatus.ACTIVE.name, CardStatus.PIN_BLOCKED.name -> {
                 if (card.cardType == CardType.DEBIT.type) {
-                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                    if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                         linearLayout.visibility = GONE
                 } else {
                     linearLayout.visibility = VISIBLE
@@ -183,9 +185,9 @@ object UIBinder {
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty()) {
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             linearLayout.visibility = VISIBLE
                         else
                             linearLayout.visibility = GONE
@@ -205,9 +207,9 @@ object UIBinder {
     fun setCardStatus(imageView: ImageView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated) {
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated) {
                             imageView.visibility = VISIBLE
                             imageView.setImageResource(R.drawable.ic_status_ontheway)
                         } else
@@ -241,9 +243,9 @@ object UIBinder {
     fun setCardStatus(text: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setTextForInactiveCard(text = text, card = card)
                     } else
                         text.visibility = GONE
@@ -278,7 +280,7 @@ object UIBinder {
     private fun setTextForInactiveCard(text: TextView, card: Card) {
         when (card.cardType) {
             CardType.DEBIT.type -> {
-                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     text.visibility = VISIBLE
                     text.text = Translator.getString(
                         text.context,
@@ -304,9 +306,9 @@ object UIBinder {
     fun setcardButtonStatus(coreButton: TextView, card: Card) {
         if (CardStatus.valueOf(card.status).name.isNotEmpty())
             when (CardStatus.valueOf(card.status)) {
-                CardStatus.ACTIVE -> {
+                CardStatus.ACTIVE,CardStatus.PIN_BLOCKED -> {
                     if (card.cardType == CardType.DEBIT.type) {
-                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !card.pinCreated)
+                        if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !card.pinCreated)
                             setCardButtonTextForInactive(coreButton, card)
                         else
                             coreButton.visibility = GONE
@@ -328,7 +330,7 @@ object UIBinder {
                     )
                 }
                 CardStatus.INACTIVE -> {
-                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+                    if (card.deliveryStatus == CardDeliveryStatus.SHIPPED.name && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus)
                         setCardButtonTextForInactive(coreButton, card)
                     else
                         coreButton.visibility = GONE
@@ -555,9 +557,14 @@ object UIBinder {
         isAccountLocked: Boolean = false
     ) {
         if (null != error && error.isNotEmpty()) {
-            view.showError(error)
-            view.settingUIForError(isScreenLocked)
-            view.setPasscodeVisiblity(isAccountLocked)
+            if (!isScreenLocked && !isAccountLocked) {
+                view.showError(error)
+            } else {
+                view.showError(error)
+                view.settingUIForError(isScreenLocked)
+                view.setPasscodeVisiblity(isAccountLocked)
+            }
+
         } else {
             view.removeError()
             view.settingUIForNormal(isScreenLocked)
@@ -654,7 +661,7 @@ object UIBinder {
                 .load(path).centerCrop()
                 .into(view)
         } else {
-            view.setImageURI(imageUri)
+            Glide.with(view.context).load(imageUri.path).centerCrop().into(view)
         }
     }
 
@@ -781,6 +788,17 @@ object UIBinder {
     }
 
 
+    @BindingAdapter("setBeneficiaryImageSrc")
+    @JvmStatic
+    fun setImageSrc(imageView: ImageView, transferType: String) {
+
+        if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
+            imageView.setImageResource(R.drawable.ic_cash)
+        } else {
+            imageView.setImageResource(R.drawable.ic_bank)
+        }
+    }
+
     @JvmStatic
     @BindingAdapter("cardNickname")
     fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
@@ -855,7 +873,6 @@ object UIBinder {
     fun maskIbanNo(view: AppCompatEditText, ibanMask: String?) {
         ibanMask?.let { view.addTextChangedListener(MaskTextWatcher(view, it)) }
     }
-
     @JvmStatic
     @BindingAdapter(value = ["imageUrl", "fullName", "resId"], requireAll = true)
     fun loadAvatar(imageView: ImageView, imageUrl: String?, fullName: String?, resId: Int = -1) {
@@ -920,4 +937,75 @@ object UIBinder {
                 .build()
         )
     }
+    @JvmStatic
+    @BindingAdapter(requireAll = false, value = ["textColorChangePin", "isAllEmpty"])
+    fun textColorChangePin(view: TextInputLayout, pin: String?, isEmpty: Boolean) {
+        when {
+            isEmpty -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+
+            }
+            pin?.isNotEmpty() ?: false -> {
+                view.defaultHintTextColor =
+                    view.context.getColorStateList(R.color.colorPlaceHolderGrey)
+            }
+            else -> {
+                view.defaultHintTextColor = view.context.getColorStateList(R.color.colorPrimaryDark)
+            }
+        }
+
+    }
+
+    @JvmStatic
+    @BindingAdapter("spanColor")
+    fun spanColor(view: AppCompatTextView, currency: String) {
+        val splitStringArray: List<String> = currency.split(" ")
+        val spannable: Spannable =
+            SpannableStringBuilder(splitStringArray[0] + "  " + splitStringArray[1])
+
+        spannable.setSpan(
+            ForegroundColorSpan(
+                view.context.getColor(R.color.greyDark)
+            ),
+            0,
+            splitStringArray[0].length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        view.text = spannable
+    }
+
+    @BindingAdapter(requireAll = false, value = ["placesAdaptor", "selectedListener"])
+    @JvmStatic
+    fun setPlacesAdapter(
+        autoCompleteTextView: AutoCompleteTextView,
+        placesAdapter: PlacesAutoCompleteAdapter,
+        listener: OnItemClickListener?
+    ) {
+        autoCompleteTextView.setAdapter(placesAdapter)
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val place: Place = parent.getItemAtPosition(position) as Place
+                view?.let {
+                    listener?.onItemClick(view, place, position)
+                }
+                autoCompleteTextView.setText(place.mainText)
+                autoCompleteTextView.setSelection(place.mainText.length)
+            }
+        autoCompleteTextView.setOnClickListener {
+            autoCompleteTextView.isFocusable = true
+            autoCompleteTextView.isFocusableInTouchMode = true
+            autoCompleteTextView.isFocusable = true
+            autoCompleteTextView.isFocusableInTouchMode = true
+        }
+    }
+
+    @BindingAdapter("android:layout_marginTop")
+    @JvmStatic
+    fun setLayoutMarginTop(view: View, margin: Float) {
+        val lp = view.layoutParams as MarginLayoutParams
+        lp.setMargins(lp.leftMargin, margin.toInt(), lp.rightMargin, lp.bottomMargin)
+        view.layoutParams = lp
+    }
+
 }

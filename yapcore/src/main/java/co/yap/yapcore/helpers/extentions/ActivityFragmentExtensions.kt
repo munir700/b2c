@@ -1,5 +1,3 @@
-@file:JvmName("ActivityFragmentUtils")
-
 package co.yap.yapcore.helpers.extentions
 
 import android.app.Activity
@@ -17,6 +15,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
+import co.yap.modules.frame.FrameDialogActivity
+import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.R
@@ -26,6 +26,10 @@ import co.yap.yapcore.constants.Constants.SHOW_TOOLBAR
 import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
+import co.yap.yapcore.managers.FeatureProvisioning
+import co.yap.yapcore.managers.SessionManager
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 
@@ -35,62 +39,80 @@ import com.github.florent37.inlineactivityresult.kotlin.startForResult
 
 inline fun <reified T : Any> Activity.launchActivity(
     requestCode: Int = -1,
-    options: Bundle? = null,
+    options: Bundle? = null, type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(this)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this, type)
     } else {
-        startActivityForResult(intent, requestCode)
+        val intent = newIntent<T>(this)
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+        } else {
+            startActivityForResult(intent, requestCode)
+        }
     }
 }
 
 inline fun <reified T : Any> Fragment.launchActivity(
     requestCode: Int = -1,
     options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(requireContext())
-    intent.putExtra(EXTRA , options)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
     } else {
-        startActivityForResult(intent, requestCode)
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+        } else {
+            startActivityForResult(intent, requestCode)
+        }
     }
 }
 
 inline fun <reified T : Any> Fragment.launchActivity(
     requestCode: Int = -1,
     options: Bundle? = null, clearPrevious: Boolean = false,
+    type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(requireContext())
-    intent.init()
-    intent.putExtra(EXTRA , options)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivityForResult(intent, requestCode, options)
-        if (clearPrevious)
-            activity?.finish()
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
     } else {
-        startActivityForResult(intent, requestCode)
-        if (clearPrevious)
-            activity?.finish()
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        intent.putExtra(EXTRA, options)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivityForResult(intent, requestCode, options)
+            if (clearPrevious)
+                activity?.finish()
+        } else {
+            startActivityForResult(intent, requestCode)
+            if (clearPrevious)
+                activity?.finish()
+        }
     }
 }
 
 inline fun <reified T : Any> Context.launchActivity(
     options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
     noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(this)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivity(intent, options)
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(this as BaseActivity<*>, type)
     } else {
-        startActivity(intent)
+        val intent = newIntent<T>(this)
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent, options)
+        } else {
+            startActivity(intent)
+        }
     }
 }
 
@@ -103,14 +125,14 @@ inline fun <reified T : Any> Fragment.launchActivityForResult(
     completionHandler?.let {
         val intent = newIntent<T>(requireContext())
         intent.init()
-        intent.putExtra(EXTRA , options)
+        intent.putExtra(EXTRA, options)
         this.startForResult(intent) { result ->
             it.invoke(result.resultCode, result.data)
         }.onFailed { result ->
             it.invoke(result.resultCode, result.data)
         }
     } ?: run {
-        launchActivity<T>(requestCode, options, init)
+        launchActivity<T>(requestCode = requestCode, options = options, init = init)
     }
 }
 
@@ -131,6 +153,18 @@ inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
     return intent
 }
 
+fun showBlockedFeatureAlert(context: Activity, type: FeatureSet) {
+    val blockedMessage = SessionManager.user?.getBlockedMessage(
+        key = FeatureProvisioning.getUserAccessRestriction(type),
+        context = context
+    )
+    context.showAlertDialogAndExitApp(
+        message = blockedMessage,
+        isOtpBlocked = blockedMessage?.contains(SessionManager.helpPhoneNumber) ?: false,
+        closeActivity = false
+    )
+}
+
 /**
  * Extension method to startActivity for Context.
  */
@@ -139,6 +173,9 @@ inline fun <reified T : Activity> Context?.startActivity() =
 
 
 fun <T : Fragment> FrameActivity.instantiateFragment(fragmentName: String) =
+    Fragment.instantiate(this, fragmentName)
+
+fun <T : Fragment> FrameDialogActivity.instantiateFragment(fragmentName: String) =
     Fragment.instantiate(this, fragmentName)
 
 fun Fragment.instantiateFragment(fragmentName: String) {
@@ -304,6 +341,29 @@ fun <T : Fragment> Fragment.startFragmentForResult(
         intent.putExtra(EXTRA, bundle)
         intent.putExtra(SHOW_TOOLBAR, showToolBar)
         intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+        this.startForResult(intent) { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }.onFailed { result ->
+            completionHandler?.invoke(result.resultCode, result.data)
+        }
+
+    } catch (e: Exception) {
+        if (e is ClassNotFoundException) {
+            toast("Something went wrong")
+            startActivity(intent)
+        }
+    }
+}
+
+fun <T : Fragment> Fragment.startFragmentDialogForResult(
+    fragmentName: String,
+    bundle: Bundle = Bundle(),
+    completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null
+) {
+    val intent = Intent(requireActivity(), FrameDialogActivity::class.java)
+    try {
+        intent.putExtra(FRAGMENT_CLASS, fragmentName)
+        intent.putExtra(EXTRA, bundle)
         this.startForResult(intent) { result ->
             completionHandler?.invoke(result.resultCode, result.data)
         }.onFailed { result ->

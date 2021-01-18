@@ -20,12 +20,13 @@ interface IPOBSelection {
         fun handleOnPressView(id: Int)
         fun saveDOBInfo(success: () -> Unit)
         var clickEvent: SingleClickEvent
-        var populateSpinnerData: MutableLiveData<List<Country>>
+        var populateSpinnerData: MutableLiveData<ArrayList<Country>>
     }
 
     interface State : IBase.State {
         var cityOfBirth: String
         var valid: ObservableField<Boolean>
         var selectedCountry: Country?
+        var selectedCountryIndex: Int
     }
 }

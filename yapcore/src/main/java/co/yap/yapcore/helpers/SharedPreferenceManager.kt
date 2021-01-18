@@ -88,7 +88,7 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun getDecryptedUserName(): String? {
-        return SharedPreferenceManager(context).getValueString(KEY_USERNAME)
+        return getValueString(KEY_USERNAME)
     }
 
     fun savePassCodeWithEncryption(text: String) {
@@ -99,7 +99,7 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun getDecryptedPassCode(): String? {
-        return SharedPreferenceManager(context).getValueString(KEY_PASSCODE)
+        return getValueString(KEY_PASSCODE)
     }
 
     fun getThemeValue(): String? {
@@ -113,12 +113,12 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun getReferralInfo(): ReferralInfo? {
-        return SharedPreferenceManager(context).getValueString(inviterAdjustId)?.let {
+        return getValueString(inviterAdjustId)?.let {
             return if (it.isNullOrBlank()) {
                 null
             } else {
                 Gson().fromJson(
-                    SharedPreferenceManager(context).getValueString(inviterAdjustId),
+                    getValueString(inviterAdjustId),
                     ReferralInfo::class.java
                 )
             }
@@ -126,7 +126,7 @@ class SharedPreferenceManager @Inject constructor(val context: Context) {
     }
 
     fun setReferralInfo(referralInfo: ReferralInfo?) {
-        SharedPreferenceManager(context).save(
+        save(
             inviterAdjustId,
             if (referralInfo != null) Gson().toJson(referralInfo) else ""
         )

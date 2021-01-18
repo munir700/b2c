@@ -13,6 +13,8 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.yapcore.R" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,8 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/colorWhite"
-        android:focusableInTouchMode="true">
+        android:background="@android:color/white"
+        android:focusableInTouchMode="true"
+        android:paddingStart="@dimen/small"
+        android:paddingEnd="@dimen/small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyTo"
@@ -46,34 +50,38 @@
             layout="@layout/layout_recent_beneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/small"
-            android:layout_marginStart="@dimen/small"
             android:visibility="@{viewModel.state.isSearching || viewModel.state.isNoRecentBeneficiary? View.GONE : View.VISIBLE}"
             app:adapter="@{viewModel.adapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSendMoneyTo" />
 
-        <FrameLayout
-            android:id="@+id/flSearchViewBg"
-            searchViewBGColor="@{viewModel.state.isSearching()}"
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.state.isSearching?View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutRecent" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
+            app:leftIcon="@{R.drawable.ic_back_arrow_left}"
+            app:leftIconVisibility="@{true}"
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_settings}"
+            app:rightIconVisibility="@{false}" />
 
         <include
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_beneficiairy_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
+            android:layout_marginTop="@{viewModel.state.isSearching ? @dimen/_1sdp : @dimen/_16sdp}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:viewModel="@{viewModel}" />
 
         <TextView
@@ -81,11 +89,11 @@
             style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_normal_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/common_button_cancel"
             android:textColor="?attr/colorIconsTintAttr"
-            android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/layoutSearchView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/layoutSearchView"
@@ -112,11 +120,9 @@
             style="@style/ASmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:gravity="start"
-            android:paddingStart="@dimen/small"
-            android:paddingEnd="@dimen/small"
             android:text="@string/screen_send_money_display_text_all_beneficiaries"
             android:visibility="@{viewModel.state.isSearching?View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,15 +137,15 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/small"
             android:visibility="visible"
-            android:background="@color/white"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAllBeneficiaries"
-             tools:listitem="@layout/layout_item_beneficiary"
-            tools:visibility="visible"
-          />
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/layout_item_beneficiary"
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

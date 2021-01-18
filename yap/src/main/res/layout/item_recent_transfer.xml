@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="recentTransferItemVM"
             type="co.yap.modules.dashboard.yapit.y2y.home.viewmodel.RecentTransferItemVM" />
-
     </data>
 
     <LinearLayout
@@ -33,6 +31,7 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_3sdp"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="2sp"

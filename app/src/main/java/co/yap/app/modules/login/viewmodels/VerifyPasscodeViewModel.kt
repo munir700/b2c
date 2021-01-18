@@ -23,7 +23,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -40,6 +40,7 @@ class VerifyPasscodeViewModel(application: Application) :
     private val customersRepository: CustomersRepository = CustomersRepository
     override var mobileNumber: String = ""
     override var EVENT_LOGOUT_SUCCESS: Int = 101
+    override val accountInfo: MutableLiveData<AccountInfo> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
     private val authRepository: AuthRepository = AuthRepository
 
@@ -55,8 +56,8 @@ class VerifyPasscodeViewModel(application: Application) :
                 state.isAccountFreeze.set(true)
                 showAccountBlockedError(error.message)
             }
-            else ->{
-                showToast(error.message)
+            else -> {
+                state.dialerError = error.message
                 loginSuccess.postValue(false)
             }
         }
@@ -157,6 +158,26 @@ class VerifyPasscodeViewModel(application: Application) :
         }
     }
 
+    override fun getAccountInfo() {
+        launch {
+            when (val response = customersRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    if (!response.data.data.isNullOrEmpty()) {
+                        SessionManager.user = response.data.data[0]
+                        accountInfo.postValue(response.data.data[0])
+                        SessionManager.setupDataSetForBlockedFeatures()
+                        trackEventWithAttributes(SessionManager.user)
+                        state.loading = false
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.dialerError = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+    }
+
     override fun createOtp() {
         launch {
             when (val response =
@@ -172,7 +193,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }
@@ -196,7 +217,7 @@ class VerifyPasscodeViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = "${response.error.message}^${AlertType.DIALOG.name}"
+                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }

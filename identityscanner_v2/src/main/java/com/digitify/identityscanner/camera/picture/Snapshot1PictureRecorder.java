@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.digitify.identityscanner.camera.CameraLogger;
 import com.digitify.identityscanner.camera.PictureResult;
-import com.digitify.identityscanner.camera.engine.Camera1Engine;
+import com.digitify.identityscanner.camera.engine.Camera2Engine;
 import com.digitify.identityscanner.camera.engine.offset.Reference;
 import com.digitify.identityscanner.camera.internal.utils.CropHelper;
 import com.digitify.identityscanner.camera.internal.utils.RotationHelper;
@@ -27,14 +27,14 @@ public class Snapshot1PictureRecorder extends PictureRecorder {
     @SuppressWarnings("unused")
     private static final CameraLogger LOG = CameraLogger.create(TAG);
 
-    private Camera1Engine mEngine1;
+    private Camera2Engine mEngine1;
     private Camera mCamera;
     private AspectRatio mOutputRatio;
     private int mFormat;
 
     public Snapshot1PictureRecorder(
             @NonNull PictureResult.Stub stub,
-            @NonNull Camera1Engine engine,
+            @NonNull Camera2Engine engine,
             @NonNull Camera camera,
             @NonNull AspectRatio outputRatio) {
         super(stub, engine);

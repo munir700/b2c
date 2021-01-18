@@ -3,6 +3,7 @@ package co.yap.modules.passcode
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 
@@ -35,6 +36,13 @@ class PassCodeState : BaseState(), IPassCode.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.title)
+        }
+
+    @get:Bindable
+    override var needTermsConditions: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.needTermsConditions)
         }
 
     @get:Bindable
@@ -78,4 +86,6 @@ class PassCodeState : BaseState(), IPassCode.State {
             }
         }
     }
+
+    override var toolbarVisibility: ObservableBoolean = ObservableBoolean(false)
 }

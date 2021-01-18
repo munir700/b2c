@@ -31,20 +31,20 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.yapcore.helpers.extentions.isRMTAndSWIFT
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
+import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
 class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(),
     IEditBeneficiary.View {
 
-
     override fun getBindingVariable() = BR.editBeneficiaryViewModel
 
     override fun getLayoutId() = R.layout.activity_edit_beneficiary
     private var currencyPopMenu: PopupMenu? = null
-
+    var terminateProcess: Boolean = false
 
     override val viewModel: IEditBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(EditBeneficiaryViewModel::class.java)
@@ -111,11 +111,6 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                R.id.tbBtnBack -> {
-                    val intent = Intent()
-                    setResult(Activity.RESULT_CANCELED, intent)
-                    finish()
-                }
                 R.id.confirmButton -> {
                     if (viewModel.state.needOverView == true) {
                         viewModel.state.beneficiary?.let { beneficiary ->
@@ -165,8 +160,8 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundleOf(
                     OtpDataModel::class.java.name to OtpDataModel(
                         otpAction = action,
-                        mobileNumber = MyUserManager.user?.currentCustomer?.getCompletePhone(),
-                        username = MyUserManager.user?.currentCustomer?.getFullName(),
+                        mobileNumber = SessionManager.user?.currentCustomer?.getCompletePhone(),
+                        username = SessionManager.user?.currentCustomer?.getFullName(),
                         emailOtp = false,
                         toolBarData = OtpToolBarData()
                     )
@@ -206,14 +201,19 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                             }
                         }
                     }
-                })
+                }, isCancelable = false
+            )
         }
     }
 
-    private fun setIntentResult(isMoneyTransfer: Boolean = false) {
+    private fun setIntentResult(
+        isMoneyTransfer: Boolean = false,
+        cancelFlow: Boolean = false
+    ) {
         val intent = Intent()
         intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         intent.putExtra(Constants.IS_TRANSFER_MONEY, isMoneyTransfer)
+        intent.putExtra(Constants.TERMINATE_ADD_BENEFICIARY, cancelFlow)
         intent.putExtra(Beneficiary::class.java.name, viewModel.state.beneficiary)
         this.setResult(Activity.RESULT_OK, intent)
         this.finish()
@@ -224,20 +224,32 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 RequestCodes.REQUEST_TRANSFER_MONEY -> {
-                    val isTransferred = data?.getBooleanExtra(
-                        Constants.MONEY_TRANSFERED,
-                        false
-                    )
-                    if (isTransferred == true) {
-                        setIntentResult()
-                    } else {
-                        setIntentResult()
-                    }
+                    setIntentResult()
                 }
             }
         }
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                finish()
+            }
+            R.id.tvRightText -> {
+                showAlertDialogAndExitApp(
+                    dialogTitle = "Are you sure you want to exit?",
+                    message = "The information you've entered will be lost.",
+                    leftButtonText = "Confirm",
+                    callback = {
+                        setIntentResult(cancelFlow = true)
+                    },
+                    closeActivity = false,
+                    titleVisibility = true,
+                    isTwoButton = true
+                )
+            }
+        }
+    }
 
     private fun getBinding(): ActivityEditBeneficiaryBinding {
         return viewDataBinding as ActivityEditBeneficiaryBinding

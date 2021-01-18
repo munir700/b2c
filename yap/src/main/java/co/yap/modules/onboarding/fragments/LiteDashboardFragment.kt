@@ -21,7 +21,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 @Deprecated("")
@@ -80,10 +80,6 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     override fun onResume() {
         viewModel.clickEvent.observe(this, observer)
         super.onResume()
-//        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
-//            btnSetCardPin.visibility = View.GONE
-//            btnCompleteVerification.visibility = View.GONE
-//        }
     }
 
     override fun onPause() {
@@ -94,28 +90,18 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     private val observer = Observer<Int> {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> {
-                MyUserManager.doLogout(requireContext())
+                SessionManager.doLogout(requireContext())
                 activity?.finish()
             }
-            /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
-                    findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
-                }*/
+
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
                     putExtra(
                         co.yap.yapcore.constants.Constants.name,
-                        MyUserManager.user?.currentCustomer?.firstName.toString()
+                        SessionManager.user?.currentCustomer?.firstName.toString()
                     )
                     putExtra(co.yap.yapcore.constants.Constants.data, false)
                 }
-//                startActivityForResult(
-//                    DocumentsDashboardActivity.getIntent(
-//                        requireContext(),
-//                        MyUserManager.user?.currentCustomer?.firstName.toString(),
-//                        false
-//                    ), RequestCodes.REQUEST_KYC_DOCUMENTS
-//                )
-
             }
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
                 viewModel.getDebitCards()
@@ -143,8 +129,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     }
 
     private fun checkUserStatus() {
-        // MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
-        when (MyUserManager.user?.notificationStatuses) {
+        when (SessionManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 btnCompleteVerification.visibility = View.VISIBLE
                 btnSetCardPin.visibility = View.GONE

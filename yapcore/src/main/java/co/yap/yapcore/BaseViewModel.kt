@@ -3,6 +3,7 @@ package co.yap.yapcore
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -29,6 +30,10 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
         override fun close() {
             coroutineContext.cancel()
         }
+    }
+
+    fun onToolBarClick(view: View) {
+        toolBarClickEvent.setValue(view.id)
     }
 
     fun showToast(message: String) {
@@ -100,5 +105,8 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)
 
     override fun getString(resourceId: String): String = Translator.getString(context, resourceId)
+
+    override val toolBarClickEvent = SingleClickEvent()
+
 }
 

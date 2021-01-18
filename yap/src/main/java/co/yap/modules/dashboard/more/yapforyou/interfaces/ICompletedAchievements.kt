@@ -9,7 +9,6 @@ import co.yap.yapcore.SingleClickEvent
 interface ICompletedAchievements {
 
     interface View : IBase.View<ViewModel> {
-        fun addObservers()
         fun getBinding(): FragmentCompletedAchievementsBinding
     }
 

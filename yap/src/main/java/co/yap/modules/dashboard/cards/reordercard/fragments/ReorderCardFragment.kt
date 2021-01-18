@@ -22,7 +22,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.leanplum.HHTransactionsEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRenewCard.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -56,7 +56,7 @@ class ReorderCardFragment : ReorderCardBaseFragment<IRenewCard.ViewModel>(), IRe
             }
 
             R.id.btnConfirmPurchase -> {
-                MyUserManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
+                SessionManager.cardBalance.value?.availableBalance?.toDoubleOrNull()
                     ?.let { balance ->
                         viewModel.fee.toDoubleOrNull()?.let { feeAmount ->
                             if (feeAmount <= balance)

@@ -12,6 +12,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.extentions.parseToDouble
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 
 class InternationalTransactionConfirmationViewModel(application: Application) :
     BeneficiaryFundTransferBaseViewModel<IInternationalTransactionConfirmation.State>(application),
@@ -38,11 +39,15 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                 when (val response =
                     mTransactionsRepository.rmtTransferRequest(
                         SendMoneyTransferRequest(
-                            amount = it.destinationAmount?.toDouble(),
+                            amount = it.destinationAmount?.toFormattedCurrency(
+                                showCurrency = false,
+                                currency = it.destinationCurrency,
+                                withComma = false
+                            ),
                             currency = it.destinationCurrency,
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             beneficiaryId = parentViewModel?.beneficiary?.value?.id,
-                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue?.trim(),
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
                             settlementAmount = it.sourceAmount.parseToDouble(),
                             fxRate = it.rate
@@ -71,12 +76,16 @@ class InternationalTransactionConfirmationViewModel(application: Application) :
                     mTransactionsRepository.swiftTransferRequest(
                         SendMoneyTransferRequest(
                             beneficiaryId = beneficiaryId?.toInt(),
-                            amount = it.destinationAmount?.toDouble(),
+                            amount = it.destinationAmount?.toFormattedCurrency(
+                                showCurrency = false,
+                                currency = it.destinationCurrency,
+                                withComma = false
+                            ),
                             currency = it.destinationCurrency,
                             settlementAmount = it.sourceAmount.parseToDouble(),
                             purposeCode = parentViewModel?.selectedPop?.purposeCode,
                             purposeReason = parentViewModel?.selectedPop?.purposeDescription,
-                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue,
+                            remarks = if (it.noteValue.isNullOrBlank()) null else it.noteValue?.trim(),
                             fxRate = it.rate ?: "1.0"
                         )
                     )

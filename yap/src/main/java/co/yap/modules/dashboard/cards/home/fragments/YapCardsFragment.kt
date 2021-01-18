@@ -2,8 +2,11 @@ package co.yap.modules.dashboard.cards.home.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +18,6 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddRemoveFundsActivity
 import co.yap.modules.dashboard.cards.reordercard.activities.ReorderCardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
@@ -26,20 +28,20 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
-import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.enums.CardStatus
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.FeatureProvisioning
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
-    val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-    val EVENT_CARD_ADDED: Int get() = 12
-    var selectedCardPosition: Int = 0
+    private val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    private val EVENT_CARD_ADDED: Int get() = 12
+    private var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -57,12 +59,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupPager()
+        toolbar?.findViewById<AppCompatImageView>(R.id.ivRightIcon)?.imageTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         viewModel.getCards()
         viewModel.cards.observe(this, Observer {
             if (!it.isNullOrEmpty())
                 setupList(it)
         })
-        MyUserManager.card.observe(this, Observer {
+        SessionManager.card.observe(this, Observer {
             it?.let {
                 viewModel.getCards()
             }
@@ -106,13 +110,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                viewModel.clickEvent.setPayload(
-                    SingleClickEvent.AdaptorPayLoadHolder(
-                        view,
-                        data,
-                        pos
+                if (data is Card)
+                    viewModel.clickEvent.setPayload(
+                        SingleClickEvent.AdaptorPayLoadHolder(
+                            view,
+                            data,
+                            pos
+                        )
                     )
-                )
                 viewModel.clickEvent.setValue(view.id)
             }
         })
@@ -138,7 +143,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 } else
                                     openDetailScreen(pos)
                             }
-                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name -> openDetailScreen(pos)
+                            CardStatus.BLOCKED.name, CardStatus.EXPIRED.name, CardStatus.PIN_BLOCKED.name -> openDetailScreen(
+                                pos
+                            )
                             CardStatus.INACTIVE.name -> {
                                 getCard(pos).deliveryStatus?.let {
                                     openStatusScreen(view, pos)
@@ -155,14 +162,24 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 R.id.tvCardStatusAction -> {
                     when (getCard(pos).status) {
                         CardStatus.BLOCKED.name -> {
-                            openDetailScreen(pos)
+                            if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.UNFREEZE_CARD)) {
+                                showBlockedFeatureAlert(requireActivity(), FeatureSet.UNFREEZE_CARD)
+                            } else {
+                                viewModel.unFreezeCard(getCard(pos).cardSerialNumber) {
+                                    viewModel.getUpdatedCard(pos) { card ->
+                                        card?.let {
+                                            adapter.setItemAt(pos, card)
+                                        }
+                                    }
+                                }
+                            }
                         }
                         CardStatus.HOTLISTED.name -> {
                             startReorderCardFlow(getCard(pos))
                         }
                         CardStatus.ACTIVE.name -> {
                             if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus && !getCard(
+                                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus && !getCard(
                                         pos
                                     ).pinCreated
                                 ) {
@@ -172,7 +189,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                         CardStatus.INACTIVE.name -> {
                             if (getCard(pos).cardType == CardType.DEBIT.type) {
-                                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                                     if (getCard(pos).deliveryStatus == CardDeliveryStatus.SHIPPED.name)
                                         openSetPinScreen(getCard(pos))
                                     else
@@ -183,10 +200,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
             }
-        } else {
-            if (it == R.id.tbBtnAddCard) {
-                openAddCard()
-            }
+        }
+    }
+
+
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivRightIcon -> openAddCard()
         }
     }
 
@@ -215,7 +235,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             viewModel.getCards()
                         }
                         else -> {
-                            updatedCard?.let { adapter.setItemAt(selectedCardPosition, it) }
+                            adapter.getDataList()
+                                .firstOrNull { it.cardSerialNumber == updatedCard?.cardSerialNumber }
+                                ?.let { card ->
+                                    val pos = adapter.getDataList().indexOf(card)
+                                    updatedCard?.let { adapter.setItemAt(pos, it) }
+                                } ?: showToast("Card not found")
                         }
                     }
                 }
@@ -226,23 +251,22 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val paymentCard: Card? = data?.getParcelableExtra("paymentCard")
                     if (true == updatedCard) {
                         adapter.removeAllItems()
-                        openDetailScreen(card = paymentCard)
+                        openDetailScreen(pos = viewModel.cards.value?.size ?: 0, card = paymentCard)
                         viewModel.getCards()
                     }
                 }
             }
             Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    viewModel.getDebitCard()
+                    SessionManager.getDebitCard()
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
-
                     val cardSerialNumber: String? =
                         data?.getStringExtra(Constants.CARD_SERIAL_NUMBER)
 
                     if (!cardSerialNumber.isNullOrBlank()) {
                         getCardFromSerialNumber(serialNumber = cardSerialNumber)?.let {
-                            if (MyUserManager.user?.otpBlocked == true) {
+                            if (SessionManager.user?.otpBlocked == true) {
                                 showToast(Utils.getOtpBlockedMessage(requireContext()))
                             } else {
                                 startActivityForResult(
@@ -284,8 +308,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         card?.let {
             gotoPaymentCardDetailScreen(it)
         } ?: gotoPaymentCardDetailScreen(getCard(pos))
-
-
     }
 
     private fun gotoPaymentCardDetailScreen(paymentCard: Card) {
@@ -305,35 +327,36 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openStatusScreen(view: View, pos: Int) {
-        startActivityForResult(
-            FragmentPresenterActivity.getIntent(
-                requireContext(),
-                Constants.MODE_STATUS_SCREEN,
-                getCard(pos)
-            ), Constants.EVENT_CREATE_CARD_PIN
-        )
+        context?.let { context ->
+            startActivityForResult(
+                FragmentPresenterActivity.getIntent(
+                    context = context,
+                    type = Constants.MODE_STATUS_SCREEN,
+                    payLoad = getCard(pos)
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
     }
 
     private fun openSetPinScreen(card: Card) {
-        startActivityForResult(
-            SetCardPinWelcomeActivity.newIntent(
-                requireContext(),
-                card
-            ), Constants.EVENT_CREATE_CARD_PIN
-        )
+        context?.let { context ->
+            startActivityForResult(
+                SetCardPinWelcomeActivity.newIntent(
+                    context = context,
+                    card = card,
+                    skipWelcomeScreen = true
+                ), Constants.EVENT_CREATE_CARD_PIN
+            )
+        }
     }
 
     private fun startReorderCardFlow(card: Card?) {
-        if (MyUserManager.user?.otpBlocked == true) {
-            showToast(Utils.getOtpBlockedMessage(requireContext()))
-        } else {
-            card?.let {
-                startActivityForResult(
-                    ReorderCardActivity.newIntent(
-                        requireContext(),
-                        it
-                    ), RequestCodes.REQUEST_REORDER_CARD
-                )
+        card?.let {
+            launchActivity<ReorderCardActivity>(
+                type = FeatureSet.REORDER_DEBIT_CARD,
+                requestCode = RequestCodes.REQUEST_REORDER_CARD
+            ) {
+                putExtra(ReorderCardActivity.CARD, it)
             }
         }
     }

@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.landing
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
@@ -18,13 +17,6 @@ import co.yap.yapcore.helpers.extentions.startFragment
 
 
 class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
-
-    companion object {
-        fun getIntent(context: Context): Intent {
-            return Intent(context, TopUpLandingActivity::class.java)
-        }
-    }
-
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_landing
@@ -52,9 +44,6 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
                     ),
                     RequestCodes.REQUEST_SHOW_BENEFICIARY
                 )
-            }
-            R.id.tbBtnBack -> {
-                onBackPressed()
             }
         }
     }
@@ -84,4 +73,11 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
         }
     }
 
+    override fun onToolBarClick(id: Int) {
+        when (id) {
+            R.id.ivLeftIcon -> {
+                onBackPressed()
+            }
+        }
+    }
 }

@@ -72,6 +72,7 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
         })
     }
 
+    
     override fun onBackPressed(): Boolean {
 
         return super.onBackPressed()
@@ -127,4 +128,5 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
 
         //viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
+
 }

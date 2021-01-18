@@ -7,6 +7,7 @@
         <import type="co.yap.translation.Strings" />
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
+        <import type="co.yap.yapcore.helpers.Utils" />
 
         <variable
             name="viewModel"
@@ -32,7 +33,7 @@
             android:contentDescription="@string/app_name"
             android:gravity="center"
             android:maxLength="2"
-            android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.fullName)}"
+            android:text="@{Utils.INSTANCE.shortName(viewModel.state.fullName)}"
             android:textColor="@color/colorSecondaryGreen"
             android:textSize="@dimen/_24sdp" />
 

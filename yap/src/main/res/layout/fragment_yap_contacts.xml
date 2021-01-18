@@ -21,9 +21,9 @@
             style="@style/Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_22sdp"
             android:layout_marginTop="@dimen/margin_normal_large"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="0 YAP contacts" />

@@ -19,7 +19,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardType
 import co.yap.yapcore.enums.PartnerBankStatus
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
 
@@ -27,6 +27,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
     companion object {
         const val data = "payLoad"
+
         @JvmStatic
         fun newInstance(payLoad: Parcelable?) = YapCardStatusFragment().apply {
             arguments = Bundle().apply {
@@ -53,7 +54,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         if (card != null) {
             viewModel.state.title.set(if (card?.cardType == "DEBIT") "Primary card" else "Spare physical card")
             viewModel.state.cardType.set(if (card?.cardType == "DEBIT") "Primary card" else "Spare physical card")
-            viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your Primary card is on its way" else "Your Spare physical card is on its way")
+            viewModel.state.message.set(if (card?.cardType == "DEBIT") "Your YAP card is on its way!" else "Your Spare physical card is on its way")
 
 
             when (card?.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
@@ -85,7 +86,38 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     )
                 }
 
-                CardDeliveryStatus.SHIPPED, CardDeliveryStatus.SHIPPING -> {
+                CardDeliveryStatus.SHIPPING -> {
+                    viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Your Primary card is shipped" else "")
+                    tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
+                    tvOrdered.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.colorPrimary
+                        )
+                    )
+
+                    tbProgressBarBuilding.progress = 100
+                    tbBtnBuilding.setImageResource(R.drawable.ic_tick)
+                    tvBuilding.text = "Built"
+                    tvBuilding.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimary
+                        )
+                    )
+
+                    viewModel.state.shippingProgress = 100
+                    tvShipping.text =
+                        if (CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Shipped" else "Shipping"
+                    tvShipping.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimary
+                        )
+                    )
+                    viewModel.state.valid =
+                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
+                }
+                CardDeliveryStatus.SHIPPED -> {
                     viewModel.state.message.set(if (card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus) "Your Primary card is shipped" else "")
                     tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                     tvOrdered.setTextColor(
@@ -115,7 +147,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         )
                     )
                     viewModel.state.valid =
-                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus
+                        card?.cardType == CardType.DEBIT.type && CardDeliveryStatus.SHIPPED.name == card?.deliveryStatus && PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus
                 }
             }
         }
@@ -128,12 +160,14 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnActivateCard -> {
-                startActivityForResult(
-                    SetCardPinWelcomeActivity.newIntent(
-                        requireContext(),
-                        card
-                    ), Constants.EVENT_CREATE_CARD_PIN
-                )
+                card?.let { card ->
+                    startActivityForResult(
+                        SetCardPinWelcomeActivity.newIntent(
+                            requireContext(),
+                            card
+                        ), Constants.EVENT_CREATE_CARD_PIN
+                    )
+                } ?: showToast("Debit card not found.")
             }
             R.id.tbBtnBack -> {
                 val returnIntent = Intent()

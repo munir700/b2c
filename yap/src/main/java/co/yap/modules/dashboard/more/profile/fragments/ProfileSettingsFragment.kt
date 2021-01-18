@@ -20,18 +20,22 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.modules.webview.WebViewFragment
+import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN
 import co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
+import co.yap.yapcore.helpers.extentions.hasBitmap
+import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.helpers.permissions.PermissionHelper
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
@@ -53,12 +57,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if (context is MoreActivity) {
-//            (context as MoreActivity).visibleToolbar()
-//            (context as MoreActivity).viewModel.preventTakeDeviceScreenShot.value = false
-//        }
-
-
+        if (context is MoreActivity) {
+            (context as MoreActivity).visibleToolbar()
+        }
+        viewModel.state.buildVersionDetail = versionName
         val sharedPreferenceManager =
             SharedPreferenceManager.getInstance(requireContext())
 
@@ -92,13 +94,19 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onClick(eventType: Int) {
         updatePhotoBottomSheet.dismiss()
+
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
                 checkPermission(takePhoto)
             }
-
             Constants.EVENT_CHOOSE_PHOTO -> {
                 checkPermission(pickPhoto)
+            }
+            Constants.EVENT_REMOVE_PHOTO -> {
+                viewModel.requestRemoveProfilePicture {
+                    if (it)
+                        ivProfilePic.setImageDrawable(null)
+                }
             }
         }
     }
@@ -189,17 +197,24 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun logoutAlert() {
-        confirm(message = getString(R.string.screen_profile_settings_logout_display_text_alert_message),
-            title = getString(R.string.screen_profile_settings_logout_display_text_alert_title),
-            callback = {
-                LogOutLiveData.getInstance(requireContext())
-                    .observe(this@ProfileSettingsFragment, Observer {
-                        if (it) {
-                            MyUserManager.doLogout(requireContext())
-                        }
-                    })
-            },
-            negativeCallback = {})
+        AlertDialog.Builder(this.activity!!)
+            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
+                DialogInterface.OnClickListener { dialog, which ->
+                    viewModel.logout()
+                })
+
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null
+            )
+            .show()
+    }
+
+    private fun doLogout() {
+        SessionManager.doLogout(requireContext())
+        activity?.finish()
     }
 
     override fun onRequestPermissionsResult(
@@ -222,7 +237,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-
                     val action =
                         ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment()
                     findNavController().navigate(action)
@@ -237,21 +251,26 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
-                    if (MyUserManager.user?.otpBlocked == true) {
-                        showToast(Utils.getOtpBlockedMessage(requireContext()))
-                    } else {
-                        launchActivity<ChangePasscodeActivity> {  }
-                    }
+                    launchActivity<ChangePasscodeActivity>(type = FeatureSet.CHANGE_PASSCODE)
                 }
-
                 R.id.tvTermsAndConditionView -> {
                     startFragment(
                         fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
-                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION
+                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_TERMS_CONDITION,
+                            co.yap.yapcore.constants.Constants.TOOLBAR_TITLE to getString(
+                                Strings.screen_profile_settings_display_terms_and_conditions
+                            )
                         ), showToolBar = false
                     )
                 }
 
+                R.id.tvFeesAndPricingPlansView -> {
+                    startFragment(
+                        fragmentName = WebViewFragment::class.java.name, bundle = bundleOf(
+                            co.yap.yapcore.constants.Constants.PAGE_URL to co.yap.yapcore.constants.Constants.URL_FEES_AND_PRICING_PLAN
+                        ), showToolBar = false
+                    )
+                }
                 R.id.tvFollowOnInstagram -> {
                     Utils.openInstagram(requireContext())
                 }
@@ -274,15 +293,23 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.rlAddNewProfilePic -> {
                     this.fragmentManager?.let {
-                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
+                        updatePhotoBottomSheet = UpdatePhotoBottomSheet(this, showRemovePhoto())
                         updatePhotoBottomSheet.show(it, "")
                     }
                 }
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
                 }
+
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
+                }
             }
         })
-
     }
+
+    private fun showRemovePhoto(): Boolean {
+        return viewModel.state.profilePictureUrl.isNotEmpty() && ivProfilePic.hasBitmap()
+    }
+
 }

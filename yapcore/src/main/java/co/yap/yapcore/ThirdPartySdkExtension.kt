@@ -5,7 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import co.yap.yapcore.config.BuildConfigManager
 import co.yap.yapcore.enums.ProductFlavour
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
@@ -33,6 +33,9 @@ fun Application.initializeAdjustSdk(configManager: BuildConfigManager?) {
                 config.setAppSecret(1, 82588340, 60633897, 806753301, 962146915)
             }
             ProductFlavour.STG.flavour -> {
+                config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
+            }
+            ProductFlavour.INTERNAL.flavour -> {
                 config.setAppSecret(1, 1236756048, 110233912, 2039250280, 199413548)
             }
             ProductFlavour.QA.flavour -> {
@@ -90,8 +93,8 @@ private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
 
 fun fireAdjustEvent(event: String) {
     val adjustEvent = AdjustEvent(event)
-    adjustEvent.setCallbackId(MyUserManager.user?.currentCustomer?.customerId)
-    adjustEvent.addCallbackParameter("account_id", MyUserManager.user?.currentCustomer?.customerId)
+    adjustEvent.setCallbackId(SessionManager.user?.currentCustomer?.customerId)
+    adjustEvent.addCallbackParameter("account_id", SessionManager.user?.currentCustomer?.customerId)
     Adjust.trackEvent(adjustEvent)
 }
 

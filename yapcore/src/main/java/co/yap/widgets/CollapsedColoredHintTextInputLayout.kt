@@ -60,6 +60,7 @@ class CollapsedColoredHintTextInputLayout : TextInputLayout {
         }
     }
 
+
     private fun initializeCustomAttrs(context: Context, attrs: AttributeSet) {
         val typedArray = context.theme.obtainStyledAttributes(
             attrs, R.styleable
@@ -79,6 +80,7 @@ class CollapsedColoredHintTextInputLayout : TextInputLayout {
                 ContextCompat.getColor(getContext(), R.color.greyDark)
                     .also { if (it != 0) hintTextColorSelected = it }
             )
+
         } finally {
             typedArray.recycle()
         }

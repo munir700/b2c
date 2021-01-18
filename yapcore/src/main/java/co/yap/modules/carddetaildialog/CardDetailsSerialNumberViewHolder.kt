@@ -1,7 +1,8 @@
-package co.yap.modules.carddetaildialog
+package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog
 
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.yapcore.databinding.DialogCardDetailsCardSerialNumberBinding
+import co.yap.databinding.DialogCardDetailsCardSerialNumberBinding
+import co.yap.yapcore.helpers.extentions.toCamelCase
 
 class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialNumberBinding: DialogCardDetailsCardSerialNumberBinding) :
     RecyclerView.ViewHolder(dialogCardDetailsCardSerialNumberBinding.root) {
@@ -17,9 +18,9 @@ class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialN
         //dialogCardDetailsCardSerialNumberBinding.ivCard.loadImage(houseHoldCardsDesignModel.frontSideDesignImage?:"")
         dialogCardDetailsCardSerialNumberBinding.tvCardType.text = cardDetailsModel.cardType
         dialogCardDetailsCardSerialNumberBinding.tvCardNumberValue.text =
-            cardDetailsModel.cardNumber
-
-
+            cardDetailsModel.cardNumber?.toCamelCase()
+        dialogCardDetailsCardSerialNumberBinding.tvCardName.text =
+            cardDetailsModel.displayName
         dialogCardDetailsCardSerialNumberBinding.viewModel?.position = position
         dialogCardDetailsCardSerialNumberBinding.viewModel =
             CardDetailsDialogItemViewModel(

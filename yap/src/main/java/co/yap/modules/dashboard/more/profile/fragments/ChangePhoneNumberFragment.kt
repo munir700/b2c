@@ -17,7 +17,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_change_phone_number.*
 
 class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>(),
@@ -32,13 +32,13 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
         super.onCreate(savedInstanceState)
         setObservers()
         viewModel.changePhoneNumberSuccessEvent.observe(this, Observer {
-            MyUserManager.user?.currentCustomer?.mobileNo = viewModel.state.mobile.replace(" ", "")
-            MyUserManager.user?.currentCustomer?.countryCode = viewModel.state.countryCode
+            SessionManager.user?.currentCustomer?.mobileNo = viewModel.state.mobile.replace(" ", "")
+            SessionManager.user?.currentCustomer?.countryCode = viewModel.state.countryCode
             SharedPreferenceManager.getInstance(requireContext()).saveUserNameWithEncryption( viewModel.state.mobile.replace(" ", ""))
             val action =
                 ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToSuccessFragment(
                     getString(Strings.screen_phone_number_success_display_text_sub_heading),
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext()).toString()
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext()).toString()
                 )
             findNavController().navigate(action)
         })
@@ -66,7 +66,8 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
                     OTPActions.CHANGE_MOBILE_NO.name,
                     "+${viewModel.state.countryCode + " " + viewModel.state.mobile}"
                 )
-            )
+            ),
+            showToolBar = true
         ) { resultCode, _ ->
             if (resultCode == Activity.RESULT_OK) {
                 viewModel.changePhoneNumber()

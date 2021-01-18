@@ -15,6 +15,7 @@ import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.modules.setcardpin.pinflow.IPin
 import co.yap.modules.setcardpin.pinflow.PINViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.databinding.FragmentPinBinding
@@ -22,7 +23,7 @@ import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.helpers.extentions.ExtraType
 import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.startFragmentForResult
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.View {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
@@ -42,14 +43,6 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
         getBindings().dialer.upDatedDialerPad(viewModel.state.pincode)
         getBindings().dialer.updateDialerLength(4)
         loadData()
-       // loadData()
-        if (activity is ChangeCardPinActivity) {
-            (activity as ChangeCardPinActivity).preventTakeDeviceScreenShot.value = true
-        }
-        if (activity is ForgotCardPinActivity) {
-            (activity as ForgotCardPinActivity).preventTakeDeviceScreenShot.value = true
-        } else
-            loadData()
     }
 
     override fun setObservers() {
@@ -66,12 +59,14 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
                                     viewModel.state.pincode,
                                     viewModel.state.cardSerialNumber
                                 ) {
-                                    findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
+                                  //  findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
                                 }
                             }
                         }
                     } else {
                         getBindings().dialer.startAnimation()
+                        viewModel.state.dialerError =
+                            getString(Strings.screen_confirm_card_pin_display_text_error_pins_not_same)
                     }
 
                 }
@@ -104,10 +99,11 @@ class ConfirmNewCardPinFragment : BaseBindingFragment<IPin.ViewModel>(), IPin.Vi
             bundleOf(
                 OtpDataModel::class.java.name to OtpDataModel(
                     OTPActions.FORGOT_CARD_PIN.name,
-                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
+                    SessionManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext())
                         ?: ""
                 )
             )
+        ,showToolBar = true
         ) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 val token =

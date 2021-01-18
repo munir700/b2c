@@ -40,8 +40,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/_12sdp"
-                android:paddingRight="@dimen/_12sdp">
+                android:paddingLeft="@dimen/_18sdp"
+                android:paddingRight="@dimen/_18sdp">
 
 
                 <RelativeLayout
@@ -69,6 +69,9 @@
                             app:position="@{viewModel.parentViewModel.transferData.position}"
                             tools:src="@drawable/flag_ae" />
 
+                        <!--
+                           toggle visibility on the basis of transfer type
+                             -->
 
                         <RelativeLayout
                             android:id="@+id/rlAddNewProfilePic"
@@ -87,7 +90,7 @@
                                 android:background="@drawable/bg_round_red"
                                 android:backgroundTint="@color/white">
 
-                                <ImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/ivAddProfilePic"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -103,7 +106,7 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,12 +115,13 @@
                     android:textSize="@dimen/_18sdp"
                     tools:text="Jonathan Newport" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/etSenderCurrency"
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_extra_small"
                     android:gravity="center"
                     android:text="@{viewModel.state.destinationCurrency}"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -125,57 +129,35 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     tools:text="CAD" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/etAmountLayout"
-                    android:layout_width="@dimen/_170sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/small"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:background="@drawable/bg_funds"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFullName">
+                <!-- ALERT:  DO NOT APPLY DATA BINDING FOR THIS FIELD-->
 
-                    <EditText
-                        android:id="@+id/etSenderAmount"
-                        style="@style/ATitle2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:focusableInTouchMode="true"
-                        android:gravity="center_horizontal|center_vertical"
-                        app:hint="@{Strings.common_amount_hint}"
-                        android:imeOptions="actionDone"
-                        android:importantForAutofill="no"
-                        android:inputType="numberDecimal"
-                        android:labelFor="@+id/etAmount"
-                        android:maxLength="@integer/unitsCount"
-                        android:maxLines="1"
-                        android:text="@={viewModel.state.etInputAmount}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <co.yap.widgets.EasyMoneyEditText
+                    android:id="@+id/etSenderAmount"
+                    style="@style/ATitle2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:em_currency="@{viewModel.state.destinationCurrency}"
+                    android:layout_margin="0dp"
+                    tools:text="1234567891" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="="
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    android:textSize="@dimen/_30sdp" />
+                    android:textSize="@dimen/_30sdp"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/etBeneficiaryCurrency"
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:gravity="center"
                     android:text="@{viewModel.state.sourceCurrency}"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -184,44 +166,38 @@
                 <co.yap.widgets.EasyMoneyEditText
                     android:id="@+id/etReceiver"
                     style="@style/ATitle2"
-                    android:layout_width="@dimen/_170sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_extra_small"
-                    android:background="@drawable/bg_funds"
                     android:focusable="false"
+                    app:em_currency="@{viewModel.state.sourceCurrency}"
                     android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    android:inputType="numberDecimal"
                     android:text="@{viewModel.state.etOutputAmount}"
-                    app:currency_symbol="$"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-                    app:show_commas="false"
-                    app:show_currency="false" />
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
+
+                    tools:text="1234567891" />
 
                 <LinearLayout
                     android:id="@+id/ly_YapRate"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
-
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
-                        app:srcCompat="@drawable/ic_transaction_rate_arrow" />
+                        android:src="@drawable/ic_transaction_rate_arrow" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -230,7 +206,7 @@
                         android:text="YAP rate :"
                         tools:text="Yap rate :" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvDefaultCurrencyRate"
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
@@ -241,7 +217,7 @@
                         android:textColor="?attr/colorPrimaryDarkAttr"
                         tools:text="X AED" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -250,7 +226,7 @@
                         android:text="to"
                         tools:text="to" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvDynamicCurrencyRete"
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
@@ -262,7 +238,7 @@
                         tools:text="X CAD" />
                 </LinearLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/MicroGrey"
                     android:layout_width="match_parent"
@@ -277,7 +253,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFee"
                     tools:text="Your available balance is " />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -289,26 +265,27 @@
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.VISIBLE : View.GONE}"
                     tools:text="@string/screen_international_funds_transfer_display_text_fee" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
                     android:gravity="center"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.VISIBLE : View.GONE}"
                     android:textSize="@dimen/text_size_c3"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.VISIBLE : View.GONE}"
                     app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReasonLbl"
                     style="@style/Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium_large"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:text="@string/screen_add_beneficiary_display_text_transfer_type"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_12sdp"
                     app:text="@{Strings.screen_international_funds_transfer_display_text_reson}"
                     tools:text="@string/screen_international_funds_transfer_display_text_reson" />
 
@@ -316,22 +293,23 @@
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     app:layout_constraintTop_toBottomOf="@+id/etNote"
                     tools:ignore="NotSibling">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvSelectReason"
-                        style="@style/Small"
+                        style="@style/Regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_toStartOf="@+id/ivSelector"
+                        android:alpha=".5"
                         android:onClick="@{(v)->viewModel.handlePressOnButton(v.id)}"
-                        android:text="Reason for transfer"
-                        tools:text="Reason for transfer" />
+                        app:text="@{Strings.screen_international_funds_transfer_dropdown_text_reason_hint}"
+                        tools:text="@string/screen_international_funds_transfer_dropdown_text_reason_hint" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivSelector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -339,58 +317,57 @@
                         android:layout_centerInParent="true"
                         android:onClick="@{(v)->viewModel.handlePressOnButton(v.id)}"
                         android:src="@drawable/ic_chevron_down"
-                        android:tint="@color/colorPrimaryDark" />
+                        android:tint="@color/greyDark" />
 
                     <View
                         android:id="@+id/breakLine"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
+                        android:layout_height="2dp"
                         android:layout_below="@+id/ivSelector"
-                        android:background="@color/greySoft"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/colorDisabledBtn"
                         tools:ignore="MissingConstraints" />
 
                 </RelativeLayout>
 
-                <EditText
+                <co.yap.widgets.AlphaNumericEditText
                     android:id="@+id/etNote"
-                    style="@style/ARegular"
+                    style="@style/ALarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:gravity="top"
                     android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@drawable/bg_edit_text_disable_grey_under_line"
+                    android:gravity="top"
                     android:inputType="text"
-                    android:maxLength="@integer/note_max_length"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+                    android:maxLength="@integer/notes_external_transfer_length"
                     android:minHeight="@dimen/_40sdp"
                     android:singleLine="true"
-                    android:backgroundTint="@color/greySoft"
                     android:text="@={viewModel.state.transactionNote}"
+                    android:textColorHint="@color/greyDark"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small"
-                    android:layout_marginEnd="@dimen/margin_extra_small"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
-                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
+                    android:textSize="@dimen/text_size_c1"
                     android:text="@{viewModel.state.transferFeeSpannable}"
-                    android:textSize="@dimen/text_size_c3"
+                    android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
                     tools:text="@string/screen_international_funds_transfer_display_text_fee" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
                     android:gravity="center"
+                    android:textSize="@dimen/text_size_c1"
                     android:visibility="@{viewModel.parentViewModel.sameCurrency ? View.GONE : View.VISIBLE}"
-                    android:textSize="@dimen/text_size_c3"
-
                     app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
 

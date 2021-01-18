@@ -1,9 +1,13 @@
 package co.yap.modules.location.viewmodels
 
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.location.interfaces.ILocationSelection
 import co.yap.modules.location.states.LocationSelectionState
+import co.yap.modules.placesautocomplete.PlaceAPI
+import co.yap.modules.placesautocomplete.adapter.PlacesAutoCompleteAdapter
+import co.yap.modules.placesautocomplete.model.Place
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.CustomersRepository
@@ -15,6 +19,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class LocationSelectionViewModel(application: Application) :
     LocationSelectionBaseViewModel<ILocationSelection.State>(application),
@@ -27,14 +32,16 @@ class LocationSelectionViewModel(application: Application) :
     override var isMapExpanded: MutableLiveData<Boolean> = MutableLiveData()
     override var termsCheckedTime: MutableLiveData<String> = MutableLiveData("")
     override var cities: MutableLiveData<ArrayList<City>> = MutableLiveData()
+    override var selectedPlaceId: MutableLiveData<String> = MutableLiveData("")
     override val state: LocationSelectionState = LocationSelectionState(application)
     override val repository: CustomersRepository = CustomersRepository
     private val cardsRepository: CardsRepository = CardsRepository
     override var address: Address? = null
-
+    override lateinit var placesAdapter: PlacesAutoCompleteAdapter
     override fun onCreate() {
         super.onCreate()
         getCities()
+        initializePlacesAdapter()
     }
 
     override fun handleOnPressView(id: Int) {
@@ -131,6 +138,7 @@ class LocationSelectionViewModel(application: Application) :
         }
     }
 
+
     fun getUserAddress(): Address? {
         address?.address1 = state.addressTitle.get()
         address?.address2 = state.addressSubtitle.get()
@@ -138,18 +146,33 @@ class LocationSelectionViewModel(application: Application) :
         // this needs to be update and addresse title 1,2,3 should remove only addresse object will pass and recived.
         address?.nearestLandMark = state.addressTitle.get()
         address?.country = "United Arab Emirates"
-
         return address
     }
 
     fun isValidAddress(): Boolean {
         if (!StringUtils.isValidAddress(
                 state.addressTitle.get() ?: ""
-            ) || !StringUtils.isValidAddress(state.addressSubtitle.get()?: "")
+            ) || !StringUtils.isValidAddress(state.addressSubtitle.get() ?: "")
         ) {
             showToast("Invalid address found")
             return false
         }
         return true
+    }
+
+    val autoCompleteListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Place) {
+                state.placeTitle.set(data.mainText)
+                state.placeSubTitle.set(data.description)
+                state.isLocationInAllowedCountry.set(true)
+                selectedPlaceId.value = data.id
+            }
+        }
+    }
+
+    private fun initializePlacesAdapter() {
+        val placeAPI = PlaceAPI.Builder().apiKey(context.getString(R.string.google_maps_key)).build(context)
+        placesAdapter = PlacesAutoCompleteAdapter(context, placeAPI)
     }
 }

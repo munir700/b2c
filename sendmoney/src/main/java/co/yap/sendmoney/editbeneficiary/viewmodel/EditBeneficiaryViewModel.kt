@@ -57,13 +57,11 @@ class EditBeneficiaryViewModel(application: Application) :
                     state.beneficiary?.country ?: ""
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.needIban = response.data.ibanMandatory
+                    state.needIban = response.data.data.ibanMandatory
                 }
                 is RetroApiResponse.Error -> {
                     showToast(response.error.message)
-
                 }
-
             }
         }
     }

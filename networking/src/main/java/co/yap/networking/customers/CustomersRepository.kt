@@ -6,12 +6,15 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Country
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
 import co.yap.networking.household.responsedtos.ValidateParentMobileResponse
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
@@ -37,6 +40,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
     const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
+    const val URL_DELETE_PROFILE_PICTURE = "customers/api/customers/profile-picture"
     const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
     const val URL_VALIDATE_EMAIL = "customers/api/validate-email"
     const val URL_CHANGE_MOBILE_NUMBER =
@@ -108,7 +112,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_VALIDATE_CURRENT_PASSCODE = "/customers/api/user/verify-passcode"
     const val URL_CHANGE_PASSCODE = "/customers/api/user/change-password"
     const val URL_APP_VERSION = "/customers/api/mobile-app-versions"
+    const val URL_RESEND_EMAIL = "/customers/api/sign-up/resend/email"
 
+    const val URL_GET_ALL_CURRENCIES = "/customers/api/currencies"
+    const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
     private val api: CustomersRetroService =
@@ -299,7 +306,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun createHouseholdPasscode(createPassCodeRequest: CreatePassCodeRequest): RetroApiResponse<ValidateParentMobileResponse> =
         executeSafely(call = { api.createHouseholdPasscode(createPassCodeRequest) })
 
-    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<Country> =
+    override suspend fun getCountryDataWithISODigit(countryCodeWith2Digit: String): RetroApiResponse<CountryDataWithISODigit> =
         executeSafely(call = { api.getCountryDataWithISODigit(countryCodeWith2Digit) })
 
     override suspend fun getCountryTransactionLimits(
@@ -344,6 +351,25 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun saveTaxInfo(taxInfoRequest: TaxInfoRequest): RetroApiResponse<TaxInfoResponse> =
         executeSafely(call = { api.saveTaxInfo(taxInfoRequest) })
 
+    override suspend fun getAllCurrenciesConfigs(): RetroApiResponse<CurrenciesResponse> =
+        executeSafely(call = { api.getAllCurrencies() })
+
+    override suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse> =
+        executeSafely(call = { api.getCurrencyByCode(currencyCode ?: "") })
+
+    override suspend fun resendVerificationEmail(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.resendVerificationEmail() })
+
+    override suspend fun removeProfilePicture(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.removeProfilePicture() })
+
+    override suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO> =
+        executeSafely(call = {
+            api.getCoolingPeriod(
+                smCoolingPeriodRequest.beneficiaryId,
+                smCoolingPeriodRequest.productCode
+            )
+        })
     override suspend fun getSubscriptionsNotifications() =
         TransactionsRepository.executeSafely(call = { api.getSubscriptionsNotifications() })
 }

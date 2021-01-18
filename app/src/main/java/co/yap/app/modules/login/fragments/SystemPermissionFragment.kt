@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(),
@@ -107,11 +107,11 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
 
     private fun navigateToDashboard() {
-        if (MyUserManager.user?.otpBlocked == true)
+        if (SessionManager.user?.otpBlocked == true)
             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name , clearAllPrevious = true)
         else {
-            if (MyUserManager.shouldGoToHousehold()) {
-                MyUserManager.user?.uuid?.let { it1 ->
+            if (SessionManager.shouldGoToHousehold()) {
+                SessionManager.user?.uuid?.let { it1 ->
                     SwitchProfileLiveData.get(it1, this@SystemPermissionFragment)
                         .observe(this@SystemPermissionFragment, switchProfileObserver)
                 }
@@ -122,8 +122,8 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     }
     private val switchProfileObserver = Observer<AccountInfo?> {
         it.run {
-            if (MyUserManager.isOnBoarded()) {
-                if (MyUserManager.isExistingUser()) {
+            if (SessionManager.isOnBoarded()) {
+                if (SessionManager.isExistingUser()) {
                     launchActivity<YapDashboardActivity>(clearPrevious = true)
                 } else {
                     context.switchTheme(YAPThemes.HOUSEHOLD())
@@ -137,7 +137,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 }
             } else {
                 context.switchTheme(YAPThemes.HOUSEHOLD())
-//                MyUserManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
+//                SessionManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)

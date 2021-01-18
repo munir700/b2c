@@ -44,7 +44,7 @@ import co.yap.yapcore.helpers.extentions.getValue
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.leanplum.*
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,10 +68,9 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         val display = activity?.windowManager?.defaultDisplay
         display?.getRectSize(windowSize)
         rootContainer.children.forEach { it.alpha = 0f }
-
-        GetAccountInfoLiveData.get().observe(this, Observer {
-            if (it != null)
-                viewModel.trackEventWithAttributes(MyUserManager.user)
+        SessionManager.onAccountInfoSuccess.observe(this, Observer {
+            if (it)
+                viewModel.trackEventWithAttributes(SessionManager.user)
         })
     }
 
@@ -116,7 +115,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 val timeString = String.format("%02d:%02d", minutes, seconds);
 
                 trackEventInFragments(
-                    MyUserManager.user,
+                    SessionManager.user,
                     signup_length = timeString
                 )
                 launchActivity<DocumentsDashboardActivity>(requestCode = RequestCodes.REQUEST_KYC_DOCUMENTS) {
@@ -158,7 +157,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     startActivityForResult(
                         LocationSelectionActivity.newIntent(
                             context = requireContext(),
-                            address = MyUserManager.userAddress ?: Address(),
+                            address = SessionManager.userAddress ?: Address(),
                             headingTitle = getString(Strings.screen_meeting_location_display_text_add_new_address_title),
                             subHeadingTitle = getString(Strings.screen_meeting_location_display_text_subtitle),
                             onBoarding = true

@@ -58,7 +58,9 @@ data class Beneficiary(
     @SerializedName("countryOfResidence")
     var countryOfResidence: String? = null,
     @SerializedName("countryOfResidenceName")
-    var countryOfResidenceName: String? = null
+    var countryOfResidenceName: String? = null,
+    @SerializedName("beneficiaryCreationDate")
+    var beneficiaryCreationDate: String? = null
 ) : ApiResponse(), Parcelable {
     fun fullName() = "$firstName $lastName"
 }

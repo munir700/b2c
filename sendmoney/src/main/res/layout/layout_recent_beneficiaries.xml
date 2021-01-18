@@ -13,7 +13,7 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/lyRecentParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
             android:lineSpacingExtra="6sp"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/margin_normal_large"
             android:text="@string/screen_y2y_display_text_recent_transfer"
             android:textColor="@color/greyDark"
             android:textSize="12sp"
@@ -38,6 +37,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal"
+            android:layout_marginStart="@dimen/margin_normal_large"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recent_beneficiaries_transfer" />
@@ -47,7 +47,9 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="#1e979797"
+            android:layout_marginStart="@dimen/margin_normal_large"
+            android:layout_marginEnd="@dimen/margin_normal_large"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

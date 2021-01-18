@@ -20,6 +20,7 @@
         <item name="colordisabledTick">@color/disabledTickColor</item>
         <item name="colorSeekBar">@color/seekbarProgress</item>
         <item name="primaryButtonTheme">@style/Widget.Button.Primary</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="alertDialogTheme">@style/AlertDialogueCustom</item>
         <item name="actionBarSize">@dimen/toolbar_height</item>
         <item name="colorSendMoneyToolBarAttr">@color/transparent</item>
@@ -179,5 +180,23 @@
         <item name="android:textColor">#00f</item>
     </style>
 
+    <style name="myDialog" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
 
+    </style>
+
+    <style name="QRCodeTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+    </style>
 </resources>

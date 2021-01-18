@@ -23,6 +23,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
+import co.yap.yapcore.managers.SessionManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -95,7 +96,7 @@ class PaymentCardDetailViewModel(application: Application) :
 
                             var transactionModel: HomeTransactionListData = HomeTransactionListData(
                                 "Type",
-                                "AED",
+                                SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
                                 convertDate(contentsList[0].creationDate),
                                 contentsList[0].totalAmount.toString(),
@@ -179,7 +180,7 @@ class PaymentCardDetailViewModel(application: Application) :
 
             val transactionModel = HomeTransactionListData(
                 "Type",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 transactionsDay.key!!,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
@@ -239,8 +240,10 @@ class PaymentCardDetailViewModel(application: Application) :
                         }
                         updatedBalance(cardBalance?.availableBalance ?: "0.0")
                         card.value?.availableBalance = cardBalance?.availableBalance.toString()
-                        state.cardBalance =
-                            cardBalance?.currencyCode + " " + cardBalance?.availableBalance?.toFormattedCurrency()
+                        state.cardBalance = cardBalance?.availableBalance?.toFormattedCurrency(
+                            showCurrency = true,
+                            currency = cardBalance.currencyCode ?: SessionManager.getDefaultCurrency()
+                        ) ?: ""
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

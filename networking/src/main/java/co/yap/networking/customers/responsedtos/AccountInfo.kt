@@ -71,7 +71,13 @@ class AccountInfo(
     @SerializedName("prepaidAccountNo")
     var prepaidAccountNo: String? = null,
     @SerializedName("emiratesID")
-    var emiratesID: String? = null
-
-
-) : ApiResponse(), Parcelable
+    var emiratesID: String? = null,
+    @SerializedName("freezeCode")
+    var severityLevel: String? = null,
+    @SerializedName("freezeInitiator")
+    var freezeInitiator: String? = null,
+    @SerializedName("eidNotificationContent")
+    var EIDExpiryMessage: String? = null,
+    @SerializedName("encryptedAccountUUID")
+    var encryptedAccountUUID: String? = null
+) : Parcelable

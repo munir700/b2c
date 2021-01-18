@@ -1,6 +1,7 @@
 package co.yap.modules.setcardpin.pinflow
 
 import android.app.Application
+import co.yap.modules.setcardpin.activities.SetPinChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
@@ -8,20 +9,19 @@ import co.yap.networking.cards.requestdtos.ForgotCardPin
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.leanplum.trackEvent
 
 class PINViewModel(application: Application) :
-    BaseViewModel<IPin.State>(application),
+    SetPinChildViewModel<IPin.State>(application),
     IPin.ViewModel, IRepositoryHolder<CardsRepository> {
     override val repository: CardsRepository = CardsRepository
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     override var mobileNumber: String = ""
     override fun setChangeCardPinFragmentData() {
-        state.titleSetPin = getString(Strings.screen_current_card_pin_display_text_heading)
+        state.titleSetPin = getString(Strings.screen_current_card_pin_display_text_heading_pin)
         state.buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
     }
 
@@ -74,6 +74,7 @@ class PINViewModel(application: Application) :
             state.loading = false
         }
     }
+
     override fun changeCardPinRequest(
         oldPin: String,
         newPin: String,
@@ -101,12 +102,12 @@ class PINViewModel(application: Application) :
 
     }
 
-    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String,token: String) {
+    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String, token: String) {
         launch {
             state.loading = true
             when (val response = repository.forgotCardPin(
                 cardSerialNumber,
-                ForgotCardPin(newPin,token)
+                ForgotCardPin(newPin, token)
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.postValue(Constants.FORGOT_CARD_PIN_NAVIGATION)

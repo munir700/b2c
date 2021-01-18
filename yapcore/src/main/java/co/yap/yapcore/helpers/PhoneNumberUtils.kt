@@ -111,14 +111,22 @@ fun isValidPhoneNumber(number: String, code: String): Boolean {
     var isValid = false
     val phoneUtil = PhoneNumberUtil.getInstance()
     var isMobile: PhoneNumberUtil.PhoneNumberType? = null
-    try {
-        val ph = phoneUtil.parse(number, code)
+    return try {
+        var rawNumber = number
+        if (number.startsWith("00", false)) {
+            rawNumber = number.replaceFirst("00", "+")
+        }
+        val ph = phoneUtil.parseAndKeepRawInput(rawNumber, code)
         ph.countryCode = phoneUtil.getCountryCodeForRegion(code)
-        isValid = phoneUtil.isValidNumber(ph) && !number.startsWith("0")
+        val isPossible = phoneUtil.isPossibleNumber(ph)
+        val hasDefaultCountry = code.isNotEmpty() && code != "ZZ"
+        if (hasDefaultCountry) {
+            isValid = phoneUtil.isValidNumberForRegion(ph, code)
+        }
         isMobile = phoneUtil.getNumberType(ph)
-        return isValid && (PhoneNumberUtil.PhoneNumberType.MOBILE === isMobile || PhoneNumberUtil.PhoneNumberType.FIXED_LINE_OR_MOBILE === isMobile)
+        isValid && (PhoneNumberUtil.PhoneNumberType.MOBILE === isMobile)
     } catch (e: NumberParseException) {
-        return isValid
+        isValid
     }
 
 }

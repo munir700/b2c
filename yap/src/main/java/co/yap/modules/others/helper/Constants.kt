@@ -26,10 +26,12 @@ object Constants {
 
     const val EVENT_ADD_PHOTO: Int = 6
     const val EVENT_CHOOSE_PHOTO: Int = 7
+    const val EVENT_REMOVE_PHOTO: Int = 8
 
     const val EVENT_ADD_TOPUP_CARD: Int = 100
     const val EVENT_DELETE_TOPUP_CARD: Int = 101
 
     const val REQUEST_CODE = "requestCode"
     const val START_REQUEST_CODE = 101
+    const val INVALID_OLD_PIN: String = "PT3101"
 }

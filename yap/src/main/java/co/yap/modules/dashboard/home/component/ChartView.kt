@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import co.yap.R
 import co.yap.yapcore.helpers.ThemeColorUtils
 
+@Deprecated("Use ChartViewV2.kt  ")
 class ChartView(context: Context, private var barHeight: Int) : View(context),
     View.OnTouchListener, View.OnFocusChangeListener {
 

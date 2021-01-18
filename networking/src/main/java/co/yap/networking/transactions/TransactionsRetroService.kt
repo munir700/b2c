@@ -182,7 +182,10 @@ interface TransactionsRetroService {
 
     //    House Hold API calls
     @GET(TransactionsRepository.URL_HOUSEHOLD_CARD_FEE_PACKAGE)
-    suspend fun getPrepaidUserSubscriptionsPlans(@Path("productPlan") productPlan: String,@Path("feeFrequency") feeFrequency: String): Response<RemittanceFeeResponse>
+    suspend fun getPrepaidUserSubscriptionsPlans(
+        @Path("productPlan") productPlan: String,
+        @Path("feeFrequency") feeFrequency: String
+    ): Response<RemittanceFeeResponse>
 
     //    House Hold Pay Salary Now
     @POST(TransactionsRepository.URL_HOUSEHOLD_PAY_SALARY_NOW)
@@ -195,4 +198,19 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_HOUSEHOLD_ACCOUNT_STATEMENTS)
     suspend fun getHouseHoldAccountStatements(@Path("householdAccountUUID") householdAccountUUID: String?): Response<CardStatementsResponse>
 
+    @GET(TransactionsRepository.URL_CHECK_COOLING_PERIOD)
+    suspend fun checkCoolingPeriodRequest(
+        @Query("beneficiaryId") beneficiaryId: String?,
+        @Query("beneficiaryCreationDate") beneficiaryCreationDate: String?,
+        @Query("beneficiaryName") beneficiaryName: String?,
+        @Query("amount") amount: String?
+    ): Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_GET_MERCHANT_TRANSACTIONS)
+    suspend fun getTransactionsOfMerchant(
+        @Path("merchant-type") merchantType: String,
+        @Query("cardSerialNo") cardSerialNo: String?,
+        @Query("date") date: String?,
+        @Body merchantName: ArrayList<String>?
+    ): Response<AnalyticsDetailResponseDTO>
 }

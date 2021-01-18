@@ -6,12 +6,11 @@ import androidx.navigation.NavController
 import co.yap.R
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.translation.Strings
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseListItemViewModel
-import co.yap.yapcore.enums.AlertType
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
+import co.yap.yapcore.managers.FeatureProvisioning
 
 class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
     private lateinit var mItem: Beneficiary
@@ -32,16 +31,16 @@ class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
 
     override fun layoutRes() = R.layout.item_recent_transfer
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        if (MyUserManager.user?.otpBlocked == true) {
+        if (FeatureProvisioning.getFeatureProvisioning(FeatureSet.Y2Y_TRANSFER)) { // update otp as well in a single case
             if (view.context is BaseActivity<*>) {
                 val activity = view.context as BaseActivity<*>
-                activity.showToast(Utils.getOtpBlockedMessage(activity))
+                showBlockedFeatureAlert(activity, FeatureSet.Y2Y_TRANSFER)
             }
         } else {
             navigation?.navigate(
                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                     (data as Beneficiary).beneficiaryPictureUrl ?: ""
-                    , data.beneficiaryUuid ?: "", data.title ?: "", pos
+                    , data.beneficiaryUuid ?: "", data.title ?: "", pos,data.beneficiaryCreationDate?:""
                 )
             )
         }

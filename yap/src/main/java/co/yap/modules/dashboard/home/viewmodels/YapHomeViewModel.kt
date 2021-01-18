@@ -7,7 +7,6 @@ import co.yap.modules.dashboard.home.filters.models.TransactionFilters
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
-import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.models.RetroApiResponse
@@ -18,13 +17,17 @@ import co.yap.networking.transactions.TransactionsRepository.getFailedTransactio
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
+import co.yap.widgets.State
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
+import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
+import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.SessionManager.getDebitCard
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -33,8 +36,6 @@ class YapHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override var txnFilters: TransactionFilters = TransactionFilters()
-
-    private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
@@ -45,7 +46,6 @@ class YapHomeViewModel(application: Application) :
     override var MAX_CLOSING_BALANCE: Double = 0.0
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
-
     init {
         YAPApplication.clearFilters()
     }
@@ -53,7 +53,7 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
-        getDebitCards()
+        SessionManager.getDebitCard()
     }
 
     override fun filterTransactions() {
@@ -68,8 +68,10 @@ class YapHomeViewModel(application: Application) :
 
     override fun requestAccountTransactions() {
         launch {
-            if (isLoadMore.value == false)
-                state.loading = true
+            if (isLoadMore.value == false) {
+                // state.loading = true
+                state.showTxnShimmer.value = State.loading(null)
+            }
             when (val response =
                 transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
@@ -106,7 +108,7 @@ class YapHomeViewModel(application: Application) :
 
                             var transactionModel = HomeTransactionListData(
                                 "Type",
-                                "AED",
+                                SessionManager.getDefaultCurrency(),
                                 /* transactionsDay.key!!*/
                                 transactionList[0].getFormattedDate(),
                                 transactionList[0].totalAmount.toString(),
@@ -126,7 +128,6 @@ class YapHomeViewModel(application: Application) :
                             )
                             var numberstoReplace: Int = 0
                             var replaceNow: Boolean = false
-
                             val iterator = sortedCombinedTransactionList.iterator()
                             while (iterator.hasNext()) {
                                 val item = iterator.next()
@@ -145,14 +146,18 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
+                    ///if (isLoadMore.value == false) {
+                    state.showTxnShimmer.value = State.success(null)
+                    //}
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
-                    state.loading = false
+                    //state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
+                    // state.loading = false
                     isRefreshing.value = false
                     isLoadMore.value = false
+                    state.showTxnShimmer.value = State.error("")
                 }
             }
         }
@@ -190,7 +195,7 @@ class YapHomeViewModel(application: Application) :
 
             val transactionModel = HomeTransactionListData(
                 "Type",
-                "AED",
+                SessionManager.getDefaultCurrency(),
                 mapEntry.key,
                 contentsList[0].totalAmount.toString(),
                 contentsList[0].balanceAfter,
@@ -214,29 +219,6 @@ class YapHomeViewModel(application: Application) :
         return transactionModelData
     }
 
-    override fun getDebitCards() {
-        launch {
-            when (val response = cardsRepository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let {
-                        if (it.isNotEmpty()) {
-                            val primaryCard = getPrimaryCard(response.data.data)
-                            MyUserManager.card.value = primaryCard
-                        } else {
-                            state.toast = "Debit card not found.^${AlertType.TOAST.name}"
-                        }
-                    }
-                }
-                is RetroApiResponse.Error ->
-                    state.toast = "${response.error.message}^${AlertType.TOAST.name}"
-            }
-        }
-    }
-
-    private fun getPrimaryCard(cards: ArrayList<Card>?): Card? {
-        return cards?.firstOrNull { it.cardType == CardType.DEBIT.type }
-    }
-
     override fun getNotifications(
         accountInfo: AccountInfo,
         paymentCard: Card, apiResponse: ((Boolean) -> Unit?)?
@@ -248,7 +230,7 @@ class YapHomeViewModel(application: Application) :
                     || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
         ) {
             trackEvent(KYCEvents.EID_EXPIRE.type)
-            trackEventWithAttributes(MyUserManager.user, eidExpire = true)
+            trackEventWithAttributes(SessionManager.user, eidExpire = true)
         }
         if (accountInfo.otpBlocked == true) {
             list.add(
@@ -285,19 +267,31 @@ class YapHomeViewModel(application: Application) :
                 )
             )
         }
-        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
-                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
-            && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status
+        if (accountInfo.getUserAccessRestrictions()
+                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
         ) {
+            SessionManager.eidStatus = EIDStatus.EXPIRED
             list.add(
                 HomeNotification(
                     id = "4",
-                    title = "Renewed ID",
-                    description = "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+                    title = "Renew ID",
+                    description = accountInfo.EIDExpiryMessage
+                        ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
                     action = NotificationAction.UPDATE_EMIRATES_ID
                 )
             )
+        }
 
+        accountInfo.getUserAccessRestrictions().forEach {
+            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
+                list.add(
+                    HomeNotification(
+                        id = "5",
+                        description = description,
+                        action = NotificationAction.CARD_FEATURES_BLOCKED
+                    )
+                )
+            }
         }
         state.notificationList.value?.addAll(list)
         apiResponse?.invoke(true)
@@ -329,4 +323,3 @@ class YapHomeViewModel(application: Application) :
         }
     }
 }
-

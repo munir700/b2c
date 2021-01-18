@@ -11,7 +11,6 @@ import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.extentions.isNetworkAvailable
 import com.jaygoo.widget.RangeSeekBar
 
 class TransactionFiltersViewModel(application: Application) :
@@ -41,10 +40,6 @@ class TransactionFiltersViewModel(application: Application) :
             }
             state.loading = false
         }
-    }
-
-    override fun handlePressOnBackButton(id: Int) {
-        clickEvent.setValue(id)
     }
 
     override fun updateRangeValue(seekBar: RangeSeekBar) {

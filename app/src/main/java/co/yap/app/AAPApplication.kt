@@ -31,19 +31,18 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.longToast
-import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.switchTheme
 import co.yap.yapcore.initializeAdjustSdk
-import com.crashlytics.android.Crashlytics
 import com.facebook.appevents.AppEventsLogger
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.leanplum.Leanplum
 import com.leanplum.LeanplumActivityHelper
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.DaggerApplication
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -139,12 +138,9 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
     private fun initFireBase() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .build()
-            Fabric.with(fabric)
         }
+        FirebaseAnalytics.getInstance(this)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun inItLeanPlum() {
@@ -167,7 +163,7 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
         Leanplum.start(this)
     }
 
-    private fun initFacebook(){
+    private fun initFacebook() {
         AppEventsLogger.activateApp(this)
     }
 
@@ -197,7 +193,6 @@ class AAPApplication : HouseHoldApplication(), NavigatorProvider,HasActivityInje
                 completionHandler: ((resultCode: Int, data: Intent?) -> Unit)?
             ) {
                 try {
-                    activity.launchActivity<VerifyPassCodePresenterActivity>()
                     val intent = Intent(activity, VerifyPassCodePresenterActivity::class.java)
                     intent.putExtra(EXTRA, bundle)
                     (activity as AppCompatActivity).startForResult(intent) { result ->

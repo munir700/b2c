@@ -5,6 +5,8 @@ import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
+import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
@@ -127,7 +129,7 @@ interface CustomersRetroService {
     suspend fun getCardsLimit(): Response<CardsLimitResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_DATA_WITH_ISO_DIGIT)
-    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<Country>
+    suspend fun getCountryDataWithISODigit(@Path("country-code") countryCodeWith2Digit: String): Response<CountryDataWithISODigit>
 
     @GET(CustomersRepository.URL_GET_COUNTRY_TRANSACTION_LIMITS)
     suspend fun getCountryTransactionLimits(
@@ -229,4 +231,23 @@ interface CustomersRetroService {
     suspend fun saveTaxInfo(@Body taxInfoRequest: TaxInfoRequest): Response<TaxInfoResponse>
     @GET(CustomersRepository.URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS)
     suspend fun getSubscriptionsNotifications(): Response<BaseListResponse<HomeNotification>>
+
+    @GET(CustomersRepository.URL_GET_ALL_CURRENCIES)
+    suspend fun getAllCurrencies(): Response<CurrenciesResponse>
+
+    @GET(CustomersRepository.URL_GET_BY_CURRENCY_CODE)
+    suspend fun getCurrencyByCode(@Path("currencyCode") currencyCode: String): Response<CurrenciesByCodeResponse>
+
+    @POST(CustomersRepository.URL_RESEND_EMAIL)
+    suspend fun resendVerificationEmail(): Response<ApiResponse>
+
+    // delete profile picture
+    @DELETE(CustomersRepository.URL_DELETE_PROFILE_PICTURE)
+    suspend fun removeProfilePicture(): Response<ApiResponse>
+
+    @GET(CustomersRepository.URL_GET_COOLING_PERIOD)
+    suspend fun getCoolingPeriod(
+        @Query("beneficiaryId") beneficiaryId: String,
+        @Query("productCode") productCode: String
+    ): Response<SMCoolingPeriodResponseDTO>
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.hideKeyboard
@@ -15,6 +16,8 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     OnBackPressedListener {
     private var progress: Dialog? = null
     override var shouldRegisterViewModelLifeCycle: Boolean = true
+    open fun onToolBarClick(id: Int) {}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -25,12 +28,16 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         super.onViewCreated(view, savedInstanceState)
         if (shouldRegisterViewModelLifeCycle)
             registerStateListeners()
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
     }
 
     override fun onDestroyView() {
         if (shouldRegisterViewModelLifeCycle)
             unregisterStateListeners()
         progress?.dismiss()
+        viewModel.toolBarClickEvent.removeObservers(this)
         hideKeyboard()
         super.onDestroyView()
     }

@@ -2,7 +2,8 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
-import co.yap.app.YAPApplication
+import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -11,6 +12,7 @@ import co.yap.networking.customers.responsedtos.SectionedCountriesResponseDTO
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.widgets.State
 import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.adjust.AdjustEvents
@@ -25,7 +27,7 @@ import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.getFormattedDate
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.core.arch.Gender
 import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
@@ -44,12 +46,12 @@ class EidInfoReviewViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: EidInfoReviewState = EidInfoReviewState()
     private var sectionedCountries: SectionedCountriesResponseDTO? = null
-
-    override var sanctionedCountry: String = "" // for runtime hanlding
-    override var sanctionedNationality: String = "" // for runtime hanlding
+    override var sanctionedCountry: String = ""
+    override var sanctionedNationality: String = ""
     override var errorTitle: String = ""
     override var errorBody: String = ""
-    val eidLength = 15
+    private val eidLength = 15
+    override var eidStateLiveData: MutableLiveData<State> = MutableLiveData()
 
     override fun onCreate() {
         super.onCreate()
@@ -57,42 +59,46 @@ class EidInfoReviewViewModel(application: Application) :
         parentViewModel?.identity?.let { populateState(it) }
     }
 
-    override fun handlePressOnRescanBtn() {
-//        parentViewModel?.identity?.let { populateState(it) }
-        clickEvent.setValue(EVENT_RESCAN)
+    override fun handlePressOnView(id: Int) {
+        if (id == R.id.btnTouchId)
+            handlePressOnConfirmBtn()
+        else {
+            clickEvent.setValue(id)
+        }
     }
 
-    override fun handlePressOnConfirmBtn() {
+    private fun handlePressOnConfirmBtn() {
         parentViewModel?.identity?.let {
             when {
-                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) ->
-                    clickEvent.setValue(EVENT_ERROR_INVALID_EID)
+                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) -> {
+                    clickEvent.setValue(eventErrorInvalidEid)
+                }
                 !it.isExpiryDateValid -> {
-                    errorTitle =
-                        getString(Strings.screen_kyc_information_error_display_text_title_expired_card)
-                    errorBody =
-                        getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
-
-                    clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+                    updateLabels(
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_expired_card),
+                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_expired_card)
+                    )
+                    clickEvent.setValue(eventErrorExpiredEid)
                 }
                 !it.isDateOfBirthValid -> {
-                    errorTitle =
-                        getString(Strings.screen_kyc_information_error_display_text_title_under_age)
-                    errorBody =
-                        getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
-                    clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
+                    updateLabels(
+                        title = getString(Strings.screen_kyc_information_error_display_text_title_under_age),
+                        body = getString(Strings.screen_kyc_information_error_display_text_explanation_under_age)
+                    )
+                    clickEvent.setValue(eventErrorUnderAge)
                     trackEvent(KYCEvents.EID_UNDER_AGE_18.type)
                 }
                 it.nationality.equals("USA", true) || it.isoCountryCode2Digit.equals(
                     "US",
                     true
                 ) -> {
-                    errorTitle = "It's not you, its US"
-                    errorBody =
-                        "We're sorry, we aren't able to create bank accounts for US Citizens at this point. Stay tuned though, we'll announce it everywhere if this changes!"
+                    updateLabels(
+                        title = "Looks like you're from the United States",
+                        body = "We're sorry, we aren't able to create bank accounts for US Citizens at this point. Stay tuned though, we'll announce it everywhere if this changes!"
+                    )
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
-                    clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                    clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_US_CITIIZEN.type)
                 }
                 it.isoCountryCode2Digit.equals(
@@ -104,12 +110,13 @@ class EidInfoReviewViewModel(application: Application) :
                     }?.isoCountryCode2Digit,
                     true
                 ) -> {
-                    errorTitle = "We're so sorry"//countryName
-                    errorBody =
-                        "Unfortunately, we cannot go ahead with creating your account at this time. Thank you for your interest in YAP."
+                    updateLabels(
+                        title = "We're sorry :(",
+                        body = "Unfortunately, we're unable to proceed with creating your account at this time. However, we appreciate your interest in getting a YAP account."
+                    )
                     sanctionedCountry = it.nationality
                     sanctionedNationality = it.nationality
-                    handleUserAcceptance(EVENT_ERROR_FROM_USA)
+                    clickEvent.setValue(eventErrorFromUsa)
                     trackEvent(KYCEvents.KYC_PROHIBITED_CITIIZEN.type)
                 }
                 parentViewModel?.document != null && it.citizenNumber != parentViewModel?.document?.identityNo -> {
@@ -124,37 +131,26 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    override fun handleUserRejection(reason: Int) {
-        handlePressOnRescanBtn()
-    }
-
-    override fun handlePressOnEdit(id: Int) {
-        clickEvent.setValue(id)
-    }
-
-    override fun handleUserAcceptance(reason: Int) {
-        clickEvent.setValue(EVENT_NEXT_WITH_ERROR)
+    override fun updateLabels(title: String, body: String) {
+        errorTitle = title
+        errorBody = body
     }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         uploadDocuments(result)
     }
 
-
     private fun uploadDocuments(result: IdentityScannerResult) {
         if (!result.document.files.isNullOrEmpty() && result.document.files.size < 3) {
-            val file = if (YAPApplication.configManager?.isReleaseBuild() == false) {
-                context.dummyEID()
-            } else {
-                File(result.document.files[1].croppedFile)
-            }
+            val file = File(result.document.files[1].croppedFile)
+
             parentViewModel?.paths?.clear()
             parentViewModel?.paths?.add(result.document.files[0].croppedFile)
             parentViewModel?.paths?.add(result.document.files[1].croppedFile)
 
             val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
             val part =
-                MultipartBody.Part.createFormData("image", file?.name, fileReqBody)
+                MultipartBody.Part.createFormData("files", file?.name, fileReqBody)
             launch {
                 state.loading = true
                 when (val response = repository.detectCardData(part)) {
@@ -169,7 +165,7 @@ class EidInfoReviewViewModel(application: Application) :
                             identity.sirName = data.surname
                             identity.givenName = data.names
                             trackEventWithAttributes(
-                                MyUserManager.user,
+                                SessionManager.user,
                                 eidExpireDate = getFormattedDate(data.expiration_date)
                             )
                             identity.expirationDate =
@@ -185,35 +181,17 @@ class EidInfoReviewViewModel(application: Application) :
                             if (SharedPreferenceManager.getInstance(context).getThemeValue().equals(Constants.THEME_HOUSEHOLD)) {
                                 trackAdjustPlatformEvent(AdjustEvents.ONBOARDING_NEW_HH_USER_EID.type)
                             }
-                        } else {
-                            if (null == parentViewModel?.identity) {
-                                state.toast =
-                                    "${
-                                    response.data.errors?.message
-                                        ?: " Error occurred"
-                                    }^${AlertType.DIALOG_WITH_FINISH.name}"
-                                parentViewModel?.paths?.forEach { filePath ->
-                                    File(filePath).deleteRecursively()
-                                }
-                            } else {
-                                state.toast =
-                                    "${
-                                    response.data.errors?.message
-                                        ?: " Error occurred"
-                                    }^${AlertType.DIALOG.name}"
-                                parentViewModel?.paths?.forEach { filePath ->
-                                    File(filePath).deleteRecursively()
-                                }
-                            }
                         }
                     }
                     is RetroApiResponse.Error -> {
                         if (null == parentViewModel?.identity)
                             state.toast =
                                 "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
-                        else
-                            state.toast =
-                                "${response.error.message}^${AlertType.DIALOG.name}"
+                        else {
+                            eidStateLiveData.postValue(State.error(response.error.message))
+//                            state.toast =
+//                                "${response.error.message}^${AlertType.DIALOG_WITH_FINISH.name}"
+                        }
                         parentViewModel?.paths?.forEach { filePath ->
                             File(filePath).deleteRecursively()
                         }
@@ -243,7 +221,7 @@ class EidInfoReviewViewModel(application: Application) :
     ) {
         parentViewModel?.identity?.let {
             if (it.expirationDate == null) {
-                clickEvent.setValue(EVENT_EID_EXPIRY_DATE_ISSUE)
+                clickEvent.setValue(eventEidExpiryDateIssue)
             } else {
                 launch {
                     val request = UploadDocumentsRequest(
@@ -256,8 +234,7 @@ class EidInfoReviewViewModel(application: Application) :
                         fullName = getFullName(),
                         gender = it.gender.mrz.toString(),
                         nationality = it.isoCountryCode3Digit.toUpperCase(),
-                        identityNo = if (YAPApplication.configManager?.buildType == "debug") (700000000000000..800000000000000).random()
-                            .toString() else it.citizenNumber,
+                        identityNo = it.citizenNumber,
                         filePaths = parentViewModel?.paths ?: arrayListOf(),
                         countryIsSanctioned = if (fromInformationErrorFragment) fromInformationErrorFragment else null
                     )
@@ -268,13 +245,13 @@ class EidInfoReviewViewModel(application: Application) :
 
                     when (response) {
                         is RetroApiResponse.Success -> {
-                            when (MyUserManager.eidStatus) {
+                            when (SessionManager.eidStatus) {
                                 EIDStatus.EXPIRED, EIDStatus.VALID -> {
                                     if (fromInformationErrorFragment) {
                                         success.invoke("success")
                                     } else {
-                                        MyUserManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(EVENT_EID_UPDATE)
+                                        SessionManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(eventEidUpdate)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
@@ -282,8 +259,8 @@ class EidInfoReviewViewModel(application: Application) :
                                     if (fromInformationErrorFragment) {
                                         success.invoke("success")
                                     } else {
-                                        MyUserManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(EVENT_NEXT)
+                                        SessionManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(eventNext)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
@@ -291,8 +268,8 @@ class EidInfoReviewViewModel(application: Application) :
                                     if (fromInformationErrorFragment) {
                                         success.invoke("success")
                                     } else {
-                                        MyUserManager.eidStatus = EIDStatus.VALID
-                                        clickEvent.setValue(EVENT_NEXT)
+                                        SessionManager.eidStatus = EIDStatus.VALID
+                                        clickEvent.setValue(eventNext)
                                         trackEvent(KYCEvents.KYC_ID_CONFIRMED.type)
                                     }
                                 }
@@ -303,7 +280,7 @@ class EidInfoReviewViewModel(application: Application) :
                                 success.invoke(response.error.message)
                             } else {
                                 if (response.error.actualCode.equals(
-                                        EVENT_ALREADY_USED_EID.toString(),
+                                        eventAlreadyUsedEid.toString(),
                                         true
                                     )
                                 ) {
@@ -382,9 +359,11 @@ class EidInfoReviewViewModel(application: Application) :
                 DateUtils.reformatToLocalString(it.expirationDate, DateUtils.DEFAULT_DATE_FORMAT)
             state.expiryDateValid = it.isExpiryDateValid
             state.genderValid = true
-            if (parentViewModel?.identity?.citizenNumber?.length != eidLength && !Utils.isValidEID(parentViewModel?.identity?.citizenNumber)
+            if (parentViewModel?.identity?.citizenNumber?.length != eidLength && !Utils.isValidEID(
+                    parentViewModel?.identity?.citizenNumber
+                )
             ) {
-                clickEvent.setValue(EVENT_CITIZEN_NUMBER_ISSUE)
+                clickEvent.setValue(eventCitizenNumberIssue)
             } else {
                 state.citizenNumber = getFormattedCitizenNumber(it.citizenNumber)
             }
@@ -427,10 +406,29 @@ class EidInfoReviewViewModel(application: Application) :
         } ?: ""
     }
 
+    fun invalidateFields() {
+        state.firstName = ""
+        state.middleName = ""
+        state.lastName = ""
+        state.nationality = ""
+        state.dateOfBirth = ""
+        state.gender = ""
+        state.citizenNumber = ""
+        state.caption = ""
+        state.valid = false
+        state.fullNameValid = false
+        state.nationalityValid = false
+        state.dateOfBirthValid = false
+        state.genderValid = false
+        state.expiryDateValid = true
+        state.expiryDate = ""
+        //state.isShowMiddleName = false
+        //state.isShowLastName = false
+    }
+
     private fun hasValidPart(value: String?, start: Int, end: Int): Boolean {
         return value?.let {
             return (end in start..it.length)
         } ?: false
     }
-
 }

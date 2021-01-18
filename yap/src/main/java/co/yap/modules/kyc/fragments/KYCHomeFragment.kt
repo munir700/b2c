@@ -13,13 +13,16 @@ import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
+import co.yap.yapcore.firebase.FirebaseEvents
+import co.yap.yapcore.firebase.FirebaseTagManagerModel
+import co.yap.yapcore.firebase.firebaseTagManagerEvent
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import java.io.File
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
-    override fun getBindingVariable(): Int = co.yap.yapcore.BR.viewModel
+    override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_kyc_home
 
@@ -28,9 +31,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        requireActivity().firebaseTagManagerEvent(FirebaseTagManagerModel(action = FirebaseEvents.SCAN_ID.event))
         shouldSkipScreen()
         addObservers()
     }
+
 
     private fun addObservers() {
         viewModel.state.addOnPropertyChangedCallback(stateObserver)
@@ -38,12 +43,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    // on press next move user to location screen
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(true)
                 }
-
                 R.id.tvSkip -> {
-                    //on skip move user to
                     viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
                 }
             }
