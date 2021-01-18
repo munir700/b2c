@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 /**
  * Created by Muhammad Irfan Arshad
@@ -158,7 +158,7 @@ abstract class DaggerViewModel : ViewModel(), Observable, CanFetchExtras {
     @CallSuper
     open fun onCreate(bundle: Bundle?) {
         if (isFirstTimeUiCreate) {
-            mUserLiveData.value = MyUserManager.user
+            mUserLiveData.value = SessionManager.user
             // this.bundle = bundle
             onFirsTimeUiCreate(bundle, null)
             isFirstTimeUiCreate = false
@@ -173,7 +173,7 @@ abstract class DaggerViewModel : ViewModel(), Observable, CanFetchExtras {
     @CallSuper
     open fun onCreate(bundle: Bundle?, navigation: NavController?) {
         if (isFirstTimeUiCreate) {
-            mUserLiveData.value = MyUserManager.user
+            mUserLiveData.value = SessionManager.user
             onFirsTimeUiCreate(bundle, navigation)
             isFirstTimeUiCreate = false
         }

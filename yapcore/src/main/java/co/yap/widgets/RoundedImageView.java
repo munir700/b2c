@@ -34,8 +34,8 @@ public class RoundedImageView extends AppCompatImageView {
     public RoundedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //setScaleType(scaleType);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageViewV2, defStyleAttr, 0);
-        radius = a.getFloat(R.styleable.RoundedImageViewV2_rounded_radius, DEFAULT_RADIUS);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyleAttr, 0);
+        radius = a.getFloat(R.styleable.RoundedImageView_rounded_radius, DEFAULT_RADIUS);
         init();
     }
 

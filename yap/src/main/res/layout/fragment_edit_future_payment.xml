@@ -11,7 +11,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="android.view.View" />
 
@@ -96,7 +96,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
             app:layout_constraintTop_toBottomOf="@+id/include4"
-            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+            app:validAmount="@{SessionManager.INSTANCE.cardBalance.availableBalance}">
 
             <requestFocus />
         </co.yap.widgets.EasyMoneyEditText>

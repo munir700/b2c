@@ -26,7 +26,7 @@ import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.firebase.FirebaseEvents
 import co.yap.yapcore.firebase.FirebaseTagManagerModel
 import co.yap.yapcore.firebase.firebaseTagManagerEvent
-import co.yap.yapcore.helpers.Utils.hideKeyboard
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.SessionManager
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
@@ -85,7 +85,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.eventErrorFromUsa -> showUSACitizenAlert()
                 viewModel.eventRescan -> openCardScanner()
                 R.id.tvNoThanks -> {
-                    hideKeyboard(tvNoThanks)
+                    tvNoThanks.hideKeyboard()
                     openCardScanner()
                 }
                 viewModel.eventAlreadyUsedEid -> {

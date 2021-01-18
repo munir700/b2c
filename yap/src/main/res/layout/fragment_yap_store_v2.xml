@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.store.yapstore.YapStoreVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgStoreShopping"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:tint="?attr/colorPrimaryDarkAttr"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_shopping_store" />
+
+        <include
+            layout="@layout/refresh_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:adapter="@{viewModel.adapter}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvYapStoreTitle"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/imgStoreShopping"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgStoreShopping"
+            app:text="@{Strings.screen_yap_store_display_text_title}"
+            tools:text="@string/screen_yap_store_display_text_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvYapStoreHeading"
+            style="@style/Large"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_btn_side_paddings"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_btn_side_paddings"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreTitle"
+            app:text="@{Strings.screen_yap_store_display_text_heading}"
+            tools:text="@string/screen_yap_store_display_text_heading" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

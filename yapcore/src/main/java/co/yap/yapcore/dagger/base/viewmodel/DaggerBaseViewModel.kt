@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 abstract class DaggerBaseViewModel<S : IBase.State>() : DaggerCoroutineViewModel(),
     IBase.ViewModel<S>, OnClickHandler {
     var stateLiveData: MutableLiveData<State> = MutableLiveData()
+    override val toolBarClickEvent = SingleClickEvent()
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()

@@ -21,7 +21,8 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,7 +88,7 @@
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.item.txnType == null?` `:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?`+ ` + StringExtensionsKt.toFormattedCurrency(viewModel.item.amount.toString()): `- `+StringExtensionsKt.toFormattedCurrency(viewModel.item.totalAmount.toString())) }"
+                android:text="@{viewModel.item.txnType == null?` `:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?`+ ` + CurrencyExtensionsKt.toFormattedCurrency(viewModel.item.amount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true): `- `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.item.totalAmount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true)) }"
                 android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 tools:text="18:25" />
 

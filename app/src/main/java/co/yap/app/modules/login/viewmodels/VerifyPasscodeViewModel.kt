@@ -24,6 +24,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.SessionManager.getCurrentUser
 import java.util.concurrent.TimeUnit
 
 class VerifyPasscodeViewModel(application: Application) :
@@ -163,8 +164,11 @@ class VerifyPasscodeViewModel(application: Application) :
             when (val response = customersRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (!response.data.data.isNullOrEmpty()) {
-                        SessionManager.user = response.data.data[0]
-                        accountInfo.postValue(response.data.data[0])
+                       // SessionManager.user = response.data.data[0]
+                        SessionManager.user = getCurrentUser()
+                        accountInfo.postValue(SessionManager.user)
+                        SessionManager.usersList?.value = response.data.data as ArrayList
+
                         SessionManager.setupDataSetForBlockedFeatures()
                         trackEventWithAttributes(SessionManager.user)
                         state.loading = false

@@ -11,7 +11,7 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
@@ -51,15 +51,15 @@ class HHSetPinVM @Inject constructor(override var state: IHHSetPin.State) :
 //            TODO Please fetch latest serial number for household user
 
             var serialNumb: String
-            MyUserManager.getPrimaryCard().let {
-                serialNumb = MyUserManager.getPrimaryCard()?.cardSerialNumber.toString()
+            SessionManager.getPrimaryCard().let {
+                serialNumb = SessionManager.getPrimaryCard()?.cardSerialNumber.toString()
             }
             when (val response = repository.createCardPin(
                 CreateCardPinRequest(state.pinCode.value.toString()),
                 serialNumb
             )) {
                 is RetroApiResponse.Success -> {
-                    if(MyUserManager.isExistingUser()){
+                    if(SessionManager.isExistingUser()){
                         trackEvent(HHUserOnboardingEvents.HH_USER_EXISTING_ACCOUNT_ACTIVE.type)
                     }else{
                         trackEvent(HHUserOnboardingEvents.HH_USER_ACCOUNT_ACTIVE.type)

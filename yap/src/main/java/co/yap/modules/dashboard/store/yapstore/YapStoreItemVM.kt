@@ -13,7 +13,7 @@ class YapStoreItemVM : BaseListItemViewModel<Store>() {
         mItem = item
     }
     override fun getItem() = mItem
-    override fun layoutRes() = R.layout.item_yap_store
+    override fun layoutRes() = R.layout.item_yap_store_v2
     override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
     }
     override fun onItemClick(view: View, data: Any, pos: Int) {

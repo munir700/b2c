@@ -6,7 +6,7 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.helpers.SingleSingletonHolder
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
     private val repository: CardsRepository = CardsRepository
@@ -17,13 +17,13 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
                 is RetroApiResponse.Success -> {
                     value = response.data.data
                     cardBalance.value = value
-                    MyUserManager.cardBalance = cardBalance
+                    SessionManager.cardBalance = cardBalance
                 }
                 is RetroApiResponse.Error->
                 {
                     value = CardBalance(availableBalance = "342333.00")
                     cardBalance.value = value
-                    MyUserManager.cardBalance = cardBalance
+                    SessionManager.cardBalance = cardBalance
                 }
             }
         }
@@ -38,6 +38,6 @@ class GetAccountBalanceLiveData : LiveDataCallAdapter<CardBalance?>() {
     companion object :
         SingleSingletonHolder<GetAccountBalanceLiveData>(::GetAccountBalanceLiveData) {
         @JvmStatic
-        var cardBalance: MutableLiveData<CardBalance> = MyUserManager.cardBalance
+        var cardBalance: MutableLiveData<CardBalance> = SessionManager.cardBalance
     }
 }

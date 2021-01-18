@@ -21,7 +21,7 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.extentions.dimen
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_onboarding_houe_hold.*
 
 class OnBoardingHouseHoldActivity :
@@ -31,7 +31,7 @@ class OnBoardingHouseHoldActivity :
         get() = intent?.getIntExtra(NAVIGATION_Graph_ID, 0) ?: 0
     override val navigationGraphStartDestination: Int
         get() {
-            MyUserManager.user?.let {
+            SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
                     when (AccountStatus.valueOf(it.notificationStatuses)) {
                         AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING -> {
@@ -63,9 +63,9 @@ class OnBoardingHouseHoldActivity :
         }
 
     override fun init(savedInstanceState: Bundle?) {
-        if (MyUserManager.isExistingUser()) {
+        if (SessionManager.isExistingUser()) {
             var destination: Int = R.id.HHOnBoardingExistingFragment
-            MyUserManager.user?.let {
+            SessionManager.user?.let {
                 if (!it.notificationStatuses.isBlank()) {
                     destination = when (AccountStatus.valueOf(it.notificationStatuses)) {
                         AccountStatus.INVITATION_PENDING -> R.id.HHOnBoardingExistingFragment

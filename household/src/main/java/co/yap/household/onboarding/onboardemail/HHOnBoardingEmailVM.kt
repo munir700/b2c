@@ -12,7 +12,7 @@ import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HHOnBoardingEmailVM @Inject constructor(
@@ -32,12 +32,12 @@ class HHOnBoardingEmailVM @Inject constructor(
                 repository.addHouseholdEmail(AddHouseholdEmailRequest(state.email.value ?: ""))) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        MyUserManager.user?.notificationStatuses = it
+                        SessionManager.user?.notificationStatuses = it
                         trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_EMAIL.type)
-                        trackEventWithAttributes(MyUserManager.user, phoneNumberVerified = true)
+                        trackEventWithAttributes(SessionManager.user, phoneNumberVerified = true)
                         trackEventWithAttributes(
-                            MyUserManager.user,
-                            MyUserManager.user?.creationDate
+                            SessionManager.user,
+                            SessionManager.user?.creationDate
                         )
                         apiResponse?.invoke(true)
                     }

@@ -13,7 +13,7 @@ import co.yap.yapcore.helpers.validation.IValidator
 import co.yap.yapcore.helpers.validation.Validator
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HHOnBoardingMobileVM @Inject constructor(
@@ -41,7 +41,7 @@ class HHOnBoardingMobileVM @Inject constructor(
                 repository.verifyHouseholdParentMobile(state.phone?.value, request)) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        MyUserManager.user?.notificationStatuses = it
+                        SessionManager.user?.notificationStatuses = it
                         apiResponse?.invoke(it)
                         trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_PHONE_CORRECT.type)
                     }

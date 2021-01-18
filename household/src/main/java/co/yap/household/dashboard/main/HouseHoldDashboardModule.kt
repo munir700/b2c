@@ -10,7 +10,7 @@ import co.yap.yapcore.dagger.di.module.fragment.BaseFragmentModule
 import co.yap.yapcore.dagger.di.qualifiers.FragmentScope
 import co.yap.yapcore.dagger.di.qualifiers.ViewModelInjection
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import dagger.Module
 import dagger.Provides
 
@@ -37,7 +37,7 @@ class HouseHoldDashboardModule : BaseFragmentModule<HouseholdDashboardFragment>(
     @Provides
     @FragmentScope
     fun provideProfilePictureAdapter() =
-        ProfilePictureAdapter(MyUserManager.usersList?.value ?: mutableListOf(), null)
+        ProfilePictureAdapter(SessionManager.usersList?.value ?: mutableListOf(), null)
 
     @Provides
     @FragmentScope

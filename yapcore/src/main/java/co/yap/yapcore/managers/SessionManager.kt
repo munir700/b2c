@@ -14,12 +14,8 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.SingleLiveEvent
-import co.yap.yapcore.enums.AccountStatus
-import co.yap.yapcore.enums.AccountType
-import co.yap.yapcore.enums.CardType
-import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
@@ -46,6 +42,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var userLiveData: MutableLiveData<AccountInfo> = MutableLiveData<AccountInfo>()
     var switchProfile: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var userAddress: Address? = null
+
     //    @Deprecated("must use co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData")
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var card: MutableLiveData<Card?> = MutableLiveData()
@@ -54,7 +51,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
-    private const val DEFAULT_CURRENCY : String = "AED"
+    private const val DEFAULT_CURRENCY: String = "AED"
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -80,6 +77,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     fun getDefaultCurrencyDecimals(): Int = 2
+
     @Deprecated("Use GetAccountBalanceLiveData instead")
     fun updateCardBalance(success: () -> Unit) {
         getAccountBalanceRequest {
@@ -90,7 +88,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     @Deprecated("Not used anymore")
     fun getAccountInfo() {
         GlobalScope.launch {
-            when (val response = customersRepository.getAccountInfo()) {
+            when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     usersList?.postValue(response.data.data as ArrayList)
 //                    usersList?.value = response.data.data as ArrayList
@@ -156,6 +154,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
             }
         }
     }
+
     /*
          isOnBoarded:  This method is used for Household user to check if it's on boarded or not
       */
@@ -233,10 +232,19 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
+
             override fun onLogoutFailed() {
             }
         })
     }
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
+    fun shouldGoToHousehold(): Boolean {
+        val yapUser = getYapUser()
+        val householdUser = getHouseholdUser()
+        if ((yapUser != null && householdUser != null) || (yapUser == null && householdUser != null)) {
+            return true
+        }
+        return false
+    }
 }

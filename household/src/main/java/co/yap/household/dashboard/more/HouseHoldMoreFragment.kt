@@ -27,7 +27,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.livedata.LogOutLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_house_hold_more.*
 import javax.inject.Inject
 
@@ -76,7 +76,7 @@ class HouseHoldMoreFragment :
                         LogOutLiveData.getInstance(requireContext())
                             .observe(this@HouseHoldMoreFragment, Observer {
                                 if (it) {
-                                    MyUserManager.doLogout(requireContext())
+                                    SessionManager.doLogout(requireContext())
                                 }
                             })
                     },

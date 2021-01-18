@@ -36,7 +36,7 @@ import co.yap.yapcore.helpers.extentions.startFragment
 import co.yap.yapcore.helpers.extentions.toast
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.activity_household_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_header.*
 import kotlinx.android.synthetic.main.layout_drawer_header_expandable.*
@@ -159,7 +159,7 @@ class HouseholdDashboardFragment :
     override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
         when (subActionButtonId) {
             1 -> {
-                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     launchActivity<SendMoneyLandingActivity>()
                 } else {
                     showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
@@ -167,7 +167,7 @@ class HouseholdDashboardFragment :
             }
 
             2 -> {
-                if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
                     alert("Coming Soon")
                     // will perform required action here
                 } else {

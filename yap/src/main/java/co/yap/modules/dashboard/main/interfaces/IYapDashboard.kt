@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.main.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.networking.authentication.AuthRepository
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.yapcore.IBase

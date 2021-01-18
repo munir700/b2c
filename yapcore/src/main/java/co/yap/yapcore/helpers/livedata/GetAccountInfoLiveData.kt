@@ -8,7 +8,7 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.helpers.SingleSingletonHolder
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlin.coroutines.coroutineContext
 
 class GetAccountInfoLiveData : LiveDataCallAdapter<AccountInfo?>() {
@@ -23,8 +23,9 @@ class GetAccountInfoLiveData : LiveDataCallAdapter<AccountInfo?>() {
                 is RetroApiResponse.Success -> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
-                    MyUserManager.user = user
-                    MyUserManager.usersList?.value = usersList
+                    SessionManager.user = user
+                    SessionManager.usersList?.value = usersList
+                    SessionManager.setupDataSetForBlockedFeatures()
                     value = user
                 }
 

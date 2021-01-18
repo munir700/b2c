@@ -9,14 +9,13 @@
             name="viewModel"
             type="co.yap.modules.subaccounts.paysalary.entersalaryamount.EnterSalaryAmountVM" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.helpers.spannables.SpannableStringCreatorKt" />
 
         <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
-
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -73,11 +72,10 @@
                 android:minWidth="@dimen/_140sdp"
                 android:onTextChanged="@{viewModel.onAmountChange}"
                 android:text="@={viewModel.state.amount}"
-                app:amount_drawable="@drawable/bg_funds"
                 app:errorEnabled="@{true}"
                 app:forceKeyboard="@{true}"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
-                app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+                app:validAmount="@{SessionManager.INSTANCE.cardBalance.availableBalance}">
 
                 <requestFocus />
             </co.yap.widgets.EasyMoneyEditText>
@@ -88,7 +86,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(MyUserManager.INSTANCE.cardBalance.availableBalance??`0.00`,``)))}"
+                android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, CurrencyExtensionsKt.toFormattedCurrency((SessionManager.INSTANCE.cardBalance.availableBalance??`0.00`),true,SessionManager.INSTANCE.getDefaultCurrency(),true)))}"
                 tools:text="Your available balance is " />
 
             <co.yap.widgets.EasyMoneyEditText

@@ -14,7 +14,7 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.leanplum.trackEventWithAttributes
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HHOnBoardingCardSelectionVM @Inject constructor(
@@ -32,7 +32,7 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
                 state.cardDesigns?.postValue(it)
             }
         }
-        if (MyUserManager.isExistingUser()) {
+        if (SessionManager.isExistingUser()) {
             requestGetAddressForPhysicalCard {
             }
         }
@@ -78,7 +78,7 @@ class HHOnBoardingCardSelectionVM @Inject constructor(
                     address
                 )) {
                 is RetroApiResponse.Success -> {
-                    trackEventWithAttributes(MyUserManager.user, card_color = address.designCode)
+                    trackEventWithAttributes(SessionManager.user, card_color = address.designCode)
                     apiResponse?.invoke(true)
                     state.loading = false
                 }

@@ -21,7 +21,9 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,10 +87,10 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTransactionAmount"
                 style="@style/SmallGrey"
-                android:text="@{homeTransactionChildItemVM.item.txnType == null?` `:(TxnType.valueOf(homeTransactionChildItemVM.item.txnType) == TxnType.CREDIT?`+ ` + StringExtensionsKt.toFormattedCurrency(homeTransactionChildItemVM.item.amount.toString()): `- `+StringExtensionsKt.toFormattedCurrency(homeTransactionChildItemVM.item.totalAmount.toString())) }"
-                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:((homeTransactionChildItemVM.item.txnType != null &amp;&amp; TxnType.valueOf(homeTransactionChildItemVM.item.txnType) == TxnType.CREDIT)?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{homeTransactionChildItemVM.item.txnType == null?` `:(TxnType.valueOf(homeTransactionChildItemVM.item.txnType) == TxnType.CREDIT?`+ ` + CurrencyExtensionsKt.toFormattedCurrency(homeTransactionChildItemVM.item.amount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true): `- `+CurrencyExtensionsKt.toFormattedCurrency(homeTransactionChildItemVM.item.totalAmount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true)) }"
+                android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:((homeTransactionChildItemVM.item.txnType != null &amp;&amp; TxnType.valueOf(homeTransactionChildItemVM.item.txnType) == TxnType.CREDIT)?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 tools:text="18:25" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

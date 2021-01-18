@@ -10,7 +10,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.Constants.ACCOUNT_UUID
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class YoungChildKycHomeFragment :
     BaseNavViewModelFragment<FragmentYoungChildKycHomeBinding, IYoungChildKycHome.State, YoungChildKycHomeVM>() {
@@ -27,7 +27,7 @@ class YoungChildKycHomeFragment :
                     init = {
                         putExtra(
                             Constants.name,
-                            MyUserManager.user?.currentCustomer?.firstName.toString()
+                            SessionManager.user?.currentCustomer?.firstName.toString()
                         )
                         putExtra(Constants.data, true)
                         putExtra(ACCOUNT_UUID, "")

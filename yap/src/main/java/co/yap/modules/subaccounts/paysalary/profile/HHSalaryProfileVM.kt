@@ -78,7 +78,7 @@ class HHSalaryProfileVM @Inject constructor(override val state: IHHSalaryProfile
             when (val response =
                 transactionsHHRepository.getHHTransactionsByPage(accountUUID, request)) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {
+                    response.data.data.let {
                     }
                 }
                 is RetroApiResponse.Error -> {

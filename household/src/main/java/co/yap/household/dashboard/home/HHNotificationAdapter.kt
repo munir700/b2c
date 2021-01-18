@@ -31,7 +31,7 @@ class HHNotificationAdapter(mValue: MutableList<HomeNotification>, navigation: N
         init {
             val binding = mDataBinding as ItemHhNotificationBinding
             binding.ivCross.setOnClickListener {
-                listener?.onCloseClick(viewModel.getItem())
+                listener?.onCloseClick(viewModel.getItem(),adapterPosition)
             }
         }
     }

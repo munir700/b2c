@@ -9,7 +9,7 @@
             name="viewModel"
             type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
     </data>
 
@@ -85,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_6sdp"
-            android:text="@{MyUserManager.INSTANCE.userLiveData.currentCustomer.fullName}"
+            android:text="@{SessionManager.INSTANCE.userLiveData.currentCustomer.fullName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivLogo" />

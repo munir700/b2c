@@ -12,9 +12,8 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
-
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <variable
             name="viewModel"
@@ -68,7 +67,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/include2"
-                app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+                app:validAmount="@{SessionManager.INSTANCE.cardBalance.availableBalance}">
 
                 <requestFocus />
             </co.yap.widgets.EasyMoneyEditText>
@@ -78,7 +77,7 @@
                 style="@style/Yap.App.Widget.TextView.Small.GrayDark"
                 android:layout_marginTop="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:text="@{SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.state.availableBalance??`0.00`,``)))}"
+                android:text="@{SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.availableBalance??`0.00`,true,SessionManager.INSTANCE.getDefaultCurrency(),true)))}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAmount" />

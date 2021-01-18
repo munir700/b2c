@@ -27,6 +27,8 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     fun getLayoutId(): Int = R.layout.fragment_qr_code
     var permissionHelper: PermissionHelper? = null
 
+
+    override var shouldRegisterViewModelLifeCycle: Boolean = true
     override val viewModel: IQRCode.ViewModel
         get() = ViewModelProviders.of(this).get(QRCodeViewModel::class.java)
 
@@ -60,6 +62,9 @@ class QRCodeFragment : DialogFragment(), IQRCode.View {
     ): View? {
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
         return viewDataBinding.root
+    }
+
+    override fun performDataBinding(savedInstanceState: Bundle?) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

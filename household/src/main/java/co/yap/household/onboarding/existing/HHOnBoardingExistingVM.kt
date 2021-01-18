@@ -6,7 +6,7 @@ import co.yap.networking.customers.CustomersApi
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HHOnBoardingExistingVM @Inject constructor(
@@ -25,7 +25,7 @@ class HHOnBoardingExistingVM @Inject constructor(
                 is RetroApiResponse.Success -> {
 
                     response.data.data?.let {
-                        MyUserManager.user?.notificationStatuses = it
+                        SessionManager.user?.notificationStatuses = it
                         apiResponse?.invoke(it)
                     }
                     state.loading = false

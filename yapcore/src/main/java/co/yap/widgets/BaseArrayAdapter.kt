@@ -10,11 +10,12 @@ import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavController
+import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.BaseListItemViewModel
 import co.yap.yapcore.BaseViewHolder
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-abstract class BaseArrayAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
+abstract class BaseArrayAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
     (private var datas: MutableList<T>, private var navigation: NavController?) : BaseAdapter() {
     @Nullable
     var onItemClickListener: OnItemClickListener? = null

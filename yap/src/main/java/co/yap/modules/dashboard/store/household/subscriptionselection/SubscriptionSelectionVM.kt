@@ -14,7 +14,7 @@ import co.yap.widgets.radiocus.PresetRadioGroup
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.enums.PackageType
-import co.yap.yapcore.helpers.extentions.toFormattedAmountWithCurrency
+import co.yap.yapcore.helpers.extentions.toFormattedCurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import javax.inject.Inject
@@ -68,8 +68,8 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
             } else {
                 yearlyFee = 0.0
             }
-            state.monthlyFee.value = monthlyFee.toString().toFormattedAmountWithCurrency()
-            state.annuallyFee.value = yearlyFee.toString().toFormattedAmountWithCurrency()
+            state.monthlyFee.value = monthlyFee.toString().toFormattedCurrency()
+            state.annuallyFee.value = yearlyFee.toString().toFormattedCurrency()
             val planList = mutableListOf<HouseHoldPlan>()
             planList.add(
                 HouseHoldPlan(
@@ -108,6 +108,7 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
         }
         return discountPercent
     }
+
     override var onCheckedChangeListener: PresetRadioGroup.OnCheckedChangeListener? =
         object : PresetRadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(

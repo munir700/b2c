@@ -8,7 +8,7 @@
             name="viewModel"
             type="co.yap.household.dashboard.main.HouseHoldDashBoardVM" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
 
     <net.cachapa.expandablelayout.ExpandableLayout
@@ -38,7 +38,7 @@
                 style="@style/AMicro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{MyUserManager.INSTANCE.userLiveData.prepaidAccountNo}"
+                android:text="@{SessionManager.INSTANCE.userLiveData.prepaidAccountNo}"
                 app:layout_constraintStart_toStartOf="@id/tvAccountHeading"
                 app:layout_constraintTop_toBottomOf="@id/tvAccountHeading" />
 
@@ -57,7 +57,7 @@
                 style="@style/AMicro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{MyUserManager.INSTANCE.userLiveData.emiratesID}"
+                android:text="@{SessionManager.INSTANCE.userLiveData.emiratesID}"
                 app:layout_constraintStart_toStartOf="@id/tvIbanHeading"
                 app:layout_constraintTop_toBottomOf="@id/tvIbanHeading" />
 

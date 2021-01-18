@@ -49,13 +49,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
-        if (shouldRegisterViewModelLifeCycle)
+        if (shouldRegisterViewModelLifeCycle) {
             registerStateListeners()
+
+        }
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
-        viewModel.toolBarClickEvent.observe(this, Observer {
-            onToolBarClick(it)
-        })
+
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -244,6 +244,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     open fun registerStateListeners() {
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }

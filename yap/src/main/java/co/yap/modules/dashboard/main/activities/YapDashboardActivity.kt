@@ -500,13 +500,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private fun setupMultiAccountSideMenu() {
         viewModel.profilePictureAdapter?.set(
             ProfilePictureAdapter(
-                MyUserManager.usersList?.value ?: mutableListOf(), null
+                SessionManager.usersList?.value ?: mutableListOf(), null
             )
         )
         viewModel.profilePictureAdapter?.get()?.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 if (data is AccountInfo) {
-                    if (data.accountType == AccountType.B2C_ACCOUNT.name) {
+                    if (data.accountType == AccountType.B2C_HOUSEHOLD.name) {
                         data.uuid?.let {
                             SwitchProfileLiveData.get(it, this@YapDashboardActivity)
                                 .observe(this@YapDashboardActivity, Observer<AccountInfo?> {
@@ -514,6 +514,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                                     finish()
                                 })
                         }
+                    }
+                    else{
+                        launchActivity<MoreActivity> {  }
                     }
                 }
             }

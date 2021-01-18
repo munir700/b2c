@@ -15,6 +15,7 @@ import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
+import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.startSmsConsent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
@@ -143,7 +144,7 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
 
     override fun onDestroy() {
         super.onDestroy()
-        Utils.hideKeyboard(otp_view)
+        otp_view.hideKeyboard()
         removeObservers()
     }
 

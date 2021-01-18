@@ -23,7 +23,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_DATE_MON_YEAR
 import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
 import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.NotificationHelper
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HouseHoldHomeVM @Inject constructor(
@@ -106,7 +106,7 @@ class HouseHoldHomeVM @Inject constructor(
                             notificationAdapter.notifyChange()
                             notificationAdapter.get()?.setData(
                                 NotificationHelper.getNotifications(
-                                    MyUserManager.user, state.card?.value, context
+                                    SessionManager.user, state.card?.value, context
                                 )
                             )
                         } else {

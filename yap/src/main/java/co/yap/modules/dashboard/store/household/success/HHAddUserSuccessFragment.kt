@@ -12,7 +12,7 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.share
 import co.yap.yapcore.leanplum.HHSubscriptionEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class HHAddUserSuccessFragment :
     BaseNavViewModelFragment<FragmentHhAddUserSuccessBinding, IHHAddUserSuccess.State, HHAddUserSuccessVM>() {
@@ -32,7 +32,7 @@ class HHAddUserSuccessFragment :
                 requireContext().share(
                     getString(Strings.screen_yap_house_hold_confirm_payment_share_text).format(
                         state.onBoardRequest?.value?.getFullName(),
-                        MyUserManager.user?.currentCustomer?.firstName,
+                        SessionManager.user?.currentCustomer?.firstName,
                         state.onBoardRequest?.value?.countryCode.plus(state.onBoardRequest?.value?.mobileNo),
                         state.onBoardRequest?.value?.tempPassCode,
                         Constants.URL_SHARE_APP_STORE,

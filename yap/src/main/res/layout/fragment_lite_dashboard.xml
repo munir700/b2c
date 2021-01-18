@@ -94,7 +94,7 @@
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginBottom="@dimen/margin_medium"
             android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification()}"
-            android:visibility="@{AccountStatus.valueOf(SessionManager.INSTANCE.getUser().notificationStatuses)==NotificationStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
+            android:visibility="@{AccountStatus.valueOf(SessionManager.INSTANCE.getUser().notificationStatuses)==AccountStatus.ON_BOARDED?View.VISIBLE:View.GONE}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -22,7 +22,7 @@ import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_hhon_boarding_card_selection.*
@@ -95,7 +95,7 @@ class HHOnBoardingCardSelectionFragment :
                         init = {
                             putExtra(
                                 Constants.name,
-                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                                SessionManager.user?.currentCustomer?.firstName.toString()
                             )
                             putExtra(Constants.data, false)
                         }, completionHandler = { resultCode, data ->

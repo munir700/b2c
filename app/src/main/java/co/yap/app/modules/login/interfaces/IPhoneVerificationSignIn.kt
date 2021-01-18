@@ -6,6 +6,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.AccountInfo
 
 interface IPhoneVerificationSignIn {
 

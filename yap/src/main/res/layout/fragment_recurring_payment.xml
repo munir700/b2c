@@ -15,7 +15,7 @@
 
         <import type="java.util.Calendar" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.enums.PackageType" />
 
@@ -90,7 +90,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideLine"
             app:layout_constraintTop_toBottomOf="@+id/include4"
-            app:validAmount="@{MyUserManager.INSTANCE.cardBalance.availableBalance}">
+            app:validAmount="@{SessionManager.INSTANCE.cardBalance.availableBalance}">
 
             <requestFocus />
         </co.yap.widgets.EasyMoneyEditText>

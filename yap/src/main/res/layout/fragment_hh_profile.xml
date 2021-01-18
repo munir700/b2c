@@ -48,7 +48,7 @@
                 layout="@layout/layout_horizontal_text_views"
                 app:title="@{`Contact number`}"
                 app:value="@{viewModel.state.customer.mobileNo}" />
-            <!--        app:value="@{MyUserManager.INSTANCE.user.currentCustomer.getFormattedPhoneNumber(context)}"-->
+            <!--        app:value="@{SessionManager.INSTANCE.user.currentCustomer.getFormattedPhoneNumber(context)}"-->
             <include
                 android:id="@+id/layoutEmail"
                 layout="@layout/layout_horizontal_text_views"

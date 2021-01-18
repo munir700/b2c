@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -197,7 +199,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun logoutAlert() {
-        AlertDialog.Builder(this.activity!!)
+        AlertDialog.Builder(this.requireActivity())
             .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
             .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
             .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),

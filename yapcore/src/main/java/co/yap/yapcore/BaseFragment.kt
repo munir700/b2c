@@ -28,9 +28,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         super.onViewCreated(view, savedInstanceState)
         if (shouldRegisterViewModelLifeCycle)
             registerStateListeners()
-        viewModel.toolBarClickEvent.observe(this, Observer {
-            onToolBarClick(it)
-        })
+
     }
 
     override fun onDestroyView() {
@@ -135,6 +133,9 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     }
 
     open fun registerStateListeners() {
+        viewModel.toolBarClickEvent.observe(this, Observer {
+            onToolBarClick(it)
+        })
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }

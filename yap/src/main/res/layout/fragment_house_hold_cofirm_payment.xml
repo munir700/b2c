@@ -15,7 +15,9 @@
 
         <import type="co.yap.yapcore.helpers.spannables.SpannableKt" />
 
-        <import type="co.yap.yapcore.helpers.extentions.StringExtensionsKt" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
 
         <variable
             name="viewModel"
@@ -53,9 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_normal"
-            android:maxLines="2"
-            android:lineSpacingExtra="1dp"
             android:gravity="center_horizontal"
+            android:lineSpacingExtra="1dp"
+            android:maxLines="2"
             android:text="@{viewModel.state.onBoardRequest.fullName}"
             tools:text="Faheem Rdsadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaiaz" />
 
@@ -169,7 +171,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:gravity="center"
-            android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, StringExtensionsKt.toFormattedAmountWithCurrency(viewModel.state.availableBalance,``)))}"
+            android:text="@{ SpannableStringCreatorKt.getText(context.resources, viewModel.getString(Strings.screen_cash_transfer_display_text_available_balance),SpannableKt.color(@color/colorPrimaryDark, CurrencyExtensionsKt.toFormattedCurrency(viewModel.state.availableBalance,true,SessionManager.INSTANCE.getDefaultCurrency(),true)))}"
             tools:text="Your available balance is " />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -191,12 +193,12 @@
         <co.yap.widgets.CoreButton
             android:id="@+id/confirmButton"
             style="@style/FragmentsBtnStyle"
+            enableCoreButton="@{ParseExtenstionKt.parseToDouble(viewModel.state.selectedPlan.amount)>ParseExtenstionKt.parseToDouble(viewModel.state.availableBalance) ? false:true}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            enableCoreButton="@{ParseExtenstionKt.parseToDouble(viewModel.state.selectedPlan.amount)>ParseExtenstionKt.parseToDouble(viewModel.state.availableBalance) ? false:true}"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:text="@{Strings.screen_yap_house_hold_display_button_confirm}"

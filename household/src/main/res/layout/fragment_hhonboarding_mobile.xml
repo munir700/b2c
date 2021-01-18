@@ -12,7 +12,7 @@
 
         <import type="co.yap.translation.Translator" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -31,11 +31,11 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center_horizontal"
-            android:text="@{MyUserManager.INSTANCE.existingUser?@string/screen_house_hold_existing_number_registration_display_text_heading:@string/screen_house_hold_number_registration_display_text_heading }"
+            android:text="@{SessionManager.INSTANCE.existingUser?@string/screen_house_hold_existing_number_registration_display_text_heading:@string/screen_house_hold_number_registration_display_text_heading }"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:text="@{MyUserManager.INSTANCE.existingUser?Strings.screen_house_hold_existing_number_registration_display_text_heading: Strings.screen_house_hold_number_registration_display_text_heading}"
+            app:text="@{SessionManager.INSTANCE.existingUser?Strings.screen_house_hold_existing_number_registration_display_text_heading: Strings.screen_house_hold_number_registration_display_text_heading}"
             tools:text="@string/screen_house_hold_number_registration_display_text_heading" />
 
         <androidx.appcompat.widget.AppCompatTextView

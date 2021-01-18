@@ -8,7 +8,7 @@ import co.yap.household.databinding.FragmentHhonBoardingInvalidEidBinding
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.livedata.LogOutLiveData
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class HHOnBoardingInvalidEidFragment :
     BaseNavViewModelFragment<FragmentHhonBoardingInvalidEidBinding, IHHOnBoardingInvalidEid.State, HHOnBoardingInvalidEidVM>() {
@@ -30,7 +30,7 @@ class HHOnBoardingInvalidEidFragment :
                     LogOutLiveData.getInstance(requireContext())
                         .observe(this@HHOnBoardingInvalidEidFragment, Observer {
                             if (it) {
-                                MyUserManager.doLogout(requireContext())
+                                SessionManager.doLogout(requireContext())
                             }
                         })
                 },

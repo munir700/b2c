@@ -11,7 +11,7 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import kotlinx.android.synthetic.main.fragment_kyc_success.*
 
 class KycSuccessFragment :
@@ -24,7 +24,7 @@ class KycSuccessFragment :
 
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
-        if (MyUserManager.isExistingUser()) {
+        if (SessionManager.isExistingUser()) {
             trackAdjustPlatformEvent(AdjustEvents.HH_USER_EXISTING_ACCOUNT_ACTIVE.type)
         } else {
             trackAdjustPlatformEvent(AdjustEvents.ONBOARD_NEW_HH_USER_ONBOARDING_SUCCESS.type)

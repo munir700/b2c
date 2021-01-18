@@ -20,7 +20,7 @@ class CurrencyInputRule(
     override fun isValid(view: EasyMoneyEditText?): Boolean {
         if (isEmpty(view))
             return false
-        else if (view?.valueString.parseToDouble() > (value ?: 0.00)) {
+        else if (view?.getValueString().parseToDouble() > (value ?: 0.00)) {
             return false
         }
         return true
@@ -34,7 +34,7 @@ class CurrencyInputRule(
 
     override fun onValidationFailed(view: EasyMoneyEditText?) {
         view?.apply {
-            if (errorEnabled && valueString.parseToDouble() > (value ?: 0.00)) background =
+            if (errorEnabled && getValueString().parseToDouble() > (value ?: 0.00)) background =
                 ContextCompat.getDrawable(context, R.drawable.bg_funds_error)
         }
     }

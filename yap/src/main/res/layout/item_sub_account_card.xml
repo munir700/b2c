@@ -9,7 +9,7 @@
             name="subAccountCardItemVm"
             type="co.yap.modules.subaccounts.account.card.SubAccountCardItemVM" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.enums.AccountType" />
 
@@ -55,8 +55,8 @@
                 android:src="@drawable/ic_add_card"
                 android:visibility="visible"
                 app:drawableName="@{subAccountCardItemVm.item.accountType==null? `ic_add_card`:null}"
-                app:fullName="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?MyUserManager.INSTANCE.user.currentCustomer.fullName:subAccountCardItemVm.item.fullName}"
-                app:imageUrl="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?MyUserManager.INSTANCE.user.currentCustomer.picture:subAccountCardItemVm.item.profilePictureUrl}"
+                app:fullName="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?SessionManager.INSTANCE.user.currentCustomer.fullName:subAccountCardItemVm.item.fullName}"
+                app:imageUrl="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?SessionManager.INSTANCE.user.currentCustomer.picture:subAccountCardItemVm.item.profilePictureUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/margin_medium"
-                android:text="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?(MyUserManager.INSTANCE.cardBalance.availableBalance??`0.00`):subAccountCardItemVm.status}"
+                android:text="@{(subAccountCardItemVm.item.accountType !=null &amp;&amp; AccountType.valueOf(subAccountCardItemVm.item.accountType) == AccountType.B2C_ACCOUNT)?(SessionManager.INSTANCE.cardBalance.availableBalance??`0.00`):subAccountCardItemVm.status}"
                 android:textColor="@{subAccountCardItemVm.item.accountType ==null?@color/colorPrimaryDark:subAccountCardItemVm.statusColorResId , default = @color/colorPrimaryDark}"
                 android:textSize="@dimen/text_size_h2"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -9,7 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.dagger.base.viewmodel.DaggerBaseViewModel
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HHOnBoardingPassCodeVM @Inject constructor(
@@ -34,7 +34,7 @@ class HHOnBoardingPassCodeVM @Inject constructor(
                 )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        MyUserManager.user?.notificationStatuses = it
+                        SessionManager.user?.notificationStatuses = it
                         apiResponse?.invoke(true)
                         trackEvent(HHUserOnboardingEvents.ONBOARDING_NEW_HH_USER_PASSCODE_CREATED.type)
                     }

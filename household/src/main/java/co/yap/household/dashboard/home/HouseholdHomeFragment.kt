@@ -29,7 +29,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.launchActivityForResult
 import co.yap.yapcore.helpers.livedata.GetAccountBalanceLiveData
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 import javax.inject.Inject
 
 class HouseholdHomeFragment :
@@ -80,7 +80,7 @@ class HouseholdHomeFragment :
                         launchActivity<DocumentsDashboardActivity>() {
                             putExtra(
                                 Constants.name,
-                                MyUserManager.user?.currentCustomer?.firstName.toString()
+                                SessionManager.user?.currentCustomer?.firstName.toString()
                             )
                             putExtra(Constants.data, false)
                         }

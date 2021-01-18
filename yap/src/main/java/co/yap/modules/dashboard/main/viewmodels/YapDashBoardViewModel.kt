@@ -30,7 +30,7 @@ class YapDashBoardViewModel(application: Application) :
     override val state: YapDashBoardState = YapDashBoardState()
     override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
     override val profilePictureAdapter: ObservableField<ProfilePictureAdapter>? =
-        ObservableField<ProfilePictureAdapter>()
+        ObservableField()
     override val repository: MessagesRepository = MessagesRepository
     val customerRepository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(application)

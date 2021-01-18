@@ -80,4 +80,4 @@ class AccountInfo(
     var EIDExpiryMessage: String? = null,
     @SerializedName("encryptedAccountUUID")
     var encryptedAccountUUID: String? = null
-) : Parcelable
+):ApiResponse(), Parcelable

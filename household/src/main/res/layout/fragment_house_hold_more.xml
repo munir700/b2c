@@ -6,7 +6,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
+        <import type="co.yap.yapcore.managers.SessionManager" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
 
@@ -48,8 +48,8 @@
                 app:bgColor="@{R.color.colorPrimaryHouseHold}"
                 app:civ_border_color="#4DFFFFFF"
                 app:civ_border_width="3dp"
-                app:fullName="@{MyUserManager.INSTANCE.getUser().currentCustomer.fullName}"
-                app:imageUrl="@{MyUserManager.INSTANCE.getUser().currentCustomer.picture}"
+                app:fullName="@{SessionManager.INSTANCE.getUser().currentCustomer.fullName}"
+                app:imageUrl="@{SessionManager.INSTANCE.getUser().currentCustomer.picture}"
                 app:initialTextColor="@{R.color.white}"
                 app:initialTextSize="@{R.dimen.text_size_h3}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
                 android:id="@+id/tvName"
                 style="@style/Yap.App.Widget.TextView.FullName"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="@{MyUserManager.INSTANCE.userLiveData.currentCustomer.fullName}"
+                android:text="@{SessionManager.INSTANCE.userLiveData.currentCustomer.fullName}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_h3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -84,9 +84,9 @@
                 android:id="@+id/tvBic"
                 style="@style/Yap.App.Widget.TextView.Small"
                 android:layout_marginTop="@dimen/_1sdp"
-                android:text="@{SpannableKt.plus(SpannableKt.bold(`BIC `), Utils.INSTANCE.formateIbanString(MyUserManager.INSTANCE.user.bank.swiftCode))}"
+                android:text="@{SpannableKt.plus(SpannableKt.bold(`BIC `), Utils.INSTANCE.formateIbanString(SessionManager.INSTANCE.user.bank.swiftCode))}"
                 android:textColor="@color/white"
-                android:visibility="@{StringExtensionsKt.isEmpty(MyUserManager.INSTANCE.user.bank.swiftCode)?View.GONE:View.VISIBLE}"
+                android:visibility="@{StringExtensionsKt.isEmpty(SessionManager.INSTANCE.user.bank.swiftCode)?View.GONE:View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvIban"

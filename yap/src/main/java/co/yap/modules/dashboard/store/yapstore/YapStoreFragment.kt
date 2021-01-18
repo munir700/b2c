@@ -16,12 +16,12 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.helpers.extentions.launchActivity
-import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.managers.SessionManager
 
 class YapStoreFragment :
     BaseRecyclerViewFragment<FragmentYapStoreBinding, IYapStore.State, YapStoreVM, YapStoreFragment.Adapter, Store>() {
     override fun getBindingVariable() = BR.viewModel
-    override fun getLayoutId() = R.layout.fragment_yap_store
+    override fun getLayoutId() = R.layout.fragment_yap_store_v2
     override fun postExecutePendingBindings(savedInstanceState: Bundle?) {
         super.postExecutePendingBindings(savedInstanceState)
         setRefreshEnabled(false)
@@ -61,7 +61,7 @@ class YapStoreFragment :
                             R.id.houseHoldStore -> {
                                 var navGraphId = 0
                                 var startDescription = 0
-                                MyUserManager.user?.let {
+                                SessionManager.user?.let {
                                     if (it.noOfSubAccounts == null || it.noOfSubAccounts == 0) {
                                         navGraphId = R.navigation.add_house_hold_user_navigation
                                         startDescription = R.id.houseHoldLandingFragment

@@ -1,7 +1,7 @@
-package co.yap.modules.dashboard.cards.paymentcarddetail.activities.carddetaildialog
+package co.yap.modules.carddetaildialog
 
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.databinding.DialogCardDetailsCardSerialNumberBinding
+import co.yap.yapcore.databinding.DialogCardDetailsCardSerialNumberBinding
 import co.yap.yapcore.helpers.extentions.toCamelCase
 
 class CardDetailsSerialNumberViewHolder(private val dialogCardDetailsCardSerialNumberBinding: DialogCardDetailsCardSerialNumberBinding) :

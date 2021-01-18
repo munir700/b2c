@@ -5,72 +5,109 @@
 
     <data>
 
+        <import type="co.yap.R" />
+
+        <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
+
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.store.yapstore.YapStoreVM" />
+            type="co.yap.modules.dashboard.store.fragments.YapStoreViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgStoreShopping"
-            android:layout_width="@dimen/_36sdp"
-            android:layout_height="@dimen/_36sdp"
-            android:layout_marginTop="@dimen/margin_extra_small"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:contentDescription="@string/empty_string"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:tint="?attr/colorPrimaryDarkAttr"
+        <co.yap.widgets.CoreToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.state.toolbarVisibility ? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_shopping_store" />
+            app:onClick="@{viewModel::onToolBarClick}"
+            app:rightIcon="@{R.drawable.ic_shopping_store_new}"
+            app:rightIconVisibility="@{viewModel.state.rightIconVisibility}"
+            app:titleString="@{viewModel.state.toolbarTitle}" />
 
-        <include
-            layout="@layout/refresh_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:adapter="@{viewModel.adapter}"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/topView">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvYapStoreTitle"
-            style="@style/Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:gravity="center"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/imgStoreShopping"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgStoreShopping"
-            app:text="@{Strings.screen_yap_store_display_text_title}"
-            tools:text="@string/screen_yap_store_display_text_title" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvYapStoreHeading"
-            style="@style/Large"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_btn_side_paddings"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_btn_side_paddings"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:gravity="center"
-            android:lineSpacingExtra="0dp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreTitle"
-            app:text="@{Strings.screen_yap_store_display_text_heading}"
-            tools:text="@string/screen_yap_store_display_text_heading" />
+                <TextView
+                    android:id="@+id/tvYapStoreHeading"
+                    style="@style/Large"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_btn_side_paddings"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_btn_side_paddings"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:lineSpacingExtra="0dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:text="@{Strings.screen_yap_store_display_text_heading}"
+                    tools:text="@string/screen_yap_store_display_text_heading" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <RelativeLayout
+                    android:id="@+id/list_section"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading">
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
+
+                    <!-- Your Desired landing design-->
+                    <TextView
+                        android:id="@+id/txt_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Unable to fetch data."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_20sdp"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_stores"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:dividerHeight="2dp"
+                        android:visibility="visible"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_yap_store" />
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

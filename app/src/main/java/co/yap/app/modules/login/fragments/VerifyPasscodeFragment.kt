@@ -1,11 +1,29 @@
+package co.yap.app.modules.login.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.hardware.fingerprint.FingerprintManager
+import android.os.Bundle
+import android.view.View
+import androidx.annotation.Keep
+import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import co.yap.BR
+import co.yap.app.R
+import co.yap.app.constants.Constants
+import co.yap.app.main.MainActivity
+import co.yap.app.main.MainChildFragment
+import co.yap.app.modules.login.interfaces.IVerifyPasscode
+import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
+import co.yap.household.onboarding.main.OnBoardingHouseHoldActivity
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.others.helper.Constants.REQUEST_CODE
 import co.yap.modules.otp.GenericOtpFragment
 import co.yap.modules.otp.OtpDataModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.translation.Strings
 import co.yap.widgets.NumberKeyboardListener
 import co.yap.yapcore.constants.Constants.KEY_APP_UUID
@@ -20,13 +38,11 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
-import co.yap.yapcore.helpers.GsonProvider
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
 import co.yap.yapcore.leanplum.trackEvent
@@ -294,7 +310,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
             trackEvents(it)
-            SessionManager.updateCardBalance {  }
+            SessionManager.updateCardBalance { }
             viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
             if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                     KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
@@ -323,19 +339,20 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                     navigate(action)
                 }
             } else {
-                if (SessionManager.shouldGoToHousehold()) {
-                    SessionManager.user?.uuid?.let { it1 ->
-                        SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
-                            .observe(this@VerifyPasscodeFragment, switchProfileObserver)
-                    }
-
+                if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
+                    startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                 } else {
-                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                    else
-                        launchActivity<YapDashboardActivity> {  }
+                    if (SessionManager.shouldGoToHousehold()) {
+                        SessionManager.user?.uuid?.let { it1 ->
+                            SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
+                                .observe(this@VerifyPasscodeFragment, switchProfileObserver)
+                        }
 
-                    activity?.finish()
+                    } else {
+                        launchActivity<YapDashboardActivity> { }
+
+                        activity?.finish()
+                    }
                 }
             }
         }
@@ -395,10 +412,14 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 //                    SessionManager.user = SessionManager.getCurrentUser()
 //                }
                 context.switchTheme(HOUSEHOLD())
-                SessionManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
+                SessionManager.user?.notificationStatuses =
+                    AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
-                    putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)
+                    putExtra(
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
+                    )
                 }
             }
         }
