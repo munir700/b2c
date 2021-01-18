@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.home.filters.models.TransactionFilters
@@ -9,16 +8,20 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.CustomersRepository.updateFxRate
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.customers.responsedtos.sendmoney.FxRateRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.notification.NotificationAction
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
+import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.extentions.getFormattedDate
@@ -236,7 +239,8 @@ class YapHomeViewModel(application: Application) :
                 HomeNotification(
                     id = "1",
                     description = "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
-                    action = NotificationAction.HELP_AND_SUPPORT
+                    action = NotificationAction.HELP_AND_SUPPORT,
+                    imgResId = R.raw.gif_notification_bel
                 )
             )
         }
@@ -251,7 +255,8 @@ class YapHomeViewModel(application: Application) :
                     id = "2",
                     title = "Complete Verification",
                     description = "Complete verification to activate your account.",
-                    action = NotificationAction.COMPLETE_VERIFICATION
+                    action = NotificationAction.COMPLETE_VERIFICATION,
+                    imgResId = R.raw.gif_general_notification
                 )
             )
         }
@@ -262,7 +267,7 @@ class YapHomeViewModel(application: Application) :
                     id = "3",
                     title = "Set PIN",
                     description = "This 4-digit code is yours to keep. Please don't share it with anyone",
-                    action = NotificationAction.SET_PIN
+                    action = NotificationAction.SET_PIN, imgResId = R.raw.gif_set_pin
                 )
             )
         }
@@ -276,7 +281,8 @@ class YapHomeViewModel(application: Application) :
                     title = "Renew ID",
                     description = accountInfo.EIDExpiryMessage
                         ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
-                    action = NotificationAction.UPDATE_EMIRATES_ID
+                    action = NotificationAction.UPDATE_EMIRATES_ID,
+                    imgResId = R.raw.gif_general_notification
                 )
             )
         }
@@ -287,12 +293,12 @@ class YapHomeViewModel(application: Application) :
                     HomeNotification(
                         id = "5",
                         description = description,
-                        action = NotificationAction.CARD_FEATURES_BLOCKED
+                        action = NotificationAction.CARD_FEATURES_BLOCKED,
+                        imgResId = R.raw.gif_notification_bel
                     )
                 )
             }
         }
-
         return list
     }
 
@@ -304,7 +310,31 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
+    override fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit) {
+
+        val homeCountry = SessionManager.getCountries()
+            .find { it.isoCountryCode2Digit == SessionManager.user?.currentCustomer?.homeCountry ?: "" }
+        launch(Dispatcher.Background) {
+            val response =
+                updateFxRate(
+                    FxRateRequest(
+                        other_bank_country = homeCountry?.isoCountryCode2Digit ?: ""
+                    )
+                )
+            launch {
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        fxRate.invoke(response.data.data)
+                    }
+                    is RetroApiResponse.Error -> {
+                    }
+                }
+            }
+        }
+    }
+
     override fun fetchTransactionDetailsForLeanplum(cardStatus: String?) {
+        //getFxRates() {
         launch {
             when (val response = transactionsRepository.getTransDetailForLeanplum()) {
                 is RetroApiResponse.Success -> {
@@ -330,8 +360,8 @@ class YapHomeViewModel(application: Application) :
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    Log.d("", "")
                 }
+                //     }
             }
         }
     }

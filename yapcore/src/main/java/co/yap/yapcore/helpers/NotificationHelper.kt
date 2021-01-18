@@ -24,6 +24,18 @@ object NotificationHelper {
         paymentCard: Card?,
         context: Context
     ): ArrayList<HomeNotification> {
+        return getNotification(
+            accountInfo,
+            paymentCard,
+            context
+        )
+    }
+
+    private fun getNotification(
+        accountInfo: AccountInfo?,
+        paymentCard: Card?,
+        context: Context
+    ): ArrayList<HomeNotification> {
         if ((accountInfo?.notificationStatuses == AccountStatus.EID_EXPIRED.name
                     || accountInfo?.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
         ) {
@@ -35,13 +47,25 @@ object NotificationHelper {
             list.add(
                 HomeNotification(
                     id = "1",
+                    title = Translator.getString(
+                        context,
+                        Strings.screen_help_support_display_text_title
+                    ),
+                    subTitle = Translator.getString(
+                        context,
+                        Strings.screen_help_support_display_text_title
+                    ),
                     description = Translator.getString(
                         context,
                         Strings.screen_home_help_and_support_desc
                     ),
                     action = NotificationAction.HELP_AND_SUPPORT,
                     imgResId = R.raw.gif_notification_bel,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    btnTitle = "Open " + Translator.getString(
+                        context,
+                        Strings.screen_help_support_display_text_title
+                    )
                 )
             )
         }
@@ -57,6 +81,9 @@ object NotificationHelper {
                     title = Translator.getString(
                         context,
                         Strings.screen_b2c_kyc_home_display_text_screen_title
+                    ), subTitle = Translator.getString(
+                        context,
+                        Strings.screen_b2c_kyc_home_display_text_screen_title
                     ),
                     description = Translator.getString(
                         context,
@@ -64,7 +91,11 @@ object NotificationHelper {
                     ),
                     action = NotificationAction.COMPLETE_VERIFICATION,
                     imgResId = R.raw.gif_general_notification,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    btnTitle = Translator.getString(
+                        context,
+                        Strings.screen_b2c_kyc_home_display_text_screen_title
+                    )
                 )
             )
         }
@@ -76,11 +107,18 @@ object NotificationHelper {
                     title = Translator.getString(
                         context,
                         Strings.dashboard_timeline_set_pin_stage_action_title
+                    ), subTitle = Translator.getString(
+                        context,
+                        Strings.dashboard_timeline_set_pin_stage_action_title
                     ),
                     description = Translator.getString(context, Strings.screen_home_set_pin_desc),
                     action = NotificationAction.SET_PIN,
                     imgResId = R.raw.gif_set_pin,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    btnTitle = Translator.getString(
+                        context,
+                        Strings.dashboard_timeline_set_pin_stage_action_title
+                    ) + " now"
                 )
             )
         }
@@ -91,13 +129,21 @@ object NotificationHelper {
                 HomeNotification(
                     id = "4",
                     title = Translator.getString(context, Strings.screen_home_renewed_id_title),
-                    description = Translator.getString(
+                    subTitle = Translator.getString(
+                        context,
+                        Strings.screen_home_renewed_id_title
+                    ),
+                    description = accountInfo?.EIDExpiryMessage ?: Translator.getString(
                         context,
                         Strings.screen_home_renewed_id_desc
                     ),
                     action = NotificationAction.UPDATE_EMIRATES_ID,
                     imgResId = R.raw.gif_general_notification,
-                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                    createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                    btnTitle = Translator.getString(
+                        context,
+                        Strings.screen_b2c_eid_info_review_button_title_scan_eid
+                    )
                 )
             )
         }
@@ -106,10 +152,18 @@ object NotificationHelper {
                 list.add(
                     HomeNotification(
                         id = "5",
+                        title = Translator.getString(
+                            context,
+                            Strings.screen_notification_listing_display_text_toolbar_title
+                        ),
                         description = description,
                         action = NotificationAction.CARD_FEATURES_BLOCKED,
-                        imgResId = R.raw.gif_general_notification,
-                        createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                        imgResId = R.raw.gif_notification_bel,
+                        createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                        btnTitle = Translator.getString(
+                            context,
+                            Strings.screen_help_support_display_text_call_us
+                        )
                     )
                 )
             }
@@ -126,11 +180,11 @@ object NotificationHelper {
         }
     }
 
-    fun getNotificationTestData(
+    private fun getNotificationTestData(
         accountInfo: AccountInfo?,
         paymentCard: Card?,
         context: Context
-    ): MutableList<HomeNotification> {
+    ): ArrayList<HomeNotification> {
 
         val list = ArrayList<HomeNotification>()
         list.add(
@@ -140,13 +194,21 @@ object NotificationHelper {
                     context,
                     Strings.screen_help_support_display_text_title
                 ),
+                subTitle = Translator.getString(
+                    context,
+                    Strings.screen_help_support_display_text_title
+                ),
                 description = Translator.getString(
                     context,
                     Strings.screen_home_help_and_support_desc
                 ),
                 action = NotificationAction.HELP_AND_SUPPORT,
                 imgResId = R.raw.gif_notification_bel,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                btnTitle = "Open " + Translator.getString(
+                    context,
+                    Strings.screen_help_support_display_text_title
+                )
             )
         )
 
@@ -156,6 +218,9 @@ object NotificationHelper {
                 title = Translator.getString(
                     context,
                     Strings.screen_b2c_kyc_home_display_text_screen_title
+                ), subTitle = Translator.getString(
+                    context,
+                    Strings.screen_b2c_kyc_home_display_text_screen_title
                 ),
                 description = Translator.getString(
                     context,
@@ -163,7 +228,11 @@ object NotificationHelper {
                 ),
                 action = NotificationAction.COMPLETE_VERIFICATION,
                 imgResId = R.raw.gif_general_notification,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                btnTitle = Translator.getString(
+                    context,
+                    Strings.screen_b2c_kyc_home_display_text_screen_title
+                )
             )
         )
         list.add(
@@ -172,43 +241,63 @@ object NotificationHelper {
                 title = Translator.getString(
                     context,
                     Strings.dashboard_timeline_set_pin_stage_action_title
+                ), subTitle = Translator.getString(
+                    context,
+                    Strings.dashboard_timeline_set_pin_stage_action_title
                 ),
                 description = Translator.getString(context, Strings.screen_home_set_pin_desc),
                 action = NotificationAction.SET_PIN,
                 imgResId = R.raw.gif_set_pin,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                btnTitle = Translator.getString(
+                    context,
+                    Strings.dashboard_timeline_set_pin_stage_action_title
+                ) + " now"
             )
         )
         list.add(
             HomeNotification(
                 id = "4",
                 title = Translator.getString(context, Strings.screen_home_renewed_id_title),
+                subTitle = Translator.getString(
+                    context,
+                    Strings.screen_home_renewed_id_title
+                ),
                 description = Translator.getString(
                     context,
                     Strings.screen_home_renewed_id_desc
                 ),
                 action = NotificationAction.UPDATE_EMIRATES_ID,
                 imgResId = R.raw.gif_general_notification,
-                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
+                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                btnTitle = Translator.getString(
+                    context,
+                    Strings.screen_b2c_eid_info_review_button_title_scan_eid
+                )
             )
         )
-        accountInfo?.getUserAccessRestrictions()?.forEach {
-            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
-                list.add(
-                    HomeNotification(
-                        id = "5",
-                        title = Translator.getString(
-                            context,
-                            Strings.screen_help_support_display_text_title
-                        ),
-                        description = description,
-                        action = NotificationAction.CARD_FEATURES_BLOCKED,
-                        imgResId = R.raw.gif_general_notification,
-                        createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT)
-                    )
+
+        list.add(
+            HomeNotification(
+                id = "5",
+                title = Translator.getString(
+                    context,
+                    Strings.screen_notification_listing_display_text_toolbar_title
+                ),
+                description = Translator.getString(
+                    context,
+                    Strings.iban_or_debit_card_freeze_or_blocked_message
+                ).format(SessionManager.helpPhoneNumber),
+                action = NotificationAction.CARD_FEATURES_BLOCKED,
+                imgResId = R.raw.gif_notification_bel,
+                createdAt = getCurrentDateWithFormat(LEAN_PLUM_FORMAT),
+                btnTitle = Translator.getString(
+                    context,
+                    Strings.screen_help_support_display_text_call_us
                 )
-            }
-        }
+            )
+        )
+
         return list
     }
 

@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.networking.notification.HomeNotification
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -40,6 +41,7 @@ interface IYapHome {
         ): ArrayList<HomeNotification>
         fun shouldShowSetPin(paymentCard: Card): Boolean
         fun fetchTransactionDetailsForLeanplum(cardStatus:String?)
+        fun getFxRates(fxRate: (FxRateResponse.Data) -> Unit)
     }
 
     interface State : IBase.State {
