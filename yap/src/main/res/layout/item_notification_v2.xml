@@ -101,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
+                    android:textSize="@dimen/text_size_h3"
                     android:text="@{viewModel.item.createdAt}"
                     android:textColor="@color/greyNormalDark"
                     tools:text="01 July, 2019" />
