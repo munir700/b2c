@@ -418,9 +418,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             api.uploadAdditionalQuestion(uploadAdditionalInfo)
         })
 
-    override suspend fun getMsCustomerNotification(msCustomerNotification: MsCustomerNotificationsRequest): RetroApiResponse<CustomerNotificationResponse> =
+    override suspend fun getMsCustomerNotification(msCustomerNotifications: MsCustomerNotificationsRequest): RetroApiResponse<CustomerNotificationResponse> =
         executeSafely(call = {
-            api.getMsCustomerNotifications(msCustomerNotification)
+            api.getMsCustomerNotifications(msCustomerNotifications)
         })
 
     override suspend fun updateReadNotifications(

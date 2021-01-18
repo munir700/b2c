@@ -2,8 +2,14 @@ package co.yap.modules.dashboard.more.notifications.home
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.MsCustomerNotificationsRequest
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.SessionManager
 
 class NotificationsHomeViewModel(application: Application) :
@@ -12,6 +18,7 @@ class NotificationsHomeViewModel(application: Application) :
     override val state = NotificationsHomeState()
     override val mNotificationsHomeAdapter: ObservableField<NotificationsHomeAdapter>? =
         ObservableField()
+    override val repository: CustomersRepository = CustomersRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -31,6 +38,31 @@ class NotificationsHomeViewModel(application: Application) :
                 )
             }
         }
+
+    }
+
+    override fun getFcmNotifications() {
+        val sharedPreferenceManager = SharedPreferenceManager(context)
+        val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
+           getFCMToken { token ->
+            launch {
+                state.loading = true
+                when (val response = repository.getMsCustomerNotification(
+                    msCustomerNotifications = MsCustomerNotificationsRequest(token,deviceId))) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        mNotificationsHomeAdapter?.get()?.setData(
+                            state.mNotifications?.value ?: arrayListOf()
+                        )
+                    }
+                    is RetroApiResponse.Error -> {
+                        showToast(response.error.message)
+                        state.loading = false
+                    }
+                }
+            }
+        }
+
 
     }
 //    fun loadNotifications() {
