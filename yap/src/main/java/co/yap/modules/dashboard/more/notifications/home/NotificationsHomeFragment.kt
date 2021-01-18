@@ -71,7 +71,7 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
                     requireContext(),
                     R.drawable.line_divider,
                     false,
-                    false, dimen(R.dimen._72sdp)
+                    true, dimen(R.dimen._72sdp)
                 )
             )
             mRecyclerViewTouchActionGuardManager?.attachRecyclerView(this)
