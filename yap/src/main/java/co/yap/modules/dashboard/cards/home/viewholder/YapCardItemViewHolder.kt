@@ -39,10 +39,6 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
                         cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
                     } else {
                         cardName = paymentCard.cardName ?: ""
-                        /* cardName = getString(
-                             itemYapCardBinding.tvCardName.context,
-                             screen_spare_card_landing_display_text_virtual_card
-                         )*/
                     }
                 }
             } else {
