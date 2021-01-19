@@ -156,7 +156,12 @@ fun Transaction?.getTransactionTypeIcon(): Int {
                     transaction.getLabelValues() == TransactionLabelsCode.IS_BANK -> R.drawable.ic_outgoing_transaction
                     productCode == TransactionProductCode.Y2Y_TRANSFER.pCode -> R.drawable.ic_outgoing_transaction_y2y
                     productCode == TransactionProductCode.ATM_WITHDRAWL.pCode -> R.drawable.ic_identifier_atm_withdrawl
-                    productCode == TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_identifier_atm_deposite
+                    else -> android.R.color.transparent
+                }
+            }
+            TxnType.CREDIT.type -> {
+                when (productCode) {
+                    TransactionProductCode.ATM_DEPOSIT.pCode -> R.drawable.ic_identifier_atm_deposite
                     else -> android.R.color.transparent
                 }
             }
@@ -285,7 +290,7 @@ fun Transaction?.getLabelValues(): TransactionLabelsCode? {
             TransactionProductCode.MANUAL_ADJUSTMENT.pCode, TransactionProductCode.VIRTUAL_ISSUANCE_FEE.pCode, TransactionProductCode.FSS_FUNDS_WITHDRAWAL.pCode, TransactionProductCode.CARD_REORDER.pCode, TransactionProductCode.FEE_DEDUCT.pCode, TransactionProductCode.PHYSICAL_ISSUANCE_FEE.pCode, TransactionProductCode.BALANCE_INQUIRY.pCode, TransactionProductCode.PIN_CHANGE.pCode, TransactionProductCode.MINISTATEMENT.pCode, TransactionProductCode.ACCOUNT_STATUS_INQUIRY.pCode, TransactionProductCode.FSS_FEE_NOTIFICATION.pCode -> {
                 TransactionLabelsCode.IS_TRANSACTION_FEE
             }
-            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {
+            TransactionProductCode.UAEFTS.pCode, TransactionProductCode.DOMESTIC.pCode, TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode, TransactionProductCode.PAYMENT_TRANSACTION.pCode, TransactionProductCode.MOTO.pCode, TransactionProductCode.ECOM.pCode-> {
                 TransactionLabelsCode.IS_BANK
             }
             TransactionProductCode.CASH_PAYOUT.pCode, TransactionProductCode.CASH_ADVANCE.pCode, TransactionProductCode.ATM_WITHDRAWL.pCode, TransactionProductCode.ATM_DEPOSIT.pCode -> {

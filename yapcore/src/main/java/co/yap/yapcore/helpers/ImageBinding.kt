@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers
 
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -8,20 +9,31 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.YAPForYouGoalMedia
 import co.yap.yapcore.helpers.extentions.dimen
-import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.extentions.getMerchantCategoryIcon
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.helpers.glide.setCircleCropImage
 import co.yap.yapcore.helpers.glide.setImage
+import com.airbnb.lottie.LottieAnimationView
 
 object ImageBinding {
     @JvmStatic
     @BindingAdapter("imageUrl")
     fun setImageUrl(imageView: AppCompatImageView, url: String) {
         setImage(imageView, url)
+    }
+
+    @JvmStatic
+    @BindingAdapter("circularImageUrl")
+    fun setCircularImageUrl(imageView: ImageView, url: String?) {
+        url?.let {
+            setImage(imageView, url)
+        }
     }
 
     @JvmStatic
@@ -32,8 +44,10 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter("circularImageUrl")
-    fun setCircularImageUrl(imageView: AppCompatImageView, url: String) {
-        setCircleCropImage(imageView, url)
+    fun setCircularImageUrl(imageView: AppCompatImageView, url: String?) {
+        url?.let {
+            setCircleCropImage(imageView, url)
+        }
     }
 
     @JvmStatic
@@ -134,7 +148,7 @@ object ImageBinding {
         showFirstInitials: Boolean = false
     ) {
         if (fullName.isNullOrEmpty()) return
-        val fName = fullName?:""
+        val fName = fullName ?: ""
 
         val colors = imageView.context.resources.getIntArray(R.array.analyticsColors)
         val resId =
@@ -274,6 +288,84 @@ object ImageBinding {
             view.prefixDrawable = ContextCompat.getDrawable(view.context, resId)
         }
         view.prefix = countryCode
+    }
 
+    @JvmStatic
+    @BindingAdapter(value = ["media", "completedMedia"], requireAll = false)
+    fun loadLottieAnimation(
+        lottieView: LottieAnimationView,
+        media: YAPForYouGoalMedia,
+        completedMedia: YAPForYouGoalMedia? = null
+    ) {
+        if (completedMedia == null) {
+            when (media) {
+                is YAPForYouGoalMedia.Image -> {
+                    val id = lottieView.context.resources.getIdentifier(
+                        media.imageName,
+                        "drawable",
+                        lottieView.context.packageName
+                    )
+                    val drawable = lottieView.context.resources.getDrawable(id, null)
+                    lottieView.setImageDrawable(
+                        drawable
+                    )
+                }
+                is YAPForYouGoalMedia.LottieAnimation -> {
+                    lottieView.setAnimation(media.jsonFileName)
+                }
+
+                is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+
+                else -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+            }
+        } else {
+            when (completedMedia) {
+                is YAPForYouGoalMedia.Image -> {
+                    val id = lottieView.context.resources.getIdentifier(
+                        completedMedia.imageName,
+                        "drawable",
+                        lottieView.context.packageName
+                    )
+                    val drawable = lottieView.context.resources.getDrawable(id, null)
+                    lottieView.setImageDrawable(
+                        drawable
+                    )
+                }
+
+                is YAPForYouGoalMedia.LottieAnimation -> {
+                    lottieView.setAnimation(completedMedia.jsonFileName)
+                }
+
+                is YAPForYouGoalMedia.None -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+
+                else -> {
+                    lottieView.visibility = View.INVISIBLE
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("urlMedia")
+    fun setCircularImageUrlYapForYou(imageView: CoreCircularImageView, goal: YAPForYouGoalMedia?) {
+        goal?.let {
+            when (goal) {
+                is YAPForYouGoalMedia.ImageUrl -> {
+                    if (goal.imageUrl.isNullOrBlank())
+                        imageView.visibility = View.GONE
+                    else
+                        setCircularImageUrl(imageView, goal.imageUrl)
+                }
+                else -> {
+
+                }
+            }
+        }
     }
 }

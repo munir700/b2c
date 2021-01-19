@@ -14,6 +14,7 @@ object DateUtils {
     private val TIME_ZONE_Default: TimeZone = TimeZone.getDefault()
     const val FORMAT_LONG_OUTPUT = "MMM dd, yyyy・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm"//2015-11-28 10:17:18
+    const val SERVER_DATE_FULL_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     const val LEAN_PLUM_EVENT_FORMAT = "yyyy-MM-dd HH:mm:ss"//2015-11-28 10:17:18
     const val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
     const val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18

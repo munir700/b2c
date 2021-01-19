@@ -16,7 +16,7 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     AndroidViewModel(application),
     IBase.ViewModel<S>, CoroutineViewModel {
 
-    override val context: Context = getApplication<Application>().applicationContext
+    override val context: Context = application
     final override val viewModelJob = Job()
     override val viewModelScope = CloseableCoroutineScope(viewModelJob + Dispatchers.Main)
     val viewModelBGScope = CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
