@@ -17,7 +17,9 @@ open class YAPApplication : Application() {
             null,
             null,
             null,
-            totalAppliedFilter = 0
+            totalAppliedFilter = 0,
+            categories = arrayListOf(),
+            statues = arrayListOf()
         )
 
         fun clearFilters() {
@@ -25,7 +27,9 @@ open class YAPApplication : Application() {
                 0, pageSize,
                 null, null,
                 null, null,
-                0
+                0,
+                categories = null,
+                statues = null
             )
         }
     }

@@ -2,6 +2,7 @@
 
     <!-- Common -->
     <string name="common_display_text_retry">Retry</string>
+    <string name="common_empty_string"> </string>
     <string name="common_button_next">Next</string>
     <string name="common_display_text_error_no_internet">Looks like you\'re offline. Please reconnect and refresh to continue using YAP.</string>
     <string name="common_button_yes">Yes</string>
@@ -592,7 +593,9 @@
     <string name="screen_transaction_filter_button_clear_filter">Clear filters</string>
     <string name="screen_transaction_filter_display_text_incoming_transactions">Incoming transactions</string>
     <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
-    <string name="screen_transaction_filter_display_text_balance">AED balance</string>
+    <string name="screen_transaction_filter_display_text_pending_transactions">Pending transactions</string>
+    <string name="screen_transaction_filter_display_text_balance">AED Balance</string>
+    <string name="screen_transaction_filter_display_text_categories">Categories</string>
 
     <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
@@ -1225,5 +1228,91 @@
     <string name="screen_dashboard_tour_guide_display_text_got_it">OK, got it!</string>
     <string name="screen_change_passcode_success_display_text_heading">You’re all set!</string>
 
+    <!--    Achievements screen get started-->
+    <string name="screen_yfy_get_started_text_title">Get started</string>
+    <string name="screen_yfy_get_started_text_open_account">Open your YAP account</string>
+    <string name="screen_yfy_get_started_text_set_pin">Set your PIN</string>
+    <string name="screen_yfy_get_started_text_add_money">Add money to your account</string>
+    <string name="screen_yfy_get_started_text_set_profile">Set a profile picture</string>
+    <string name="screen_yfy_text_locked">Locked</string>
 
+    <!--  Achievements up and running-->
+    <string name="screen_yfy_up_and_running_text_title">Up and running</string>
+    <string name="screen_yfy_up_and_running_text_use_yap_locally">Use YAP locally</string>
+    <string name="screen_yfy_up_and_running_text_freeze_unfreeze">Freeze and unfreeze your card</string>
+    <string name="screen_yfy_up_and_running_text_spend_money">Spend AED 100</string>
+    <string name="screen_yfy_up_and_running_text_explore_card_controls">Explore card controls</string>
+
+    <!--  Achievements better together-->
+    <string name="screen_yfy_better_together_text_title">Better Together</string>
+    <string name="screen_yfy_better_together_text_invite_friend">Invite a friend</string>
+    <string name="screen_yfy_better_together_text_y2y_transfer">Make a Y2Y transfer</string>
+    <string name="screen_yfy_better_together_text_split_bills">Split bills with YAP</string>
+    <string name="screen_yfy_better_together_text_send_money">Send money outside YAP</string>
+
+    <!--  Achievements take a leap-->
+    <string name="screen_yfy_take_a_leap_text_title">Take the leap</string>
+    <string name="screen_yfy_take_a_leap_text_send_money">Order a virtual card</string>
+    <string name="screen_yfy_take_a_leap_text_upgrade_to_prime">Upgrade to Prime</string>
+    <string name="screen_yfy_take_a_leap_text_go_metal">Go Metal</string>
+    <string name="screen_yfy_take_a_leap_text_set_mc_account">Set up a multi-currency account</string>
+
+    <!--  Achievements Yap store-->
+    <string name="screen_yfy_yap_store_text_title">YAP Store</string>
+    <string name="screen_yfy_yap_store_text_get_yap_young">Get YAP Young</string>
+    <string name="screen_yfy_yap_store_text_sign_up_house_hold">Sign up to Household</string>
+    <string name="screen_yfy_yap_store_text_set_mission">Set missions on YAP Young</string>
+    <string name="screen_yfy_yap_store_text_pay_your_help">Pay your help using Household</string>
+
+    <!--  Achievements You are a Pro-->
+    <string name="screen_yfy_you_are_pro_text_title">You\'re a Pro!</string>
+    <string name="screen_yfy_you_are_pro_text_invite_friends">Invite 10 friends to YAP</string>
+    <string name="screen_yfy_you_are_pro_text_spend_amount">Spend AED 1000</string>
+    <string name="screen_yfy_you_are_pro_text_complete_a_renewal">Complete a renewal</string>
+
+    <!--YAP For YOU GET Started-->
+    <string name="screen_yfy_open_yap_account_description">That first step was easy! Welcome to YAP. We\'re so happy you\'re here :)</string>
+    <string name="screen_yfy_get_started_success_description">You’ve completed this task! \nTime for a little celebration 🥳</string>
+    <string name="screen_yfy_set_your_pin_description">What are you waiting for? Go ahead and set a unique 4-digit PIN to start using your card</string>
+    <string name="screen_yfy_add_money_to_account_button_label">Add money now</string>
+    <string name="screen_yfy_add_money_to_account_description">Go on and add some money to your account so you can start spending! You can do this by using your existing bank card, make a wire transfer to this account or deposit cash at the nearest machine. </string>
+    <string name="screen_yfy_set_a_profile_photo_description">Personalize your profile with a picture of you (or your pet)</string>
+    <string name="screen_yfy_set_a_profile_photo_button_label">Set it now</string>
+
+    <!--YFY UP AND RUNNING-->
+    <string name="screen_yfy_use_yap_locally_description">Make heads turn the next time you’re out using your YAP card.</string>
+    <string name="screen_yfy_use_yap_locally_success_description">Go out and buy yourself something nice using your YAP card. We won’t tell anyone 😉</string>
+    <string name="screen_yfy_freeze_unfreeze_card_description">Try to freeze and unfreeze your card. You’ll know what to do if you misplace it or if your card has been stolen</string>
+    <string name="screen_yfy_freeze_unfreeze_card_button_label">Try freezing now</string>
+    <string name="screen_yfy_spend_aed_description">Make your next AED 100 purchase a YAP one. Don’t forget to buy yourself something nice!</string>
+    <string name="screen_yfy_explore_card_control_description">You have full control of your card! \n\nSet limits against spending online, abroad, retail and at an ATM</string>
+
+    <!-- YFY Better Together -->
+    <string name="screen_yfy_invite_a_friend_description">Once you\'re set, head over to the top right menu on your dashboard (or via More on the bottom navigation menu) to start inviting your friends to join YAP.\n\n The more the merrier!</string>
+    <string name="screen_yfy_invite_a_friend_button_label">Invite a friend</string>
+    <string name="screen_yfy_send_money_outside_yap_description">Feeling generous? Send money to someone who isn\'t on your YAP contacts by adding them as a beneficiary in a few simple steps.\n\n Use the YAP It button and choose either bank transfer or cash pickup, so you can send money to even those who don\'t have a bank account! </string>
+    <string name="screen_yfy_send_money_to_someone_description">Send money to someone instantly within your YAP network. Tap on the YAP It button on your dashboard, select a friend from the list and enter the desired amount.\n\n Yes, It\'s that simple!</string>
+    <string name="screen_yfy_split_bills_description">Split bills (not friendships) the next time you go out with your friends.\n\nTo split a bill, simply swipe left on the transaction you want to split, send out reminders to your friends and settle up effortlessly.\n\n Psst… you can also send reminders!</string>
+
+    <!--YFY Take a leap-->
+    <string name="screen_yfy_order_virtual_card_description">Virtual cards let you make online payments without sharing your main card details.\n \n You can order a virtual card through the Cards section. It is available immediately, so the next time you need to enter your card details online but aren\'t comfortable doing it, just use your virtual card! </string>
+    <string name="screen_yfy_upgrade_to_prime_description">A shiny new card available in 4 metallic shades and a world of perks! \n \nChoose from audacious amber, sparkly sterling, romantic rose or glorious granite.</string>
+    <string name="screen_yfy_upgrade_to_prime_button_label">Upgrade now</string>
+    <string name="screen_yfy_go_metal_description">The ultimate YAP card – a 100% metal card with exclusive benefits. \n \nThe Metal card – or experience – is available in Black, Rose Gold and Chrome.</string>
+    <string name="screen_yfy_set_multi_currency_account_description">Traveling abroad? Set up multi-currency on YAP (available on Prime and Metal plans), create currency wallets for the countries you’re visiting, and spend locally when you get there! \nYou can forget about exchanging cash or running out mid-holiday :)</string>
+    <string name="screen_yfy_set_multi_currency_account_button_label">Set up</string>
+
+    <!--    YFY You are a Pro-->
+    <string name="screen_yfy_invite_ten_friends_description">Show us your social skills! Invite 10 friends to YAP to complete this level. \n \nYou know the drill. </string>
+    <string name="screen_yfy_invite_ten_friends_button_label">Invite friend</string>
+    <string name="screen_yfy_spend_thousand_description">Make your next AED 1000 purchase a YAP one. Don’t forget to buy yourself something nice!</string>
+    <string name="screen_yfy_complete_renewal_description">365 days of any YAP membership calls for a celebration! We\'re glad you\'re enjoying YAP so far. </string>
+
+    <!--    YFY Yap Store-->
+    <string name="screen_yfy_get_yap_young_description">Teach your kids how to be good with money. Set up a YAP Young account for your child and send them pocket money through the app into their YAP Young card! </string>
+    <string name="screen_yfy_get_yap_young_button_label">Get YAP Young now</string>
+    <string name="screen_yfy_signup_to_hh_description">Equip your household help with a card of their own. Now you can send them salaries and household expenses directly into their card so you don’t always have to depend on cash. </string>
+    <string name="screen_yfy_signup_to_hh_button_label">Get YAP Household now</string>
+    <string name="screen_yfy_set_a_mission_description">Give your kids tasks that will help them earn money. Chores can be fun too! </string>
+    <string name="screen_yfy_pay_your_help_description">Make life easier by sending household salaries through YAP Household </string>
 </resources>

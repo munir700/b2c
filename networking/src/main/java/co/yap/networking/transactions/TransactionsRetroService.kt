@@ -70,7 +70,10 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
+        @Query("title") title: String?,
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?
+
     ): Response<HomeTransactionsResponse>
 
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
