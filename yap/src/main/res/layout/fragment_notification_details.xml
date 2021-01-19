@@ -32,7 +32,7 @@
             app:leftIcon="@{R.drawable.ic_back_arrow_left}"
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
-            app:titleString="@{viewModel.state.notification.title}" />
+            app:titleString="@{viewModel.state.notification.title.empty?@string/screen_notification_listing_display_text_toolbar_title:viewModel.state.notification.title}" />
 
         <ScrollView
             android:layout_width="match_parent"
