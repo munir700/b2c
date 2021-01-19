@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.authentication.requestdtos.MsTokenRequest
+import co.yap.networking.authentication.requestdtos.FCMTokenRequest
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -248,20 +248,13 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     fun getDefaultCurrency() = DEFAULT_CURRENCY
 
     fun sendFcmTokenToServer(context: Context, success: () -> Unit = {}) {
-        val sharedPreferenceManager = SharedPreferenceManager(context)
+        val sharedPreferenceManager = SharedPreferenceManager.getInstance(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(Constants.KEY_APP_UUID)
-        val deviceName: String? = Build.BRAND
-        val osType: String? = "Android"
-        val osVersion: String? = Build.VERSION.RELEASE
 
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
-                    when (val response = authRepository.getMsToken(MsTokenRequest(token,
-                        deviceId,
-                        deviceName,
-                        osType,
-                        osVersion))) {
+                    when (val response = authRepository.sendFcmTokenToServer(FCMTokenRequest(token=it,deviceId = deviceId))) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }

@@ -1,7 +1,7 @@
 package co.yap.networking.authentication
 
 import co.yap.networking.authentication.requestdtos.LoginRequest
-import co.yap.networking.authentication.requestdtos.MsTokenRequest
+import co.yap.networking.authentication.requestdtos.FCMTokenRequest
 import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.authentication.responsedtos.MsTokenResponse
@@ -30,8 +30,8 @@ interface AuthRetroService {
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
 
     @POST(AuthRepository.URL_MS_LOGIN_TOKEN)
-    suspend fun getMsToken(
-        @Body msTokenRequest : MsTokenRequest
+    suspend fun sendFcmTokenToServer(
+        @Body msTokenRequest : FCMTokenRequest
     ): Response<MsTokenResponse>
 
     //getJwtToken
