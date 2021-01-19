@@ -118,10 +118,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
     const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
     const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
-    const val URL_CUSTOMER_NOTIFICATIONS = "/api/customer-notifications" //FCM notifications
-    const val URL_CUSTOMER_NOTIFICATION_READABLE =
-        "/api/customer-notification/is-read" //FCM notifications
-    const val URL_DELETE_CUSTOMER_NOTIFICATION = "/api/customer_notification" //FCM notifications
+    const val URL_CUSTOMER_NOTIFICATIONS = "analytics/api/customer-notifications" //FCM notifications
+    const val URL_CUSTOMER_NOTIFICATION_READABLE = "analytics/api/customer-notification/is-read" //FCM notifications
+    const val URL_CUSTOMER_NOTIFICATION_COUNT = "analytics/api/customer-notifications/unread-count" //FCM notifications
+    const val URL_DELETE_CUSTOMER_NOTIFICATION = "analytics/api/customer_notification" //FCM notifications
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -420,7 +420,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getMsCustomerNotification(msCustomerNotifications: MsCustomerNotificationsRequest): RetroApiResponse<CustomerNotificationResponse> =
         executeSafely(call = {
-            api.getMsCustomerNotifications(msCustomerNotifications)
+            api.getMsCustomerNotifications(msCustomerNotifications.token?:"",msCustomerNotifications.device_id?:"")
         })
 
     override suspend fun updateReadNotifications(
@@ -431,6 +431,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun deleteMsCustomerNotification(notificationId: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.deleteMsCustomerNotification(notificationId) })
+    override suspend fun getMsCustomerNotificationsCount(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.getMsCustomerNotificationsCount() })
 
 
 }

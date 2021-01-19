@@ -353,7 +353,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                         if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
                             startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
                         else {
-                            SessionManager.sendFcmTokenToServer() {}
+                            SessionManager.sendFcmTokenToServer(requireContext()) {}
                             navigate(R.id.action_goto_yapDashboardActivity)
                         }
 

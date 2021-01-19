@@ -274,8 +274,14 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
     suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
 
-    @POST(CustomersRepository.URL_CUSTOMER_NOTIFICATIONS)
-    suspend fun getMsCustomerNotifications(@Body msCustomerNotifications: MsCustomerNotificationsRequest): Response<CustomerNotificationResponse>
+    @GET(CustomersRepository.URL_CUSTOMER_NOTIFICATIONS)
+    suspend fun getMsCustomerNotifications(
+        @Query("token") token: String,
+        @Query("device_id") device_id: String
+    ): Response<CustomerNotificationResponse>
+
+    @GET(CustomersRepository.URL_CUSTOMER_NOTIFICATION_COUNT)
+    suspend fun getMsCustomerNotificationsCount(): Response<CustomerNotificationResponse>
 
     @PUT(CustomersRepository.URL_CUSTOMER_NOTIFICATION_READABLE)
     suspend fun updateMsNotificationsRead(

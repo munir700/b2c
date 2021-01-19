@@ -11,7 +11,5 @@ data class MsTokenRequest(
     @SerializedName("device_name")
     val device_name: String? = null,
     @SerializedName("os_type")
-    val os_type: String? = null,
-    @SerializedName("os_version")
-    val os_version: String? = null
+    val os_type: String? = null
 ) : ApiResponse()

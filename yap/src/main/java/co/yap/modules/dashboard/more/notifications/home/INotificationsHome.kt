@@ -13,6 +13,8 @@ interface INotificationsHome {
         val repository: CustomersRepository
         fun getNotification()
         fun getFcmNotifications()
+        fun deleteFcmNotifications(notifId : String)
+        fun updateFcmNotifications(notifId : String, isRead : Boolean)
     }
 
     interface State : IBase.State {

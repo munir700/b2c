@@ -23,6 +23,8 @@ class NotificationsHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getNotification()
+        getFcmNotifications()
+
     }
 
     override fun getNotification() {
@@ -65,7 +67,46 @@ class NotificationsHomeViewModel(application: Application) :
 
 
     }
-//    fun loadNotifications() {
+
+    override fun updateFcmNotifications(notifId : String, isRead : Boolean) {
+        launch {
+            state.loading = true
+            when (val response = repository.updateReadNotifications(
+               notificationId = notifId,isRead = isRead)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    mNotificationsHomeAdapter?.get()?.setData(
+                        state.mNotifications?.value ?: arrayListOf()
+                    )
+                }
+                is RetroApiResponse.Error -> {
+                    showToast(response.error.message)
+                    state.loading = false
+                }
+            }
+        }
+    }
+
+    override fun deleteFcmNotifications(notifId : String) {
+        launch {
+            state.loading = true
+            when (val response = repository.deleteMsCustomerNotification(
+                notificationId = notifId)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    mNotificationsHomeAdapter?.get()?.setData(
+                        state.mNotifications?.value ?: arrayListOf()
+                    )
+                }
+                is RetroApiResponse.Error -> {
+                    showToast(response.error.message)
+                    state.loading = false
+                }
+            }
+        }
+    }
+
+    //    fun loadNotifications() {
 //        launch {
 //            state.loading = true
 //            val notifications = ArrayList<Notification>()
