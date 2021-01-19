@@ -86,7 +86,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var mNavigator: ActivityNavigator
 
     companion object {
-        private const val CARD = "card"
+         const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, PaymentCardDetailActivity::class.java)
             intent.putExtra(CARD, card)

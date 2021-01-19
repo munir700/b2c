@@ -13,19 +13,29 @@
 
         <action
             android:id="@+id/action_YAPForYouFragment_to_achievementDetailFragment"
-            app:destination="@id/achievementDetailFragment" />
+            app:destination="@id/achievementFragment" />
         <action
             android:id="@+id/action_YAPForYouFragment_to_completedAchievementsFragment"
             app:destination="@id/completedAchievementsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/achievementDetailFragment"
-        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementDetailFragment"
+        android:id="@+id/achievementFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.fragments.AchievementGoalsFragment"
         android:label="AchievementDetailFragment"
-        tools:layout="@layout/fragment_achievement_detail" />
+        tools:layout="@layout/fragment_achievement_goals">
+        <action
+            android:id="@+id/action_achievementFragment_to_achievementDetailFragment"
+            app:destination="@id/achievementDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/completedAchievementsFragment"
         android:name="co.yap.modules.dashboard.more.yapforyou.fragments.CompletedAchievementsFragment"
         android:label="CompletedAchievementsFragment"
         tools:layout="@layout/fragment_completed_achievements" />
+    <fragment
+        android:id="@+id/achievementDetailFragment"
+        android:name="co.yap.modules.dashboard.more.yapforyou.achievementdetail.AchievementGoalDetailFragment"
+        android:label="AchievementDetailFragment"
+        tools:layout="@layout/fragment_achievement_goal_details" />
+
 </navigation>

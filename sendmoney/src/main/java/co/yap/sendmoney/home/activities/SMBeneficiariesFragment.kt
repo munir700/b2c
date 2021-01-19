@@ -136,6 +136,7 @@ class SMBeneficiariesFragment : SMBeneficiaryParentBaseFragment<ISMBeneficiaries
                         )
                         viewModel.clickEvent.setValue(viewID)
                     }
+           rvAllBeneficiaries.addOnItemTouchListener(onTouchListener!!)
         }
     }
 
