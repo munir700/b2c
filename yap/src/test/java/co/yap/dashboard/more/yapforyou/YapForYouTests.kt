@@ -6,17 +6,11 @@ import co.yap.modules.dashboard.more.yapforyou.YAPForYouItemsComposer
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
 import co.yap.networking.transactions.responsedtos.achievement.AchievementResponse
 import co.yap.yapcore.enums.AchievementType
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import java.io.BufferedReader
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStreamReader
 
 @RunWith(MockitoJUnitRunner::class)
 class YapForYouTests : BaseTestCase() {
@@ -30,9 +24,59 @@ class YapForYouTests : BaseTestCase() {
 
     @Test
     fun test_after_onboarding_get_started_is_current_achievement() {
+        val response: ArrayList<AchievementResponse> = arrayListOf(
+            AchievementResponse(
+                achievementType = "GET_STARTED",
+                percentage = 0.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "UP_AND_RUNNING",
+                percentage = 0.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "BETTER_TOGETHER",
+                percentage = 0.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "TAKE_THE_LEAP",
+                percentage = 0.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "YAP_STORE",
+                percentage = 0.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "YOU_ARE_A_PRO",
+                percentage = 0.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            )
+        )
         val itemsComposer: YAPForYouItemsComposer = YAPForYouAchievementsComposer()
         val mockComposerItems =
-            itemsComposer.compose(getMockApiResponse() as ArrayList<AchievementResponse>)
+            itemsComposer.compose(response)
         val expectedValue =
             mockComposerItems.first { it.achievementType == AchievementType.GET_STARTED }
         val currentAchievement = sut.getCurrentAchievement(mockComposerItems)
@@ -40,8 +84,162 @@ class YapForYouTests : BaseTestCase() {
         Assert.assertEquals(expectedValue, currentAchievement)
     }
 
+    @Test
+    fun test_current_achievement_is_the_one_with_highest_completion_percentage() {
+        val response: ArrayList<AchievementResponse> = arrayListOf(
+            AchievementResponse(
+                achievementType = "GET_STARTED",
+                percentage = 50.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "UP_AND_RUNNING",
+                percentage = 98.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "TAKE_THE_LEAP",
+                percentage = 95.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            )
+        )
+        val itemsComposer: YAPForYouItemsComposer = YAPForYouAchievementsComposer()
+        val mockComposerItems =
+            itemsComposer.compose(response)
+        val expectedValue =
+            mockComposerItems.first { it.achievementType == AchievementType.UP_AND_RUNNING }
+        val currentAchievement = sut.getCurrentAchievement(mockComposerItems)
 
-    private fun getMockApiResponse(): List<AchievementResponse> {
+        Assert.assertEquals(expectedValue, currentAchievement)
+
+    }
+
+    @Test
+    fun test_a_completed_achievement_is_not_the_current_achievement() {
+        val response: ArrayList<AchievementResponse> = arrayListOf(
+            AchievementResponse(
+                achievementType = "GET_STARTED",
+                percentage = 100.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "UP_AND_RUNNING",
+                percentage = 75.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            ),
+            AchievementResponse(
+                achievementType = "TAKE_THE_LEAP",
+                percentage = 95.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            )
+        )
+        val itemsComposer: YAPForYouItemsComposer = YAPForYouAchievementsComposer()
+        val mockComposerItems =
+            itemsComposer.compose(response)
+        val expectedValue =
+            mockComposerItems.first { it.achievementType == AchievementType.TAKE_THE_LEAP }
+        val currentAchievement = sut.getCurrentAchievement(mockComposerItems)
+
+        Assert.assertEquals(expectedValue, currentAchievement)
+
+    }
+
+    @Test
+    fun test_if_two_achievements_have_highest_and_equal_percentage_then_last_updated_one_is_current_achievement() {
+        val response: ArrayList<AchievementResponse> = arrayListOf(
+            AchievementResponse(
+                achievementType = "GET_STARTED",
+                percentage = 75.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = "2021-01-06T19:17:17"
+            ),
+            AchievementResponse(
+                achievementType = "UP_AND_RUNNING",
+                percentage = 75.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = "2021-01-08T19:17:17"
+            ),
+            AchievementResponse(
+                achievementType = "TAKE_THE_LEAP",
+                percentage = 60.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = null
+            )
+        )
+        val itemsComposer: YAPForYouItemsComposer = YAPForYouAchievementsComposer()
+        val mockComposerItems =
+            itemsComposer.compose(response)
+        val expectedValue =
+            mockComposerItems.first { it.achievementType == AchievementType.UP_AND_RUNNING }
+        val currentAchievement = sut.getCurrentAchievement(mockComposerItems)
+
+        Assert.assertEquals(expectedValue, currentAchievement)
+    }
+
+    @Test
+    fun test_most_recent_updated_achievement_is_not_current_achievement_if_percentage_is_less_than_other_achievement() {
+        val response: ArrayList<AchievementResponse> = arrayListOf(
+            AchievementResponse(
+                achievementType = "GET_STARTED",
+                percentage = 25.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = "2021-01-06T19:17:17"
+            ),
+            AchievementResponse(
+                achievementType = "UP_AND_RUNNING",
+                percentage = 75.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = "2021-01-08T19:17:17"
+            ),
+            AchievementResponse(
+                achievementType = "TAKE_THE_LEAP",
+                percentage = 25.0,
+                color = "",
+                isForceLocked = false,
+                goals = arrayListOf(),
+                lastUpdated = "2021-01-09T19:17:17"
+            )
+        )
+        val itemsComposer: YAPForYouItemsComposer = YAPForYouAchievementsComposer()
+        val mockComposerItems =
+            itemsComposer.compose(response)
+        val expectedValue =
+            mockComposerItems.first { it.achievementType == AchievementType.UP_AND_RUNNING }
+        val currentAchievement = sut.getCurrentAchievement(mockComposerItems)
+
+        Assert.assertEquals(expectedValue, currentAchievement)
+    }
+
+
+    /*private fun getMockApiResponse(): List<AchievementResponse> {
         val gson = GsonBuilder().create();
         val itemType = object : TypeToken<List<AchievementResponse>>() {}.type
 
@@ -59,5 +257,5 @@ class YapForYouTests : BaseTestCase() {
             line = br.readLine()
         }
         return sb.toString()
-    }
+    }*/
 }
