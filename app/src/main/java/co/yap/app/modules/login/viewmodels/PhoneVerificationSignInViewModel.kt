@@ -160,6 +160,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     if (response.data.data.isNotEmpty()) {
                         SessionManager.user = response.data.data[0]
                         accountInfo.postValue(response.data.data[0])
+                        SessionManager.usersList?.value = response.data.data as ArrayList
+
                         SessionManager.setupDataSetForBlockedFeatures()
                         trackEventWithAttributes(
                             SessionManager.user
