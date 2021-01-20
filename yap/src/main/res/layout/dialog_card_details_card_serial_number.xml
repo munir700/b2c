@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <!--<TextView
             style="@style/AMicroGrey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="@id/ivCard"
             app:layout_constraintStart_toStartOf="@+id/ivCard"
             app:layout_constraintTop_toTopOf="@+id/ivCard"
-            tools:text="Amazone Card" />
+            tools:text="Amazone Card" />-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardType"

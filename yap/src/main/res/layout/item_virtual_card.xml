@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/card_spare" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <!--<androidx.appcompat.widget.AppCompatTextView
             style="@style/Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             app:layout_constraintStart_toStartOf="@+id/ivCard"
             app:layout_constraintTop_toTopOf="@+id/ivCard"
             tools:text="united kingdom arab emirate"
-            tools:textColor="@color/colorLightGreyWithOpacity" />
+            tools:textColor="@color/colorLightGreyWithOpacity" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
