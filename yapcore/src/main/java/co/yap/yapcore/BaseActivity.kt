@@ -61,6 +61,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         viewModel.toolBarClickEvent.observe(this, Observer {
             onToolBarClick(it)
         })
+
         viewModel.state.viewState.observe(this, Observer {
             it?.let {
                 when (it) {

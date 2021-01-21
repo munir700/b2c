@@ -113,6 +113,5 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     override fun getString(resourceId: String): String = Translator.getString(context, resourceId)
 
     override val toolBarClickEvent = SingleClickEvent()
-
 }
 
