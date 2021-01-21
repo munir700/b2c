@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.sendmoney.BR
 import co.yap.sendmoney.R
@@ -21,8 +20,8 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     ICurrencyPicker.View, SearchingListener {
 
     companion object {
-        val IS_DIALOG_POP_UP = "IS_DIALOG_POP_UP"
-        val LIST_OF_CURRENCIES = "LIST_OF_CURRENCIES"
+        const val IS_DIALOG_POP_UP = "IS_DIALOG_POP_UP"
+        const val LIST_OF_CURRENCIES = "LIST_OF_CURRENCIES"
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -43,7 +42,6 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
 
             }
         }
-        setObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,31 +54,12 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
     private fun setListeners() {
         viewModel.currencyAdapter.setItemListener(currencySelectedItemClickListener)
         viewModel.currencyAdapter.allowFullItemClickListener = true
-
     }
-
 
     private val currencySelectedItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             setResultData(data as MultiCurrencyWallet)
         }
-    }
-
-    override fun setObservers() {
-        viewModel.clickEvent.observe(this, clickObserver)
-    }
-
-
-    private val clickObserver = Observer<Int> {
-    }
-
-    override fun removeObservers() {
-        viewModel.clickEvent.removeObservers(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        removeObservers()
     }
 
     fun setResultData(multiCurrencyWallet: MultiCurrencyWallet) {
@@ -89,7 +68,6 @@ class CurrencyPickerFragment : BaseBindingFragment<ICurrencyPicker.ViewModel>(),
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
-
 
     override fun onCancel() {
         activity?.finish()
