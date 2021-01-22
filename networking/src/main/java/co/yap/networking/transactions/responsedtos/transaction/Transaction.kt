@@ -161,4 +161,4 @@ data class Transaction(
     val receiverProfilePictureUrl: String? = null,
     @SerializedName("cancelReason")
     val cancelReason: String? = null
-) : ApiResponse(), Parcelable
+):ApiResponse() ,Parcelable

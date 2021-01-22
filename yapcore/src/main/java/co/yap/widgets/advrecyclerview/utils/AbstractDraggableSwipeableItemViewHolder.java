@@ -19,16 +19,19 @@ package co.yap.widgets.advrecyclerview.utils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ViewDataBinding;
 
+import co.yap.networking.models.ApiResponse;
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemState;
 import co.yap.widgets.advrecyclerview.draggable.DraggableItemViewHolder;
 import co.yap.widgets.advrecyclerview.draggable.annotation.DraggableItemStateFlags;
+import co.yap.yapcore.BaseListItemViewModel;
 
-public abstract class AbstractDraggableSwipeableItemViewHolder extends AbstractSwipeableItemViewHolder implements DraggableItemViewHolder {
+public abstract class AbstractDraggableSwipeableItemViewHolder<ITEM extends ApiResponse, VM extends BaseListItemViewModel<ITEM>> extends AbstractSwipeableItemViewHolder<ITEM, VM> implements DraggableItemViewHolder {
     private final DraggableItemState mDragState = new DraggableItemState();
 
-    public AbstractDraggableSwipeableItemViewHolder(@NonNull View itemView) {
-        super(itemView);
+    public AbstractDraggableSwipeableItemViewHolder(@NonNull View itemView, VM viewModel, ViewDataBinding mDataBinding) {
+        super(itemView, viewModel, mDataBinding);
     }
 
     /**

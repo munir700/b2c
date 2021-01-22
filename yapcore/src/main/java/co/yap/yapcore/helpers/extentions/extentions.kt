@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -11,11 +12,13 @@ import android.os.Parcelable
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -25,6 +28,7 @@ import co.yap.yapcore.enums.YAPThemes
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.modules.qrcode.BarcodeEncoder
 import co.yap.modules.qrcode.BarcodeFormat
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -98,6 +102,14 @@ fun ImageView.loadImage(path: String) {
         .into(this)
 }
 
+fun ImageView.loadCardImage(path: String?) {
+    Glide.with(this)
+        .load(path)
+        .placeholder(R.drawable.card_place_holder)
+        .error(R.drawable.card_spare)
+        .into(this)
+}
+
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -162,7 +174,12 @@ fun Context?.isNetworkAvailable(): Boolean {
     } ?: false
 }
 
-fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+fun TextView.makeLinks(
+    vararg links: Pair<String, View.OnClickListener>,
+    @ColorInt color: Int = 0,
+    underline: Boolean = false,
+    isBold: Boolean = false
+) {
     val spannableString = SpannableString(this.text)
     for (link in links) {
         val clickableSpan = object : ClickableSpan() {
@@ -171,12 +188,27 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
                 view.invalidate()
                 link.second.onClick(view)
             }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = underline
+                if (isBold) ds.typeface = Typeface.DEFAULT_BOLD
+            }
         }
+
         val startIndexOfLink = this.text.toString().indexOf(link.first)
         spannableString.setSpan(
             clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
+        if (color != 0) {
+            spannableString.setSpan(
+                ForegroundColorSpan(color),
+                startIndexOfLink,
+                startIndexOfLink + link.first.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
     }
     this.movementMethod =
         LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click

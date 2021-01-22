@@ -256,8 +256,8 @@
     <string name="lp_history_control_api_empty_state">@string/screen_live_chat_no_conversation_message</string>
 
     <!-- Send Message.  -->
-    <bool name= "enable_markdown_hyperlink">true</bool>
-    <bool name= "lp_markdown_hyperlink_copy_text_only">true</bool>
+    <bool name="enable_markdown_hyperlink">true</bool>
+    <bool name="lp_markdown_hyperlink_copy_text_only">true</bool>
 
     <!--  Start of scroll behavior settings.  -->
 

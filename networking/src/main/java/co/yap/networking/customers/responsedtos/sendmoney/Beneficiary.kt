@@ -3,6 +3,7 @@ package co.yap.networking.customers.responsedtos.sendmoney
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -61,6 +62,35 @@ data class Beneficiary(
     var countryOfResidenceName: String? = null,
     @SerializedName("beneficiaryCreationDate")
     var beneficiaryCreationDate: String? = null
-) : ApiResponse(), Parcelable {
+) : CoreRecentBeneficiaryItem(
+    name = "$firstName $lastName",
+    profilePictureUrl = beneficiaryPictureUrl,
+    type = beneficiaryType, isoCountryCode = country
+), IBeneficiary, Parcelable {
+    @IgnoredOnParcel
+    override val fullName: String?
+        get() = title
+
+    @IgnoredOnParcel
+    override val subtitle: String?
+        get() = fullName()
+
+    @IgnoredOnParcel
+    override val userType: String?
+        get() = beneficiaryType
+
+    override val flag: String?
+        get() = country
+
     fun fullName() = "$firstName $lastName"
+}
+
+interface IBeneficiary {
+    val fullName: String? get() = null
+    val subtitle: String? get() = null
+    val icon: String? get() = null
+    val flag: String? get() = null
+    val userType: String? get() = null
+    val imgUrl: String? get() = null
+    val sendMoneyType: String? get() = null
 }

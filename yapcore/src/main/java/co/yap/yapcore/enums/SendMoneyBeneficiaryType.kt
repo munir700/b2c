@@ -10,5 +10,6 @@ enum class SendMoneyBeneficiaryType(val type: String) {
     DOMESTIC("DOMESTIC"),  // Within UAE
     INTERNAL_TRANSFER("INTERNAL_TRANSFER"),
     UAEFTS("UAEFTS"),  // Within UAE (YAP to other => here the bank is non RAK bank)
-    DOMESTIC_TRANSFER("DOMESTIC_TRANSFER")  // Within UAE
+    DOMESTIC_TRANSFER("DOMESTIC_TRANSFER"),  // Within UAE
+    YAP2YAP("Y2Y")
 }

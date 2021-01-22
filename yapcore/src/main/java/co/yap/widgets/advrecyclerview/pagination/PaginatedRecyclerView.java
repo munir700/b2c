@@ -289,7 +289,7 @@ public class PaginatedRecyclerView extends RecyclerView {
 
     /**
      * Class that controls pagination behavior of {@link RecyclerView},
-     * much like {@link androidx.recyclerview.widget.RecyclerView.Adapter}
+     * much like {@link Adapter}
      * controlling item view behavior.
      */
     public static abstract class Pagination {
@@ -365,7 +365,7 @@ public class PaginatedRecyclerView extends RecyclerView {
         /**
          * Notify that this pagination should start from the beginning.
          */
-        public final void notifyPaginationRestart() {
+        public void notifyPaginationRestart() {
             page = getPageStart();
             paginate();
         }
@@ -378,7 +378,7 @@ public class PaginatedRecyclerView extends RecyclerView {
     /**
      * Base loading adapter that will be displayed when pagination is in progress.
      * When extending this class, only
-     * {@link androidx.recyclerview.widget.RecyclerView.Adapter#onCreateViewHolder} and
+     * {@link Adapter#onCreateViewHolder} and
      * {@link BaseAdapter#onBindViewHolder} is relevant and should be implemented.
      */
     public static abstract class BaseAdapter<VH extends ViewHolder> extends Adapter<VH> {

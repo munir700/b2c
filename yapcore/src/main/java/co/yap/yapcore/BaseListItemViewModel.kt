@@ -1,6 +1,7 @@
 package co.yap.yapcore
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.databinding.PropertyChangeRegistry
@@ -15,7 +16,7 @@ import co.yap.yapcore.dagger.base.viewmodel.DaggerViewModel
  */
 abstract class BaseListItemViewModel<ITEM : ApiResponse> : DaggerViewModel(), OnItemClickListener {
 
-
+    var onChildViewClickListener: ((view: View, position: Int, data: ITEM?) -> Unit)?=null
     abstract fun setItem(item: ITEM, position: Int)
     abstract fun getItem(): ITEM
 

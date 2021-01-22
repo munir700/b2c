@@ -23,7 +23,7 @@ import co.yap.widgets.advrecyclerview.expandable.annotation.ExpandableItemStateF
 
 /**
  * <p>Interface which provides required information for expanding item.</p>
- * <p>Implement this interface on your sub-class of the {@link androidx.recyclerview.widget.RecyclerView.ViewHolder}.</p>
+ * <p>Implement this interface on your sub-class of the {@link RecyclerView.ViewHolder}.</p>
  */
 public interface ExpandableItemViewHolder {
     /**
@@ -53,7 +53,7 @@ public interface ExpandableItemViewHolder {
 
     /**
      * Gets the state object for expandable item.
-     * This method can be used inside of the {@link androidx.recyclerview.widget.RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}.
+     * This method can be used inside of the {@link RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}.
      *
      * @return {@link ExpandableItemState} object
      */

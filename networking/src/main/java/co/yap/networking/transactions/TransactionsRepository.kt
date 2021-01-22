@@ -13,6 +13,8 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
+import kotlinx.coroutines.flow.Flow
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -73,6 +75,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
+    const val URL_GET_TRANSACTION_DETAILS_FOR_LEANPLUM = "/transactions/api/lean-plum/transaction-states"
 
 
     // Household
@@ -148,6 +151,16 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsRequest?.title
             )
         })
+
+    override suspend fun searchTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse> {
+       return  executeSafely(call = {
+            api.searchTransactions(
+                homeTransactionsRequest?.number,
+                homeTransactionsRequest?.size,
+                homeTransactionsRequest?.searchField
+            )
+        })
+    }
 
     override suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse> =
         executeSafely(call = { api.getSearchFilterAmount() })
@@ -286,5 +299,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName
             )
         })
+
+    override suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum> =
+        executeSafely(call = { api.getTransactionDetailForLeanplum() })
+
 }
 

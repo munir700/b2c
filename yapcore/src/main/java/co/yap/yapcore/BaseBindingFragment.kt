@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import co.yap.yapcore.dagger.base.BaseViewModelFragment
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 
 abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>(), CanFetchExtras {

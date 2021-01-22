@@ -25,17 +25,17 @@ import co.yap.widgets.advrecyclerview.draggable.annotation.DraggableItemStateFla
 /**
  * Interface which provides required information for dragging item.
  *
- * Implement this interface on your sub-class of the {@link androidx.recyclerview.widget.RecyclerView.ViewHolder}.
+ * Implement this interface on your sub-class of the {@link RecyclerView.ViewHolder}.
  */
 public interface DraggableItemViewHolder {
     /**
      * Sets the state flags value for dragging item
      *
      * @param flags Bitwise OR of these flags;
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_DRAGGING}
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_IS_ACTIVE}
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_IS_IN_RANGE}
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_IS_UPDATED}
+     *              - {@link DraggableItemConstants#STATE_FLAG_DRAGGING}
+     *              - {@link DraggableItemConstants#STATE_FLAG_IS_ACTIVE}
+     *              - {@link DraggableItemConstants#STATE_FLAG_IS_IN_RANGE}
+     *              - {@link DraggableItemConstants#STATE_FLAG_IS_UPDATED}
      * @see #getDragState()
      */
     void setDragStateFlags(@DraggableItemStateFlags int flags);
@@ -44,10 +44,10 @@ public interface DraggableItemViewHolder {
      * Gets the state flags value for dragging item. You can access these flags more human friendly way through {@link #getDragState()}.
      *
      * @return  Bitwise OR of these flags;
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_DRAGGING}
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_IS_ACTIVE}
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_IS_IN_RANGE}
-     *              - {@link co.yap.widgets.advrecyclerview.draggable.DraggableItemConstants#STATE_FLAG_IS_UPDATED}
+     *              - {@link DraggableItemConstants#STATE_FLAG_DRAGGING}
+     *              - {@link DraggableItemConstants#STATE_FLAG_IS_ACTIVE}
+     *              - {@link DraggableItemConstants#STATE_FLAG_IS_IN_RANGE}
+     *              - {@link DraggableItemConstants#STATE_FLAG_IS_UPDATED}
      * @see #getDragState()
      */
     @DraggableItemStateFlags
@@ -55,7 +55,7 @@ public interface DraggableItemViewHolder {
 
     /**
      * Gets the state object for dragging item.
-     * This method can be used inside of the {@link androidx.recyclerview.widget.RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}.
+     * This method can be used inside of the {@link RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}.
      *
      * @return {@link DraggableItemState} object
      */

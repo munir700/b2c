@@ -63,7 +63,7 @@ abstract class BaseRecyclerAdapterVM<T : ApiResponse, S : IBase.State> : DaggerB
 
     fun removeItemAt(position: Int) {
         this.data.removeAt(position)
-        adapter.get()?.removeItemAt(position)
+        adapter.get()?.removeAt(position)
         //adapter.notifyChange()
     }
 

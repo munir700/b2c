@@ -8,11 +8,20 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class HomeNotification(
     @SerializedName("id")
-    val id: String="",
+    val id: String = "",
     @SerializedName("title")
     val title: String? = "",
     @SerializedName("description")
-    val description: String,
+    val description: String?="",
     @SerializedName("action")
-    val action: NotificationAction
-): ApiResponse(),Parcelable
+    val action: NotificationAction,
+    @SerializedName("subtitle")
+    val subTitle: String? = "",
+    @SerializedName("createdAt")
+    val createdAt: String? = "",
+    @SerializedName("imgResId")
+    val imgResId: Int? = 0,
+    @Transient var isPinned: Boolean? = false,
+    @Transient var isDeleteAble: Boolean = false,
+    @Transient var btnTitle: String? = ""
+) : ApiResponse(), Parcelable

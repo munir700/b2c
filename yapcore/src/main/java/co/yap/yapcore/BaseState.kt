@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 
 
 abstract class BaseState : BaseObservable(), IBase.State {
@@ -40,6 +41,8 @@ abstract class BaseState : BaseObservable(), IBase.State {
             field = value
             notifyPropertyChanged(BR.toast)
         }
+
+    override var viewState: MutableLiveData<Any?> = MutableLiveData()
 
     override fun reset() {
         loading = false

@@ -20,7 +20,7 @@
         <import type="co.yap.yapcore.enums.TxnType" />
 
         <import type="co.yap.translation.Strings" />
-
+        <import type="co.yap.yapcore.helpers.TransactionAdapterType" />
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
         <import type="co.yap.yapcore.managers.SessionManager" />
     </data>
@@ -88,7 +88,7 @@
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.item.txnType == null?` `:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?`+ ` + CurrencyExtensionsKt.toFormattedCurrency(viewModel.item.amount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true): `- `+CurrencyExtensionsKt.toFormattedCurrency(viewModel.item.totalAmount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true)) }"
+                android:text="@{TransactionExtentionsKt.getFormattedTransactionAmount(viewModel.item)}"
                 android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:(TxnType.valueOf(viewModel.item.txnType) == TxnType.CREDIT?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 tools:text="18:25" />
 
@@ -110,7 +110,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getFormattedTime(viewModel.item,DateUtils.INSTANCE.FORMAT_TIME_24H), TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item))}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(viewModel.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransactionTypeTitle(viewModel.item,TransactionAdapterType.TRANSACTION))}"
                 android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(viewModel.item)? @color/greyNormalDark:@color/greyDark}"
                 tools:text="- 21.00" />
 
@@ -132,7 +132,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_weight="1"
             android:maxLines="2"
-            android:text="@{viewModel.item.transactionNote}"
+            android:text="@{viewModel.item.transactionNote==null?``:viewModel.item.transactionNote}"
             android:textColor="@color/greyNormalDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"

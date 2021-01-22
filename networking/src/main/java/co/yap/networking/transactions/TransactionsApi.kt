@@ -11,6 +11,8 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.networking.transactions.responsedtos.transaction.TransactionDataResponseForLeanplum
+import java.util.*
 
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
@@ -37,6 +39,7 @@ interface TransactionsApi {
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
     suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun searchTransactions(homeTransactionsRequest: HomeTransactionsRequest?): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
@@ -78,17 +81,24 @@ interface TransactionsApi {
         beneficiaryName: String?,
         amount: String?
     ): RetroApiResponse<ApiResponse>
+
     suspend fun getTransactionsOfMerchant(
         merchantType: String,
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
 
+    suspend fun getTransDetailForLeanplum(): RetroApiResponse<TransactionDataResponseForLeanplum>
+
     //    House Hold API calls fees/subscriptions
-    suspend fun getPrepaidUserSubscriptionsPlans(productPlan: String, feeFrequency:String): RetroApiResponse<RemittanceFeeResponse>
+    suspend fun getPrepaidUserSubscriptionsPlans(
+        productPlan: String,
+        feeFrequency: String
+    ): RetroApiResponse<RemittanceFeeResponse>
 
     //    House Hold Pay Salary Now
     suspend fun paySalaryNow(request: PaySalaryNowRequest): RetroApiResponse<ApiResponse>
     suspend fun getFailedTransactions(): RetroApiResponse<BaseListResponse<HomeNotification>>
     suspend fun getHouseHoldAccountStatements(householdAccountUUID: String?): RetroApiResponse<CardStatementsResponse>
+
 }

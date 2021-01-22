@@ -5,6 +5,7 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesResponse
@@ -19,6 +20,7 @@ import co.yap.networking.customers.responsedtos.tax.TaxInfoResponse
 import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.TransactionsRepository
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -78,6 +80,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     val URL_SEND_MONEY_UAEFT = "/transactions/api/uaefts"
     val URL_GET_FEE = "/transactions/api/product-codes/{product-code}/fees"
     val URL_BENEFICIARY_CHECK_OTP_STATUS = "customers/api/beneficiaries/bank-transfer/otp-req"
+    const val URL_HOME_COUNTRY_FX_RATE = "/transactions/api/fxRate"
 
 
     val URL_RMT = "transactions/api/rmt"
@@ -100,6 +103,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_TAX_INFO = "customers/api/tax-information"
     const val URL_CITIES = "customers/api/cities"
     const val URL_TAX_REASONS = "customers/api/tin-reasons"
+    const val URL_GET_QR_CONTACT = "customers/api/customers-info"
     const val URL_GET_FAILED_SUBSCRIPTIONS_NOTIFICATIONS =
         "/transactions/api/household/get-subscriptions-notifications"
     //.................... End region of old projects apis................................................
@@ -118,6 +122,16 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_BY_CURRENCY_CODE = "/customers/aapi/currencies/code/{currencyCode}"
 
     const val URL_GET_COOLING_PERIOD = "customers/api/cooling-period-duration"
+    const val URL_UPDATE_HOME_COUNTRY = "customers/api/customers-info/update-home-country"
+    const val URL_TOUR_GUIDES = "customers/api/tour-guides"
+
+    const val URL_GET_ADDITIONAL_DOCUMENT = "customers/api/additional/documents/required"
+    const val URL_ADDITIONAL_DOCUMENT_UPLOAD = "customers/api/additional/documents"
+    const val URL_ADDITIONAL_QUESTION_ADD = "customers/api/additional/documents/question-answer"
+    const val URL_CUSTOMER_NOTIFICATIONS = "/api/customer-notifications" //FCM notifications
+    const val URL_CUSTOMER_NOTIFICATION_READABLE =
+        "/api/customer-notification/is-read" //FCM notifications
+    const val URL_DELETE_CUSTOMER_NOTIFICATION = "/api/customer_notification" //FCM notifications
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -241,7 +255,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getRecentY2YBeneficiaries() =
         executeSafely(call = { api.getRecentY2YBeneficiaries() })
 
-/*  send money */
+    /*  send money */
 
     override suspend fun getRecentBeneficiaries() =
         executeSafely(call = { api.getRecentBeneficiaries() })
@@ -372,4 +386,64 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         })
     override suspend fun getSubscriptionsNotifications() =
         TransactionsRepository.executeSafely(call = { api.getSubscriptionsNotifications() })
+
+    override suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse> =
+        executeSafely(call = { api.getQRContact(qrContactRequest) })
+
+    override suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.updateHomeCountry(UpdateHomeCountryRequest(homeCountry)) })
+
+    override suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse> =
+        executeSafely(call = { api.updateFxRate(fxRate) })
+
+    override suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse> =
+        executeSafely(call = { api.updateTourGuideStatus(tourGuide) })
+
+    override suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse> =
+        executeSafely(call = { api.getTourGuides() })
+
+    override suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse> =
+        executeSafely(call = { api.getAdditionalInfoRequired() })
+
+    override suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        uploadAdditionalInfo.run {
+            val reqFile: RequestBody =
+                RequestBody.create(
+                    MediaType.parse("image/" + uploadAdditionalInfo.files?.extension),
+                    uploadAdditionalInfo.files ?: File(uploadAdditionalInfo.files?.name ?: "")
+                )
+            val body =
+                MultipartBody.Part.createFormData("files",
+                    uploadAdditionalInfo.files?.name,
+                    reqFile)
+            executeSafely(call = {
+                api.uploadAdditionalDocuments(
+                    files = body,
+                    documentType = RequestBody.create(
+                        MediaType.parse("multipart/form-dataList"),
+                        documentType ?: ""
+                    )
+                )
+            })
+        }
+
+
+    override suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse> =
+        executeSafely(call = {
+            api.uploadAdditionalQuestion(uploadAdditionalInfo)
+        })
+
+    override suspend fun getMsCustomerNotification(msCustomerNotification: MsCustomerNotificationsRequest): RetroApiResponse<CustomerNotificationResponse> =
+        executeSafely(call = {
+            api.getMsCustomerNotifications(msCustomerNotification)
+        })
+
+    override suspend fun updateReadNotifications(
+        notificationId: String,
+        isRead: Boolean
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.updateMsNotificationsRead(notificationId, isRead) })
+
+    override suspend fun deleteMsCustomerNotification(notificationId: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteMsCustomerNotification(notificationId) })
 }

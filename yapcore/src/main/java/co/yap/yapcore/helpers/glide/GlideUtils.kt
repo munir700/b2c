@@ -50,8 +50,12 @@ fun setImage(imageView: ImageView, url: String, fallback: Drawable) {
         .placeholder(fallback).into(imageView)
 }
 
-fun setImage1(context: Context, imageView: ImageView, url: String) {
-    Glide.with(context).load(getUrl(url)).into(imageView)
+fun setImage(imageView: ImageView, url: String) {
+    val mUrl = getUrl(url)
+    val fallbackDrawables = getFallbackDrawables(imageView.context)
+    val index = Math.abs(mUrl.hashCode() % fallbackDrawables.size)
+    Glide.with(imageView).load(mUrl).error(fallbackDrawables[index])
+        .placeholder(fallbackDrawables[index]).into(imageView)
 }
 
 fun setImage(context: Context, imageView: ImageView, uri: Uri) {

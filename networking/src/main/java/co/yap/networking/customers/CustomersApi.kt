@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.currency.CurrenciesByCodeResponse
@@ -13,9 +14,11 @@ import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.Body
+import co.yap.networking.notification.HomeNotification
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -102,4 +105,15 @@ interface CustomersApi {
     suspend fun getCurrencyByCode(currencyCode: String?): RetroApiResponse<CurrenciesByCodeResponse>
     suspend fun getCoolingPeriod(smCoolingPeriodRequest: SMCoolingPeriodRequest): RetroApiResponse<SMCoolingPeriodResponseDTO>
     suspend fun getSubscriptionsNotifications(): RetroApiResponse<BaseListResponse<HomeNotification>>
+    suspend fun getQRContact(qrContactRequest: QRContactRequest): RetroApiResponse<QRContactResponse>
+    suspend fun updateHomeCountry(homeCountry: String): RetroApiResponse<ApiResponse>
+    suspend fun updateFxRate(fxRate: FxRateRequest): RetroApiResponse<FxRateResponse>
+    suspend fun updateTourGuideStatus(tourGuide: TourGuideRequest): RetroApiResponse<UpdateTourGuideResponse>
+    suspend fun getTourGuides(): RetroApiResponse<TourGuideResponse>
+    suspend fun getAdditionalInfoRequired(): RetroApiResponse<AdditionalInfoResponse>
+    suspend fun uploadAdditionalDocuments(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun uploadAdditionalQuestion(uploadAdditionalInfo: UploadAdditionalInfo): RetroApiResponse<ApiResponse>
+    suspend fun getMsCustomerNotification(msCustomerNotifications: MsCustomerNotificationsRequest): RetroApiResponse<CustomerNotificationResponse>
+    suspend fun updateReadNotifications(notificationId: String, isRead : Boolean): RetroApiResponse<ApiResponse>
+    suspend fun deleteMsCustomerNotification(notificationId: String): RetroApiResponse<ApiResponse>
 }

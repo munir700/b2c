@@ -21,13 +21,14 @@ import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.sidemenu.ProfilePictureAdapter
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.sendmoney.home.main.SMBeneficiaryParentActivity
 import co.yap.translation.Strings
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.yapcore.adpters.SectionsPagerAdapter
 import co.yap.yapcore.dagger.base.navigation.BaseNavViewModelFragment
 import co.yap.yapcore.enums.AccountType
 import co.yap.yapcore.enums.AlertType
+import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.alert
@@ -159,11 +160,7 @@ class HouseholdDashboardFragment :
     override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
         when (subActionButtonId) {
             1 -> {
-                if (PartnerBankStatus.ACTIVATED.status == SessionManager.user?.partnerBankStatus) {
-                    launchActivity<SendMoneyLandingActivity>()
-                } else {
-                    showToast("${getString(Strings.screen_popup_activation_pending_display_text_message)}^${AlertType.TOAST.name}")
-                }
+                launchActivity<SMBeneficiaryParentActivity>(type = FeatureSet.SEND_MONEY)
             }
 
             2 -> {

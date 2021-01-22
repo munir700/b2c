@@ -25,11 +25,15 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_ID
 import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINATION_ID
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
+import co.yap.yapcore.leanplum.SignInEvents
+import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.managers.SessionManager
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import kotlinx.coroutines.Dispatchers
@@ -94,43 +98,54 @@ class PhoneVerificationSignInFragment :
         viewModel.getAccountInfo()
     }
 
-    private val onFetchAccountInfo = Observer<AccountInfo?> {
+    private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
-            SessionManager.updateCardBalance {  }
-            if (SessionManager.shouldGoToHousehold()) {
-                SessionManager.user?.uuid?.let { it1 ->
-                    SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment)
-                        .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
-                }
-            } else {
-                if (BiometricUtil.hasBioMetricFeature(requireActivity())
-                ) {
-                    viewModel.parentViewModel?.shardPrefs?.save(
-                        co.yap.yapcore.constants.Constants.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        true
-                    )
-                    if (SharedPreferenceManager(requireContext()).getValueBoolien(
-                            co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
-                            false
-                        )
-                    ) {
-                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                            startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                        else
-                            launchActivity<YapDashboardActivity>(clearPrevious = true)
-
-                    } else {
-                        val action =
-                            PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
-                                Constants.TOUCH_ID_SCREEN_TYPE
-                            )
-                        findNavController().navigate(action)
+            trackEventWithScreenName(FirebaseEvent.SIGN_IN_PIN)
+            TourGuideManager.getTourGuides()
+            SessionManager.getDebitCard { card ->
+                SessionManager.updateCardBalance { }
+                if (SessionManager.shouldGoToHousehold()) {
+                    SessionManager.user?.uuid?.let { it1 ->
+                        SwitchProfileLiveData.get(it1, this@PhoneVerificationSignInFragment)
+                            .observe(this@PhoneVerificationSignInFragment, switchProfileObserver)
                     }
                 } else {
-                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
-                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                    else
-                        launchActivity<YapDashboardActivity>(clearPrevious = true)
+                    if (BiometricUtil.hasBioMetricFeature(requireActivity())
+                    ) {
+                        if (SharedPreferenceManager(requireContext()).getValueBoolien(
+                                co.yap.yapcore.constants.Constants.KEY_TOUCH_ID_ENABLED,
+                                false
+                            )
+                        ) {
+                            if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null)
+                                startFragment(
+                                    fragmentName = OtpBlockedInfoFragment::class.java.name,
+                                    clearAllPrevious = true
+                                )
+                            else {
+                                SessionManager.sendFcmTokenToServer() {}
+                                launchActivity<YapDashboardActivity>(clearPrevious = true)
+                            }
+                        } else {
+                            val action =
+                                PhoneVerificationSignInFragmentDirections.actionPhoneVerificationSignInFragmentToSystemPermissionFragment(
+                                    Constants.TOUCH_ID_SCREEN_TYPE
+                                )
+                            findNavController().navigate(action)
+                        }
+
+                    } else {
+                        if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
+                            startFragment(
+                                fragmentName = OtpBlockedInfoFragment::class.java.name,
+                                clearAllPrevious = true
+                            )
+                        } else {
+                            SessionManager.sendFcmTokenToServer() {}
+                            trackEvent(SignInEvents.SIGN_IN.type)
+                            launchActivity<YapDashboardActivity>(clearPrevious = true)
+                        }
+                    }
                 }
             }
         }
@@ -145,7 +160,10 @@ class PhoneVerificationSignInFragment :
 //                SessionManager.user?.notificationStatuses = AccountStatus.PARNET_MOBILE_VERIFICATION_PENDING.name
                 launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_new_user_onboarding_navigation)
-                    putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.HHOnBoardingWelcomeFragment)
+                    putExtra(
+                        NAVIGATION_Graph_START_DESTINATION_ID,
+                        R.id.HHOnBoardingWelcomeFragment
+                    )
                 }
 //                launchActivity<OnBoardingHouseHoldActivity>(clearPrevious = true) {
 //                    putExtra(OnBoardingHouseHoldActivity.USER_INFO, SessionManager.user)
@@ -174,7 +192,6 @@ class PhoneVerificationSignInFragment :
                     putExtra(NAVIGATION_Graph_ID, R.navigation.hh_main_nav_graph)
                     putExtra(NAVIGATION_Graph_START_DESTINATION_ID, R.id.householdDashboardFragment)
                 }
-                // launchActivity<HouseholdDashboardActivity>(clearPrevious = true)
             }
         }
     }

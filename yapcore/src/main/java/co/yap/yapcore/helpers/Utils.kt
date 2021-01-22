@@ -414,10 +414,6 @@ object Utils {
         }
     }
 
-    fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
-        return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
-    }
-
     fun openTwitter(context: Context) {
         var intent: Intent?
         try {
@@ -666,6 +662,12 @@ object Utils {
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
+    fun getBackgroundColorForAnalytics(context: Context, position: Int) =
+        ContextCompat.getColor(
+            context,
+            backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size]
+        )
+
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(
             context,
@@ -684,6 +686,14 @@ object Utils {
         R.color.bg_round_light_blue,
         R.color.bg_round_light_green,
         R.color.bg_round_light_orange
+    )
+
+    private val backgroundColorsOfAnalytics = intArrayOf(
+        R.color.bg_round_light_red,
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_primary_soft
     )
 
     private val contactColors = intArrayOf(
@@ -709,7 +719,6 @@ object Utils {
         R.color.bg_round_light_secondary_blue,
         R.color.bg_round_light_green,
         R.color.bg_round_light_primary
-
     )
 
     fun getTwoDecimalPlaces(value: Double): Double {
@@ -987,6 +996,7 @@ object Utils {
             else -> throw IllegalStateException("Invalid build flavour found ${YAPApplication.configManager?.flavor}")
         })
     }
+
     @JvmStatic
     fun getConfiguredDecimals(currencyCode: String): Int {
         val allowedDecimal = SessionManager.getCurrencies().firstOrNull {
@@ -1016,6 +1026,7 @@ object Utils {
             context.resources.displayMetrics
         )
     }
+
     fun setLightStatusBar(activity: Activity, color: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             var flags =
@@ -1026,5 +1037,4 @@ object Utils {
             activity.window.statusBarColor = color
         }
     }
-
 }

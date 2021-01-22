@@ -54,6 +54,9 @@ class SubAccountCardFragment :
     override fun onClick(id: Int) {
     }
 
+    override fun onItemDragPositionChanged(fromPosition: Int, toPosition: Int) {
+    }
+
     override fun handleState(state: State?) {
         super.handleState(state)
         recyclerView?.adapter = mWrappedAdapter
@@ -83,13 +86,13 @@ class SubAccountCardFragment :
     override fun onItemDragStarted(position: Int) {
     }
 
-    override fun onItemDragPositionChanged(
-        fromPosition: Int,
-        toPosition: Int,
-        draggingItemHolder: RecyclerView.ViewHolder?,
-        swapTargetHolder: RecyclerView.ViewHolder?
-    ) {
-    }
+//    override fun onItemDragPositionChanged(
+//        fromPosition: Int,
+//        toPosition: Int,
+//        draggingItemHolder: RecyclerView.ViewHolder?,
+//        swapTargetHolder: RecyclerView.ViewHolder?
+//    ) {
+//    }
 
     override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
         val subAccount = adapter.getData()[toPosition]

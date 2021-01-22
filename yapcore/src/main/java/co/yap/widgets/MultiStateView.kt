@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
@@ -31,6 +32,13 @@ class MultiStateView
         ERROR,
         EMPTY
     }
+
+    var emptyViewText: String? = null
+        set(value) {
+            field = value
+            invalidate()
+
+        }
 
     private var contentView: View? = null
 
@@ -269,6 +277,10 @@ class MultiStateView
 
             ViewState.EMPTY -> {
                 requireNotNull(emptyView).apply {
+                    if (!emptyViewText.isNullOrEmpty()) {
+                        val tvNoResult = emptyView?.findViewById<TextView>(R.id.tvNoresult)
+                        tvNoResult?.text = emptyViewText
+                    }
                     contentView?.visibility = View.GONE
                     errorView?.visibility = View.GONE
                     loadingView?.visibility = View.GONE

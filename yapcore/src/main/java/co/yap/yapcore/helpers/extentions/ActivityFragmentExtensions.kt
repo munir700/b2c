@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.frame.FrameActivity
 import co.yap.modules.frame.FrameDialogActivity
+import co.yap.widgets.guidedtour.TourSetup
+import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseViewModel
@@ -27,6 +29,8 @@ import co.yap.yapcore.constants.Constants.TOOLBAR_TITLE
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.dagger.base.interfaces.CanFetchExtras
 import co.yap.yapcore.enums.FeatureSet
+import co.yap.yapcore.helpers.TourGuideManager
+import co.yap.yapcore.helpers.TourGuideType
 import co.yap.yapcore.helpers.showAlertDialogAndExitApp
 import co.yap.yapcore.managers.FeatureProvisioning
 import co.yap.yapcore.managers.SessionManager
@@ -94,6 +98,25 @@ inline fun <reified T : Any> Fragment.launchActivity(
             startActivityForResult(intent, requestCode)
             if (clearPrevious)
                 activity?.finish()
+        }
+    }
+}
+
+inline fun <reified T : Any> Fragment.launchActivityForActivityResult(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    type: FeatureSet = FeatureSet.NONE,
+    noinline init: Intent.() -> Unit = {}
+) {
+    if (FeatureProvisioning.getFeatureProvisioning(type)) {
+        showBlockedFeatureAlert(requireActivity(), type)
+    } else {
+        val intent = newIntent<T>(requireContext())
+        intent.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            requireActivity().startActivityForResult(intent, requestCode, options)
+        } else {
+            requireActivity().startActivityForResult(intent, requestCode)
         }
     }
 }
@@ -276,6 +299,29 @@ inline fun <reified T : Fragment> FragmentActivity.startFragment(
         finish()
     }
 }
+//fun <T : Fragment> FragmentActivity.startFragment(
+//    fragmentName: String,
+//    clearAllPrevious: Boolean = false,
+//    bundle: Bundle = Bundle(),
+//    requestCode: Int = -1,
+//    showToolBar: Boolean = false,
+//    toolBarTitle: String = ""
+//) {
+//    val intent = Intent(this, FrameActivity::class.java)
+//    intent.putExtra(FRAGMENT_CLASS, fragmentName)
+//    intent.putExtra(SHOW_TOOLBAR, showToolBar)
+//    intent.putExtra(TOOLBAR_TITLE, toolBarTitle)
+//    intent.putExtra(EXTRA, bundle)
+//    if (requestCode > 0) {
+//        startActivityForResult(intent, requestCode)
+//    } else {
+//        startActivity(intent)
+//    }
+//
+//    if (clearAllPrevious) {
+//        finish()
+//    }
+//}
 
 fun Fragment.startFragment(
     fragmentName: String,
@@ -404,6 +450,24 @@ inline fun <reified T : BaseViewModel<*>> Fragment.viewModel(
 }
 
 fun BaseBindingFragment<*>.close() = fragmentManager?.popBackStack()
+
+/**
+ *
+ *
+ */
+inline fun Activity.launchTourGuide(
+    screenName: TourGuideType,
+    init: ArrayList<GuidedTourViewDetail>.() -> Unit = {}
+): TourSetup? {
+    return if (!TourGuideManager.getBlockedTourGuideScreens.contains(screenName)) {
+        val list = arrayListOf<GuidedTourViewDetail>()
+        list.init()
+        val tour = TourSetup(this, list)
+        tour.startTour()
+        TourGuideManager.lockTourGuideScreen(screenName, viewed = true)
+        return tour
+    } else null
+}
 
 internal fun String.loadFragmentOrNull(): Fragment? =
     try {

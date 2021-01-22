@@ -5,8 +5,10 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.requestdtos.LoginRequest
+import co.yap.networking.authentication.requestdtos.MsTokenRequest
 import co.yap.networking.authentication.requestdtos.TokenRefreshRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
+import co.yap.networking.authentication.responsedtos.MsTokenResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -16,6 +18,7 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_CSRF_TOKEN = "/auth/login"
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/login-token"
     const val URL_LOGOUT = "/auth/oauth/oidc/logout"
+    const val URL_MS_LOGIN_TOKEN = "/api/notifications/customer-token"
     const val URL_SWITCH_PROFILE = "/auth/oauth/oidc/switch-profile"
 
     private val API: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
@@ -79,6 +82,10 @@ object AuthRepository : BaseRepository(), AuthApi {
 
         return response
     }
+
+    //FCM API
+    override suspend fun getMsToken(msObject: MsTokenRequest): RetroApiResponse<MsTokenResponse> =
+        executeSafely(call = { API.getMsToken(msObject) })
 
     override fun getJwtToken(): String? {
         return CookiesManager.jwtToken

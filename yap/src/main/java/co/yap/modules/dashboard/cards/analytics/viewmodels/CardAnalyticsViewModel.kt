@@ -13,6 +13,8 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
 import co.yap.yapcore.helpers.extentions.toFormattedCurrency
@@ -33,16 +35,18 @@ class CardAnalyticsViewModel(application: Application) :
         super.onCreate()
         setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
         DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
-        state.nextMonth = false
-        SessionManager.user?.creationDate?.let {str ->
+        SessionManager.user?.creationDate?.let { str ->
             val date =
                 DateUtils.stringToDate(
                     str,
                     DateUtils.SERVER_DATE_FORMAT
                 )
+
+            state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
             state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
             parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-            parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
+            parentViewModel?.state?.currentSelectedDate =
+                DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
 
             date?.let { dates ->
                 creationCalender.time = dates
@@ -61,7 +65,6 @@ class CardAnalyticsViewModel(application: Application) :
     override fun handlePressOnView(id: Int) {
         when (id) {
             R.id.ivPrevious -> {
-
                 if ((currentCalendar.get(Calendar.MONTH) - 1) > creationCalender.get(Calendar.MONTH)) {
                     currentCalendar.add(Calendar.MONTH, -1)
                     state.nextMonth = true
@@ -74,6 +77,8 @@ class CardAnalyticsViewModel(application: Application) :
                     // // Proper testing remaining
                     state.nextMonth = true
                 }
+                trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
+                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
                 fetchCardCategoryAnalytics(
@@ -83,7 +88,8 @@ class CardAnalyticsViewModel(application: Application) :
                     )
                 )
                 parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-                parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
+                parentViewModel?.state?.currentSelectedDate =
+                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
             R.id.ivNext -> {
                 val tempCalendar = Calendar.getInstance()
@@ -96,6 +102,8 @@ class CardAnalyticsViewModel(application: Application) :
                     // Proper testing remaining
                     state.previousMonth = true
                 }
+                trackEventWithScreenName(FirebaseEvent.SCROLL_DATES)
+                state.displayMonth = DateUtils.getStartAndEndOfMonthAndDay(currentCalendar)
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
                 fetchCardCategoryAnalytics(
@@ -105,7 +113,8 @@ class CardAnalyticsViewModel(application: Application) :
                     )
                 )
                 parentViewModel?.state?.currentSelectedMonth = state.selectedMonth ?: ""
-                parentViewModel?.state?.currentSelectedDate = DateUtils.dateToString(currentCalendar.time,"yyyy-MM-dd")
+                parentViewModel?.state?.currentSelectedDate =
+                    DateUtils.dateToString(currentCalendar.time, "yyyy-MM-dd")
             }
         }
         clickEvent.setValue(id)
@@ -120,7 +129,7 @@ class CardAnalyticsViewModel(application: Application) :
                 SessionManager.getCardSerialNumber(), currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    response.data.data?.let {analyticsDTO ->
+                    response.data.data?.let { analyticsDTO ->
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
 
@@ -131,7 +140,8 @@ class CardAnalyticsViewModel(application: Application) :
                             )
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        parentViewModel?.categoryAnalyticsItemLiveData?.value = analyticsDTO.txnAnalytics
+                        parentViewModel?.categoryAnalyticsItemLiveData?.value =
+                            analyticsDTO.txnAnalytics
                     }
 
                     fetchCardMerchantAnalytics(currentMonth)

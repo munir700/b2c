@@ -15,8 +15,8 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:enabled="@{viewModel.state.isUserAccountActivated}"
+        android:orientation="vertical"
         app:srcCompat="?attr/colorPrimaryAttr">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,11 +35,12 @@
 
             <co.yap.widgets.skeletonlayout.SkeletonLayout
                 android:id="@+id/skeletonLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="66dp"
                 android:elevation="10dp"
+                android:gravity="center"
                 app:behavior_animation="@anim/scale_yap_dashboard_home_title"
                 app:behavior_dependTarget="-60dp"
                 app:behavior_dependType="y"
@@ -49,7 +50,7 @@
                 <TextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/ALarge"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@={viewModel.state.availableBalance}"
@@ -109,13 +110,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/ivSearch"
                                 android:layout_width="26dp"
                                 android:layout_height="26dp"
-                                android:layout_marginStart="@dimen/margin_small"
-                                android:layout_marginEnd="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_normal"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                android:tint="?attr/colorPrimary"
                                 android:visibility="visible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -126,8 +127,7 @@
                                 android:id="@+id/ivMenu"
                                 android:layout_width="26dp"
                                 android:layout_height="26dp"
-                                android:layout_marginStart="@dimen/margin_small"
-                                android:layout_marginEnd="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_normal"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"

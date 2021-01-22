@@ -152,6 +152,7 @@ object Constants {
     const val KEY_THEME = "KEY_THEME"
     const val VERIFY_PASS_CODE_BTN_TEXT = "verify_pass_code_btn_text"
     const val KEY_IS_REMEMBER = "IS_REMEMBER"
+    const val KEY_FCM_TOKEN = "fcm_token"
 
     const val PAGE_URL = "_page_url"
     const val TOOLBAR_TITLE = "toolbar_title"
@@ -160,6 +161,7 @@ object Constants {
     const val REFERRAL_ID = "customer_id"
 
     const val CURRENCYWALLET = "MultiCurrencyWallet"
+    const val SUCCESS_BUTTON_LABEL = "successButtonLabel"
 
     //Sms consent
     const val SMS_CONSENT_REQUEST = 2
@@ -182,5 +184,9 @@ object Constants {
     const val LOCATION_ATM = "ATM"
     const val LOCATION_CDM = "CDM"
     const val ACCOUNT_UUID = "_accountUUID"
+
+    //Core Bottom Sheet
+    const val VIEW_WITHOUT_FLAG = 1
+    const val VIEW_WITH_FLAG = 2
 
 }

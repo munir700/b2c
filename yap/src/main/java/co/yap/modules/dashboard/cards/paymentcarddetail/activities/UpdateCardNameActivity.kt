@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardNa
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.UpdateCardNameViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
 import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_update_card_name.*
 
@@ -60,6 +61,7 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
 
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
+        viewModel.state.card.set(viewModel.card)
         etName.append(viewModel.card.cardName?.trim())
         etName.requestFocus()
 
@@ -69,7 +71,7 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
             if (viewModel.card.physical) {
                 tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
             } else {
-                tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+                tvCardType.text = getString(screen_spare_card_landing_display_text_virtual_card)
             }
 
         }

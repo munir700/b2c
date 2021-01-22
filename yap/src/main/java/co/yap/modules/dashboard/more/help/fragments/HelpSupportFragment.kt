@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.more.help.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Nullable
@@ -17,21 +16,11 @@ import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.webview.WebViewFragment
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.confirm
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.managers.SessionManager
 import com.liveperson.infra.CampaignInfo
-import com.liveperson.infra.ConversationViewParams
-import com.liveperson.infra.LPAuthenticationParams
-import com.liveperson.infra.LPConversationsHistoryStateToDisplay
-import co.yap.yapcore.helpers.spannables.bold
-import co.yap.yapcore.helpers.spannables.color
-import co.yap.yapcore.helpers.spannables.size
-import com.liveperson.infra.*
-import com.liveperson.infra.callbacks.InitLivePersonCallBack
-import com.liveperson.messaging.sdk.api.LivePerson
-import com.liveperson.messaging.sdk.api.model.ConsumerProfile
-import co.yap.yapcore.managers.ChatManager
 
 class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
@@ -70,9 +59,11 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     private val observer = Observer<Int> {
         when (it) {
             R.id.lLyFaqs -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_FAQS)
                 viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
+                trackEventWithScreenName(FirebaseEvent.CLICK_LIVECHAT_HELP_SUPPORT)
                 requireActivity().chatSetup()
 //                activity?.let { activity ->
 //                    ChatManager.config(activity)
@@ -86,13 +77,15 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 }
             }
             R.id.lyCall -> {
-                viewModel.state.contactPhone.get()?.let { num ->
-                    confirm(message = bold(num),
-                        positiveButton = "Call",
-                        negativeButton = "Cancel",
-                        callback = { requireContext().makeCall(num) },
-                        negativeCallback = {})
-                }
+                trackEventWithScreenName(FirebaseEvent.CLICK_CALL)
+                requireContext().makeCall(viewModel.state.contactPhone.get())
+//                viewModel.state.contactPhone.get()?.let { num ->
+//                    confirm(message = bold(num),
+//                        positiveButton = "Call",
+//                        negativeButton = "Cancel",
+//                        callback = { requireContext().makeCall(num) },
+//                        negativeCallback = {})
+//                }
             }
 
         }

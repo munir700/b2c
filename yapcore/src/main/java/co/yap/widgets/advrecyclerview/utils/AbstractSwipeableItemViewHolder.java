@@ -19,16 +19,19 @@ package co.yap.widgets.advrecyclerview.utils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.databinding.ViewDataBinding;
 
+import co.yap.networking.models.ApiResponse;
 import co.yap.widgets.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemState;
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemViewHolder;
 import co.yap.widgets.advrecyclerview.swipeable.annotation.SwipeableItemAfterReactions;
 import co.yap.widgets.advrecyclerview.swipeable.annotation.SwipeableItemResults;
 import co.yap.widgets.advrecyclerview.swipeable.annotation.SwipeableItemStateFlags;
+import co.yap.yapcore.BaseListItemViewModel;
+import co.yap.yapcore.BaseViewHolder;
 
-public abstract class AbstractSwipeableItemViewHolder extends RecyclerView.ViewHolder implements SwipeableItemViewHolder {
+public abstract class AbstractSwipeableItemViewHolder<ITEM extends ApiResponse, VM extends BaseListItemViewModel<ITEM>> extends BaseViewHolder<ITEM, VM> implements SwipeableItemViewHolder {
     private SwipeableItemState mSwipeState = new SwipeableItemState();
     @SwipeableItemResults
     private int mSwipeResult = RecyclerViewSwipeManager.RESULT_NONE;
@@ -42,8 +45,8 @@ public abstract class AbstractSwipeableItemViewHolder extends RecyclerView.ViewH
     private float mMaxRightSwipeAmount = RecyclerViewSwipeManager.OUTSIDE_OF_THE_WINDOW_RIGHT;
     private float mMaxDownSwipeAmount = RecyclerViewSwipeManager.OUTSIDE_OF_THE_WINDOW_BOTTOM;
 
-    public AbstractSwipeableItemViewHolder(@NonNull View itemView) {
-        super(itemView);
+    public AbstractSwipeableItemViewHolder(@NonNull View itemView, VM viewModel, ViewDataBinding mDataBinding) {
+        super(itemView, viewModel, mDataBinding);
     }
 
     @Override

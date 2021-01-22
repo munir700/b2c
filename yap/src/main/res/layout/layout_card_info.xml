@@ -8,12 +8,20 @@
             type="String" />
 
         <variable
+            name="virtualCardName"
+            type="String" />
+
+        <variable
             name="cardNumber"
             type="String" />
 
         <variable
             name="buttonVisibility"
             type="Boolean" />
+
+        <variable
+            name="cardImgUrl"
+            type="String" />
 
         <import type="android.view.View" />
 
@@ -27,20 +35,40 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCustomCard"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_100sdp"
             android:contentDescription="@string/empty_string"
-            android:src="@drawable/card_spare"
+            app:cardImageUrl="@{cardImgUrl}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCardNameOnCardImage"
+            style="@style/AMicroGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:gravity="center"
+            android:lineSpacingExtra="0dp"
+            android:maxLength="26"
+            android:maxLines="2"
+            android:text="@{virtualCardName}"
+            android:textColor="@color/colorLightGreyWithOpacity"
+            android:textSize="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivCustomCard"
+            app:layout_constraintEnd_toEndOf="@id/ivCustomCard"
+            app:layout_constraintStart_toStartOf="@+id/ivCustomCard"
+            app:layout_constraintTop_toTopOf="@+id/ivCustomCard"
+            tools:text="Amazone Card" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clRightData"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_extra_large"
+            android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ivCustomCard"
@@ -95,8 +123,8 @@
                 android:id="@+id/btnCardDetails"
                 style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_height="wrap_content"
+                app:btn_size="mini_small"
                 android:layout_marginBottom="@dimen/margin_extra_small"
                 android:text="Card details"
                 android:textSize="@dimen/text_size_c1"

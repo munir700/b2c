@@ -50,6 +50,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:textColor="?attr/colorPrimary"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
@@ -93,7 +94,7 @@
             app:layout_constraintRight_toLeftOf="@id/clRightContainer"
             app:layout_constraintStart_toEndOf="@id/ivLeftIcon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="titledasdasd a" />
+            tools:text="title" />
 
         <View
             android:id="@+id/vBottomLine"

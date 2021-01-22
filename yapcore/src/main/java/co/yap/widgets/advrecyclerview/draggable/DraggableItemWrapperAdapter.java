@@ -387,7 +387,11 @@ class DraggableItemWrapperAdapter<VH extends RecyclerView.ViewHolder> extends Si
         if (mItemMoveMode == RecyclerViewDragDropManager.ITEM_MOVE_MODE_DEFAULT && CustomRecyclerViewUtils.isLinearLayout(layoutType)) {
             notifyItemMoved(fromPosition, toPosition);
         } else {
-//            notifyDataSetChanged();
+//<<<<<<< HEAD HouseHold
+////            notifyDataSetChanged();
+//=======
+            notifyDataSetChanged();
+//>>>>>>> 8754568aee9da974a4d9200d336903ddea4c7f73
         }
     }
 

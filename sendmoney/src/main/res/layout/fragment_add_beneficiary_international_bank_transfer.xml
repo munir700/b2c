@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -227,6 +228,7 @@
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
                     tools:hint="@string/screen_add_beneficiary_detail_input_text_nick_name_hint" />
 
+
                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -254,6 +256,7 @@
                     android:text="@={viewModel.state.firstName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}"
                     tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint" />
+
 
                 <TextView
                     style="@style/Small"
@@ -334,13 +337,13 @@
                 <co.yap.widgets.CoreButton
                     android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_34sdp"
-                    android:layout_marginBottom="@dimen/margin_medium_large"
-                    android:minWidth="@dimen/_180sdp"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
+                    app:btn_size="small"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{viewModel.state.transferType.equals(`Cash Pickup`)?Strings.screen_add_beneficiary_detail_button_confirm:Strings.common_button_next}"

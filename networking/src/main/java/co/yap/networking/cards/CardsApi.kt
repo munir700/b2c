@@ -58,4 +58,5 @@ interface CardsApi {
     suspend fun getHouseHoldCardsDesign(
         accountType: String
     ): RetroApiResponse<BaseListResponse<HouseHoldCardsDesign>>
+    suspend fun getVirtualCardDesigns(): RetroApiResponse<VirtualCardDesignsResponse>
 }

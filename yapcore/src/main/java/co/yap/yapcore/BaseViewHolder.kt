@@ -9,7 +9,7 @@ open class BaseViewHolder<ITEM : ApiResponse, VM : BaseListItemViewModel<ITEM>>
     (view: View, viewModel: VM, private val mDataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(view) {
     private val mViewModel: VM = viewModel
-    fun setItem(item: ITEM, position: Int) {
+    open fun setItem(item: ITEM, position: Int) {
         mViewModel.setItem(item, position)
         mDataBinding.executePendingBindings()
     }

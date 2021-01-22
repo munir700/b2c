@@ -245,7 +245,11 @@ class DraggingItemDecorator extends BaseDraggableItemDecorator {
         if (mDraggingItemViewHolder != null) {
             moveToDefaultPosition(
                     mDraggingItemViewHolder.itemView,
-                    0.2f, 0.2f,
+//<<<<<<< HEAD HouseHold
+//                    0.2f, 0.2f,
+//=======
+                    mLastDraggingItemScaleX, mLastDraggingItemScaleY,
+//>>>>>>> 8754568aee9da974a4d9200d336903ddea4c7f73
                     mLastDraggingItemRotation, mLastDraggingItemAlpha,
                     animate);
         }

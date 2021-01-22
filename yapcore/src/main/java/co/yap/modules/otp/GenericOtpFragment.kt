@@ -13,6 +13,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentGenericOtpBinding
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getOtpFromMessage
 import co.yap.yapcore.helpers.extentions.hideKeyboard
@@ -53,6 +54,11 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
         context?.startSmsConsent()
         initBroadcast()
         context?.registerReceiver(appSMSBroadcastReceiver, intentFilter)
+        viewModel.requestKeyBoard.observe(this, Observer {
+            if (it) {
+                Utils.requestKeyboard(getBindings().otpView, request = true, forced = true)
+            }
+        })
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
@@ -151,8 +157,12 @@ class GenericOtpFragment : BaseBindingFragment<IGenericOtp.ViewModel>(), IGeneri
     override fun onToolBarClick(id: Int) {
         when (id) {
             R.id.ivLeftIcon -> {
+                otp_view.hideKeyboard()
                 activity?.onBackPressed()
             }
         }
     }
+
+    private fun getBindings(): FragmentGenericOtpBinding =
+        viewDataBinding as FragmentGenericOtpBinding
 }

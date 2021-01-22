@@ -23,6 +23,10 @@
 
         <import type="co.yap.yapcore.managers.SessionManager" />
 
+        <import type="co.yap.yapcore.helpers.TransactionAdapterType" />
+
+        <import type="android.view.View" />
+
         <import type="co.yap.yapcore.helpers.extentions.CurrencyExtensionsKt" />
     </data>
 
@@ -89,7 +93,7 @@
                 style="@style/SmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{homeTransactionChildItemVM.item.txnType == null?` `:(TxnType.valueOf(homeTransactionChildItemVM.item.txnType) == TxnType.CREDIT?`+ ` + CurrencyExtensionsKt.toFormattedCurrency(homeTransactionChildItemVM.item.amount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true): `- `+CurrencyExtensionsKt.toFormattedCurrency(homeTransactionChildItemVM.item.totalAmount.toString(),false,SessionManager.INSTANCE.getDefaultCurrency(),true)) }"
+                android:text="@{TransactionExtentionsKt.getFormattedTransactionAmount(homeTransactionChildItemVM.item)}"
                 android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:((homeTransactionChildItemVM.item.txnType != null &amp;&amp; TxnType.valueOf(homeTransactionChildItemVM.item.txnType) == TxnType.CREDIT)?@color/colorSecondaryGreen :@color/colorPrimaryDark )}"
                 tools:text="18:25" />
 
@@ -111,7 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getFormattedTime(homeTransactionChildItemVM.item,DateUtils.INSTANCE.FORMAT_TIME_24H), TransactionExtentionsKt.getTransactionTypeTitle(homeTransactionChildItemVM.item))}"
+                android:text="@{Translator.INSTANCE.getString(context,Strings.screen_fragment_home_transaction_time_category , TransactionExtentionsKt.getTransactionTime(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION), TransactionExtentionsKt.getTransactionTypeTitle(homeTransactionChildItemVM.item,TransactionAdapterType.TRANSACTION))}"
                 android:textColor="@{TransactionExtentionsKt.isTransactionCancelled(homeTransactionChildItemVM.item)? @color/greyNormalDark:@color/greyDark}"
                 tools:text="- 21.00" />
 
@@ -135,10 +139,28 @@
             android:maxLines="2"
             android:text="@{homeTransactionChildItemVM.item.transactionNote==null?``:homeTransactionChildItemVM.item.transactionNote}"
             android:textColor="@color/greyNormalDark"
+            android:visibility="@{homeTransactionChildItemVM.item.transactionNote.empty?View.GONE :View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2"
             tools:text="Note goes here Only show first line " />
+
+        <TextView
+            android:id="@+id/tvTransactionStatus"
+            style="@style/Micro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:maxLines="2"
+            android:text="@{TransactionExtentionsKt.getTransactionStatus(homeTransactionChildItemVM.item)}"
+            android:textColor="@color/greyDark"
+            android:visibility="@{TransactionExtentionsKt.getTransactionStatus(homeTransactionChildItemVM.item).empty?View.GONE :View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/flImageLayout"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote"
+            tools:text="Transaction rejected" />
 
         <View
             android:id="@+id/view"
@@ -149,6 +171,6 @@
             android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flImageLayout"
-            app:layout_constraintTop_toBottomOf="@+id/tvTransactionNote" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionStatus" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

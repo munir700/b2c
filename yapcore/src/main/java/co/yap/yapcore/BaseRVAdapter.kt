@@ -2,7 +2,6 @@ package co.yap.yapcore
 
 
 import android.os.Bundle
-import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,23 +13,26 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.models.ApiResponse
 import co.yap.yapcore.helpers.extentions.onClick
-import co.yap.yapcore.helpers.extentions.onLongClick
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    (internal var datas: MutableList<T>, private var navigation: NavController?) :
+    (
+    var datas: MutableList<T>,
+    private var navigation: NavController?
+) :
     RecyclerView.Adapter<VH>() {
 
     @Nullable
     var onItemClickListener: OnItemClickListener? = null
+    var onChildViewClickListener: ((view: View, position: Int, data: T?) -> Unit)? =
+        null
 
     override fun getItemCount() = datas.count()
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         if (datas.size > position)
             holder.setItem(datas[position], position)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -39,13 +41,12 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         val mDataBinding = DataBindingUtil.bind<ViewDataBinding>(view)
         mDataBinding?.setVariable(getVariableId(), viewModel)
         val holder: VH = getViewHolder(view, viewModel, mDataBinding!!, viewType)
-        holder.itemView.setOnClickListener {
+        holder.onClick { view, position, type ->
             onItemClickListener?.onItemClick(
-                it,
+                view,
                 datas[holder.adapterPosition],
                 holder.adapterPosition
             )
-
         }
         return holder
     }
@@ -56,6 +57,10 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         val viewModel: VM = getViewModel(viewType)
         viewModel.onCreate(Bundle(), navigation)
         navigation?.let { onItemClickListener = viewModel }
+        onChildViewClickListener?.let {
+            viewModel.onChildViewClickListener = it
+        }
+
         return viewModel
     }
 
@@ -91,28 +96,21 @@ abstract class BaseRVAdapter<T : ApiResponse, VM : BaseListItemViewModel<T>, VH 
         notifyDataSetChanged()
     }
 
-    fun removeAll() {
+    fun removeAllItems() {
         this.datas.clear()
         notifyDataSetChanged()
     }
 
-    fun remove(type: T) {
+    open fun remove(type: T) {
         val position = this.datas.indexOf(type)
-        removeItemAt(position)
-//        this.datas.remove(type)
-//        notifyItemRemoved(position)
-//        notifyDataSetChanged()
-    }
-
-    fun removeItemAt(position: Int) {
-        this.datas.removeAt(position)
+        this.datas.remove(type)
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
 
-    fun removeAllItems() {
-        this.datas.clear()
-        notifyDataSetChanged()
+    open fun removeAt(position: Int) {
+        this.datas.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun change(newItem: T, oldItem: T) {

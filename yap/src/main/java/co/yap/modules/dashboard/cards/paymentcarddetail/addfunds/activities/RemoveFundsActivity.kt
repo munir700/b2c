@@ -32,7 +32,10 @@ import co.yap.yapcore.managers.SessionManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_add_funds.*
 import kotlinx.android.synthetic.main.activity_remove_funds.*
+import kotlinx.android.synthetic.main.activity_remove_funds.cardInfoLayout
+import kotlinx.android.synthetic.main.activity_remove_funds.etAmount
 
 class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemoveFunds.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -184,11 +187,6 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
     }
 
     private fun setAmountBg(isError: Boolean = false, isValid: Boolean = false) {
-//        getBinding().etAmount.background =
-//            this.resources.getDrawable(
-//                if (isError) co.yap.yapcore.R.drawable.bg_funds_error else co.yap.yapcore.R.drawable.bg_funds,
-//                null
-//            )
         if (!isError) cancelAllSnackBar()
         viewModel.state.valid.set(isValid)
     }
@@ -253,6 +251,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
             Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
             runCardAnimation()
+            runCardNameAnimation()
         }
     }
 
@@ -295,6 +294,14 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         }, 500)
     }
 
+    private fun runCardNameAnimation() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            cardNameAnimation().apply {
+                addListener(onEnd = {
+                })
+            }.start()
+        }, 500)
+    }
 
     private fun cardAnimation(): AnimatorSet {
         val checkBtnEndPosition =
@@ -309,6 +316,22 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             AnimationUtils.pulse(getBinding().cardInfoLayout.ivCustomCard)
         )
     }
+
+    private fun cardNameAnimation(): AnimatorSet {
+        val checkBtnEndPosition =
+            (cardInfoLayout.measuredWidth / 2) - (getBinding().cardInfoLayout.tvCardNameOnCardImage.width / 2)
+        return AnimationUtils.runSequentially(
+            AnimationUtils.slideHorizontal(
+                view = getBinding().cardInfoLayout.tvCardNameOnCardImage,
+                from = getBinding().cardInfoLayout.tvCardNameOnCardImage.x,
+                to = checkBtnEndPosition.toFloat(),
+                duration = 500
+            ),
+            AnimationUtils.pulse(getBinding().cardInfoLayout.tvCardNameOnCardImage)
+        )
+
+    }
+
 
     private fun setupActionsIntent() {
         val returnIntent = Intent()

@@ -12,6 +12,8 @@ import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
 import java.text.SimpleDateFormat
 
@@ -101,6 +103,25 @@ fun ViewModel.trackEventWithAttributes(
     )
 }
 
+fun trackEventWithAttributes(
+    user: AccountInfo?,
+    signup_length: String? = null,
+    account_active: String? = null,
+    context: Context? = null,
+    eidExpire: Boolean = false,
+    eidExpireDate: String = "",
+    city: String? = null
+) {
+    trackAttributes(
+        user,
+        signup_length,
+        account_active,
+        context,
+        eidExpire,
+        eidExpireDate, city
+    )
+}
+
 private fun trackAttributes(
     user: AccountInfo?,
     signup_length: String? = null,
@@ -146,6 +167,7 @@ private fun trackAttributes(
         }
         it.currentCustomer.customerId?.let { customerId ->
             info[UserAttributes().customerId] = customerId
+            Firebase.analytics.setUserId(customerId)
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
         info[UserAttributes().isMainUser] = isMainUser
@@ -200,4 +222,27 @@ fun fireEventWithAttribute(eventName: String, value: String) {
     } else {
         Leanplum.track(eventName, value)
     }
+}
+
+fun ViewModel.trackEventWithAttributes(
+    uuid: String?,
+    info:HashMap<String, Any?>
+) {
+    Leanplum.setUserAttributes(uuid, info)
+}
+
+fun Fragment.trackEvent(
+    eventName: String,
+    lastCountry: String? = null,
+    lastType: String? = null) {
+
+    val params: HashMap<String, Any> = HashMap()
+    params["LastCountry"] = lastCountry ?: ""
+    params["LastType"] = lastType ?: ""
+
+    fireEvent(eventName, params)
+}
+
+fun fireEvent(eventName: String, params: Map<String, Any>) {
+    Leanplum.track(eventName, params)
 }

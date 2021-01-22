@@ -26,16 +26,16 @@ import co.yap.widgets.advrecyclerview.swipeable.annotation.SwipeableItemAfterRea
 /**
  * Interface which provides required information for swiping item.
  * <p>
- * Implement this interface on your sub-class of the {@link androidx.recyclerview.widget.RecyclerView.ViewHolder}.
+ * Implement this interface on your sub-class of the {@link RecyclerView.ViewHolder}.
  */
 public interface SwipeableItemViewHolder {
     /**
      * Sets the state flags value for swiping item
      *
      * @param flags Bitwise OR of these flags;
-     *              - {@link co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants#STATE_FLAG_SWIPING}
-     *              - {@link co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants#STATE_FLAG_IS_ACTIVE}
-     *              - {@link co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants#STATE_FLAG_IS_UPDATED}
+     *              - {@link SwipeableItemConstants#STATE_FLAG_SWIPING}
+     *              - {@link SwipeableItemConstants#STATE_FLAG_IS_ACTIVE}
+     *              - {@link SwipeableItemConstants#STATE_FLAG_IS_UPDATED}
      * @see #getSwipeState()
      */
     void setSwipeStateFlags(int flags);
@@ -44,16 +44,16 @@ public interface SwipeableItemViewHolder {
      * Gets the state flags value for swiping item. You can access these flags more human friendly way through {@link #getSwipeState()}.
      *
      * @return Bitwise OR of these flags;
-     * - {@link co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants#STATE_FLAG_SWIPING}
-     * - {@link co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants#STATE_FLAG_IS_ACTIVE}
-     * - {@link co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants#STATE_FLAG_IS_UPDATED}
+     * - {@link SwipeableItemConstants#STATE_FLAG_SWIPING}
+     * - {@link SwipeableItemConstants#STATE_FLAG_IS_ACTIVE}
+     * - {@link SwipeableItemConstants#STATE_FLAG_IS_UPDATED}
      * @see #getSwipeState()
      */
     int getSwipeStateFlags();
 
     /**
      * Gets the state object for swipeable item.
-     * This method can be used inside of the {@link androidx.recyclerview.widget.RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}.
+     * This method can be used inside of the {@link RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}.
      *
      * @return {@link SwipeableItemState} object
      */

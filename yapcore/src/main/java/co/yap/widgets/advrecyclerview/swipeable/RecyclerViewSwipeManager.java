@@ -38,7 +38,7 @@ import co.yap.widgets.advrecyclerview.utils.CustomRecyclerViewUtils;
 import co.yap.widgets.advrecyclerview.utils.WrapperAdapterUtils;
 
 /**
- * Provides item swipe operation for {@link androidx.recyclerview.widget.RecyclerView}
+ * Provides item swipe operation for {@link RecyclerView}
  */
 @SuppressWarnings("PointlessBitwiseExpression")
 public class RecyclerViewSwipeManager implements SwipeableItemConstants {
@@ -162,12 +162,12 @@ public class RecyclerViewSwipeManager implements SwipeableItemConstants {
     }
 
     /**
-     * <p>Attaches {@link androidx.recyclerview.widget.RecyclerView} instance.</p>
-     * <p>Before calling this method, the target {@link androidx.recyclerview.widget.RecyclerView} must set
+     * <p>Attaches {@link RecyclerView} instance.</p>
+     * <p>Before calling this method, the target {@link RecyclerView} must set
      * the wrapped adapter instance which is returned by the
-     * {@link #createWrappedAdapter(androidx.recyclerview.widget.RecyclerView.Adapter)} method.</p>
+     * {@link #createWrappedAdapter(RecyclerView.Adapter)} method.</p>
      *
-     * @param rv The {@link androidx.recyclerview.widget.RecyclerView} instance
+     * @param rv The {@link RecyclerView} instance
      */
     public void attachRecyclerView(@NonNull RecyclerView rv) {
         if (isReleased()) {
@@ -202,7 +202,7 @@ public class RecyclerViewSwipeManager implements SwipeableItemConstants {
     }
 
     /**
-     * <p>Detach the {@link androidx.recyclerview.widget.RecyclerView} instance and release internal field references.</p>
+     * <p>Detach the {@link RecyclerView} instance and release internal field references.</p>
      * <p>This method should be called in order to avoid memory leaks.</p>
      */
     public void release() {

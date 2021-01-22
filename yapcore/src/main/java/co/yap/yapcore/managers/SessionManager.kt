@@ -3,6 +3,7 @@ package co.yap.yapcore.managers
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
+import co.yap.countryutils.country.Country
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
@@ -17,7 +18,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.firebase.getFCMToken
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
 import com.liveperson.infra.LPAuthenticationParams
@@ -50,8 +53,10 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     var helpPhoneNumber: String = ""
     var onAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
+    private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
     private const val DEFAULT_CURRENCY: String = "AED"
+    var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -72,8 +77,32 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    fun getCountriesFromServer(response: (success: Boolean, countries: ArrayList<Country>) -> Unit) {
+        GlobalScope.launch(Dispatchers.IO) {
+            when (val apiResponse = customerRepository.getAllCountries()) {
+                is RetroApiResponse.Success -> {
+                    countries.postValue(
+                        Utils.parseCountryList(
+                            apiResponse.data.data,
+                            addOIndex = false
+                        )
+                    )
+                    response.invoke(true, countries.value ?: arrayListOf())
+                }
+
+                is RetroApiResponse.Error -> {
+                    response.invoke(false, arrayListOf())
+                }
+            }
+        }
+    }
+
     fun getCurrencies(): ArrayList<CurrencyData> {
         return currencies.value ?: arrayListOf()
+    }
+
+    fun getCountries(): ArrayList<Country> {
+        return countries.value ?: arrayListOf()
     }
 
     fun getDefaultCurrencyDecimals(): Int = 2
@@ -86,15 +115,17 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     }
 
     @Deprecated("Not used anymore")
-    fun getAccountInfo() {
+    fun getAccountInfo(success: () -> Unit = {}) {
         GlobalScope.launch {
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     usersList?.postValue(response.data.data as ArrayList)
 //                    usersList?.value = response.data.data as ArrayList
                     user = getCurrentUser()
+                    isFounder.postValue(user?.currentCustomer?.founder)
                     setupDataSetForBlockedFeatures()
                     onAccountInfoSuccess.postValue(true)
+                    success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -170,8 +201,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         return false
     }
 
-    fun getDebitCard(success: (card: Card) -> Unit = {}) {
-        GlobalScope.launch {
+    fun getDebitCard(success: (card: Card?) -> Unit = {}) {
+        GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
@@ -182,6 +213,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     }
                 }
                 is RetroApiResponse.Error -> {
+                    success.invoke(null)
                 }
             }
         }
@@ -232,13 +264,30 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                 val authParams = LPAuthenticationParams()
                 authParams.hostAppJWT = ""
             }
-
             override fun onLogoutFailed() {
             }
         })
     }
 
     fun getDefaultCurrency() = DEFAULT_CURRENCY
+
+    fun sendFcmTokenToServer(success: () -> Unit = {}) {
+        getFCMToken() {
+            it?.let { token ->
+                GlobalScope.launch {
+                    when (val response = customerRepository.getAccountInfo()) {
+                        is RetroApiResponse.Success -> {
+                            success.invoke()
+                        }
+
+                        is RetroApiResponse.Error -> {
+                        }
+                    }
+                }
+            }
+
+        }
+    }
     fun shouldGoToHousehold(): Boolean {
         val yapUser = getYapUser()
         val householdUser = getHouseholdUser()

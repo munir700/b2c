@@ -27,7 +27,7 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     IPassCode.View {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_pass_code
-    override val viewModel: IPassCode.ViewModel
+    override val viewModel: PassCodeViewModel
         get() = ViewModelProviders.of(this).get(PassCodeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,8 @@ class UpdateConfirmPasscodeFragment : ChangePasscodeBaseFragment<IPassCode.ViewM
     private fun moveToSuccessScreen() {
         val sharedPreferenceManager = SharedPreferenceManager.getInstance(requireContext())
         sharedPreferenceManager.savePassCodeWithEncryption(viewModel.state.passCode)
-        findNavController().navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
+
+        navigate(R.id.action_updateConfirmPasscodeFragment_to_successFragment)
     }
 
     private fun startOtpFragment(name: String) {

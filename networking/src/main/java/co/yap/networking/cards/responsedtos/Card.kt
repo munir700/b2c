@@ -33,11 +33,12 @@ data class Card(
     val currentBalance: String,
     var availableBalance: String,
     val customerId: String,
-    val accountNumber: String?,
-    val productCode: String,
     var pinCreated: Boolean,
+    val accountNumber: String,
+    val productCode: String,
     var frontImage: String,
     var backImage: String,
     var shipmentDate: String? = null,
-    var activationDate: String? = null
-) : ApiResponse(), Parcelable
+    var activationDate: String? = null,
+    var pinStatus: String? = null
+)  : ApiResponse(), Parcelable

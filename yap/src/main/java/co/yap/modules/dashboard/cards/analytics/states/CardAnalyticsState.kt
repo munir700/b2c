@@ -115,11 +115,20 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
         }
 
     @get:Bindable
-    override var selectedTxnAnalyticsItem: TxnAnalytic? = TxnAnalytic("", "", "", 0.0, 0)
+    override var selectedTxnAnalyticsItem: TxnAnalytic? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
         }
+
+
+    @get:Bindable
+    override var displayMonth: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.displayMonth)
+        }
+
 
     fun setUpString(currencyType: String?, amount: String?) {
         monthlyAverageString =

@@ -3,18 +3,18 @@ package co.yap.sendmoney.home.adapters
 import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.sendmoney.R
 import co.yap.sendmoney.databinding.LayoutItemBeneficiaryBinding
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AllBeneficiariesAdapter(
-    private val list: MutableList<Beneficiary>, val isSearching: ObservableField<Boolean>
-) : BaseBindingSearchRecylerAdapter<Beneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
+    private val list: MutableList<IBeneficiary>, val isSearching: ObservableField<Boolean> = ObservableField(false)
+) : BaseBindingSearchRecylerAdapter<IBeneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
     list
 ) {
-
+    var sendMoneyType: String?=null
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_beneficiary
 
     override fun onCreateViewHolder(binding: ViewDataBinding): AllBeneficiariesItemViewHolder {
@@ -23,7 +23,7 @@ class AllBeneficiariesAdapter(
 
     override fun onBindViewHolder(holder: AllBeneficiariesItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-            holder.onBind(list[position], position, onItemClickListener,isSearching)
+        holder.onBind(list[position], position, onItemClickListener, sendMoneyType,isSearching)
     }
 
     class AllBeneficiariesItemViewHolder(
@@ -32,24 +32,22 @@ class AllBeneficiariesAdapter(
         RecyclerView.ViewHolder(itemContactsBinding.root) {
 
         fun onBind(
-            beneficiary: Beneficiary?,
+            beneficiary: IBeneficiary?,
             position: Int,
             onItemClickListener: OnItemClickListener?,
-            isSearching: ObservableField<Boolean>
+            sendMoneyType: String? = "",isSearching: ObservableField<Boolean>
         ) {
-
-            itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener,isSearching)
+            itemContactsBinding.viewModel =
+                BeneficiaryItemViewModel(beneficiary, position, sendMoneyType, onItemClickListener,isSearching)
             itemContactsBinding.executePendingBindings()
-
         }
     }
 
-    override fun filterItem(constraint: CharSequence?, item: Beneficiary): Boolean {
+    override fun filterItem(constraint: CharSequence?, item: IBeneficiary): Boolean {
         val filterString = constraint.toString().toLowerCase()
-        val nickname = item.title?.toLowerCase() ?: item.fullName()
-        val fullName = item.fullName().toLowerCase()
+        val nickname = item.subtitle?.toLowerCase() ?: ""
+        val fullName = item.fullName?.toLowerCase()?:""
 
         return nickname.contains(filterString) || fullName.contains(filterString)
     }
-
 }

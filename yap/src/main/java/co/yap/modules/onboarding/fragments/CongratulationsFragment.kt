@@ -36,6 +36,8 @@ import co.yap.yapcore.AdjustEvents.Companion.trackAdjustPlatformEvent
 import co.yap.yapcore.adjust.AdjustEvents
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
@@ -45,6 +47,7 @@ import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.livedata.GetAccountInfoLiveData
 import co.yap.yapcore.leanplum.*
 import co.yap.yapcore.managers.SessionManager
+import co.yap.yapcore.managers.SessionManager.sendFcmTokenToServer
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -107,7 +110,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     SignupEvents.SIGN_UP_LENGTH.type,
                     viewModel.elapsedOnboardingTime.toString()
                 )
-
+                trackEventWithScreenName(FirebaseEvent.COMPLETE_VERIFICATION)
                 val totalSecs = viewModel.elapsedOnboardingTime
                 val minutes = (totalSecs % 3600) / 60;
                 val seconds = totalSecs % 60;
@@ -195,7 +198,9 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         goToDashboard()
     }
 
+
     private fun goToDashboard() {
+        sendFcmTokenToServer(){}
         val action =
             CongratulationsFragmentDirections.actionCongratulationsFragmentToYapDashboardActivity()
         findNavController().navigate(action)

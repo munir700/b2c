@@ -99,7 +99,11 @@ public class RecyclerViewDragDropManager implements DraggableItemConstants {
          * @param fromPosition The old position of the item.
          * @param toPosition   The new position of the item
          */
-        void onItemDragPositionChanged(int fromPosition, int toPosition, @Nullable RecyclerView.ViewHolder draggingItemHolder, @Nullable RecyclerView.ViewHolder swapTargetHolder);
+//<<<<<<< HEAD
+//        void onItemDragPositionChanged(int fromPosition, int toPosition, @Nullable RecyclerView.ViewHolder draggingItemHolder, @Nullable RecyclerView.ViewHolder swapTargetHolder);
+//=======
+        void onItemDragPositionChanged(int fromPosition, int toPosition);
+//>>>>>>> 8754568aee9da974a4d9200d336903ddea4c7f73
 
         /**
          * Callback method to be invoked when dragging is finished.
@@ -903,6 +907,7 @@ public class RecyclerViewDragDropManager implements DraggableItemConstants {
 
         int draggingItemInitialPosition = RecyclerView.NO_POSITION;
         int draggingItemCurrentPosition = RecyclerView.NO_POSITION;
+
         // raise onDragItemFinished() event
         if (mWrapperAdapter != null) {
             draggingItemInitialPosition = mWrapperAdapter.getDraggingItemInitialPosition();
@@ -1603,13 +1608,17 @@ public class RecyclerViewDragDropManager implements DraggableItemConstants {
         }
     }
 
-    private void performSwapItems(RecyclerView rv, @Nullable RecyclerView.ViewHolder draggingItemHolder, @Nullable RecyclerView.ViewHolder swapTargetHolder, Rect swapTargetMargins, int fromPosition, int toPosition) {
+    private void performSwapItems(RecyclerView rv, @Nullable RecyclerView.ViewHolder draggingItemHolder, @NonNull RecyclerView.ViewHolder swapTargetHolder, Rect swapTargetMargins, int fromPosition, int toPosition) {
         if (LOCAL_LOGD) {
             Log.d(TAG, "item swap (from: " + fromPosition + ", to: " + toPosition + ")");
         }
 
         if (mItemDragEventListener != null) {
-            mItemDragEventListener.onItemDragPositionChanged(fromPosition, toPosition,draggingItemHolder,swapTargetHolder);
+//<<<<<<< HEAD
+//            mItemDragEventListener.onItemDragPositionChanged(fromPosition, toPosition,draggingItemHolder,swapTargetHolder);
+//=======
+           mItemDragEventListener.onItemDragPositionChanged(fromPosition, toPosition);
+//>>>>>>> 8754568aee9da974a4d9200d336903ddea4c7f73
         }
 
         final RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();

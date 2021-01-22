@@ -18,5 +18,7 @@ data class HomeTransactionsRequest(
     @SerializedName("title")
     var title: String? = null,
     @SerializedName("totalAppliedFilter")
-    var totalAppliedFilter: Int = 0
+    var totalAppliedFilter: Int = 0,
+    @SerializedName("searchField")
+    var searchField: String? = null
 )

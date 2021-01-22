@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.main.viewmodels.AddSpareCardViewModel" />
 
         <import type="android.view.View" />
 
@@ -30,35 +30,20 @@
             <include
                 android:id="@+id/include"
                 layout="@layout/layout_add_spare_card_header"
-                app:cardType="@{viewModel.state.cardType}" />
+                app:cardType="@{viewModel.state.cardType}"
+                app:cardName="@{viewModel.state.cardName}" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
+                android:id="@+id/layoutVirtualCardConfirmPurchase"
+                layout="@layout/layout_add_spare_virtaul_card_confirm_purchase"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:viewModel="@{viewModel}" />
 
-                <include
-                    android:id="@+id/layoutVirtualCardConfirmPurchase"
-                    layout="@layout/layout_add_spare_virtaul_card_confirm_purchase"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.state.cardType.equals(`Virtual card`) ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:viewModel="@{viewModel}" />
-
-                <include
-                    android:id="@+id/layoutPhysicalCardConfirmPurchase"
-                    layout="@layout/layout_add_spare_physical_card_confirm_purchase"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.state.cardType.equals(`Physical card`) ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:viewModel="@{viewModel}" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>

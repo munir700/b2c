@@ -16,6 +16,11 @@
         <import type="android.view.View" />
 
         <import type="co.yap.yapcore.enums.CardStatus" />
+
+        <import type="co.yap.yapcore.managers.SessionManager" />
+
+        <import type="co.yap.yapcore.R" />
+
     </data>
 
 
@@ -34,7 +39,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/card_spare" />
+            app:cardtype="@{viewModel.paymentCard.cardType}"
+            app:isFounder="@{SessionManager.INSTANCE.isFounder()}"
+             />
 
         <ImageView
             android:id="@+id/imgStatus"
@@ -55,7 +62,6 @@
             style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
             android:gravity="center"
             android:maxLines="2"
             android:ellipsize="end"
@@ -66,7 +72,7 @@
 
         <LinearLayout
             android:id="@+id/layoutStatusSection"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center"
@@ -80,13 +86,15 @@
             <TextView
                 android:id="@+id/tvCardStatus"
                 style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginStart="@dimen/margin_extra_large"
+                android:layout_marginEnd="@dimen/margin_extra_large"
                 android:maxLines="2"
                 android:ellipsize="end"
                 app:cardStatus="@{viewModel.paymentCard}"
-                tools:text="This card has expired" />
+                tools:text="We are now processing your account. Please wait for activation to be completed shortly" />
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"

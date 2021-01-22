@@ -19,6 +19,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.AlertType
 import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.firebase.trackScreenViewEvent
 import co.yap.yapcore.helpers.*
 import co.yap.yapcore.helpers.extentions.hideKeyboard
 import co.yap.yapcore.helpers.extentions.preventTakeScreenShot
@@ -42,6 +43,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        trackScreenViewEvent()
+//        setUpFirebaseAnalytics()
+
         applySelectedTheme(SharedPreferenceManager.getInstance(this))
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -56,6 +60,22 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         progress = Utils.createProgressDialog(this)
         preventTakeScreenShot(YAPApplication.configManager?.isReleaseBuild() == true)
 
+        viewModel.state.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is String -> {
+                        viewModel.state.toast = "${it}^${AlertType.DIALOG.name}"
+                    }
+                    is Boolean -> {
+                        viewModel.state.loading = it
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        })
     }
 
     private fun applySelectedTheme(prefs: SharedPreferenceManager) {
@@ -198,6 +218,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         cancelAllSnackBar()
         progress?.dismiss()
         viewModel.toolBarClickEvent.removeObservers(this)
+        viewModel.state.viewState.removeObservers(this)
         super.onDestroy()
     }
 
@@ -263,4 +284,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
             (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
+
+    override fun getScreenName(): String? = ""
 }

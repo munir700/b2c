@@ -22,6 +22,8 @@ import co.yap.yapcore.dagger.base.navigation.host.NAVIGATION_Graph_START_DESTINA
 import co.yap.yapcore.dagger.base.navigation.host.NavHostPresenterActivity
 import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.YAPThemes
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.startFragment
@@ -71,18 +73,21 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, true)
             trackEvent(KYCEvents.SIGN_UP_ENABLED_PERMISSION.type,"TouchID")
+            trackEventWithScreenName(FirebaseEvent.SETUP_TOUCH_ID)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
                     Constants.NOTIFICATION_SCREEN_TYPE
                 )
             findNavController().navigate(action)
         } else {
+            trackEventWithScreenName(FirebaseEvent.ACCEPT_NOTIFICATIONS)
             navigateToDashboard()
         }
     }
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
+            trackEventWithScreenName(FirebaseEvent.NO_TOUCH_ID)
             sharedPreferenceManager.save(KEY_TOUCH_ID_ENABLED, false)
             val action =
                 SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
@@ -90,6 +95,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 )
             findNavController().navigate(action)
         } else {
+            trackEventWithScreenName(FirebaseEvent.DECLINE_NOTIFICATIONS)
             navigateToDashboard()
         }
     }

@@ -1,6 +1,7 @@
 package co.yap.countryutils.country.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.R
@@ -694,6 +695,23 @@ object CurrencyUtils {
         return 0
     }
 
+    fun getFlagDrawable2(context: Context, resName: String): Drawable? {
+        if (!TextUtils.isEmpty(resName)) {
+            var name = resName
+            if (resName.length == 2 || resName.length == 3) {
+                // it is probably a country iso isoCountryCode2Digit
+                name = "flag_" + resName.toLowerCase()
+            }
+            return context.resources.getDrawable(
+                context.resources.getIdentifier(
+                    name,
+                    "drawable",
+                    context.packageName
+                )
+            )
+        }
+        return null
+    }
 //    fun getFlagDrawable(countryIsoName: String): Int {
 //        return getFlagDrawable(
 //            Utils.context!!,

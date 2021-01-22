@@ -53,8 +53,8 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
             if (monthlyFeeResponse.data.data != null) {
                 if (monthlyFeeResponse.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                     val feeAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                    val VATAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                    monthlyFee = feeAmount?.plus(VATAmount ?: 0.0)
+                    //val VATAmount = monthlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                    monthlyFee = feeAmount//?.plus(VATAmount ?: 0.0)
                 }
             } else {
                 monthlyFee = 0.0
@@ -62,8 +62,8 @@ class SubscriptionSelectionVM @Inject constructor(override var state: ISubscript
             if (yearlyFeeResponse.data.data != null) {
                 if (yearlyFeeResponse.data.data?.feeType == Constants.FEE_TYPE_FLAT) {
                     val feeAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.feeAmount
-                    val VATAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
-                    yearlyFee = feeAmount?.plus(VATAmount ?: 0.0)
+                    //val VATAmount = yearlyFeeResponse.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                    yearlyFee = feeAmount//?.plus(VATAmount ?: 0.0)
                 }
             } else {
                 yearlyFee = 0.0

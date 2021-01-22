@@ -38,6 +38,9 @@ import co.yap.yapcore.enums.AccountStatus
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.OTPActions
 import co.yap.yapcore.enums.YAPThemes.HOUSEHOLD
+import co.yap.yapcore.firebase.FirebaseEvent
+import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricCallback
 import co.yap.yapcore.helpers.biometric.BiometricManagerX
@@ -45,6 +48,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.helpers.extentions.*
 import co.yap.yapcore.helpers.livedata.SwitchProfileLiveData
 import co.yap.yapcore.leanplum.HHUserOnboardingEvents
+import co.yap.yapcore.leanplum.SignInEvents
 import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventInFragments
 import co.yap.yapcore.managers.SessionManager
@@ -262,6 +266,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
                 if (SessionManager.user?.otpBlocked == true) {
                     showToast(Utils.getOtpBlockedMessage(requireContext()))
                 } else {
+                    trackEventWithScreenName(if (viewModel.state.isAccountLocked.get() == true) FirebaseEvent.FORGOT_PWD_BLOCKED else FirebaseEvent.CLICK_FORGOT_PWD)
                     if (!isUserLoginIn()) {
                         goToNext(viewModel.state.username)
                     } else {
@@ -309,49 +314,75 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
 
     private val onFetchAccountInfo = Observer<AccountInfo> {
         it?.run {
+//<<<<<<< HEAD
+//            trackEvents(it)
+//            SessionManager.updateCardBalance { }
+//            viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
+//            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
+//                    KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+//                    false
+//                ) != true
+//            ) {
+//                if (BiometricUtil.hasBioMetricFeature(requireContext())) {
+//                    val action =
+//                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+//                            Constants.TOUCH_ID_SCREEN_TYPE
+//                        )
+//                    navigate(action)
+//                    viewModel.parentViewModel?.shardPrefs?.save(
+//                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+//                        true
+//                    )
+//                } else {
+//                    viewModel.parentViewModel?.shardPrefs?.save(
+//=======
             trackEvents(it)
-            SessionManager.updateCardBalance { }
-            viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
-            if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
-                    KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                    false
-                ) != true
-            ) {
-                if (BiometricUtil.hasBioMetricFeature(requireContext())) {
-                    val action =
-                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-                            Constants.TOUCH_ID_SCREEN_TYPE
-                        )
-                    navigate(action)
-                    viewModel.parentViewModel?.shardPrefs?.save(
+            trackEventWithScreenName(if (viewModel.isFingerprintLogin) FirebaseEvent.SIGN_IN_TOUCH else FirebaseEvent.SIGN_IN_PIN)
+            TourGuideManager.getTourGuides()
+            SessionManager.getDebitCard { card ->
+                SessionManager.updateCardBalance { }
+                viewModel.parentViewModel?.shardPrefs?.save(KEY_IS_USER_LOGGED_IN, true)
+                if (viewModel.parentViewModel?.shardPrefs?.getValueBoolien(
                         KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        true
-                    )
-                } else {
-                    viewModel.parentViewModel?.shardPrefs?.save(
-                        KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-                        true
-                    )
-                    val action =
-                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
-                            Constants.NOTIFICATION_SCREEN_TYPE
+                        false
+                    ) != true
+                ) {
+                    if (BiometricUtil.hasBioMetricFeature(requireContext())) {
+                        val action =
+                            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                                Constants.TOUCH_ID_SCREEN_TYPE
+                            )
+                        navigate(action)
+                        viewModel.parentViewModel?.shardPrefs?.save(
+                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
                         )
-                    navigate(action)
-                }
-            } else {
-                if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
-                    startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
-                } else {
-                    if (SessionManager.shouldGoToHousehold()) {
-                        SessionManager.user?.uuid?.let { it1 ->
-                            SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
-                                .observe(this@VerifyPasscodeFragment, switchProfileObserver)
-                        }
-
                     } else {
-                        launchActivity<YapDashboardActivity> { }
+                        viewModel.parentViewModel?.shardPrefs?.save(
+                            KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                            true
+                        )
+                        val action =
+                            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                                Constants.NOTIFICATION_SCREEN_TYPE
+                            )
+                        navigate(action)
+                    }
+                } else {
+                    if (it.otpBlocked == true || SessionManager.user?.freezeInitiator != null) {
+                        startFragment(fragmentName = OtpBlockedInfoFragment::class.java.name)
+                    } else {
+                        if (SessionManager.shouldGoToHousehold()) {
+                            SessionManager.user?.uuid?.let { it1 ->
+                                SwitchProfileLiveData.get(it1, this@VerifyPasscodeFragment)
+                                    .observe(this@VerifyPasscodeFragment, switchProfileObserver)
+                            }
 
-                        activity?.finish()
+                        } else {
+                            SessionManager.sendFcmTokenToServer() {}
+                            launchActivity<YapDashboardActivity> { }
+                            activity?.finish()
+                        }
                     }
                 }
             }
@@ -425,6 +456,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
         }
     }
 
+
     private val createOtpObserver = Observer<Boolean> {
         val action =
             VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToPhoneVerificationSignInFragment(
@@ -441,6 +473,7 @@ class VerifyPasscodeFragment : MainChildFragment<IVerifyPasscode.ViewModel>(), B
     }
 
     private fun navigateToDashboard() {
+        trackEvent(SignInEvents.SIGN_IN.type)
         if ((VerifyPassCodeEnum.valueOf(viewModel.state.verifyPassCodeEnum) == VerifyPassCodeEnum.VERIFY)) {
             val intent = Intent()
             intent.putExtra("CheckResult", true)

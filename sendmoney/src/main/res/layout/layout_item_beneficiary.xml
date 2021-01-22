@@ -8,29 +8,14 @@
         <variable
             name="viewModel"
             type="co.yap.sendmoney.home.adapters.BeneficiaryItemViewModel" />
-
         <import type="android.view.View" />
-
-        <import type="co.yap.yapcore.helpers.Utils" />
-
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
-
-        <import type="co.yap.yapcore.R" />
-
-        <variable
-            name="dataCountry"
-            type="co.yap.countryutils.country.Country" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:paddingStart="@dimen/small"
-        android:paddingEnd="@dimen/small"
-      >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/swipe"
@@ -44,8 +29,7 @@
                 android:id="@+id/btnEdit"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_56sdp"
-                android:background="?attr/colorSwipeToEditAttr"
-                android:paddingStart="@dimen/small">
+                android:background="?attr/colorSwipeToEditAttr">
 
                 <TextView
                     style="@style/Micro"
@@ -72,10 +56,10 @@
                     style="@style/Micro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/ic_close"
                     android:drawablePadding="@dimen/_2sdp"
+                    android:layout_centerInParent="true"
                     android:drawableTint="@color/white"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -103,18 +87,17 @@
                 android:paddingBottom="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:contentDescription="@string/empty_string"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:src="@drawable/ic_store_b2b"
-                    app:colorType="@{`Beneficiary`}"
-                    app:fullName="@{viewModel.beneficiary.fullName()}"
-                    app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
+                    app:colorType="@{viewModel.beneficiary.userType.equals(`Y2Y`)? `Y2Y` : `Beneficiary`}"
+                    app:fullName="@{viewModel.beneficiary.subtitle}"
+                    app:imageUrl="@{viewModel.beneficiary.imgUrl}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -143,7 +126,7 @@
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.title}"
+                    android:text="@{viewModel.beneficiary.fullName}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
                 <TextView
@@ -155,7 +138,7 @@
                     android:ellipsize="end"
                     android:gravity="bottom"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.fullName()}"
+                    android:text="@{viewModel.beneficiary.subtitle}"
                     tools:text="Bril Lizzie " />
 
             </LinearLayout>
@@ -164,12 +147,12 @@
                 android:id="@+id/section"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="0dp"
-                android:gravity="center"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:gravity="center"
+                android:visibility="@{viewModel.beneficiary.flag.equals(`AE`) &amp;&amp; viewModel.sendMoneyType.equals(`LOCAL`) ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
 
                 <ImageView
                     android:id="@+id/ivTransferType"
@@ -179,9 +162,8 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
-                    app:cashPayoutIconTint="@{viewModel.beneficiary.beneficiaryType}"
-                    app:isSearching="@{viewModel.isSearching()}"
+                    android:tint="@{viewModel.beneficiary.userType.equals(`CASHPAYOUT`)?@color/greyDark:@color/greyDark}"
+                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.userType}"
                     tools:src="@drawable/ic_cash"
                     tools:visibility="visible" />
 
@@ -190,7 +172,8 @@
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    app:setFlagDrawable="@{viewModel.beneficiary.country}"
+                    android:src="@{viewModel.beneficiary.userType.equals(`Y2Y`)?@drawable/ic_package_standered : null}"
+                    app:setFlagDrawable="@{viewModel.beneficiary.userType.equals(`Y2Y`)?null : viewModel.beneficiary.flag}"
                     tools:src="@drawable/flag_ae" />
 
             </LinearLayout>

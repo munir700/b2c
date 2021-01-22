@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.additionalinfo.AdditionalInfoResponse
 import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
@@ -15,7 +16,7 @@ import co.yap.networking.messages.responsedtos.OtpValidationResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.BaseListResponse
 import co.yap.networking.notification.HomeNotification
-import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -250,4 +251,46 @@ interface CustomersRetroService {
         @Query("beneficiaryId") beneficiaryId: String,
         @Query("productCode") productCode: String
     ): Response<SMCoolingPeriodResponseDTO>
+
+    @POST(CustomersRepository.URL_GET_QR_CONTACT)
+    suspend fun getQRContact(@Body qrContactRequest: QRContactRequest): Response<QRContactResponse>
+
+    @PATCH(CustomersRepository.URL_UPDATE_HOME_COUNTRY)
+    suspend fun updateHomeCountry(@Body homeCountry: UpdateHomeCountryRequest): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_HOME_COUNTRY_FX_RATE)
+    suspend fun updateFxRate(@Body fxRate: FxRateRequest): Response<FxRateResponse>
+
+    @POST(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun updateTourGuideStatus(@Body tourGuide: TourGuideRequest): Response<UpdateTourGuideResponse>
+
+    @GET(CustomersRepository.URL_TOUR_GUIDES)
+    suspend fun getTourGuides(): Response<TourGuideResponse>
+
+    //Get additional info required
+    @GET(CustomersRepository.URL_GET_ADDITIONAL_DOCUMENT)
+    suspend fun getAdditionalInfoRequired(): Response<AdditionalInfoResponse>
+
+    // Upload Addition Documents Request
+    @Multipart
+    @POST(CustomersRepository.URL_ADDITIONAL_DOCUMENT_UPLOAD)
+    suspend fun uploadAdditionalDocuments(
+        @Part files: MultipartBody.Part,
+        @Part("documentType") documentType: RequestBody
+    ): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_ADDITIONAL_QUESTION_ADD)
+    suspend fun uploadAdditionalQuestion(@Body uploadAdditionalInfo: UploadAdditionalInfo): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_CUSTOMER_NOTIFICATIONS)
+    suspend fun getMsCustomerNotifications(@Body msCustomerNotifications: MsCustomerNotificationsRequest): Response<CustomerNotificationResponse>
+
+    @PUT(CustomersRepository.URL_CUSTOMER_NOTIFICATION_READABLE)
+    suspend fun updateMsNotificationsRead(
+        @Query("notificationId") notificationId: String,
+        @Query("is_read") is_read: Boolean
+    ): Response<ApiResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_CUSTOMER_NOTIFICATION)
+    suspend fun deleteMsCustomerNotification(@Query("notificationId") notificationId: String): Response<ApiResponse>
 }

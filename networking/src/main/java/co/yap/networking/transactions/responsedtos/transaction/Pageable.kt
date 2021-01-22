@@ -13,7 +13,7 @@ data class Pageable(
     @SerializedName("paged")
     var paged: Boolean?=true,
     @SerializedName("sort")
-    var sort: Sort = Sort(),
+    var sort: Sort?=Sort(),
     @SerializedName("unpaged")
     var unpaged: Boolean?=false
 )

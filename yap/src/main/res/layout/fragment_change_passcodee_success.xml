@@ -35,7 +35,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
             android:text="@{viewModel.state.title}"
-            tools:text="@string/screen_passcode_success_display_text_heading_for_yap_core" />
+            tools:text="@string/screen_change_passcode_success_display_text_heading" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSuccessSubHeading"
@@ -51,21 +51,20 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="@string/screen_passcode_success_display_text_sub_heading" />
+            tools:text="@string/screen_change_passcode_success_display_text_sub_heading" />
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"
             style="@style/RectangleBtnStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
+            app:btn_size="small"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
             android:text="@string/screen_change_pin_success_display_text_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/screen_change_pin_success_display_text_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
