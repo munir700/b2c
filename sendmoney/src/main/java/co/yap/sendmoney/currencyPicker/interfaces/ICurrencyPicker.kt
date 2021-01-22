@@ -9,8 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ICurrencyPicker {
 
-    interface View : IBase.View<ViewModel> {
-    }
+    interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
@@ -20,7 +19,8 @@ interface ICurrencyPicker {
         fun handlePressOnView(id: Int)
     }
 
-    interface State : IBase.State{
-          var currencyDialogChecker:ObservableField<Boolean>
+    interface State : IBase.State {
+        var currencyDialogChecker: ObservableField<Boolean>
+        var stateLiveData: MutableLiveData<co.yap.widgets.State>
     }
 }

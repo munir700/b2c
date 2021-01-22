@@ -30,21 +30,33 @@
             app:cancelTextVisibility="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-          />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCurrencies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        <co.yap.widgets.MultiStateView
+            android:id="@+id/multiStateView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:emptyViewText="@{@string/common_display_text_no_results}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:paddingHorizontal="@dimen/margin_extra_small"
             app:layout_constraintTop_toBottomOf="@+id/svBeneficiary"
-            app:recycleViewAdapter="@{viewModel.currencyAdapter}"
-            tools:listitem="@layout/item_currency_country" />
+            app:msv_emptyView="@layout/layout_beneficiaries_no_results"
+            app:msv_errorView="@layout/layout_beneficiaries_no_results"
+            app:msv_viewState="content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCurrencies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:paddingHorizontal="@dimen/margin_extra_small"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:recycleViewAdapter="@{viewModel.currencyAdapter}"
+                tools:listitem="@layout/item_currency_country" />
+        </co.yap.widgets.MultiStateView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
