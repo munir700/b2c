@@ -36,7 +36,8 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_scan_qr_code
     val cameraPer = 1
-    lateinit var qrCodeReaderView: QRCodeReaderView
+    var oneTimeCall = true;
+    var qrCodeReaderView: QRCodeReaderView? = null
     var permissionHelper: PermissionHelper? = null
 
     override val viewModel: ScanQRCodeViewModel
@@ -49,7 +50,7 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
 
     override fun onQRCodeRead(text: String?, points: Array<out PointF>?) {
         if (!viewModel.state.loading) {
-            qrCodeReaderView.setQRDecodingEnabled(false)
+            qrCodeReaderView?.setQRDecodingEnabled(false)
             sendQrRequest(text?.getQRCode())
         }
     }
@@ -71,22 +72,21 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
             ContextCompat.getDrawable(requireContext(), R.drawable.bg_qr_scan)
         )
         qrCodeReaderView = getBindings().qrCodeReaderView
-        qrCodeReaderView.setAutofocusInterval(2000L)
-        qrCodeReaderView.setOnQRCodeReadListener(this)
-        qrCodeReaderView.setBackCamera()
-        qrCodeReaderView.startCamera()
-        qrCodeReaderView.setQRDecodingEnabled(true)
+        qrCodeReaderView?.setAutofocusInterval(2000L)
+        qrCodeReaderView?.setOnQRCodeReadListener(this)
+        qrCodeReaderView?.setBackCamera()
+        qrCodeReaderView?.startCamera()
+        qrCodeReaderView?.setQRDecodingEnabled(true)
     }
 
     override fun onPause() {
         super.onPause()
-        if (this::qrCodeReaderView.isInitialized)
-            qrCodeReaderView.stopCamera()
+        qrCodeReaderView?.stopCamera()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        qrCodeReaderView.stopCamera()
+        qrCodeReaderView?.stopCamera()
     }
 
     private val onFetchContactInfo = Observer<Beneficiary> {
@@ -99,12 +99,12 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
     }
 
     private val onNoContactInfo = Observer<Boolean> {
-        qrCodeReaderView.setQRDecodingEnabled(true)
+        qrCodeReaderView?.setQRDecodingEnabled(true)
     }
 
     private fun scanQRImage(bMap: Bitmap): String? {
         var contents: String? = null
-        val intArray = IntArray(bMap.width * bMap.getHeight())
+        val intArray = IntArray(bMap.width * bMap.height)
         //copy pixel data from the Bitmap into the 'intArray' array
         bMap.getPixels(intArray, 0, bMap.width, 0, 0, bMap.width, bMap.height)
         val source: LuminanceSource =
@@ -116,7 +116,7 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
             contents = result.text
         } catch (e: Exception) {
             showToast("Error decoding QRCode")
-            qrCodeReaderView.setQRDecodingEnabled(true)
+            qrCodeReaderView?.setQRDecodingEnabled(true)
         }
         return contents
     }
@@ -142,17 +142,18 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
                         initQRCodeReaderView()
                 } else {
                     openImagePicker(PhotoSelectionType.GALLERY)
+
                 }
             }
 
             override fun onPermissionDenied() {
                 showToast("Can't proceed without permissions")
-                qrCodeReaderView.setQRDecodingEnabled(true)
+                qrCodeReaderView?.setQRDecodingEnabled(true)
             }
 
             override fun onPermissionDeniedBySystem() {
                 showToast("Can't proceed without permissions")
-                qrCodeReaderView.setQRDecodingEnabled(true)
+                qrCodeReaderView?.setQRDecodingEnabled(true)
 
             }
         })
@@ -164,15 +165,15 @@ class ScanQRCodeFragment : BaseBindingImageFragment<IScanQRCode.ViewModel>(),
                 requireActivity().onBackPressed()
             }
             R.id.ivLibrary -> {
-                qrCodeReaderView.setQRDecodingEnabled(false)
+                qrCodeReaderView?.setQRDecodingEnabled(false)
                 checkPermission(2)
             }
             R.id.ivMyQrCode -> {
                 QRCodeFragment {
-                    qrCodeReaderView.setQRDecodingEnabled(true)
+                    qrCodeReaderView?.setQRDecodingEnabled(true)
                 }.let { fragment ->
                     if (isAdded)
-                        qrCodeReaderView.setQRDecodingEnabled(false)
+                        qrCodeReaderView?.setQRDecodingEnabled(false)
                     fragment.show(requireActivity().supportFragmentManager, "")
                 }
             }

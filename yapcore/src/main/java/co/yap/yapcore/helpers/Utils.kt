@@ -417,26 +417,18 @@ object Utils {
         var intent: Intent?
         try {
             context.packageManager.getPackageInfo("com.twitter.android", 0)
-            intent = Intent(
-                ACTION_VIEW,
-                Uri.parse("twitter.com/intent/follow?screen_name=YapTweets")
-            )
+            intent = Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         } catch (e: Exception) {
             // no Twitter app, revert to browser
-            context.startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://twitter.com/intent/follow?screen_name=YapTweets")
-                )
+            context.startActivity(Intent(ACTION_VIEW, Uri.parse(Constants.URL_TWITTER))
             )
         }
-
     }
 
     fun openInstagram(context: Context) {
-        val uri = Uri.parse("https://www.instagram.com/yapnow/")
+        val uri = Uri.parse(Constants.URL_INSTAGRAM)
         val likeIng = Intent(ACTION_VIEW, uri)
         likeIng.setPackage("com.instagram.android")
 
@@ -444,32 +436,22 @@ object Utils {
             context.startActivity(likeIng)
         } catch (e: ActivityNotFoundException) {
             context.startActivity(
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://www.instagram.com/yapnow/")
-                )
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM))
             )
         }
-
     }
 
     fun getOpenFacebookIntent(context: Context): Intent? {
-
         return try {
             context.packageManager.getPackageInfo("com.facebook.katana", 0)
             Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
         } catch (e: Exception) {
             try {
-                Intent(
-                    ACTION_VIEW,
-                    Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
-                )
+                Intent(ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK))
             } catch (e: Exception) {
                 null
             }
-
         }
-
     }
 
     fun getFormattedPhone(mobileNo: String): String {

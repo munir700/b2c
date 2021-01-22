@@ -65,6 +65,9 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.ezaka.customer.app.utils.getActivityFromContext
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 
 object UIBinder {
@@ -397,8 +400,10 @@ object UIBinder {
 
     @BindingAdapter("text")
     @JvmStatic
-    fun setText(view: TextView, text: String) {
-        view.text = Translator.getString(view.context, text)
+    fun setText(view: TextView, text: String?) {
+        text?.let {
+            view.text = Translator.getString(view.context, text)
+        }
     }
 
     @BindingAdapter("text")
@@ -1025,5 +1030,53 @@ object UIBinder {
                 .into(view)
         }
 
+    }
+
+
+    @BindingAdapter("cardtype", "isFounder")
+    @JvmStatic
+    fun setDebitFounderCrdImage(view: ImageView, cardtype: String, isFounder: Boolean) {
+        if (cardtype == CardType.DEBIT.type && isFounder == true) {
+            view.setImageResource(R.drawable.founder_front)
+        } else {
+            view.setImageResource(R.drawable.card_spare)
+
+        }
+    }
+
+    @BindingAdapter("selectedListener")
+    @JvmStatic
+    fun getChipSelection(chipGroup: ChipGroup, listener: OnItemClickListener?) {
+          for (index in 0 until chipGroup.childCount) {
+            val chip: Chip = chipGroup.getChildAt(index) as Chip
+            chip.setOnCheckedChangeListener { view, isChecked ->
+                listener?.onItemClick(view, isChecked, index)
+            }
+        }
+    }
+
+    @BindingAdapter("yapForYouAction","isDone")
+    @JvmStatic
+    fun setYapForYouButton(
+        view: CoreButton,
+        action: YAPForYouGoalAction,
+        isDone: Boolean? = false
+    ) {
+        if (isDone == true) {
+            view.visibility = GONE
+        } else {
+            when (action) {
+                is YAPForYouGoalAction.Button -> {
+                    view.visibility = VISIBLE
+                    setText(view, action.title)
+                    view.enableButton(action.enabled)
+                    view.buttonSize = action.buttonSize
+                }
+
+                is YAPForYouGoalAction.None -> {
+                    view.visibility = GONE
+                }
+            }
+        }
     }
 }

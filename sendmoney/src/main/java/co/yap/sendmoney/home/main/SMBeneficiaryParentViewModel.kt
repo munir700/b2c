@@ -3,7 +3,6 @@ package co.yap.sendmoney.home.main
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.IBeneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -44,7 +43,6 @@ class SMBeneficiaryParentViewModel(application: Application) :
 
     override fun requestAllBeneficiaries(sendMoneyType: String, completion: () -> Unit) {
         launch {
-            state.loading = true
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
@@ -77,11 +75,11 @@ class SMBeneficiaryParentViewModel(application: Application) :
         }
     }
 
-    override fun getBeneficiaryFromContact(contact: Contact): Beneficiary {
+    override fun getBeneficiaryFromContact(beneficiary: IBeneficiary): Beneficiary {
         return Beneficiary(
-            beneficiaryUuid = contact.accountDetailList?.get(0)?.accountUuid,
-            beneficiaryPictureUrl = contact.beneficiaryPictureUrl,
-            title = contact.title
+            beneficiaryUuid = beneficiary.accountUUID,
+            beneficiaryPictureUrl = beneficiary.imgUrl,
+            title = beneficiary.fullName
         )
     }
 }

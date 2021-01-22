@@ -70,7 +70,17 @@ interface TransactionsRetroService {
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
-        @Query("title") title: String?
+        @Query("title") title: String?,
+        @Query("merchantCategoryNames") category: ArrayList<String>?,
+        @Query("statuses") txnStatuses: ArrayList<String>?
+
+    ): Response<HomeTransactionsResponse>
+
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
+    suspend fun searchTransactions(
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
+        @Query("searchField") minAmount: String?
     ): Response<HomeTransactionsResponse>
 
     // Get Card Transactions
@@ -195,6 +205,6 @@ interface TransactionsRetroService {
         @Path("merchant-type") merchantType: String,
         @Query("cardSerialNo") cardSerialNo: String?,
         @Query("date") date: String?,
-        @Body merchantName : ArrayList<String>?
+        @Body merchantName: ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>
 }

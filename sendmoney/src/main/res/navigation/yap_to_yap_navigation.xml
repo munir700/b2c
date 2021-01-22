@@ -14,6 +14,9 @@
             app:destination="@id/y2YTransferFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_yapToYapHome_to_y2YSearchContactsFragment"
+            app:destination="@id/y2YSearchContactsFragment" />
     </fragment>
 
     <fragment
@@ -45,8 +48,7 @@
         <action
             android:id="@+id/action_y2YTransferFragment_to_y2YFundsTransferSuccessFragment"
             app:destination="@id/y2YFundsTransferSuccessFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+             />
     </fragment>
     <fragment
         android:id="@+id/y2YFundsTransferSuccessFragment"
@@ -74,5 +76,15 @@
             android:defaultValue="0"
             app:argType="integer" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/y2YSearchContactsFragment"
+        android:name="co.yap.sendmoney.y2y.home.fragments.Y2YSearchContactsFragment"
+        android:label="Y2YSearchContactsFragment"
+        tools:layout="@layout/fragment_y_2_y_search_contacts"
+        >
+        <action
+            android:id="@+id/action_y2YSearchContactsFragment_to_y2YTransferFragment"
+            app:destination="@id/y2YTransferFragment" />
     </fragment>
 </navigation>

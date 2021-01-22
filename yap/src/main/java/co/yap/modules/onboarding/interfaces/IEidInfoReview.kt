@@ -30,10 +30,10 @@ interface IEidInfoReview {
     }
 
     interface View : IBase.View<ViewModel> {
-        fun showUnderAgeAlert()
-        fun showExpiredEidAlert()
-        fun showInvalidEidAlert()
-        fun showUSACitizenAlert()
+        fun showUnderAgeScreen()
+        fun showExpiredEidScreen()
+        fun showInvalidEidScreen()
+        fun showUSACitizenScreen()
         fun openCardScanner()
     }
 

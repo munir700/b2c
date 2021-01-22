@@ -453,7 +453,7 @@ class State(
             return State(Status.LOADING, message)
         }
 
-        fun error(message: String): State {
+        fun error(message: String?): State {
             return State(Status.ERROR, message)
         }
 

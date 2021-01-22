@@ -10,7 +10,7 @@ interface ISMBeneficiaryParent {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         var beneficiariesList: MutableLiveData<ArrayList<IBeneficiary>>
-        fun getBeneficiaryFromContact(contact: Contact): Beneficiary
+        fun getBeneficiaryFromContact(beneficiary: IBeneficiary): Beneficiary
         fun requestDeleteBeneficiary(beneficiaryId: String, completion: () -> Unit)
         fun requestAllBeneficiaries(sendMoneyType: String, completion: () -> Unit={})
         fun getBeneficiariesOfType(type: String, list: List<Beneficiary>): List<Beneficiary>

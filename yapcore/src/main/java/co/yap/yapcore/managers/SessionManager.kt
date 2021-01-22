@@ -1,6 +1,7 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
@@ -16,6 +17,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.enums.*
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.TourGuideManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.getBlockedFeaturesList
 import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
@@ -42,7 +44,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
     private val currencies: MutableLiveData<ArrayList<CurrencyData>> = MutableLiveData()
     private val countries: MutableLiveData<ArrayList<Country>> = MutableLiveData()
     var isRemembered: MutableLiveData<Boolean> = MutableLiveData(true)
-    private const val DEFAULT_CURRENCY : String = "AED"
+    private const val DEFAULT_CURRENCY: String = "AED"
+    var isFounder: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val viewModelBGScope =
         BaseViewModel.CloseableCoroutineScope(Job() + Dispatchers.IO)
@@ -99,14 +102,16 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getAccountInfo() {
+    fun getAccountInfo(success: () -> Unit = {}) {
         GlobalScope.launch {
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     usersList = response.data.data as ArrayList
                     user = getCurrentUser()
+                    isFounder.postValue(user?.currentCustomer?.founder)
                     setupDataSetForBlockedFeatures()
                     onAccountInfoSuccess.postValue(true)
+                    success.invoke()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -166,8 +171,8 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
-    fun getDebitCard(success: (card: Card) -> Unit = {}) {
-        GlobalScope.launch {
+    fun getDebitCard(success: (card: Card?) -> Unit = {}) {
+        GlobalScope.launch(Dispatchers.Main) {
             when (val response = repository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
@@ -178,6 +183,7 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
                     }
                 }
                 is RetroApiResponse.Error -> {
+                    success.invoke(null)
                 }
             }
         }

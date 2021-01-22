@@ -42,6 +42,15 @@ data class Contact(
     override val imgUrl: String?
         get() = beneficiaryPictureUrl
 
+    override val isYapUser: Boolean
+        get() = yapUser == true
+
+    override val accountUUID: String
+        get() = accountDetailList?.get(0)?.accountUuid ?: ""
+
+    override val creationDateOfBeneficiary: String
+        get() = beneficiaryCreationDate ?: ""
+
     @Parcelize
     data class Data(
         @SerializedName("accountNo")

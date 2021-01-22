@@ -253,6 +253,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private fun setTransactionTitle() {
         viewModel.state.transactionTitle.set(viewModel.transaction.get().getTransactionTitle())
+        viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
     }
 
     private fun setMapImageView() {

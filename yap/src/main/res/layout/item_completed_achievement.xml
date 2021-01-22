@@ -25,15 +25,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgIcon"
                 android:layout_width="@dimen/_54sdp"
                 android:layout_height="@dimen/_54sdp"
                 android:contentDescription="@string/empty_string"
-                app:src="@{viewModel.achievement.icon}"
-                app:layout_constraintStart_toStartOf="parent"
+                android:tint="@{viewModel.achievement.tintColor}"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_badge_light_peach" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_y4y_badge" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgIconInner"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
+                app:layout_constraintEnd_toEndOf="@+id/imgIcon"
+                app:layout_constraintStart_toStartOf="@+id/imgIcon"
+                app:layout_constraintTop_toTopOf="@+id/imgIcon"
+                app:srcCompat="@drawable/ic_baseline_check" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -50,10 +63,10 @@
                     style="@style/ALarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.achievement.name}"
+                    app:text="@{viewModel.achievement.title}"
                     app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.17"
+                    android:layout_marginStart="@dimen/margin_small"
                     app:layout_constraintStart_toEndOf="@+id/imgIcon"
                     app:layout_constraintTop_toTopOf="@+id/imgIcon"
                     tools:text="Better together" />
@@ -63,12 +76,12 @@
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.completedPercentage+`%`)}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="@dimen/margin_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                     tools:text="75% completed" />
-<!--                android:text="@{String.format(@string/screen_yap_for_you_display_text_completed_percentage ,viewModel.achievement.percentage).concat(`%`)}"-->
 
             </LinearLayout>
 

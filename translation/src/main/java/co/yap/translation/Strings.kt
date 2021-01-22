@@ -6,9 +6,14 @@ object Strings {
     // Common
     const val rationale_camera: String = "rationale_camera"
     const val common_display_text_retry: String = "common_display_text_retry"
+    const val common_empty_string: String = "common_empty_string"
     const val common_button_next: String = "common_button_next"
     const val common_button_confirm: String = "common_button_confirm"
+    const val common_button_continue: String = "common_button_continue"
     const val common_button_submit: String = "common_button_submit"
+    const val common_text_thanks: String = "common_text_thanks"
+    const val common_text_hey: String = "common_text_hey"
+
     const val common_display_text_error_no_internet: String =
         "common_display_text_error_no_internet"
     const val common_button_yes: String = "common_button_yes"
@@ -55,6 +60,8 @@ object Strings {
         "common_saved_image_to_gallery"
     const val common_display_text_search_hint: String =
         "common_display_text_search_hint"
+    const val common_display_text_no_country_found: String =
+        "common_display_text_no_country_found"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -264,6 +271,14 @@ object Strings {
         "screen_kyc_information_error_display_text_explanation_expired_card"
     const val screen_kyc_information_error_button_go_to_dashboard: String =
         "screen_kyc_information_error_button_go_to_dashboard"
+    const val screen_kyc_information_error_display_text_title_from_us: String =
+        "screen_kyc_information_error_display_text_title_from_us"
+    const val screen_kyc_information_error_text_description_from_us: String =
+        "screen_kyc_information_error_text_description_from_us"
+    const val screen_kyc_information_error_display_text_title_sanctioned_country: String =
+        "screen_kyc_information_error_display_text_title_sanctioned_country"
+    const val screen_kyc_information_error_text_description_sanctioned_country: String =
+        "screen_kyc_information_error_text_description_sanctioned_country"
 
     // Meeting location selection screen
     const val screen_meeting_location_display_text_title: String =
@@ -416,6 +431,8 @@ object Strings {
         "screen_confirm_card_pin_display_text_error_same_digits"
     const val screen_confirm_card_pin_display_text_error_pins_not_same: String =
         "screen_confirm_card_pin_display_text_error_pins_not_same"
+    const val screen_confirm_card_pin_terms_condition_note: String =
+        "screen_confirm_card_pin_terms_condition_note"
 
     //Set card PIN success screen
     const val screen_set_card_pin_success_display_text_title: String =
@@ -474,6 +491,12 @@ object Strings {
         "screen_cards_display_text_see_details"
     const val screen_cards_display_text_freeze_card_action: String =
         "screen_cards_display_text_freeze_card_action"
+    const val screen_cards_display_text_tour_add_card_heading: String =
+        "screen_cards_display_text_tour_add_card_heading"
+    const val screen_cards_display_text_tour_add_card_description: String =
+        "screen_cards_display_text_tour_add_card_description"
+    const val screen_cards_display_text_tour_add_card_btn_text: String =
+        "screen_cards_display_text_tour_add_card_btn_text"
 
     //Change Card Name Screen
     const val screen_card_name_title_change_card_name: String =
@@ -519,6 +542,8 @@ object Strings {
         "screen_spare_card_landing_display_text_virtual_card"
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
+    const val screen_spare_card_landing_display_tool_bar_title: String =
+        "screen_spare_card_landing_display_tool_bar_title"
 
     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
@@ -558,6 +583,12 @@ object Strings {
 
     const val screen_add_spare_card_display_text_fee: String =
         "screen_add_spare_card_display_text_fee"
+    const val screen_add_virtual_spare_card_edit_name_label: String =
+        "screen_add_virtual_spare_card_edit_name_label"
+    const val screen_add_virtual_spare_card_edit_name_hint: String =
+        "screen_add_virtual_spare_card_edit_name_hint"
+    const val screen_add_virtual_spare_card_tool_bar_title: String =
+        "screen_add_virtual_spare_card_tool_bar_title"
 
 
     // Add funds Screen
@@ -812,6 +843,16 @@ object Strings {
         "screen_more_display_text_bank_details"
     const val screen_more_detail_display_text_bank_details: String =
         "screen_more_detail_display_text_bank_details"
+    const val screen_more_detail_display_text_tour_bank_details_heading: String =
+        "screen_more_detail_display_text_tour_bank_details_heading"
+    const val screen_more_detail_display_text_tour_bank_details_description: String =
+        "screen_more_detail_display_text_tour_bank_details_description"
+    const val screen_more_detail_display_text_tour_yap_for_you_heading: String =
+        "screen_more_detail_display_text_tour_yap_for_you_heading"
+    const val screen_more_detail_display_text_tour_yap_for_you_description: String =
+        "screen_more_detail_display_text_tour_yap_for_you_description"
+    const val screen_more_detail_display_text_tour_yap_for_you_btn_text: String =
+        "screen_more_detail_display_text_tour_yap_for_you_btn_text"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =
@@ -925,8 +966,13 @@ object Strings {
         "screen_transaction_filter_display_text_incoming_transactions"
     const val screen_transaction_filter_display_text_outgoing_transactions: String =
         "screen_transaction_filter_display_text_outgoing_transactions"
+    const val screen_transaction_filter_display_text_pending_transactions:String =
+        "screen_transaction_filter_display_text_pending_transactions"
     const val screen_transaction_filter_display_text_balance: String =
         "screen_transaction_filter_display_text_balance"
+    const val screen_transaction_filter_display_text_categories: String =
+        "screen_transaction_filter_display_text_categories"
+
 
 
     //    Y2Y funds Transfer screen
@@ -1204,6 +1250,8 @@ object Strings {
         "screen_crash_transfer_success_button_text_back"
     const val screen_cash_transfer_display_text_available_balance: String =
         "screen_cash_transfer_display_text_available_balance"
+    const val screen_cash_transfer_display_text_required_topup_balance: String =
+        "screen_cash_transfer_display_text_required_topup_balance"
 
     //    International Funds Transfer
     const val screen_international_funds_transfer_display_text_title: String =
@@ -1801,6 +1849,15 @@ object Strings {
     const val dashboard_timeline_top_up_stage_action_title: String =
         "dashboard_timeline_top_up_stage_action_title"
 
+    const val dashboard_timeline_additional_requirement_stage_title: String =
+        "dashboard_timeline_additional_requirement_stage_title"
+    const val dashboard_timeline_additional_requirement_stage_description: String =
+        "dashboard_timeline_additional_requirement_stage_description"
+    const val dashboard_timeline_additional_requirement_stage_completed_description: String =
+        "dashboard_timeline_additional_requirement_stage_completed_description"
+    const val dashboard_timeline_additional_requirement_stage_action_title: String =
+        "dashboard_timeline_additional_requirement_stage_action_title"
+
     const val dashboard_timeline_top_up_stage_completion_title: String =
         "dashboard_timeline_top_up_stage_completion_title"
     const val dashboard_timeline_top_up_stage_in_process_title: String =
@@ -1857,7 +1914,7 @@ object Strings {
     const val screen_send_money_home_display_text_get_best_rates: String =
         "screen_send_money_home_display_text_get_best_rates"
     const val screen_send_money_home_display_text_change_home_country: String =
-        "screen_send_money_home_display_text_change_home_country"
+            "screen_send_money_home_display_text_change_home_country"
     const val screen_send_money_home_display_text_hide: String =
         "screen_send_money_home_display_text_hide"
     const val screen_send_money_home_title: String =
@@ -1878,6 +1935,185 @@ object Strings {
         "screen_qr_code_own_uuid_error_message"
     const val screen_dashboard_menu_display_text_my_profile: String =
         "screen_dashboard_menu_display_text_my_profile"
+    const val screen_change_passcode_success_display_text_heading: String =
+        "screen_change_passcode_success_display_text_heading"
+
+
+    // YAP For YOU GET Started
+    const val screen_yfy_open_yap_account_description: String =
+        "screen_yfy_open_yap_account_description"
+    const val screen_yfy_get_started_success_description: String =
+        "screen_yfy_get_started_success_description"
+    const val screen_yfy_set_your_pin_description: String =
+        "screen_yfy_set_your_pin_description"
+    const val screen_yfy_add_money_to_account_button_label: String =
+        "screen_yfy_add_money_to_account_button_label"
+    const val screen_yfy_add_money_to_account_description: String =
+        "screen_yfy_add_money_to_account_description"
+    const val screen_yfy_set_a_profile_photo_description: String =
+        "screen_yfy_set_a_profile_photo_description"
+    const val screen_yfy_set_a_profile_photo_button_label: String =
+        "screen_yfy_set_a_profile_photo_button_label"
+
+    //YFY UP & RUNNING
+    const val screen_yfy_use_yap_locally_description: String =
+        "screen_yfy_use_yap_locally_description"
+    const val screen_yfy_use_yap_locally_success_description: String =
+        "screen_yfy_use_yap_locally_success_description"
+    const val screen_yfy_freeze_unfreeze_card_description: String =
+        "screen_yfy_freeze_unfreeze_card_description"
+    const val screen_yfy_freeze_unfreeze_card_button_label: String =
+        "screen_yfy_freeze_unfreeze_card_button_label"
+    const val screen_yfy_spend_aed_description: String =
+        "screen_yfy_spend_aed_description"
+    const val screen_yfy_explore_card_control_description: String =
+        "screen_yfy_explore_card_control_description"
+
+    //YFY Better Together
+    const val screen_yfy_invite_a_friend_description: String =
+        "screen_yfy_invite_a_friend_description"
+    const val screen_yfy_invite_a_friend_button_label: String =
+        "screen_yfy_invite_a_friend_button_label"
+    const val screen_yfy_send_money_outside_yap_description: String =
+        "screen_yfy_send_money_outside_yap_description"
+    const val screen_yfy_send_money_to_someone_description: String =
+        "screen_yfy_send_money_to_someone_description"
+    const val screen_yfy_split_bills_description: String =
+        "screen_yfy_split_bills_description"
+
+    //YFY Take a Leap
+    const val screen_yfy_order_virtual_card_description: String =
+        "screen_yfy_order_virtual_card_description"
+    const val screen_yfy_upgrade_to_prime_description: String =
+        "screen_yfy_upgrade_to_prime_description"
+    const val screen_yfy_upgrade_to_prime_button_label: String =
+        "screen_yfy_upgrade_to_prime_button_label"
+    const val screen_yfy_go_metal_description: String =
+        "screen_yfy_go_metal_description"
+    const val screen_yfy_set_multi_currency_account_description: String =
+        "screen_yfy_set_multi_currency_account_description"
+    const val screen_yfy_set_multi_currency_account_button_label: String =
+        "screen_yfy_set_multi_currency_account_button_label"
+
+    //YFY Yap Store
+    const val screen_yfy_get_yap_young_description: String =
+        "screen_yfy_get_yap_young_description"
+    const val screen_yfy_get_yap_young_button_label: String =
+        "screen_yfy_get_yap_young_button_label"
+    const val screen_yfy_signup_to_hh_description: String =
+        "screen_yfy_signup_to_hh_description"
+    const val screen_yfy_signup_to_hh_button_label: String =
+        "screen_yfy_signup_to_hh_button_label"
+    const val screen_yfy_set_a_mission_description: String =
+        "screen_yfy_set_a_mission_description"
+    const val screen_yfy_pay_your_help_description: String =
+        "screen_yfy_pay_your_help_description"
+
+    //    YFY You are Pro
+    const val screen_yfy_invite_ten_friends_description: String =
+        "screen_yfy_invite_ten_friends_description"
+    const val screen_yfy_invite_ten_friends_button_label: String =
+        "screen_yfy_invite_ten_friends_button_label"
+    const val screen_yfy_spend_thousand_description: String =
+        "screen_yfy_spend_thousand_description"
+    const val screen_yfy_complete_renewal_description: String =
+        "screen_yfy_complete_renewal_description"
+
+    //    Achievements screen get started
+    const val screen_yfy_get_started_text_title: String =
+        "screen_yfy_get_started_text_title"
+    const val screen_yfy_get_started_text_open_account: String =
+        "screen_yfy_get_started_text_open_account"
+    const val screen_yfy_get_started_text_set_pin: String =
+        "screen_yfy_get_started_text_set_pin"
+    const val screen_yfy_get_started_text_add_money: String =
+        "screen_yfy_get_started_text_add_money"
+    const val screen_yfy_get_started_text_set_profile: String =
+        "screen_yfy_get_started_text_set_profile"
+    const val screen_yfy_text_locked: String =
+        "screen_yfy_text_locked"
+
+    //    Achievements up and running
+    const val screen_yfy_up_and_running_text_title: String =
+        "screen_yfy_up_and_running_text_title"
+    const val screen_yfy_up_and_running_text_use_yap_locally: String =
+        "screen_yfy_up_and_running_text_use_yap_locally"
+    const val screen_yfy_up_and_running_text_freeze_unfreeze: String =
+        "screen_yfy_up_and_running_text_freeze_unfreeze"
+    const val screen_yfy_up_and_running_text_spend_money: String =
+        "screen_yfy_up_and_running_text_spend_money"
+    const val screen_yfy_up_and_running_text_explore_card_controls: String =
+        "screen_yfy_up_and_running_text_explore_card_controls"
+
+    //    Achievements better together
+    const val screen_yfy_better_together_text_title: String =
+        "screen_yfy_better_together_text_title"
+    const val screen_yfy_better_together_text_invite_friend: String =
+        "screen_yfy_better_together_text_invite_friend"
+    const val screen_yfy_better_together_text_y2y_transfer: String =
+        "screen_yfy_better_together_text_y2y_transfer"
+    const val screen_yfy_better_together_text_split_bills: String =
+        "screen_yfy_better_together_text_split_bills"
+    const val screen_yfy_better_together_text_send_money: String =
+        "screen_yfy_better_together_text_send_money"
+
+    //    Achievements take a leap
+    const val screen_yfy_take_a_leap_text_title: String =
+        "screen_yfy_take_a_leap_text_title"
+    const val screen_yfy_take_a_leap_text_send_money: String =
+        "screen_yfy_take_a_leap_text_send_money"
+    const val screen_yfy_take_a_leap_text_upgrade_to_prime: String =
+        "screen_yfy_take_a_leap_text_upgrade_to_prime"
+    const val screen_yfy_take_a_leap_text_go_metal: String =
+        "screen_yfy_take_a_leap_text_go_metal"
+    const val screen_yfy_take_a_leap_text_set_mc_account: String =
+        "screen_yfy_take_a_leap_text_set_mc_account"
+
+    //    Achievements You are a Pro
+    const val screen_yfy_you_are_pro_text_title: String =
+        "screen_yfy_you_are_pro_text_title"
+    const val screen_yfy_you_are_pro_text_invite_friends: String =
+        "screen_yfy_you_are_pro_text_invite_friends"
+    const val screen_yfy_you_are_pro_text_spend_amount: String =
+        "screen_yfy_you_are_pro_text_spend_amount"
+    const val screen_yfy_you_are_pro_text_complete_a_renewal: String =
+        "screen_yfy_you_are_pro_text_complete_a_renewal"
+
+    //    Achievements Yap store
+    const val screen_yfy_yap_store_text_title: String =
+        "screen_yfy_yap_store_text_title"
+    const val screen_yfy_yap_store_text_get_yap_young: String =
+        "screen_yfy_yap_store_text_get_yap_young"
+    const val screen_yfy_yap_store_text_sign_up_house_hold: String =
+        "screen_yfy_yap_store_text_sign_up_house_hold"
+    const val screen_yfy_yap_store_text_set_mission: String =
+        "screen_yfy_yap_store_text_set_mission"
+    const val screen_yfy_yap_store_text_pay_your_help: String =
+        "screen_yfy_yap_store_text_pay_your_help"
+
+    const val screen_additional_info_label_text_do_it_later: String =
+        "screen_additional_info_label_text_do_it_later"
+
+    const val common_display_text_founder: String =
+        "common_display_text_founder"
+
+    const val screen_additional_info_label_text_additional_info: String =
+        "screen_additional_info_label_text_additional_info"
+    const val screen_additional_info_label_text_upload_document_complete: String =
+        "screen_additional_info_label_text_upload_document_complete"
+    const val screen_additional_info_label_text_upload_document: String =
+        "screen_additional_info_label_text_upload_document"
+    const val screen_additional_info_label_text_complete: String =
+        "screen_additional_info_label_text_complete"
+    const val screen_additional_info_label_text_final_question: String =
+        "screen_additional_info_label_text_final_question"
+    const val screen_additional_info_label_text_required_des: String =
+        "screen_additional_info_label_text_required_des"
+    const val screen_additional_info_label_text_bottom_sheet_des: String =
+        "screen_additional_info_label_text_bottom_sheet_des"
+    const val common_display_text_copy: String =
+        "common_display_text_copy"
+
 
     //  image previewer dialogue
     const val screen_image_previewer_display_text_delete_message: String =

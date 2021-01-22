@@ -42,7 +42,6 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         viewModel.beneficiary = intent.getParcelableExtra(Beneficiary::class.java.name)
         viewModel.state.fromQR?.set(intent.getBooleanExtra(ExtraKeys.IS_FROM_QR_CONTACT.name, false))
         viewModel.position = intent.getIntExtra(ExtraKeys.Y2Y_BENEFICIARY_POSITION.name,0)
-        viewModel.selectedTabPos.value = intent.getIntExtra(ExtraKeys.Y2Y_SELECTED_TAB_POS.name,0)
         viewModel.errorEvent.observe(this, errorEvent)
         getBindings().main.setOnTouchListener { _, _ ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

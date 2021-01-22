@@ -52,6 +52,13 @@ class CoreButton : AppCompatButton {
     lateinit var bitmapIcon: Bitmap
     private var btnSize: Int = -1
 
+    var buttonSize: ButtonSize = ButtonSize.SMALL
+        set(value) {
+            field = value
+            btnSize = value.type
+            setButtonDimension()
+        }
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -150,19 +157,16 @@ class CoreButton : AppCompatButton {
 
         /* text paint styling */
 
-        paintText.setColor(labelTextColor)
-        paintText.setTextSize(labelTextSize)
+        paintText.color = labelTextColor
+        paintText.textSize = labelTextSize
         paintText.textAlign = Paint.Align.CENTER
         paintText.style = Paint.Style.FILL
         if (hasBoldText) {
-            paintText.setFakeBoldText(true)
+            paintText.isFakeBoldText = true
         }
-
-//         ContextThemeWrapper(context, R.attr.primaryButtonTheme)
 
         Button(ContextThemeWrapper(context, R.attr.primaryButtonTheme))
 
-// this.theme
     }
 
     override fun onAttachedToWindow() {
@@ -180,11 +184,10 @@ class CoreButton : AppCompatButton {
             }
         }
 
-        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            bitmap =
-                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         } else {
-            bitmap = Bitmap.createBitmap(
+            Bitmap.createBitmap(
                 drawable.intrinsicWidth,
                 drawable.intrinsicHeight,
                 Bitmap.Config.ARGB_8888
@@ -206,7 +209,6 @@ class CoreButton : AppCompatButton {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
         if (shapeType == 0) {
             canvas.drawCircle(
                 (btnWeight / 2).toFloat(), (btnHeight / 2).toFloat(), btnRadius.toFloat(),
@@ -224,8 +226,6 @@ class CoreButton : AppCompatButton {
                 yPos,
                 paintText
             )
-
-
         }
 
         if (null != drawable) {
@@ -278,7 +278,6 @@ class CoreButton : AppCompatButton {
     }
 
     fun enableButton(enable: Boolean) {
-
         if (!enable) {
 //            defaultStateColor = resources.getColor(R.color.greyLight)
             defaultStateColor = ThemeColorUtils.colorPrimaryDisabledBtnAttribute(context)
@@ -298,11 +297,15 @@ class CoreButton : AppCompatButton {
     private fun setButtonDimension() {
         var dimensions: IntArray = intArrayOf()
         when (btnSize) {
+            ButtonSize.MINI.type -> {
+                dimensions = Utils.getDimensionsByPercentage(context, 36, 5)
+            }
             ButtonSize.MINI_SMALL.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 36, 4) // used in card details
+                dimensions = Utils.getDimensionsByPercentage(context, 30, 4) // used in card details
             }
             ButtonSize.MINI_MEDIUM.type -> {
-                dimensions = Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
+                dimensions =
+                    Utils.getDimensionsByPercentage(context, 43, 4) // used in more home screen
             }
             ButtonSize.MINI_LARGE.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 60, 5)  // used in Maps
@@ -316,7 +319,13 @@ class CoreButton : AppCompatButton {
             ButtonSize.LARGE.type -> {
                 dimensions = Utils.getDimensionsByPercentage(context, 80, 8)
             }
-            else -> throw IllegalStateException("Invalid button type found $btnSize")
+            ButtonSize.DYNAMIC.type -> {
+                dimensions =
+                    Utils.getDimensionsByPercentage(context, 0, 8)
+            }
+            else -> {
+                throw IllegalStateException("Invalid button type found $btnSize")
+            }
         }
         val params = layoutParams
         params.width = dimensions[0]
@@ -330,6 +339,8 @@ class CoreButton : AppCompatButton {
         LARGE(2),
         MINI_SMALL(3),
         MINI_MEDIUM(4),
-        MINI_LARGE(5)
+        MINI_LARGE(5),
+        MINI(6),
+        DYNAMIC(7)
     }
 }

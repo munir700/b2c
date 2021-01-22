@@ -8,6 +8,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
 import co.yap.translation.Translator.getString
+import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -20,13 +21,12 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         dimensions: IntArray,
         onItemClickListener: OnItemClickListener?
     ) {
-
         val params = itemYapCardBinding.imgCard.layoutParams as ConstraintLayout.LayoutParams
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemYapCardBinding.imgCard.layoutParams = params
-
-        var cardName: String
+        itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
+        val cardName: String
 
         if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
             cardName = Constants.TEXT_PRIMARY_CARD
@@ -38,20 +38,14 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
                     if (paymentCard.physical) {
                         cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
                     } else {
-                        cardName = getString(
-                            itemYapCardBinding.tvCardName.context,
-                            screen_spare_card_landing_display_text_virtual_card
-                        )
+                        cardName = paymentCard.cardName ?: ""
                     }
                 }
             } else {
                 if (paymentCard?.physical!!) {
                     cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
                 } else {
-                    cardName = getString(
-                        itemYapCardBinding.tvCardName.context,
-                        screen_spare_card_landing_display_text_virtual_card
-                    )
+                    cardName = paymentCard.cardName ?: ""
                 }
 
             }
