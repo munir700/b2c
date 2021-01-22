@@ -275,11 +275,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         api.addTransactionReceipt(transactionId)
     })
 
-
     override suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse> = executeSafely(call = {
         api.getAllTransactionReceipts(transactionId)
     })
-
 
     override suspend fun deleteTransactionReciept(
         transactionId: String,

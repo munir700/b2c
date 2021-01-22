@@ -6,6 +6,8 @@ import co.yap.R
 import co.yap.modules.dashboard.transaction.TransactionReceiptAdapter
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.ReceiptModel
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.translation.Strings
@@ -28,6 +30,7 @@ class TransactionDetailsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
     override var adapter: TransactionReceiptAdapter = TransactionReceiptAdapter(mutableListOf())
+    val repository: TransactionsRepository = TransactionsRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -49,6 +52,7 @@ class TransactionDetailsViewModel(application: Application) :
                 else -> getString(Strings.screen_transaction_details_receipt_label)
             }
         )
+        getAllReceipts()
     }
 
     private fun getReciptItems(): List<ReceiptModel> {
@@ -71,6 +75,25 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun deleteReceipt(position: Int) {
         adapter.removeItemAt(position)
+    }
+
+    override fun getAllReceipts() {
+        launch {
+            state.loading = true
+            when(val response = repository.getAllTransactionReceipts(transactionId = transaction.get()?.transactionId?:"")){
+                is RetroApiResponse.Success ->{
+                    response.data.let { resp ->
+
+                    }
+                    state.loading = false
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {

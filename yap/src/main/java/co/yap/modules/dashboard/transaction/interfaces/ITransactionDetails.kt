@@ -21,6 +21,7 @@ interface ITransactionDetails {
         var adapter : TransactionReceiptAdapter
         fun addNewReceipt(receipt : ReceiptModel)
         fun deleteReceipt(position: Int)
+        fun getAllReceipts()
         fun getAddReceiptOptions(): ArrayList<BottomSheetItem>
     }
 
