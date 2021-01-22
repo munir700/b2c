@@ -10,6 +10,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import com.google.android.gms.common.api.Api
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -197,4 +198,16 @@ interface TransactionsRetroService {
         @Query("date") date: String?,
         @Body merchantName : ArrayList<String>?
     ): Response<AnalyticsDetailResponseDTO>
+
+    @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT+"/{transaction-id}")
+    suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String) : Response<ApiResponse>
+
+    @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
+    suspend fun addTransactionReceipt(@Query("transaction-id") transactionId : String ):Response<ApiResponse>
+
+    @PUT(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
+    suspend fun updateTransactionReceipt(): Response<ApiResponse>
+
+    @DELETE(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
+    suspend fun deleteTransactionReciept(@Query("receipt-images") receipt : ArrayList<String>, @Query("transaction-id") transactionId : String ) : Response<ApiResponse>
 }

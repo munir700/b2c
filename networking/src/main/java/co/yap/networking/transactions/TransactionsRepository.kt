@@ -73,6 +73,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_CHECK_COOLING_PERIOD = "/transactions/api/check-cooling-period-limit"
 
     const val URL_GET_MERCHANT_TRANSACTIONS = "/transactions/api/transaction-search/{merchant-type}"
+    const val URL_TRANSACTIONS_RECEIPT = "/transactions/api/transaction-receipt"
 
     // Household
     const val URL_HOUSEHOLD_CARD_FEE_PACKAGE = "/transactions/api/fees/subscriptions/{pkg-type}"
@@ -265,5 +266,27 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 merchantName
             )
         })
+
+    override suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.getAllTransactionReceipts(transactionId)
+    })
+
+    override suspend fun addTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.addTransactionReceipt(transactionId)
+    })
+
+
+    override suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.getAllTransactionReceipts(transactionId)
+    })
+
+
+    override suspend fun deleteTransactionReciept(
+        transactionId: String,
+        receipt: ArrayList<String>
+    ): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.getAllTransactionReceipts(transactionId)
+    })
+
 }
 

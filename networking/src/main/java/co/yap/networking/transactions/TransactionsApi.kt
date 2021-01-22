@@ -77,9 +77,18 @@ interface TransactionsApi {
         beneficiaryName: String?,
         amount: String?
     ): RetroApiResponse<ApiResponse>
+
     suspend fun getTransactionsOfMerchant(
         merchantType: String,
         cardSerialNo: String?,
         date: String?, merchantName: ArrayList<String>?
     ): RetroApiResponse<AnalyticsDetailResponseDTO>
+
+    suspend fun getAllTransactionReceipts(transactionId: String): RetroApiResponse<ApiResponse>
+    suspend fun addTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
+    suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse>
+    suspend fun deleteTransactionReciept(
+        transactionId: String,
+        receipt: ArrayList<String>
+    ): RetroApiResponse<ApiResponse>
 }
