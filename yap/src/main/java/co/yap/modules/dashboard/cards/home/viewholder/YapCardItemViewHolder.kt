@@ -24,12 +24,12 @@ class YapCardItemViewHolder(private val itemYapCardBinding: ItemYapCardBinding) 
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemYapCardBinding.imgCard.layoutParams = params
-        itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
         val cardName: String
 
         if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
             cardName = Constants.TEXT_PRIMARY_CARD
         } else {
+            itemYapCardBinding.imgCard.loadCardImage(paymentCard?.frontImage)
             if (null != paymentCard?.nameUpdated) {
                 if (paymentCard.nameUpdated!!) {
                     cardName = paymentCard.cardName ?: ""
