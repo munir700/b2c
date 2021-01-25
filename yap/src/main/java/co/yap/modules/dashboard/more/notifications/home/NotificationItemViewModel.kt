@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.networking.notification.HomeNotification
-import co.yap.widgets.DebouncingOnClickListener
-import co.yap.widgets.setOnClick
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.BaseListItemViewModel
 
 class NotificationItemViewModel :

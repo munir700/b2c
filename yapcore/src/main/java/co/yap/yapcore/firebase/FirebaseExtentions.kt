@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseFragment
+import co.yap.yapcore.helpers.rx.Task
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -16,10 +17,12 @@ import com.google.firebase.ktx.Firebase
  * See also [FirebaseEvent].
  */
 fun trackEventWithScreenName(event: FirebaseEvent) {
-    val firebaseAnalytics = Firebase.analytics
-    event.event?.let { e ->
-        firebaseAnalytics.logEvent(e.trim()) {
-            param(FirebaseAnalytics.Param.SCREEN_NAME, event.screenName?.trim() ?: "")
+    Task.run {
+        val firebaseAnalytics = Firebase.analytics
+        event.event?.let { e ->
+            firebaseAnalytics.logEvent(e.trim()) {
+                param(FirebaseAnalytics.Param.SCREEN_NAME, event.screenName?.trim() ?: "")
+            }
         }
     }
 }

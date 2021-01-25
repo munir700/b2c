@@ -3,6 +3,7 @@ package co.yap.yapcore.firebase
 import android.util.Log
 import co.yap.yapcore.constants.Constants.KEY_FCM_TOKEN
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import com.google.firebase.messaging.RemoteMessage
 import com.leanplum.LeanplumPushFirebaseMessagingService
 
 class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
@@ -15,6 +16,10 @@ class YapFirebaseMessagingService : LeanplumPushFirebaseMessagingService() {
         super.onNewToken(token)
         SharedPreferenceManager.getInstance(applicationContext).save(KEY_FCM_TOKEN, token)
         Log.d("YapFirebaseMessaging>>" , token)
+    }
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
     }
 
 }
