@@ -18,7 +18,6 @@ class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
     private val empty = 1
     private val actual = 2
     private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
-    private var textDimensions : IntArray =  Utils.getDimensionsByPercentage(context, 40, 4)
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == actual) R.layout.item_yap_card else R.layout.item_yap_card_empty
