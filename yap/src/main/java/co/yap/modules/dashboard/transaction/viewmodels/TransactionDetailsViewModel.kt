@@ -83,7 +83,6 @@ class TransactionDetailsViewModel(application: Application) :
             when(val response = repository.getAllTransactionReceipts(transactionId = transaction.get()?.transactionId?:"")){
                 is RetroApiResponse.Success ->{
                     response.data.let { resp ->
-
                     }
                     state.loading = false
 

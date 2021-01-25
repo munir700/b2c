@@ -9,6 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.FILE_PATH
+import co.yap.yapcore.helpers.ExtraKeys
 import java.io.File
 
 class PreviewTransactionReceiptFragment :
@@ -28,6 +29,9 @@ class PreviewTransactionReceiptFragment :
                 // image.setImageURI(Uri.fromFile(File(it)))
                 viewModel.state.filePath = Uri.fromFile(File(it))
             }
+            bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let {id->
+                viewModel.transactionId = id
+            }
         }
         registerObserver()
     }
@@ -36,8 +40,15 @@ class PreviewTransactionReceiptFragment :
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnSave -> {
+                    viewModel.state.filePath?.let {uri ->
+                        viewModel.saveTransactionReceipt(File(uri.path))
+                    }
                 }
                 R.id.tvRedo -> {
+
+                }
+                R.id.ivBack ->{
+                    activity?.finish()
                 }
             }
         })

@@ -46,11 +46,11 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
                 ExtraKeys.CONST_IMAGE_URL.name
             )
         )
+        viewModel.transactionId = intent?.getStringExtra(ExtraKeys.TRANSACTION_ID.name)?:""
     }
 
     var clickEvent = Observer<Int> {
         when (it) {
-
             R.id.ivActionShare -> {
                 shareImage(imageViewConatiner)
             }
@@ -99,6 +99,7 @@ class ImagePreViewerActivity : BaseBindingActivity<IImagePreViewer.ViewModel>() 
                 override fun onItemClick(view: View, data: Any, pos: Int) {
                     if (data is Boolean) {
                         if (data) {
+                            viewModel.deleteReceipt()
                             setResult()
                         } else {
                             setResult()

@@ -12,6 +12,7 @@ import co.yap.databinding.FragmentAddTransactionReceiptBinding
 import co.yap.modules.dashboard.transaction.previewreceipt.PreviewTransactionReceiptFragment
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants.FILE_PATH
+import co.yap.yapcore.helpers.ExtraKeys
 import co.yap.yapcore.helpers.extentions.createTempFile
 import co.yap.yapcore.helpers.extentions.startFragment
 import com.digitify.identityscanner.camera.CameraException
@@ -32,6 +33,15 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
         getBindingView().camera.setLifecycleOwner(this)
         getBindingView().camera.addCameraListener(this)
         registerObserver()
+    }
+
+    private fun getTransactionId() : String {
+        arguments?.let { bundle ->
+            bundle.getString(ExtraKeys.TRANSACTION_ID.name)?.let { id->
+                return  id
+            }
+        }
+        return ""
     }
 
     override fun registerObserver() {
@@ -91,7 +101,8 @@ class AddTransactionReceiptFragment : BaseBindingFragment<IAddTransactionReceipt
             it?.let {
                 startFragment(
                     fragmentName = PreviewTransactionReceiptFragment::class.java.name,
-                    bundle = bundleOf(FILE_PATH to it.absolutePath)
+                    bundle = bundleOf(FILE_PATH to it.absolutePath,
+                    ExtraKeys.TRANSACTION_ID.name to getTransactionId())
                 )
             }
         }

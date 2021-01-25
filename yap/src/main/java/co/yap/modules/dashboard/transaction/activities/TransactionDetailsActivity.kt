@@ -238,7 +238,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
         when (bottomSheetItem.tag) {
             PhotoSelectionType.CAMERA.name -> {
                 startFragment<AddTransactionReceiptFragment>(
-                    fragmentName = AddTransactionReceiptFragment::class.java.name
+                    fragmentName = AddTransactionReceiptFragment::class.java.name,
+                    bundle = bundleOf(ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId)
                 )
             }
 
@@ -248,7 +249,7 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
 
     private fun openAddedReceipt(receiptModel: ReceiptModel) {
         receiptModel.receiptImageUrl = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
-        this?.startImagePreviewerActivity( this , imageSrc =  receiptModel.receiptImageUrl,title = receiptModel.title)
+        this?.startImagePreviewerActivity( this , imageSrc =  receiptModel.receiptImageUrl,title = receiptModel.title,id = viewModel.transaction.get()?.transactionId)
     }
 
     private fun setTransactionTitle() {
@@ -370,7 +371,8 @@ class TransactionDetailsActivity : BaseBindingImageActivity<ITransactionDetails.
     override fun onImageReturn(mediaFile: MediaFile) {
         startFragment<PreviewTransactionReceiptFragment>(
             fragmentName = PreviewTransactionReceiptFragment::class.java.name,
-            bundle = bundleOf(FILE_PATH to mediaFile.file.absolutePath)
+            bundle = bundleOf(FILE_PATH to mediaFile.file.absolutePath,
+            ExtraKeys.TRANSACTION_ID.name to viewModel.transaction.get()?.transactionId)
         )
     }
 

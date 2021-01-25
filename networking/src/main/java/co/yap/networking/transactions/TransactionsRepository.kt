@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import okhttp3.MultipartBody
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -271,19 +272,19 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         api.getAllTransactionReceipts(transactionId)
     })
 
-    override suspend fun addTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse> = executeSafely(call = {
-        api.addTransactionReceipt(transactionId)
+    override suspend fun addTransactionReceipt(transactionId: String, transactionReceipt: MultipartBody.Part): RetroApiResponse<ApiResponse> = executeSafely(call = {
+        api.addTransactionReceipt(transactionId,transactionReceipt)
     })
 
     override suspend fun updateTransactionReceipt(transactionId: String): RetroApiResponse<ApiResponse> = executeSafely(call = {
-        api.getAllTransactionReceipts(transactionId)
+        api.updateTransactionReceipt(transactionId)
     })
 
-    override suspend fun deleteTransactionReciept(
+    override suspend fun deleteTransactionReceipt(
         transactionId: String,
         receipt: ArrayList<String>
     ): RetroApiResponse<ApiResponse> = executeSafely(call = {
-        api.getAllTransactionReceipts(transactionId)
+        api.deleteTransactionReceipt(receipt,transactionId)
     })
 
 }

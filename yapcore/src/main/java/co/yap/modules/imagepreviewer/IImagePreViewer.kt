@@ -12,6 +12,8 @@ interface IImagePreViewer {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        var transactionId : String
+        var receiptArray : ArrayList<String>
         fun handlePressOnView(id: Int)
         fun deleteReceipt()
     }

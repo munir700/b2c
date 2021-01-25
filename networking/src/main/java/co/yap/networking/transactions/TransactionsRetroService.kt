@@ -11,6 +11,7 @@ import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import com.google.android.gms.common.api.Api
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -202,12 +203,13 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_TRANSACTIONS_RECEIPT+"/{transaction-id}")
     suspend fun getAllTransactionReceipts(@Path("transaction-id") transactionId: String) : Response<ApiResponse>
 
+    @Multipart
     @POST(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
-    suspend fun addTransactionReceipt(@Query("transaction-id") transactionId : String ):Response<ApiResponse>
+    suspend fun addTransactionReceipt(@Query("transaction-id") transactionId : String, @Part TransactionReceipt: MultipartBody.Part ):Response<ApiResponse>
 
     @PUT(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
-    suspend fun updateTransactionReceipt(): Response<ApiResponse>
+    suspend fun updateTransactionReceipt(@Query("transaction-id") transactionId : String): Response<ApiResponse>
 
     @DELETE(TransactionsRepository.URL_TRANSACTIONS_RECEIPT)
-    suspend fun deleteTransactionReciept(@Query("receipt-images") receipt : ArrayList<String>, @Query("transaction-id") transactionId : String ) : Response<ApiResponse>
+    suspend fun deleteTransactionReceipt(@Query("receipt-images") receipt : ArrayList<String>, @Query("transaction-id") transactionId : String ) : Response<ApiResponse>
 }
