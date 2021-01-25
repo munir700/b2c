@@ -1,4 +1,4 @@
-package co.yap.networking.notification
+package co.yap.networking.notification.responsedtos
 
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
@@ -28,7 +28,7 @@ data class HomeNotification(
     @SerializedName("isRead")
     var isRead: String? = null,
     @SerializedName("isDeletable")
-    var isDeletable: String? = null,
+    var isDeletable: Boolean? = null,
     @SerializedName("notificationTxt")
     val description: String?="",
     @SerializedName("action")

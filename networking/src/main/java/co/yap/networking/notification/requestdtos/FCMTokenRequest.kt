@@ -1,4 +1,4 @@
-package co.yap.networking.authentication.requestdtos
+package co.yap.networking.notification.requestdtos
 
 import android.os.Build
 import co.yap.networking.models.ApiResponse

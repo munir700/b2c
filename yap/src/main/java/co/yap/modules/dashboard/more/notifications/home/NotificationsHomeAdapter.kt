@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.databinding.ItemNotificationV2Binding
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemAdapter
 import co.yap.widgets.advrecyclerview.swipeable.SwipeableItemConstants
 import co.yap.widgets.advrecyclerview.swipeable.action.SwipeResultAction
@@ -50,7 +50,7 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
 
     override fun getVariableId() = BR.viewModel
     override fun onGetSwipeReactionType(holder: ViewHolder, position: Int, x: Int, y: Int) =
-        if (datas[position].isDeleteAble) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
+        if (datas[position].isDeletable==true) SwipeableItemConstants.REACTION_CAN_SWIPE_LEFT else SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_ANY
 
 
     override fun onSwipeItemStarted(holder: ViewHolder, position: Int) {

@@ -1,4 +1,4 @@
-package co.yap.networking.notification
+package co.yap.networking.notification.responsedtos
 
 enum class NotificationAction {
     HELP_AND_SUPPORT,

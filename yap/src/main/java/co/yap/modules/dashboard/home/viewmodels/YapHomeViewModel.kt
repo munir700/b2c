@@ -12,8 +12,7 @@ import co.yap.networking.customers.CustomersRepository.updateFxRate
 import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.sendmoney.FxRateRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.notification.HomeNotification
-import co.yap.networking.notification.NotificationAction
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -21,15 +20,11 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
 import co.yap.widgets.State
 import co.yap.yapcore.Dispatcher
-import co.yap.yapcore.R
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.*
+import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.helpers.extentions.getFormattedDate
-import co.yap.yapcore.helpers.extentions.getNotificationOfBlockedFeature
-import co.yap.yapcore.helpers.extentions.getUserAccessRestrictions
-import co.yap.yapcore.leanplum.KYCEvents
 import co.yap.yapcore.leanplum.UserAttributes
-import co.yap.yapcore.leanplum.trackEvent
 import co.yap.yapcore.leanplum.trackEventWithAttributes
 import co.yap.yapcore.managers.SessionManager
 
@@ -227,79 +222,79 @@ class YapHomeViewModel(application: Application) :
         accountInfo: AccountInfo,
         paymentCard: Card
     ): ArrayList<HomeNotification> {
-        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
-                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
-        ) {
-            trackEvent(KYCEvents.EID_EXPIRE.type)
-            trackEventWithAttributes(SessionManager.user, eidExpire = true)
-        }
-        val list = ArrayList<HomeNotification>()
-        if (accountInfo.otpBlocked == true) {
-            list.add(
-                HomeNotification(
-                    id = "1",
-                    description = "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
-                    action = NotificationAction.HELP_AND_SUPPORT,
-                    imgResId = R.raw.gif_notification_bel
-                )
-            )
-        }
-        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name
-                    || accountInfo.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
-                    || accountInfo.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
-                    || accountInfo.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
-            && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
-        ) {
-            list.add(
-                HomeNotification(
-                    id = "2",
-                    title = "Complete Verification",
-                    description = "Complete verification to activate your account.",
-                    action = NotificationAction.COMPLETE_VERIFICATION,
-                    imgResId = R.raw.gif_general_notification
-                )
-            )
-        }
-
-        if (shouldShowSetPin(paymentCard) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
-            list.add(
-                HomeNotification(
-                    id = "3",
-                    title = "Set PIN",
-                    description = "This 4-digit code is yours to keep. Please don't share it with anyone",
-                    action = NotificationAction.SET_PIN, imgResId = R.raw.gif_set_pin
-                )
-            )
-        }
-        if (accountInfo.getUserAccessRestrictions()
-                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
-        ) {
-            SessionManager.eidStatus = EIDStatus.EXPIRED
-            list.add(
-                HomeNotification(
-                    id = "4",
-                    title = "Renew ID",
-                    description = accountInfo.EIDExpiryMessage
-                        ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
-                    action = NotificationAction.UPDATE_EMIRATES_ID,
-                    imgResId = R.raw.gif_general_notification
-                )
-            )
-        }
-
-        accountInfo.getUserAccessRestrictions().forEach {
-            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
-                list.add(
-                    HomeNotification(
-                        id = "5",
-                        description = description,
-                        action = NotificationAction.CARD_FEATURES_BLOCKED,
-                        imgResId = R.raw.gif_notification_bel
-                    )
-                )
-            }
-        }
-        return list
+//        if ((accountInfo.notificationStatuses == AccountStatus.EID_EXPIRED.name
+//                    || accountInfo.notificationStatuses == AccountStatus.EID_RESCAN_REQ.name)
+//        ) {
+//            trackEvent(KYCEvents.EID_EXPIRE.type)
+//            trackEventWithAttributes(SessionManager.user, eidExpire = true)
+//        }
+//        val list = ArrayList<HomeNotification>()
+//        if (accountInfo.otpBlocked == true) {
+//            list.add(
+//                HomeNotification(
+//                    id = "1",
+//                    description = "Some features may appear blocked for you as you made too many incorrect OTP attempts. Call or chat with us now to get full access.",
+//                    action = NotificationAction.HELP_AND_SUPPORT,
+//                    imgResId = R.raw.gif_notification_bel
+//                )
+//            )
+//        }
+//        if ((accountInfo.notificationStatuses == AccountStatus.ON_BOARDED.name || accountInfo.notificationStatuses == AccountStatus.CAPTURED_EID.name
+//                    || accountInfo.notificationStatuses == AccountStatus.CAPTURED_ADDRESS.name
+//                    || accountInfo.notificationStatuses == AccountStatus.BIRTH_INFO_COLLECTED.name
+//                    || accountInfo.notificationStatuses == AccountStatus.MEETING_SCHEDULED.name)
+//            && accountInfo.partnerBankStatus != PartnerBankStatus.ACTIVATED.status
+//        ) {
+//            list.add(
+//                HomeNotification(
+//                    id = "2",
+//                    title = "Complete Verification",
+//                    description = "Complete verification to activate your account.",
+//                    action = NotificationAction.COMPLETE_VERIFICATION,
+//                    imgResId = R.raw.gif_general_notification
+//                )
+//            )
+//        }
+//
+//        if (shouldShowSetPin(paymentCard) && accountInfo.partnerBankStatus == PartnerBankStatus.ACTIVATED.status) {
+//            list.add(
+//                HomeNotification(
+//                    id = "3",
+//                    title = "Set PIN",
+//                    description = "This 4-digit code is yours to keep. Please don't share it with anyone",
+//                    action = NotificationAction.SET_PIN, imgResId = R.raw.gif_set_pin
+//                )
+//            )
+//        }
+//        if (accountInfo.getUserAccessRestrictions()
+//                .contains(UserAccessRestriction.EID_EXPIRED) || !accountInfo.EIDExpiryMessage.isNullOrBlank()
+//        ) {
+//            SessionManager.eidStatus = EIDStatus.EXPIRED
+//            list.add(
+//                HomeNotification(
+//                    id = "4",
+//                    title = "Renew ID",
+//                    description = accountInfo.EIDExpiryMessage
+//                        ?: "Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.",
+//                    action = NotificationAction.UPDATE_EMIRATES_ID,
+//                    imgResId = R.raw.gif_general_notification
+//                )
+//            )
+//        }
+//
+//        accountInfo.getUserAccessRestrictions().forEach {
+//            accountInfo.getNotificationOfBlockedFeature(it, context)?.let { description ->
+//                list.add(
+//                    HomeNotification(
+//                        id = "5",
+//                        description = description,
+//                        action = NotificationAction.CARD_FEATURES_BLOCKED,
+//                        imgResId = R.raw.gif_notification_bel
+//                    )
+//                )
+//            }
+//        }
+        return NotificationHelper.getNotifications(accountInfo,paymentCard,context)
     }
 
     override fun shouldShowSetPin(paymentCard: Card): Boolean {

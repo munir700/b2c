@@ -17,6 +17,7 @@ interface IMoreHome {
         fun handlePressOnView(id: Int)
         fun handlePressOnYAPforYou(id: Int)
         fun getMoreOptions(): MutableList<MoreOption>
+        fun getTransactionsNotificationsCount(onComplete:(Int?)->Unit)
     }
 
     interface View : IBase.View<ViewModel>{

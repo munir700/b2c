@@ -1,12 +1,11 @@
 package co.yap.yapcore.managers
 
 import android.content.Context
-import android.os.Build
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
 import co.yap.countryutils.country.Country
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.authentication.requestdtos.FCMTokenRequest
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.Card
@@ -16,6 +15,8 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.networking.customers.responsedtos.currency.CurrencyData
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.notification.NotificationsRepository
+import co.yap.networking.notification.requestdtos.FCMTokenRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.*
@@ -254,11 +255,17 @@ object SessionManager : IRepositoryHolder<CardsRepository> {
         getFCMToken() {
             it?.let { token ->
                 GlobalScope.launch {
-                    when (val response = authRepository.sendFcmTokenToServer(FCMTokenRequest(token=it,deviceId = deviceId))) {
+                    when (val response = NotificationsRepository.sendFcmTokenToServer(
+                        FCMTokenRequest(
+                            token = it,
+                            deviceId = deviceId
+                        )
+                    )) {
                         is RetroApiResponse.Success -> {
                             success.invoke()
                         }
                         is RetroApiResponse.Error -> {
+                            Log.d("", "")
                         }
                     }
                 }

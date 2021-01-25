@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_alert_title
 import co.yap.translation.Strings.screen_notification_listing_display_text_delete_message
 import co.yap.widgets.DividerItemDecoration
@@ -93,7 +93,7 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
             if (it.isEmpty()) {
                 multiStateView.viewState = MultiStateView.ViewState.EMPTY
             } else {
-                mNotificationsAdapter.setData(it)
+                //mNotificationsAdapter.setData(it)
                 multiStateView.viewState = MultiStateView.ViewState.CONTENT
             }
 

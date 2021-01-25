@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.more.notifications.details
 
-import androidx.lifecycle.MutableLiveData
-import co.yap.networking.notification.HomeNotification
+import co.yap.networking.notification.responsedtos.HomeNotification
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -13,6 +12,6 @@ interface INotificationDetails {
     }
 
     interface State : IBase.State {
-        val notification:HomeNotification?
+        val notification: HomeNotification?
     }
 }

@@ -3,8 +3,8 @@ package co.yap.yapcore.helpers
 import android.content.Context
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.AccountInfo
-import co.yap.networking.notification.HomeNotification
-import co.yap.networking.notification.NotificationAction
+import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
