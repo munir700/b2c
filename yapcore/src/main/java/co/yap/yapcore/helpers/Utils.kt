@@ -207,6 +207,15 @@ object Utils {
         }
     }
 
+    fun getDimensionOfViewInPercent(view: View, isWidth: Boolean, percent: Int): Int {
+        val displayMetrics = view.resources.displayMetrics
+        return if (isWidth) {
+            ((displayMetrics.widthPixels.toDouble() / 100) * percent).toInt()
+        } else {
+            ((displayMetrics.heightPixels.toDouble() / 100) * percent).toInt()
+        }
+    }
+
     private fun hasNavBar(resources: Resources): Boolean {
         val id = resources.getIdentifier("config_showNavigationBar", "bool", "android")
         return id > 0 && resources.getBoolean(id)
@@ -644,7 +653,8 @@ object Utils {
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
     fun getBackgroundColorForAnalytics(context: Context, position: Int) =
-        ContextCompat.getColor(context, backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
+        ContextCompat.getColor(context,
+            backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
 
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(
@@ -805,9 +815,11 @@ object Utils {
     }
 
     fun getOtpBlockedMessage(context: Context): String {
-        return "${context.getString(R.string.screen_blocked_otp_display_text_message).format(
-            SessionManager.helpPhoneNumber
-        )}^${AlertType.DIALOG.name}"
+        return "${
+            context.getString(R.string.screen_blocked_otp_display_text_message).format(
+                SessionManager.helpPhoneNumber
+            )
+        }^${AlertType.DIALOG.name}"
     }
 
     fun parseCountryList(

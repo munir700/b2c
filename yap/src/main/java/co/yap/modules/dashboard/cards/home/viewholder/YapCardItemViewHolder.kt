@@ -6,8 +6,7 @@ import co.yap.databinding.ItemYapCardBinding
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
-import co.yap.translation.Translator.getString
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.loadCardImage
 import co.yap.yapcore.interfaces.OnItemClickListener
 

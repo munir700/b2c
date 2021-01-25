@@ -27,6 +27,25 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/card_spare" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_90sdp"
+            android:text="VIRTUAL CARD"
+            app:layout_constraintEnd_toStartOf="@+id/space"
+            android:gravity="fill_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/space"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="91dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <!--<androidx.appcompat.widget.AppCompatTextView
             style="@style/Regular"
             android:layout_width="0dp"
