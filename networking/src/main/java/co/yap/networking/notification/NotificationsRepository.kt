@@ -24,7 +24,7 @@ object NotificationsRepository : BaseRepository(), NotificationsApi {
     const val URL_DELETE_CUSTOMER_NOTIFICATION =
         "analytics/api/customer-notification/" //FCM notifications
     const val URL_SETTING_CUSTOMER_NOTIFICATION =
-        "notification-customers/api/settings/" //FCM notifications
+    "notification-customers/api/settings" //FCM notifications
 
     private val api: NotificationsRetroService =
         RetroNetwork.createService(NotificationsRetroService::class.java)

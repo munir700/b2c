@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_additionalInfoStartFragment_to_additionalInfoComplete"
             app:destination="@id/additionalInfoComplete" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="http://www.example.com/users/{id}" />
     </fragment>
 
     <fragment
