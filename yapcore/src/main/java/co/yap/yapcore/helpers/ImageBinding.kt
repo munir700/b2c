@@ -72,7 +72,9 @@ object ImageBinding {
     fun loadAvatar(
         imageView: ImageView,
         beneficiaryPicture: String?,
-        fullName: String?, @ColorRes color: Int, @DimenRes fontSize: Int = R.dimen.text_size_h5
+        fullName: String?,
+        @ColorRes color: Int,
+        @DimenRes fontSize: Int = R.dimen.text_size_h5
     ) {
 
         val builder = TextDrawable.builder()
@@ -86,6 +88,36 @@ object ImageBinding {
             imageView,
             beneficiaryPicture ?: "",
             builder.buildRect(
+                Utils.shortName(fullName ?: ""),
+                ContextCompat.getColor(imageView.context, color)
+            )
+        )
+    }
+
+    fun loadAvatar(
+        imageView: ImageView,
+        isCircular: Boolean,
+        beneficiaryPicture: String?,
+        fullName: String?,
+        @ColorRes color: Int,
+        @DimenRes fontSize: Int = R.dimen.text_size_h5,
+        @ColorRes textColor: Int = R.color.colorPrimary
+    ) {
+
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
+            .height(imageView.context.dimen(R.dimen._35sdp))
+            .fontSize(imageView.context.dimen(fontSize))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
+            .toUpperCase()
+            .textColor(ContextCompat.getColor(imageView.context, textColor))
+        setCircleCropImage(
+            imageView,
+            beneficiaryPicture ?: "", if (isCircular)
+                builder.buildRound(
+                    Utils.shortName(fullName ?: ""),
+                    ContextCompat.getColor(imageView.context, color)
+                ) else builder.buildRect(
                 Utils.shortName(fullName ?: ""),
                 ContextCompat.getColor(imageView.context, color)
             )
@@ -188,30 +220,51 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("app:srcCompatGif")
-    fun setGifImageViewResource(imageView: AppCompatImageView, resource: Int) {
-        Glide.with(imageView.context).asGif().load(resource)
-            .listener(object : RequestListener<GifDrawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<GifDrawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return true
-                }
+    @BindingAdapter(
+        value = ["app:srcCompatGif", "imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor"],
+        requireAll = true
+    )
+    fun setGifImageViewResource(
+        imageView: AppCompatImageView, resourceId: Int?, imageUrl: String?,
+        fullName: String?,
+        bgColor: Int, initialTextSize: Int,
+        initialTextColor: Int
+    ) {
+        resourceId?.let { loadGifImageView(imageView, it) } ?: loadAvatar(
+            imageView,true,
+            imageUrl,
+            fullName,
+            bgColor,
+            initialTextSize,
+            initialTextColor
+        )
+    }
 
-                override fun onResourceReady(
-                    resource: GifDrawable?,
-                    model: Any?,
-                    target: Target<GifDrawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    resource?.setLoopCount(1)
-                    return false
-                }
-            }).into(imageView)
+    fun loadGifImageView(imageView: AppCompatImageView, resource: Int) {
+        if (resource > 0) {
+            Glide.with(imageView.context).asGif().load(resource)
+                .listener(object : RequestListener<GifDrawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return true
+                    }
+
+                    override fun onResourceReady(
+                        resource: GifDrawable?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        resource?.setLoopCount(1)
+                        return false
+                    }
+                }).into(imageView)
+        }
     }
 
     @JvmStatic

@@ -14,6 +14,7 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.leanplum.Leanplum
+import com.leanplum.callbacks.VariablesChangedCallback
 import java.text.SimpleDateFormat
 
 fun Fragment.trackEvent(eventName: String, value: String = "") {
@@ -125,6 +126,11 @@ private fun trackAttributes(
             Firebase.analytics.setUserId(customerId)
         }
         it.uuid?.let { Leanplum.setUserAttributes(it, info) }
+        Leanplum.forceContentUpdate(object : VariablesChangedCallback() {
+            override fun variablesChanged() {
+
+            }
+        })
     }
 }
 
@@ -172,7 +178,7 @@ fun fireEventWithAttribute(eventName: String, value: String) {
 
 fun ViewModel.trackEventWithAttributes(
     uuid: String?,
-    info:HashMap<String, Any?>
+    info: HashMap<String, Any?>
 ) {
     Leanplum.setUserAttributes(uuid, info)
 }
@@ -180,7 +186,8 @@ fun ViewModel.trackEventWithAttributes(
 fun Fragment.trackEvent(
     eventName: String,
     lastCountry: String? = null,
-    lastType: String? = null) {
+    lastType: String? = null
+) {
 
     val params: HashMap<String, Any> = HashMap()
     params["LastCountry"] = lastCountry ?: ""
@@ -191,4 +198,26 @@ fun Fragment.trackEvent(
 
 fun fireEvent(eventName: String, params: Map<String, Any>) {
     Leanplum.track(eventName, params)
+}
+
+fun deleteLeanPlumMessage(messageId: String?) {
+    try {
+        messageId?.let {
+            val message = Leanplum.getInbox().messageForId(it)
+            message.remove()
+        }
+
+    } catch (e: Exception) {
+    }
+}
+
+fun markReadLeanPlumMessage(messageId: String?) {
+    try {
+        messageId?.let {
+            val message = Leanplum.getInbox().messageForId(it)
+            message.read()
+        }
+
+    } catch (e: Exception) {
+    }
 }

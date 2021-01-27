@@ -5,5 +5,6 @@ enum class NotificationAction {
     COMPLETE_VERIFICATION,
     SET_PIN,
     UPDATE_EMIRATES_ID,
-    CARD_FEATURES_BLOCKED
+    CARD_FEATURES_BLOCKED,
+    LEANPLUM,
 }

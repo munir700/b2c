@@ -57,9 +57,11 @@
                     android:layout_height="@dimen/_64sdp"
                     android:layout_margin="@dimen/margin_large"
                     android:contentDescription="@string/empty_string"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:bgColor="@{R.color.bg_round_light_green}"
+                    app:fullName="@{viewModel.state.notification.firstName + ` ` + viewModel.state.notification.lastName}"
+                    app:imageUrl="@{viewModel.state.notification.profilePicUrl}"
+                    app:initialTextColor="@{R.color.colorDarkAqua}"
+                    app:initialTextSize="@{R.dimen.text_size_h3}"
                     app:srcCompatGif="@{viewModel.state.notification.imgResId}"
                     tools:src="@drawable/ic_store_b2b" />
 
@@ -106,6 +108,7 @@
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:text="@{viewModel.state.notification.btnTitle}"
+                    android:visibility="@{viewModel.state.notification.btnTitle.empty?View.GONE:View.VISIBLE}"
                     app:btn_enable="true"
                     app:btn_size="medium"
                     tools:text="@string/screen_card_blocked_button_reorder_new_card" />
@@ -118,9 +121,10 @@
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:foregroundGravity="bottom"
                     android:gravity="center"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:padding="@dimen/margin_small"
                     android:textColor="@color/colorPrimary"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.state.notification.btnTitle.empty?View.VISIBLE:View.GONE}"
                     app:text="@{Strings.screen_notification_detail_display_text_delete}"
                     tools:text="@string/screen_notification_detail_display_text_delete" />
 

@@ -34,8 +34,9 @@ class NotificationsHomeAdapter(mValue: MutableList<HomeNotification>, navigation
         holder.swipeItemHorizontalSlideAmount = if (datas[position].isPinned == true) -0.2f else 0f
     }
 
+    override fun getItemViewType(position: Int) = position
     override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
-    override fun getItemId(position: Int) = datas[position].id.parseToLong()
+    override fun getItemId(position: Int) = datas[position].id.hashCode().toLong()
     override fun getViewHolder(
         view: View,
         viewModel: NotificationItemViewModel,

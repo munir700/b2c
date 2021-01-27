@@ -11,7 +11,11 @@
 
         <import type="android.view.View" />
 
+        <import type="android.graphics.Typeface" />
+
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.yapcore.R" />
 
 
     </data>
@@ -68,6 +72,11 @@
                 android:layout_height="@dimen/_36sdp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/empty_string"
+                app:bgColor="@{R.color.bg_round_light_green}"
+                app:fullName="@{viewModel.item.firstName + ` ` + viewModel.item.lastName}"
+                app:imageUrl="@{viewModel.item.profilePicUrl}"
+                app:initialTextColor="@{R.color.colorDarkAqua}"
+                app:initialTextSize="@{R.dimen.text_size_h3}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompatGif="@{viewModel.item.imgResId}"
@@ -92,6 +101,7 @@
                     android:lines="1"
                     android:text="@{viewModel.item.title.empty?viewModel.item.description:viewModel.item.title}"
                     android:textSize="@dimen/text_size_h3"
+                    android:typeface="@{Typeface.defaultFromStyle(viewModel.item.isRead?Typeface.NORMAL: Typeface.BOLD)}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -101,9 +111,9 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textSize="@dimen/text_size_h3"
                     android:text="@{viewModel.item.createdAt}"
                     android:textColor="@color/greyNormalDark"
+                    android:textSize="@dimen/text_size_h3"
                     tools:text="01 July, 2019" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>

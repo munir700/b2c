@@ -102,14 +102,30 @@ abstract class BaseRVAdapter<T : Any, VM : BaseListItemViewModel<T>, VH : BaseVi
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
+
     open fun removeAt(position: Int) {
         this.datas.removeAt(position)
         notifyItemRemoved(position)
     }
+
     fun change(newItem: T, oldItem: T) {
         val position = this.datas.indexOf(oldItem)
-        this.datas.set(position, newItem)
+        this.datas[position] = newItem
         notifyItemChanged(position)
         notifyDataSetChanged()
+    }
+
+    fun update(item: T) {
+        val position = this.datas.indexOf(item)
+        this.datas[position] = item
+        notifyItemChanged(position)
+
+    }
+
+    fun update(position: Int) {
+        val item = this.datas[position]
+        this.datas[position] = item
+        notifyItemChanged(position)
+
     }
 }
