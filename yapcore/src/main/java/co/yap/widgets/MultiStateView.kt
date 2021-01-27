@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
+import androidx.databinding.BindingAdapter
 import co.yap.yapcore.R
 
 class MultiStateView
@@ -343,7 +344,8 @@ class MultiStateView
                     previousView.visibility = View.GONE
                     val currentView = requireNotNull(getView(viewState))
                     currentView.visibility = View.VISIBLE
-                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f).setDuration(animateViewChangesDuration.toLong())
+                    ObjectAnimator.ofFloat(currentView, "alpha", 0.0f, 1.0f)
+                        .setDuration(animateViewChangesDuration.toLong())
                         .start()
                 }
             })
@@ -471,6 +473,17 @@ class State(
 
         fun ideal(@Nullable message: String?): State {
             return State(Status.IDEAL, message)
+        }
+
+        @JvmStatic
+        @BindingAdapter("viewState", requireAll = true)
+        fun handleState(view: MultiStateView, state: State? = success(null)) {
+            when (state?.status) {
+                Status.LOADING -> view.viewState = MultiStateView.ViewState.LOADING
+                Status.EMPTY -> view.viewState = MultiStateView.ViewState.EMPTY
+                Status.ERROR -> view.viewState = MultiStateView.ViewState.ERROR
+                Status.SUCCESS -> view.viewState = MultiStateView.ViewState.CONTENT
+            }
         }
     }
 }

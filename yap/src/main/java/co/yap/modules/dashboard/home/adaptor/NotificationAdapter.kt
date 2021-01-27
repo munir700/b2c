@@ -43,7 +43,7 @@ class NotificationAdapter(
 
             binding.tvTitle.text = notification.title
             notification.imgResId?.let {
-                ImageBinding.setGifImageViewResource(binding.ivNotification, it)
+                ImageBinding.loadGifImageView(binding.ivNotification, it)
             }
 
 

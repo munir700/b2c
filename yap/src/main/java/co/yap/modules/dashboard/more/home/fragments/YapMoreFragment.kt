@@ -76,6 +76,7 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     }
 
     private fun updateNotificationCounter() {
+//        Leanplum.forceContentUpdate()
         if (::adapter.isInitialized) {
             if (!adapter.getDataList().isNullOrEmpty()) {
                 val notificationCount: Int = NotificationHelper.getNotifications(
@@ -84,11 +85,17 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
                     requireContext()
                 ).size
                 val item = adapter.getDataForPosition(0)
-                item.hasBadge = notificationCount > 0
-                item.badgeCount = Leanplum.getInbox().unreadCount()
-                    .plus(notificationCount)//Leanplum.getInbox().unreadCount() > 0
                 viewModel.getTransactionsNotificationsCount {
-                    item.badgeCount = item.badgeCount.plus(it ?: 0)
+                    item.badgeCount =
+                        Leanplum.getInbox().unreadCount().plus(notificationCount).plus(it ?: 0)
+                    //Leanplum.getInbox().unreadCount() > 0
+//                Leanplum.getInbox().addChangedHandler(object : InboxChangedCallback() {
+//                    override fun inboxChanged() {
+//                        item.badgeCount = item.badgeCount.plus(Leanplum.getInbox().unreadCount())
+//                        item.hasBadge = item.badgeCount > 0
+//                    }
+//                })
+                    item.hasBadge = item.badgeCount > 0
                     adapter.setItemAt(0, item)
                 }
                 adapter.setItemAt(0, item)

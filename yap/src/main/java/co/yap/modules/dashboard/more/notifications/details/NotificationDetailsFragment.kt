@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -41,6 +42,11 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
         viewModel.state.notification = arguments?.getParcelable(Constants.data)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+                R.id.tvDeleteNotification -> {
+                    viewModel.deleteFcmNotifications(viewModel.state.notification){
+                        navigateBack()
+                    }
+                }
                 R.id.btnAction -> {
                     when (viewModel.state.notification?.action) {
                         NotificationAction.COMPLETE_VERIFICATION -> {

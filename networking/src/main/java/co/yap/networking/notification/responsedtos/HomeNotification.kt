@@ -26,17 +26,19 @@ data class HomeNotification(
     @SerializedName("transactionDate")
     var createdAt: String? = null,
     @SerializedName("isRead")
-    var isRead: String? = null,
+    var isRead: Boolean? = false,
     @SerializedName("isDeletable")
-    var isDeletable: Boolean? = null,
+    var isDeletable: Boolean? = false,
     @SerializedName("notificationTxt")
-    val description: String?="",
+    val description: String? = "",
     @SerializedName("action")
     val action: NotificationAction,
     @SerializedName("subtitle")
     val subTitle: String? = "",
     @SerializedName("imgResId")
-    val imgResId: Int? = 0,
+    val imgResId: Int? = null,
     @Transient var isPinned: Boolean? = false,
     @Transient var btnTitle: String? = ""
-    ) : ApiResponse(), Parcelable
+) : ApiResponse(), Parcelable {
+    fun fullName() = "$firstName $lastName"
+}
