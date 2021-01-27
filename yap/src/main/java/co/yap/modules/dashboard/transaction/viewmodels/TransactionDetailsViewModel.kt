@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.networking.transactions.responsedtos.transaction.Transaction
@@ -9,10 +10,9 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.extentions.getCategoryIcon
-import co.yap.yapcore.helpers.extentions.getCategoryTitle
-import co.yap.yapcore.helpers.extentions.getFormattedTime
-import co.yap.yapcore.helpers.extentions.getTransactionNoteDate
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.extentions.*
+import co.yap.yapcore.managers.SessionManager
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -21,6 +21,8 @@ class TransactionDetailsViewModel(application: Application) :
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transaction: ObservableField<Transaction> = ObservableField()
+    var spentLabelText: ObservableField<String> = ObservableField()
+
     override fun onCreate() {
         super.onCreate()
         setStatesData()
@@ -28,6 +30,7 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
         clickEvent.postValue(id)
+        var abc = transaction.get().getSpentLabelText()
     }
 
     private fun setStatesData() {
@@ -37,9 +40,12 @@ class TransactionDetailsViewModel(application: Application) :
             state.txnNoteValue.set(transaction.transactionNote)
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
-            state.categoryIcon.set(transaction.getCategoryIcon())
-            state.exchangeRate.set(getExchangeRate())
+            state.categoryIcon.set(if (transaction.getCategoryIcon() == -1) R.drawable.ic_other else transaction.getCategoryIcon())
+            state.exchangeRate?.set(getExchangeRate(transaction))
         }
+        spentLabelText.set(this.transaction.get().getSpentLabelText())
+
+
     }
 
     private fun setToolbarTitle() {
@@ -65,11 +71,53 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
-    fun getExchangeRate(): Double? {
-        return transaction?.get()?.cardHolderBillingAmount?.let {
-            transaction?.get()?.settlementAmount?.div(
+    fun getExchangeRate(transaction: Transaction): Double? {
+        var fxRate: Double? = transaction?.cardHolderBillingAmount?.let {
+            transaction?.settlementAmount?.div(
                 it
             )
         }
+
+        if (transaction.cardHolderBillingAmount?.let {
+                transaction?.cardHolderBillingAmount?.compareTo(
+                    it
+                )
+            } == -1) {
+
+            fxRate = fxRate.toString().toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            ) as Double
+
+            fxRate = getDecimalFormatUpTo(
+                selectedCurrencyDecimal = Utils.getConfiguredDecimalsDashboard(
+                    SessionManager.getDefaultCurrency()
+                ) ?: getDecimalFromValue("6"),
+                amount = fxRate.toString(),
+                withComma = true
+            ).toDouble()
+
+            // cardHolderBillingAmount is smaller than settlementAmount
+            //   Please round to the 6 decimal if cardHolderBillingAmount is smaller than settlementAmount
+        } else {
+            //   and to the 3rd decimal
+
+            fxRate = getDecimalFormatUpTo(
+                selectedCurrencyDecimal = Utils.getConfiguredDecimalsDashboard(
+                    SessionManager.getDefaultCurrency()
+                ) ?: getDecimalFromValue("3"),
+                amount = fxRate.toString(),
+                withComma = true
+            ).toDouble()
+        }
+
+
+
+        return fxRate
+//        return transaction?.cardHolderBillingAmount?.let {
+//            transaction?.settlementAmount?.div(
+//                it
+//            )
+//        }
     }
 }

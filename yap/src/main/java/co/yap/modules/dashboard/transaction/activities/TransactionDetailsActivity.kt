@@ -62,12 +62,17 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         getBindings().tvCardSpendAmount.text = viewModel.transaction.get()?.let {
             when {
 
-                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(showCurrency = false)
+                it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
+                    showCurrency = false
+                )
                 it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
                     (it.settlementAmount ?: "0.00").toString().toFormattedCurrency()
+                }
+                it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
+                    it.cardHolderBillingAmount.toString()
                 }
                 else -> it.amount.toString().toFormattedCurrency()
             }
@@ -83,7 +88,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     getBindings().tvTotalAmountValue.setTextColor(this.getColors(R.color.colorFaded))
                     getBindings().tvTransactionSubheading.alpha = 0.5f
                     getBindings().ivCategoryIcon.alpha = 0.5f
-                    return@let if(it.isTransactionRejected()) it.cancelReason else getCutOffMsg(it)
+                    return@let if (it.isTransactionRejected()) it.cancelReason else getCutOffMsg(it)
                 }
                 else -> ""
             }
@@ -96,7 +101,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun getCutOffMsg(transaction: Transaction): String {
-        return if(transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
+        return if (transaction.showCutOffMsg()) getString(R.string.screen_transaction_detail_text_cut_off_msg) else ""
     }
 
     private fun setTotalAmount() {
@@ -105,6 +110,13 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 TransactionProductCode.RMT.pCode, TransactionProductCode.SWIFT.pCode -> {
                     val totalFee = (it.postedFees ?: 0.00).plus(it.vatAmount ?: 0.0) ?: 0.0
                     (it.settlementAmount ?: 0.00).plus(totalFee).toString()
+                }
+                TransactionProductCode.POS_PURCHASE.pCode -> {
+                    if (it.currency != SessionManager.getDefaultCurrency()) {
+                        (it.cardHolderBillingAmount ?: 0.00).plus(it.markupFees ?: 0.00).toString()
+                    } else {
+                        if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
+                    }
                 }
                 else -> if (it.txnType == TxnType.DEBIT.type) it.totalAmount.toString() else it.amount.toString()
             }
@@ -115,7 +127,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             if (viewModel.transaction.get()?.txnType == TxnType.DEBIT.type) "- ${totalAmount.toFormattedCurrency(
                 showCurrency = false,
                 currency = SessionManager.getDefaultCurrency()
-            )}" else "+ ${totalAmount.toFormattedCurrency(showCurrency = false, currency = SessionManager.getDefaultCurrency())}"
+            )}" else "+ ${totalAmount.toFormattedCurrency(
+                showCurrency = false,
+                currency = SessionManager.getDefaultCurrency()
+            )}"
 
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {

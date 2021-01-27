@@ -184,8 +184,11 @@ fun Transaction?.getCategoryTitle(): String {
                 }
                 TransactionProductCode.CARD_REORDER.pCode -> "Fee"
                 TransactionProductCode.FUND_LOAD.pCode -> "Incoming Funds"
-                TransactionProductCode.POS_PURCHASE.pCode, TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
+                TransactionProductCode.MASTER_CARD_ATM_WITHDRAWAL.pCode -> {
                     "Cash"
+                }
+                TransactionProductCode.POS_PURCHASE.pCode -> {
+                    transaction.merchantCategoryName.toString()
                 }
                 TransactionProductCode.ATM_WITHDRAWL.pCode -> {
                     if (transaction.category.equals("REVERSAL", true)) "Reversal" else "Cash"
@@ -219,9 +222,9 @@ fun Transaction?.getMerchantCategoryIcon(): Int {
                 "Insurance",
                 true
             ) -> R.drawable.ic_insurance_no_bg
-            else -> R.drawable.ic_other_no_bg
+            else -> -1
         })
-    } ?: return R.drawable.ic_other_no_bg
+    } ?: return -1
 }
 
 fun Transaction?.getMapImage(): Int {
@@ -256,7 +259,7 @@ fun Transaction?.getSpentLabelText(): String {
                                 TransactionProductCode.SWIFT.pCode, TransactionProductCode.RMT.pCode -> {
                                     if (transaction.currency == SessionManager.getDefaultCurrency()) "Amount" else "Amount"
                                 }
-                                else -> "Amount"
+                                 else -> "Amount"
                             }
                         }
                         else -> ""
