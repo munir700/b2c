@@ -72,22 +72,20 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     fun getExchangeRate(transaction: Transaction): Double? {
-        var fxRate: Double? = transaction?.cardHolderBillingAmount?.let {
-            transaction?.settlementAmount?.div(
-                it
-            )
-        }
+//        var fxRate: Double? = transaction?.settlementAmount?.let {
+//            transaction?.cardHolderBillingAmount?.div(
+//                it
+//            )
+//        }
+        var fxRate: Double? =
+            transaction.settlementAmount?.let { transaction.cardHolderBillingAmount?.div(it) }
 
-        if (transaction.cardHolderBillingAmount?.let {
+
+        if (transaction.settlementAmount?.let {
                 transaction?.cardHolderBillingAmount?.compareTo(
                     it
                 )
             } == -1) {
-
-            fxRate = fxRate.toString().toFormattedCurrency(
-                showCurrency = false,
-                currency = SessionManager.getDefaultCurrency()
-            ) as Double
 
             fxRate = getDecimalFormatUpTo(
                 selectedCurrencyDecimal = Utils.getConfiguredDecimalsDashboard(
@@ -114,10 +112,6 @@ class TransactionDetailsViewModel(application: Application) :
 
 
         return fxRate
-//        return transaction?.cardHolderBillingAmount?.let {
-//            transaction?.settlementAmount?.div(
-//                it
-//            )
-//        }
+
     }
 }

@@ -72,7 +72,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     (it.settlementAmount ?: "0.00").toString().toFormattedCurrency()
                 }
                 it.productCode == TransactionProductCode.POS_PURCHASE.pCode -> {
-                    it.cardHolderBillingAmount.toString()
+                    SessionManager.getDefaultCurrency() + " " + it.cardHolderBillingAmount.toString()
                 }
                 else -> it.amount.toString().toFormattedCurrency()
             }
@@ -189,7 +189,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setSpentLabel() {
-        getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
+        if (viewModel.state.exchangeRate != null) {
+            getBindings().tvCardSpent.text = "Sent in AED"
+        } else {
+            getBindings().tvCardSpent.text = viewModel.transaction.get().getSpentLabelText()
+
+        }
     }
 
     var clickEvent = Observer<Int> {
