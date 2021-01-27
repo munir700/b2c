@@ -38,6 +38,7 @@ class TransactionDetailsViewModel(application: Application) :
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
             state.categoryIcon.set(transaction.getCategoryIcon())
+            state.exchangeRate.set(getExchangeRate())
         }
     }
 
@@ -64,4 +65,11 @@ class TransactionDetailsViewModel(application: Application) :
         }
     }
 
+    fun getExchangeRate(): Double? {
+        return transaction?.get()?.cardHolderBillingAmount?.let {
+            transaction?.get()?.settlementAmount?.div(
+                it
+            )
+        }
+    }
 }

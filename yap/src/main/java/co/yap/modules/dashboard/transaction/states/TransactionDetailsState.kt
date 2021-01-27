@@ -21,6 +21,7 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
     override var categoryTitle: ObservableField<String> = ObservableField("")
     override var categoryIcon: ObservableField<Int> = ObservableField()
     override var transactionTitle: ObservableField<String> = ObservableField()
+    override var exchangeRate: ObservableField<Double> = ObservableField()
 
 
 }
