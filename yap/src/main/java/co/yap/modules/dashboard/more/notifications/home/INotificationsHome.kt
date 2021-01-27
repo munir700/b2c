@@ -14,8 +14,8 @@ interface INotificationsHome {
         val repository: NotificationsApi
         fun getNotification()
         fun getFcmNotifications()
-        fun deleteFcmNotifications(notifId : String)
-        fun updateFcmNotifications(notifId : String, isRead : Boolean)
+        fun deleteFcmNotifications(item : HomeNotification? , onComplete:(Boolean)->Unit)
+        fun markNotificationRead(item : HomeNotification, isRead : Boolean, onComplete: (Boolean) -> Unit)
     }
 
     interface State : IBase.State {

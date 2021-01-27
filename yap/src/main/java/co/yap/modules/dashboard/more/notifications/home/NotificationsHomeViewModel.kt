@@ -2,12 +2,25 @@ package co.yap.modules.dashboard.more.notifications.home
 
 import android.app.Application
 import androidx.databinding.ObservableField
+import co.yap.networking.models.BaseListResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.notification.NotificationsApi
 import co.yap.networking.notification.NotificationsRepository
+import co.yap.networking.notification.requestdtos.UpdateNotificationRequest
+import co.yap.networking.notification.responsedtos.HomeNotification
+import co.yap.networking.notification.responsedtos.NotificationAction
+import co.yap.widgets.State
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_FORMAT
 import co.yap.yapcore.helpers.NotificationHelper
+import co.yap.yapcore.leanplum.deleteLeanPlumMessage
+import co.yap.yapcore.leanplum.markReadLeanPlumMessage
 import co.yap.yapcore.managers.SessionManager
+import com.leanplum.Leanplum
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+
 
 class NotificationsHomeViewModel(application: Application) :
     BaseViewModel<INotificationsHome.State>(application),
@@ -20,11 +33,10 @@ class NotificationsHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getNotification()
-        getFcmNotifications()
-
     }
 
     override fun getNotification() {
+        state.stateLiveData?.value = State.loading(null)
         SessionManager.user?.let { account ->
             SessionManager.card.value?.let { card ->
                 state.mNotifications?.value =
@@ -32,6 +44,14 @@ class NotificationsHomeViewModel(application: Application) :
                         account,
                         card, context
                     )
+                if ((state.mNotifications?.value?.size ?: 0) > 0) {
+                    state.stateLiveData?.postValue(State.success(null))
+                }
+                mNotificationsHomeAdapter?.get()?.setData(
+                    state.mNotifications?.value ?: mutableListOf()
+                )
+                getFcmNotifications()
+//                loadNotifications()
                 mNotificationsHomeAdapter?.get()?.setData(
                     state.mNotifications?.value ?: arrayListOf()
                 )
@@ -42,68 +62,172 @@ class NotificationsHomeViewModel(application: Application) :
 
     override fun getFcmNotifications() {
         launch {
-            state.loading = true
-            when (val response = repository.getAllNotifications()) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    state.mNotifications?.value?.addAll(response.data.data ?: mutableListOf())
-                    mNotificationsHomeAdapter?.get()?.setData(
-                        state.mNotifications?.value ?: mutableListOf()
-                    )
-                }
-                is RetroApiResponse.Error -> {
-                    showToast(response.error.message)
-                    state.loading = false
+            val notifications = mutableListOf<HomeNotification>()
+            val notification = viewModelBGScope.async(Dispatchers.IO) {
+                repository.getAllNotifications()
+            }
+            val leanplumMessages = viewModelBGScope.async(Dispatchers.IO) {
+                loadLeanPlumMessages()
+            }
+            val notificationWait = notification.await()
+            val leanplumMessagesWait = leanplumMessages.await()
+            if (notificationWait is RetroApiResponse.Success) {
+//                notificationWait.data.data
+//                for (i in 1..40) {
+//                    notifications.add(getTestData(10 + i))
+//                }
+                notifications.addAll(notificationWait.data.data ?: mutableListOf())
+            }
+            if (leanplumMessagesWait is RetroApiResponse.Success) {
+                notifications.addAll(
+                    leanplumMessagesWait.data.data ?: mutableListOf()
+                )
+            }
+            state.mNotifications?.value?.addAll(notifications)
+            mNotificationsHomeAdapter?.get()?.setData(
+                state.mNotifications?.value ?: mutableListOf()
+            )
+            state.stateLiveData?.postValue(
+                if ((state.mNotifications?.value?.size
+                        ?: 0) > 0
+                ) State.success(null) else State.empty(null)
+            )
+
+//            when (val response = repository.getAllNotifications()) {
+//                is RetroApiResponse.Success -> {
+//                    for (i in 1..40) {
+//                        state.mNotifications?.value?.add(getTestData(10 + i))
+//                    }
+//                    state.mNotifications?.value?.addAll(response.data.data ?: mutableListOf())
+//                    mNotificationsHomeAdapter?.get()?.addAll(
+//                        state.mNotifications?.value ?: mutableListOf()
+//                    )
+//                    state.stateLiveData?.postValue(
+//                        if ((state.mNotifications?.value?.size
+//                                ?: 0) > 0
+//                        ) State.success(null) else State.empty(null)
+//                    )
+//
+//                }
+//                is RetroApiResponse.Error -> {
+//                    state.stateLiveData?.postValue(
+//                        if ((state.mNotifications?.value?.size
+//                                ?: 0) > 0
+//                        ) State.success(null) else State.empty(null)
+//                    )
+//                }
+//            }
+        }
+    }
+
+    private fun getTestData(id: Int) = HomeNotification(
+        id = id.toString(),
+        notificationType = null,
+        title = "Test Image Push",
+        description = "Yap ios date  frmt test 12345",
+        profilePicUrl = "https://digitify.com/wp-content/uploads/2020/01/digitify-logo-1-300x82.png",
+        firstName = "dsad",
+        lastName = "gafds",
+        currency = "AED",
+        isDeletable = true,
+        isRead = false,
+        action = NotificationAction.SET_PIN
+    )
+
+    override fun markNotificationRead(
+        item: HomeNotification,
+        isRead: Boolean,
+        onComplete: (Boolean) -> Unit
+    ) {
+        if (item.action == NotificationAction.LEANPLUM) {
+            markReadLeanPlumMessage(item.id)
+            onComplete.invoke(true)
+        } else {
+            launch {
+                state.loading = true
+                when (val response = repository.markNotificationRead(
+                    UpdateNotificationRequest(item.id, isRead)
+                )) {
+                    is RetroApiResponse.Success -> {
+                        onComplete.invoke(true)
+                        state.loading = false
+
+                    }
+                    is RetroApiResponse.Error -> {
+                        showToast(response.error.message)
+                        state.loading = false
+                    }
                 }
             }
         }
     }
 
-    override fun updateFcmNotifications(notifId: String, isRead: Boolean) {
-        launch {
-            state.loading = true
-            when (val response = repository.updateReadNotifications(
-                notificationId = notifId, isRead = isRead
-            )) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    mNotificationsHomeAdapter?.get()?.setData(
-                        state.mNotifications?.value ?: arrayListOf()
-                    )
-                }
-                is RetroApiResponse.Error -> {
-                    showToast(response.error.message)
-                    state.loading = false
-                }
-            }
-        }
-    }
-
-    override fun deleteFcmNotifications(notifId: String) {
-        launch {
-            state.loading = true
-            when (val response = repository.deleteMsCustomerNotification(
-                notificationId = notifId
-            )) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    mNotificationsHomeAdapter?.get()?.setData(
-                        state.mNotifications?.value ?: arrayListOf()
-                    )
-                }
-                is RetroApiResponse.Error -> {
-                    showToast(response.error.message)
-                    state.loading = false
+    override fun deleteFcmNotifications(item: HomeNotification?, onComplete: (Boolean) -> Unit) {
+        if (item?.action == NotificationAction.LEANPLUM) {
+            deleteLeanPlumMessage(item.id)
+            onComplete.invoke(true)
+        } else {
+            launch {
+                state.loading = true
+                when (val response = repository.deleteMsCustomerNotification(
+                    UpdateNotificationRequest(item?.id)
+                )) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        onComplete.invoke(true)
+                    }
+                    is RetroApiResponse.Error -> {
+                        showToast(response.error.message)
+                        state.loading = false
+                    }
                 }
             }
         }
     }
+//Mark message as read and triggers the Open Action.
+//    message.read();
 
-    //    fun loadNotifications() {
-//        launch {
-//            state.loading = true
-//            val notifications = ArrayList<Notification>()
-//            Leanplum.getInbox().allMessages()
+//Mark message as read (without invoking its Open Action).
+//    message.markAsRead();
+
+//Delete inbox message.
+//    message.remove();
+
+    suspend fun loadLeanPlumMessages(): RetroApiResponse<BaseListResponse<HomeNotification>> {
+        val notifications = mutableListOf<HomeNotification>()
+        val inbox = Leanplum.getInbox()
+        val messageList = inbox.allMessages()
+//        val sas = inbox.messageForId("")
+        messageList.forEach {
+            notifications.add(
+                HomeNotification(
+                    id = it.messageId,
+                    notificationType = NotificationAction.LEANPLUM.name,
+                    title = it.title,
+                    profilePicUrl = it.imageFilePath,
+                    firstName = "",
+                    lastName = "",
+                    currency = "",
+                    amount = "",
+                    createdAt = DateUtils.dateToString(it.deliveryTimestamp, LEAN_PLUM_FORMAT),
+                    isRead = it.isRead,
+                    isDeletable = true,
+                    description = "",
+                    action = NotificationAction.LEANPLUM,
+                    subTitle = "",
+                    imgResId = null
+                )
+            )
+        }
+
+        val response = BaseListResponse<HomeNotification>()
+        response.data = notifications
+        return RetroApiResponse.Success(
+            200,
+            response
+        )
+        //return RetroApiResponse.Success<BaseListResponse<HomeNotification>>
+
 //            Leanplum.getInbox().allMessages().forEach {
 //                notifications.add(
 //                    Notification(
@@ -121,7 +245,6 @@ class NotificationsHomeViewModel(application: Application) :
 //            }
 //            state.hasRecords.set(!notifications.isNullOrEmpty())
 //            adapter.setList(notifications)
-//            state.loading = false
-//        }
-//    }
+
+    }
 }

@@ -95,7 +95,7 @@ class MoreHomeViewModel(application: Application) :
         launch {
             when (val response = NotificationsRepository.getTransactionsNotificationsCount()) {
                 is RetroApiResponse.Success -> {
-                    onComplete.invoke(response.data.data?.data?.parseToInt())
+                    onComplete.invoke(response.data.data?.parseToInt())
                 }
                 is RetroApiResponse.Error -> {
                     onComplete.invoke(0)

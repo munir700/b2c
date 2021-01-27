@@ -57,9 +57,9 @@ class SearchBeneficiariesFragment :
         getBindings().etSearch.afterTextChanged {
             viewModel.adapter.filter.filter(it)
         }
-        viewModel.state.stateLiveData.observe(this, Observer { handleState(it) })
+        viewModel.state.stateLiveData?.observe(this, Observer { handleState(it) })
         viewModel.adapter.filterCount.observe(this, Observer {
-            viewModel.state.stateLiveData.value =
+            viewModel.state.stateLiveData?.value =
                 if (it == 0) State.empty("") else State.success("")
         })
     }
@@ -281,7 +281,7 @@ class SearchBeneficiariesFragment :
 
     override fun removeObservers() {
         viewModel.clickEvent.removeObservers(this)
-        viewModel.state.stateLiveData.removeObservers(this)
+        viewModel.state.stateLiveData?.removeObservers(this)
     }
 
     override fun onDestroyView() {
