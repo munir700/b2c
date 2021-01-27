@@ -83,6 +83,7 @@ class NotificationsHomeViewModel(application: Application) :
                     leanplumMessagesWait.data.data ?: mutableListOf()
                 )
             }
+
             state.mNotifications?.value?.addAll(notifications)
             mNotificationsHomeAdapter?.get()?.setData(
                 state.mNotifications?.value ?: mutableListOf()

@@ -29,7 +29,7 @@
             app:leftIconVisibility="@{true}"
             app:onClick="@{viewModel::onToolBarClick}"
             app:rightIcon="@{R.drawable.ic_settings}"
-            app:rightIconVisibility="@{false}"
+            app:rightIconVisibility="@{true}"
             app:titleTranslator="@{Strings.screen_notification_listing_display_text_toolbar_title}" />
 
         <co.yap.widgets.MultiStateView
