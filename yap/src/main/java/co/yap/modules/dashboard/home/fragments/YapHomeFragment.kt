@@ -88,7 +88,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override var transactionViewHelper: TransactionsViewHelper? = null
     private var dashboardNotificationStatusHelper: DashboardNotificationStatusHelper? = null
     private lateinit var skeleton: Skeleton
-    private lateinit var tvBalanceSkeleton: Skeleton
     private var tourStep: TourSetup? = null
 
     override val viewModel: YapHomeViewModel
