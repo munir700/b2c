@@ -91,14 +91,14 @@ class TransactionsListingAdapter(
                         "null"
                     )
                 ) View.GONE else View.VISIBLE
-            itemTransactionListBinding.tvTransactionStatus.text = transaction.getTransactionStatus()
+            itemTransactionListBinding.tvTransactionStatus.text = transaction.getStatus()
             itemTransactionListBinding.tvTransactionStatus.visibility =
-                if (transaction.getTransactionStatus().isEmpty()) View.GONE else View.VISIBLE
+                if (transaction.getStatus().isEmpty()) View.GONE else View.VISIBLE
             itemTransactionListBinding.tvCurrency.text = transaction.getCurrency()
-            itemTransactionListBinding.ivIncoming.setImageResource(transaction.getTransactionTypeIcon())
+            itemTransactionListBinding.ivIncoming.setImageResource(transaction.getStatusIcon())
 
             itemTransactionListBinding.ivIncoming.background =
-                if (transaction.getTransactionTypeIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
+                if (transaction.getStatusIcon() == co.yap.yapcore.R.drawable.ic_time) context.getDrawable(
                     R.drawable.bg_round_white
                 ) else
                     context.getDrawable(android.R.color.transparent)
@@ -114,8 +114,8 @@ class TransactionsListingAdapter(
             transaction: Transaction,
             position: Int?
         ) {
-            val transactionTitle = transaction.getTransactionTitle()
-            val txnIconResId = transaction.getTransactionIcon()
+            val transactionTitle = transaction.getTitle()
+            val txnIconResId = transaction.getIcon()
             val categoryTitle: String =
                 transaction.getTransactionTypeTitle()
             transaction.productCode?.let {
@@ -124,13 +124,11 @@ class TransactionsListingAdapter(
                 } else {
                     if (txnIconResId != -1) {
                         itemTransactionListBinding.ivTransaction.setImageResource(txnIconResId)
-                        if (transaction.isTransactionCancelled())
-                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     } else {
                         setInitialsAsTxnImage(transaction, itemTransactionListBinding, position)
-                        if (transaction.isTransactionCancelled())
-                            itemTransactionListBinding.ivTransaction.alpha = 0.5f
                     }
+                    if (transaction.isTransactionRejected()) itemTransactionListBinding.ivTransaction.background =
+                        null
 
                     ImageViewCompat.setImageTintList(
                         itemTransactionListBinding.ivTransaction,
@@ -151,41 +149,18 @@ class TransactionsListingAdapter(
             transaction: Transaction,
             itemTransactionListBinding: ItemTransactionListBinding, position: Int?
         ) {
-            if (transaction.isTransactionRejected()) {
-                if (transaction.productCode == TransactionProductCode.POS_PURCHASE.pCode ||
-                    transaction.productCode == TransactionProductCode.TOP_UP_VIA_CARD.pCode ||
-                    transaction.productCode == TransactionProductCode.TOP_UP_SUPPLEMENTARY_CARD.pCode
-                ) {
-                    itemTransactionListBinding.ivTransaction.setImageResource(R.drawable.ic_reverted)
-                } else {
-                    itemTransactionListBinding.ivTransaction.background = null
-                    ImageBinding.loadAvatar(
-                        imageView = itemTransactionListBinding.ivTransaction,
-                        imageUrl = if (TxnType.valueOf(
-                                transaction.txnType ?: ""
-                            ) == TxnType.DEBIT
-                        ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                        fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                        position = position ?: 0,
-                        colorType = "Beneficiary"
-                    )
-                    itemTransactionListBinding.ivTransaction.alpha = 0.5f
-                }
-            } else {
-                itemTransactionListBinding.ivTransaction.background = null
-                ImageBinding.loadAvatar(
-                    imageView = itemTransactionListBinding.ivTransaction,
-                    imageUrl = if (TxnType.valueOf(
-                            transaction.txnType ?: ""
-                        ) == TxnType.DEBIT
-                    ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
-                    fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
-                    position = position ?: 0,
-                    colorType = "Beneficiary"
-                )
-            }
+            itemTransactionListBinding.ivTransaction.background = null
+            ImageBinding.loadAvatar(
+                imageView = itemTransactionListBinding.ivTransaction,
+                imageUrl = if (TxnType.valueOf(
+                        transaction.txnType ?: ""
+                    ) == TxnType.DEBIT
+                ) transaction.receiverProfilePictureUrl else transaction.senderProfilePictureUrl,
+                fullName = if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName else transaction.senderName,
+                position = position ?: 0,
+                colorType = "Beneficiary"
+            )
         }
-
 
         private fun setInitialsAsTxnImage(
             transaction: Transaction,
@@ -207,7 +182,7 @@ class TransactionsListingAdapter(
         ) {
 
             val context = itemTransactionListBinding.ivIncoming.context
-            val isTxnCancelled = transaction.isTransactionCancelled()
+            val isTxnCancelled = transaction.isTransactionRejected()
             itemTransactionListBinding.tvTransactionName.setTextColor(context.getColors(if (isTxnCancelled) R.color.greyNormalDark else R.color.colorMidnightExpress))
             itemTransactionListBinding.tvTransactionTimeAndCategory.setTextColor(
                 context.getColors(
@@ -221,7 +196,7 @@ class TransactionsListingAdapter(
 
             //strike-thru textview
             itemTransactionListBinding.tvTransactionAmount.paintFlags =
-                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) itemTransactionListBinding.tvTransactionAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 }

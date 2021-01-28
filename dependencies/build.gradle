@@ -170,9 +170,9 @@ project.ext {
             [configuration: "androidTestImplementation", dependency: 'androidx.test:runner:1.2.0'],
             [configuration: "androidTestImplementation", dependency: 'androidx.test.espresso:espresso-core:3.2.0'],
             [configuration: "testImplementation", dependency: 'org.mockito:mockito-core:3.7.0'],
-            [configuration: "testImplementation", dependency: 'org.mockito:mockito-inline:3.7.0']
+            [configuration: "testImplementation", dependency: 'org.mockito:mockito-inline:3.7.0'],
+            [configuration: "testImplementation", dependency: 'org.junit.jupiter:junit-jupiter-params:5.7.0']
     ]
-
     // Common dependencies which need to be added in all modules
     commonDependencies = [
             [configuration: "implementation", dependency: libraries.sdp],
@@ -266,6 +266,7 @@ project.ext {
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
+    // dependencies which need to be added in yapcortee module only in conjunction with commonDependencies
     yapcoreDependencies = [
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "api", dependency: libraries.appcompat],

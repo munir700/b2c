@@ -17,7 +17,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.TransactionLabelsCode
+import co.yap.yapcore.enums.TransactionProductType
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.enums.TransactionStatus
 import co.yap.yapcore.enums.TxnType
@@ -65,7 +65,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                 it.status == TransactionStatus.FAILED.name -> "0.00".toFormattedCurrency(
                     showCurrency = false
                 )
-                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     "0.00".toFormattedCurrency()
                 }
                 it.productCode == TransactionProductCode.SWIFT.pCode || it.productCode == TransactionProductCode.RMT.pCode -> {
@@ -135,7 +135,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         // hiding visibility on nada's request
         viewModel.transaction.get()?.let {
             when {
-                it.getLabelValues() == TransactionLabelsCode.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
+                it.getProductType() == TransactionProductType.IS_TRANSACTION_FEE && it.productCode != TransactionProductCode.MANUAL_ADJUSTMENT.pCode -> {
                     getBindings().tvTotalAmountValueCalculated.visibility = View.VISIBLE
                     getBindings().tvTotalAmount.visibility = View.VISIBLE
                 }
@@ -203,7 +203,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     }
 
     private fun setTransactionTitle() {
-        viewModel.state.transactionTitle.set(viewModel.transaction.get().getTransactionTitle())
+        viewModel.state.transactionTitle.set(viewModel.transaction.get().getTitle())
         viewModel.state.noteVisibility.set(viewModel.transaction.get()?.customerId1 == SessionManager.user?.currentCustomer?.customerId)
     }
 
@@ -231,7 +231,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     )
                 }
                 else -> {
-                    val txnIconResId = transaction.getTransactionIcon()
+                    val txnIconResId = transaction.getIcon()
                     if (txnIconResId != -1) {
                         getBindings().ivPicture.setImageResource(txnIconResId)
                         when (txnIconResId) {
@@ -274,7 +274,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         //strike-thru textview
         transaction?.let {
             getBindings().tvTotalAmountValue.paintFlags =
-                if (transaction.isTransactionCancelled() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
+                if (transaction.isTransactionRejected() || transaction.status == TransactionStatus.FAILED.name) getBindings().tvTotalAmountValue.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG else 0
         }
     }
 

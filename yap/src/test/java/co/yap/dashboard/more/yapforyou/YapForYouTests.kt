@@ -1,6 +1,6 @@
 package co.yap
 
-import co.yap.base.BaseTestCase
+import co.yap.yapcore.yapcore.base.BaseTestCase
 import co.yap.modules.dashboard.more.yapforyou.YAPForYouAchievementsComposer
 import co.yap.modules.dashboard.more.yapforyou.YAPForYouItemsComposer
 import co.yap.modules.dashboard.more.yapforyou.viewmodels.YAPForYouViewModel
