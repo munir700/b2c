@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.databinding.ObservableField
 import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
@@ -10,9 +11,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.TransactionProductCode
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.extentions.*
-import co.yap.yapcore.managers.SessionManager
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -30,7 +29,6 @@ class TransactionDetailsViewModel(application: Application) :
 
     override fun handlePressOnEditNoteClickEvent(id: Int) {
         clickEvent.postValue(id)
-        var abc = transaction.get().getSpentLabelText()
     }
 
     private fun setStatesData() {
@@ -41,11 +39,14 @@ class TransactionDetailsViewModel(application: Application) :
             setSenderOrReceiver(transaction)
             state.categoryTitle.set(transaction.getCategoryTitle())
             state.categoryIcon.set(if (transaction.getCategoryIcon() == -1) R.drawable.ic_other else transaction.getCategoryIcon())
-            state.exchangeRate?.set(getExchangeRate(transaction))
+            if (transaction?.productCode.equals( TransactionProductCode.POS_PURCHASE.pCode)){
+                state.exchangeRate?.set(getExchangeRate(transaction))
+            }else{
+                state.exchangeRate?.set(null)
+
+            }
         }
         spentLabelText.set(this.transaction.get().getSpentLabelText())
-
-
     }
 
     private fun setToolbarTitle() {
@@ -72,46 +73,30 @@ class TransactionDetailsViewModel(application: Application) :
     }
 
     fun getExchangeRate(transaction: Transaction): Double? {
-//        var fxRate: Double? = transaction?.settlementAmount?.let {
-//            transaction?.cardHolderBillingAmount?.div(
-//                it
-//            )
-//        }
         var fxRate: Double? =
-            transaction.settlementAmount?.let { transaction.cardHolderBillingAmount?.div(it) }
+            transaction.amount?.let { transaction.cardHolderBillingAmount?.div(it) }
 
-
-        if (transaction.settlementAmount?.let {
+        if (transaction.amount?.let {
                 transaction?.cardHolderBillingAmount?.compareTo(
                     it
                 )
-            } == -1) {
-
+            } == -1) { // cardHolderBillingAmount is smaller than amount
+            // round to the 6 decimal if cardHolderBillingAmount is smaller than amount
             fxRate = getDecimalFormatUpTo(
-                selectedCurrencyDecimal = Utils.getConfiguredDecimalsDashboard(
-                    SessionManager.getDefaultCurrency()
-                ) ?: getDecimalFromValue("6"),
+                6,
                 amount = fxRate.toString(),
                 withComma = true
             ).toDouble()
-
-            // cardHolderBillingAmount is smaller than settlementAmount
-            //   Please round to the 6 decimal if cardHolderBillingAmount is smaller than settlementAmount
         } else {
             //   and to the 3rd decimal
-
             fxRate = getDecimalFormatUpTo(
-                selectedCurrencyDecimal = Utils.getConfiguredDecimalsDashboard(
-                    SessionManager.getDefaultCurrency()
-                ) ?: getDecimalFromValue("3"),
+                3,
                 amount = fxRate.toString(),
                 withComma = true
             ).toDouble()
         }
 
-
-
         return fxRate
-
     }
+
 }
