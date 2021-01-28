@@ -5,11 +5,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsResponse
 import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
+import co.yap.yapcore.managers.SessionManager
 
 class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -38,7 +38,8 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
             else
                 trackEventWithScreenName(if (viewModel.state.isUSACitizen.get() == true) FirebaseEvent.KYC_US else FirebaseEvent.KYC_SANCTIONED)
 
-            viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+            // viewModel.parentViewModel?.finishKyc?.value = DocumentsResponse(false)
+            SessionManager.doLogout(requireContext())
 
         })
     }

@@ -30,6 +30,7 @@ import co.yap.widgets.guidedtour.OnTourItemClickListener
 import co.yap.widgets.guidedtour.TourSetup
 import co.yap.widgets.guidedtour.models.GuidedTourViewDetail
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.firebase.FirebaseEvent
 import co.yap.yapcore.firebase.trackEventWithScreenName
@@ -224,7 +225,8 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
             }
             Constants.MORE_NOTIFICATION -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_NOTIFICATIONS)
-                launchActivity<NotificationsActivity> { }
+                requireActivity().launchActivity<NotificationsActivity>(requestCode = RequestCodes.REQUEST_NOTIFICATION_FLOW) {
+                }
             }
             Constants.MORE_LOCATE_ATM -> {
                 trackEventWithScreenName(FirebaseEvent.CLICK_ATM_LOCATION)

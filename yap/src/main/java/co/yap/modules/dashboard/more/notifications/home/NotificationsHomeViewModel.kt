@@ -84,6 +84,14 @@ class NotificationsHomeViewModel(application: Application) :
                 )
             }
 
+            notifications.sortByDescending { combinedNotificationList ->
+                DateUtils.stringToDate(
+                    combinedNotificationList.createdAt ?: "",
+                    DateUtils.SERVER_DATE_FORMAT,
+                    DateUtils.UTC
+                )?.time
+            }
+
             state.mNotifications?.value?.addAll(notifications)
             mNotificationsHomeAdapter?.get()?.setData(
                 state.mNotifications?.value ?: mutableListOf()
@@ -206,8 +214,8 @@ class NotificationsHomeViewModel(application: Application) :
                     notificationType = NotificationAction.LEANPLUM.name,
                     title = it.title,
                     profilePicUrl = it.imageFilePath,
-                    firstName = "",
-                    lastName = "",
+                    firstName = it.title,
+                    lastName = it.title,
                     currency = "",
                     amount = "",
                     createdAt = DateUtils.dateToString(it.deliveryTimestamp, LEAN_PLUM_FORMAT),
@@ -215,7 +223,7 @@ class NotificationsHomeViewModel(application: Application) :
                     isDeletable = true,
                     description = "",
                     action = NotificationAction.LEANPLUM,
-                    subTitle = "",
+                    subTitle = it.title,
                     imgResId = null
                 )
             )

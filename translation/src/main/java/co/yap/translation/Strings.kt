@@ -278,6 +278,8 @@ object Strings {
         "screen_kyc_information_error_display_text_title_sanctioned_country"
     const val screen_kyc_information_error_text_description_sanctioned_country: String =
         "screen_kyc_information_error_text_description_sanctioned_country"
+    const val screen_kyc_information_error_button_logout: String =
+        "screen_kyc_information_error_button_logout"
 
     // Meeting location selection screen
     const val screen_meeting_location_display_text_title: String =

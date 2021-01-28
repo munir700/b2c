@@ -174,6 +174,7 @@
     <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
+    <string name="screen_kyc_information_error_button_logout">Log out</string>
 
     <!-- Meeting location selection screen -->
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
