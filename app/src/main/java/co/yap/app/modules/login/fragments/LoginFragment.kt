@@ -97,8 +97,8 @@ class LoginFragment : MainChildFragment<ILogin.ViewModel>(), ILogin.View {
                     requireContext().getTestPayloadForSamsung { paylaod ->
                         val data = paylaod.toByteArray(StandardCharsets.UTF_8)
                         val finalPayload = EncodingUtils.base64Encode(data)
-//                        SamsungPayWalletManager.getInstance(requireContext())
-//                            .addYapCardToSamsungPay(finalPayload)
+                        SamsungPayWalletManager.getInstance(requireContext())
+                            .addYapCardToSamsungPay(finalPayload)
                     }
                 }
         }
