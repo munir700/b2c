@@ -207,15 +207,6 @@ object Utils {
         }
     }
 
-    fun getDimensionOfViewInPercent(view: View, isWidth: Boolean, percent: Int): Int {
-        val displayMetrics = view.resources.displayMetrics
-        return if (isWidth) {
-            ((displayMetrics.widthPixels.toDouble() / 100) * percent).toInt()
-        } else {
-            ((displayMetrics.heightPixels.toDouble() / 100) * percent).toInt()
-        }
-    }
-
     private fun hasNavBar(resources: Resources): Boolean {
         val id = resources.getIdentifier("config_showNavigationBar", "bool", "android")
         return id > 0 && resources.getBoolean(id)
