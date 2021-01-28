@@ -55,6 +55,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/bcountries"
+
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center_vertical"
