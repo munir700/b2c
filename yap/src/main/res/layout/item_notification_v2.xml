@@ -66,11 +66,12 @@
             android:paddingEnd="@dimen/margin_medium_large"
             android:paddingBottom="@dimen/margin_normal">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="@dimen/_36sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center"
+                app:imageSize="@{R.dimen._35sdp}"
                 android:contentDescription="@string/empty_string"
                 app:bgColor="@{R.color.bg_round_light_green}"
                 app:fullName="@{viewModel.item.firstName + ` ` + viewModel.item.lastName}"
@@ -79,8 +80,9 @@
                 app:initialTextSize="@{R.dimen.text_size_h3}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circleImageView"
                 app:srcCompatGif="@{viewModel.item.imgResId}"
-                tools:src="@drawable/ic_bank" />
+                tools:text="@drawable/ic_bank" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/content"

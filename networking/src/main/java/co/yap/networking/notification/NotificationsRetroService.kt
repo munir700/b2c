@@ -40,7 +40,7 @@ interface NotificationsRetroService {
     @GET(NotificationsRepository.URL_SETTING_CUSTOMER_NOTIFICATION)
     suspend fun getNotificationSettings(): Response<BaseResponse<NotificationSettings>>
 
-    @GET(NotificationsRepository.URL_SETTING_CUSTOMER_NOTIFICATION)
+    @POST(NotificationsRepository.URL_SETTING_CUSTOMER_NOTIFICATION)
     suspend fun saveNotificationSettings(@Body request: NotificationSettings?): Response<ApiResponse>
 
 }

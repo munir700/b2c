@@ -51,12 +51,14 @@
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivNotificationImage"
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
                     android:layout_margin="@dimen/margin_large"
                     android:contentDescription="@string/empty_string"
+                    app:imageSize="@{R.dimen._64sdp}"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
                     app:bgColor="@{R.color.bg_round_light_green}"
                     app:fullName="@{viewModel.state.notification.firstName + ` ` + viewModel.state.notification.lastName}"
                     app:imageUrl="@{viewModel.state.notification.profilePicUrl}"
