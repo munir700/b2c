@@ -12,7 +12,8 @@ import co.yap.networking.notification.responsedtos.NotificationAction
 import co.yap.widgets.State
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.DateUtils.LEAN_PLUM_FORMAT
+import co.yap.yapcore.helpers.DateUtils.SERVER_DATE_FORMAT
+import co.yap.yapcore.helpers.DateUtils.UTC
 import co.yap.yapcore.helpers.NotificationHelper
 import co.yap.yapcore.leanplum.deleteLeanPlumMessage
 import co.yap.yapcore.leanplum.markReadLeanPlumMessage
@@ -87,8 +88,8 @@ class NotificationsHomeViewModel(application: Application) :
             notifications.sortByDescending { combinedNotificationList ->
                 DateUtils.stringToDate(
                     combinedNotificationList.createdAt ?: "",
-                    DateUtils.SERVER_DATE_FORMAT,
-                    DateUtils.UTC
+                    SERVER_DATE_FORMAT,
+                    UTC
                 )?.time
             }
 
@@ -101,31 +102,6 @@ class NotificationsHomeViewModel(application: Application) :
                         ?: 0) > 0
                 ) State.success(null) else State.empty(null)
             )
-
-//            when (val response = repository.getAllNotifications()) {
-//                is RetroApiResponse.Success -> {
-//                    for (i in 1..40) {
-//                        state.mNotifications?.value?.add(getTestData(10 + i))
-//                    }
-//                    state.mNotifications?.value?.addAll(response.data.data ?: mutableListOf())
-//                    mNotificationsHomeAdapter?.get()?.addAll(
-//                        state.mNotifications?.value ?: mutableListOf()
-//                    )
-//                    state.stateLiveData?.postValue(
-//                        if ((state.mNotifications?.value?.size
-//                                ?: 0) > 0
-//                        ) State.success(null) else State.empty(null)
-//                    )
-//
-//                }
-//                is RetroApiResponse.Error -> {
-//                    state.stateLiveData?.postValue(
-//                        if ((state.mNotifications?.value?.size
-//                                ?: 0) > 0
-//                        ) State.success(null) else State.empty(null)
-//                    )
-//                }
-//            }
         }
     }
 
@@ -193,20 +169,11 @@ class NotificationsHomeViewModel(application: Application) :
             }
         }
     }
-//Mark message as read and triggers the Open Action.
-//    message.read();
-
-//Mark message as read (without invoking its Open Action).
-//    message.markAsRead();
-
-//Delete inbox message.
-//    message.remove();
 
     suspend fun loadLeanPlumMessages(): RetroApiResponse<BaseListResponse<HomeNotification>> {
         val notifications = mutableListOf<HomeNotification>()
         val inbox = Leanplum.getInbox()
         val messageList = inbox.allMessages()
-//        val sas = inbox.messageForId("")
         messageList.forEach {
             notifications.add(
                 HomeNotification(
@@ -218,7 +185,7 @@ class NotificationsHomeViewModel(application: Application) :
                     lastName = it.title,
                     currency = "",
                     amount = "",
-                    createdAt = DateUtils.dateToString(it.deliveryTimestamp, LEAN_PLUM_FORMAT),
+                    createdAt = DateUtils.dateToString(it.deliveryTimestamp, SERVER_DATE_FORMAT),
                     isRead = it.isRead,
                     isDeletable = true,
                     description = "",
@@ -235,25 +202,5 @@ class NotificationsHomeViewModel(application: Application) :
             200,
             response
         )
-        //return RetroApiResponse.Success<BaseListResponse<HomeNotification>>
-
-//            Leanplum.getInbox().allMessages().forEach {
-//                notifications.add(
-//                    Notification(
-//                        it.title,
-//                        if (null != it.data && it.data.has("description")) it.data.getString("description") else "",
-//                        "",
-//                        "",
-//                        it.imageFilePath,
-//                        "",
-//                        it.deliveryTimestamp.toString(),
-//                        it.isRead,
-//                        it.messageId
-//                    )
-//                )
-//            }
-//            state.hasRecords.set(!notifications.isNullOrEmpty())
-//            adapter.setList(notifications)
-
     }
 }
