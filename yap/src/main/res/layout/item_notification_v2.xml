@@ -17,6 +17,8 @@
 
         <import type="co.yap.yapcore.R" />
 
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
 
     </data>
 
@@ -113,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="@{viewModel.item.createdAt}"
+                    android:text="@{DateUtils.INSTANCE.getFormattedLogDate(context,viewModel.item.createdAt,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.LEAN_PLUM_FORMAT,DateUtils.INSTANCE.UTC,DateUtils.INSTANCE.TIME_ZONE_Default)}"
                     android:textColor="@color/greyNormalDark"
                     android:textSize="@dimen/text_size_h3"
                     tools:text="01 July, 2019" />

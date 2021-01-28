@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
-                    android:text="@{viewModel.state.notification.createdAt}"
+                    android:text="@{DateUtils.INSTANCE.getFormattedLogDate(context,viewModel.state.notification.createdAt,DateUtils.INSTANCE.SERVER_DATE_FORMAT,DateUtils.INSTANCE.LEAN_PLUM_FORMAT,DateUtils.INSTANCE.UTC,DateUtils.INSTANCE.TIME_ZONE_Default)}"
                     android:textColor="@color/greyNormalDark"
                     tools:text="03 July, 2019" />
 

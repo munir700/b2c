@@ -1221,7 +1221,9 @@
     <string name="screen_home_set_pin_desc">This 4-digit code is yours to keep. Please don\'t share it with anyone</string>
     <string name="screen_home_renewed_id_title">Renew ID</string>
     <string name="screen_home_renewed_id_desc">Your Emirates ID has expired. Please update your account with the renewed ID as soon as you can.</string>
-
+    <string name="today">Today, %1$s</string>
+    <string name="tomorrow">Tomorrow, %1$s</string>
+    <string name="yesterday">Yesterday, %1$s</string>
 
 
 
