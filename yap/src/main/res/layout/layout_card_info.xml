@@ -44,7 +44,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tvCardNameOnCardImage"
             style="@style/AMicroGrey"
             android:layout_width="0dp"
@@ -62,7 +62,7 @@
             app:layout_constraintEnd_toEndOf="@id/ivCustomCard"
             app:layout_constraintStart_toStartOf="@+id/ivCustomCard"
             app:layout_constraintTop_toTopOf="@+id/ivCustomCard"
-            tools:text="Amazone Card" />
+            tools:text="Amazone Card" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clRightData"

@@ -251,7 +251,7 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
             getBinding().cardInfoLayout.clRightData.children.forEach { it.alpha = 0f }
             Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
             runCardAnimation()
-            runCardNameAnimation()
+//            runCardNameAnimation()
         }
     }
 
@@ -294,14 +294,14 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         }, 500)
     }
 
-    private fun runCardNameAnimation() {
+    /*private fun runCardNameAnimation() {
         Handler(Looper.getMainLooper()).postDelayed({
             cardNameAnimation().apply {
                 addListener(onEnd = {
                 })
             }.start()
         }, 500)
-    }
+    }*/
 
     private fun cardAnimation(): AnimatorSet {
         val checkBtnEndPosition =
@@ -317,20 +317,20 @@ class RemoveFundsActivity : BaseBindingActivity<IRemoveFunds.ViewModel>(), IRemo
         )
     }
 
-    private fun cardNameAnimation(): AnimatorSet {
-        val checkBtnEndPosition =
-            (cardInfoLayout.measuredWidth / 2) - (getBinding().cardInfoLayout.tvCardNameOnCardImage.width / 2)
-        return AnimationUtils.runSequentially(
-            AnimationUtils.slideHorizontal(
-                view = getBinding().cardInfoLayout.tvCardNameOnCardImage,
-                from = getBinding().cardInfoLayout.tvCardNameOnCardImage.x,
-                to = checkBtnEndPosition.toFloat(),
-                duration = 500
-            ),
-            AnimationUtils.pulse(getBinding().cardInfoLayout.tvCardNameOnCardImage)
-        )
-
-    }
+//    private fun cardNameAnimation(): AnimatorSet {
+//        val checkBtnEndPosition =
+//            (cardInfoLayout.measuredWidth / 2) - (getBinding().cardInfoLayout.tvCardNameOnCardImage.width / 2)
+//        return AnimationUtils.runSequentially(
+//            AnimationUtils.slideHorizontal(
+//                view = getBinding().cardInfoLayout.tvCardNameOnCardImage,
+//                from = getBinding().cardInfoLayout.tvCardNameOnCardImage.x,
+//                to = checkBtnEndPosition.toFloat(),
+//                duration = 500
+//            ),
+//            AnimationUtils.pulse(getBinding().cardInfoLayout.tvCardNameOnCardImage)
+//        )
+//
+//    }
 
 
     private fun setupActionsIntent() {
