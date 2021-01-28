@@ -644,8 +644,7 @@ object Utils {
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
     fun getBackgroundColorForAnalytics(context: Context, position: Int) =
-        ContextCompat.getColor(context,
-            backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
+        ContextCompat.getColor(context, backgroundColorsOfAnalytics[position % backgroundColorsOfAnalytics.size])
 
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(

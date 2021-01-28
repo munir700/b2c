@@ -35,13 +35,11 @@
             android:layout_marginTop="@dimen/_24sdp"
             android:background="@drawable/white_round_card_background"
             android:contentDescription="@string/empty_string"
+            tools:src="@drawable/card_spare"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-            app:cardtype="@{viewModel.paymentCard.cardType}"
-            app:isFounder="@{SessionManager.INSTANCE.isFounder()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/card_spare" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/cardLabel"
@@ -60,7 +58,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.267"
             tools:textColor="@color/colorPrimaryDark" />
-
         <ImageView
             android:id="@+id/imgStatus"
             android:layout_width="@dimen/_48sdp"
@@ -80,9 +77,9 @@
             style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toBottomOf="@+id/imgCard"
@@ -106,14 +103,13 @@
                 style="@style/ASmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_marginStart="@dimen/margin_extra_large"
                 android:layout_marginEnd="@dimen/margin_extra_large"
-                android:ellipsize="end"
-                android:gravity="center"
                 android:maxLines="2"
+                android:ellipsize="end"
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="We are now processing your account. Please wait for activation to be completed shortly" />
-
             <TextView
                 android:id="@+id/tvCardStatusAction"
                 android:layout_width="wrap_content"
@@ -154,11 +150,11 @@
             <TextView
                 android:id="@+id/tvDetail"
                 style="@style/ASmall"
+                android:textColor="?attr/colorPrimaryAttr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center"
-                android:textColor="?attr/colorPrimaryAttr"
                 app:text="@{Strings.screen_cards_display_text_see_details}" />
         </LinearLayout>
 
