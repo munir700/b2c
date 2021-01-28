@@ -53,7 +53,6 @@ class NotificationsHomeFragment : BaseBindingFragment<INotificationsHome.ViewMod
     }
 
     private fun initRecyclerView() {
-// touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
         mRecyclerViewTouchActionGuardManager = RecyclerViewTouchActionGuardManager().apply {
             setInterceptVerticalScrollingWhileAnimationRunning(true)
             isEnabled = true
