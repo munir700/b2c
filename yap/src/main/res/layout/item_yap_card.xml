@@ -50,7 +50,7 @@
             android:text="VIRTUAL CARD"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_h1"
-            android:visibility="@{viewModel.paymentCard.physical ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.paymentCard.cardType.equals(Constants.INSTANCE.CARD_TYPE_DEBIT) ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgCard"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
             app:layout_constraintHorizontal_bias="0.378"
