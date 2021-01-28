@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:checked="@{viewModel.state.emailNotificationsAllowed}"
+            android:checked="@={viewModel.state.emailNotificationsAllowed}"
             android:onCheckedChanged="@{viewModel::onSwitchChanged}"
             android:paddingStart="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_small"

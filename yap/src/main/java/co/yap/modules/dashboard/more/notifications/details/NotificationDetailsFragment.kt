@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -23,6 +22,7 @@ import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.EIDStatus
 import co.yap.yapcore.enums.FeatureSet
 import co.yap.yapcore.enums.PartnerBankStatus
+import co.yap.yapcore.helpers.confirm
 import co.yap.yapcore.helpers.extentions.launchActivity
 import co.yap.yapcore.helpers.extentions.makeCall
 import co.yap.yapcore.helpers.extentions.showBlockedFeatureAlert
@@ -43,8 +43,15 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tvDeleteNotification -> {
-                    viewModel.deleteFcmNotifications(viewModel.state.notification){
-                        navigateBack()
+                    confirm(
+                        message = getString(Strings.screen_notification_listing_display_text_delete_message),
+                        title = getString(
+                            Strings.screen_notification_listing_display_text_delete_alert_title
+                        )
+                    ) {
+                        viewModel.deleteFcmNotifications(viewModel.state.notification) {
+                            navigateBack()
+                        }
                     }
                 }
                 R.id.btnAction -> {
@@ -175,7 +182,9 @@ class NotificationDetailsFragment : BaseBindingFragment<INotificationDetails.Vie
     }
 
     private fun setResult() {
-        activity?.setResult(Activity.RESULT_OK, Intent())
+        val intent = Intent()
+        intent.putExtra(Constants.result, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
 

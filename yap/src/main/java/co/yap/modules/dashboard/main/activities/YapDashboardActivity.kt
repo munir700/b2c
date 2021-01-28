@@ -602,8 +602,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             RequestCodes.REQUEST_NOTIFICATION_FLOW -> {
-                getViewBinding().viewPager.setCurrentItem(0, false)
-                getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                data?.let {
+                    val result =
+                        data.getBooleanExtra(Constants.result, false)
+                    if (result) {
+                        getViewBinding().viewPager.setCurrentItem(0, false)
+                        getViewBinding().bottomNav.selectedItemId = R.id.yapHome
+                    }
+                }
             }
         }
     }

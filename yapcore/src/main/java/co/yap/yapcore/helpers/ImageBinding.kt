@@ -101,12 +101,13 @@ object ImageBinding {
         fullName: String?,
         @ColorRes color: Int,
         @DimenRes fontSize: Int = R.dimen.text_size_h5,
-        @ColorRes textColor: Int = R.color.colorPrimary
+        @ColorRes textColor: Int = R.color.colorPrimary,
+        @DimenRes imageSIze: Int = R.dimen._35sdp
     ) {
 
         val builder = TextDrawable.builder()
-        builder.beginConfig().width(imageView.context.dimen(R.dimen._35sdp))
-            .height(imageView.context.dimen(R.dimen._35sdp))
+        builder.beginConfig().width(imageView.context.dimen(imageSIze))
+            .height(imageView.context.dimen(imageSIze))
             .fontSize(imageView.context.dimen(fontSize))
             .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!).bold()
             .toUpperCase()
@@ -221,22 +222,24 @@ object ImageBinding {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:srcCompatGif", "imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor"],
+        value = ["app:srcCompatGif", "imageUrl", "fullName", "bgColor", "initialTextSize", "initialTextColor","imageSize"],
         requireAll = true
     )
     fun setGifImageViewResource(
         imageView: AppCompatImageView, resourceId: Int?, imageUrl: String?,
         fullName: String?,
         bgColor: Int, initialTextSize: Int,
-        initialTextColor: Int
+        initialTextColor: Int,
+        imageSize: Int
     ) {
         resourceId?.let { loadGifImageView(imageView, it) } ?: loadAvatar(
-            imageView,true,
+            imageView, false,
             imageUrl,
             fullName,
             bgColor,
             initialTextSize,
-            initialTextColor
+            initialTextColor,
+            imageSize
         )
     }
 
@@ -358,9 +361,9 @@ object ImageBinding {
 
         val resId = getResId(
             "flag_${
-            getDrawableName(
-                countryName
-            )
+                getDrawableName(
+                    countryName
+                )
             }"
         )
         if (resId != -1) {
