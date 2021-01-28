@@ -25,6 +25,7 @@ fun Transaction?.getTitle(): String {
                     if (transaction.txnType == TxnType.DEBIT.type) transaction.receiverName
                         ?: transaction.title else transaction.senderName
                         ?: transaction.title
+
                 )
             }
             TransactionProductCode.TOP_UP_VIA_CARD.pCode -> {
